@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+ </head>
+ <body>
+<h2>Vis&atilde;o geral</h2>
+	<p>Essa p&aacute;gina exibe informa&ccedil;&otilde;es b&aacute;sicas sobre o cluster de alta disponibilidade e os servidores membro. Al&eacute;m disso, essa p&aacute;gina fornece ferramentas para criar, remover ou realizar a manuten&ccedil;&atilde;o em clusters de high-availability e servidores membros.</p>
+<h3>Status do cluster de High Availability</h3>
+  <p>Esse campo exibe o status geral do cluster de high-availability, alertando-o para qualquer erro. A seguir, uma tabela das condi&ccedil;&otilde;es poss&iacute;veis exibidas nesse campo:</p>
+    <table>
+     <tr>
+      <th>Status</th>
+      <th>Descri&ccedil;&atilde;o</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Independente</strong></td>
+      <td>Os servidores n&atilde;o s&atilde;o combinados em um cluster de high-availability.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Boas condi&ccedil;&otilde;es</strong></td>
+      <td>A condi&ccedil;&atilde;o geral do cluster de high-availability &eacute; boa. A replica&ccedil;&atilde;o de dados do servidor ativo para o servidor passivo est&aacute; funcionando normalmente.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Preparando</strong></td>
+	  <td>Os servidores foram combinados com sucesso em um cluster de high-availability, mas a replica&ccedil;&atilde;o inicial de dados ainda n&atilde;o terminou. A mudan&ccedil;a n&atilde;o pode ser realizada nesse momento. Para mais detalhes, consulte <a href="switchover_fail.html">Mudan&ccedil;a</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Carregando</strong></td>
+	  <td>O sistema est&aacute; carregando o status do cluster. A <b>Mudan&ccedil;a</b> n&atilde;o pode ser realizada at&eacute; que o carregamento do status seja conclu&iacute;do.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Aviso</strong></td>
+      <td>O status do cluster HA est&aacute; anormal, mas os servi&ccedil;os ainda est&atilde;o funcionando.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Perigo</strong></td>
+	  <td>Os servidores ativo e passivo est&atilde;o com defeito. O cluster de high-availability n&atilde;o pode funcionar normalmente. Verifique o status de todos os espa&ccedil;os de armazenamento (ex.: grupos RAID, grupos de disco, volumes e iSCSI LUNs).</td>
+     </tr>
+    </table>
+<h3>Mensagens de advert&ecirc;ncia</h3>
+   <p>A tabela a seguir mostra as mensagens de advert&ecirc;ncia que podem aparecer quando ocorre um erro no sistema. Quando mais de uma mensagem de advert&ecirc;ncia aparecer, voc&ecirc; pode navegar entre elas com os bot&otilde;es de avan&ccedil;o/retrocesso. </p>
+    <table>
+     <tr>
+      <th>Advert&ecirc;ncia/Erro</th>
+      <th>Descri&ccedil;&atilde;o</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Erro de servi&ccedil;o monitorado</strong></td>
+      <td>Ocorreu em erro em um ou mais servi&ccedil;os monitorados.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Espa&ccedil;o de armazenamento degradado</strong></td>
+      <td>Um espa&ccedil;o de armazenamento (ex: RAID Group, Grupo de Disco, volume, iSCSI LUN e cache SSD) no servidor ativo ou passivo est&aacute; degradado. Verifique a p&aacute;gina <b>Status de Armazenamento</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Espa&ccedil;o de armazenamento paralisado</strong></td>
+      <td>Um espa&ccedil;o de armazenamento (ex: RAID Group, Grupo de Disco, volume, iSCSI LUN e cache SSD) no servidor ativo ou passivo travou. Verifique a p&aacute;gina <b>Status de Armazenamento</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Falha ao detectar o servidor passivo</strong></td>
+      <td>Esse erro pode ocorrer porque o servidor passivo est&aacute; offline ou os servidores ativo e passivo n&atilde;o podem se conectar pela conex&atilde;o Heartbeat. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Os dados n&atilde;o podem ser replicados no servidor passivo</strong></td>
+      <td>Esse erro pode ocorrer devido ao volume de armazenamento ou falha do disco. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel. Verifique a p&aacute;gina <b>Status de Armazenamento</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>O servidor passivo n&atilde;o foi selecionado</strong></td>
+	  <td>Se o servidor passivo estiver desvinculado do cluster de high-availability, esse status n&atilde;o ser&aacute; exibido. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel. Se voc&ecirc; quiser revincular o servidor passivo, clique no menu suspenso <b>Manuten&ccedil;&atilde;o</b> e clique em <b>Vincular</b>. Quando se revincula o servidor passivo, &eacute; necess&aacute;ria uma replica&ccedil;&atilde;o completa de dados.</td>
+     </tr>
+    </table>
+<h3>Informa&ccedil;&otilde;es do cluster de High Availability</h3>
+	<p>Este campo est&aacute; localizado abaixo do cluster de high-availability e exibe as informa&ccedil;&otilde;es b&aacute;sicas sobre o cluster. Se esse cluster n&atilde;o existir, o campo fornece apenas uma explica&ccedil;&atilde;o da fun&ccedil;&atilde;o dos clusters de high-availability.</p>
+    <p>Esse campo inclui as seguintes informa&ccedil;&otilde;es:</p>
+ <ul>
+    	<li><b>Nome do servidor do cluster:</b>O nome do servidor usado pelo conjunto de high-availability. </li>
+   <li><b>Endere&ccedil;o IP do cluster:</b>O endere&ccedil;o IP usado pelo conjunto de high-availability. Independentemente de qual servidor est&aacute; realizando os servi&ccedil;os, os usu&aacute;rios podem se conectar ao cluster de high-availability usando esse endere&ccedil;o IP.</li>
+        <li><b>Tempo interno:</b> A data de cria&ccedil;&atilde;o do cluster de high-availability.</li>
+ </ul>
+<h3>Bot&otilde;es de opera&ccedil;&atilde;o do cluster de High Availability</h3>
+<p>Os dois bot&otilde;es a seguir est&atilde;o localizados abaixo das informa&ccedil;&otilde;es do cluster de high-availability:</p>
+<ol>
+<li><b>Criar cluster de HA:</b> Quando n&atilde;o houver nenhum conjunto de high-availability, voc&ecirc; pode clicar nesse bot&atilde;o para combinar dois servidores e criar um conjunto de high-availability. Para obter mais informa&ccedil;&otilde;es sobre a cria&ccedil;&atilde;o de um cluster de high-availability, consulte o <a href="wizard.html">Assistente do Synology High Availability</a>.</li>
+<li><b>Gerenciamento:</b> Esse bot&atilde;o est&aacute; dispon&iacute;vel apenas quando j&aacute; existe um conjunto de high-availability. Ele inclui as seguintes op&ccedil;&otilde;es:
+<ul>
+<li><b>Assistente de gerenciamento:</b> Inicia um assistente que inclui instru&ccedil;&otilde;es para diversos procedimentos de gerenciamento.</li>
+<li><b>Mudan&ccedil;a:</b> Inicia uma mudan&ccedil;a do servidor ativo para o servidor passivo. Durante esse processo, o servidor ativo deixa de prestar servi&ccedil;os e torna-se o novo servidor passivo. Em seguida, o antigo servidor passivo torna-se o novo servidor ativo e come&ccedil;a a prestar todos os servi&ccedil;os do cluster de high-availability. Esta op&ccedil;&atilde;o n&atilde;o est&aacute; dispon&iacute;vel quando o servidor passivo est&aacute; no status <b>erro</b> ou n&atilde;o est&aacute; selecionado.</li>
+<li><b>Atualiza&ccedil;&atilde;o do DSM:</b> Abre a p&aacute;gina <strong>Atualiza&ccedil;&atilde;o do DSM</strong> do <strong>Painel de controle</strong>. A partir daqui, os dois servidores podem ser atualizados.</li>
+<li><b>Remover cluster de HA:</b> Remove o cluster de high-availability.</li>
+<li><b>Desvincular servidor passivo:</b> Remove o servidor passivo do conjunto. Quando o servidor &eacute; adicionado ao cluster de high-availability novamente ap&oacute;s a desvincula&ccedil;&atilde;o, &eacute; necess&aacute;ria uma replica&ccedil;&atilde;o completa de dados. Portanto, recomendamos o uso dessa op&ccedil;&atilde;o apenas quando voc&ecirc; desejar substituir o servidor passivo existente por um novo.</li>
+<li><b>Vincular servidor passivo:</b> Adiciona um servidor passivo ao conjunto. Essa op&ccedil;&atilde;o est&aacute; dispon&iacute;vel apenas quando n&atilde;o existe um servidor passivo no cluster de high-availability.</li>
+<li><b>Desligar cluster de HA:</b> Desliga os servidores ativo e passivo.</li>
+<li><b>Desligar servidor ativo:</b> Desliga o servidor ativo.</li>
+<li><b>Desligar servidor passivo:</b> Desliga o servidor passivo.</li>
+<li><b>Reiniciar servidor ativo:</b> Reinicia o servidor ativo.</li>
+<li><b>Reinicializar servidor passivo:</b> Reinicia o servidor passivo.</li>
+<li><b>Desativar o bipe do servidor passivo:</b> Interrompe o som do bipe do servidor passivo quando ocorrer um erro. O servidor passivo ainda emite bipes se ocorrer outro erro mais tarde.</li>
+</ul>
+</li>
+</ol>
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Quando um cluster de high-availability &eacute; removido, ser&aacute; necess&aacute;ria a replica&ccedil;&atilde;o completa de dados quando voc&ecirc; quiser criar um novo cluster.</li>
+<li>Se voc&ecirc; desligar ou desvincular o servidor passivo, os servi&ccedil;os n&atilde;o podem ser mudados se ocorrerem erros no servidor ativo.</li>
+</ul>
+</div>
+<h3>Status de replica&ccedil;&atilde;o de dados e do servidor</h3>
+<p>Essa se&ccedil;&atilde;o cont&eacute;m imagens que indicam o status dos servidores ativo e passivo, bem como o fluxo de replica&ccedil;&atilde;o de dados entre os servidores.</p>
+<p>A imagem da replica&ccedil;&atilde;o de dados indica as seguintes condi&ccedil;&otilde;es poss&iacute;veis:</p>
+	<ul>
+    	<li><b>Replica&ccedil;&atilde;o de dados funcionando normalmente:</b> Indicado pelo fluxo de dados do servidor ativo para o servidor passivo.</li>
+    	<li><b>Nenhuma replica&ccedil;&atilde;o de dados:</b> Indicado pela aus&ecirc;ncia da imagem do fluxo de dados.</li>
+    </ul>
+<h3> Informa&ccedil;&otilde;es sobre o servidor</h3>
+ <p>Essa se&ccedil;&atilde;o localiza-se embaixo das imagens do servidor. As informa&ccedil;&otilde;es relativas aos servidores ativo e passivo s&atilde;o exibidas nessa se&ccedil;&atilde;o. Se nenhum servidor passivo foi selecionado, essa se&ccedil;&atilde;o indicar&aacute; <b>N/A</b>.</p>
+  <ul>
+   <li><b>Nome do servidor:</b> Nome do servidor do Synology.</li>
+   <li><b>Nome do modelo:</b> Modelo do servidor Synology.</li>
+   <li><b>N&uacute;mero de s&eacute;rie:</b> N&uacute;mero de s&eacute;rie do servidor Synology.</li>
+   <li><b>Status da ventoinha:</b> Status das ventoinhas de refrigera&ccedil;&atilde;o do servidor. Se uma ventoinha apresentar defeito, aparecer&aacute; um aviso. Nesse caso, entre em contato com o distribuidor local para obter assist&ecirc;ncia.</li>
+   <li><b>Temperatura:</b> Temperatura do servidor Synology. </li>
+   <li><b>Status de energia:</b> Indica se as fontes de alimenta&ccedil;&atilde;o est&atilde;o funcionando normalmente no servidor ou n&atilde;o. Se o modelo do servidor for equipado com fontes de alimenta&ccedil;&atilde;o redundantes, aparecer&aacute; um aviso se uma delas estiver com defeito.</li>
+  </ul>
+ </body>
+</html>

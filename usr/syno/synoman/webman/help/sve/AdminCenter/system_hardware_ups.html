@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Ström</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+<h2>UPS</h2>
+
+<p class="disable-eds14">En UPS (Uninterruptible Power Supply) är en reservströmkälla som låter Synology NAS fortsätta fungera under en kortare tid om ett strömavbrott inträffar. Denna funktion i <strong>Kontrollpanel</strong> > <strong>Hårdvara & Ström</strong> > <strong>UPS</strong> hjälper till att förhindra dataförlust genom att ge Synology NAS tillräckligt med tid att spara data och avmonterar alla volymer före den blir strömlös och stängs av.</p>
+
+<p class="enable-eds14">En UPS (Uninterruptible Power Supply) är en reservströmkälla som låter Synology NAS fortsätta fungera under en kortare tid om ett strömavbrott inträffar. Denna funktion i <strong>Kontrollpanel</strong> > <strong>Hårdvara & Ström</strong> > <strong>UPS</strong> hjälper till att förhindra dataförlust genom att ge Synology NAS tillräckligt med tid att spara data och avmonterar alla volymer före den blir strömlös och stoppar.</p>
+
+<div class="section">
+<h4>Felsäkert läge</h4>
+<p class="disable-eds14">När Synology NAS går in i säkert läge stoppar den alla tjänster och avmonterar volymer för att förhindra dataförlust och stänga ner säkert när UPS-enhetens ström tar slut. Som standard går systemet in i säkert läge när UPS-enheten börjar få ont om ström. Du kan också specificera hur länge det ska dröja innan Synology NAS går in i säkert läge när ett strömavbrott inträffar. Om UPS-enheten når låg batterinivå före den specificerade tiden går den emellertid in i säkert läge genast.</p>
+
+<p class="enable-eds14">När Synology NAS går in i säkert läge stoppar den alla tjänster och avmonterar volymer för att förhindra dataförlust och för att stoppas säkert när UPS-enhetens ström tar slut. Som standard går systemet in i säkert läge när UPS-enheten börjar få ont om ström. Du kan också specificera hur länge det ska dröja innan Synology NAS går in i säkert läge när ett strömavbrott inträffar. Om UPS-enheten når låg batterinivå före den specificerade tiden går den emellertid in i säkert läge genast.</p>
+
+
+<p></p>
+<p class="disable-eds14">I situationer där Synology NAS stängs ned i Säkert läge, kommer den automatisk att sättas på när strömmen återställs, om du har aktiverat alternativet <strong>Starta om automatiskt efter strömavbrott</strong> (finns i <strong>Kontrollpanel</strong> > <strong>Hårdvara & Ström</strong> > <strong>Allmänt</strong>).</p>
+
+<p></p>
+</div>
+
+
+
+
+<h3>Lokalt stöd för SNMP UPS</h3>
+
+<p>För detaljer om hårdvaruinstallation, vänligen se användarhandboken för din UPS-enhet. När installationen är komplett och Synology NAS har kopplats in i UPS-enheten kan du följa stegen här nedanför för att aktivera stöd för UPS.</p>
+<h4>Aktivera lokalt stöd för UPS:</h4>
+<OL>
+<li>Anslut UPS-enheten till en USB-port på Synology NAS.</li>
+<LI>På fliken <strong>UPS</strong>, markera kryssrutan <b>Aktivera stöd för UPS</b>.</LI>
+<LI>Välj när Synology NAS ska gå in i säkert läge efter att ett strömavbrott inträffat.</LI>
+<LI>Välj huruvida du ska sända en signal för att stänga av till UPS-enheten när systemet går in i säkert läge. De flesta UPS-enheter kan automatiskt starta när systemet återställts.</LI>
+<LI>Klicka på <b>Tillämpa</b>.</LI>
+</OL>
+
+<h3>SNMP UPS Support</h3>
+
+<p>Din Synology NAS har också stöd för att ansluta till UPS-enheter med SNMP (Simple Network Management Protocol). För detaljer om hårdvaruinstallation, vänligen se användarhandboken för din UPS-enhet med SNMP. När väl Synology NAS har kopplats in i enheten och är ansluten till samma nätverk kan du följa stegen här nedanför för att aktivera stöd för UPS.</p>
+<h4>Aktivera stöd för SNMP UPS:</h4>
+<ol>
+<LI>På fliken <strong>UPS</strong>, markera kryssrutan <b>Aktivera stöd för UPS</b>.</LI>
+<li>Välj <strong>SNMP UPS</strong> från rullgardinsmenyn <strong>Nätverkets UPS-typ</strong>.</li>
+<li>I fältet <strong>SNMP UPS IP-adress</strong> ange IP-adressen till SNMP UPS-enheten.</li>
+<LI>Välj när Synology NAS ska gå in i säkert läge efter att ett strömavbrott inträffat.</LI>
+<li>Ange communitysträngen för SNMP UPS-enheten i fältet <strong>SNMP Community</strong>.</li>
+<LI>Klicka på <b>Tillämpa</b>.</LI>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Det rekommenderas starkt att <b>SNMP UPS</b> används vid implementering av Synology High Availability (SHA).</li>
+<li>Synology NAS har stöd för SNMPv1 och SNMPv2c UPS-enheter.</li>
+</ul>
+</div>
+
+
+<h3>Nätverksstöd för UPS</h3>
+
+<p>Om det finns två Synology-produkter som använder en UPS-enhet med en enda USB-port kan bara en Synology NAS få information om statusen för UPS-enheten. I detta fall kan en Synology NAS agera som ”network UPS server” och ansluta till UPS-enheten via USB eller nätverk (beroende på enheten). UPS-nätverksserver innehåller UPS-information som den överför till den andra ”client” Synology NAS.</p>
+<h4>Aktivera stöd för nätverks-UPS:</h4>
+<OL>
+<li>Logga in på Synology NAS som är ansluten till UPS-enheten (via USB eller nätverk). Om lokalt stöd för UPS inte är aktiverat på denna Synology NAS ännu, vänligen se avsnittet här ovanför.</li>
+<LI>På fliken <strong>UPS</strong>, markera kryssrutan <strong>Aktivera nätverkets UPS-server</strong> för att tillåta Synology NAS att överföra UPS-information till klienten Synology NAS.</li>
+<li>Klicka på knappen <strong>Tillåtna Synology NAS-enheter</strong>.</li>
+<li>I fönstret som visas, ange IP-adresser för de andra Synology NAS som använder UPS-enheten men inte anslutna via USB eller nätverket. Klicka på <strong>OK</strong>.</li>
+<li>Klicka på <strong>Tillämpa</strong> för att spara inställningarna.</li>
+</OL>
+<p>Nu kan UPS-nätverksserver få UPS-information och överföra den till de andra Synology NAS som fortfarande använder UPS-enheten. Vänligen se instruktionerna här nedanför för att aktivera stöd för UPS på den andra Synology NAS.</p>
+<h4>För att aktivera stöd för UPS på klienten Synology NAS:</h4>
+<ol>
+<li>Logga in på den andra Synology NAS som använder UPS-enheten men som inte är ansluten via USB eller nätverk.</li>
+<li>På fliken <strong>UPS</strong>, markera rutan <strong>Aktivera stöd för UPS</strong>.</li>
+<li>Välj <strong>Synology UPS Server</strong> från rullgardinsmenyn <strong>Nätverkets UPS-typ</strong>.</li>
+<li>Ange IP-adress för UPS-nätverksserver (t.ex. den Synology NAS som är ansluten till UPS-enheten), i fältet <strong>Nätverkets UPS-server IP</strong>.</li>
+<LI>Välj när Synology NAS ska gå in i säkert läge efter att ett strömavbrott inträffat. För att förenkla inställningarna för Säkert läge, kan du välja <strong>Samma som server</strong>.</LI>
+<LI>Klicka på <b>Tillämpa</b> för att spara inställningarna.</LI>
+</OL>
+<div class="section">
+<h4>Krav för nätverks-UPS:</h4>
+<UL>
+<LI>För att överföra information om UPS-enhet ska varje Synology NAS vara ansluten till samma nätverk.</LI>
+<LI>Nätverksenheten (t.ex. switch eller hub) till vilken varje Synology NAS är ansluten ska vara inkopplad i samma UPS-enhet. I annat fall kommer inte Synology NAS:s inte att ha möjlighet att överföra information om UPS-enheten när ett strömavbrott inträffar.</LI>
+</UL>
+</div>
+</body>
+</html>

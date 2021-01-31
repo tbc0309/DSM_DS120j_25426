@@ -1,0 +1,13 @@
+# author: ANT
+# only handle tty
+
+ENV{SUBSYSTEM}!="tty", GOTO="tty_end"
+ACTION!="add|remove", GOTO="tty_end"
+
+ATTRS{busnum}!="", ENV{BUSNUM}="$attr{busnum}"
+ATTRS{devnum}!="", ENV{DEVNUM}="$attr{devnum}"
+
+ACTION=="add", RUN+="/lib/udev/script/tty-util.sh add"
+ACTION=="remove", RUN+="/lib/udev/script/tty-util.sh remove"
+
+LABEL="tty_end"

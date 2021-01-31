@@ -1,0 +1,6 @@
+-I DOS_PROTECT -i INTERFACE -p tcp --syn -j DROP
+-I DOS_PROTECT -i INTERFACE -p tcp --syn -m limit --limit 10000/s --limit-burst 100 -j RETURN
+-I DOS_PROTECT -i INTERFACE -p tcp --tcp-flags SYN,ACK,FIN,RST RST -j DROP
+-I DOS_PROTECT -i INTERFACE -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s -j RETURN
+-I DOS_PROTECT -i INTERFACE -p -p icmpv6 --icmpv6-type echo-request -j DROP
+-I DOS_PROTECT -i INTERFACE -p -p icmpv6 --icmpv6-type echo-request -m limit --limit 1/s -j RETURN

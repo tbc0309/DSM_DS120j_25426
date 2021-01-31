@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>High Availability-Beheerder - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>High Availability-Beheerder</h1>
+
+ <p>High Availability verwijst naar een serverlay-outoplossing ontwikkeld om onderbrekingen van services die het gevolg zijn van een slecht werkende server te beperken. Synology High Availability maakt gebruik van twee servers om een "high-availability cluster" te vormen waarin de server de rol van "actieve server" op zich neemt en een andere server als "passieve server" fungeert. Om een high-availability cluster te implementeren hebt u twee compatibele Synologyservers nodig.</p>
+  <p>Een high-availability cluster gebruikt de volgende componenten en concepten:</p>
+
+  <ul>
+   <li><b>Concept: </b>implementatie van Synology High Availability vereist twee Synologyservers om een high-availability cluster te vormen. Een server fungeert als &quot;actieve server&quot; en de andere als een &quot;passieve server.&quot; Zodra de high-availability cluster is gecre&euml;erd, worden de gegevens continu gerepliceerd van de actieve server naar de passieve server. Alle bestanden op de actieve server bestaan dan in duplicaat op de passieve server. Als een actieve server defect raakt, staat de passieve server klaar om alle services over te nemen met een volledige gespiegelde kopie van de gegevens op de actieve server. De high-availability cluster zal dan doorgaan met de normale levering van services en de serverdowntime beperken. Meer informatie over overschakelen vindt u op <a href="switchover_fail.html">Overschakelen</a></li>
+   <li><b>Actieve server:</b> de actieve server zorgt voor de levering van alle services. Als er een fout optreedt op de actieve server, kunt u of het systeem een overschakeling naar de passieve server initialiseren. In dergelijke gevallen wordt de voorziening van deze services overgedragen aan de passieve server en wordt de passieve server de actieve server.</li>
+   <li><b>Passieve server:</b> in normale omstandigheden verkeert de passieve server in stand-bymodus. Gegevens op de actieve server worden continu gerepliceerd naar de passieve server. Als de actieve server geen services meer kan leveren, kunt u of kan het systeem een overschakeling naar de passieve server initialiseren.</li>
+   <li><b>Heartbeatverbinding:</b> De actieve en passieve servers van een high-availability cluster zijn gekoppeld door een speciaal daartoe voorzien private-netwerkverbinding die men aanduidt als de &quot;Heartbeatverbinding.&quot; Zodra de high-availability cluster is gecre&euml;erd, maakt de Heartbeatverbinding gegevenssynchronisatie - en replicatie tussen de actieve en de passieve servers mogelijk. Als het contact tussen de servers gedurende een bepaalde tijdspanne is verloren, zal het systeem nagaan of een overschakeling nodig is.</li>
+   <li><b>Hoofdopslagvolume van de high-availability cluster:</b> het opslagvolume van de actieve server wordt het hoofdopslagvolume van de high-availability cluster. Gegevens worden gerepliceerd naar het opslagvolume van de passieve server via de Heartbeatverbinding.</li>
+   <li><b>Reserve-opslagvolume van de high-availability cluster: </b>het opslagvolume van de passieve server wordt het reserve-opslagvolume van de high-availability cluster. Gegevens worden via de Heartbeatverbinding continu gerepliceerd vanaf het opslagvolume op de actieve server naar het opslagvolume op de passieve server. Dit garandeert de samenhang van de bestandsinhoud als er een omschakeling plaatsvindt.</li>
+   <li><b>Servernaam van de high-availability cluster:</b> servers in de high-availability cluster delen dezelfde servernaam. In het netwerk kunt u een verbinding maken met deze servernaam en de services worden geleverd door de actieve server. </li>
+   <li><b>High-availability cluster-IP: </b>om te voorkomen dat bij serveroverschakelingen van IP-adres moet gewijzigd, beschikken de actieve en de passieve servers in een high-availability cluster over hun eigen IP-adres en genereert de high-availability cluster algemene IP-adressen voor toegang. Via deze IP-adressen hebt u toegang tot alle DSM-services, ongeacht welke Synologyserver als actieve server fungeert. </li>
+  </ul>
+
+
+
+
+ </body>
+</html>

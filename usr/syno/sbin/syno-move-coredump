@@ -1,0 +1,35 @@
+#!/bin/bash
+
+ROOTFS_COREDUMP_PATH=/var/crash
+
+if [ ! -d $ROOTFS_COREDUMP_PATH ]; then
+	echo "$ROOTFS_COREDUMP_PATH is not a directory"
+	exit 0
+fi
+
+if [ -z "$(ls $ROOTFS_COREDUMP_PATH)" ]; then
+	echo "there are no coredump files in $ROOTFS_COREDUMP_PATH"
+	exit 0
+fi
+
+VAR_CRASH_SIZE_MB=$(/bin/du -sm $ROOTFS_COREDUMP_PATH | /bin/cut -f 1)
+
+echo "$ROOTFS_COREDUMP_PATH has size of $VAR_CRASH_SIZE_MB MB"
+
+ALIVE_VOLUME_PATH=$(/usr/syno/bin/servicetool --get-alive-volume $VAR_CRASH_SIZE_MB)
+if [ "$?" != "1" ]; then
+	echo "alive volume not found"
+	exit 1
+fi
+
+echo "moving coredump files from $ROOTFS_COREDUMP_PATH to $ALIVE_VOLUME_PATH ..."
+
+mv $ROOTFS_COREDUMP_PATH/* $ALIVE_VOLUME_PATH
+if [ "$?" != "0" ]; then
+	echo "failed to move coredump files to $ALIVE_VOLUME_PATH"
+	exit 1
+fi
+
+echo "successfully moved coredump files to $ALIVE_VOLUME_PATH"
+
+exit 0

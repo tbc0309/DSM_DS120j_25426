@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>&Auml;ndra RAID-typ f&ouml;r en volym eller diskgrupp - Synology DSM Hj&auml;lp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing volumes and disk groups on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>&Auml;ndra RAID-typ f&ouml;r en Volym eller Diskgrupp</h2>
+
+<p>Volymer och diskgrupper kan &auml;ndras fr&aring;n en RAID-typ till en annan utan att befintliga data f&ouml;rloras. Till exempel kan du skapa en volym med RAID 1 p&aring; din Synology NAS och senare &auml;ndra till RAID 5 om du installerar fler h&aring;rddiskar. Denna artikel inneh&aring;ller instruktioner f&ouml;r att &auml;ndra RAID-typ f&ouml;r befintliga volymer och diskgrupper p&aring; din Synology NAS.</p>
+<h3>Begr&auml;nsningar f&ouml;r RAID-typer</h3>
+
+<p>Endast vissa RAID-typer kan &auml;ndras till andra RAID-typer. Se tabellen h&auml;r nedanf&ouml;r f&ouml;r detaljer.</p>
+
+<table>
+  <tr>
+    <th width="50%">RAID-typ</th>
+    <th width="50%">Kan &auml;ndras till…</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1<br /> RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>Exempel:</h4>
+<p>RAID 1 kan &auml;ndras till RAID 5 men RAID 5 kan inte &auml;ndras till RAID 1.</p>
+</div>
+
+
+<h3>H&aring;rdvarukrav</h3>
+
+<p>F&ouml;r att kunna &auml;ndra RAID-typ f&ouml;r en volym eller diskgrupp m&aring;ste du ha tillr&auml;ckligt antal tillg&auml;ngliga h&aring;rddiskar installerade i din Synology NAS. V&auml;nligen se h&auml;r nedanf&ouml;r f&ouml;r det minsta antal h&aring;rddiskar som kr&auml;vs f&ouml;r varje RAID-typ.</p>
+
+<table>
+  <tr>
+    <th width="50%">&Ouml;nskad RAID-typ</th>
+    <th width="50%">Erfordrade h&aring;rddiskar</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2 eller 4</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 eller 5 (beroende p&aring; sammans&auml;ttningen av diskar i SHR-1)</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>Exempel:</h4>
+<p>Om du vill &auml;ndra en volym med RAID 1 till RAID 5 beh&ouml;ver du totalt minst tre h&aring;rddiskar (dvs. de tv&aring; h&aring;rdiskarna som h&ouml;r till volymen med RAID 1 samt en ledig h&aring;rddisk att l&auml;gga till i volymen).</p>
+</div>
+
+<div class="section">
+<h4>Obs:</h4>
+
+<p>SHR-1 med de f&ouml;ljande diskkonfigurationerna kan kr&auml;va ytterligare tv&aring; diskar vid byte till SHR-2:</p>
+<ul>
+<li>Det finns bara tv&aring; diskar.</li>
+<li>Alla diskar har olika kapacitet.</li>
+<li>Tre eller fler h&aring;rddiskar i RAID Array inneh&aring;ller ett par diskar med h&ouml;gre kapacitet j&auml;mf&ouml;rt med de andra diskarna i RAID Array.</li>
+</ul>
+</div>
+
+<h3>&Auml;ndra RAID-typ</h3>
+
+<p>I exemplet h&auml;r nedanf&ouml;r kommer vi att byta ut en volym med <strong>Basic</strong> till en volym med <strong>RAID 1</strong>.</p>
+
+<div class="section">
+<h4>Innan du b&ouml;rjar:</h4>
+<ul>
+<li>Tillse att statusen f&ouml;r din volym eller diskgrupp &auml;r <b>Normal</b>.</li>
+<li>N&auml;r nya h&aring;rddiskar l&auml;ggs till i en volym eller diskgrupp m&aring;ste de nya h&aring;rddiskarna vara st&ouml;rre &auml;n den minsta h&aring;rddisken i volymen eller diskgruppen.</li>
+<li>Den nya h&aring;rddiskens status m&aring;ste vara <b>Initierat</b> eller <b>Ej initierat</b>.</li></ul>
+</div>
+
+<h4>&Auml;ndra RAID-typ f&ouml;r en volym:</h4>
+
+<ol>
+<li>&Ouml;ppna <strong>Lagringshanterare</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>G&aring; till <b>Volym</b>.  (Om du vill &auml;ndra RAID-typ f&ouml;r en diskgrupp, g&aring; d&aring; till fliken <b>Diskgrupp</b>.)</li>
+<li>V&auml;lj den volym du vill &auml;ndra och klicka p&aring; <b>Hantera</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>N&auml;r installationsguiden visas, v&auml;lj <b>&Auml;ndra RAID-typ</b>. Klicka sedan p&aring; <b>N&auml;sta</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>V&auml;lj den RAID-typ till vilken du vill &auml;ndra volymen. Klicka p&aring; <b>N&auml;sta</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>V&auml;lj vilken h&aring;rddisk(vilka h&aring;rddiskar) som ska l&auml;ggas till den befintliga volymen. Klicka sedan p&aring; <b>N&auml;sta</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>F&ouml;lj instruktionerna i installationsguiden f&ouml;r att slutf&ouml;ra. V&auml;nligen observera att data p&aring; den tillagda h&aring;rddisken kommer att tas bort.</li></ol>
+
+</body>
+</html>

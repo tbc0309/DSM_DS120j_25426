@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Überblick</h2>
+	<p>Diese Seite enthält grundlegende Informationen über den High Availability-Cluster und Mitglieder-Server. Zusätzlich bietet diese Seite Werkzeuge zum Durchführen von Wartungsarbeiten an High Availability-Clustern und Mitglieder-Servern.</p>
+
+<h3>High Availability-Cluster-Status</h3>
+  <p>Dieses Feld zeigt den Gesamtstatus des High Availability-Clusters an und benachrichtigt Sie bei Fehlern. Es folgt eine Tabelle mit Bedingungen, die in diesem Feld angezeigt werden können:</p>
+    <table>
+     <tr>
+      <th width="12%">Status</th>
+      <th width="88%">Beschreibung</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>In Ordnung</strong></td>
+      <td>Der Gesamtzustand des High Availability-Clusters ist gut.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Laden</strong></td>
+	  <td>Das System lädt den Cluster-Status. <strong>Übergabe</strong> kann erst ausgeführt werden, nachdem der Status geladen wurde. Siehe hierzu <a href="switchover_fail.html">Übergabe</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Wird konfiguriert</strong></td>
+	  <td>Das System wird konfiguriert. <b>Übergabe</b> kann nicht ausgeführt werden, bis die Konfiguration abgeschlossen ist.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Warnhinweis</strong></td>
+      <td>Der Status des HA-Clusters ist abnormal, aber die Dienste funktionieren noch. <strong>Übergabe</strong> kann in dieser Situation nicht durchgeführt werden.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Gefahr</strong></td>
+	  <td>Sowohl der aktive als auch der passive Server ist fehlerhaft oder der Speicher ist abgestürzt. Der High Availability-Cluster kann nicht normal funktionieren. Prüfen Sie den Status aller Speicherplätze (z. B. RAID Groups, Diskgruppen, Volumes und iSCSI LUNs). <b>Übergabe</b> kann in dieser Situation nicht durchgeführt werden.</td>
+     </tr>
+    </table>
+<h3>Warnmeldungen</h3>
+   <p>Die folgende Tabelle enthält Warnmeldungen, die angezeigt werden könnten, wenn ein Fehler im System auftritt. Wenn mehr als eine Warnmeldung angezeigt wird, können Sie mit den Vorwärts-/Rückwärts-Schaltflächen zwischen ihnen umschalten. </p>
+    <table>
+     <tr>
+      <th width="21%">Warnung/Fehler</th>
+      <th width="79%">Beschreibung</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Es ist kein passiver Server in diesem High Availability-Cluster vorhanden</strong></td>
+	  <td>Die Informationen des passiven Servers sind nicht verfügbar. Vergewissern Sie sich, dass der passive Server korrekt angeschlossen ist. In diesem Fall ist die Übergabe nicht verfügbar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Erkennung des passiven Servers fehlgeschlagen</strong></td>
+      <td>Dieser Fehler kann auftreten, wenn der passive Server offline ist oder der aktive und der passive Server nicht über die Heartbeat-Verbindung kommunizieren können. In diesem Fall ist die Übergabe nicht verfügbar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Failover fehlgeschlagen</strong></td>
+      <td>Ein Failover wurde auf dem aktiven Server ausgelöst, ist aber fehlgeschlagen. Der aktive Server versucht in diesem Fall kein erneutes Failover. Führen Sie die nachstehenden Schritte durch, um diesen Fehler zu beseitigen:
+		<ol>
+		  <li>Versuchen Sie, die Probleme im High Availability-Cluster zu beheben.</li>
+		  <li>Passiven Server neu starten.</li>
+		  <li>Führen Sie eine Übergabe durch, indem Sie auf <strong>Verwalten</strong> > <strong>Übergabe</strong> klicken.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fehler im überwachten Ziel</strong></td>
+      <td>An einem oder mehreren überwachten Zielen ist ein Fehler aufgetreten, wie Systemstatus, Dienst oder Netzwerkschnittstelle.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>In der Verbindung zwischen den Expansionseinheiten und dem aktiven/passiven Server sind ein oder mehrere Fehler aufgetreten</strong></td>
+      <td>Die Expansionseinheiten sind nicht korrekt mit dem aktiven oder passiven Server verbunden. Stellen Sie sicher, dass deren Verbindung zum aktiven Server korrekt ist, und richten Sie dieselbe Verbindung zum passiven Server ein. In diesem Fall ist die Übergabe nicht verfügbar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ein Volume ist fehlerhaft</strong></td>
+      <td>Ein Speicherplatz (z. B. RAID-Gruppe, Diskgruppe, Volume, iSCSI LUN und SSD-Cache) zeigt Leistungseinbußen. Überprüfen Sie die Seite <b>Speicher-Status</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ein Volume ist abgestürzt</strong></td>
+      <td>Ein Speicherplatz (z. B. RAID-Gruppe, Diskgruppe, Volume, iSCSI LUN und SSD-Cache) ist abgestürzt. Überprüfen Sie die Seite <b>Speicher-Status</b>. Failover wird automatisch durchgeführt, wenn der passive Server die Laufwerke erkennt, auf die der aktive Server nicht zugreifen konnte. Andernfalls ist die Übergabe nicht verfügbar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Heartbeat-Verbindung ist unterbrochen</strong></td>
+      <td>Dieser Fehler könnte infolge der Unterbrechung der Heartbeat-Verbindung auftreten. In diesem Fall ist die Übergabe nicht verfügbar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Hardwarefehler</strong></td>
+      <td>Dieser Fehler könnte infolge eines Hardwarefehlers (z. B. Stromversorgung oder Systemlüfter) am aktiven oder am passiven Server auftreten.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Unterschiedliche physische RAM-Größe</strong></td>
+      <td>Dieser Fehler könnte infolge der unterschiedlichen physischen RAM-Größe des aktiven und des passiven Servers auftreten. In diesem Fall ist die Übergabe nicht verfügbar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Diesem High Availability-Cluster wurde keine statische IP zugewiesen</strong></td>
+      <td>Dieser Fehler könnte infolge des Fehlens einer statischen IP für den High Availaility-Cluster auftreten. In diesem Fall ist die Übergabe nicht verfügbar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Die überwachte Schnittstelle besitzt keine statische IP</strong></td>
+      <td>Dieser Fehler könnte infolge des Fehlens einer statischen IP für die überwachte Schnittstelle auftreten. In diesem Fall ist die Übergabe nicht verfügbar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Passiver Server wird wiederhergestellt</strong></td>
+      <td>Die Wiederherstellung des passiven Servers wird durchgeführt. In diesem Fall ist die Übergabe nicht verfügbar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Aktualisieren des passiven Servers</strong></td>
+      <td>Der passive Server wird vom System aktualisiert. In diesem Fall ist die Übergabe nicht verfügbar.</td>
+     </tr>
+
+    </table>
+
+<h3>High Availability-Cluster - Schaltfläche &quot;Verwalten&quot;</h3>
+
+<p>Diese Schaltfläche befindet sich unter den Informationen zum High Availability-Cluster. Sie umfasst folgende Funktionen:</p>
+<ul>
+<li><b>Übergabe:</b> Initiiert eine Übergabe vom aktiven auf den passiven Server. Während des Vorgangs stoppt der aktive Server die Bereitstellung von Diensten und wird zum neuen passiven Server. Der alte passive Server wird in dem Fall zum neuen aktiven Server und beginnt mit der Bereitstellung von Diensten des High Availability-Clusters. Diese Option ist nicht verfügbar, wenn der passive Server <b>defekt</b> oder nicht ausgewählt ist.</li>
+<li><b>DSM aktualisieren:</b> Öffnet die Seite <strong>DSM aktualisieren</strong> der <strong>Systemsteuerung</strong>. Von hier aus können beide Server aktualisiert werden.</li>
+<li><b>High Availability-Cluster herunterfahren:</b> Fährt den aktiven und passiven Server herunter.</li>
+<li><b>Aktiven Server herunterfahren:</b> Fährt den aktiven Server herunter. Die Dienste werden an den passiven Server übergeben, sofern er funktionsbereit ist.</li>
+<li><b>Passiven Server herunterfahren:</b> Fährt den passiven Server herunter.</li>
+<li><b>Aktiven Server neu starten:</b> Startet den aktiven Server neu. Die Dienste werden an den passiven Server übergeben, sofern er funktionsbereit ist.</li>
+<li><b>Passiven Server neu starten:</b> Startet den passiven Server neu.</li>
+<li><b>Unbekannten Server wiederherstellen:</b> Stellt den passiven Server wieder her, wenn er ausgetauscht oder noch immer als unbekannt erkannt wird.</li>
+<li><b>Systemsignalton aus:</b> Deaktiviert den Signalton des aktiven und des passiven Servers, wenn ein Fehler auftritt. Das System gibt dennoch für den aktiven oder den passiven Server einen Signalton aus, wenn später ein anderer Fehler auftritt.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Hinweis:</h4>
+<ul>
+<li>Wenn Sie den passiven Server herunterfahren oder kein passiver Server vorhanden ist, können die Dienste nicht übergeben werden, wenn am aktiven Server Fehler auftreten.</li>
+</ul>
+</div>
+
+<h3>Serverdiagramm und -informationen</h3>
+ <p>Im Serverdiagramm wird der Serverstatus angezeigt. Die Position entspricht der Seite der Module, an die der Server angeschlossen ist. Richten Sie den Mauszeiger darauf, um weitere Details zu erfahren.</p>
+<p>Folgende Situationen werden berücksichtigt:</p>
+<ul>
+  <li><b>Es ist kein passiver Server in diesem High Availability-Cluster vorhanden:</b> Zeigt ein leeres Bild an.</li>
+  <li><b>Erkennung des passiven Servers fehlgeschlagen:</b> Zeigt ein verschwommenes Serverbild an.</li>
+  <li><b>Ausrufezeichen:</b> Die Hardware kann einen Fehler aufweisen oder aufgrund der ausgefallenen Heartbeat-Verbindung sind keine Serverinformationen verfügbar.</li>
+</ul>
+
+<div class="section">
+<h4>Hinweis:</h4>
+<ul>
+<li>Wird am anderen Server „unbekannt“ angezeigt, bedeutet dies, dass der Server nicht zum High Availability-Cluster gehört. Klicken Sie zum Beheben dieses Problems auf <b>Verwalten</b> und wählen Sie <b>Unbekannten Server wiederherstellen</b> aus.</li>
+</ul>
+</div>
+
+<p>Die Serverinformationen umfassen folgende Einträge. Wird <b>Nicht zutreffend</b> angezeigt, wurde kein passiver Server erkannt.</p>
+
+  <ul>
+   <li><b>Seriennummer:</b> Seriennummer des Synology-Servers.</li>
+   <li><b>Lüfterstatus:</b> Status der Lüfter des Servers. Wenn einer der Lüfter ausfällt, wird eine Warnung angezeigt. Wenden Sie sich in diesem Fall an Ihren Händler vor Ort, um Hilfe zu erhalten.</li>
+   <li><b>Temperatur:</b> Temperatur des Synology-Servers. </li>
+   <li><b>Stromstatus:</b> Zeigt an, ob die Stromversorgungen des Servers normal funktionieren. Wenn der Server mit redundanten Stromversorgungen ausgerüstet ist, wird eine Warnung angezeigt, wenn eine von ihnen einen Fehler aufweist.</li>
+    <li><b>Physischer Speicher:</b> Physische RAM-Größe des Synology-Servers. Übergabe kann nicht durchgeführt werden, wenn die beiden Server nicht dieselbe physische RAM-Größe haben.</li>
+  </ul>
+
+<h3>Verbindungsstatus zwischen Servern</h3>
+<p>Dieser Abschnitt enthält auf den aktiven und den passiven Server bezogene Bilder. Folgende Situationen werden berücksichtigt:</p>
+<ul>
+  <li><b>Kein Bild:</b> Zeigt an, dass kein passiver Server erkannt wurde.</li>
+  <li><b>Standbild:</b> Zeigt eine fehlerhafte Heartbeat-Verbindung an.</li>
+  <li><b>Ausrufezeichen:</b> Weist auf eine abnormale Kommunikation zwischen den beiden Servern oder auf eine fehlerhafte Heartbeat-Verbindung hin.</li>
+</ul>
+
+<h3>Netzwerkschnittstellenstatus</h3>
+<p>Dieser Abschnitt enthält auf die Server und das Datennetzwerk bezogene Bilder. Folgende Situationen werden berücksichtigt:</p>
+<ul>
+  <li><b>Kein Ausrufezeichen:</b> Zeigt an, dass kein Netzwerkfehler erkannt wurde.</li>
+  <li><b>Ausrufezeichen:</b> Zeigt an, dass an der überwachten Netzwerkschnittstelle ein Fehler aufgetreten ist.</li>
+</ul>
+
+<h3> Diagramm und Informationen zum freigegebenen Speicher</h3>
+ <p>Das Diagramm zum freigegebenen Speicher zeigt den Verbindungsstatus zwischen den Servern und dem freigegebenen Speicher an. Richten Sie den Mauszeiger darauf, um grundlegende Informationen abzurufen.</p>
+<p>Folgende Situationen werden berücksichtigt:</p>
+<ul>
+  <li><b>Kein Ausrufezeichen:</b> Zeigt an, dass kein Fehler erkannt wurde.</li>
+  <li><b>Ausrufezeichen:</b> Weist auf einen abnormalen Verbindungsstatus der Expansionseinheiten hin.</li>
+</ul>
+
+<p>Die grundlegenden Informationen zum freigegebenen Speicher umfassen Folgendes. Nähere Informationen finden Sie in <b>Speicher-Manager</b>.</p>
+
+  <ul>
+   <li><b>Lüfterstatus:</b> Zeigt den Status der Lüfter der Expansionseinheiten an. Wenn ein Lüfter ausfällt, wird eine Warnung angezeigt. Wenden Sie sich in diesem Fall an Ihren Händler vor Ort, um Hilfe zu erhalten.</li>
+   <li><b>Stromstatus:</b> Zeigt an, ob die Stromversorgungen des Servers normal funktionieren. Wenn eine von ihnen einen Fehler aufweist, wird eine Warnung angezeigt.</li>
+   </ul>
+ </body>
+</html>

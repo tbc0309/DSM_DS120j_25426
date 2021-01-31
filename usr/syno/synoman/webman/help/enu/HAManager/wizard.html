@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability Manager Wizard - Synology DSM Help</title>
+
+
+ </head>
+ <body>
+<h2>High Availability Manager Wizard</h2>
+<p>This wizard guides you through the process of creating and setting up a high-availability cluster.</p>
+<h4>To launch this wizard:</h4>
+<ol>
+<li>Open <b>High Availability Manager</b>.</li>
+<li>Go to the <b>Overview</b> page.</li>
+<li>Click <b>Create HA cluster</b>.</li>
+</ol>
+   
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>Please complete the high-availability cluster setup wizard within the given time limit. If the time limit is exceeded, you will have to start the setup process over again.</li>
+<li>If you need to identify which server is the active server of a high-availability cluster, we recommend you download Synology's <strong>DS finder</strong> application and use its beep function, which can make the active server emit a short beep sound.</li>
+</ul>
+</div>
+
+<h4>To set up the passive server:</h4>
+<p>Please designate a Synology server to be the passive server. Under normal conditions, the passive server does not provide services. However, in the event of a malfunction, services can be transferred from the active server to the passive server.</p>
+<ol>
+<li><b>IP address:</b> Please enter the passive server IP address.
+
+</li>
+<li><b>Username:</b> Provide a user account belonging to the <b>administrator</b> group on the destination server. </li>
+<li><b>Password:</b> Provide the password for the account belonging to the <b>administrator</b> group.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4> 
+<ul>
+<li>Once the high-availability cluster is created, all data on the passive server will be deleted. Please make sure that no important data is stored on the passive server. </li>   
+</ul>
+</div>
+  
+<h4>To configure the heartbeat connection:</h4>
+<p>Connect the two servers to each other. This connection shall serve as the "Heartbeat" connection between the two servers, facilitating communication and allowing data to be replicated from the active server to the passive server. To ensure the quality of the heartbeat connection, the system will check whether this connection meets the following criteria when creating the high-availability cluster:</p>
+<ul>
+<li>Between the two servers, there are no other devices with IP addresses found in the same broadcast domain. If this Heartbeat connection passes through any switches, you must ensure the switches support multicast and Jumbo Frame.</li>
+<li>Have a low-latency network connection. The response time of Ping between the two servers must be less than 1 ms, and transmission speed should be at least 500 Mbps. MTU will be automatically configured to 9000.</li>
+<li>Use the same network interface on both servers. For example, if one end is connected to LAN 1 on one server, then the other end must be connected to LAN 1 on the other server.</li>
+<li>Use the fastest network interface on both servers. If the servers are equipped with 10GbE add-on network interface cards, this connection must use them.</li>
+</ul>
+ <p>After confirming the above, go to the <b>HA Connection (Heartbeat) Interface</b> section and choose the network interface on the servers to serve as the Heartbeat connection.</p>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>Heartbeat connection settings will produce two sets of IP addresses (e.g. 169.254.1.1 and 169.254.1.2) for the purposes of data replication from the active server to passive server. Please make sure that these two IP addresses are not used by any other equipment in the network.</li>
+<li>Enabling VLAN ID on the Heartbeat connection ports of your Synology NAS is not supported.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Configuring Link Aggregation on the Heartbeat or data connections:</h4>
+
+<ul>
+<li>To configure Link Aggregation on the Heartbeat or data connection, please set up Link Aggregation on two or more LAN ports at <strong>Control Panel</strong> > <strong>Network</strong> > <strong>Network Interface</strong> before launching the high availability creation wizard. Make sure Link Aggregation settings are identical on both servers (e.g. if you set up Link Aggregation on ports 1 and 2 of the active server, Link Aggregation must be set up on ports 1 and 2 of the passive as well).</li>
+
+
+<li>Heartbeat is equipped with failover and load balancing capabilities, but data connections depend on the mode of Link Aggregation you choose.</li>
+</ul>
+
+</div>
+
+
+<h4>To configure the network interface settings of the high-availability cluster:</h4>
+<p>The high-availability cluster will use a high-availability cluster IP address  as its connection interface to the outside. You can connect using this high-availability cluster IP address when you wish to use DSM services regardless of which Synology server is the active server. This prevents from having to connect to different IP addresses after performing a switchover from the active server to the passive server.</p>
+
+<ol>
+<li><b>Cluster Server Name:</b> The name of the high-availability cluster. Please refer to server naming rules (at <b>DSM Help</b> > <b>Control Panel</b> > <b>Connectivity</b> > <b>Network</b> > <b>General</b>) for information regarding name restrictions.</li>
+<li><b>Network Interface:</b> The network interface to be used by the high-availability cluster. You must choose a different LAN port from the one designated for data-replication in the previous step. </li>
+<li><b>IP Address:</b> The  IP address to be used by the high-availability cluster. Regardless of which server is actively providing services, the cluster can be connected to via this IP.</li>
+<li> <b>Subnet Mask:</b> The subnet mask to be used by the high-availability cluster.</li>
+</ol>
+
+<div class="section">
+<h4>Assigning a VLAN ID for the data connection:</h4>
+<ul>
+<li>To assign a VLAN ID for the data connection, please go to <strong>Control Panel</strong> > <strong>Network</strong> > <strong>Network Interface</strong> before launching the high-availability creation wizard. Make sure VLAN settings are identical on both servers (e.g. if LAN 1 is set with VLAN ID 1 on the active server, the LAN 1 of the passive server must be set with VLAN 1 as well).</li>
+</ul>
+</div>
+
+
+<h4>To confirm settings:</h4>
+<p>Please double-check the settings to be used by the high-availability cluster. The system will begin binding the high-availability cluster together once you click <b>Apply</b>. </p>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>When creating a high-availability cluster, all data on the active server must be replicated to the passive server. If the connection to the passive server is lost for over 30 minutes before the initial replication process is complete, the passive server will return to <strong>Standalone</strong> mode. In this case, you will need to re-bind it and perform a full data replication again.</li>
+</ul>
+</div>
+ </body>
+</html>

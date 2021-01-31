@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Geçiş</h2>
+  
+ <p>Sürekli performans sağlamak ve servis dışı kalma süresini en aza indirmek için, servisler bir high-availability kümesinin aktif sunucusundan yedek, pasif sunucuya aktarılabilir. Bu özellik "Geçiş" veya bazı durumlarda "Üstlenme" olarak adlandırılır. Bu bölüm bu iki konseptin temellerini açıklar.</p>
+  
+  <h3>Geçiş</h3>
+  	<p>Geçiş, bir high-availability kümesinin aktif sunucusundan yedek, pasif sunucusuna bir geçiş anlamına gelir. Normal koşullar altında, aktif sunucu tüm hizmetleri yönetir. Ancak, aktif sunucunun arızalanması durumunda, pasif sunucunun normal işlev yaptığını varsayarak, pasif sunucuya bir geçişi başlatabilir ve tüm hizmetleri pasif sunucuya aktarabilirsiniz. Bu durumda, aktif sunucu pasif sunucunun görevini üstlenir ve pasif sunucu aktif sunucunun görevini üstlenir.</p>
+    
+<h4>Bir geçişi manuel olarak başlatmak için:</h4>
+ <ol>
+  <li><b>Genel Bakış</b> sekmesine gidin.</li>
+  <li><b>Yönetim</b> > <b>Geçiş</b> üzerine tıklayın.</li>
+ </ol>
+<div class="section">
+<h4>Not:</h4>
+   <p>Bir geçiş başlatıldığında, aktif sunucu ilk olarak pasif sunucunun görevini üstlenir ve ardından pasif sunucu aktif sunucu haline gelir. Böylece, her iki sunucunun pasif olduğu ve hizmetleri normal olarak sunamadığı kısa bir periyot olacaktır. Bir geçişin tamamlanma süresi birimlerin veya iSCSI LUN'ların (Blok-Seviyesi) sayısına ve boyutuna veya high-availability kümesindeki hizmet sayısına veya toplam yüküne bağlı olarak değişir.</p>
+</div>
+   
+<h3>Üstlenme</h3>
+    
+     <p>Belirli hatalar meydana geldiğinde, performansı korumak için sistem otomatik olarak hizmetlerin bir geçişini başlatabilir. Bu duruma "üstlenme" adı verilir. Sistem aşağıdaki durumlarda üstlenmeyi başlatabilir:</p>
+    
+     <ul>
+      <li><b>Çökmüş depolama alanı:</b> Aktif sunucudaki bir depolama alanı (ör. birim, Disk Grubu, RAID Group, SSD önbellek vb.) çökmüş ama pasif sunucudaki karşılık gelen depolama alanı normal biçimde çalışıyor. Çökmüş depolama alanında hiçbir birim veya iSCSI LUN (Blok Seviyesi) yoksa sistemin üstlenmeyi başlatmayacağına lütfen dikkat edin.</li>
+      <li><b>Servis Hatası:</b> İzlenen bir serviste bir hata meydana gelmiştir.</li>
+      <li><b>Güç Arızası:</b> Aktif sunucu kapatılmıştır veya yeniden başlatılmıştır; aktif sunucudaki her iki güç ünitesi de arızalıdır; veya güç kesintisi olmuştur.</li>      
+     </ul>    
+     
+    
+<h3>Geçiş Arızası</h3>
+    
+		<p>Aşağıdaki durumlarda geçiş veya üstlenme başarılı olmayabilir:</p>
+  			<ul>
+   				<li><b>Eksik veri çoğaltımı:</b> Bir high-availability kümesi oluşturmak için iki sunucuyu bir araya getirdiğinizde, aktif sunucudan pasif sunucuya tüm veriyi kopyalamak için sistem zamana ihtiyaç duyar.</li>
+   				<li><b>Pasif sunucudaki depolama alanı çökmüş:</b> Pasif sunucudaki bir depolama alanı (ör. birim, Disk Grubu, RAID Group vb.) çökmüş.</li>
+                <li><b>Güç Arızası:</b> Pasif sunucu kapatılmıştır veya yeniden başlatılmıştır; pasif sunucudaki her iki güç ünitesi de arızalıdır; veya güç kesintisi olmuştur.</li>
+                <li><b>DSM güncellemesi:</b> DSM güncellemelerini kurarken, tüm hizmetler durdurulacaktır ve DSM güncelleme kurulumu tamamlandıktan sonra devam edecektir.</li>      
+ </ul>
+
+  <p>Manuel olarak bir geçişi başlatırsanız, ancak hizmetler pasif sunucuya aktarılamazsa, o zaman sistem hizmetleri tekrar aktif sunucuya geri almayı dener.</p>
+ <p>Üstlenmenin başlatılması ancak hiçbir sunucunun hatalar nedeniyle aktif sunucu görevini üstlenemediği durumlarda, high-availability kümesi normal olarak hizmet sunamaz. Sunucular <b>Tek başına</b> durumuna geri dönmezse, varsayılan ayarları geri yüklemek için her iki sunucuda <b>Reset</b> düğmesine basın. Varsayılan ayarlara geri dönüldüğünde sunucuları birleştirebilir ve high-availability kümesini yeniden oluşturabilirsiniz.</p>
+ 
+ <h3>Kesintisiz Güç Kaynağı</h3>
+  <p>High-availability kümeleri kesintisiz güç kaynağı (UPS) ünitelerine beklenmedik güç kaybı riskini azaltmak amacıyla bağlanabilir. Güç kaybı yaşanırsa, sunucular kendilerine bağlı olarak herhangi bir UPS'den yedek güç alırlar. Aktif sunucuya bağlı olan UPS ünitesinin gücü düşmeye başladığında, sistem, hizmetleri pasif sunucuya aktarmayı dener. Lütfen aşağıdaki yönergelere bakın.</p>
+   <ul>
+
+<li>Aktif ve pasif sunucular aynı ağ svicine bağlıysa, her iki sunucunun ağ svici ile aynı güç kaynağına bağlanması önerilir.</li>
+<li>Aktif ve pasif sunucular farklı güç kaynaklarını (ör. farklı enerji şirketlerinden gelen elektrik) kullanan farklı ağ sviçlerine bağlıysa, aktif ve pasif sunucuların bağlı ağ sviçleriyle aynı olan karşılık gelen güç kaynaklarına bağlanması önerilir.</li>
+<li>Aktif ve pasif sunucular farklı UPS ünitelerini kullanan farklı ağ sviçlerine bağlıysa, her iki sunucunun farklı UPS üniteleri yerine UPS ünitelerinden birisine bağlanması önerilir. UPS ünitesi güç kaybettiğinde, aktif sunucu uyarılır ve güvenli moda girer ve pasif sunucu uygun şekilde kapatılır. Sunucular farklı UPS ünitelerine bağlıysa, aktif sunucu pasif sunucunun UPS'sinin düşük güçte çalışıp çalışmadığını saptayamaz ve bu yüzden pasif sunucu beklenmedik şekilde kapatılabilir.</li>
+   </ul>
+
+   
+<div class="section">
+<h4>Not:</h4>
+<p>Synology NAS, yerel ve SNMP UPS aygıtlara bağlanmayı destekler. Daha fazla bilgi için lütfen <strong>Denetim Masası</strong> > <strong>Donanım</strong> > <strong>UPS</strong> için yardıma bakın.</p>
+</div>  
+ </body>
+</html>

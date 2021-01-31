@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>드라이브를 추가하여 스토리지 풀 용량 확장</h2>
+
+<p>Synology NAS에 빈 드라이브 슬롯이 있으면 드라이브를 추가로 설치하여 기존 스토리지 풀에 드라이브를 추가할 수 있습니다. 이 문서에서는 드라이브를 추가로 설치하여 기존 스토리지 풀을 확장하는 방법을 설명합니다.</p>
+
+<p>다음과 같은 RAID 유형의 스토리지 풀에 드라이브를 추가할 수 있습니다.</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID 5</li>
+	<li>RAID 6</li>
+	<li>RAID F1</li>
+	<li>드라이브 최소 2개 이상으로 구성된 Synology Hybrid RAID(SHR)</li>
+</ul>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>새로 추가된 드라이브 상태는 <strong>초기화됨</strong> 또는 <strong>초기화되지 않음</strong>이어야 합니다.</li>
+</ul>
+</div>
+	
+<h4>드라이브 요구 사항:</h4>
+
+<p>Synology NAS에 추가할 드라이브가 다음 요구 사항을 충족하는지 확인하십시오.</p>
+<ul>
+	<li>RAID 또는 SHR 구성은 같은 유형의 드라이브로 생성되어야 합니다. 다른 유형의 드라이브를 사용하면 시스템 안정성 및 성능이 영향을 받습니다. RAID 또는 SHR 구성 시 다음과 같은 혼합 드라이브 유형은 지원되지 않습니다.<ul>
+	<li>SATA 드라이브 및 SAS 드라이브</li>
+	<li>4K 기본 드라이브 및 4K가 아닌 기본 드라이브</li>
+	</ul>
+	</li>
+	<li><strong>SHR의 경우</strong>: 추가할 드라이브 용량이 스토리지 풀에서 가장 큰 드라이브 용량과 같거나 크거나, 스토리지 풀에 있는 모든 드라이브 용량과 같아야 합니다.</br><span class="note_head">예:</span> SHR 스토리지 풀이 드라이브 3개(2TB, 1.5TB 및 1TB)로 구성된 경우 효율적인 용량 사용을 위해 새로 추가한 드라이브가 최소 2TB 이상인 것이 좋습니다. 1.5TB 및 1TB 드라이브 추가를 고려할 수 있지만 2TB 드라이브 용량 일부를 사용하지 못하게 된다는 점에 유의하십시오.</li>
+	<li><strong>RAID 5, RAID 6 및 RAID F1의 경우</strong>: 추가할 드라이브 용량은 스토리지 풀에서 가장 작은 드라이브의 용량과 같거나 커야 합니다.</br><span class="note_head">예:</span> RAID 5, RAID 6 또는 RAID F1 스토리지 풀이 드라이브 3개(2TB, 1.5TB 및 1TB)로 구성된 경우 새 드라이브 용량은 최소한 1TB 이상이어야 합니다.</li>
+</ul>
+
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>특정 모델에서만 SHR(Synology Hybrid RAID)을 사용할 수 있습니다. <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">여기</a>에 방문하여 사용 중인 모델에서 SHR을 제한적으로 지원하는지 확인하십시오.</li>
+	<li>특정 모델에서만 RAID F1을 사용할 수 있습니다. 사용 중인 모델에서 RAID F1을 지원하는지 여부를 확인하려면 <a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank">여기</a>를 참조하십시오.</li>
+	<li>모든 문제를 방지하기 위해 <a href="https://www.synology.com/compatibility" target="_blank">Synology 제품 호환 목록</a>에 있는 드라이브를 사용하는 것이 좋습니다. 호환되지 않는 드라이브를 사용하면 시스템 성능이 저하되고 데이터가 손실될 수 있습니다.</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">스토리지 풀에 드라이브 추가하기:</a></h4>
+<p>시작하기 전에 확장할 스토리지 풀의 상태가 <strong>정상</strong>인지 확인합니다. 스토리지 풀 상태가 정상이 아니면 상태 아래에 표시된 권장 조치를 따라 드라이브 문제를 해결하십시오. 그런 다음 아래 단계를 수행하여 스토리지 풀에 드라이브를 추가합니다.</p>
+	
+<ol>
+	<li>Synology NAS 전원을 끕니다.</br> <span class="note_head">참고:</span> Synology NAS이(가) 핫 스와핑을 지원하면 이 단계를 건너뜁니다.</li>
+	<li>새 드라이브를 빈 드라이브 슬롯에 삽입합니다.</br> <span class="note_head">참고:</span> 사용자 부상 또는 Synology NAS 손상을 방지하려면 <a href="https://www.synology.com/support/download" target="_blank">다운로드 센터</a>로 이동하고 사용 중인 Synology 제품을 선택하십시오. <strong>문서</strong> &gt; <strong>하드웨어 설치 가이드</strong>에서 원하는 언어의 하드웨어 설치 가이드를 다운로드하여 드라이브 설치 지침을 수행할 수 있습니다.</li>
+
+	<li>Synology NAS 전원을 켜고 <strong>저장소 관리자</strong>를 실행합니다.</li>
+	<li><b>스토리지 풀</b> 페이지로 이동하고 확장할 스토리지 풀을 선택합니다. <strong>동작</strong> 드롭다운 메뉴에서 <strong>드라이브 추가</strong>를 클릭합니다.</li>
+	<li>목록에서 추가할 드라이브를 선택합니다. 유형과 용량 요구 사항을 충족하는 드라이브만 나열됩니다.</li>
+	<li>마법사를 따라 프로세스를 완료합니다.</li>
+</ol>
+
+<h4>볼륨 크기 확장하기:</h4>
+<p>스토리지 풀 용량이 충분하면 스토리지 풀 유형에 따라 해당 볼륨 크기를 자동 또는 수동으로 확장할 수 있습니다.</p>
+<ul>
+<li><b>단일 볼륨 스토리지 풀:</b> 단일 볼륨을 지원하는 스토리지 풀의 경우 스토리지 풀 용량이 확장되면 볼륨 크기가 자동으로 확장됩니다. 자세한 내용은 <a href="#t1">스토리지 풀에 드라이브 추가하기</a>를 참조하십시오.</li>
+<li><b>여러 볼륨 스토리지 풀:</b> 볼륨 여러 개를 지원하는 스토리지 풀의 경우 스토리지 풀 용량이 충분하면 볼륨 크기를 수동으로 확장할 수 있습니다. 자세한 내용은 <a href="volume_expand_volume.html" target="_blank">볼륨 크기 확장</a>을 참조하십시오.</li>
+</ul>
+
+</body>
+</html>

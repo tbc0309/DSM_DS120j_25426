@@ -1,0 +1,325 @@
+#!/bin/sh
+# Copyright (c) 2000-2011 Synology Inc. All rights reserved.
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/syno/sbin:/usr/syno/bin
+
+. /etc.defaults/rc.subr
+
+# $1: path of volume
+# $2: filesystem
+VolumeQuotaCheck()
+{
+	local volume= fs= quotacheck=
+
+	[ $# -eq 2 ] || return 1
+
+	volume="$1"
+	fs="$2"
+
+	if [ "$fs" = "btrfs" ]; then
+		return;
+	fi
+	if [ ! -f "$volume/aquota.user" ] || [ ! -f "$volume/aquota.group" ]; then
+		quotacheck="yes"
+	elif [ -f "$volume/.needquotacheck" ]; then
+		MsgWarn "Got $volume/.needquotacheck"
+		rm -f "$volume/.needquotacheck" &> /dev/null
+		[ "$fs" = "ext4" ] || quotacheck="yes"
+	elif [ -f "$volume/.needquotacheck_upgrade" ]; then
+		# .needquotacheck_upgrade created by /etc/upgrade.sh
+		MsgWarn "Got $volume/.needquotacheck_upgrade"
+		rm -f "$volume/.needquotacheck_upgrade" &> /dev/null
+		[ "$fs" = "ext4" ] || quotacheck="yes"
+	fi
+
+	if [ "$quotacheck" = "yes" ]; then
+		RCMsg "Checking quota on $volume" \
+		quotacheck -g -u -F vfsv0 "$volume"
+	fi
+
+	RCMsg "Enabling quota on $volume" \
+	/sbin/quotaon -F vfsv0 "$volume"
+}
+
+# $1: path of device node
+# $2: path of volume
+# $3: filesystem (optional)
+VolumeRemount()
+{
+	local devpath= volume= fs= devname= sb=
+
+	[ $# -ge 2 ] || return 1
+
+	devpath="$1"
+	volume="$2"
+	fs="$3"
+	devname="$(echo $devpath | cut -c6-)"
+
+	# Handle all btrfs cases here
+	if [ "$fs" = "btrfs" ]; then
+		# try fix first super block and mount it again
+		/sbin/btrfs rescue super-recover -y "$devpath"
+		RCMsg "Mounting $devpath:$volume with btrfs super-recover." \
+		/usr/syno/bin/spacetool --mount "$devpath" "$volume"
+		if [ $? -eq 0 ]; then
+			return
+		fi
+
+		# mount btrfs without log replay
+		RCMsg "Mounting $devpath:$volume without log replay." \
+		/usr/syno/bin/spacetool --mount -o nologreplay "$devpath" "$volume"
+		if [ $? -eq 0 ]; then
+			return
+		fi
+
+		# mount btrfs with ro,no_block_group
+		RCMsg "Mounting $devpath:$volume with ro,no_block_group,nologreplay." \
+		/usr/syno/bin/spacetool --mount -o ro,no_block_group,nologreplay "$devpath" "$volume"
+
+		return
+	fi
+
+	if [ "$fs" = "ext4" ]; then
+		# mount ext4 without loading journal
+		RCMsg "Mounting $devpath:$volume without loading journal." \
+		mount -o ro,noload "$devpath" "$volume"
+		if [ $? -eq 0 ]; then
+			echo "${devname}mount=\"ro,noload\"" >> /tmp/hdhealth.tmp
+			mv -f /tmp/hdhealth.tmp /tmp/hdhealth
+			return
+		fi
+	fi
+
+	if [ "$fs" = "ext4" ] || [ "$fs" = "ext3" ]; then
+		# mount ext3/4 backup superblocks
+		for sb in 1 131072 393216 655360 917504 1179648 3276800 3538944; do
+			grep -v "${devname}mount" /tmp/hdhealth > /tmp/hdhealth.tmp 2>/dev/null
+
+			RCMsg "Mounting read-only on $devpath:$volume. (superblock=$sb)" \
+			/usr/syno/bin/spacetool --mount -o ro,sb=$sb "$devpath" "$volume"
+			if [ $? -eq 0 ]; then
+				echo "${devname}mount=\"ro\"" >> /tmp/hdhealth.tmp
+				mv -f /tmp/hdhealth.tmp /tmp/hdhealth
+				break
+			else
+				echo "${devname}mount=\"fail\"" >> /tmp/hdhealth.tmp
+				mv -f /tmp/hdhealth.tmp /tmp/hdhealth
+			fi
+		done
+	else
+		RCMsg "Mounting read-only on $devpath:$volume." \
+		/usr/syno/bin/spacetool --mount -o ro "$devpath" "$volume"
+		if [ $? -eq 0 ]; then
+			echo "${devname}mount=\"ro\"" >> /tmp/hdhealth
+		else
+			echo "${devname}mount=\"fail\"" >> /tmp/hdhealth
+		fi
+	fi
+}
+
+EnableCachePinFileFeature()
+{
+	local vol=$1
+	local pin_tool="synocachepinfiletool $pin_tool_opt"
+	local vol_support_pin="No"
+	local is_bitmap_set="No"
+	local cache_support_pin=`/bin/get_key_value /etc.defaults/synoinfo.conf cache_support_pin`
+
+	if test "$cache_support_pin" != "yes" ; then
+		RCMsg "Doesn't support cache pin feature"
+		return;
+	fi
+
+	# SSD Cache pin file feature
+	vol_support_pin=`$pin_tool --mount-path $vol --support-pin`
+	is_bitmap_set=`$pin_tool --mount-path $vol --check-bitmap`
+	RCMsg "Volume: $vol support_pin: $vol_support_pin Bitmet Set: $is_bitmap_set"
+	if test "$vol_support_pin" = "Yes" -a "$is_bitmap_set" = "No" ; then
+		$pin_tool --send-bitmap --mount-path $vol
+		RCMsg "SSD Cache send bitmap to $vol"
+		is_bitmap_set=`$pin_tool --mount-path $vol --check-bitmap`
+		RCMsg "Volume: $vol Bitmap Set: $is_bitmap_set"
+	fi
+}
+
+# Mount device on volume
+# $1: path of device node
+# $2: path of volume
+VolumeMount()
+{
+	local devpath= volume= mntopts=
+	local fs= quotacheck= synoacl= clean=
+
+	[ $# -eq 3 ] || return 1
+
+	devpath="$1"
+	volume="$2"
+	mntopts="$3"
+
+	# determine filesystem
+	fs=$(synofstool --get-fs-type $devpath)
+	if [ $? -ne 0 ]; then
+		MsgFail "Failed to read filesystem magic on $devpath:$volume. Trying ext4fs."
+		fs=ext4
+	fi
+
+	# check if cleanly umounted before mounting it
+	if [ "$fs" = "ext3" ]; then
+		if e2fsck -nq $devpath 2> /dev/null | grep -q "is cleanly umounted"; then
+			clean="yes"
+		else
+			MsgWarn "$volume is not cleanly unmounted"
+		fi
+
+		# ext3 has no journal quota and need quota check if not cleanly umounted
+		if [ "$clean" != "yes" ]; then
+			touch "$volume/.needquotacheck"
+		fi
+	fi
+
+	# mount read-only snapshot volume
+	if echo $volume | grep -q ".snap_"; then
+		RCMsg "Mounting snapshot volume" \
+		mount -o ro $devpath $volume
+		return $?
+	fi
+
+	if [ "$mntopts" != "" ]; then
+		mntopts="-o $mntopts"
+	fi
+	# mount general volume
+	RCMsg "Mounting volume $devpath:$volume" \
+	/usr/syno/bin/spacetool --mount "$mntopts" "$devpath" "$volume"
+	if [ $? -eq 0 ]; then
+		mkdir -p "$volume/@tmp.del/"
+		delfolder=`date +%s`
+		RCMsg "move $volume/@tmp" \
+		mv "$volume/@tmp" "$volume/@tmp.del/$delfolder"
+		rm -rf "$volume/@tmp.del" &
+		mkdir "$volume/@tmp"
+		chmod 777 "$volume/@tmp"
+	else
+		VolumeRemount "$devpath" "$volume" "$fs"
+	fi
+
+	chmod 755 "$volume"
+
+	VolumeQuotaCheck "$volume" "$fs"
+
+	EnableCachePinFileFeature $volume
+}
+
+VolumePreprocess()
+{
+	#FIXME:this condition should be removed before next upgrade.
+	if [ -f "/var/.UpgradeBootup" -a -f "/.old_patch_info/VERSION" ]; then
+		oldVersion=`/bin/get_key_value /.old_patch_info/VERSION buildnumber`
+		if [ "$?" = "1" -a -n "$oldVersion" ]; then
+			if [ "$oldVersion" -ge 2508 -a "$oldVersion" -le 2637 ]; then
+				/usr/syno/bin/synofstool --fix-archive-version
+			fi
+		fi
+	fi
+
+	#Fix super block archive version issue.
+	#Do not remove it, the program will check archive version when reboot.
+	/usr/syno/bin/synoarchivetool --fix-files-arv &
+}
+
+# check disable volumes expected not to be mounted for support
+VolumeCheckDisable()
+{
+	if [ -z $1 ]; then
+		return 1
+	fi
+	local input_vol=$(basename $1)
+	local disable_vols=$(synogetkeyvalue /etc/synoinfo.conf disable_volumes)
+	disable_vols=$(echo $disable_vols | tr "," "\n")
+
+	for disable_vol in $disable_vols; do
+		if [ $input_vol = $disable_vol ]; then
+			return 0
+		fi
+	done
+	return 1
+}
+
+# mount all data volumes according to /etc/fstab
+VolumeStart()
+{
+	local v= dev= vol= opts= mount_pids=
+	local volumes=$(grep /volume /etc/fstab | awk '{ printf("%s:%s:%s \n", $1, $2, $4) }')
+
+	VolumeScan
+	rm -f /tmp/hdhealth
+
+	for v in $volumes; do
+		dev=$(echo $v | cut -d':' -f1)
+		vol=$(echo $v | cut -d':' -f2)
+		opts=$(echo $v | cut -d':' -f3)
+
+		VolumeCheckDisable "$vol" && continue
+
+		mkdir -p "$vol"
+		VolumeMount "$dev" "$vol" "$opts" &
+		mount_pids="$mount_pids $!"
+	done
+
+	synosetkeyvalue /etc/synoinfo.conf disable_volumes ""
+
+	wait $mount_pids
+
+	VolumePreprocess
+
+	return $LSB_SUCCESS
+}
+
+VolumeStop()
+{
+	local v= dev=
+	local volumes=$(grep /volume /etc/fstab | awk '{ printf("%s:%s \n", $1, $2) }')
+
+	for v in $volumes; do
+		vol=$(echo $v | cut -d':' -f2)
+		killps "$vol"
+		quotaoff "$vol"
+		umount -R -k "$vol"
+	done
+
+	return $LSB_SUCCESS
+}
+
+VolumeStatus()
+{
+	local v= dev=
+	local ret=$LSB_STAT_RUNNING
+	local volumes=$(grep /volume /etc/fstab | awk '{ printf("%s:%s \n", $1, $2) }')
+
+	for v in $volumes; do
+		dev=$(echo $v | cut -d':' -f1)
+		if grep -q "^$dev" /proc/mounts; then
+			MsgDone "$v is enabled"
+		else
+			MsgWarn "$v is disabled"
+			ret=$LSB_STAT_NOT_RUNNING
+		fi
+	done
+
+	return $ret
+}
+
+case "$1" in
+	start)
+		VolumeStart
+		;;
+	stop)
+		VolumeStop
+		;;
+	status)
+		VolumeStatus
+		;;
+	*)
+		;;
+esac
+
+# vim:ft=sh

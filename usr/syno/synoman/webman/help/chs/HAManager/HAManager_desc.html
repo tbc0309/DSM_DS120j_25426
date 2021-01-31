@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>High Availability 管理器 - Synology DSM 帮助</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>High Availability 管理器</h1>
+
+  <p>High Availability 是指一种服务器布局解决方案，用于减少因服务器故障所导致的服务器中断。Synology High Availability 使用 2 台服务器组成&ldquo;high-availability 集群&rdquo;，其中一个服务器作为&ldquo;活动服务器&rdquo;，另一个服务器作为待机&ldquo;无源服务器&rdquo;。为实施并创建 high-availability 集群，您需要有两个兼容 Synology 服务器。</p>
+  <p>high-availability 群集使用以下组件和概念：</p>
+
+  <ul>
+   <li><b>概念： </b>Synology High Availability 的实施需要有两台 Synology 服务器以创建 high-availability 集群。一台服务器作为&ldquo;活动服务器&rdquo;，另一台作为&ldquo;无源服务器&rdquo;。创建 high-availability 集群后，数据从活动服务器连续复制到无源服务器。活动服务器上的所有文件都在无源服务器上存有副本。如果活动服务器发生故障，无源服务器将具有活动服务器数据的完整镜像副本，准备接管所有服务。因此，high-availability 集群将继续正常提供服务，最小化服务器宕机。要了解更多有关切换的信息，请参见<a href="switchover_fail.html">切换</a></li>
+   <li><b>活动服务器：</b>活动服务器对所有服务的提供进行管理。如果活动服务器发生错误，您或系统可以启用切换至无源服务器。在这种情况下，服务的提供被转换至无源服务器，此时活动服务器成为无源服务器。</li>
+   <li><b>无源服务器：</b>正常情况下，无源服务器一直在待机模式。活动服务器中的数据被连续复制到无源服务器。如果活动服务器无法提供服务，您或系统可以启用切换至无源服务器。 </li>
+   <li><b>检测信号连接： </b>high-availability 集群的活动和无源服务器通过专用私人网络连接，即所谓的&ldquo;检测信号连接&rdquo;，进行链接。创建 high-availability 集群后，检测信号连接在活动和无源服务器之间推动数据同步和复制。如果在给定时间内服务器之间的联系丢失，系统将确定是否需要切换。</li>
+   <li><b>High-availability 集群主存储卷：</b>活动服务器的存储卷将成为 high-availability 集群的主存储卷。数据通过检测信号连接复制到无源服务器的存储卷。</li>
+   <li><b>High-availability 集群备用存储卷：</b>无源服务器的存储卷将成为 high-availability 集群的备用存储卷。数据通过检测信号连接从活动服务器存储卷连续复制到无源服务器存储卷。这就保证了在切换发生时文件内容的一致性。</li>
+   <li><b>High-availability 集群服务器名称： </b>high-availability 集群中的服务器将共享一个服务器名称。在网络中，您可以用此服务器名称进行连接，活动服务器将提供服务。</li>
+   <li><b>High-availability 集群 IP：</b>由于 high-availability 集群中的活动和无源服务器都有各自的 IP 地址，为避免在进行切换时不得不更改至另一个 IP 地址，high-availability 集群将生成一个共同的 IP 地址进行访问。要访问任何 DSM 服务，不论哪个 Synology 服务器作为活动服务器，您可以通过这些 IP 地址进行连接。</li>
+  </ul>
+
+  
+
+ </body>
+</html>

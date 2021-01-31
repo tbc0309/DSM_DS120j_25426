@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>DDNS</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>DDNS</h2>
+<p>DDNS (Dynamic Domain Name Service) simplifies connecting to your Synology NAS over the Internet by mapping a hostname to its IP address. For example, DDNS allows you to access your Synology NAS using a domain name (e.g., <i>www.john.synology.me</i>), with no need to remember an IP address (e.g. <i>172.16.254.1</i>).</p>
+
+<h3>Setting up DDNS</h3>
+<p>You can point an existing hostname at the IP address of your Synology NAS, or register for a new one provided by Synology or several other DDNS providers. Please consult each provider for more details regarding hostname registration.
+</p>
+
+
+
+<h4>To set up a DDNS hostname:</h4>
+<ol>
+<li>Click the <b>Add</b> button.</li>
+<li>A dialog box appears prompting you to edit the following settings:
+  <ul>
+<li><strong>Service provider:</strong> Select a service provider. To register for a free hostname provided by Synology, choose <b>Synology</b> from the drop-down menu.</li>
+<li><strong>Hostname:</strong> Enter a registered DDNS hostname, such as <i>john.synology.me</i>.</li>
+<li><strong>Username/Email:</strong> Enter the username/email for your DDNS provider.</li>
+<li><strong>Password/Key:</strong> Enter the password/key for your DDNS provider.</li>
+<li><strong>External address:</strong> Enter the external IP address of the Synology NAS which will use the hostname.</li>
+<li><strong>Heartbeat:</strong> Enable this option to receive alerts regarding the status of the mapped hostname (only for hostnames provided by Synology).</li>
+</ul>
+</li>
+<li>Click <strong>Test Connection</strong> to see if settings are correct.</li>
+<li>Click <strong>OK</strong> to save and finish.</li>
+<li>If you have selected <strong>Synology</strong> as the service provider, a message box will appear if there's no matching SSL certificate for your DDNS hostname, recommending you to sign a Let’s Encrypt certificate for the hostname and set it as the default certificate. Click <strong>Yes</strong>.
+	<p>
+		<span class="note_head">Note:</span> If an SSL certificate is already matched for your DDNS hostname, a message box will appear and ask you whether you want to set it as the default certificate. This message will appear every time the DDNS hostname is edited. For more information on SSL certificate, please refer to <a href="https://www.synology.com/knowledgebase/DSM/help/DSM/AdminCenter/connection_certificate" target=blank>here</a>.
+	</p>
+	</li>
+</ol>
+
+<p>After setup is complete, you can access your Synology NAS over the Internet by entering the DDNS hostname in a web browser.</p>
+<div class="section">
+<h4>Requirements and Limitations</h4>
+<ul> 
+<li>The servers of the DDNS service provider are working.</li>
+<li>The Synology NAS is able to connect to the Internet.</li>
+<li>DDNS only works in the network environment where no proxy server is required.</li>
+<li>You can only enter one hostname for each DDNS provider.</li>
+
+</ul>
+</div>
+
+<h3>Managing Hostnames</h3>
+<p>Use the following buttons to manage existing hostname entries:</p>
+<ul>
+<li><strong>Delete:</strong> Removes the selected hostname entry from the list.</li>
+<li><strong>Edit:</strong> Change settings of the selected hostname entry.</li>
+<li><strong>Update Now:</strong> Updates the status of all hostname entries which have DDNS service enabled.</li></ul>
+
+<h3>Setting Up a Customized DDNS Provider</h3>
+<p>You can add a customized DDNS provider if your provider does not already appear in the service provider list.</p>
+<h4>To set up a customized DDNS provider:</h4>
+<ol>
+<li>Click <b>Customize</b>.</li>
+<li>A dialog box appears prompting you to enter the following settings:
+<ul>
+    <li><strong>Service Provider:</strong> Enter the name of your customized service provider.</li>
+    <li><strong>Query URL:</strong> Enter the URL of your customized service provider.</li>
+  </ul>
+</li>
+<li>Click <strong>Save</strong> to add the customized service provider to the list of DDNS service providers.</li>
+</ol>
+<div class="section">
+<h4>Requirements and Limitations</h4>
+<ul>
+  <li>The query URL must adhere to the protocol specified by your service provider. This URL is used to update IP information to your provider's DDNS server.</li>
+  <li>A query URL generally contains the four parameters below. When entering the query URL, please replace the following parameters with the corresponding variable.</li>
+  <ul>
+    <li>Username: __USERNAME__</li>
+    <li>Password: __PASSWORD__</li>
+    <li>Hostname: __HOSTNAME__</li>
+    <li>External address: __MYIP__</li>
+  </ul>
+<li>The query URL cannot contain spaces or semicolons.</li>
+</ul>
+</div>
+</body>
+</html>

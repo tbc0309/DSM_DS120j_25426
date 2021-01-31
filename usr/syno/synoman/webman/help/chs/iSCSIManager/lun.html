@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>iSCSI Manager</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_lun"></a>LUN</h2>
+<p>创建 LUN 之前，您需要先在<a href="../StorageManager/volume_create_volume.html">存储空间管理员</a>上创建一个存储空间。</p>
+<p>具有不同功能的 LUN 类型会以不同颜色显示：</p>
+<ul>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #00adad;"></span> 在 ext4 存储空间上创建的 Thin Provisioning LUN。</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #1a9900;"></span> 在 Btrfs 存储空间上创建的 Thin Provisioning LUN。</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #0068b3;"></span> Thick Provisioning LUN。</li>
+ </ul>
+ 
+
+<div class="section"><h4>重要事项：</h4>
+<ul>
+	<li>只有在 DSM 6.2 及更高版本的 Btrfs 存储空间中创建的 LUN 才支持新的高级功能和即时快照。ext4 存储空间上的 LUN 仅支持传统高级功能。</li>
+</ul>
+</div>
+
+<h4>若要创建 LUN：</h4>
+<ol>
+  <li>单击<strong>创建</strong>。</li>
+  <li>设置此 LUN 的属性。<ul>
+			<li>LUN 名称</li>
+			<li>位置：无法在创建 LUN 之后修改位置，但是可以将此 LUN 复制到另一个存储空间。</li>
+			<li>容量：LUN 大小必须至少为 1 GB。对于具有传统高级功能的 LUN，大小必须至少为 10 GB。</li>
+			<li>空间分配：Thick Provisioning 能提供更好的稳定性和性能，而 Thin Provisioning 支持按需分配和所有高级功能，但可能会在 LUN 存储空间不足时导致文件系统损毁。</li>
+			<li>高级功能：Thick Provisioning LUN 仅支持 <strong>Hardware-Assisted Zeroing </strong>和<strong> Hardware-Assisted Locking</strong>，而 ext4 存储空间上的 LUN 仅支持传统高级功能。</li></li>
+		</ul></li>
+	<li>按照向导完成此过程。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+	<ul>
+	<li>当存储空间的可用空间小于 1 GB 时无法创建新 LUN。</li>
+	<li>您可以启用高级功能以支持相应的 VMware VAAI 功能。</li>
+	<li>您可以启用 <strong>Hardware-Assisted Data Transfer</strong>，以便 LUN 可同时支持 Windows 卸载数据传输 (ODX)。</li>
+	<li>启用传统高级功能可能会影响 I/O 性能。</li>
+	<li>支持的 LUN 数量视 Synology NAS 型号而定。如需详细的产品规格信息，请参阅 <a href="http://www.synology.com/" target="_blank">www.synology.com</a>。</li>
+ 	</ul>
+</div>
+<div class="section"><h4><a name="terminologies_advanced_features"></a>术语：</h4>
+	<ul>
+		<li><strong>Hardware-Assisted Zeroing：</strong>帮助 VMware ESXi 主机在创建新虚拟硬盘时以更高效率初始化虚拟硬盘。</li>
+		<li><strong>Hardware-Assisted Locking：</strong>当 VMware ESXi 主机访问 LUN 上的数据时，仅锁定 LUN 的必需部分，从而允许多个 VMware ESXi 主机同时访问相同的 LUN 而不会影响性能。</li>
+		<li><strong>Hardware-Assisted Data Transfer：</strong>在 VMware ESXi 和 Microsoft Hyper-V 主机上复制数据时，可在您的 Synology NAS 上快速完成数据传输，而无需占用主机资源。</li>
+		<li><strong>快照：</strong>借助 Btrfs 文件系统功能，可使用即时快照和复制功能。</li>
+		<li><strong>空间回收：</strong>支持启动器的空间回收命令。当数据被删除或传输后，其所用空间将被释放，但这可能会影响 I/O 性能。</li>
+	</ul></div>
+
+	
+
+<h4>若要删除 LUN：</h4>
+<p>删除 LUN 时，上面的所有数据都将被删除。LUN 和任何映射的 Target 之间的连接也会丢失。</p>
+<ol>
+	<li>选择要删除的 LUN。</li>
+	<li>单击<b>删除</b>按钮并按照向导完成此过程。</li>
+</ol>
+
+<h4>若要编辑 LUN：</h4>
+<ol>
+	<li>选择要编辑的 LUN。</li>
+	<li>在<b>操作</b>下拉菜单中选择<b>编辑</b>。</li>
+	<li>编辑所需的属性。</li>
+	<li>单击<b>确定</b>以保存设置。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+<li>为避免编辑 LUN 容量时造成数据丢失，您只能将容量调整成比现在更大，而不能缩小。</li>
+<li>如果 LUN 状态变为<b>不可用</b>，则意味着在访问 LUN 时，发生了某些数据相关错误。为避免系统发生严重数据丢失，此 LUN 将暂时不可访问。请尽快联系 Synology 获得支持。</li>
+</ul>
+</div>
+
+<p>如果您的 Synology NAS 用作 OpenStack Cinder 的存储后端，则在创建 Cinder 存储空间时将使用已启用存储加速命令的 LUN。Cinder 使用的 LUN/Target，在 Synology NAS 上操作和管理将受到限制。</p>
+<ul>
+<li>无法编辑 Cinder LUN。</li>
+<li>无法编辑诸如 Cinder Target 的名称、IQN、映射和掩码等信息。</li>
+<li>您无法将 Cinder LUN/Target 映射到常规 LUN/Target。</li>
+<li>您无法通过 DSM 用户界面为 Cinder LUN 拍摄快照，也无法编辑、删除或还原 Cinder LUN 的快照。</li>
+<li>从 Cinder LUN/快照克隆的 LUN 将成为常规 LUN。</li>
+</ul>
+
+<h4>若要克隆 LUN：</h4>
+	<ol>
+	<li>选择要克隆的 LUN。</li>
+	<li>在<b>操作</b>下拉菜单中选择<b>克隆</b>。</li>
+	<li>编辑克隆的 LUN 的名称，然后选择目的地存储空间。</li>
+	<li>单击<b>确定</b>以开始克隆。</li>
+</ol>
+<div class="section">
+	<h4>注：</h4>
+	<ul>
+		<li>当 LUN 存储空间的剩余空间低于 1 GB 时，无法克隆 LUN。</li>
+	</ul>
+</div>
+
+<h4>若要对 LUN 进行碎片整理：</h4>
+<p>碎片整理可以恢复由于数据零散或快照而造成的 LUN 性能下降。在碎片整理过程中，LUN 的 I/O 性能可能会受到影响，不过您可以随时停止碎片清理，并在以后重新开始。</p>
+<ol>
+	<li>选择要进行碎片整理的 LUN。</li>
+	<li>单击<b>碎片整理</b> &gt; <b>开始</b>。</li>
+</ol>
+<h4>若要停止对 LUN 进行碎片整理：</h4>
+<ol>
+	<li>选择正在进行碎片整理的 LUN。</li>
+	<li>单击<b>碎片整理</b> &gt; <b>停止</b>。</li>
+</ol>
+<div class="section"><h4>注：</h4>
+<ul>
+<li>仅在 Thin Provisioning Btrfs LUN 上支持碎片整理。</li>
+<li>在碎片整理过程中，无法编辑/克隆 LUN 或拍摄快照；但是可以将其移除。</li>
+<li>碎片整理可以随时停止。系统会保留进度记录，并且会从上次停止的地方重新开始。</li>
+<li>在进行 LUN 碎片整理之后，现有 LUN 快照会占用额外存储空间。</li>
+</ul>
+</div>
+
+	
+<div class="section"><h4>其他信息</h4>
+<ul>
+	
+	<li>启用了快照功能或传统高级功能的 LUN 可在同一存储空间中快速克隆。</li>
+	<li>具有全新高级功能的 LUN 只能克隆到 Btrfs 存储空间。</li>
+	<li>将具有传统高级功能的 LUN 克隆到 Btrfs 存储空间时，它们会转换为具有全新高级功能的 LUN。当克隆到其他 ext4 存储空间时，LUN 的传统高级功能会禁用。</li>
+	<li>LUN 属性在克隆之后不会更改，具有传统高级功能的 LUN 除外。</li>
+	<li>克隆不带快照或传统高级功能的 LUN 时，建议断开这些 LUN 的连接，以防出现克隆失败或数据不一致。</li>
+</ul>
+</div>
+	
+<h4>若要转换具有传统高级功能的 LUN：</h4>
+<ol>
+	<li>选择要转换的 LUN。</li>
+	<li>在<b>操作</b>下拉菜单中选择<b>转换</b>。</li>
+	<li>配置设置：<ul>
+			<li>LUN 名称</li>
+			<li>位置：无法在创建 LUN 之后修改位置，但是可以将此 LUN 转换到另一个 Btrfs 存储空间。</li>
+		</ul></li>
+	<li>如果您要在转换之后删除原始 LUN 并将目标映射到新 LUN，请勾选此复选框。</li>
+	<li>单击<strong>应用</strong>以确认设置。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+	<ul>
+	<li>只有具有传统高级功能的 LUN 才能转换为具有新高级功能的 LUN。</li>
+	<li>LUN 只能转换到具有足够可用空间的 Btrfs 存储空间上。</li>
+	<li>为了确保数据一致性，LUN 会在转换过程中从目标取消映射。</li>
+	<li>转换后的全新高级 LUN 上没有快照。</li>
+</div>
+
+<div class="section"><h4>术语：</h4>
+<ul>
+	<li><b>Thin Provisioning</b>：Thin Provisioning 是通过视需求动态分配存储空间来达到储存使用优化的一种方式。</li>
+	<li><b>VMware VAAI</b>：VMware vStorage APIs for Array Integration (VAAI) 能够在 VMware vSphere 环境下将虚拟存储阵列上的标准操作工作分流到 iSCSI 设备，藉此优化存储性能。</li>
+	<li><b>Windows ODX</b>：卸载数据传输 (ODX) 是 Microsoft 在 Windows Server 2012 和 Windows 8 中开发的一种新型数据传输技术。ODX 将部分工作量卸载到存储阵列，藉此提高传输性能。<br />如果数据源与卸载目的地所在的 LUN 位于相同存储空间中，将会通过存储空间加速命令进行克隆。此技术可在加速克隆程序的同时节省达 99.9% 的存储空间消耗。</li>
+	<li><b>Target 映射</b>：将 LUN 映射到一个或多个 Target。</li>
+
+</ul>
+</div>
+
+</body>
+</html>

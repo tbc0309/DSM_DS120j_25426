@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>外部デバイス</h2>
+
+<p><strong>[コントロール パネル]</strong> &gt; <b>[外部デバイス]</b> &gt; <b>[外部デバイス]</b> を選択すると、Synology NAS に接続されている外部ストレージ デバイスのリストを表示できます。</p>
+
+<h3><a name="usbdisk"></a><a name="esatadisk"></a>外部ドライブ</h3>
+<p>システムに外部ドライブを接続することで、そのドライブの容量を、システムが作成した <b>usbshare[番号]</b>（適用可能な場合、USB ドライブ用）または <b>satashare[番号]</b>（適用可能な場合、eSATA ドライブ用）と言う名前の共有フォルダで共有することができます。共有フォルダは、外部ドライブをシステムから取り外すと自動的に削除されます。</p>
+
+<p>Synology NAS は次のフォーマットを認識します。<strong>Btrfs</strong>、<strong>ext3</strong>、<strong>ext4</strong>、<strong>FAT</strong>、<strong>FAT32</strong>、<strong>exFAT</strong>、<strong>HFS</strong>、<strong>HFS Plus</strong>、<strong>NTFS</strong>認識されない外部ドライブは、システムで使用する前にフォーマットする必要があります。</p>
+
+<div class="section"><h4>注：</h4>
+<ol>
+	<li>一部のモデルは HFS/HFS Plus に読み取り専用で対応しています。</li>
+	<li>HFS/HFS Plus ではジャーナルはサポートされていません。</li>
+	<li>Synology NAS が exFAT をサポートするには、<strong>パッケージ センター</strong>から <strong>exFAT Access</strong> をインストールする必要があります。exFAT フォーマットをサポートする Synology 製品モデルの一覧については<a href="https://www.synology.com/dsm/packages/exFAT" target="_blank">こちらのページ</a>をご覧ください。</li>
+	<li>外部ドライブはプラグを抜く前に、取り出してください。</li>
+	<li>Btrfs は特定のモデルのみに使用できます。Btrfs をサポートするモデルの確認は、<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">こちら</a>をご覧ください。</li>
+</ol>
+</div>
+
+<h4>ディスクイメージにアクセスする：</h4>
+<p>Synology NAS は、File Station を使用して外部デバイス上のディスク イメージのコンテンツにアクセスするために、仮想ドライブをマウントすることができます。仮想ドライブのマウント方法については、<a href="https://www.synology.com/knowledgebase/DSM/help/FileStation/mountiso" target="_blank">こちら</a>を参照してください。</p>
+
+<div class="section"><h4>注：</h4>
+<ul>
+<li>サポートされるディスクイメージ形式は、ISO 9960 および UDF ファイルシステムを使用した「.iso」ファイルです。</li>
+</ul>
+</div>
+
+<h4>ドライブをフォーマットする：</h4>
+
+<p><b>[フォーマット]</b> をクリックして、ウィザードに従ってください。外部ドライブは Synology NAS で <b>ext4</b> または <b>FAT32</b>にフォーマットできます。</p>
+
+<div class="section"><h4>注：</h4>
+<ol>
+	<li>外部ドライブをフォーマットする前に、必ずデータをバックアップしてください。処理を実行するとデータはすべて削除されるため復旧できません。</li>
+	<li>外部ドライブを ext3 または ext4 形式にフォーマットするには、1 GB 以上のドライブ容量が必要です。</li>
+	<li>ディスクを ext3 または ext4 にフォーマットすると、Synology NAS でしか認識されません。PC または Mac で外部ドライブから直接データを読み取るには、FAT32 フォーマットを選択してください。</li>
+</ol>
+</div>
+
+<h4>S.M.A.R.T. テストを行う：</h4>
+<p>ドライブの S.M.A.R.T. テストは、ハード ドライブの状態を調べて報告します。切迫したドライブの故障を早期に警告してくれます。エラーが検出された場合は、早めにドライブを交換するようお薦めします。<br /><strong>S.M.A.R.T. テスト</strong>を行うには、[S.M.A.R.T. テスト] ボタンをクリックしてウィザードに従ってください。<br />テスト結果を見るには、<strong>[S.M.A.R.T. 情報]</strong> をクリックします。</p>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>テスト回数は、システム環境によって異なります。</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>制限事項</h4>
+
+<p>次の場合には、ドライブをフォーマットできません。</p>
+
+<ul>
+	<li>外部ドライブが初期化されているとき。外部デバイスが接続された直後など。</li>
+	<li>外部ドライブの容量が 1 GB 以下のとき（ext3 または ext4 フォーマット）。</li>
+	<li>外部ドライブがフォーマットされているとき。</li>
+	<li>システムがファイルを外部ドライブにバックアップしているとき。</li>
+	<li>外部ドライブが破損している場合。</li>
+</ul>
+
+<h4>トラブルシューティング</h4>
+<ol>
+	<li>外部ドライブをフォーマットできません。なぜだと思いますか？
+		<ul>
+			<li>外部ドライブが正しく挿入されているか確認してください。</li>
+			<li>外部ドライブが書き込み禁止になっていないか確認してください。このような場合は、フォーマットを開始する前に修正を行ってください｡ </li>
+		</ul>
+	</li>
+	<li>外部ドライブのファイル システムが <strong>[サポートされていません]</strong> と表示されるか、システムが外部ドライブ用に <strong>usbshare[番号]</strong> または <strong>satashare[番号]</strong> 共有フォルダを作成しません。どうすればいいですか？
+<ul>
+			<li>現在のシステムは、Btrfs、ext3、ext4、FAT、FAT32、HFS、HFS Plus、NTFS の各フォーマットを認識します。上述の形式にフォーマットされていない外部ドライブはどれも認識されないため、ステータスには <b>[サポートされていません]</b>と表示されます。</li>
+		</ul>
+	</li>
+	<li><b>usbshare[番号]</b> または <b>satashare[番号]</b> 共有フォルダにアクセスできません。どうすればいいですか？
+		<ul>
+			<li>外部ドライブのファイル システムによる問題です。これを修正するには、外部ドライブを PC に接続し、ファイル システムのチェックを行ってください。</li>
+		</ul>
+	</li>
+	<li>ext3 または ext4 フォーマットの外部ドライブを PC または Mac に接続し、直接アクセスすることは可能ですか？
+		<ul>
+			<li>いいえ、ext3 または ext4 フォーマットは Synology NAS でしか認識されません。PC または Mac で外部ドライブから直接データを読み取るには、FAT32 フォーマットを選択してください。</li>
+		</ul>
+	</li>
+	<li>外部ドライブに「lost+found」という名前のフォルダがありますがなぜですか？
+		<ul>
+			<li>これは、ext3/ext4 ファイルシステムが自動生成するシステムのデフォルトフォルダです。外部ドライブのフォルダが表示されるのは正常です。管理者はその中のコンテンツにアクセスして管理することができますが、このフォルダには極力触らないようにしてください。</li>
+		</ul>
+	</li>
+</ol>
+</div>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>Btrfs は特定のモデルのみに使用できます。Btrfs をサポートするモデルの確認は、<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">こちら</a>をご覧ください。</li>
+</ul>
+</div>
+
+<h4>すべての外部デバイスにデフォルトの権限を割り当てるには：</h4>
+<p>デフォルトの権限は、<strong>[設定]</strong> > <strong>[デフォルトの権限]</strong> をクリックして、外部デバイスとその内容にアクセス、表示、変更できるユーザーとグループを指定することで設定できます。Synology NAS に外部デバイスが接続されている場合は、指定した権限は自動的にその外部デバイスに割り当てられます。</p>
+
+<p>権限画面で、次の手順に従ってデフォルトの権限を設定してください。</p>
+<ol>
+	<li>次のドロップダウン メニューで以下のいずれかを選択します。
+		<ul>
+			<li><b>システム内部ユーザー：</b>Anonymous FTP/WebDAV ユーザーなど、デフォルトのシステム ユーザーに権限を割り当てます。</li>
+			<li><b>ローカルユーザー：</b>ローカル ユーザー（<b>guest</b> を含む）に権限を割り当てます。</li>
+			<li><b>ローカルグループ：</b>ローカル グループに権限を割り当てます。</li>
+		</ul>
+	</li>
+	<li>チェックボックスをオンまたはオフにすると、各ユーザーまたはグループの外部デバイスのアクセス権をカスタマイズできます。
+		<ul>
+			<li><b>読み込み/書き込み</b>：ユーザーまたはグループは、外部デバイスのファイルやフォルダにアクセスして変更を加えることができます。</li>
+			<li><b>読み取り専用</b>：ユーザーまたはグループは、外部デバイスのファイルとフォルダにアクセスできます。</li>
+			<li><b>アクセス不可</b>：ユーザーまたはグループは、外部デバイスのファイルとフォルダにアクセスできません。</li>
+		</ul>
+	</li>
+</ol>
+
+</body>
+</html>

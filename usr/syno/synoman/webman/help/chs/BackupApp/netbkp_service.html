@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>备份服务 - Synology DSM 帮助</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>备份服务</h2>
+<p><strong>备份和复制</strong> &gt; <strong>备份服务</strong>中的选项可让其他用户将数据从 Synology NAS 设备或 rsync 兼容客户端备份至 Synology NAS。</p>
+<h3>启用网络备份服务</h3>
+<p>如果您要将 Synology NAS 或 rsync 兼容服务器上的数据备份到另一台 Synology NAS，或允许另一台 Synology NAS 设备执行远程备份任务并将备份数据存储到 Synology NAS 设备的卷上，则必须在创建备份任务之前先启用目标服务器上的网络备份服务。您可进入<b>控制面板</b> &gt; <b>权限</b>，向用户授予<b>网络备份目的地</b>权限。然后，您可以为您 Synology NAS 上的一位 DSM 用户创建适当的应用程序及共享文件夹权限。设置完成时，其他人便可利用该用户的权限，从他们的 Synology NAS 运行网络备份到您 Synology NAS 的目标共享文件夹中。</p>
+
+<h4>若要启用单个版本备份服务：</h4>
+<ol>
+<li>进入<b>备份服务</b> &gt; <b>网络备份目的地</b> ，然后勾选<b>启用网络备份服务</b>。</li>
+<li>单击<b>应用</b>。</li>
+<li>进入<b>控制面板</b> &gt; <b>共享文件夹</b>，选择共享文件夹，单击<b>编辑</b> &gt; <b>权限</b>，然后将<b>读取/写入</b>权限授予给用户。重复运行此步骤来加入更多的共享文件夹，这些文件夹将可作为备份目的地。</li>
+</ol>
+<h4>若要启用多重版本备份服务：</h4>
+<ol>
+<li>进入<strong>备份服务</strong> &gt; <b>网络备份卷目的地</b>，然后勾选<strong>启用网络备份卷目的地</strong>的复选框。</li>
+<li>进入<b>备份目的地</b>并选择与本地卷相关联的备份目的地。</li>
+<li>单击<b>编辑</b> &gt; <b>允许列表</b> &gt; <strong>添加</strong>来添加用户或群组到列表。</li>
+</ol>
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>如果其他人想要从非 Synology NAS 的客户端设备执行网络备份，他们仅能利用您 Synology NAS 的 <b>admin</b> 或 <b>rsync</b> 权限执行此操作。如果您不想与他人共享 <b>admin</b> 凭据，可进入<b>控制面板</b> &gt; <strong>用户</strong>来创建一个名为 <b>rsync</b> 的用户，并修改其权限，然后与他人共享其用户凭据。</li><li>如果您从运行 DSM 3.0 之前版本的 Synology NAS 或不是 Synology NAS 的客户端，且要保留源数据的<b>所有者</b>和<b>群组</b>信息，必须将<b>备份帐户</b>添加到 <b>administrators</b> 群组，并将数据备份到 <b>NetBackup</b> 共享文件夹。</li>
+</ul>
+</div>
+<h3>使用自定义的 rsync 配置来启用网络备份服务</h3>
+<p> 您可以使用自定义的 rsync 配置来启用网络备份服务，并在您的 Synology NAS 配置用户权限和备份目的地。当设置完成时，其他人可以从他们的 Synology NAS 设备或 rsync 兼容客户端运行 rsync 备份到您 Synology NAS 上的目标共享文件夹（或称&ldquo;备份模块&rdquo;）。</p>
+<h4>若要使用自定义的 rsync 配置来启用网络备份服务：</h4>
+<ol>
+<li>请进入<b>备份和复制</b> &gt; <b>网络备份目的地</b>。</li>
+<li>请勾选<b>启用网络备份服务</b>。</li>
+<li>勾选<b>使用自定义的 rsync 配置</b>。</li>
+<li>单击<b>应用</b>。</li>
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<h4>若要在您的 Synology NAS 上设置用户权限和备份模块：</h4>
+<ol>
+<li>
+请通过 Telnet 或 SSH 登录 Synology NAS 设备。
+</li>
+<li>在 rsync 配置文件&ldquo;<b>/etc/rsyncd.conf</b>&rdquo;中指定备份模块和您要授权的用户。如需详细信息，请参阅 rsync 客户端设备随附的 <b>rsyncd.conf</b> 说明页面或<a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">此处</a>。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>如果自定义 rsync 配置已被使用，Synology NAS 将无法用作<b>共享文件夹同步</b>、<b>Time Backup</b> 和 <b>LUN 备份</b>的目标服务器。</li>
+</ul>
+</div>
+
+<h3>启用速度限制</h3>
+<p>您可启用速度限制来控制用户和群组通过网络备份传输数据的最大可用带宽。</p>
+<h4>若要启用速度限制：</h4>
+<ol>
+<li>请进入<b>备份和复制</b> &gt; <b>网络备份目的地</b>。如果您只要在特定时间启用速度限制，请勾选标示为<b>启用速度限制</b>或<strong>根据计划启用速度限制</strong>的复选框。此将应用至整个服务器，并覆盖服务器中的各用户和群组的设置。选择<strong>无速度限制</strong>可禁用所有用户和群组的速度限制设置。</li>
+<li>单击<strong>速度限制设置</strong>可修改单个用户或群组的速度限制。您可为每个用户和群组选择下列其中一个选项：
+    <ul>
+<li><strong>应用群组设置：</strong>速度限制设置将与用户所属群组的设置相同。</li>
+<li><strong>无：</strong>当群组成员用此服务传输文件时不应用速度限制。</li>
+<li><strong>恒定：</strong>一个固定速度限制常量将应用到用户或群组成员。可在左侧栏中指定上传与下载的速度限制。</li>
+<li><strong>可变：</strong>可根据计划指定两种不同的速度限制并应用到用户或群组成员。单击<strong>自定义</strong>按钮可修改速度限制设置并设置计划。</li>
+    </ul>
+  </li>
+<li>单击<b>应用</b>。</li> 
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<div class="section">
+<h4>注：</h4>
+<p>设置用户的速度限制后，<strong>结果</strong>区域会根据单个和群组设置显示用户的实际速度限制。例如，如果用户 &ldquo;Achilles&rdquo; 有 100 KB/秒的具体下载限制，但该用户所属的群组的下载限制为 500 KB/秒，则<strong>结果</strong>区域将显示 &ldquo;0/500&rdquo;。</p>
+</div>
+
+<h3>启用 Time Backup 服务</h3>
+<p>Time Backup 服务可让用户从另一台 Synology NAS 远程备份多个版本的文件夹到 Synology NAS。这需要启用网络备份服务及 Time Backup 服务。</p>
+<h4>若要启用网络备份服务和 Time Backup 服务：</h4>
+<p>请进入<strong>备份和复制</strong> &gt; <b>Time Backup</b>。勾选适当的复选框。</p>
+<img src="about:blank" class="help_image"/>
+
+<div class="section">
+<h4>注：</h4>
+<p>只有 admin 帐户才能为远程 Time Backup 创建备份连接。</p>
+</div>
+
+</body>
+</html>

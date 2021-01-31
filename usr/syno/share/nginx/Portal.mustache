@@ -1,0 +1,63 @@
+{{#ReverseProxy}}
+server {
+    listen {{port}}{{#https}} ssl{{/https}}{{#https.http2}} http2{{/https.http2}}{{#reuseport}} reuseport{{/reuseport}}{{^fqdn}} default_server{{/fqdn}};
+    listen [::]:{{port}}{{#https}} ssl{{/https}}{{#https.http2}} http2{{/https.http2}}{{#reuseport}} reuseport{{/reuseport}}{{^fqdn}} default_server{{/fqdn}};
+
+    {{#resolver}}
+    resolver {{resolver}};
+    set $backend "{{backend}}";
+    {{/resolver}}
+
+    server_name {{#fqdn}}{{fqdn}}{{/fqdn}}{{^fqdn}}_{{/fqdn}};
+
+    {{#https.profile}}
+    ssl_protocols             {{protocols}};
+    ssl_ciphers               {{ciphersuite}};
+    ssl_dhparam               {{dhparam}};
+    {{/https.profile}}
+
+    {{#https.certificate}}
+    ssl_certificate {{https.certificate}};
+    {{/https.certificate}}
+    {{#https.key}}
+    ssl_certificate_key {{https.key}};
+    {{/https.key}}
+
+    {{#https.hsts}}
+    {{> /usr/syno/share/nginx/HSTS}}
+    {{/https.hsts}}
+
+    {{#acl.rules}}
+    {{#access}}allow{{/access}}{{^access}}deny{{/access}} {{address}};
+    {{/acl.rules}}
+
+    location / {
+        {{#customize_header_variable}}
+        if (${{&.}} = false) {
+            set ${{&.}} '';
+        }
+        {{/customize_header_variable}}
+
+        {{#advanced}}
+        {{directive}} {{value}};
+        {{/advanced}}
+
+        {{#customize_headers}}
+        proxy_set_header        {{&name}}            {{&value}};
+        {{/customize_headers}}
+
+        {{#resolver}}
+        proxy_pass $backend;
+        {{/resolver}}
+        {{^resolver}}
+        proxy_pass {{backend}};
+        {{/resolver}}
+    }
+
+    {{#letsencrypt}}
+    {{> /usr/syno/share/nginx/LetsEncrypt}}
+    {{/letsencrypt}}
+
+    {{> /usr/syno/share/nginx/error_page}}
+}
+{{/ReverseProxy}}

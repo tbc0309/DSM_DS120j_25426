@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>连接至 VPN - Synology DSM 帮助</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Turn your Synology NAS into a VPN client and create profiles to connect your Synology NAS to a VPN server.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h1>连接至 VPN</h1>
+<p>您可以轻松将 Synology NAS 转变为 VPN 客户端并通过 PPTP、OpenVPN 或 L2TP/IPSec 协议连接到现有 VPN（虚拟专用网络）服务器。如果您有多台 VPN 服务器，还可以为每台服务器创建特定的 VPN 配置文件，单击一下即可快速切换并连接到不同的 VPN 服务器。</p>
+
+
+<div class="section">
+<h4>什么是 VPN？</h4>
+<p>VPN（即虚拟专用网络）是可满足从 Internet 安全访问专用网络上资源需求的解决方案。对于企业或部分个人用户而言，随着网络性能需求的日益增加，此物理网络系统及其技术支持的成本将成倍增加。考虑到成本效益和长期维护等因素，VPN 是智能且吸引力日益增加的解决方案。通过加密和其他安全机制，VPN 技术可让企业员工轻松访问公司的中央网络，就像在 LAN 中利用其中的资源一般。个人用户也可在其他地方访问家庭 LAN 中的资源。</p>
+</div>
+
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>Synology NAS 只可连接到在第三层上支持 tun 隧道的 OpenVPN 服务器。</li>
+<li>安装 VPN 套件之前，请先确认您有可连接的 VPN 服务器。为获得更好的兼容性，建议您连接到在运行 <strong>VPN Server</strong> 套件的 Synology NAS 上托管的 VPN 服务。若要将另一台 Synology NAS 设置为 VPN 服务器，请参阅 <b>DSM 帮助</b> &gt; <b>VPN Server</b> &gt; <b>设置 VPN Server</b> 来获取说明。</li>
+</ul>
+</div>
+
+
+<h4>若要创建 VPN 配置文件：</h4>
+<ol>
+<li>进入<b>控制面板</b> &gt; <b>网络</b>。</li><img src="about:blank" class="help_image"/><li>在<b>网络接口</b>选项卡下，单击<b>创建</b>并选择<b>创建 VPN 配置文件</b>。</li><img src="about:blank" class="help_image"/><li>在创建新的 VPN 配置文件时，您可选择以下任一连接类型：<ul>
+		<li><b>PPTP</b>：PPTP（点对点隧道协议）是常用的 VPN 解决方案，且大多数的客户端（包括 Windows、Mac、Linux 及移动设备）皆支持此协议。</li>
+		<li><b>OpenVPN</b>：OpenVPN 是实现 VPN 服务的开放源代码解决方案。它会以 SSL/TLS 加密机制保护 VPN 连接。</li>
+		<li><b>L2TP/IPSec</b>：L2TP over IPSec（第二层隧道协议）提供更安全的虚拟专用网络，且大多数的客户端（如 Windows、Mac、Linux 及移动设备）皆支持此协议。</li>
+	</ul>
+</li><img src="about:blank" class="help_image"/><li>请参阅以下区域的说明来设置三种 VPN 连接类型之一。</li>
+</ul>
+</ol>
+
+<h4>若要创建 PPTP 配置文件：</h4>
+
+  <ol>
+  <li>当看到选择 VPN 连接方法提示时，选择 <b>PPTP</b>，然后单击<b>下一步</b>。</li>
+  <li>为新的配置文件选择名称，指定要建立连接之 VPN 服务器的地址，并输入您在该服务器上的用户名和密码。单击<b>下一步</b>继续。</li>
+
+<div class="section">
+<h4>注：</h4>
+
+<ul>
+<li>VPN 服务器的用户名、密码和地址应由 VPN 服务器的管理员提供。</li>
+</ul>
+</div>
+
+  <li>从<b>验证</b>菜单中选择下列验证协议之一来在验证过程中保护 VPN 客户端密码：<ul>
+		<li><b>PAP</b>：验证过程中密码将不会加密。</li>
+		<li><b>CHAP</b>：密码将使用 CHAP（质询握手身份验证协议）加密。</li>
+		<li><b>MS CHAP</b>：密码将使用 Microsoft CHAP 版本 1 加密。</li>
+		<li><b>MS CHAP v2</b>：密码将使用 Microsoft CHAP 版本 2 加密。</li>
+	</ul>
+  </li>
+  <li>如果您选择 <b>MS CHAP</b> 或 <b>MS CHAP v2</b>，则从<b>加密</b>菜单中选择下列选项之一来加密 VPN 连接：<ul>
+		<li><b>无 MPPE</b>：VPN 连接不会受到 Microsoft 点对点加密机制的保护。</li>
+		<li><b>需要 MPPE（40/128 位）</b>：VPN 连接会受到 40 位或 128 位 Microsoft 点对点加密机制的保护。</li>
+		<li><b>最高 MPPE（128 位）</b>：VPN 连接会受到 128 位 Microsoft 点对点加密机制的保护，该机制提供最高的安全性。</li>
+	</ul>
+  </li>
+    <div class="section">
+    <h4>注：</h4>
+  
+    <ul>
+    <li>此处的验证和加密设置必须与 VPN 服务器中所指定的设置相同。详情请联系 VPN 服务器的管理员。</li>
+    </ul>
+    </div>
+   
+<li>根据您的需要，勾选以下任一复选框：<ul>
+		<li><b>使用远程网络的默认网关</b>：启用此选项将 Synology NAS 的网络流量传送至指定的 VPN 服务器。</li>
+		<li><b>允许其他网络设备通过此 Synology 服务器的 Internet 连接进行连接</b>：启用此选项来允许 Synology NAS 所属局域网中的网络设备连接到相同的 VPN 服务器。</li>
+		<li><b>VPN 连接丢失时重新连接</b>：如果 VPN 连接意外丢失，系统会每 30 秒尝试重新连接（最多五次）。</li>
+	</ul>
+</li>
+
+<li>单击<b>应用</b>。</li>
+</ol>
+
+
+
+
+<h4>若要通过 .ovpn 创建 OpenVPN 配置文件：</h4>
+<ol>
+<li>当看到选择 VPN 连接方法提示时，选择 <b>OpenVPN（通过导入 .ovpn 文件）</b>，然后单击<b>下一步</b>。</li>
+<li>为新配置文件选择名称，在<strong>导入 .ovpn 文件</strong>栏中，单击<strong>浏览</strong>可选择并导入从 VPN 服务器导出的 .ovpn 文件。</li>
+<li>输入 VPN 服务器管理员提供的以下信息：您的<strong>用户名</strong>、<strong>密码</strong>并导入 <b>CA 证书</b>文件（例如 ca.crt）。</li>
+<li>如果 VPN 服务器提供者还提供了 <b>TLS-auth 密钥</b>、<b>客户端密钥</b>、<b>客户端证书</b>或<b>证书撤消列表</b>，请单击<strong>高级选项</strong>并将其导入到相应的栏中。</li>
+<li>单击<b>下一步</b>继续。</li>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>用户名、密码、地址和任何其它文件（如证书或密钥）应由 VPN 服务器的管理员提供。</li>
+</ul>
+</div>
+
+<li>根据您的需要，勾选以下任一复选框：</li>
+<ul>
+<li><b>使用远程网络的默认网关</b>：启用此选项将 Synology NAS 的网络流量传送至指定的 VPN 服务器。</li>
+<li><b>允许其他网络设备通过此 Synology 服务器的 Internet 连接进行连接</b>：启用此选项来允许 Synology NAS 所属局域网中的网络设备连接到相同的 VPN 服务器。</li>
+<li><b>VPN 连接丢失时重新连接</b>：如果 VPN 连接意外丢失，系统会每 30 秒尝试重新连接（最多五次）。</li>
+</ul>
+<li>单击<b>应用</b>。</li>
+</ol>
+
+
+
+
+
+<h4>若要创建 L2TP/IPSec 配置文件：</h4>
+<ol>
+<li>当看到选择 VPN 连接方法提示时，选择 <b>L2TP/IPSec</b>，然后单击<b>下一步</b>。</li>
+<li>为新的配置文件选择名称，指定要建立连接之 VPN 服务器的地址，并输入您在该服务器上的用户名和密码。您还需要为 VPN 服务器输入预共享密钥。然后单击<strong>下一步</strong>。</li>
+
+<div class="section">
+<h4>注：</h4>
+
+<ul>
+<li>VPN 服务器的用户名、密码、地址和预共享密钥应由 VPN 服务器的管理员提供。</li>
+</ul>
+</div>
+
+<li>从<b>验证</b>菜单中选择下列验证协议之一来在验证过程中保护 VPN 客户端密码：<ul>
+		<li><b>PAP</b>：密码将不会加密。</li>
+		<li><b>CHAP</b>：密码将使用 CHAP（质询握手身份验证协议）加密。</li>
+		<li><b>MS CHAP</b>：密码将使用 Microsoft CHAP 版本 1 加密。</li>
+		<li><b>MS CHAP v2</b>：密码将使用 Microsoft CHAP 版本 2 加密。</li>
+	</ul>
+</li>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>此处的验证和加密设置必须与 VPN 服务器中所指定的设置相同。详情请联系您的 VPN 服务器的管理员。</li>
+</ul>
+</div>
+
+<li>根据您的需要，勾选以下任一复选框：<ul>
+		<li><b>使用远程网络的默认网关</b>：启用此选项将 Synology NAS 的网络流量传送至指定的 VPN 服务器。</li>
+		<li><b>允许其他网络设备通过此 Synology 服务器的 Internet 连接进行连接</b>：启用此选项来允许 Synology NAS 所属局域网中的网络设备连接到相同的 VPN 服务器。</li>
+		<li><strong>服务器位于 NAT 设备之后</strong>：按照默认，L2TP/IPSec 协议不允许连接到位于 NAT 设备之后的 VPN 服务器。启用此选项来绕开此限制，允许 Synology NAS 连接位于 NAT 设备之后的 L2TP/IPSec VPN 服务器。</li>
+		<li><b>VPN 连接丢失时重新连接</b>：如果 VPN 连接意外丢失，系统会每 30 秒尝试重新连接（最多五次）。</li>
+	</ul>
+</li>
+<li>单击<b>应用</b>。</li>
+</ol>
+
+
+<h4>若要连接到 VPN 服务器或断开其连接：</h4>
+
+<ol>
+<li>选择一个 VPN 配置文件。</li>
+<li>单击<b>连接</b>或<b>断开连接</b>。</li><img src="about:blank" class="help_image"/></ol>
+
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>一次仅能连接一个配置文件。</li>
+</ul>
+</div>
+
+<h4>若要修改 VPN 配置文件：</h4>
+
+<ol>
+<li>选择一个 VPN 配置文件。</li>
+<li>单击<strong>编辑</strong>。</li>
+
+</ol>
+
+
+</body>
+</html>

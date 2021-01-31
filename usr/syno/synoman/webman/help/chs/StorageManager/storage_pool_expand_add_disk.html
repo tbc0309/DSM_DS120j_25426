@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>添加硬盘以扩充存储池容量</h2>
+
+<p>如果 Synology NAS 上有空置的硬盘插槽，您可安装其他硬盘并将其添加到现有存储池。本文将引导您了解如何通过安装其他硬盘来扩充现有存储池。</p>
+
+<p>可以向采用以下 RAID 配置的存储池添加硬盘：</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID 5</li>
+	<li>RAID 6</li>
+	<li>RAID F1</li>
+	<li>至少由 2 个硬盘组成的 Synology Hybrid RAID (SHR)</li>
+</ul>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>新添加的硬盘状态必须为<strong>已初始化</strong>或<strong>未初始化</strong>。</li>
+</ul>
+</div>
+	
+<h4>硬盘要求：</h4>
+
+<p>请确保要添加到 Synology NAS 的硬盘满足以下要求：</p>
+<ul>
+	<li>RAID 或 SHR 配置必须通过相同类型的硬盘进行创建。使用不同类型的硬盘会影响系统可靠性和性能。RAID 或 SHR 配置不支持如下所示的混合硬盘类型：<ul>
+	<li>SATA 硬盘和 SAS 硬盘</li>
+	<li>4K 原生硬盘和非 4K 原生硬盘</li>
+	</ul>
+	</li>
+	<li><strong>对于 SHR</strong>：您要添加的硬盘容量必须等于或大于存储池中最大硬盘的容量，或者等于存储池中任意硬盘的容量。</br><span class="note_head">示例：</span>如果 SHR 存储池由三个硬盘（2 TB、1.5 TB 和 1 TB）组成，则建议新添加的硬盘应至少为 2 TB，以便更好地使用容量。可以考虑添加 1.5 TB 和 1 TB 硬盘，但请注意，2 TB 硬盘的部分容量会保持未使用状态。</li>
+	<li><strong>对于 RAID 5、RAID 6 或 RAID F1</strong>：您要添加的硬盘容量必须等于或大于存储池中最小硬盘的容量。</br><span class="note_head">示例：</span>如果 RAID 5、RAID 6 或 RAID F1 存储池由三个硬盘（2 TB、1.5 TB 和 1 TB）组成，则新硬盘的容量必须至少为 1 TB。</li>
+</ul>
+
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>SHR (Synology Hybrid RAID) 仅在特定型号上可用。请访问<a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">此处</a>以检查型号是否限制了对 SHR 的支持。</li>
+	<li>RAID F1 仅在特定型号上可用。请访问<a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank">此处</a>以检查型号是否支持 RAID F1。</li>
+	<li>建议使用 <a href="https://www.synology.com/compatibility" target="_blank">Synology 产品兼容性列表</a>中的硬盘，以防止出现任何问题。使用不兼容的硬盘可能会降低系统性能，甚至会导致数据丢失。</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">若要向存储池添加硬盘：</a></h4>
+<p>开始之前，请确保要扩充的存储池状态为<strong>良好</strong>。如果存储池状态不是良好，请按照状态下方显示的建议操作修复硬盘问题。之后，请按照以下步骤向存储池添加硬盘：</p>
+	
+<ol>
+	<li>关闭 Synology NAS。</br><span class="note_head">注：</span>如果 Synology NAS 支持热交换功能，则跳过此步骤。</li>
+	<li>将新硬盘插入空的硬盘插槽。</br><span class="note_head">注：</span>为了避免让自己或 Synology NAS 遭受损伤，请进入<a href="https://www.synology.com/support/download" target="_blank">下载中心</a>并选择您的 Synology 产品。在<strong>文档</strong> &gt; <strong>硬件安装指南</strong>中，可以下载首选语言的硬件安装指南，以按照硬盘安装说明进行操作。</li>
+
+	<li>打开 Synology NAS 并启动<strong>存储空间管理员</strong>。</li>
+	<li>进入<b>存储池</b>页面并选择要扩充的存储池。在<strong>操作</strong>下拉菜单中单击<strong>添加硬盘</strong>。</li>
+	<li>从列表中选择要添加的硬盘。只会列出符合类型和容量要求的硬盘。</li>
+	<li>按照向导完成此过程。</li>
+</ol>
+
+<h4>若要扩充存储空间大小：</h4>
+<p>存储池包含足够容量后，便可以根据存储池类型，自动或手动扩充其对应存储空间的大小。</p>
+<ul>
+<li><b>单存储空间存储池：</b>对于支持单个存储空间的存储池，存储空间大小会在存储池容量扩充后自动扩充。请参阅<a href="#t1">若要向存储池添加硬盘</a>以了解详细信息。</li>
+<li><b>多存储空间存储池：</b>对于支持多个存储空间的存储池，存储池包含足够容量后，便可以手动扩充存储空间大小。请参阅<a href="volume_expand_volume.html" target="_blank">扩充存储空间大小</a>以了解详细信息。</li>
+</ul>
+
+</body>
+</html>

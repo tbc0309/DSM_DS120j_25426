@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Volume</h2>
+<p>Volumes are basic storage spaces on which the user may create shared folders, iSCSI LUN (regular file), save data, or install packages. Before creating any volumes, please make sure you have already created a RAID Group. For more information regarding RAID Groups, please refer to <a href="raid.html">RAID Group</a>.
+</p>
+
+<h4>To create a volume:</h4>
+<ol>
+	<li>Make sure your Synology NAS has an existing RAID Group with allocatable space.</li>
+	<li>Click the <strong>Create</strong> button.</li>
+	<li>Choose a RAID Group on which to create the volume.</li>
+	<li>Modify desired settings.</li>
+	<li>Set the size allocation for the volume. (Setting size allocation is unavailable with volumes created on RAID Group for Single Volumes or iSCSI LUN.)</li>
+    <li>Click the <strong>Apply</strong> button to confirm settings.</li>
+
+
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>The maximum volume size that can be allocated is 200 TB.</li>
+	<li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">The minimum size allocated to a Btrfs volume must be at least 10 GB.</li>
+    <li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Btrfs volumes will reserve 4% of space for metadata.</li>
+</ul>
+</div>
+
+<h4>To remove a volume:</h4>
+<ol>
+	<li>Select the volume you want to remove.</li>
+	<li>Click the <strong>Remove</strong> button and follow the wizard to complete the process.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>Removing a volume will erase all existing data on the volume.</li>
+</ul>
+</div>
+
+<h4>To force mount a volume:</h4>
+<p>If the cache on a volume is missing, the system will not mount the volume when booting up. If the cache is not recoverable, and you want to access the volume, you can click <strong>Force mount</strong>. </p>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>This function is only available on certain models.</li>
+</ul>
+</div>
+
+<h4>To repair a volume:</h4>
+<p>If volume status reads <strong>Degraded</strong>, please go to the <strong>RAID Group</strong> tab, and find the appropriate RAID Group. Then follow the suggested instructions to repair it.</p>
+
+<h4>To expand the size of a volume</h4>
+<ul>
+	<li>For volumes created on a RAID Group for Multiple Volumes or iSCSI LUNs (Block-Level). 
+		<ol>
+			<li>Select the volume you want to expand.</li>
+			<li>Click <strong>Edit</strong>.</li>
+			<li>Enter the new size and click <strong>OK</strong> to expand.</li>
+		</ol>
+	</li>
+	<li>For volumes created on a RAID Group for Single Volume or iSCSI LUN (Block-Level), please refer to the section <strong>To expand the size of a RAID Group</strong> of <a href="raid.html">RAID Group</a>, volume size will be expanded after underlying RAID Group has expanded.</li>
+</ul>
+
+<div class="section">
+<h4>Note:</h4>
+<p>If volumes are used as replicated targets of <strong>Snapshot Replication</strong>, the replication performance can be improved by adjusting the settings of <strong>Record file access time frequency</strong> in the <strong>Edit</strong> window after volumes are created:</p>
+<ul>
+	<li><strong>Daily</strong>: File access time is updated daily or when the file is modified, just like in most operating systems. Some applications' functionalities rely on the precision of file access time. Selecting <strong>Daily</strong> will impact replication performance but is recommended if you use any of the following functions or applications frequently:
+		<ul>
+			<li><strong>Least Recently Access Time</strong> in <strong>Storage Analyzer</strong></li>
+			<li><strong>SSD Cache Advisor</strong> in <strong>Storage Manager</strong></li>
+			<li>Any third-party applications that rely on <strong>Record File Access Time</strong>.</li>
+		</ul>
+	<li><strong>Monthly</strong>: File access time is updated monthly or when the file is modified. This option results in a small improvement in replication performance while the applications that rely on <strong>Record File Access Time</strong> will be able to function, though with lower precision.
+	</li>
+	<li><strong>Never</strong>: Recommended if you look for the best replication performance and do not need applications that rely on <strong>Record File Access Time</strong> in your daily usage.</li>
+</ul>
+</div>
+
+<h3>SSD TRIM</h3>
+<p>If a volume consists entirely of SSDs (Solid State Drives), we recommend enabling SSD TRIM. This feature improves the read and write performance of volumes created on SSDs, increasing efficiency as well as extending the lifetime of your SSDs.</p>
+
+<h4>To enable SSD TRIM:</h4>
+<ol>
+	<li>Open <strong>Storage Manager</strong> and go to <strong>Volume</strong>.</li>
+	<li>Select a volume that consists entirely of SSDs, and then click the button <strong>Configure</strong>.</li>
+	<li>In the window that appears, go to the <strong>SSD TRIM</strong> tab, and check the box <strong>Enable TRIM</strong>.</li>
+	<li>Click the button <strong>Set schedule</strong> to choose when the system will perform SSD TRIM.</li>
+	<li>Click <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>SSD TRIM is only available on certain Synology NAS models and RAID types. </li>
+	<li>Some SSD models are not able to perform SSD TRIM on RAID 5<span class="enable-grantley">,</span> <span class="disable-grantley">and </span>RAID 6<span class="enable-grantley">, and RAID F1</span> volumes. Please refer to the compatibility list on Synology <a href="https://www.synology.com/" target="_blank">official website</a>.</li>
+	<li>SSD TRIM cannot be enabled in the following situations:
+		<ul>
+			<li>The volume is mounted with SSD cache.</li>
+			<li>The <strong>Time Backup</strong> package is installed.</li>
+		</ul>
+	</li>
+	<li>SSD TRIM cannot be enabled on Block-Level iSCSI LUNs.</li>
+	<li>System performance will be affected when performing SSD TRIM. The time needed to finish performing TRIM varies depending on volume size and SSD model.</li>
+	<li>When TRIM is enabled on a volume, it will also be enabled on other volumes created on the same Drive Group or RAID Group.</li>
+</ul>
+</div>
+
+
+<h3>File System Scrubbing*</h3>
+<p>File system scrubbing is a data maintenance feature that inspects volumes. If any data inconsistent with the checksum is detected, the file path will be recorded in Log Center, and it is recommended you use a backup to repair the data.</p>
+
+<p>We recommend regularly performing file system scrubbing to ensure data consistency.</p>
+
+<h4>To perform file system scrubbing:</h4>
+<ol>
+	<li>Open <strong>Storage Manager</strong> and go to <strong>Volume</strong>.</li>
+	<li>Select the volume on which to perform file system scrubbing.</li>
+	<li>Click <strong>Manage</strong>.</li>
+	<li>Select <strong>File system scrubbing</strong>.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>File system scrubbing can only be performed on volumes in <strong>Btrfs</strong> file system.</li>
+	<li>File system scrubbing can only be performed when the status of the volume is <strong>Normal</strong>.</li>
+	<li>Please do not shut down the system before file system scrubbing is completed. If the system is shut down before completion, you will need to manually restart file system scrubbing from the beginning.</li>
+</ul>
+</div>
+
+<h3>File System Defragmentation*</h3>
+<p>If your data is modified constantly, the amount of fragmented files will increase in the file system, resulting in slow access performance of files on the drives. Performing file system defragmentation can improve the performance.</p>
+
+<h4>To perform file system defragmentation:</h4>
+<ol>
+	<li>Open <strong>Storage Manager</strong> and go to <strong>Volume</strong>.</li>
+	<li>Select the volume on which to perform file system defragmentation.</li>
+	<li>Click <strong>Manage</strong>.</li>
+	<li>Select <strong>File system defragmentation</strong>.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>File system defragmentation can only be performed on volumes in <strong>Btrfs</strong> file system.</li>
+	<li>File system defragmentation can only be performed when the status of the volume is <strong>Normal</strong>.</li>
+	<li>Please do not shut down the system before file system defragmentation is completed. If the system is shut down before completion, you will need to manually restart file system defragmentation from the beginning.</li>
+	<li>Volume usage might increase if the volume contains snapshots of shared folders.</li>
+</ul>
+</div>
+
+<p>____<br />*Only available on certain models.</p>
+
+</body>
+</html>

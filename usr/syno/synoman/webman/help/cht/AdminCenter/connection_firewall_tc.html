@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>流量控制</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name=""></a>流量控制</h2>
+<p>
+流量控制的功能主在管理 Synology NAS 上所架設之服務對外流量。在選取服務後，需要設定該服務之<b>保證頻寬</b>與<b>最大頻寬</b>，以限制其對外流量。
+<p><b>保證頻寬</b>的定義為「系統整體頻寬足夠時，該服務保證得到的對外輸出量」。
+<p><b>最大頻寬</b>的定義為「系統整體頻寬足夠且有<b>系統剩餘頻寬</b>時，該服務可以借用到的最大對外輸出量」。因此建議系統管理者先行計算<b>系統對外頻寬</b>，並確保各服務所設定之<b>保證頻寬</b>總合不大於<b>系統對外頻寬</b>，以使設定可以發揮正常效用。
+<p>
+設定公式：<p>
+<b>系統對外頻寬</b> = 各服務<b>保證頻寬</b>之總和 + <b>系統剩餘頻寬</b><p>
+各服務之<b>保證頻寬</b> ≤ 各服務之<b>最大頻寬</b><p>
+<span class="note_head">注意：</span>
+若對外封包沒有符合任何流量控制規則，則預設是不限制流量。您也可以自行加上最後一筆流量控制規則，選擇<b>所有</b>連接埠，並設定<b>保證頻寬</b>與<b>最大頻寬</b>以當作您預設的流量控制規則。
+
+<h4>若要新增流量控制規則：</h4>
+<ol>
+<li>請到<strong>控制台</strong> &gt; <strong>防火牆</strong> &gt; <strong>流量控制</strong>，依照您的網路連線類型，自左欄的網路介面列表中點選對應您連線的圖示。</li>
+<li>按一下<b>新增</b>。</li>
+<li>在<b>連接埠</b>區塊中，請點選以下其一作為流量控制的規則設定：</li>
+<ul>
+<li>選擇<b>所有</b>來將規則套用到所有連接埠。</li>
+<li>選擇<b>從內建服務的清單選取連接埠</b>。</li>
+<li>選擇<b>自訂</b>並按一下<b>自訂</b>，然後最多輸入 15 個連接埠 (用逗號分隔)，或指定連接埠範圍。</li>
+<li class="no">
+您也可指定連接埠的通訊協定。
+</li>
+</ul>
+</ol>
+<p>
+現在您可以在規則列表中看到新增的流量控制規則。
+</p>
+<h4>若要刪除流量控制規則，請進行下列其一：</h4>
+<ul>
+<li>取消勾選流量控制規則旁邊的核取方塊。</li>
+<li>刪除所選規則。</li>
+</ul>
+<ol>
+<span class="note_head">注意：</span>
+<li>每一個網路介面最多可以設定 100 條規則。</li>
+<li>您可以使用拖拉的方式來調整順序，規則的順序愈前面優先權愈高。</li>
+<li>如果您的系統有 2 個連接至相同子網路的網路埠，則流量控制規則可能無法正常運作。* </li>
+</ol>
+<p>____<br> * 僅適用於特定機型。</p>
+</body>
+</html>

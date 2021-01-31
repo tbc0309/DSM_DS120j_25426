@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>V&yacute;běr typu pole RAID</h2>
+
+<p>RAID (Redundant Array of Independent Disks) je technologie ukl&aacute;d&aacute;n&iacute; dat, kter&aacute; umožňuje vytvořit z&nbsp;v&iacute;ce disků jeden &uacute;ložn&yacute; prostor. Existuj&iacute; různ&eacute; typy pol&iacute; RAID a každ&yacute; z&nbsp;nich nab&iacute;z&iacute; jinou &uacute;roveň v&yacute;konu, kapacity &uacute;loži&scaron;tě a spolehlivosti.</p>
+
+<p>Tento čl&aacute;nek obsahuje stručn&yacute; přehled typů RAID podporovan&yacute;ch zař&iacute;zen&iacute;m Synology NAS, včetně požadavků na implementaci a jejich v&yacute;hod a nev&yacute;hod.</p><!--1--><h3>Podporovan&eacute; typy RAID</h3>
+
+<p>Tato tabulka nab&iacute;z&iacute; stručn&yacute; přehled různ&yacute;ch typů RAID podporovan&yacute;ch zař&iacute;zen&iacute;m Synology NAS, včetně kapacity &uacute;loži&scaron;tě, minim&aacute;ln&iacute;ho počtu disků požadovan&yacute;ch pro dan&yacute; typ pole RAID a počtu z&aacute;vad disků, při kter&eacute;m je&scaron;tě nedojde ke ztr&aacute;tě dat.</p>
+
+<table>
+	<tr>
+		<th>Typ svazku</th>
+		<th>Počet disků HDD</th>
+		<th>Tolerovateln&yacute; počet z&aacute;vad disků</th>
+		<th>Popis</th>
+		<th>Kapacita svazku</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>Optimalizuje velikost svazku při kombinaci disků různ&yacute;ch velikost&iacute;.</li>
+				<li>Poskytuje redundanci dat, pokud se svazek skl&aacute;d&aacute; ze dvou nebo v&iacute;ce disků.</li>
+				<li>Doporučuje se zač&aacute;tečn&iacute;kům.</li>
+			</ul>
+		</td>
+		<td>1 x (velikost pevn&eacute;ho disku HDD)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">Optimalizov&aacute;no syst&eacute;mem.</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Basic</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Skl&aacute;d&aacute; se z&nbsp;jednoho disku jako nez&aacute;visl&eacute; jednotky.</li>
+				<li>Neposkytuje redundanci dat.</li>
+			</ul>
+		</td>
+		<td>1 x (velikost pevn&eacute;ho disku HDD)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Kombinuje sadu disků do jednoho &uacute;ložn&eacute;ho prostoru, jehož kapacita se rovn&aacute; součtu kapacit jednotliv&yacute;ch disků.</li>
+				<li>Neposkytuje redundanci dat.</li>
+			</ul>
+		</td>
+		<td>Součet velikost&iacute; v&scaron;ech pevn&yacute;ch disků HDD</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Obsahuje funkci &bdquo;proužkov&aacute;n&iacute;&ldquo;, proces, při kter&eacute;m se data rozděl&iacute; do bloků a tyto bloky se rozm&iacute;st&iacute; na několik disků, což zvy&scaron;uje v&yacute;kon.</li>
+				<li>Neposkytuje redundanci dat.</li>
+			</ul>
+	    </td>
+		<td>Součet velikost&iacute; v&scaron;ech pevn&yacute;ch disků HDD</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>Zapisuje na v&scaron;echny disky simult&aacute;nně stejn&aacute; data.</li>
+				<li>Poskytuje redundanci dat.</li>
+			</ul>
+		</td>
+		<td rowspan="3">Velikost nejmen&scaron;&iacute;ho pevn&eacute;ho disku HDD</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Zav&aacute;d&iacute; funkci proužkov&aacute;n&iacute; dat na &uacute;rovni bloku s&nbsp;paritou, kdy jsou data rozm&iacute;stěna např&iacute;č v&scaron;emi začleněn&yacute;mi disky, d&iacute;ky čemuž je redundance dat &uacute;činněj&scaron;&iacute; než u&nbsp;typu RAID 1.</li>
+			</ul>
+		</td>
+		<td>(N - 1) x (velikost nejmen&scaron;&iacute;ho pevn&eacute;ho disku HDD)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>Zav&aacute;d&iacute; dvě vrstvy parity dat umožňuj&iacute;c&iacute; uložen&iacute; redundantn&iacute;ch dat v&nbsp;objemu odpov&iacute;daj&iacute;c&iacute;m velikosti dvou disků, což znamen&aacute; vy&scaron;&scaron;&iacute; stupeň redundance dat než u&nbsp;typu RAID 5.</li>
+			</ul>
+		</td>
+		<td>(N - 2) x (velikost nejmen&scaron;&iacute;ho pevn&eacute;ho disku HDD)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br />(sud&eacute; č&iacute;slo)</td>
+		<td>Polovina celkov&eacute;ho počtu disků HDD</td>
+		<td>
+			<ul>
+				<li>Poskytuje v&yacute;kon typu RAID 0 a ochranu dat na &uacute;rovni typu RAID 1, kdy se disky seskupuj&iacute; po dvou a data se zrcadl&iacute; z&nbsp;jednoho disku na druh&yacute;.</li>
+			</ul>
+		</td>
+		<td>(N / 2) x (velikost nejmen&scaron;&iacute;ho pevn&eacute;ho disku HDD)</td>
+	</tr>
+	<tr>
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Implementuje funkci proužkov&aacute;n&iacute; dat na &uacute;rovni bloku s&nbsp;paritou, kdy jsou data rozm&iacute;stěna např&iacute;č v&scaron;emi člensk&yacute;mi disky.</li>
+				<li>Někter&yacute; disk bude m&iacute;t v&iacute;ce paritn&iacute;ch informac&iacute;.</li>
+				<li>Doporučeno pro pole typu all-flash.</li>
+			</ul>
+		</td>
+		<td>(N - 1) x (velikost nejmen&scaron;&iacute;ho pevn&eacute;ho disku HDD)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>Pozn&aacute;mka:</h4>
+<ul>
+	<li>Typy RAID jsou kromě typu &bdquo;Basic&ldquo; dostupn&eacute; pouze na někter&yacute;ch modelech &ndash; z&aacute;lež&iacute; na počtu slotů pro disky a na počtu nainstalovan&yacute;ch disků.</li>
+	<li>Typ RAID F1 je k&nbsp;dispozici pouze u&nbsp;vybran&yacute;ch modelů. Dal&scaron;&iacute; informace se nach&aacute;zej&iacute; na <a href="https://www.synology.com/" target="_blank">webov&yacute;ch str&aacute;nk&aacute;ch Synology</a>.</li>
+	<li>&bdquo;N&ldquo; představuje celkov&yacute; počet disků v&nbsp;r&aacute;mci svazku.</li>
+</ul>
+</div><!--2--><h3>Synology Hybrid RAID (SHR)</h3>
+<p>Synology Hybrid RAID (SHR) představuje automatizovan&yacute; syst&eacute;m spr&aacute;vy pole RAID, jehož &uacute;čelem je zjednodu&scaron;it spr&aacute;vu &uacute;loži&scaron;tě a vyhovět potřeb&aacute;m nov&yacute;ch uživatelů, kteř&iacute; s&nbsp;poli RAID nejsou obezn&aacute;meni.</p>
+<p>Syst&eacute;m SHR umožňuje kombinovat různ&eacute; velikosti disků a vytvořit tak svazek &uacute;loži&scaron;tě s&nbsp;optimalizovanou kapacitou a v&yacute;konem, kter&yacute; m&eacute;ně pl&yacute;tv&aacute; m&iacute;stem na disku a poskytuje flexibilněj&scaron;&iacute; ře&scaron;en&iacute; &uacute;loži&scaron;tě. Při zapojen&iacute; dostatečn&eacute;ho počtu disků umožňuje syst&eacute;m SHR jedno- nebo dvoudiskovou redundanci &ndash; na svazku SHR tak může doj&iacute;t k&nbsp;z&aacute;vadě jednoho či dvou disků, aniž by do&scaron;lo ke ztr&aacute;tě dat.<br /><img src="about:blank" class="help_image"/></p><!--3--><h3>RAID 0</h3>
+<p>Typ RAID 0 kombinac&iacute; dvou či v&iacute;ce disků zvy&scaron;uje v&yacute;kon a kapacitu, nenab&iacute;z&iacute; ale ž&aacute;dnou toleranci při z&aacute;vadě. Z&aacute;vada na jednom disku způsob&iacute; ztr&aacute;tu v&scaron;ech dat v&nbsp;poli. Typ RAID 0 je vhodn&yacute; pro m&eacute;ně důležit&eacute; syst&eacute;my, kde se vyžaduje rovnov&aacute;ha mezi vysokou cenou a v&yacute;konem.<br /><img src="about:blank" class="help_image"/></p><!--4--><h3>RAID 1</h3>
+<p>Typ RAID 1 se nejčastěji použ&iacute;v&aacute; se dvěma disky. Data na disc&iacute;ch se zrcadl&iacute;, což poskytuje toleranci při z&aacute;vadě disku. Při čten&iacute; je v&yacute;kon vy&scaron;&scaron;&iacute;, zat&iacute;mco při z&aacute;pisu je podobn&yacute; jako u&nbsp;jedin&eacute;ho disku. Z&aacute;vada jednoho disku se tak může obej&iacute;t bez ztr&aacute;ty dat. Typ RAID 1 se často použ&iacute;v&aacute; tam, kde je kl&iacute;čov&aacute; tolerance při z&aacute;vadě, zat&iacute;mco požadavky na prostor a v&yacute;kon nejsou rozhoduj&iacute;c&iacute;.<br /><img src="about:blank" class="help_image"/></p><!--5--><h3>RAID 5</h3>
+<p>Typ RAID 5 poskytuje toleranci při z&aacute;vadě a vy&scaron;&scaron;&iacute; v&yacute;kon při čten&iacute;. Jsou zapotřeb&iacute; alespoň tři disky. Typ RAID 5 unese z&aacute;vadu jednoho disku. V&nbsp;př&iacute;padě z&aacute;vady disku se data z&nbsp;tohoto disku rekonstruuj&iacute; pomoc&iacute; parity naproužkovan&eacute; na ostatn&iacute;ch disc&iacute;ch. Když je pole RAID 5 ve stavu omezen&eacute;ho režimu, m&aacute; to v&yacute;razn&yacute; vliv na v&yacute;kon při čten&iacute; i z&aacute;pisu. Typ RAID 5 je ide&aacute;ln&iacute; tam, kde jsou prostor a n&aacute;klady důležitěj&scaron;&iacute; než v&yacute;kon.<br /><img src="about:blank" class="help_image"/></p><!--6--><h3>RAID 6</h3>
+<p>Typ RAID 6 je podobn&yacute; typu RAID 5 s&nbsp;t&iacute;m rozd&iacute;lem, že poskytuje jinou &uacute;roveň proužkov&aacute;n&iacute; a dok&aacute;že un&eacute;st dvě z&aacute;vady disku. Jsou zapotřeb&iacute; alespoň čtyři disky. Typ RAID 6 je d&iacute;ky t&eacute;to zv&yacute;&scaron;en&eacute; toleranci při z&aacute;vad&aacute;ch m&eacute;ně v&yacute;konn&yacute; než typ RAID 5. Typ RAID 6 je vhodn&yacute; tehdy, když jsou důležit&yacute;m faktorem prostor a n&aacute;klady a vyžaduje se, aby syst&eacute;m unesl v&iacute;ce z&aacute;vad disků.<br /><img src="about:blank" class="help_image"/></p><!--7--><h3>RAID 10</h3>
+<p>Typ RAID 10 představuje kombinaci v&yacute;hod typů RAID 1 a RAID 0. V&yacute;kon při čten&iacute; a z&aacute;pisu je vy&scaron;&scaron;&iacute;, av&scaron;ak při ukl&aacute;d&aacute;n&iacute; dat je dostupn&aacute; pouze polovina celkov&eacute;ho prostoru. Kvůli požadavku na čtyři a v&iacute;ce disků se jedn&aacute; o&nbsp;relativně n&aacute;kladn&eacute; ře&scaron;en&iacute;, kter&eacute; v&scaron;ak nab&iacute;z&iacute; skvěl&yacute; v&yacute;kon a z&aacute;roveň toleranci při z&aacute;vad&aacute;ch. Typ RAID 10 unese několik z&aacute;vad disků &ndash; za předpokladu, že k&nbsp;z&aacute;vad&aacute;m nedojde ve stejn&eacute; podskupině. Typ RAID 10 se v&yacute;borně hod&iacute; pro aplikace s&nbsp;čast&yacute;mi požadavky na čten&iacute; a z&aacute;pis, např. datab&aacute;zov&eacute; servery.<br /><img src="about:blank" class="help_image"/></p><!--8--><h3>RAID F1</h3>
+<p>Pole RAID F1 využ&iacute;v&aacute; mechanizmus pole RAID 5 a poskytuje toleranci při z&aacute;vadě a vy&scaron;&scaron;&iacute; v&yacute;kon při čten&iacute;. V&nbsp;poli RAID F1 bude m&iacute;t ale určit&yacute; disk v&iacute;ce paritn&iacute;ch informac&iacute;, č&iacute;mž se urychluje jeho st&aacute;rnut&iacute; a znemožňuje současn&eacute; ukončen&iacute; životnosti v&scaron;ech disků. To může v&nbsp;porovn&aacute;n&iacute; s&nbsp;polem RAID 5 m&iacute;rně ovlivnit jeho v&yacute;kon. Jsou zapotřeb&iacute; alespoň tři disky. Typ RAID F1 unese z&aacute;vadu jednoho disku. V&nbsp;př&iacute;padě z&aacute;vady disku se data z&nbsp;tohoto disku rekonstruuj&iacute; pomoc&iacute; parity naproužkovan&eacute; na ostatn&iacute;ch disc&iacute;ch. Když je pole RAID F1 ve stavu omezen&eacute;ho režimu, m&aacute; to v&nbsp;konečn&eacute;m důsledku v&yacute;razn&yacute; vliv na v&yacute;kon při čten&iacute; i&nbsp;z&aacute;pisu. Pole RAID F1 je ide&aacute;ln&iacute; pro pole typu all-flash.<br /><img src="about:blank" class="help_image"/></p>
+
+</body>
+</html>

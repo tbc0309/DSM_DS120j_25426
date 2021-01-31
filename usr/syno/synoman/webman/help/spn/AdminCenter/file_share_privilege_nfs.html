@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Carpeta compartida</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Asignar permisos de NFS</h2>
+<p>Puede asignar permisos de NFS a cualquier carpeta compartida y permitir a los clientes de Linux acceder a ella</p>
+<h4>Para asignar permisos de NFS a una carpeta compartida:</h4>
+<ol>
+<li>Seleccione la carpeta compartida que desea editar desde la lista de carpetas compartidas.</li>
+<li>Haga clic en <strong>Editar</strong>> <strong>Permisos de NFS</strong>.</li>
+<li>Haga clic en <b>Crear</b> para agregar una regla de NFS.</li>
+<li>Aparecerá una ventana emergente. Defina las siguientes opciones.</li>
+<li><strong>Nombre de host o IP:</strong> Introduzca la dirección IP del cliente NFS que accederá a la carpeta compartida. Puede especificar un host de tres formas:<ul>
+<li><strong>Host sencillo:</strong> El nombre de dominio totalmente cualificado o una dirección IP.</li>
+<li><strong>Comodines</strong> *, *.synology.com</li>
+<li><strong>Redes IP:</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>Privilegio:</strong> Seleccione permisos de lectura/escritura para el cliente NFS.</li>
+<li> <strong> Seguridad:</strong> Especifique el tipo de seguridad que se va a aplicar.<ul>
+  <li><strong>AUTH_SYS:</strong> Utilice el UID (identificador de usuario) y el GID (identificador de grupo) del NFS cliente para comprobar los permisos de acceso.</li>
+<li><strong>Autenticación Kerberos:</strong> Realice la autenticación Kerberos cuando el cliente NFS se conecte a la carpeta compartida. El cliente solo podrá acceder a la carpeta compartida tras superar la autenticación Kerberos.</li>
+<li><strong>Integridad Kerberos:</strong> Realice la autenticación Kerberos y garantice la integridad de los paquetes durante la transferencia de datos.</li>
+<li><strong>Privacidad Kerberos:</strong> Realice la autenticación Kerberos y cifre los paquetes de NFS durante la transferencia de datos, así evitará que usuarios malintencionados manipulen el tráfico de NFS.</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>: este campo le permite controlar los privilegios de acceso del usuario del cliente NFS. Seleccione una de las siguientes opciones:<ul>
+    <li><strong>Sin asignación:</strong> Permite a todos los usuarios del cliente NFS, incluidos los usuarios root, mantener los privilegios de acceso originales.</li>
+    <li><strong>Asignar root a admin:</strong> asigna a los clientes root de NFS unos privilegios de acceso equivalentes a los privilegios de acceso del usuario admin en su sistema.</li>
+    <li><strong>Asignar root a guest:</strong> asigna a los clientes root de NFS unos privilegios de acceso equivalentes a los privilegios de acceso del guest en su sistema.</li>
+    <li><strong>Asignar todos los usuarios a admin:</strong> Asigna a todos los clientes de NFS unos privilegios de acceso equivalentes a los privilegios de acceso del usuario admin en su sistema.</li>
+	<li><strong>Asignar todos los usuarios a guest:</strong> asigna a los todos los clientes de NFS unos privilegios de acceso equivalentes a los privilegios de acceso del guest en su sistema.</li>
+  </ul>
+</li>
+
+<li><strong>Habilitar asíncrono:</strong> si activa esta opción, su Synology NAS podrá responder a las peticiones de clientes NFS antes de que se complete cualquier cambio en los archivos, lo que proporciona un mayor rendimiento.</li>
+<li><strong>Permitir conexiones desde puertos no privilegiados (puertos superiores a 1024):</strong> Si activa esta opción permitirá a sus clientes de NFS utilizar puertos no privilegiados (es decir, puertos mayores de 1024) cuando se conecten a Synology NAS. </li>
+<li><strong>Permitir a los usuarios acceder a las subcarpetas montadas:</strong> Si activa esta opción permitirá a sus clientes de NFS que accedan a subcarpetas montadas.</li>
+<li>Haga clic en <b>OK</b> para terminar.</li>
+  <li>Haga clic en <b>OK</b> para aplicar los permisos NFS.</li>
+</ol>
+
+<div class="section">
+<h4>Observación:</h4>
+<ul>
+<li>Cuando el formato del nombre del servidor sea <strong>*.domain</strong>, la dirección IP del cliente NFS deberá tener el correspondiente registro DNS PTR, a fin de permitir a Synology NAS encontrar el nombre *.domain buscando la dirección IP correspondiente.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Tipos de seguridad:</h4>
+<p> Cuando acceda a una carpeta compartida a través de NFS con un cuenta específica de usuario: </p>
+<ul>
+<li>Si el tipo de seguridad <strong>AUTH_SYS</strong> se activa: El cliente debe tener exactamente el mismo UID (identificador de usuario) y GID (identificador de grupo) numérico en el cliente NFS y en Synology NAS, de lo contrario, al cliente se le asignarán los permisos de <strong>otros</strong> cuando acceda a la carpeta compartida. Para evitar conflictos de permisos puede seleccionar <strong>Asignar todos los usuarios a admin</strong> desde <strong>Squash</strong> o dar permisos "Everyone" en la carpeta compartida.</li>
+<li>Si los tipos de seguridad <strong>Kerberos (krb5, krb5i, krb5p)</strong> se activan: Deberá ir a <strong>Win/Mac/NFS</strong> > <strong>Servicio NFS</strong> > <strong>Configuración Kerberos</strong> > <strong>Asignación de ID</strong> para asignar el cliente NFS a un usuario específico, o unirse a un dominio Windows /LDAP con la cuenta de usuario correspondiente, de lo contrario al cliente se le asignarán los permisos de <strong>guest</strong> cuando acceda a la carpeta compartida.</li>
+<li>Si el sistema de archivos del dispositivo externo en el que se crean las carpetas compartidas es NTFS o FAT, la opción <strong>Asignar todos los usuarios a admin</strong> se aplicará forzosamente.</li>
+</ul>
+<p>Para utilizar los tipos de seguridad Kerberos para conectarse a Synology NAS, la autenticación Kerberos se debe configurar en <strong>Win/Mac/NFS</strong> > <strong>Servicio NFS</strong> > <strong>Configuración Kerberos</strong>.</p>
+</div>
+
+</body>
+</html>

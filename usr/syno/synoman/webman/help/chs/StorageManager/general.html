@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>常规</h2>
+
+<p>存储管理器可让用户管理其 Synology 产品中的所有存储空间。为简化存储管理并创建带数据保护的灵活存储空间，Synology DSM 支持多种类型的存储池。</p>
+
+<h4><a href="storage_pool.html">存储池</a></h4>
+<p>通过 Synology NAS，您可将多个硬盘合并为一个称之为存储池的单一存储设备。Synology NAS 提供以下类型的存储池：</p>
+<ul>
+	<li><strong>提供更好性能的存储池</strong>：<ul>
+			<li>将所有可用存储容量分配给单个存储空间。</li>
+			<li>性能提升，但其存储空间管理的灵活性降低。</li>
+			<li>允许在存储空间上创建多个 iSCSI LUN（常规文件）。</li>
+			<li>最多支持一个 RAID 阵列。</li>
+		</ul>
+	</li>
+	<li><strong>提供更高灵活性的存储池</strong>：<ul>
+			<li>支持在一个存储池中创建多个存储空间。</li>
+			<li>存储空间管理灵活性提高。</li>
+			<li>允许在存储空间上创建多个 iSCSI LUN（常规文件）。</li>
+			<li>支持在一个存储池下合并多个 RAID 阵列（当其配置为 RAID 5、RAID 6 或 RAID F1 时）。</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>RAID 类型</h4>    
+<p>创建存储池时，先选择 RAID 类型。不同类型的 RAID 可提供不同级别的数据保护、存储功能及性能。Synology NAS 目前支持以下类型的 RAID：</p>
+<ul>
+	<li><strong>Basic</strong>：使用一个硬盘来创建存储池。Basic 存储池不提供数据冗余。</li>
+	<li><strong>JBOD*</strong>：至少合并两个硬盘来创建存储池。JBOD 存储池不提供数据冗余。JBOD 存储池的可用容量等于该存储池中所有硬盘的总容量。JBOD 支持不同容量硬盘的合并。</li>
+	<li><strong>RAID 0*</strong>：至少合并两个硬盘来创建存储池。RAID 0 不提供数据冗余。如果一个组成硬盘发生故障，存储池中的数据将丢失。RAID 0 存储池的可用容量等于该存储池中所有组成硬盘的总容量。RAID 0 支持不同容量硬盘的合并。</li>
+	<li><strong>RAID 1*</strong>：合并 2-4 个硬盘来创建存储池。系统会将相同数据写入到各硬盘。只要一个硬盘工作正常，RAID 1 便可提供数据保护。RAID 1 存储池的可用容量等于最小组成硬盘的容量。</li>
+	<li><strong>RAID 5*</strong>：至少合并三个硬盘来创建存储池，并在所有的组成硬盘上存放数据以及奇偶校验信息。RAID 5 提供数据冗余。如果一个组成硬盘发生故障，系统可使用其他组成硬盘上的奇偶校验信息来重建。支持在存储池上创建多个存储空间时合并多个 RAID 阵列。RAID 5 存储池的可用容量 = <span class="note_content">合并 RAID 阵列的总容量。RAID 阵列容量 =（硬盘数 - 1）x（最小硬盘容量）</span></li>
+	<li><strong>RAID 6*</strong>：至少合并四个硬盘来创建存储池，并在所有的组成硬盘上存放数据以及奇偶校验信息。RAID 6 提供数据冗余。即使两个组成硬盘发生故障，系统仍可使用其他组成硬盘上的奇偶校验信息来重建。支持在存储池上创建多个存储空间时合并多个 RAID 阵列。RAID 6 存储池的可用容量 = <span class="note_content">合并 RAID 阵列的总容量。RAID 阵列容量 =（硬盘数 - 2）x（最小硬盘容量）</span></li>
+	<li><strong>RAID 10*</strong>：至少合并四个硬盘来创建存储池。硬盘数必须为偶数。RAID 10 兼具 RAID 0 的运行性能和 RAID 1 的数据保护级别。RAID 10 存储池的可用容量 = <span class="note_content">（最小硬盘容量）X（硬盘数/2）</span></li>
+	<li><strong>RAID F1*</strong>：此 RAID 类型为固态硬盘 (SSD) 而设计。它至少合并三个 SSD 来创建存储池，在所有的组成硬盘上存放数据和奇偶校验信息，同时在特定 SSD 上写入更多的奇偶校验位，以防止多个 SSD 同时出现故障。RAID F1 提供数据冗余。如果一个成员 SSD 发生故障，系统可使用其他成员 SSD 上的奇偶校验信息来重建。支持在存储池上创建多个存储空间时合并多个 RAID 阵列。RAID F1 存储池的可用容量 = <span class="note_content">合并 RAID 阵列的总容量。RAID 阵列容量 =（硬盘数 - 1）x（最小硬盘容量）</span></li>
+</ul>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>带 <strong>*</strong> 的 RAID 类型仅在有足够硬盘插槽的 NAS 型号中可用。若要了解您的型号支持哪种 RAID 类型，请前往 <a href="https://www.synology.com" target="_blank">www.synology.com</a> 查看型号规格。</li>
+</ul>
+</div>
+
+</body>
+</html>

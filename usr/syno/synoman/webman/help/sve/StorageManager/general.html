@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Allm&auml;nt</h2>
+
+<p>Lagringshanterare hj&auml;lper anv&auml;ndaren att hantera alla lagringsutrymmen p&aring; sin Synology-produkt. Synology DSM st&ouml;der flera typer av RAID Groups f&ouml;r att f&ouml;renkla lagringshanteringen och att skapa flexibla lagringsutrymmen med dataskydd.</p>
+
+<h4><a href="raid.html">RAID Group</a></h4>
+<p>Med Synology NAS kan du kombinera flera h&aring;rddiskar till en enskild lagringsenhet kallad en RAID Group. Synology NAS tillhandah&aring;ller f&ouml;ljande typer av RAID Groups:</p>
+<ul>
+	<li><strong>RAID Group f&ouml;r en enskild volym eller iSCSI LUN (blockniv&aring;)</strong>:
+		<ul>
+			<li>Tilldelar all tillg&auml;nglig kapacitet till en enskild volym eller iSCSI LUN (blockniv&aring;).</li>
+			<li>Ger b&auml;ttre prestanda med mindre flexibilitet g&auml;llande lagringshantering.</li>
+			<li>Till&aring;ter att flera iSCSI LUNs (Vanliga filer) skapas p&aring; volymer.</li>
+			<li>Har st&ouml;d f&ouml;r maximalt en RAID Array.</li>
+		</ul>
+	</li>
+	<li><strong>RAID Group f&ouml;r flera volymer eller iSCSI LUNs (blockniv&aring;)</strong>:
+		<ul>
+			<li>St&ouml;der skapande av flera volymer eller iSCSI LUNs (blockniv&aring;) i en RAID Group.</li>
+			<li>Ger b&auml;ttre flexibilitet g&auml;llande lagringshantering.</li>
+			<li>Till&aring;ter att flera iSCSI LUNs (Vanliga filer) skapas p&aring; volymer.</li>
+			<li>Har st&ouml;d f&ouml;r att kombinera flera RAID Arrays under en RAID Group (vid konfiguration som RAID 5<span class="enable-grantley"></span> <span class="disable-grantley">eller </span>RAID 6<span class="enable-grantley"> eller RAID F1</span>).</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>RAID-typ</h4>    
+<p>V&auml;lj f&ouml;rst en RAID-typ n&auml;r du skapar en RAID Group. Olik RAID-typer erbjuder olika niv&aring;er av dataskydd, lagringsegenskaper och prestanda. Synology NAS st&ouml;der f&ouml;r n&auml;rvarande f&ouml;ljande RAID-typer:</p>
+<ul>
+	<li><strong>Basic</strong>: Anv&auml;nder en h&aring;rddisk f&ouml;r att skapa en RAID Group. Grundl&auml;ggande RAID Groups erbjuder inte dataredundans.</li>
+	<li><strong>JBOD*</strong>: Kombinerar minst tv&aring; h&aring;rddiskar f&ouml;r att skapa en RAID Group. JBOD RAID Groups erbjuder inte dataredundans. Den tillg&auml;ngliga kapaciteten hos en JBOD RAID Group motsvarar den totala kapaciteten hos alla h&aring;rddiskar som &auml;r inkluderade i gruppen. JBOD st&ouml;der kombination av h&aring;rddiskar med olika storlekar.</li>
+	<li><strong>RAID 0*</strong>: Kombinerar minst tv&aring; h&aring;rddiskar f&ouml;r att skapa en RAID Group. RAID 0 erbjuder inte dataredundans. Om en enskild medlemsdisk kraschar s&aring; f&ouml;rloras data i denna RAID Group. Den tillg&auml;ngliga kapaciteten f&ouml;r en RAID 0 Group &auml;r lika med medlemsdiskarnas sammansatta kapacitet. RAID 0 st&ouml;der kombination av h&aring;rddiskar med olika storlekar.</li>
+	<li><strong>RAID 1*</strong>: Kombinerar 2-4 h&aring;rddiskar f&ouml;r att skapa en RAID Group. Systemet kommer att skriva identisk data f&ouml;r varje h&aring;rddisk. RAID 1 erbjuder dataskydd s&aring; l&auml;nge en h&aring;rddisk fungerar normalt. Den tillg&auml;ngliga kapaciteten f&ouml;r en RAID 1 Group &auml;r lika med storleken p&aring; den minsta medlemsdisken.</li>
+	<li><strong>RAID 5*</strong>: Kombinerar minst tre h&aring;rddiskar f&ouml;r att skapa en RAID Group och f&ouml;rdelar b&aring;de data och paritetsdata &ouml;ver samtliga medlemsdiskar. RAID 5 erbjuder dataredundans. Om en medlemsdisk kraschar kan systemet &aring;terskapas med hj&auml;lp av paritetsinformation fr&aring;n andra medlemsdiskar. Har st&ouml;d f&ouml;r att kombinera flera RAID Arrays n&auml;r skapad i en RAID Group f&ouml;r flera volymer eller iSCSI LUNs (Blockniv&aring;). Den tillg&auml;ngliga kapaciteten f&ouml;r en RAID 5 Group = <span class="note_content"> Total kapacitet f&ouml;r kombinerade RAID Arrays. RAID Array kapacitet = (antalet h&aring;rddiskar - 1) x (Kapacitet f&ouml;r minsta h&aring;rddisk)</span></li>
+	<li><strong>RAID 6*</strong>: Kombinerar minst fyra h&aring;rddiskar f&ouml;r att skapa en RAID Group och f&ouml;rdelar b&aring;de data och paritetsdata &ouml;ver samtliga medlemsdiskar. RAID 6 erbjuder dataredundans. &Auml;ven om tv&aring; medlemsdiskar kraschar kan systemet &aring;terskapas med hj&auml;lp av paritetsinformation fr&aring;n andra medlemsdiskar. Har st&ouml;d f&ouml;r att kombinera flera RAID Arrays n&auml;r skapad i en RAID Group f&ouml;r flera volymer eller iSCSI LUNs (Blockniv&aring;). Den tillg&auml;ngliga kapaciteten f&ouml;r en RAID 6 Group = <span class="note_content">Total kapacitet f&ouml;r kombinerade RAID Arrays. RAID Array kapacitet = (antalet h&aring;rddiskar - 2) x (Kapacitet f&ouml;r minsta h&aring;rddisk)</span></li>
+	<li><strong>RAID 10*</strong>: Kombinerar minst fyra h&aring;rddiskar f&ouml;r att skapa en RAID Group. Antalet h&aring;rddiskar m&aring;ste vara j&auml;mnt. RAID 10 har f&ouml;rutom samma prestanda som RAID 0 &auml;ven samma niv&aring; av dataskydd som RAID 1. Tillg&auml;ngliga kapacitet f&ouml;r RAID 10 Group = <span class="note_content">(den minsta h&aring;rddiskens kapacitet) X (antal h&aring;rddiskar / 2)</span></li>
+	<li class="enable-grantley"><strong>RAID F1*</strong>: Den h&auml;r RAID-typen &auml;r avsedd f&ouml;r solid state-diskar (SSD). Den kombinerar minst tre SSD:er f&ouml;r att skapa en RAID Group och stripar b&aring;de data och paritetsinformation &ouml;ver alla h&aring;rddiskar under tiden som fler paritetsbitar skrivs till en specifik SSD f&ouml;r att f&ouml;rhindra flera SSD:er fr&aring;n att g&aring; s&ouml;nder p&aring; samma g&aring;ng. RAID F1 tillhandah&aring;ller dataredundans. Om en medlems-SSD kraschar kan systemet &aring;terskapas med hj&auml;lp av paritetsinformation p&aring; den andra medlems-SSD. Har st&ouml;d f&ouml;r att kombinera flera RAID Arrays n&auml;r skapad i en RAID Group f&ouml;r flera volymer eller iSCSI LUNs (Blockniv&aring;). Den tillg&auml;ngliga kapaciteten f&ouml;r en RAID F1 Group = <span class="note_content">Total kapacitet f&ouml;r kombinerade RAID Arrays. RAID Array-kapacitet&nbsp;= (antal diskar - 1) x (den minsta h&aring;rddiskens kapacitet)</span></li>
+</ul>
+
+<div class="section"><h4>Obs:</h4>
+<ul>
+	<li>RAID-typer med <strong>*</strong> finns bara tillg&auml;ngliga p&aring; NAS-modeller med tillr&auml;ckligt m&aring;nga h&aring;rddiskfack.</li>
+</ul>
+</div>
+
+<h4><a href="space.html">Volymtyp</a></h4>
+<p>Beroende p&aring; den underliggande typen av RAID Group s&aring; finns det tv&aring; typer av volymer:</p>
+<ul>
+	<li><strong>Volym p&aring; RAID Group f&ouml;r enskild volym eller iSCSI LUN (Blockniv&aring;)</strong>
+		<ul>
+			<li>Allokerar all lagringskapacitet p&aring; en RAID Group till en enkel volym. Ger b&auml;ttre prestanda men mindre flexibilitet g&auml;llande hantering.</li>
+			<li>Till&aring;ter att flera iSCSI LUNs (Vanliga filer) skapas p&aring; volymer.</li>
+		</ul>
+	</li>
+	<li><strong>Volym p&aring; RAID Group f&ouml;r flera volymer eller iSCSI LUNs (blockniv&aring;)</strong>
+		<ul>
+			<li>Tilldelar en angiven del av lagringskapaciteten i en RAID Group f&ouml;r att skapa en volym.  Ger b&auml;ttre hanteringsflexibilitet och g&ouml;r s&aring; att du kan ut&ouml;ka volymstorleken eller skapa extra volymer efter behov.</li>
+			<li>Till&aring;ter att flera iSCSI LUNs (Vanliga filer) skapas p&aring; volymer.</li>
+		</ul>
+	</li>
+</ul>
+
+<h4 class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Volymformat</h4>
+<p class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Beroende p&aring; vilket filsystem som anv&auml;nds finns det tv&aring; volymformat:</p>
+<ul class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">
+	<li><strong>Nytt volymformat</strong>: Det h&auml;r formatet anv&auml;nder filsystemet <strong>Btrfs</strong>. Den minsta storleken p&aring; en volym med det h&auml;r formatet m&aring;ste vara minst 10 GB. Den har st&ouml;d f&ouml;r f&ouml;ljande nya funktioner med vilka du mer enkelt kan hantera dina data:
+		<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">Snapshot delad mapp</a>:</strong> Snapshotet registrerar all datastatus vid den tidpunkt den togs. Om en anv&auml;ndare oavsiktligt &auml;ndrar eller raderar data p&aring; en volym med snapshots kan du snabbt &aring;terst&auml;lla data tillbaka till den tidigare tidpunkten d&aring; snapshotet togs.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">Kvot delad mapp</a>:</strong> Du kan st&auml;lla in maximal kapacitet f&ouml;r varje mapp.</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">Anv&auml;ndarkvot</a> baserat p&aring; delad mapp:</strong> Du kan kontrollera hur mycket utrymme inom en delad mapp som kan anv&auml;ndas av varje anv&auml;ndare.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">Avancerat dataintegritetsskydd</a>:</strong> Delad mapp &auml;r skyddad med strategierna CRC32-checksumma och kopiera vid skrivning.</li>
+		</ul>
+	</li>
+	<li><strong>Traditionellt volymformat</strong>: Det h&auml;r formatet anv&auml;nder filsystemet <strong>ext4</strong>. Den minsta storleken p&aring; en volym med det h&auml;r formatet m&aring;ste vara minst 10 GB. Eftersom filsystemet ext4 st&ouml;ds av de flesta Synology-produkter kan du enkelt migrera din volym som har det h&auml;r formatet till en annan Synology NAS.</li>
+</ul>
+
+</body>
+</html>

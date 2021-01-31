@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Vytvoření sdílené složky – Nápověda Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Shared folders are the basic directories where you can store and manage files and folders on your Synology NAS. This article shows you how to create a shared folder.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Vytvoření sdílené složky</h2>
+<p>Sdílené složky představují základní adresáře, do kterých je na zařízení Synology NAS možné ukládat soubory a složky a provádět jejich správu. Než začnete jakékoli soubory ukládat, je nutné v systému DSM vytvořit alespoň jednu sdílenou složku. </p>
+
+<h4>Vytvoření sdílené složky:</h4>
+<ol>
+	<li>Přejděte do části <strong>Ovládací panel</strong> > <strong>Sdílená složka</strong> a klikněte na možnost <strong>Vytvořit</strong>.<br /><img src="about:blank" class="help_image"/></li>
+	<li>Zadejte název a popis sdílené složky.<br /><img src="about:blank" class="help_image "/></li>
+	<li>Vyberte úložiště, na kterém chcete sdílenou složku vytvořit (pokud existuje pouze jedno úložiště, potom tento krok přeskočte).<br /><img src="about:blank" class="help_image"/></li>
+	<li>V případě potřeby upravte následující možnosti:<br /><img src="about:blank" class="help_image"/><ul>
+			<li><strong>Skrýt tuto sdílenou složku v části „Místa v síti“:</strong> Brání zobrazení sdílené složky v části „Síť“ v Průzkumníku souborů Windows. Tato možnost nemá vliv na přístupová oprávnění sdílené složky.<div class="section"><h4>Poznámka:</h4>
+				<ul>
+				<li>Skrytí sdílené složky v části „Místa v síti“ nemá vliv na přístupová oprávnění. Přístupová oprávnění ke skryté sdílené složce se nezmění. Uživatelé, kteří mají správná přístupová oprávnění ke sdílené složce, mohou stále složku otevřít zadáním cesty „\\název serveru\název sdílené složky“.</li>
+				</ul>
+				</div>
+			</li>
+			<li><strong>Skrýt podsložky a soubory uživatelů bez oprávnění:</strong> Pokud je povolena možnost <strong>Skrýt podsložky a soubory uživatelů bez oprávnění</strong>, potom pokud se prostřednictvím protokolu sdílení souborů systému Windows o přístup do sdílené složky pokusí uživatel bez oprávnění ke čtení, nebude si moci tento uživatel podsložky nebo soubory v rámci sdílené složky prohlížet. Díky tomu nebude docházet ke zmatkům v situaci, kdy se uživatelé připojují k produktům Synology, ale zobrazuje se jim velký počet souborů a podsložek, které nemohou otevřít.<div class="section"><h4>Poznámka:</h4>
+				<ul>
+					<li>Tato funkce je podporována pouze v rámci protokolu sdílení souborů systému Windows.</li>
+					<li>Úprava nastavení oprávnění jednotlivých složek a souborů se provádí ve službě File Station kliknutím pravým tlačítkem myši. V rozevírací nabídce vyberte možnost <strong>Vlastnosti</strong> a klikněte na kartu <strong>Oprávnění</strong>.</li>
+					<li>Při povolení možnosti <strong>Skrýt podsložky a soubory uživatelů bez oprávnění</strong> nebude před uživateli bez oprávnění skryta samotná sdílená složka. Skryjí se pouze podsložky a soubory v rámci této sdílené složky.</li>
+				</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li><strong>Povolit koš:</strong> Pokud se soubory ze sdílené složky odstraní, přesunou se do složky s názvem <strong>#recycle</strong>. Přístup ke koši lze povolit pouze uživatelům ze skupiny <strong>administrators</strong>.</li><a name="sharequota"></a><li class=""><strong>Povolit kvótu sdílené složky:</strong> Chcete-li pro jednotlivé sdílené složky stanovit maximální kapacitu, zaškrtněte políčko <strong>Povolit kvótu sdílené složky</strong> a do následujícího pole zadejte maximální kapacitu (např. 10 GB).<div class="section"><h4>Poznámka:</h4>
+		<ul>
+			<li>Možnost <strong>Povolit kvótu sdílené složky</strong> bude pro sdílené složky k dispozici pouze tehdy, pokud úložiště používá souborový systém Btrfs.</li>
+			<li>Celkové využití úložiště adresáři <strong>home</strong> všech uživatelů nemůže překročit kvótu složky „<strong>homes</strong>“.</li>
+		</ul>
+		</div>
+	</li><a name="integrity_protection"></a><li><strong>Povolit kontrolní součet dat kvůli pokročilé ochraně integrity:</strong> Chcete-li chránit sdílenou složku strategiemi <strong>kontrolní součet CRC32</strong> a <strong>copy-on-write</strong>, je možné při vytváření sdílené složky povolit kontrolní součet zajišťující pokročilou ochranu integrity dat. Strategie kontrolní součet CRC32 se používá ke kontrole, jestli data zůstávají totožná oproti času, kdy byla původně zapsána, a systém k opravě poškozených dat automaticky použije redundanci svazku RAID. Strategie copy-on-write pomáhá zlepšovat konzistenci dat při abnormálním vypnutí systému.<div class="section"><h4>Poznámka:</h4>
+		<ul>
+			<li>Tato možnost je k dispozici pouze u svazků využívajících souborový systém Btrfs.</li>
+			<li>Tuto možnost je možné povolit nebo zakázat pro každou sdílenou složku při jejím vytváření. Tuto možnost není možné po vytvoření sdílené složky měnit.</li>
+			
+			<li>Povolením této možnosti umožníte systému provádět scrubbing dat v plném rozsahu. <a href="../StorageManager/storage_pool_data_scrubbing.html">Další informace o scrubbingu dat</a></li>
+			<li>Z důvodu zajištění kvality služby nedoporučujeme kontrolní součet dat povolit, pokud se sdílená složka používá pro následující služby:<ul>
+				<li>Hostování databází nebo virtuálních počítačů</li>
+				<li>Ukládání nahrávek videa ze služby Surveillance Station</li>
+				<li>Spouštění služeb vyžadujících malý a náhodný vzorec zápisu</li>
+			</ul>
+			</li>
+			
+		</ul>
+		</div>
+	</li><a name="btrfs_compression"></a><li><strong>Povolit komprimaci souborů</strong>: Data ve vytvořené sdílené složce souborový systém Btrfs automaticky komprimuje, aby ušetřil úložné místo. Při načítání a používání se data automaticky dekomprimují.<div class="section"><h4>Poznámka:</h4>
+		<ul>
+			<li>Tato možnost je dostupná pouze tehdy, když sdílenou složku vytvoříte na svazku Btrfs nebo když je povolena možnost <strong>Rozšířená ochrana integrity dat</strong>.</li>
+			<li>Tuto možnost není možné po vytvoření sdílené složky měnit.</li>
+			<li>Míra komprimace se liší podle typu dat: Textové soubory mívají nejvyšší míru komprimace, kdežto multimediální soubory (např. obrázky, hudba nebo videa) se nemusí komprimovat dobře, protože jsou pro výstup už zkomprimované.</li>
+            <li>Tuto volbu nelze povolit, pokud je povoleno šifrování sdílené složky.</li>
+		</ul>
+		</div>
+	</li>
+	<li><strong>Šifrovat tuto sdílenou složku:</strong> Pokud chcete sdílenou složku šifrovat, postupujte takto:<ol>
+			<li>Zadejte a potvrďte nový šifrovací klíč. Šifrovací klíč nesmí obsahovat čárky (,) nebo symbol rovná se (=). </li>
+			<li>V případě potřeby je možné zaškrtnutím možnosti <strong>Přidat šifrovací klíč do Správce klíčů</strong> šifrovanou složku připojovat při spuštění systému automaticky. Pokud je tato možnost zakázána, šifrovaná složka se při příštím restartování zařízení Synology NAS odpojí. Chcete-li zobrazit odpojenou složku nebo k ní získat přístup, je nutné složku připojit ručně importováním nebo zadáním šifrovacího klíče.</li>
+		</ol>
+	</li>
+	<li>Postup dokončíte kliknutím na možnost <strong>OK</strong>.</li>
+	
+	
+<div class="section"><h4>Poznámka:</h4>
+	<ul>
+	<li>Některé funkce a možnosti sdílené složky podporuje pouze systém VDSM a modely s následujícími architekturami balíčků: Apollo Lake, Avoton, Braswell, Broadwell, Bromolow, Cedarview a Grantley. Architekturu balíčku podporovanou vaším modelem zjistíte v <a href="https://www.synology.com/en-us/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">tomto článku</a>.</li>
+	</ul>
+</div>
+	
+</ol>
+
+<div class="section"><h4>Pravidla pojmenování sdílených složek:</h4>
+<ul>
+	<li>V názvech sdílených složek se rozlišují velká a malá písmena a názvy mohou obsahovat 1 až 32 znaků. Názvy nesmí obsahovat následující znaky: <strong>! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~</strong></li>
+	<li>Následující názvy jsou vyhrazeny pro použití systémem: <strong>.</strong>, <strong>..</strong>, <strong>global</strong>, <strong>home</strong>, <strong>homes</strong>, <strong>printers</strong>, <strong>public</strong>, <strong>satashare</strong>, <strong>surveillance</strong>, <strong>usbbackup</strong>, <strong>usbshare</strong>. </li>
+	<li>Prvním znakem názvu sdílené složky nesmí být znaménko mínus nebo mezera a posledním znakem nesmí být znak mezery.</li>
+	<li>V <strong>popisu</strong> sdílené složky se rozlišují velká a malá písmena a popis je omezen na 64 zobrazitelných znaků Unicode.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>Šifrování sdílených složek:</h4>
+<p>256bitové šifrování AES chrání data blokováním všech neoprávněných pokusů o přístup k datům. Po zašifrování sdílené složky není možné bez šifrovacího klíče získat k šifrovaným datům přístup nebo tato data upravovat, a to ani tehdy, když dojde k vyjmutí pevných disků ze zařízení Synology NAS a jejich připojení k jinému zařízení.</p>
+</div>
+
+<div class="section"><h4>Poznámka:</h4>
+<ul>
+	<li>Délka názvu souboru nebo složky v šifrované sdílené složce nesmí překročit 143 anglických znaků nebo 47 asijských (CJK) znaků; pokud přistupujete ke sdílené složce pomocí systému Mac OS, délka názvu souboru nebo složky v šifrované sdílené složce nesmí překročit 130 anglických znaků nebo 43 asijských (CJK) znaků.</li>
+	<li>K šifrovaným sdíleným složkám nelze přistupovat přes protokol NFS.</li>
+	<li>Pokud pomocí tlačítka Reset, nacházejícího se na zařízení Synology NAS, obnovíte hesla na výchozí hodnoty, zašifrované sdílené složky se odpojí a možnost automatického připojení šifrovaných sdílených složek se zakáže.</li>
+	<li>Šifrované sdílené složky jsou podporovány pouze v režimu s vysokým oprávněním (platí pouze pro balíček Dockerx64). Chcete-li používat tuto funkci, přejděte do balíčku Docker v hostitelském systému DSM, vyberte systém <strong>Docker DSM</strong>, u kterého chcete šifrované sdílené složky povolit, klikněte na možnost <strong>Upravit</strong> a zaškrtněte políčko vedle možnosti <strong>Spustit kontejner s vysokými oprávněními</strong>.</li>
+</ul>
+</div>
+
+</body>
+</html>

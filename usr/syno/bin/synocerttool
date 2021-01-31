@@ -1,0 +1,53 @@
+#!/bin/sh
+# Copyright (c) 2000-2015 Synology Inc. All rights reserved.
+
+SSL_ROOT="/usr/syno/etc/ssl"
+SERVER_KEY_PATH="$SSL_ROOT/ssl.key/server.key"
+SERVER_CRT_PATH="$SSL_ROOT/ssl.crt/server.crt"
+SERVER_INTERCRT_PATH="$SSL_ROOT/ssl.intercrt/server-ca.crt"
+CA_KEY_PATH="$SSL_ROOT/ssl.key/ca.key"
+CA_CRT_PATH="$SSL_ROOT/ssl.crt/ca.crt"
+BAD_PARAMETER=5
+
+EchoAndExit() {
+	if [ -z "$1" ]; then
+		exit $BAD_PARAMETER
+	fi
+	if [ -e "$1" ]; then
+		echo "$1"
+		exit 0
+	fi
+	exit 1
+}
+
+case $1 in
+	"--verify-intercrt-chain")
+		if [ -e "$SERVER_INTERCRT_PATH" ]; then
+			exit 0
+		fi
+		exit 2
+		;;
+	"--verify-root-chain")
+		if /usr/bin/openssl verify -CAfile $CA_CRT_PATH $SERVER_CRT_PATH 2>/dev/null | grep "$SERVER_CRT_PATH" | grep "OK" >/dev/null 2>&1; then
+			exit 0
+		fi
+		exit 1
+		;;
+	"--server-key")
+		EchoAndExit "$SERVER_KEY_PATH"
+		;;
+	"--server-crt")
+		EchoAndExit "$SERVER_CRT_PATH"
+		;;
+	"--server-intercrt")
+		EchoAndExit "$SERVER_INTERCRT_PATH"
+		;;
+	"--root-key")
+		EchoAndExit "$CA_KEY_PATH"
+		;;
+	"--root-crt")
+		EchoAndExit "$CA_CRT_PATH"
+		;;
+	*)
+		exit $BAD_PARAMETER
+esac

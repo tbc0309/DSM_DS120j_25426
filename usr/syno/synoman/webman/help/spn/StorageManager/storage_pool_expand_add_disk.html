@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>Agregar unidades para ampliar la capacidad del grupo de almacenamiento</h2>
+
+<p>Si Synology NAS tiene ranuras para unidades vac&iacute;as, puede instalar unidades adicionales y agregarlas a un grupo de almacenamiento existente. En este art&iacute;culo se explica c&oacute;mo ampliar un grupo de almacenamiento mediante la instalaci&oacute;n de unidades adicionales.</p>
+
+<p>Es posible agregar unidades a grupos de almacenamiento en las siguientes configuraciones de RAID:</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID 5</li>
+	<li>RAID 6</li>
+	<li>RAID F1</li>
+	<li>Un Synology Hybrid RAID (SHR) que consta de al menos 2 unidades</li>
+</ul>
+
+<div class="section"><h4>Observaci&oacute;n:</h4>
+<ul>
+	<li>El estado del disco duro a&ntilde;adido debe ser <strong>Iniciado</strong> o <strong>No iniciado</strong>.</li>
+</ul>
+</div>
+	
+<h4>Requisitos de las unidades:</h4>
+
+<p>Aseg&uacute;rese de que las unidades que desea a&ntilde;adir a su Synology NAS cumplen los siguientes requisitos:</p>
+<ul>
+	<li>La configuraci&oacute;n de RAID o SHR se debe crear con unidades del mismo tipo. El uso de unidades de diferentes tipos afectar&aacute; a la fiabilidad y el rendimiento del sistema. No se admiten tipos de unidades mixtas para la configuraci&oacute;n de RAID o SHR, como se muestra a continuaci&oacute;n:<ul>
+	<li>Unidades SATA y unidades SAS</li>
+	<li>Unidades nativas 4K y unidades nativas no 4K</li>
+	</ul>
+	</li>
+	<li><strong>Para SHR</strong>: La capacidad de la unidad que se propone a&ntilde;adir debe ser igual o superior a la de la unidad m&aacute;s grande del grupo de almacenamiento, o igual a cualquiera de las unidades en el grupo de almacenamiento.</br><span class="note_head">Ejemplo:</span> Si un grupo de almacenamiento SHR est&aacute; compuesto por tres unidades (2 TB, 1,5 TB y 1 TB), recomendamos que la unidad reci&eacute;n a&ntilde;adida tenga al menos 2 TB para un mejor uso de la capacidad. Puede a&ntilde;adir unidades de 1,5&nbsp;TB y 1&nbsp;TB, pero tenga en cuenta que no se utilizar&aacute; parte de la capacidad de la unidad de 2&nbsp;TB.</li>
+	<li><strong>Para RAID 5, RAID 6 y RAID F1</strong>: La capacidad de la unidad que desea a&ntilde;adir debe ser igual o superior a la de la unidad m&aacute;s peque&ntilde;a del grupo de almacenamiento.</br><span class="note_head">Ejemplo:</span> Si un grupo de almacenamiento RAID 5, RAID 6 o RAID F1 est&aacute; compuesto por tres unidades (2 TB, 1,5 TB y 1 TB), la capacidad de la nueva unidad debe ser de al menos 1 TB.</li>
+</ul>
+
+
+<div class="section"><h4>Observaci&oacute;n:</h4>
+<ul>
+	<li>SHR (Synology Hybrid RAID) est&aacute; disponible solo en modelos espec&iacute;ficos. Visite <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">esta p&aacute;gina</a> para comprobar si su modelo tiene compatibilidad limitada con SHR.</li>
+	<li>RAID F1 solo est&aacute; disponible en modelos espec&iacute;ficos. Visite <a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank">aqu&iacute;</a> para comprobar si su modelo es compatible con RAID F1.</li>
+	<li>Recomendamos el uso de unidades incluidas en la <a href="https://www.synology.com/compatibility" target="_blank">lista de compatibilidad de productos de Synology</a> para evitar problemas. El uso de unidades incompatibles puede reducir el rendimiento del sistema e incluso provocar la p&eacute;rdida de datos.</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">Para agregar una unidad a un grupo de almacenamiento:</a></h4>
+<p>Antes de comenzar, aseg&uacute;rese de que el estado del grupo de almacenamiento que desea ampliar es <strong>En buen estado</strong>. Si el estado del grupo de almacenamiento no es correcto, siga las acciones recomendadas que se muestran debajo del estado para corregir problemas en las unidades. Despu&eacute;s, siga los pasos que se indican a continuaci&oacute;n para a&ntilde;adir una unidad a un grupo de almacenamiento:</p>
+	
+<ol>
+	<li>Apague su Synology NAS.</br> <span class="note_head">Observaci&oacute;n:</span> Omita este paso si su Synology NAS admite el intercambio en caliente.</li>
+	<li>Inserte la nueva unidad en una ranura para unidades vac&iacute;a.</br> <span class="note_head">Observaci&oacute;n:</span> Para evitar lesionarse o da&ntilde;ar su Synology NAS, vaya al <a href="https://www.synology.com/support/download" target="_blank">Centro de descargas</a> y seleccione su producto Synology. En <strong>Documentos</strong> &gt; <strong>Gu&iacute;a de instalaci&oacute;n del hardware</strong>, puede descargar la gu&iacute;a de instalaci&oacute;n del hardware en su idioma preferido para seguir las instrucciones de instalaci&oacute;n de la unidad.</li>
+
+	<li>Encienda su Synology NAS e inicie el <strong>Administrador de almacenamiento</strong>.</li>
+	<li>Vaya a la p&aacute;gina <b>Grupo de almacenamiento</b> y seleccione el grupo de almacenamiento que desea ampliar. Haga clic en <strong>Agregar unidad</strong> en el men&uacute; desplegable <strong>Acci&oacute;n</strong>.</li>
+	<li>Seleccione la unidad que desea agregar en la lista. Solo se enumerar&aacute;n las unidades que cumplan los requisitos de tipo y capacidad.</li>
+	<li>Siga el asistente para finalizar el proceso.</li>
+</ol>
+
+<h4>Para ampliar el tama&ntilde;o del volumen:</h4>
+<p>Una vez que un grupo de almacenamiento contiene suficiente capacidad, el tama&ntilde;o de su volumen correspondiente se puede ampliar de forma autom&aacute;tica o manual, seg&uacute;n el tipo de grupo de almacenamiento.</p>
+<ul>
+<li><b>Grupo de almacenamiento de un solo volumen:</b> En el caso de un grupo de almacenamiento que admita un &uacute;nico volumen, el tama&ntilde;o del volumen se ampliar&aacute; autom&aacute;ticamente una vez que se haya ampliado la capacidad del grupo de almacenamiento. Consulte <a href="#t1">Para agregar una unidad a un grupo de almacenamiento</a> para obtener m&aacute;s informaci&oacute;n.</li>
+<li><b>Grupo de almacenamiento de varios vol&uacute;menes:</b> Para un grupo de almacenamiento que admite varios vol&uacute;menes, el tama&ntilde;o del volumen se puede ampliar manualmente una vez que el grupo de almacenamiento contenga suficiente capacidad. Para obtener m&aacute;s informaci&oacute;n, consulte <a href="volume_expand_volume.html" target="_blank">Ampliar el tama&ntilde;o del volumen</a>.</li>
+</ul>
+
+</body>
+</html>

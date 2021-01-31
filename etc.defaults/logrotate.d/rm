@@ -1,0 +1,10 @@
+/var/log/rm.log {
+	missingok
+	firstaction
+		/bin/chattr -a /var/log/rm.log* || true
+	endscript
+	lastaction
+		/bin/chattr +a /var/log/rm.log* || true
+		/usr/syno/sbin/synoservice --reload syslog-ng || true
+	endscript
+}

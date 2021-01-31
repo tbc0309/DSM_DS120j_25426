@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Limitações e requisitos do sistema - Ajuda do Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+ </head>
+ <body>
+ 
+ 
+<h2>Limitações e requisitos do sistema</h2>
+ <p>A implementação do Synology High Availability requer dois servidores Synology idênticos para funcionar como servidores ativo e passivo. Antes que os dois servidores sejam combinados em um cluster de high-availability, o sistema verificará as seguintes limitações de hardware e software para garantir que o grupo de high-availability possa ser criado.</p>
+ 
+  
+ <h3>Requisitos do sistema</h3>
+ 
+  <p>Observe as diretrizes a seguir em relação ao software e hardware:</p>
+  <ul>
+   <li><b>Servidor Synology:</b> Os servidores ativo e passivo devem ser modelos idênticos.</li>
+   <li><b>Unidade(s) de expansão:</b> Os servidores ativo e passivo devem se conectar às mesmas unidades de expansão corretamente.</li>
+   <li><b>Número e tipo de unidades:</b> O tipo da unidade deve ser apenas SAS. Antes de instalar o DSM, é necessário instalar pelo menos 3 unidades nas unidades de expansão.</li>
+   <li><b>Dispositivo USB externo:</b> Apenas armazenamento USB é suportado. Outros dispositivos USB externos (ex.: UPS, adaptador Wi-Fi, Alto-falante, Impressora, adaptador Bluetooth e adaptador DVB) não são suportados. O armazenamento USB pode ser usado apenas no servidor ativo e não pode ser alterado para o servidor passivo.</li>
+  </ul>
+  <h3>Ambiente de rede</h3>
+  <p>Observe as orientações de configuração de rede a seguir ao tentar formar um cluster de high-availability.</p>
+  <ul>
+    <li><b>Configurações de rede:</b> A conexão Heartbeat entre os dois servidores deve ser configurada corretamente. Os dois servidores devem pertencer à mesma subrede e é necessário configurar endereços IP estáticos após a instalação.</li>
+    <li><b>Número de portas LAN:</b> Os dois servidores devem ter o mesmo número de portas LAN. Se um de seus modelos Synology NAS for equipado com interfaces de placas de rede adicionais, o outro deve ser equipado com as mesmas interfaces de placa de rede. </li>
+    <li><b>Restrições de conexão:</b> A rede Wi-Fi não é suportada pelo grupo de high-availability.</li>
+  </ul>
+  <div class="section">
+    <h4>Nota:</h4>
+    <ul>
+      <li>O servidor NTP será habilitado automaticamente no servidor ativo.</li>
+    </ul>
+  </div>
+<h3>Limitações de pacotes e softwares</h3> 
+<p>Veja abaixo as limitações relacionadas a pacotes e softwares:</p>
+	<ul>
+	<li>O grupo de high-availability não suporta os seguintes pacotes e recursos:
+		<ul><li>Servidor DVBLink</li>
+		<li>O recurso de reiniciar/desligar o cluster de high-availability no CMS</li>
+		<li>Time Backup</li>
+		</ul>
+	</li>
+	<li>O grupo de high-availability com armazenamento compartilhado não pode ser configurado como ou usado em combinação com um grupo de high-availability baseado em replicação.</li>
+    </ul>
+<h3>Unidades de expansão específicas</h3>
+  <p>Os servidores ativo e passivo devem ser conectados às unidades de expansão específicas. Existem dois módulos em cada unidade de expansão.</p>
+  <h4>Para configurar/adicionar unidades de expansão:</h4>
+  <ul>
+    <li>Um módulo contém duas portas; a porta de entrada fica no lado esquerdo e a porta de saída, no lado direito. Conecte um cabo SAS da porta de saída de um módulo na porta de entrada do módulo da unidade de expansão seguinte.</li>
+	<li>As unidades de expansão devem ser conectadas em série com os módulos nos lados correspondentes de cada servidor.</li>
+    <li>Os servidores ativo e passivo devem ser conectados às unidades de expansão compartilhadas na mesma ordem.</li>
+  </ul>
+<div class="section">
+<h4>Notas:</h4>
+<p>Para obter informações detalhadas sobre a instalação da unidade de expansão, lembre-se de consultar o Guia de instalação rápida de seus servidores e unidades de expansão.</p>
+</div>
+   
+ </body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>指派共用資料夾權限 - Synology DSM 說明</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="You can specify which users or groups can access, view, or modify a shared folder and its contents. This article shows you how to assign and customize shared folder permissions in DSM.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>指派共用資料夾權限</h2>
+
+<p>您可以指定哪些使用者或使用者群組能夠存取、檢視或修改共用資料夾及其內容。您可為使用者或使用者群組自訂共用資料夾及檔案、子資料夾的存取權限。</p>
+
+<div class="section disable-eds14">
+<h4>Windows ACL：</h4>
+
+<p>DSM 5.0 或更新版本中，共用資料夾存取權限的預設基礎架構為 Windows ACL。新建立之共用資料夾採用 Windows ACL 權限設定，可讓您為檔案及子資料夾個別設定權限。此外，您可透過 File Station 或 Windows 檔案總管自訂權限。</p>
+<p>下列共用資料夾無法使用 Windows ACL 權限管理系統：<strong>photo</strong>、<strong>satashare</strong>、<strong>sdshare</strong>、<strong>surveillance</strong>、<strong>usbshare</strong>。</p>
+</div>
+<div class="section disable-eds14">
+<h4>注意：</h4>  
+<p>使用者的個人<strong>home</strong>資料夾是會在<strong>homes</strong>資料夾底下。ACL 權限採繼承制, 也就是說對 <strong>homes</strong> 資料夾設定使用者 / 群組 NA 權限時，這個 ACL 權限將會導致這些使用者 / 群組無法使用他們自己的 <strong>home</strong> 資料夾。</p>
+</div>
+<h4>若要為共用資料夾編輯權限：</h4>
+
+<ol>
+
+<li>請前往<strong>控制台</strong> &gt; <strong>共用資料夾</strong>。</li>
+<img src="about:blank" class="help_image"/>
+<li>選擇您想編輯權限的共用資料夾。按一下<b>編輯</b>。</li>
+<img src="about:blank" class="help_image"/>
+<li> 前往<strong>權限</strong>頁籤。</li>
+<img src="about:blank" class="help_image"/>
+<li>從下拉式選單中選擇下列任何選項：<ul>
+<li><b>系統內部使用者帳號：</b>指派權限給預設的系統使用者，例如匿名 (Anonymous) FTP / WebDAV 使用者。讓匿名 FTP 使用者連線至共用資料夾之前，您必須先將存取權限指派給使用者。</li>
+<li><b>本地使用者：</b>指派權限給本地使用者 (包含 <b>guest</b>)。</li>
+<li><b>本地群組：</b>指派權限給本地使用者群組。</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>為使用者或使用者群組勾選、取消勾選相對應的核取方塊來自訂其對於此共用資料夾的存取權限。<ul>
+<li><b>可讀寫</b>：使用者帳號或使用者群組可以存取並變更共用資料夾中的檔案及子資料夾。</li>
+<li><b>唯讀</b>：使用者帳號或使用者群組可以存取共用資料夾中的檔案及子資料夾。</li>
+<li><b>禁止存取</b>：使用者帳號或使用者群組無法存取共用資料夾中的檔案及子資料夾。</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>按一下<b>確定</b>來完成。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+
+<ul>
+<li>遇到權限設定衝突時，權限設定的優先順序為：禁止存取 &gt; 可讀寫 &gt; 唯讀。</li>
+<li>建立新的共用資料夾時，若屬於 <strong>administrators</strong> 群組的使用者之權限設定為<b>禁止存取</b>，則這些使用者只能在<strong>控制台</strong> &gt; <strong>共用資料夾</strong>看到該資料夾。</li>
+</ul>
+</div>
+
+<h3 class="disable-eds14">自訂 Windows ACL 權限</h3>
+
+<p class="disable-eds14">除了上述設定以外，您還能依照下列步驟更進一步地自訂權限。</p>
+
+<div class="section disable-eds14">
+<h4>注意：</h4>
+<p>下列共用資料夾不適用以下的設定：<strong>photo</strong>、<strong>satashare</strong>、<strong>sdshare</strong>、<strong>surveillance</strong>、<strong>usbshare</strong>。</p>
+</div>
+
+<h4 class="disable-eds14">若要自訂權限：</h4>
+<ol class="disable-eds14">
+  <li>在<strong>權限</strong>頁籤上，選擇您要自訂權限的使用者。然後在<strong>自訂</strong>欄下勾選任一使用者的核取方塊。</li>
+  <img src="about:blank" class="help_image"/>
+  <li>在<b>權限編輯器</b>視窗中，進行下列任何操作來管理檔案或資料夾的 ACL 權限：
+  	<ol>
+		<li><b>使用者或群組：</b>指定您想自訂權限的使用者或群組。</li>
+		
+		<div class="section disable-eds14">
+<h4>注意：</h4>  
+<p><strong>使用者或群組</strong>下拉式選單中的 <strong>Authenticated Users</strong> 及 <strong>SYSTEM</strong> 兩個選項係為符合 Windows ACL 的權限設定所建立，權限分別如下：</p>
+<ul>
+	<li><strong>Authenticated Users</strong> 包含排除於 <strong>https</strong> 及 <strong>guest</strong> 的帳號。</li>
+	<li><strong>SYSTEM</strong> 包含 <strong>https</strong> 及 <strong>anonymous</strong> 內的帳號。</li>
+</ul>
+</div>
+		
+		<img src="about:blank" class="help_image"/>
+		<li><b>繼承自：</b>僅供檢視。檢視此處的資訊來查看權限是繼承自父資料夾或為明確權限 (顯示為<b>無</b>)。</li>
+		<img src="about:blank" class="help_image"/>
+		<li><b>類型：</b>選擇<b>允許</b>或<b>拒絕</b>來授予或拒絕使用者或群組的權限。</li>
+		<img src="about:blank" class="help_image"/>
+		<li><b>套用至：</b>若您正為資料夾建立權限項目，請勾選核取方塊來將權限套用至此資料夾、資料夾中的資料夾 (即<b>子資料夾</b>) 或檔案 (即<b>子檔案</b>)，或此資料夾中所有檔案與資料夾 (即<b>所有子項目</b>)。</li>
+		<img src="about:blank" class="help_image"/>
+		<li><b>管理：</b>勾選<b>讀取權限</b>、<b>變更權限</b>或<b>取得擁有權</b>來指定使用者或群組的存取權限設定。</li>
+		<li><b>讀取</b>或<b>寫入</b>：勾選這些區塊中的核取方塊來修改使用者或群組對於檔案或資料夾的權限設定。</li>
+      </ol>
+  </li>
+  <li> 按一下<b>確定</b>。</li>
+</ol>
+<div class="section disable-eds14">
+  <h4>ACL 權限可歸類如下：</h4>
+  <ul>
+    <li><b>管理：</b>
+    <ul>
+      <li><b>變更權限</b>：控制使用者能否變更檔案或資料夾權限。</li>
+      <li><b>取得擁有權</b>：控制使用者是否具備檔案或資料夾的擁有權。</li>
+    </ul></li>
+    <li><b>讀取：</b>
+    <ul>
+      <li><b>周遊資料夾/執行檔案</b>：控制使用者能否執行程式檔。</li>
+      <li><b>列出資料夾/讀取資料</b>：控制使用者能否讀取檔案中的資料。</li>
+      <li><b>讀取屬性</b>：控制使用者能否檢視檔案屬性。</li>
+      <li><b>讀取擴充屬性</b>：控制使用者能否檢視檔案的擴充屬性。</li>
+      <li><b>讀取權限</b>：控制使用者能否讀取檔案或資料夾權限。</li>
+    </ul></li>
+    <li><b>寫入：</b>
+    <ul>
+      <li><b>建立檔案/寫入資料</b>：控制使用者能否變更檔案內容。</li>
+      <li><b>建立資料夾/附加資料</b>：控制使用者能否在檔案末端附加資料。</li>
+      <li><b>寫入屬性</b>：控制使用者能否變更檔案屬性。</li>
+      <li><b>寫入擴充屬性</b>：控制使用者能否變更檔案的擴充屬性。</li>
+      <li><b>刪除子資料夾及檔案</b>：控制使用者能否刪除資料夾。</li>
+      <li><b>刪除</b>：控制使用者能否刪除檔案。</li>
+    </ul></li>
+  </ul>
+  <h4>關於權限繼承：</h4>
+  <p> ACL 權限採繼承制，由父物件延伸至子物件。舉例來說，如果「業務」資料夾的 ACL 項目賦予使用者「小美」唯讀的權限，那麼 ACL 項目就可以套用到「業務」資料夾裡的所有檔案 (例如：「年度報表.xls」)，也就是說，使用者可以開啟資料夾中所有檔案。繼承權限會以灰色顯示，而物件本身的權限 (即「明確」權限) 則以黑色表示。</p>
+</div>
+<div class="section disable-eds14">
+  <h4>注意：</h4>
+  <ul>
+    <li>您最多只能為一個檔案或資料夾新增 200 個明確權限項目。</li>
+    <li>Windows ACL 不支援 ext3 檔案系統。若您目前仍使用 ext3 檔案系統，您必須至少建立一個 ext4 或 Btrfs 的儲存空間才能使用 Windows ACL 權限。也就是說，您必須至少將一顆硬碟格式化並重新建立儲存空間。格式化 Synology NAS 將清除所有已儲存的資料和設定值。請在進行此動作前確認您已備份所有資料。</li>
+    <li>若您想為網域使用者設定新權限，請確認 DSM 和 Windows 用戶端在同個網域內。</li>
+    <li>使用 Windows 檔案總管修改權限時，將會略過套用至 <strong>Domain Admins</strong> 群組的<strong>拒絕</strong>規則。</li>
+  </ul>
+</div>
+
+
+</body>
+</html>

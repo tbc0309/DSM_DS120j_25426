@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>Dodawanie dysk&oacute;w w celu zwiększenia pojemności puli pamięci masowej</h2>
+
+<p>Jeśli w urządzeniu Synology NAS dostępne są puste kieszenie dysku, można zainstalować dodatkowe dyski i dodać je do istniejącej puli pamięci. Niniejszy artykuł zawiera instrukcje rozszerzenia istniejącej puli pamięci przez zainstalowanie dodatkowych dysk&oacute;w.</p>
+
+<p>Dyski można dodawać do następujących konfiguracji macierzy RAID:</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID 5</li>
+	<li>RAID 6</li>
+	<li>RAID F1</li>
+	<li>Synology Hybrid RAID (SHR) obejmującej co najmniej 2 dyski</li>
+</ul>
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+	<li>Nowo dodane dyski muszą mieć stan <strong>Zainicjowany</strong> lub <strong>Niezainicjowany</strong>.</li>
+</ul>
+</div>
+	
+<h4>Wymagania dotyczące dysk&oacute;w:</h4>
+
+<p>Upewnij się, że dyski, kt&oacute;re chcesz dodać do urządzenia Synology NAS, spełniają następujące wymagania:</p>
+<ul>
+	<li>Konfiguracja RAID lub SHR musi zostać utworzona przy użyciu dysk&oacute;w tego samego typu. Stosowanie dysk&oacute;w r&oacute;żnych typ&oacute;w będzie miało negatywny wpływ na niezawodność i wydajność systemu. R&oacute;żne typy dysk&oacute;w, jak pokazano poniżej, nie są obsługiwane w konfiguracji RAID ani SHR:<ul>
+	<li>Dyski SATA i SAS</li>
+	<li>Dyski natywne 4K i dyski inne niż 4K</li>
+	</ul>
+	</li>
+	<li><strong>W przypadku konfiguracji SHR</strong>: Pojemność dysku, kt&oacute;ry ma zostać dodany, musi być nie mniejsza niż pojemność największego dysku w puli pamięci lub r&oacute;wna dowolnemu dyskowi w puli pamięci.</br><span class="note_head">Przykład:</span> Jeśli pula pamięci masowej SHR składa się z trzech dysk&oacute;w (2 TB, 1,5 TB i 1 TB), zaleca się, aby nowo dodany dysk miał pojemność co najmniej 2 TB, co zapewni lepsze wykorzystanie pojemności. Możesz rozważyć dodanie dysk&oacute;w o pojemności 1,5 TB i 1 TB, ale część miejsca na dysku o pojemności 2 TB pozostanie niewykorzystana.</li>
+	<li><strong>W przypadku macierzy RAID 5, RAID 6 i RAID F1</strong>: Pojemność dysku, kt&oacute;ry ma być dodany, musi być co najmniej taka, jak pojemność najmniejszego dysku w puli pamięci masowej.</br><span class="note_head">Przykład:</span> Jeśli pula pamięci masowej RAID 5, RAID 6 lub RAID F1 składa się z trzech dysk&oacute;w (2 TB, 1,5 TB i 1 TB), pojemność nowego dysku musi wynosić co najmniej 1 TB.</li>
+</ul>
+
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+	<li>Typ SHR (Synology Hybrid RAID) jest dostępny tylko w określonych modelach. Przejdź <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">tutaj</a>, aby sprawdzić, czy dany model obsługuje SHR w ograniczonym zakresie.</li>
+	<li>Macierz RAID F1 jest dostępna tylko w niekt&oacute;rych modelach. Przejdź <a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank"> tutaj</a>, aby sprawdzić, czy dany model obsługuje macierz RAID F1.</li>
+	<li>Zalecamy korzystanie z dysk&oacute;w wymienionych na <a href="https://www.synology.com/compatibility" target="_blank">liście zgodności produkt&oacute;w firmy Synology</a>, aby uniknąć wszelkich problem&oacute;w. Stosowanie niezgodnych dysk&oacute;w może obniżyć wydajność systemu, a nawet spowodować utratę danych.</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">Aby dodać dysk do puli pamięci:</a></h4>
+<p>Przed rozpoczęciem upewnij się, że stan puli pamięci masowej, kt&oacute;rą chcesz rozszerzyć, jest <strong>Normalny</strong>. Jeśli stan puli pamięci masowej nie jest prawidłowy, wykonaj zalecane czynności przedstawione poniżej stanu, aby rozwiązać problemy z dyskiem. Następnie wykonaj poniższe czynności, aby dodać dysk do puli pamięci masowej:</p>
+	
+<ol>
+	<li>Wyłącz Synology NAS.</br> <span class="note_head">Uwaga:</span> Pomiń ten krok, jeśli posiadane urządzenie Synology NAS obsługuje funkcję wymiany dysk&oacute;w podczas pracy.</li>
+	<li>Wsuń nowy dysk do pustej kieszeni dysku.</br> <span class="note_head">Uwaga:</span> Aby uniknąć obrażeń ciała i uszkodzenia urządzenia Synology NAS, przejdź do <a href="https://www.synology.com/support/download" target="_blank">Centrum pobierania</a> i wybierz sw&oacute;j produkt Synology. W obszarze <strong>Dokumenty</strong> &gt; <strong>Podręcznik instalacji sprzętu</strong> możesz pobrać podręcznik instalacji sprzętu w wybranym języku i postępować zgodnie z instrukcjami instalacji dysku.</li>
+
+	<li>Włącz urządzenie Synology NAS i uruchom program <strong>Storage Manager</strong>.</li>
+	<li>Przejdź do pozycji <b>Pula pamięci</b> i wybierz pulę pamięci masowej, kt&oacute;rą chcesz rozszerzyć. Następnie kliknij <strong>Dodaj dysk</strong> w menu rozwijanym <strong>Akcja</strong>.</li>
+	<li>Wybierz listy dysk, kt&oacute;ry chcesz dodać. Zostaną wyświetlone tylko te dyski, kt&oacute;re spełniają wymagania dotyczące typu i pojemności.</li>
+	<li>Postępuj zgodnie z instrukcjami kreatora, aby zakończyć proces.</li>
+</ol>
+
+<h4>Aby zwiększyć rozmiar wolumenu:</h4>
+<p>Gdy pula pamięci zawiera wystarczającą ilość miejsca, rozmiar odpowiedniego wolumenu można zwiększyć automatycznie lub ręcznie, w zależności od typu puli pamięci masowej.</p>
+<ul>
+<li><b>Pula pamięci masowej obsługująca jeden wolumen:</b> W przypadku puli pamięci masowej obsługującej jeden wolumen rozmiar wolumenu zostanie zwiększony automatycznie po rozszerzeniu pojemności puli pamięci masowej. Aby uzyskać szczeg&oacute;łowe informacje, patrz <a href="#t1">Dodawanie dysku do puli pamięci masowej</a>.</li>
+<li><b>Pula pamięci masowej obsługująca wiele wolumen&oacute;w:</b> W przypadku puli pamięci masowej obsługującej wiele wolumen&oacute;w rozmiar wolumenu można zwiększyć ręcznie, gdy w puli dostępne będzie wystarczająco dużo miejsca. Szczeg&oacute;łowe informacje można znaleźć w sekcji <a href="volume_expand_volume.html" target="_blank">Zwiększ rozmiar wolumenu</a>.</li>
+</ul>
+
+</body>
+</html>

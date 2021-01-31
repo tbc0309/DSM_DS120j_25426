@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Stromversorgung</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+
+<h2>USV</h2>
+
+<p>Eine USV (Unterbrechungsfreie Stromversorgung) ist ein Reservestromgerät, mit dem das Synology NAS im Falle eines Stromausfalls für einen kurzen Zeitraum weiterbetrieben werden kann. Diese Funktion finden Sie in <strong>Systemsteuerung</strong> > <strong>Hardware und Energie</strong> > <strong>USV</strong> und sie verhindert Datenverlust, indem das Synology NAS ausreichend Zeit für das Speichern von Daten und Entfernen von Volumes gegeben wird, bevor der Strom zu Neige geht und das Gerät heruntergefahren wird (bzw. angehalten im Fall der EDS14).</p>
+
+<div class="section">
+<h4>Sicherer Modus</h4>
+<p>Wenn das Synology NAS den sicheren Modus aufruft, werden sämtliche Dienste gestoppt und Volumes entfernt, um einen Datenverlust zu verhindern und das Gerät sicher heruntergefahren (bzw. angehalten im Fall der EDS14), wenn das USV-Gerät keinen Strom mehr hat. Das System ruft standardmäßig den sicheren Modus auf, wenn das USV-Gerät nur noch wenig Strom liefert. Sie können auch die Zeitdauer angeben, bis das Synology NAS im Falle eines Stromausfalls den sicheren Modus aufruft. Wenn das USV-Gerät allerdings bereits vor der angegebenen Zeit nur noch wenig Strom liefert, ruft das System den sicheren Modus sofort auf.</p>
+
+<p>In Situationen, in denen das Synology NAS im sicheren Modus herunterfährt, wird das Gerät automatisch eingeschaltet, wenn die Stromversorgung wiederhergestellt ist, falls die Option <strong>Nach Stromausfall automatisch neu starten</strong> aktiviert ist (unter <strong>Systemsteuerung</strong> > <strong>Hardware und Energie</strong> > <strong>Allgemein</strong>).</p>
+</div>
+
+<h3>Lokale USV-Unterstützung</h3>
+<p>Für Einzelheiten hinsichtlich der Hardware-Installation lesen Sie bitte die Bedienungsanleitung Ihres USV-Gerätes. Nach dem Abschluss der Installation und dem Anschließen des Synology NAS an das USV-Gerät können Sie den folgenden Schritten folgen, um die USV-Unterstützung zu aktivieren.</p>
+<h4>Lokale USV-Unterstützung aktivieren:</h4>
+<ol>
+<li>Schließen Sie ein USV-Gerät an einen USB-Port des Synology NAS an.</li>
+<li>Setzen Sie auf der Registerkarte <b>USV</b> ein Häkchen bei <b>USV-Unterstützung aktivieren</b>.</li>
+<li>Wählen Sie, wann das Synology NAS nach einem Stromausfall den sicheren Modus aufrufen soll.</li>
+<li>Wählen Sie, ob ein Signal zum Herunterfahren an das USV-Gerät geschickt werden soll, wenn das System in den sicheren Modus wechselt. Die meisten USV-Geräte können sich automatisch einschalten, wenn die Stromversorgung wiederhergestellt wird.
+<ul><li>Wenn diese Option aktiviert ist, wird Synology NAS sofort heruntergefahren, wenn die Stromversorgung unterbrochen wird.</li>
+<li>Wenn diese Option aktiviert ist, sollten Sie auch unter <strong>Systemsteuerung</strong> > <strong>Hardware und Energie</strong> > <strong>Allgemein</strong> ein Häkchen bei <strong>Nach Stromausfall automatisch neu starten</strong> setzen, um sicherzustellen, dass Synology NAS automatisch neu gestartet wird, wenn die Stromversorgung wiederhergestellt wurde.</li></ul></li>
+<li>Klicken Sie auf <b>Übernehmen</b>.</li>
+</ol>
+
+<h3>SNMP USV-Unterstützung</h3>
+
+<p>Eine SNMP USV ist eine Ersatzstromquelle, die über SNMP mit dem Synology NAS verbunden ist. Für Informationen zur Hardware-Installation lesen Sie bitte die Bedienungsanleitung Ihres SNMP USV-Gerätes. Nachdem das Synology NAS an das Gerät angeschlossen und mit demselben Netzwerk verbunden wurde, können Sie den Schritten unten folgen, um die USV-Unterstützung zu aktivieren.</p>
+
+<h4>SNMP USV-Unterstützung aktivieren:</h4>
+<ol>
+<li>Setzen Sie auf der Registerkarte <strong>USV</strong> ein Häkchen bei <b>USV-Unterstützung aktivieren</b>.</li>
+<li>Wählen Sie <strong>SNMP USV</strong> im Dropdown-Menü <strong>USV-Typ</strong>.</li>
+<li>Wählen Sie unter <strong>Zeit, bis Synology NAS in den sicheren Modus wechselt</strong> die Zeit aus, nach der das Synology NAS nach einem Stromausfall in den sicheren Modus wechseln soll. Geben Sie eine Zahl ein und wählen Sie im Dropdown-Menü <b>Sekunde(n)</b>, <b>Minute(n)</b> oder <b>Stunde(n)</b> aus. Falls nicht markiert, gilt die Option <b>Bis Akkustrom niedrig ist</b>, d. h. das Synology NAS wechselt automatisch in den sicheren Modus, wenn der Akku der USV schwach wird.</li>
+	<p><span class="note_head">Anmerkung:</span> Unabhängig davon, welche Option ausgewählt wurde, wechselt das Synology NAS automatisch in den sicheren Modus, wenn er nur mehr wenig Energie hat.</p>
+<li>Geben Sie die IP-Adresse des SNMP USV-Gerätes in das Feld <strong>SNMP USV IP-Adresse</strong> ein.</li>
+<li>Wählen Sie im Dropdown-Menü die <strong>SNMP MIB</strong> aus.</li>
+<li>Wählen Sie im Dropdown-Menü die <strong>SNMP-Version</strong> aus.</li>
+<li>Geben Sie den Community-String für das SNMP USV-Gerät in das Feld <strong>SNMP Community</strong> ein.</li>
+<li>Setzen Sie ein Häkchen bei <strong>Netzwerk-USV-Server aktivieren</strong>, wenn das Synology NAS über SNMP verbunden ist und als Netzwerk-USV-Server agiert. Klicken Sie auf <strong>Zugelassene Synology NAS-Geräte</strong> und geben Sie die IP-Adressen aller Synology NAS-Geräte ein, denen Sie die Verbindung zu dieser USV erlauben.</li>
+<p><span class="note_head">Anmerkung: </span>Die Funktion <b>Zugelassene Synology NAS-Geräte</b> ist auf dem SA3200D nicht verfügbar.</p>
+<li>Klicken Sie auf <b>Übernehmen</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Es wird dringend empfohlen, für Implementierungen mit Synology High Availability (SHA) <b>SNMP USV</b> zu verwenden.</li>
+<li>Synology NAS unterstützt SNMPv1- und SNMPv2c-USV-Geräte.</li>
+</ul>
+</div>
+
+<h3>Synology USV-Server</h3>
+
+<p>Wenn mehrere Synology-Produkte ein USV-Gerät verwenden und ein Synology-Produkt über USB-Port oder Netzwerk mit dem USV-Gerät verbunden ist, kann nur das über USB oder Netzwerk verbundene Synology NAS Informationen zum Status des USV-Gerätes abrufen. In diesem Fall agiert dieses Synology NAS als „Netzwerk-USV-Server“. Der Netzwerk-USV-Server erhält USV-Informationen und leitet sie an das Client-Synology NAS weiter.</p>
+
+<h4>Synology USV-Server aktivieren:</h4>
+<ol>
+<li>Melden Sie sich bei dem (über USB oder Netzwerk) mit dem USV-Gerät verbundenen Synology NAS an.</li>
+<li>Setzen Sie auf der Registerkarte <strong>USV</strong> ein Häkchen bei <strong>Netzwerk-USV-Server aktivieren</strong>, damit das Synology NAS USV-Informationen an Client-Synology NAS weiterleiten kann.</li>
+<li>Klicken Sie auf die Schaltfläche <strong>Zugelassene Synology NAS-Geräte</strong>.</li>
+<li>Geben Sie im angezeigten Fenster die IP-Adressen des Client-Synology NAS ein. Klicken Sie auf <strong>OK</strong>.</li>
+<li>Klicken Sie auf <strong>Übernehmen</strong>, um die Einstellungen zu speichern.</li>
+</ol>
+
+<p>Der Netzwerk-USV-Server kann nun USV-Informationen abrufen und sie an das USV-Gerät verwendende Client-Synology NAS weiterleiten. Bitte lesen Sie die nachfolgenden Anweisungen, um die USV-Unterstützung auf dem Client-Synology NAS zu aktivieren.</p></strike>
+
+<h4>USV-Unterstützung am Client-Synology NAS aktivieren:</h4>
+<ol>
+<li>Melden Sie sich beim Client-Synology NAS an, das das USV-Gerät nutzt, aber nicht über USB oder Netzwerk verbunden ist.</li>
+<li>Setzen Sie auf der Registerkarte <strong>USV</strong> ein Häkchen bei <strong>USV-Unterstützung aktivieren</strong>.</li>
+<li>Wählen Sie <strong>Synology USV-Server</strong> im Dropdown-Menü <strong>USV-Typ</strong> aus.</li>
+<li>Wählen Sie unter <strong>Zeit, bis Synology NAS in den sicheren Modus wechselt</strong> die Zeit aus, nach der das Synology NAS nach einem Stromausfall in den sicheren Modus wechseln soll. Geben Sie eine Zahl ein und wählen Sie im Dropdown-Menü <strong>Sekunde(n)</strong>, <strong>Minute(n)</strong> oder <strong>Stunde(n)</strong> aus. Falls nicht markiert, gilt die Option <b>Genauso wie Server</b>, d. h. das Synology NAS wechselt in den sicheren Modus, wenn der Server heruntergefahren wird.</li>
+	<p><span class="note_head">Anmerkung:</span> Unabhängig davon, welche Option ausgewählt wurde, wechselt das Synology NAS automatisch in den sicheren Modus, wenn er nur mehr wenig Energie hat.</p>
+<li>Geben Sie die IP-Adresse des Netzwerk-USV-Servers in das Feld <strong>Netzwerk-USV-Server IP</strong> ein.</li>
+<li>Klicken Sie auf <b>Übernehmen</b>, um die Einstellungen zu speichern.</li>
+</ol>
+
+<div class="section">
+<h4>Netzwerk-USV-Anforderungen:</h4>
+<ul>
+<li>Um USV-Geräteinformationen weiterzuleiten, müssen alle Synology NAS mit demselben Netzwerk verbunden sein.</li>
+<li>Das Netzwerkgerät (z. B. Switch oder Hub), an dem das Synology NAS angeschlossen ist, muss mit demselben USV-Gerät verbunden sein. Anderenfalls kann das Synology NAS keine USV-Geräteinformationen weiterleiten, wenn ein Stromausfall auftritt.</li>
+</ul>
+</div>
+
+
+
+
+
+
+</body>
+</html>

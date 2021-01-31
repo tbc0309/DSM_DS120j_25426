@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Sınırlamalar ve Sistem Gereksinimleri - Synology DSM Yardım</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>Sınırlamalar ve Sistem Gereksinimleri</h1>
+
+ <p>Synology High Availability uygulaması, aktif ve pasif sunucular olarak işlev görmek için iki benzer Synology sunucusuna ihtiyaç duyar. İki sunucu bir high-availability kümesi oluşturmak için birleştirilmeden önce, Synology High Availability Sihirbazı, high-availability kümesinin oluşturulabilmesi için aşağıdaki donanım ve yazılım sınırlamalarını kontrol eder.</p>
+ 
+  
+ <h3>Sistem Gereksinimleri</h3>
+ 
+  <p>Yazılım ve donanımla ilgili aşağıdaki yönergelere lütfen uyun:</p>
+  <ul>
+   <li><b>Synology Sunucusu:</b> Hem aktif hem de pasif sunucuların benzer modeller olması ve Synology High Availability desteğine sahip olmaları gerekir. High-availability kümesinin adının, etkin ve pasif sunucuların adlarından farklı olması gerektiğine dikkat edin.</li>
+   <li><b>DSM Sürümü:</b> Hem aktif hem de pasif sunuculara aynı DSM sürümü yüklenmelidir. </li>
+   <li><b>Paket Sürümü:</b> Aynı Synology High Availability sürümü her iki Synology sunucusuna yüklenmelidir.</li>
+  </ul>
+
+  
+ <h3>Birim ve Sürücü</h3>
+ 
+  <p>Lütfen depolama alanları (ör. birimler, Disk Grupları, RAID Grupları vb.) ve sabit disk yönetimiyle ilgili aşağıdaki kılavuzlara dikkat edin.</p>
+  <ul>
+   <li><b>Sürücü kapasitesi:</b> Veri çoğaltımına olanak tanımak için, pasif sunucunun sürücü kapasitesi aktif sunucu kapasitesine eşit veya aktif sunucu kapasitesinden büyük olmalıdır. Tutarsızlık ihtimalini azaltmak için her iki sunucunun sürücü kapasitelerinin tamamen benzer olması şiddetle önerilir. </li>
+   <li><b>Sürücülerin Sayısı ve Türü:</b> Aktif ve pasif sunucular aynı sayıda sürücüye sahip olmalıdır. Ayrıca, sürücü konumu her iki sunucuda da uyumlu olmalıdır ve her iki sunucudaki sürücü türleri (ör. SSD/HDD, SAS/SATA) ve spesifikasyonları (ör. 4K veya 512-bayt sektör boyutu) benzer olmalıdır. Disklerin sayısı hesaplanırken, USB sabit diskler gibi harici aygıtların dahil edilmeyeceğine lütfen dikkat edin.</li>
+   <li><b>Hot Spare Onarımı:</b> Pasif sunucu üzerindeki kapasitesi düşmüş birimler bir hot spare onarımı tetiklemez. Ancak, aktif sunucu üzerindeki birimlerin kapasitesi düşmüş ise, bir hot spare onarımı tetiklenir ve pasif sunucu üzerindeki birimlerin de kapasitesi düşürülür çünkü sistem bir hot spare onarımını zorunlu kılmak için pasif sunucu üzerindeki RAID birimlerinden de bir sağlıklı sürücüyü kaldıracaktır.</li>
+   <li><b>SHR Biçimi Desteklenmiyor:</b> SHR biçimindeki birimler desteklenmez. Aktif sunucu olarak işlev yapacak Synology sunucusunun SHR birimleri içermediğinden lütfen emin olun. </li>
+  </ul>
+
+    <div class="section">
+    <h4>Not:</h4>
+    <ul>
+    <li>Pasif sunucu üzerindeki sürücülerin hızı da high-availability kümesininyazma performansını etkiler çünkü veriler pasif sunucuya Heartbeat bağlantısı yoluyla senkronize edilir. Hem aktif hem de pasif sunucularda benzer sürücüler kullanmanız önerilir.</li>
+    <li>Pasif sunucu çalışmıyorsa veya Heartbeat bağlantısı kesilmişse, birimler geçici olarak kullanım dışı kalır ve iSCSI aktarımı yaklaşık 10 saniye süreyle duraklatılır.</li>
+    </ul>
+    </div>
+
+  
+  <h3>Ağ Ortamı</h3>
+  <p>Bir high-availability kümesi oluştururken ağ ayarları ile ilgili aşağıdaki yönergelere lütfen uyun.</p>
+  <ul>
+    <li><b>Ağ Ayarları:</b> Her iki sunucu aynı alt ağa ait statik IP adreslerine sahip olmalıdır.</li>
+    <li><b>LAN bağlantı noktalarının sayısı:</b> Her iki sunucunun aynı sayıda LAN bağlantı noktasına sahip olması gerekir. Synology NAS sunucunuz ilave ağ kartı arabirimleri ile donatılmışsa, bu ağ kartları da ilave LAN bağlantı noktası olarak değerlendirilir. </li>
+        <li><b>Bağlantı Ortamı Kısıtlamaları:</b> İki sunucu arasındaki bağlantı ortamı multicast'i desteklemelidir ve high-availability kümesi tarafından kullanılan bağlantı noktalarını engelleyen hiçbir güvenlik duvarı kuralı bulunmamalıdır. Heartbeat bağlantısı herhangi bir sviçten geçiyorsa, sviçlerin multicast ve Jumbo Frame desteklediğinden emin olun.</li>
+    <li><b>Bağlantı Kısıtlamaları:</b> Sunucular ağa DHCP, IPv6, PPPoE ve Wi-Fi yoluyla bağlanamazlar. Bir high-availability kümesi oluşturmadan önce lütfen bu fonksiyonun devre dışı bırakıldığından emin olun.</li>
+    <li><strong>DHCP Hizmeti Yok:</strong> Sunucular bir küme içinde birleştirildiğinde dahili DHCP server seçeneklerini kullanamazlar.</li>
+   <li><strong>Link Aggregation Ayarları:</strong> Her iki sunucunun veri ağı ve kalp atışı bağlantısı için aynı link aggregation ayarlarına sahip olması gerekir. High-availability kümesi oluşturulduğunda, link aggregation ayarları değiştirilemez.</li>
+   <li><b>Open vSwitch Ayarları:</b> Her iki sunucu üzerinde Open vSwitch durumu aynı olmalıdır (ya etkin ya da devre dışı). High-availability kümesi oluşturulduğunda, Open vSwitch ayarları değiştirilemez.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Not:</h4>
+    <ul>
+      <li>SSH ve NTP hizmeti, high-availability kümesi oluşturulduğunda otomatik olarak aktif sunucuda etkinleştirilirler.</li>
+    </ul>
+  </div>
+  <h3>Depolama Yöneticisi Sınırlamaları</h3>
+  <p>Bir high-availability kümesi oluşturulduğunda, RAID tipini değiştirme seçeneği Depolama Yöneticisinde artık kullanım dışı kalacaktır. Ancak aşağıdaki seçenekler kullanılabilecektir:
+<ul>
+<li>Depolama alanlarının (ör. birimler, Blok Seviyesi iSCSI LUN'lar, Disk Grupları, RAID Grupları vb) genişletilmesi.</li>
+    <li>Birimlerin, iSCSI LUN'ların, SSD salt okunur ve okuma-yazma önbelleklerinin oluşturulması, silinmesi veya onarılması.</li>
+    <li>iSCSI LUN (Dosya Seviyesi) boyutunun ve konumunun değiştirilmesi.</li>
+    <li>iSCSI LUN hedefinin değiştirilmesi.   </li>
+  </ul>
+
+  <div class="section">
+    <h4>Not:</h4>
+    <ul>
+      <li>High-availability kümesi oluşturulduktan sonra sürücü konumunu lütfen değiştirmeyin; aksi taktirde, depolama alanı kaybolur.</li>
+      <li>Synology iSCSI hedefine bağlı sunucunuzun üstlenme sırasında zaman aşımını yaşamamasını sağlamak için, iSCSI istemcisinin ve başlatıcının zaman aşımı ayarlarını 120 saniye veya daha uzun yapmanız önerilir.</li>
+    </ul>
+  </div>
+
+ 
+<h3>Paket ve Yazılım Sınırlamaları</h3> 
+
+<p>High-availability kümesi oluşturulduğunda, aşağıdaki paketler ve özellikler desteklenmez:</p>
+	<ul>
+
+    <li>Virtual DSM Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>CMS'de high-availability kümesini yeniden başlatma/kapatma özelliği</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>Not:</h4>
+    <ul>
+    <li>High Availability'de Docker DSM için desteğe izin vermek için, kümeyi oluşturmadan önce Open vSwitch'i etkinleştirmeniz gerekir.</li>
+    </ul>
+   </div>
+
+<h3>Genişletme Birimlerinin Eklenmesi</h3>
+  <p>Bir high-availability kümesi oluşturulduğunda, depolama kapasitesini arttırmak üzere mevcut high-availability kümesi yapılandırmasına genişletme birimleri eklenebilir. Diğer donanım gereksinimlerinde olduğu gibi, aktif ve pasif sunucular için benzer genişletme birimleri gereklidir. Tutarsızlık hatalarını önlemek için, herhangi bir genişletme birimini eklerken aşağıdaki talimatlara uymaya dikkat edin.</p>
+  
+  <h4>Genişletme birimlerini eklemek için:</h4>
+   <ol>
+    <li>Aktif ve pasif sunuculara sadece benzer genişletme birimlerini ve sabit diskleri ekleyin. Yukarıda belirtildiği üzere, donanım modeli, tipleri ve sabit disk boyutu ve konumu dahil olmak üzere aktif ve pasif sunucuların donanımı benzer olmalıdır.</li>
+    <li>Genişletme birimlerindeki sabit disklerin üzerindeki tüm mevcut verileri ve birimleri sildiğinizden emin olun.</li>
+    <li>Her iki sunucu açık ve çalışır haldeyken genişletme birimlerini aktif ve pasif sunuculara bağlayın.</li>
+    <li>Sunuculardan birini kapatmadan önce, genişletme biriminde yeni bir depolama alanı (ör. birimler, Disk Grupları, RAID Grupları vb.) oluşturun.</li>
+   </ol>
+<div class="section">
+<h4>Notlar:</h4>
+<p>Genişletme birimi kurulumu hakkında temel bilgiler için, lütfen genişletme biriminize ait kullanıcı kılavuzuna bakmayı unutmayın.</p>
+</div>
+
+
+<h3>USB Aygıt Sınırlamaları</h3>
+   <p>USB aygıtlarının Geçişi/Üstlenmesi desteklenmez. USB aygıtlar tarafından sunulan hizmetler veya uygulamalar geçiş/üstlenme sonrasında uygun çalışmayabilir.</p>
+
+   
+ </body>
+</html>

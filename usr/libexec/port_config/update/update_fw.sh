@@ -1,0 +1,1 @@
+/usr/libexec/port_config/update_fw.sh

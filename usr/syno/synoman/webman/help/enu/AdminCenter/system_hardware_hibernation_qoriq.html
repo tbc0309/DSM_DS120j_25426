@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Power</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Hibernation</h2>
+<p>You can specify the period of time hard disks remain idle before entering HDD hibernation mode. During HDD hibernation, hard disks stop spinning, reducing power consumption and extending the lifespan of hard disks. You can specify different periods of time for internal hard disks and external eSATA/USB hard disks.</p>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>HDD hibernation ceases upon access.</li>
+<li>Only certain external USB storage devices support HDD hibernation.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Why won't my Synology NAS hibernate?</h4>
+
+<p>Please note that the following services will prevent the Synology NAS from entering hibernation mode. Furthermore, the system will exit hibernation mode two minutes before any scheduled task.</p>
+
+<p><strong>Packages:</strong></p>
+<ul>
+  <li>Download Station: Synology NAS cannot hibernate if Download Station is running eMule, RSS scheduled download, or active tasks.</li>
+  <li>Mail Station: Synology NAS cannot hibernate if Mail Station is fetching from POP3.</li>
+  <li>Surveillance Station: Synology NAS cannot hibernate if Surveillance Station is recording.</li>
+  <li>Media Server: Synology NAS cannot hibernate if DMA log is enabled in Media Server settings (Go to <strong>Main Menu</strong> &gt; <strong>Media Server</strong> &gt; <strong>Media Server</strong> &gt; <strong>Diagnose</strong>).</li>
+  <li>LDAP Server</li>
+  <li>Webalizer</li>
+  <li>Logitech<sup>&reg;</sup> Media Server</li>
+  <li>Plex Media Server</li>
+  <li>Other third party software or optware such as SABnzbd</li>
+</ul>
+<p><strong>Processes:</strong></p>
+<ul>
+  <li>Thumbnail and indexing: Synology NAS cannot hibernate while generating thumbnails or re-indexing multimedia files post-upgrade. During this time, the “synoindexd” process will be listed as “Running” (Go to <strong>Main Menu</strong> &gt; <strong>Resource Monitor</strong> &gt; <strong>Process</strong>).</li>
+  <li>Local Master Browser: Synology NAS cannot hibernate if Local Master Browser is enabled (Go to <strong>Control Panel</strong> &gt; <strong>Win/Mac/NFS</strong> &gt; <strong>Windows File Service</strong> &gt; <strong>Enable Local Master Browser</strong>).</li>
+  <li>Windows Media Player: Synology NAS cannot hibernate if Windows Media Player’s Network Sharing Service is enabled in the LAN.</li>
+  <li>Synology NAS cannot hibernate if number of concurrent processes requires swap, where RAM capacity has been exceeded and HDDs are used temporarily for read/write operations.</li>
+</ul>
+<p><strong>Others</strong></p>
+<ul>
+  <li>USB Devices: Synology NAS cannot enter System Hibernation if any USB devices are attached to the unit. </li>
+</ul>
+
+</div>
+
+
+<h3>System Hibernation</h3>
+<p>You can set the Synology NAS to enter system hibernation one minute after hard disks start hibernating. System hibernation reduces the power consumption of the Synology NAS.  </p>
+<p>During system hibernation mode:</p>
+
+<ol>
+  <li>Power button enters breathing mode (slow on/off cycle). Other LEDs turn off.</li>
+  <li>The power to the hard disks is cut off.</li>
+  <li>CPU stops.</li>
+  <li>The external fan stops.</li>
+  <li>The LEDs on LAN ports turn off.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>Any SMB/CIFS broadcasting packet may prevent the server from entering system hibernation, including any Windows file browsers operating in the network. Should you wish to ignore CIFS broadcasting packets on entering system hibernation, please select <strong>Ignore broadcasting packets from Windows Explorer</strong>. Please be aware that onsce this option is selected, SMB/CIFS packets cannot be used to exit system hibernation. Attaching any USB devices will also prevent the server from entering system hibernation.</li>
+</ul>
+</div>
+
+<h2>Deep Sleep</h2>
+<p>Deep sleep for expansion units can be enabled through the paired Synology NAS interface. You can configure the expansion unit and paired Synology NAS to idle for different periods of time. Therefore, the expansion units can be set to enter Deep Sleep while the paired Synology NAS remains online.</p>
+<p>During  deep sleep mode:</p>
+<ul>
+  <li>All LEDs of the expansion unit will be off.
+</li>
+<li>The power to the hard disks of the expansion unit will be cut off.
+</li>
+<li>The fan of the expansion unit will stop.</li>
+</ul>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>Deep Sleep ceases upon access.</li>
+<li>To ensure normal operation when using the deep sleep function on an expansion unit, please slide its <b>Auto/Manual</b> switch on the back panel to <b>Auto</b>.</li>
+</ul>
+</div>
+
+<h2>Auto Poweroff</h2>
+<p>You can specify the length of time period for which the internal disk stays in hibernation before your Synology NAS automatically powers off.</p>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>You must enable internal HDD hibernation first.</li>
+<li>You must enable the WOL service first so that you can remotely power up your Synology NAS.</li>
+</ul>
+</div>
+
+</body>
+</html>
+

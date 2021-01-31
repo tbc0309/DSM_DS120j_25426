@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>NFS サービス</h2>
+<p>NFS サービスで Linux クライアントはこの Synology NAS デバイスへのデータ アクセスを許可します。</p>
+<h4>NFS サービスを有効にする：</h4>
+<ol>
+<li><strong>[コントロール パネル]</strong> > <strong>[ファイル サービス]</strong> > <strong>[SMB/AFP/NFS]</strong> をに移動し、<b>[NFS を有効にする]</b> にチェックマークを付けます。</li>
+<li><b>[適用]</b> をクリックします。</li>
+</ol>
+
+
+<div class="section">
+  <h4>注：</h4>
+<ul>
+<li> Synology NAS は、現在 NFSv2、NFSv3、NFSv4 に対応しています。</li>
+<li>マウントする際、どの NFS バージョンを使用するかを指定するために、<strong>-o vers=2</strong>、<strong>-o vers=3</strong> または <strong>-o vers=4</strong> のパラメータをマウント コマンドに追加できます。</li>
+<li>次の共有フォルダは、NFS からのアクセスを許可していません：
+	<ul>
+    <li>暗号化された共有フォルダ</li>
+    <li>PetaSpace 共有フォルダ</li>
+    <li>HFS、HFS Plus、exFAT ファイル システムを使用する共有フォルダ</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>Linux クライアントに共有フォルダへのアクセスを許可する：</h4>
+<p><b>[コントロール パネル]</b> ><b> [共有フォルダ]</b>を選択します。 共有フォルダを選択し、<strong>[編集]</strong> をクリックすると、NFS 規則を管理したり、Linux クライアントに共有フォルダへのアクセス権を割り当てたりすることができます。</p>
+
+
+<h3>NFSv4 と NFSv4.1 サポートの設定</h3>
+<p>Synology NASはデフォルトで NFSv2 と NFSv3 をサポートします。 あなたは、NFSv4 または NFSv4.1 を有効化するかどうかを決定できます。</p>
+
+<h4>NFSv4 または NFSv4.1 サポートを有効化する方法：</h4>
+<ol>
+<li><b>[NFSv4 サポートを有効化]</b>または<b>[NFSv4.1 サポートを有効化]</b>にチェックマークを入れます。
+</li>
+<li>
+<b>[NFSv4 ドメイン]</b> 欄に使用したい NFSv4 ドメインの名前を入力します。 この欄は任意ですので、そのまま空欄にしておいても構いません。</li>
+<li>
+<b>[適用]</b> をクリックします。
+</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<p>NFSv4 を使って共有フォルダをマウントする場合は、次の点にご注意ください。 そうしなければ、ユーザー名に関連するファイル操作が失敗します。</p>
+<ul>
+<li>NFS クライアントで idmapd が有効になっていること。</li>
+<li>NFS クライアントの idmapd.conf ファイルの NFSv4 ドメイン設定と、Synology NAS の <b>NFSv4 ドメイン</b>欄の情報が一致すること。</li>
+</ul>
+
+</div>
+<p>NFSv4 は、NFSv4.1 が有効化されると自動的に有効化されます。</li>
+
+<h4>マルチパス</h4>
+<p>NFSv4.1 はマルチパスをサポートします。 複数ネットワーク接続でクライアントは同時に、NFS サーバーにアクセスできます。 マルチパスは、接続がダウンしたときにネットワーク接続を維持するために、帯域幅を増強して、トラフィック フェイルオーバーを提供します。 当分の間、VMware ESXi バージョン6.0 以降のみが NFSv4.1 クライアントをサポートします。 VMware NFSv4.1 サポートの詳細は、<a target="_blank" href="https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.storage.doc/GUID-8A929FE4-1207-4CC5-A086-7016D73C328F.html">VMware ドキュメント</a>を参照してください。</p>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>マルチパスは NFSv4.1をサポートするモデルでのみ利用可能です。</li>
+</ul>
+</div>
+
+
+
+<h3>高度な設定</h3>
+
+<h4>デフォルトの UNIX 許可を適用</h4>
+<p> <strong>[デフォルトの UNIX 権限を適用]</strong> にチェックマークを付けると、ファイルやフォルダをアップロードしたり、作成したりするときには、Windows ACL 権限ではなく、Linux クライアントに設定されたデフォルトの UNIX 権限が適用されます。 適用された権限は、UNIX の <strong>umask</strong> コマンドで適用された権限と同じです。  デフォルトの umask 値は 022 です。</p><div class="section">
+<h4>注：</h4>
+<ul>
+  <li>Windows ACL が有効になった共有フォルダ（外部ドライブの&quot;photo&quot;フォルダと共有フォルダを除くすべての共有フォルダ）の場合は、Linux または FTP クライアントで <strong>chmod</strong> コマンドを実行してフォルダやファイルのパーミッションタイプを Windows ACL から UNIX に変更してください。</li>
+  <li>このオプションを有効にすると、プロトコルによってパーミッションが異なるという状況が発生するおそれがあります。 このような状況を回避するには、このオプションを無効にしておいてください。</li>
+</ul>
+</div>
+
+<h4>カスタム ポート</h4>
+<p>statd サービスと nlockmgr サービスのポート番号はカスタマイズできます。</p>
+
+<ol>
+<li><strong>[カスタマイズしたポート] </strong>を選択します。</li>
+<li><strong>statd ポート</strong>と<strong> nlockmgr ポート</strong>にポート番号を入力してください。</li>
+<li>
+<b>[適用]</b> をクリックします。
+</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>NFSv3 サービスを使用するには、<strong>[コントロール パネル]</strong> &gt; <strong>[セキュリティ]</strong> &gt; <strong>[ファイアウォール]</strong> を選択し、内蔵アプリケーション一覧から&quot;Mac/Linux ファイル サーバー&quot;を有効にするファイアウォール規則を作成してください。</li>
+</ul>
+</div>
+<h4>読み書きパケット サイズの設定</h4>
+<p>NFS クライアントで読み取り / 書き込みパケット サイズを設定できない場合は、この欄にはデフォルトの値を設定することができます。</p>
+
+<ol>
+<li><strong>[読み取りパケットサイズ]</strong> 欄と <strong>[書き込みパケットサイズ]</strong> 欄から、任意のパケット サイズを選択します。</li>
+<li>
+<b>[適用]</b> をクリックします。
+</li>
+<li>
+共有フォルダを再度マウントします。
+</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>読み取り / 書き込みパケットサイズを変更したら、新しい設定を有効にするために共有フォルダを再度マウントし直してください。</li>
+<li>これらの設定は、UDP（ユーザー データグラム プロトコル）を介して接続している NFS クライアントにしか影響しません。</li>
+</ul>
+</div>
+
+<h3>Kerberos の設定</h3>
+<p>Kerberos はネットワーク認証プロトコルです。 非セキュア ネットワークを介して通信しているクライアントやサーバーを認証し、安全な方法でそれぞれに ID を提供します。 Synology NAS には、既存の Kerberos キーをインポートするオプションがあります。 これをインポートすると、NFS クライアントは Kerberos 認証プロトコルを使って Synology NAS に接続できるようになります。</p>
+
+<h4> Kerberos キーをインポートする： </h4>
+<ol>
+<li><strong>[Kerberos の設定]</strong> をクリックします。</li>
+<li><b>[エクスポート]</b> ボタンをクリックします。</li>
+<li>インポートしたい Kerberos キーを選択します。</li>
+<li><b>[OK]</b> をクリックします。</li>
+</ol>
+
+<h3><a name="idmap"></a>Kerberos ID マッピング</h3>
+<p>各 Kerberos 主体をローカルの DSM ユーザー アカウントに割り当てることができます。</p>
+<h4> Kerberos 主体とローカルのユーザー アカウントを割り当てるには： </h4>
+<ol>
+<li><strong>[Kerberos の設定]</strong> をクリックします。</li>
+<li><strong>[ID マッピング]</strong> タブを開きます。</li>
+<li> <b>[追加]</b> ボタンをクリックします。 次のいずれかを選択します。</li>
+<ul>
+<li><strong>ID マッピング：</strong>Kerberos 主体とマップするローカルのユーザー アカウントを入力します。</li>
+<li><strong>推奨マッピング リスト：</strong>システムが生成した、推奨する Kerberos 主体／ローカル ユーザーのマッピング オプションがリストされます。</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> 注： </h4>
+<ul>
+	<li>Kerberos は内蔵ハード ドライブがあるモデルでのみ利用可能です。</li>
+	<li>Kerberos を介して接続している NFS クライアントを既存のドメイン／LDAP ユーザー アカウントに割り当てるには、ディレクトリ サービスに追加しているか確認してください。 また、ディレクトリ サーバーには相当する Kerberos 主体が含まれる属性がなければなりません。
+		<ul>
+		<li><strong>ドメインユーザー：</strong>相当する属性のフォーマットは、<strong>userPrincipalName</strong> です。</li>
+		<li><strong>LDAP ユーザー：</strong>相当する属性のフォーマットは、<strong>GSSAuthName</strong> です。</li>
+		</ul></li>
+	<li>ユーザーをローカル ユーザー、またはドメイン／LDAP ユーザーに割り当てられない場合は、ユーザーには&quot;guest&quot;が割り当てられます。
+	<li>優先順位は、 ローカル ユーザー > ドメイン／LDAP ユーザー > guest です。 </li>
+	<li>NFS クライアントのアクセス許可を変更するには、Windows アクセス制御リスト (ACL) をお使いください。 <strong>[コントロール パネル]</strong> > <strong>[ユーザー]</strong> にある権限オプションは、NFS クライアントには適用されません。</li>
+</ul>
+</div>
+
+</body>
+</html>

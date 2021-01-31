@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Réplica</h2>
+
+<p>Esta página permite a los administradores del sistema administrar réplicas. Puede crear, editar y eliminar tareas de réplica. También puede ejecutar o detener la sincronización y ver la información de sus tareas de réplica.</p>
+
+<h3>Carpeta compartida</h3>
+
+<h4>Para crear una tarea de réplica de una carpeta compartida:</h4>
+<ol>
+	<li>Vaya a la pestaña <strong>Carpeta compartida</strong>.</li>
+	<li>Haga clic en <strong>Crear</strong>.</li>
+	<li>Aparecerá el asistente <strong>Crear tarea de réplica</strong>. Siga los pasos del asistente para crear una réplica de la carpeta compartida.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>La carpeta compartida "homes" no se puede replicar.</li>
+	<li>La carpeta compartida cifrada no se puede replicar.</li>
+	<li>La carpeta compartida debe estar ubicada en un volumen Btrfs.</li>
+	<li>Puede crear <a href="#multiple_replication">réplicas de uno a muchos/ampliadas</a> de una carpeta compartida en distintos servidores de destino. No obstante, solo podrá crear una única réplica en un servidor de destino para cada carpeta compartida.</li>
+</ul>
+</div>
+
+<h4>Para eliminar una réplica de una carpeta compartida:</h4>
+<ol>
+	<li>Seleccione la tarea de réplica de carpeta compartida que desea eliminar.</li>
+	<li>Haga clic en <strong><b>Eliminar</b></strong>.</li>
+	<li>Verá un mensaje de confirmación. Haga clic en <strong>Eliminar</strong> para confirmar la eliminación.</li>
+</ol>
+
+<h4>Para editar una réplica de una carpeta compartida:</h4>
+<ol>
+	<li>Seleccione la tarea de réplica de carpeta compartida que desea editar.</li>
+	<li>Haga clic en <strong>Editar</strong>.</li>
+	<li>Aparecerá una ventana que contiene las siguientes pestañas:<ul>
+			<li>Servidor asociado</li>
+			<li>Programa</li>
+			<li>Retención</li>
+		</ul>
+	</li>
+	<li>En la ficha <strong>Servidor asociado</strong>, puede editar la información del servidor asociado, incluido en nombre de host, el puerto, el nombre de usuario y la contraseña.</li>
+	<li>En la pestaña <strong>Programa</strong>, marque la casilla de verificación <strong>Habilitar el programa de instantáneas</strong> y configure el tiempo y frecuencia para la toma de instantáneas. Puede desmarcar la casilla para cancelar las instantáneas programadas para la carpeta compartida.</li>
+	<li>En la ficha <strong>Retención</strong>, seleccione cualquiera de las siguientes opciones:<ul>
+			<li><strong>Conservar las últimas 256 instantáneas:</strong> cuando se alcanza el número máximo de instantáneas (256), las más antiguas se sobrescribirán con las que se han tomado más recientemente.</li>
+			<li><strong>Retener siempre las instantáneas:</strong> cuando se alcanza el número máximo de instantáneas, Instantánea y replicación dejará de tomar nuevas instantáneas y no eliminará las que ya se hayan tomado.</li>
+			<li><strong>Retener las instantáneas con la siguiente política:</strong> puede configurar las reglas de retención para los rangos de tiempo especificados.</li>
+		</ul>
+	</li>
+	<li>Haga clic en <strong>Aceptar</strong> para aplicar la configuración nueva.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Solo puede editar el programa de la tarea de replicación en el servidor de origen.</li>
+	<li>El cambio de la configuración de retención afectará a la configuración equivalente de la página <strong>Instantánea</strong>.</li>
+</ul>
+</div>
+
+<h4>Para ver la información de la réplica de una carpeta compartida:</h4>
+<ol>
+	<li>Seleccione la tarea de réplica de carpeta compartida que desea ver.</li>
+	<li>Haga clic en <strong>Información</strong>.</li>
+	<li>Aparecerá una ventana que contiene la siguiente información:<ul>
+			<li><strong>Estado</strong> de la réplica.</li>
+			<li><strong>Estadísticas</strong> de la réplica.</li>
+		</ul>
+	</li>
+</ol>
+
+<h4>Para ejecutar la sincronización de la réplica de una carpeta compartida:</h4>
+<ol>
+	<li>Seleccione la réplica de la carpeta compartida que desea sincronizar.</li>
+	<li>Haga clic en <strong>Ejecutar</strong>.</li>
+	<li>Introduzca la descripción de la instantánea que se va a tomar.</li>
+	<li>Haga clic en <strong>OK</strong> para confirmar la acción.</li>
+</ol>
+
+<h4>Para detener la sincronización de la réplica de una carpeta compartida:</h4>
+<ol>
+	<li>Seleccione la réplica de la carpeta compartida cuya sincronización desea detener.</li>
+	<li>Haga clic en <strong>Detener</strong>.</li>
+	<li>Verá un mensaje de confirmación. Haga clic en <strong>Detener</strong> para confirmar la acción.</li>
+</ol>
+
+<h3>iSCSI LUN</h3>
+
+<h4>Para crear una tarea de réplica de un iSCSI LUN:</h4>
+<ol>
+	<li>Vaya a la ficha <strong>iSCSI LUN</strong>.</li>
+	<li>Haga clic en <strong>Crear</strong>.</li>
+	<li>Aparecerá el asistente <strong>Crear tarea de réplica</strong>. Siga los pasos del asistente para crear una réplica de un iSCSI LUN.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>El iSCSI LUN debe haberse creado como <strong>LUN avanzado</strong>.</li>
+	<li>Puede crear <a href="#multiple_replication">réplicas de uno a muchos/ampliadas</a> de un iSCSI LUN en distintos servidores de destino. No obstante, solo podrá crear una única réplica en un servidor de destino para cada iSCSI LUN.</li>
+</ul>
+</div>
+
+<h4>Para eliminar una réplica de un iSCSI LUN:</h4>
+<ol>
+	<li>Seleccione la tarea de réplica del iSCSI LUN que desea eliminar.</li>
+	<li>Haga clic en <strong><b>Eliminar</b></strong>.</li>
+	<li>Verá un mensaje de confirmación. Haga clic en <strong>Eliminar</strong> para confirmar la acción.</li>
+</ol>
+
+<h4>Para editar una réplica de un iSCSI LUN:</h4>
+<ol>
+	<li>Seleccione la tarea de réplica del iSCSI LUN que desea editar.</li>
+	<li>Haga clic en <strong>Editar</strong>.</li>
+	<li>Aparecerá una ventana que contiene las siguientes pestañas:<ul>
+			<li>Servidor asociado</li>
+			<li>Programa</li>
+			<li>Retención</li>
+		</ul>
+	</li>
+	<li>En la ficha <strong>Servidor asociado</strong>, puede editar la información del servidor asociado, incluido en nombre de host, el puerto, el nombre de usuario y la contraseña.</li>
+	<li>En la pestaña <strong>Programa</strong>, marque la casilla de verificación <strong>Habilitar el programa de instantáneas</strong> y configure el tiempo y frecuencia para la toma de instantáneas. Puede desmarcar la casilla para cancelar las instantáneas programadas para el iSCSI LUN.</li>
+	<li>En la ficha <strong>Retención</strong>, seleccione cualquiera de las siguientes opciones:<ul>
+			<li><strong>Conservar las últimas 256 instantáneas:</strong> cuando se alcanza el número máximo de instantáneas (256), las más antiguas se sobrescribirán con las que se han tomado más recientemente.</li>
+			<li><strong>Retener siempre las instantáneas:</strong> cuando se alcanza el número máximo de instantáneas, Instantánea y replicación dejará de tomar nuevas instantáneas y no eliminará las que ya se hayan tomado.</li>
+			<li><strong>Retener las instantáneas con la siguiente política:</strong> puede configurar las reglas de retención para los rangos de tiempo especificados.</li>
+		</ul>
+	</li>
+	<li>En la ficha <strong>Aplicación</strong>, marque la opción <strong>Habilitar las instantáneas compatibles con aplicaciones</strong> para habilitar las instantáneas compatibles con aplicaciones. Para cancelar las instantáneas compatibles con aplicaciones, desmarque la casilla.</li>
+	<li>Haga clic en <strong>Aceptar</strong> para aplicar la configuración nueva.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Solo puede editar el programa en la réplica de origen.</li>
+	<li>El cambio de la configuración de retención/aplicación afectará a la configuración equivalente de la página <strong>Instantánea</strong>.</li>
+</ul>
+</div>
+
+<h4>Para ver información acerca de una réplica de iSCSI LUN:</h4>
+<ol>
+	<li>Seleccione la tarea de réplica del iSCSI LUN que desea ver.</li>
+	<li>Haga clic en <strong>Información</strong>.</li>
+	<li>Aparecerá una ventana que contiene la siguiente información:<ul>
+			<li><strong>Estado</strong> de la réplica.</li>
+			<li><strong>Estadísticas</strong> de la réplica.</li>
+		</ul>
+	</li>
+</ol>
+
+<h4>Para ejecutar la sincronización de la réplica de un iSCSI LUN:</h4>
+<ol>
+  <li>Seleccione la tarea de réplica del iSCSI LUN que desea sincronizar.</li>
+	<li>Haga clic en <strong>Ejecutar</strong>.</li>
+	<li>Introduzca la descripción de la instantánea que se va a tomar.</li>
+	<li>Haga clic en <strong>OK</strong> para confirmar la acción.</li>
+</ol>
+
+<h4>Para detener la sincronización de la réplica de un iSCSI LUN:</h4>
+<ol>
+	<li>Seleccione la tarea de réplica del iSCSI LUN cuya sincronización desea detener.</li>
+	<li>Haga clic en <strong>Detener</strong>.</li>
+	<li>Verá un mensaje de confirmación. Haga clic en <strong>Detener</strong> para confirmar la acción.</li>
+</ol>
+
+<h3><a name="multiple_replication"></a>Réplica de uno a muchos/ampliada</h3>
+
+<p>Puede crear varias réplicas de una carpeta compartida o iSCSI LUN en distintos servidores de destino, creando así un esquema de <strong>uno a muchos</strong>. También puede crear una réplica ampliada de una carpeta compartida o iSCSI LUN replicados, creando un esquema <strong>ampliado</strong>.</p>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Tanto si se trata de un esquema de uno a muchos o ampliado, la tarea de réplica solo puede tener como máximo tres servidores de destino.</li>
+</ul>
+</div>
+
+<div class="section"><h4><a name="smart_retention"></a>Política de retención</h4>
+<p>Esta opción proporciona una solución ideal para ayudarle a especificar las cantidades máximas de versiones de instantáneas y ahorrar espacio en el volumen, pero es posible que necesite retener las instantáneas durante periodos de tiempo más largos.</p>
+<p>Synology utiliza la política de retención GFS (abuelo-padre-hijo). Puede configurar las cantidades máximas de versiones de instantáneas que se pueden retener para los siguientes rangos de tiempo respectivamente: <strong>cada hora</strong>, <strong>cada día</strong>, <strong>cada semana</strong>, <strong>cada mes</strong> y <strong>cada año</strong>.</p>
+<p>Data Protection Manager conservará el número máximo de instantáneas configurado para cada rango de tiempo. Si existe más de una versión de instantánea dentro del mismo rango de tiempo, sólo se conservará la primera. Por ejemplo, si define una política de 10 <strong>instantáneas semanales</strong>, Data Protection Manager conservará la primera (si se toma más de una instantánea en una semana) para cada una de las últimas 10 semanas.</p><img class="help_image" src="https://help.synology.com/file/DSM/5.2/online_img/dsm/DisasterRecovery/retention_policy.png"><p>Además, todas las versiones de instantáneas tomadas en el periodo de una hora antes de la instantánea más reciente se conservarán de manera predeterminada, para que le resulte más fácil encontrar y restaurar desde versiones recientes de instantáneas. También puede bloquear una instantánea para evitar que la eliminen automáticamente las reglas de retención.</p>
+</div>
+
+</body>
+</html>

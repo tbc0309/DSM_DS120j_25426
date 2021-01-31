@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Genel Bakış</h2>
+	<p>Bu sayfa high-availability kümesi ve üye hizmetlere ilişkin temel bilgileri görüntüler. Ayrıca bu sayfa high-availability kümeleri ve üye sunucularda bakım yapma araçlarını sunar.</p>
+
+<h3>High-Availability Kümesi Durumu</h3>
+  <p>Bu alan high-availability kümenizin genel durumunu görüntüleyerek, sizi herhangi bir hataya karşı uyarır. Aşağıdakiler bu alanda görüntülenen muhtemel durumların bir tablosudur:</p>
+    <table>
+     <tr>
+      <th width="12%">Durum</th>
+      <th width="88%">Açıklama</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Sağlıklı</strong></td>
+      <td>High-availability kümenizin genel durumu iyidir.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Yükleniyor</strong></td>
+	  <td>Sistem küme durumunu yüklüyor. Yükleniyor durumu bitirilene kadar <strong>Geçiş</strong> gerçekleştirilemez. Lütfen <a href="switchover_fail.html">Geçiş</a> kısmına bakın.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Yapılandırıyor</strong></td>
+	  <td>Sistem yapılandırılıyor. Yapılandırma bitirilene kadar <b>Geçiş</b> gerçekleştirilemez.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Uyarı</strong></td>
+      <td>HA kümesinin durumu anormaldir ama hizmetler çalışmaya devam etmektedir. <strong>Geçiş</strong> bu durumda yapılamayabilir.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Tehlike</strong></td>
+	  <td>Aktif ve pasif sunucuların her ikisi de arızalıdır ya da depolama çökmüştür. High-availability kümesi normal olarak işlev göremiyor. Lütfen tüm depolama alanlarının (örn. RAID Grupları, Disk Grupları, birimler ve iSCSI LUN'lar) durumunu kontrol edin. <b>Geçiş</b> bu durumda yapılamaz.</td>
+     </tr>
+    </table>
+<h3>Uyarı Mesajları</h3>
+   <p>Aşağıdaki tablo, sistemde bir hata meydana geldiğinde görülebilen uyarı mesajlarını göstermektedir. Birden fazla uyarı mesajı belirirse, ileri/geri düğmeleriyle aralarında gezinebilirsiniz. </p>
+    <table>
+     <tr>
+      <th width="21%">Uyarı/Hata</th>
+      <th width="79%">Açıklama</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bu high-availability kümesinde pasif sunucu yok</strong></td>
+	  <td>Pasif sunucu bilgileri hazır değil. Pasif sunucunun uygun şekilde bağlandığından lütfen emin olun. Bu durumda geçiş kullanılamaz.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Pasif sunucu algılanamadı</strong></td>
+      <td>Bu hata, pasif sunucunun çevrimdışı olması veya aktif ve pasif sunucuların Kalp Atışı bağlantısı yoluyla iletişim kuramaması nedeniyle oluşabilir. Bu durumda geçiş kullanılamaz.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Üstlenme yapılamadı</strong></td>
+      <td>Aktif sunucuda bir üstlenme tetiklendi ancak başarısız oldu. Bu durumda, pasif sunucu başka bir üstlenmeye girişmez. Bu hatayı ortadan kaldırmak için, aşağıdaki adımları izleyin:
+		<ol>
+		  <li>High-availability kümesindeki sorunları gidermeyi deneyin.</li>
+		  <li>Pasif sunucuyu yeniden başlatın.</li>
+		  <li><strong>Yönet</strong> > <strong>Geçiş</strong> üzerine tıklayarak bir geçiş yapın.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>İzlenen hedef hatası</strong></td>
+      <td>Sistem durumu, hizmet veya ağ arabirimi dahil olmak üzere bir veya daha fazla izlenen hedefte bir hata meydana geldi.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Genişletme üniteleri ve aktif/pasif sunucu arasındaki bağlantıda hata(lar) meydana geldi</strong></td>
+      <td>Genişletme üniteleri aktif veya pasif sunucuya doğru bağlanmamış. Aktif sunucuya olan bağlantılarının doğru olduğundan emin olun ve aynı bağlantıyı pasif sunucuya da yapın. Bu durumda geçiş kullanılamaz.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bir birimin kapasitesi düşmüş</strong></td>
+      <td>Bir depolama alanının (ör. RAID Group, Disk Grubu, birim, iSCSI LUN ve SSD önbellek) kapasitesi düştü. Lütfen <b>Depolama Durumu</b> sayfasını kontrol edin.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bir birim çökmüş</strong></td>
+      <td>Bir depolama alanı (ör. RAID Group, Disk Grubu, birim, iSCSI LUN ve SSD önbellek) çökmüş. Lütfen <b>Depolama Durumu</b> sayfasını kontrol edin. Pasif sunucu aktif sunucunun erişemediği sürücüleri tanımlayabilirse üstlenme otomatik olarak yapılır. Aksi halde geçiş kullanılamaz.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Kalp atışı bağlantısı kaybedildi</strong></td>
+      <td>Bu hata Kalp Atışı bağlantısı arızası nedeniyle oluşabilir. Bu durumda geçiş kullanılamaz.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Donanım arızası</strong></td>
+      <td>Bu hata aktif sunucu ya da pasif sunucu üzerinde donanım (ör. güç ünitesi veya sistem fanı) arızasına bağlı olarak oluşabilir.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Farklı fiziksel RAM boyutu</strong></td>
+      <td>Bu hata aktif ve pasif sunucular üzerindeki uyumsuz fiziksel RAM boyutuna bağlı olarak oluşabilir. Bu durumda geçiş kullanılamaz.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bu high-availability kümesine atanmış statik IP yok</strong></td>
+      <td>Bu hata high-availability kümesi için bir statik IP eksikliği nedeniyle oluşabilir. Bu durumda geçiş kullanılamaz.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>İzlenen arabirimde statik IP yok</strong></td>
+      <td>Bu izlenen arabirim için bir statik IP eksikliği nedeniyle oluşabilir. Bu durumda geçiş kullanılamaz.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Pasif sunucu kurtarılıyor</strong></td>
+      <td>Pasif sunucu kurtarma yapılıyor. Bu durumda geçiş kullanılamaz.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Pasif sunucu yükseltiliyor</strong></td>
+      <td>Sistem pasif sunucuyu yükseltiyor. Bu durumda geçiş kullanılamaz.</td>
+     </tr>
+
+    </table>
+
+<h3>High-Availability Kümesi &quot;Yönet&quot; Düğmesi</h3>
+
+<p>Bu düğme high-availability kümesi bilgilerinin altında yer alır. Aşağıdaki işlemleri içerir:</p>
+<ul>
+<li><b>Geçiş:</b> Aktif sunucudan pasif sunucuya bir geçişi başlatır. Bu işlem sırasında, aktif sunucu hizmetleri sunmayı durdurur ve yeni pasif sunucu haline gelir. Ardından, eski pasif sunucu yeni aktif sunucu haline gelir ve high-availability kümesinin tüm hizmetlerini sunmaya başlar. Bu seçenek pasif sunucu <b>hata</b> durumunda olduğunda veya silmediğinde kullanılamaz.</li>
+<li><b>DSM'yi güncelle:</b> <strong>Denetim Masası</strong>'nın <strong>DSM Güncelleme</strong> sayfasını açar. Buradan, her iki sunucu da güncellenebilir.</li>
+<li><b>High-availability kümesini kapat:</b> Aktif ve pasif sunucuların her ikisini de kapatır.</li>
+<li><b>Aktif sunucuyu kapat:</b> Aktif sunucuyu kapatır. Hizmetler sağlıklıysa pasif sunucuya aktarılacaktır.</li>
+<li><b>Pasif sunucuyu kapat:</b> Pasif sunucuyu kapatır.</li>
+<li><b>Aktif sunucuyu yeniden başlat:</b> Aktif sunucuyu yeniden başlatır. Hizmetler sağlıklıysa pasif sunucuya aktarılacaktır.</li>
+<li><b>Pasif sunucuyu yeniden başlat:</b> Pasif sunucuyu yeniden başlatır.</li>
+<li><b>Bilinmeyen sunucuyu kurtar:</b> Pasif sunucu değiştirilirse ya da halen bilinmiyor olarak tanımlanıyorsa pasif sunucuyu kurtarır.</li>
+<li><b>Sistem bip sesi kapalı:</b> Bir hata oluştuğunda aktif sunucu ve pasif sunucu bip sesini durdurur. Daha sonra başka bir hata oluşursa aktif sunucu veya pasif sunucuda sistem bip sesi çıkarmaya devam eder.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Pasif sunucuyu kapatırsanız veya pasif sunucu yoksa, aktif sunucu da hatalar olması durumunda hizmetler aktarılamaz.</li>
+</ul>
+</div>
+
+<h3>Sunucu Şeması ve Bilgisi</h3>
+ <p>Sunucu şeması sunucu durumunu gösterir. Konum sunucunun bağlandığı modüllerin yan tarafına karşılık gelir. Daha fazla bilgi almak için fareyi üzerine getirin.</p>
+<p>Aşağıdaki durumları içerir:</p>
+<ul>
+  <li><b>Bu high-availability kümesinde pasif sunucu yok:</b> Boş bir kare görüntüler.</li>
+  <li><b>Pasif sunucu algılanamadı:</b> Bulanık bir sunucu resmi görüntüler.</li>
+  <li><b>Ünlem İşareti:</b> Donanım arıza yapabilir veya sunucu bilgileri Kalp Atışı bağlantısındaki arıza nedeniyle mevcut olmayabilir.</li>
+</ul>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Diğer sunucuda "bilinmeyen" ibaresi gösteriyorsa, bu sunucunun high-availability kümesine ait olmadığı anlamına gelir. Bu sorunu gidermek için <b>Yönet</b> üzerine tıklayın ve <b>Bilinmeyen sunucuyu kurtar</b> seçimini yapın.</li>
+</ul>
+</div>
+
+<p>Sunucu bilgileri aşağıdaki girişleri içerir. Hiçbir pasif sunucu algılanmazsa <b>N/A</b> gösterir.</p>
+
+  <ul>
+   <li><b>Seri Numarası:</b> Synology sunucusu seri numarası.</li>
+   <li><b>Fan Durumu:</b> Sunucunun soğutma fanlarının durumu. Fanların birisi arıza yaparsa, bir uyarı görülür. Bu durumda, lütfen yardım almak için yerel distribütörünüzle görüşün.</li>
+   <li><b>Sıcaklık:</b> Synology sunucu sıcaklığı. </li>
+   <li><b>Güç Durumu:</b> Sunucunun güç kaynaklarının tümünün normal çalışıp çalışmadığını bildirir. Sunucu yedek güç kaynağı ile donatılmışsa, bunlardan birisinin arıza yapması durumunda bir uyarı gözükecektir.</li>
+    <li><b>Fiziksel Bellek:</b> Synology sunucusunun fiziksel RAM boyutu. İki sunucu aynı fiziksel RAM boyutuna sahip değilse aktarma yapılamaz.</li>
+  </ul>
+
+<h3>Sunucular arasındaki bağlantı durumu</h3>
+<p>Bu bölüm aktif ve pasif sunucular arası görüntüleri içerir. Aşağıdaki durumları içerir:</p>
+<ul>
+  <li><b>Resim yok:</b> Algılanmış pasif sunucu olmadığını bildirir.</li>
+  <li><b>Durağan görüntü:</b> Yanlış Kalp Atışı bağlantısını bildirir.</li>
+  <li><b>Ünlem İşareti:</b> İki sunucu arasında anormal iletişimi ya da yanlış Kalp Atışı bağlantısını bildirir.</li>
+</ul>
+
+<h3>Ağ arabirimi durumu</h3>
+<p>Bu bölüm sunucular ve veri ağı arası görüntüleri içerir. Aşağıdaki durumları içerir:</p>
+<ul>
+  <li><b>Ünlem işareti yok:</b> Hiçbir ağ arızası algılanmadığını bildirir.</li>
+  <li><b>Ünlem İşareti:</b> İzlenen ağ arabiriminde arıza oluştuğunu bildirir.</li>
+</ul>
+
+<h3> Paylaşılan Depolama Şeması ve Bilgisi</h3>
+ <p>Paylaşılan depolama şeması sunucular ve paylaşılan depolama arasındaki bağlantı durumunu gösterir. Temel bilgileri almak için fareyi üzerine getirin.</p>
+<p>Aşağıdaki durumları içerir:</p>
+<ul>
+  <li><b>Ünlem işareti yok:</b> Hiçbir hata algılanmadığını bildirir.</li>
+  <li><b>Ünlem İşareti:</b> Genişletme ünitelerinde anormal bağlantı durumunu bildirir.</li>
+</ul>
+
+<p>Paylaşılan depolama temel bilgileri aşağıdaki girişleri içerir. Daha ayrıntılı bilgi için <b>Depolama Yöneticisi</b> öğesine gidin.</p>
+
+  <ul>
+   <li><b>Fan Durumu:</b> Genişletme ünitelerinizdeki fanların durumunu görüntüler. Fan arıza yaparsa, bir uyarı görülür. Bu durumda, lütfen yardım almak için yerel distribütörünüzle görüşün.</li>
+   <li><b>Güç Durumu:</b> Sunucunun güç kaynaklarının tümünün normal çalışıp çalışmadığını bildirir. Bir tanesi arıza yaparsa bir uyarı belirir.</li>
+   </ul>
+ </body>
+</html>

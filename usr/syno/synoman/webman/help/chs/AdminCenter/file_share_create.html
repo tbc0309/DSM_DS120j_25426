@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>创建共享文件夹 - Synology DSM 帮助</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Shared folders are the basic directories where you can store and manage files and folders on your Synology NAS. This article shows you how to create a shared folder.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>创建共享文件夹</h2>
+<p>共享文件夹是 Synology NAS 基本的目录结构，您可在其中存储并管理文件和文件夹。存储文件前，您必须在 DSM 创建至少一个共享文件夹。</p>
+
+<h4>若要创建共享文件夹：</h4>
+<ol>
+	<li>请进入<strong>控制面板</strong> > <strong>共享文件夹</strong>然后单击<strong>创建</strong>。<br /><img src="about:blank" class="help_image"/></li>
+	<li>为共享文件夹指定名称和描述。<br /><img src="about:blank" class="help_image "/></li>
+	<li>选择您想创建共享文件夹的存储空间（如果只有一个存储空间，请跳过此步骤）。<br /><img src="about:blank" class="help_image"/></li>
+	<li>如需要，请修改以下选项：<br /><img src="about:blank" class="help_image"/><ul>
+			<li><strong>在“网上邻居”隐藏此共享文件夹：</strong>此选项可让该共享文件夹不在 Windows 文件资源管理器的“网络”下出现。勾选此选项并不影响共享文件夹的访问权限。<div class="section"><h4>注：</h4>
+				<ul>
+				<li>在“网上邻居”隐藏共享文件夹并不会影响其访问权限。隐藏的共享文件夹访问权限将保持不变。拥有相应访问权限的用户仍可通过输入“\\服务器名称\共享文件夹名称”的方式来访问该共享文件夹。</li>
+				</ul>
+				</div>
+			</li>
+			<li><strong>对没有权限的用户隐藏子文件夹和文件：</strong>当<strong>对没有权限的用户隐藏子文件夹和文件</strong>选项启用时，如果没有读取权限的用户试图通过 Windows 文件共享协议来访问共享文件夹，该用户将无法查看共享文件夹中的子文件夹或文件。此选项可避免用户连接到其 Synology 产品后，但无法打开大量文件和子文件夹时而感到迷惑。<div class="section"><h4>注：</h4>
+				<ul>
+					<li>仅 Windows 文件共享协议支持此功能。</li>
+					<li>您可右击 File Station 中的文件夹和文件来修改其权限设置。从下拉菜单中选择<strong>属性</strong>，然后单击<strong>权限</strong>选项卡。</li>
+					<li>启用<strong>对没有权限的用户隐藏子文件夹和文件</strong>后，对没有权限的用户不会隐藏共享文件夹本身。只有该共享文件夹中的子文件夹和文件会隐藏起来。</li>
+				</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li><strong>启用回收站：</strong>当共享文件夹中的文件被删除后，这些文件将被移动到名为 <strong>#recycle</strong> 的文件夹中。访问回收站的权限仅限属于 <strong>administrators</strong> 群组的用户。</li><a name="sharequota"></a><li class=""><strong>启用共享文件夹配额：</strong>要指定各共享文件夹的最大容量，请勾选<strong>启用共享文件夹配额</strong>复选框，并在以下栏中输入最大容量（如 10 GB）。<div class="section"><h4>注：</h4>
+		<ul>
+			<li>只有当存储空间使用 Btrfs 文件系统时，共享文件夹才能使用<strong>启用共享文件夹配额</strong>选项。</li>
+			<li>所有用户 <strong>home</strong> 目录的存储空间使用状况不可超出“<strong>homes</strong>”的配额。</li>
+		</ul>
+		</div>
+	</li><a name="integrity_protection"></a><li><strong>启用数据总和检查码以实现高级数据完整性：</strong>若要用 <strong>CRC32 总和检查码</strong>和<strong>写入时复制</strong>策略保护共享文件夹，您可在共享文件夹创建时启用数据总和检查码以实现高级数据完整性。应用 CRC32 总和检查码可检查数据是否与最初写入时相同，系统将自动使用 RAID 冗余来修复损毁的数据。“写入时复制”功能有助于提高异常系统关机时的数据一致性。<div class="section"><h4>注：</h4>
+		<ul>
+			<li>此选项仅适用于使用 Btrfs 文件系统的卷。</li>
+			<li>您可在各共享文件夹创建时启用/禁用此选项。一旦共享文件夹创建后，此选项将无法修改。</li>
+			
+			<li>启用此选项可让系统执行全面数据清理。<a href="../StorageManager/storage_pool_data_scrubbing.html">了解更多关于数据清理的信息</a></li>
+			<li>若要确保服务质量，在将共享文件夹用于以下服务时，建议不启用数据总和检查码：<ul>
+				<li>托管数据库或虚拟机</li>
+				<li>存储 Surveillance Station 录制的视频</li>
+				<li>运行需要小型和随机写入模式的服务</li>
+			</ul>
+			</li>
+			
+		</ul>
+		</div>
+	</li><a name="btrfs_compression"></a><li><strong>启用文件压缩</strong>：创建的共享文件夹中的数据将被 Btrfs 文件系统自动压缩以节省存储空间。当数据被检索以供使用时，数据将被自动解压缩。<div class="section"><h4>注：</h4>
+		<ul>
+			<li>此选项仅当您在 Btrfs 卷中创建共享文件夹或<strong>高级数据完整性保护</strong>启用后可用。</li>
+			<li>一旦共享文件夹创建后，此选项将无法修改。</li>
+			<li>压缩速率根据数据类型而有所不同：文本文件的压缩率最高，而多媒体文件（如图像、音乐或视频）的压缩率可能不佳，因为这些文件已为输出进行了压缩。</li>
+            <li>如果已启用共享文件夹加密，此选项将无法启用。</li>
+		</ul>
+		</div>
+	</li>
+	<li><strong>加密此共享文件夹：</strong>如果要对共享文件夹进行加密，请执行以下操作：<ol>
+			<li>指定并确认新的加密密钥。加密密钥不包括逗号 (,) 或等号 (=)。</li>
+			<li>如需要，请勾选<strong>将加密密钥添加到密钥管理器</strong>复选框，可在系统启动时自动装载加密文件夹。如果禁用此选项，加密的共享文件夹会在下次 Synology NAS 重新启动时卸载。若要查看或访问卸载的共享文件夹，您需要导入或输入加密密钥，藉此手动装载此文件夹。</li>
+		</ol>
+	</li>
+	<li>单击<strong>确定</strong>完成。</li>
+	
+	
+<div class="section"><h4>注：</h4>
+	<ul>
+	<li>共享文件夹的某些功能和选项仅由具有以下套件架构的 VDSM 和型号支持：Apollo Lake、Avoton、Braswell、Broadwell、Bromolow、Cedarview 和 Grantley。若要查看您的型号支持哪种套件架构，请参阅<a href="https://www.synology.com/en-us/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">本文</a>。</li>
+	</ul>
+</div>
+	
+</ol>
+
+<div class="section"><h4>共享文件夹的命名规则：</h4>
+<ul>
+	<li>共享文件夹名称不分大小写，可包含 1-32 个字符。但名称不得包含以下字符：<strong>! " # $ % & ' ( ) * + , / : ;<= >? @ [ ] \ ^ ` { } | ~</strong></li>
+	<li>以下名称保留给系统所用：<strong>.</strong>、<strong>..</strong>、<strong>global</strong>、<strong>home</strong>、<strong>homes</strong>、<strong>printers</strong>、<strong>public</strong>、<strong>satashare</strong>、<strong>surveillance</strong>、<strong>usbbackup</strong>、<strong>usbshare</strong>。</li>
+	<li>共享文件夹名称的第一个字符不可为减号或空格，最后一个字符不可为空格。</li>
+	<li>共享文件夹<strong>描述</strong>区分大小写，最多可包含 64 个可显示的 Unicode 字符。</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>加密共享文件夹：</h4>
+<p>AES 256 位加密机制通过封锁所有未经授权的访问尝试来保护数据。共享文件夹加密后，那些没有加密密钥的用户将无法访问或修改加密的数据，即使将硬盘从 Synology NAS 取下并装载到其他设备，也一样无法访问。</p>
+</div>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>加密共享文件夹中的文件或文件夹名称不可超出 143 个英文字符或 47 个亚洲文字（中日韩）字符；如果您通过 Mac OS 访问共享文件夹，则加密文件夹中的文件或文件夹名称不可超出 130 个英文字符或 43 个亚洲文字（中日韩）字符。</li>
+	<li>加密的共享文件夹无法通过 NFS 进行访问。</li>
+	<li>如果您使用 Synology NAS 上的重置按钮来恢复默认密码，加密的共享文件夹将被卸载，而自动装载加密的文件夹选项将被禁用。</li>
+	<li>仅在高权限模式下才支持加密的共享文件夹（仅适用于 Dockerx64）。若要使用此功能，请进入主 DSM 的 Docker 套件，选择您要为其启用加密共享文件夹的 <strong>Docker DSM</strong>，单击<strong>编辑</strong>，然后勾选<strong>使用高权限执行容器</strong>旁的复选框。</li>
+</ul>
+</div>
+
+</body>
+</html>

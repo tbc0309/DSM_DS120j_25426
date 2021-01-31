@@ -1,0 +1,11 @@
+# author: ANT
+# only import the environment for usb dongle
+
+ENV{SUBSYSTEM}!="usb|usbmisc", GOTO="usb_env_end"
+ACTION!="add", GOTO="usb_env_end"
+ENV{PRODUCT}=="", GOTO="usb_env_end"
+
+IMPORT{program}="/lib/udev/script/usb-parse-vidpid.sh"
+IMPORT{program}="/lib/udev/script/usb-env-util.sh $env{SYNO_USB_VENDER} $env{SYNO_USB_PRODUCT}"
+
+LABEL="usb_env_end"

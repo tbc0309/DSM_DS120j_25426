@@ -1,0 +1,101 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Reparar un grupo de almacenamiento: Ayuda de Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to repair a storage pool on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Reparar un grupo de almacenamiento</h2>
+
+<p>Los errores de grupos de almacenamiento pueden ocurrir por diferentes motivos, como por ejemplo, unidades averiadas. En algunos casos, podr&aacute; seguir las instrucciones que se indican a continuaci&oacute;n para diagnosticar y solucionar los errores.</p>
+	
+<p>La funci&oacute;n de <strong>Reparaci&oacute;n</strong> mencionada en este art&iacute;culo solo est&aacute; disponible para grupos de almacenamiento con tipos de RAID que admiten redundancia de datos (es decir, SHR que conste de al menos 2 unidades, RAID 1, RAID 5, RAID 6, RAID F1 y RAID 10). Tenga en cuenta que esta funci&oacute;n puede reparar un grupo de almacenamiento, pero no unidades defectuosas.</p>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+<li>Recomendamos el uso de unidades incluidas en la <a href="https://www.synology.com/compatibility" target=blank>lista de compatibilidad de productos de Synology</a> para evitar problemas. El uso de unidades incompatibles puede afectar al rendimiento del sistema e incluso provocar la p&eacute;rdida de datos.</li>
+<li>SHR (Synology Hybrid RAID) est&aacute; disponible solo en modelos espec&iacute;ficos. Para obtener m&aacute;s informaci&oacute;n sobre SHR, consulte <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">aqu&iacute;</a>.</li>
+</ul>
+</div>
+	
+<h3>Reparaci&oacute;n de un grupo de almacenamiento con particiones del sistema averiadas</h3>
+
+<p>Cuando se aver&iacute;an las particiones de los sistemas, aparecer&aacute; un mensaje indicando que no es posible acceder a estas. Lleve a cabo los pasos siguientes para solucionar el problema:</p>
+
+<ol>
+<li>Inicie el <strong>Administrador de almacenamiento</strong>.</li><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/><li>Vaya a la p&aacute;gina <strong>Visi&oacute;n general</strong> y haga clic en el v&iacute;nculo <strong>Reparar</strong>. El sistema deber&iacute;a empezar a reparar las particiones del sistema.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/fail_system_partitions.png" class="help_image"/></ol>
+
+<h3>Reparar un grupo de almacenamiento degradado</h4>
+
+<p>Un grupo de almacenamiento pasa a estar <strong>Degradado</strong> cuando no puede acceder a los datos de una unidad, pero no se ha producido la p&eacute;rdida de datos a&uacute;n. Esto solo ocurre con los grupos de almacenamiento con tipos de RAID que proporcionan redundancia de datos (es decir, SHR con al menos 2 unidades, RAID 1, RAID 5, RAID 6, RAID F1 y RAID 10). Antes de empezar a reparar un grupo de almacenamiento degradado, primero sustituya las unidades defectuosas con unidades en buen estado y, a continuaci&oacute;n, retire las unidades defectuosas o simplemente sustit&uacute;yalas por unidades en buen estado.</p>
+
+<h4>Requisitos de las unidades:</h4>
+<p>Sustituya las unidades defectuosas por otras en buen estado que cumplan los siguientes criterios:</p>
+	
+<ul>
+<li><b>Para grupos de almacenamiento RAID 1, RAID 5, RAID 6, RAID F1 y RAID 10</b>: El tama&ntilde;o de la unidad de sustituci&oacute;n debe ser igual o superior al tama&ntilde;o de la unidad m&aacute;s peque&ntilde;a del grupo de almacenamiento.</li>
+<li><b>Para grupos de almacenamiento SHR-1</b>: La unidad de sustituci&oacute;n debe cumplir uno de los siguientes criterios:<ul>
+<li>El tama&ntilde;o de la unidad de sustituci&oacute;n debe ser igual o mayor que el tama&ntilde;o de la unidad defectuosa.</li>
+<li>Con la unidad m&aacute;s grande del grupo de almacenamiento excluida, el tama&ntilde;o de la unidad de sustituci&oacute;n debe ser igual o mayor que el tama&ntilde;o de la unidad restante m&aacute;s grande. <br><span class="note_head">Ejemplos:</span><ul>
+<li>Ejemplo 1: SHR-1 est&aacute; compuesto por unidades de 3&nbsp;TB, 2&nbsp;TB, 2&nbsp;TB y 1&nbsp;TB. Si la unidad de 3&nbsp;TB se vuelve defectuosa, puede repararse por una unidad cuyo tama&ntilde;o sea igual o mayor que 2&nbsp;TB.</li>
+<li>Ejemplo 2: SHR-1 est&aacute; compuesto por unidades de 4&nbsp;TB, 4&nbsp;TB, 2&nbsp;TB y 2&nbsp;TB. Si la unidad de 4TB se vuelve defectuosa, puede repararse por una unidad cuyo tama&ntilde;o sea igual o mayor que 4TB.</li>
+<li>Ejemplo 3: SHR-1 est&aacute; compuesto por unidades de 4&nbsp;TB, 4&nbsp;TB, 2&nbsp;TB y 2&nbsp;TB. Si la unidad de 2TB se vuelve defectuosa, puede repararse por una unidad cuyo tama&ntilde;o sea igual o mayor que 2&nbsp;TB.</li>
+</ul>	
+</li>
+			
+</ul>
+</li>
+<li><b>Para grupos de almacenamiento SHR-2</b>: La unidad de sustituci&oacute;n debe cumplir uno de los siguientes criterios:<ul>
+<li>El tama&ntilde;o de la unidad de sustituci&oacute;n debe ser igual o mayor que el tama&ntilde;o de la unidad defectuosa.</li>
+<li>Con las dos unidades m&aacute;s grandes del grupo de almacenamiento excluidas, el tama&ntilde;o de la unidad de sustituci&oacute;n debe ser igual o mayor que la unidad restante m&aacute;s grande.</li>
+</ul>	
+</li>
+</ul>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+<li>Si las unidades disponibles se han asignado como unidades Hot Spare para proteger uno o m&aacute;s grupos de almacenamiento, las unidades Hot Spare reparar&aacute;n autom&aacute;ticamente los bloques de almacenamiento degradados. Consulte <a href="hotspare.html" target="_blank">Hot Spare</a> para obtener m&aacute;s informaci&oacute;n.</li>
+</ul>
+</div>
+
+
+<h4>Para reparar un grupo de almacenamiento degradado:</h4>
+
+<p>Siga estos pasos para reparar un grupo de almacenamiento degradado:</p>	
+<ol>
+<li>Vaya a <strong>Administrador de almacenamiento</strong> &gt; <strong>Grupo de almacenamiento</strong> y busque el grupo de almacenamiento con el estado <strong>Degradado</strong>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/volume_degraded.png" class="help_image"/><li>Haga clic en para ver la informaci&oacute;n del grupo de almacenamiento y para comprobar el estado de la unidad.</li>
+<li>Despu&eacute;s, vaya a la p&aacute;gina <strong>HDD/SSD</strong> para confirmar cu&aacute;l es la unidad defectuosa.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/hdd_ssd.png" class="help_image"/><li>Retire la unidad da&ntilde;ada de su Synology NAS y sustit&uacute;yala por otra nueva. Si su Synology NAS no es compatible con el intercambio en caliente, recuerde apagarlo antes de quitar e instalar unidades.<br><span class="note_head">Nota:</span> Se borrar&aacute;n todos los datos existentes en la unidad de sustituci&oacute;n.</li>
+<li>Una vez instalada la unidad de sustituci&oacute;n, vuelva a la p&aacute;gina <strong>Grupo de almacenamiento</strong> y seleccione el grupo de almacenamiento degradado.</li>
+<li>Haga clic en <b>Reparar</b> en el men&uacute; desplegable <b>Acci&oacute;n</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/manage_repair.png" class="help_image"/><li>Seleccione la unidad de sustituci&oacute;n que desea agregar al grupo de almacenamiento y siga las instrucciones del asistente para finalizar.</li>
+</ol>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+<li>Si la reparaci&oacute;n de un grupo de almacenamiento tarda mucho tiempo, puede estar asociada a los motivos que se enumeran <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Why_does_it_take_a_long_time_to_repair_a_storage_pool" target="_blank">aqu&iacute;</a>.</li>
+</ul>
+</div>
+
+
+<h3>Soluci&oacute;n de problemas de grupos de almacenamiento averiados</h3>
+
+<p>Cuando el estado de un grupo de almacenamiento se convierte en <strong>Averiado</strong>, ya no podr&aacute; repararlo usted mismo. Consulte los siguientes art&iacute;culos para obtener m&aacute;s informaci&oacute;n sobre los motivos habituales de aver&iacute;a de volumen y el m&eacute;todo de soluci&oacute;n de problemas:<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_are_the_reasons_of_volume_crash" target="_blank">¿Qu&eacute; provoca que un volumen se aver&iacute;e?</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_do_I_do_when_a_volume_crashes" target="_blank">¿Qu&eacute; debo hacer cuando se aver&iacute;a un volumen?</a></li>
+	</ul>
+</p>
+
+
+</body>
+</html>

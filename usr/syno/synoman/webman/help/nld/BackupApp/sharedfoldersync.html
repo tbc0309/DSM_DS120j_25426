@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Back-up en replicatie</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Gedeelde map synchroniseren</h2>
+<p>Met Gedeelde map synchroniseren kunnen gebruikers gedeelde mappen van het ene Synology-product (de bron) met het andere Synology-product (het doel) synchroniseren op een LAN of via het internet. Dit werkt op basis van gedeelde mappen. Als er bij de synchronisatie al een map met dezelfde naam (bijv. SharedFolder) bestaat op het doel-Synology-product, zal de naam van de map worden hernoemd als "SharedFolder_1". Als de mapnaam nog niet aanwezig is, wordt deze op het betreffende volume of het eerst beschikbare volume gemaakt. De toegangsrechten voor deze map op de doel- Synology NAS worden op standaardwaarden ingesteld, d.w.z. dat er geen rechten voor deze map worden ingesteld.</p>
+<p>Bij de eerste synchronisatie, maakt Gedeelde map synchroniseren een volledige synchronisatie van de geselecteerde gedeelde map(pen). Hierna worden uitsluitend gewijzigde bestanden gesynchroniseerd. Bestanden die van de bron zijn verwijderd, worden ook op het doel gewist.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>
+gedeelde-mapsynchronisatie is een éénrichtingssynchronisatie-oplossing. Dit betekent dat de bestanden op de bron worden gesynchroniseerd met het doel, maar niet omgekeerd. Zoekt u naar een 2-richtingssynchronisatie-oplossing, gebruik dan <strong>Cloud Station</strong>.</li></ul></div>
+
+<h3>De service inschakelen</h3>
+<h4>Om Gedeelde map synchroniseren in te schakelen:</h4>
+<p>U moet de service inschakelen op de doel-Synology NAS. Ga hiervoor naar <b>Back-up en replicatie</b> > <b>Gedeelde map synchroniseren</b>. In het tabblad <b>Server</b> schakelt u het selectievakje <b>Gedeelde map synchroniseren-service inschakelen</b> in.</p>
+<h4>Gedeelde mappen verbinden van bron naar doel-Synology-product:</h4> 
+<p>U kunt gedeelde mappen van een bron synchroniseren naar verschillende doelservers. Bovendien biedt Gedeelde map synchroniseren in DSM 4.1 een functie Gedeelde map synchroniseren vanuit meerdere bronnen, waarmee meerdere clients hun gedeelde mappen kunnen synchroniseren op een Synology NAS. Als verschillende clients op hetzelfde moment een identieke gedeelde map synchroniseren met een Synology NAS, zal er een conflict optreden en zult u de gedeelde map moeten ontkoppelen voor een andere client deze map naar het doel kan synchroniseren. Als u de gedeelde map wilt ontkoppelen, gaat u naar <b>Gedeelde map synchroniseren</b> > <b>Server</b>, klikt u op <b>Verbindingslijst</b>, selecteert u een verbinding en klikt u op <b>Koppeling verbreken</b></b> op het doel. </li>
+</ul>
+<p>Nu kunt u de synchronisatie van gedeelde mappen van de bron naar het doel Synology NAS starten. Volg de onderstaande secties om door te gaan.</p>
+
+<h3>Synchronisatietaken beheren</h3>
+<p>Met de Wizard Gedeelde map synchroniseren kunt u eenvoudig een synchronisatietaak maken.</p>
+<h4>Om een synchronisatietaak te maken:</h4>
+<ol>
+<li>Ga naar <b>Back-up en replicatie</b> > <b>Gedeelde map synchroniseren</b> > <strong>Client</strong>.</li>
+<li>Klik op <b>Maken</b>.</li>
+<li>Voer een naam in voor de taak.</li>
+<li>Kies de gedeelde map die u met het doel wilt synchroniseren. Vink ter bevestiging het keuzevak aan en klik op <b>Volgende</b> om verder te gaan.</li>
+<li>Stel het doel in en de volgende synchronisatieopties:</li>
+<ul>
+<li><b>Overdrachtcodering inschakelen:</b> Gegevens coderen tijdens de overdracht. Dit biedt een betere beveiliging, terwijl de niet-gecodeerde overdracht betere prestaties biedt. Bepaal zelf wat u het belangrijkste vindt.
+</li> 
+<li><b>Overdrachtcompressie inschakelen:</b> Gegevens comprimeren tijdens de overdracht. Dit spaart netwerkbandbreedte, maar verhoogt de belasting van de CPU.</li>
+<li><b>Synchronisatie op blokniveau inschakelen:</b> Alleen de verschillen overdragen in plaats van hele bestanden. Dit spaart netwerkbandbreedte, maar verhoogt de belasting van de CPU.</li>
+</ul>
+<li>Stel een schema in voor de taak:</li>
+<ul>
+<li><b>Synchronisatie elke [getal] uur uitvoeren</b> of <b>Synchronisatie elke [getal] minuten uitvoeren</b>: Voer de synchronisatietaak uit op een specifiek tijdsinterval in minuten of uren. De tijd start met aftellen om middernacht. Het interval mag niet langer zijn dan 24 uur.</li>
+<li><b>Synchronisatie automatisch dagelijks uitvoeren om (uu:mm)</b>: de taak wordt dagelijks op een opgegeven tijdstip uitgevoerd.</li>
+<li><b>Synchronisatie handmatig uitvoeren</b>: synchronisatie wordt uitsluitend handmatig uitgevoerd.</li>
+<li><b>Synchronisatie uitvoeren bij wijziging</b>: Synchronisatietaak wordt onmiddellijk uitgevoerd zodra in de gedeelde bronmap een wijziging optreedt.</li>
+</ul>
+<li>Klik op <b>Toepassen</b>. Nu ziet u de synchronisatietaak in de taaklijst die wordt uitgevoerd op grond van het opgegeven schema.</li></ol>
+<h4>Om een synchronisatietaak te beheren:</h4>
+<ol>
+<li>
+Kies de taak in de taaklijst.
+</li>
+<li>
+Voer een van de volgende handelingen uit:
+</li>
+<ul>
+<li>
+Klik op <b>Bewerken</b> om de taak te bewerken.
+</li>
+<li>
+Klik op <b>Verwijderen</b> om de taak te verwijderen.
+</li> 
+<li>
+Als de synchronisatietaak nog niet bezig is, klikt u op <b>Nu synchroniseren</b> om de taak direct uit te voeren.
+</li>
+<li>
+Als de synchronisatietaak al bezig is, klikt u op <b>Annuleren</b> om de geactiveerde taak te stoppen.
+</li>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>
+Als het schema voor een synchronisatietaak is ingesteld op <b>Synchronisatie uitvoeren bij wijziging</b>, klikt u op <b>Annuleren</b> om de geactiveerde synchronisatietaak te stoppen. Als echter wijzigingen zijn aangebracht op de gegevens van een of meer gedeelde mappen die door de synchronisatietaak worden bijgehouden, wordt de taak hervat door Gedeelde map synchroniseren.
+</p>
+</div>
+
+<li>
+Klik op <b>Volledig synchroniseren</b> om alle gegevens te synchroniseren. Gedeelde map synchroniseren voert de eerste keer een volledige synchronisatie uit en synchroniseert hierna slechts de aangepaste onderdelen. Klik op deze knop om alle gegevens opnieuw handmatig te synchroniseren.
+</li>
+</ul>
+</ol>
+
+<div class="section disable-eds14">
+<h4>Meer informatie</h4>
+<ol>
+<li>De taaknaam moet 1 tot 32 unicode-tekens bevatten en mag de volgende tekens niet bevatten:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Als u gedeelde mappen synchroniseert van ext4- naar een ext3-bestandssysteem, kunnen er fouten optreden als de taak meer dan 32 000 mappen bevat.</li>
+<li>Als de gedeelde mappen in het doel-Synology NAS eerder met een andere Synology NAS zijn gesynchroniseerd, voert Gedeelde map synchroniseren een volledige synchronisatie uit.</li>
+<li>U hebt op het bestemmings-Synology NAS beheerdersrechten nodig om Gedeelde map synchroniseren-taken uit te voeren. Ofwel u hebt het wachtwoord van het admin-account, of u bent lid van de beheerdersgroep.</li>
+<li>Als u Synology NAS via internet synchroniseert, voert u de servernaam met het externe ip-adres of hostnaam in. Als u echter een hostnaam invoert, moet de naam in de FQDN-indeling (Full Qualified Domain Name) zijn, bijvoorbeeld "www.synology.com".</li>
+<li>Voor poort doorsturen maakt Gedeelde map synchroniseren gebruik van poort 22 voor versleutelde overdrachten, en van poort 873 voor onversleutelde overdrachten.</li>
+<li>Externe opslagapparaten worden niet ondersteund door Gedeelde map synchroniseren.</li>
+<li>Versleutelde gedeelde mappen moeten handmatig worden gekoppeld met de decoderingscode op de bestemming.</li>
+<li>Geplande Gedeelde map synchroniseren zal niet op het opgegeven tijdstip worden uitgevoerd als er geen wijzigingen zijn aangebracht aan de geselecteerde gedeelde map.</li>
+<li>Voor de beste prestaties stellen we voor dat elke synchronisatietaak minder dan 200 gedeelde mappen bevat.</li>
+<li>De <strong>Gebruiker basismap</strong>-functie is uitgeschakeld op de bestemming Synology NAS wanneer de gedeelde map <strong>homes</strong> wordt gesynchroniseerd van de bron Synology NAS naar de bestemming Synology NAS.</li>
+
+<li>Voor modellen met non-Intel CPU's kunt u met Gedeelde map synchroniseren tot 100 000 gedeelde mappen (inclusief submappen) synchroniseren.</li>
+ <li>Gedeelde map synchroniseren kan Windows ACL-instellingen back-uppen als het bestandssysteem van het doel ext4 is.</li>
+ 
+ <li>Gedeelde mapsynchronisatie mislukt wanneer u naar een doelserver synchroniseert met dezelfde naam als uw Synology NAS.</li>
+ 
+<li>Geavanceerde gedeelde-mapmachtigingen op de bron worden niet gesynchroniseerd met het doel. Bovendien wordt een alleen-lezenregel voor de gebruikers van de administratorgroep op het doel aangemaakt. </li> 
+
+  </ol>
+</div>
+<div class="section enable-eds14">
+<h4>Meer informatie</h4>
+<ol>
+<li>De taaknaam moet 1 tot 32 unicode-tekens bevatten en mag de volgende tekens niet bevatten:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Als u gedeelde mappen synchroniseert van ext4- naar een ext3-bestandssysteem, kunnen er fouten optreden als de taak meer dan 32 000 mappen bevat.</li>
+<li>Als de gedeelde mappen in het doel-Synology NAS eerder met een andere Synology NAS zijn gesynchroniseerd, voert Gedeelde map synchroniseren een volledige synchronisatie uit.</li>
+<li>U hebt op het bestemmings-Synology NAS beheerdersrechten nodig om Gedeelde map synchroniseren-taken uit te voeren. Ofwel u hebt het wachtwoord van het admin-account, of u bent lid van de beheerdersgroep.</li>
+<li>Als u Synology NAS via internet synchroniseert, voert u de servernaam met het externe ip-adres of hostnaam in. Als u echter een hostnaam invoert, moet de naam in de FQDN-indeling (Full Qualified Domain Name) zijn, bijvoorbeeld "www.synology.com".</li>
+<li>Voor poort doorsturen maakt Gedeelde map synchroniseren gebruik van poort 22 voor versleutelde overdrachten, en van poort 873 voor onversleutelde overdrachten.</li>
+<li>Externe opslagapparaten worden niet ondersteund door Gedeelde map synchroniseren.</li>
+<li>Versleutelde gedeelde mappen moeten handmatig worden gekoppeld met de decoderingscode op de bestemming.</li>
+<li>Geplande Gedeelde map synchroniseren zal niet op het opgegeven tijdstip worden uitgevoerd als er geen wijzigingen zijn aangebracht aan de geselecteerde gedeelde map.</li>
+<li>Voor de beste prestaties stellen we voor dat elke synchronisatietaak minder dan 200 gedeelde mappen bevat.</li>
+<li>De <strong>Gebruiker basismap</strong>-functie is uitgeschakeld op de bestemming Synology NAS wanneer de gedeelde map <strong>homes</strong> wordt gesynchroniseerd van de bron Synology NAS naar de bestemming Synology NAS.</li>
+<li>Voor modellen met non-Intel CPU's kunt u met Gedeelde map synchroniseren tot 100 000 gedeelde mappen (inclusief submappen) synchroniseren.</li>
+ 
+ <li>Gedeelde mapsynchronisatie mislukt wanneer u naar een doelserver synchroniseert met dezelfde naam als uw Synology NAS.</li>
+ 
+<li>Geavanceerde gedeelde-mapmachtigingen op de bron worden niet gesynchroniseerd met het doel. Bovendien wordt een alleen-lezenregel voor de gebruikers van de administratorgroep op het doel aangemaakt. </li> 
+ 
+ </ol>
+</div>
+</body></html>

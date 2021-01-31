@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Oversigt</h2>
+	<p>Denne side viser grundlæggende oplysninger om High Availability-klyngen og medlemsservere. Derudover har denne side værktøjer til udførelse af vedligeholdelse af High Availability-klynger og medlemsservere.</p>
+
+<h3>Status for High Availability-klynge</h3>
+  <p>Dette felt viser den generelle status for din High Availability-klynge, og advarer dig om eventuelle fejl. Her følger en tabel over mulige betingelser, der vises i dette felt:</p>
+    <table>
+     <tr>
+      <th width="12%">Status</th>
+      <th width="88%">Beskrivelse</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Sund</strong></td>
+      <td>Den generelle tilstand for din high-availability-klynge er god.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Indlæser</strong></td>
+	  <td>Systemet indlæser klyngestatus. <strong>Switchover</strong> kan ikke udføres, før statusindlæsning er færdig. Der henvises til <a href="switchover_fail.html">Switchover</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Konfigurerer</strong></td>
+	  <td>Systemet konfigureres. <b>Switchover</b> kan ikke udføres, før konfigurationen er færdig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Advarsel</strong></td>
+      <td>Status for HA-klynge er unormal, men tjenesterne fungerer endnu. <strong>Switchover</strong> kan måske ikke udføres i denne situation.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fare</strong></td>
+	  <td>Både den aktive og passive server fejler, eller lageret er brudt sammen. High-availability-klyngen kan ikke fungere normalt. Kontroller status for alle lagerpladser (f.eks. RAID Groups, diskgrupper, diskenheder og iSCSI LUN'er). <b>Switchover</b> kan ikke udføres i denne situation.</td>
+     </tr>
+    </table>
+<h3>Advarselsmeddelelser</h3>
+   <p>Følgende tabel viser advarselsmeddelelser, som kan blive vist, når der opstår en fejl i systemet. Når mere end én advarselsmeddelelse vises, kan du navigere mellem dem med fremad/tilbage-knapperne. </p>
+    <table>
+     <tr>
+      <th width="21%">Advarsel/fejl</th>
+      <th width="79%">Beskrivelse</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Der er ingen passiv server i denne high-availability-klynge</strong></td>
+	  <td>Oplysningerne på den passive server er ikke tilgængelige. Sørg for, at den passive server er tilsluttet korrekt. I dette tilfælde vil switchover ikke være tilgængelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Kunne ikke registrere den passive server</strong></td>
+      <td>Denne fejl kan forekomme, fordi den passive server er offline, eller den aktive og passive server kan ikke kommunikere via Heartbeat-forbindelsen. I dette tilfælde vil switchover ikke være tilgængelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Kunne ikke udføre failover</strong></td>
+      <td>En failover er udløst på den aktive aktiv server, men mislykkedes. I det tilfælde bliver den aktive server ikke forsøge endnu en failover. Følg nedenstående trin for ikke at få denne fejl:
+		<ol>
+		  <li>Prøv at løse problemerne i high-availability-klyngen.</li>
+		  <li>Genstart den passive server</li>
+		  <li>Udfør en switchover ved at klikke på <strong>Administrer</strong> > <strong>Switchover</strong>.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Overvåget destinationsfejl</strong></td>
+      <td>Der opstod en fejl på en eller flere overvågede destinationer, herunder systemstatus, tjeneste eller netværksinterface.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fejl er opstået i forbindelsen mellem udvidelsesenhederne og den aktive/passive server</strong></td>
+      <td>Uvidelsesenhederne er ikke korrekt tilsluttet til den aktive eller passive server. Sørg for, at deres forbindelse til den aktive server er orrekt, og konfiguration er den samme til den passive server. I dette tilfælde vil switchover ikke være tilgængelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>En diskenhed er degraderet</strong></td>
+      <td>En lagerplads (f.eks. RAID Group, diskgruppe, diskenhed, iSCSI LUN og SSD-cache) er degraderet. Kontroller på siden <b>Lagerstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>En diskenhed er brudt ned</strong></td>
+      <td>En lagerplads (f.eks. RAID Group, diskgruppe, diskenhed, iSCSI LUN og SSD-cache) er brudt ned. Kontroller på siden <b>Lagerstatus</b>. Failover bliver automatisk udført, hvis den passive server kan anerkende diskene, som den aktive server ikke kunne åbne. Ellers vil switchover ikke være tilgængelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Heartbeat-forbindelse er tabt</strong></td>
+      <td>Denne fejl kan forekomme på grund af heartbeat-forbindelsesfejl. I dette tilfælde vil switchover ikke være tilgængelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Hardwarefejl</strong></td>
+      <td>Denne fejl kan forekomme på grund af hardware (f.eks. strømenhed eller systemblæser)-fejl på den aktive eller passive server.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Forskellige fysisk RAM-størrelse</strong></td>
+      <td>Denne fejl kan forekomme på grund af uoverensstemmende fysisk RAM-størrelse på den aktive eller passive server. I dette tilfælde vil switchover ikke være tilgængelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ingen statisk IP er tildelt til denne high-availability-klynge</strong></td>
+      <td>Denne fejl kan forekomme på grund af mangel på statisk IP til High Availability-klyngen. I dette tilfælde vil switchover ikke være tilgængelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Der er ingen statisk IP på overvåget interface</strong></td>
+      <td>Denne fejl kan forekomme på grund af mangel på statisk IP for det overvågede interface. I dette tilfælde vil switchover ikke være tilgængelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Gendanner passiv server</strong></td>
+      <td>Igangværende gendannelse af passiv server. I dette tilfælde vil switchover ikke være tilgængelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Opgraderer passiv server</strong></td>
+      <td>Systemet opgraderer den passive server I dette tilfælde vil switchover ikke være tilgængelig.</td>
+     </tr>
+
+    </table>
+
+<h3>High-Availability-klynges &quot;Administrer&quot;-knap</h3>
+
+<p>Denne kanp findes under oplysningerne om High Availability-klyngen. Den omfatter følgende operationer:</p>
+<ul>
+<li><b>Switchover:</b> Starter switchover fra den aktive til den passive server. Under processen stopper den aktive server med at yde tjenester og bliver den nye passive server. Så skifter den passive server til den nye aktive server og begynder at yde alle tjenester for High Availability-klyngen. Denne mulighed er ikke tilgængelig, når den passive server har status <b>fejl</b> eller ikke er valgt.</li>
+<li><b>Opdater DSM:</b> Åbner siden <strong>DSM-opdatering</strong> i <strong>Kontrolpanel</strong>. Herfra kan begge servere opdateres.</li>
+<li><b>Luk high-availability-klynge</b> Lukker både den aktive og passive server.</li>
+<li><b>Luk aktiv server:</b> Lukker den aktive server. Tjenester vil skiftet over, hvis den passive server er sund.</li>
+<li><b>Luk passiv server:</b> Lukker den passive server.</li>
+<li><b>Genstart aktiv server:</b> Genstarter den aktive server. Tjenester vil skiftet over, hvis den passive server er sund.</li>
+<li><b>Genstart passiv server:</b> Genstarter den passive server.</li>
+<li><b>Genopret den ukendte server:</b> Gendan den passive server, hvis den passive server udskiftes eller stadig opfattes som ukendt.</li>
+<li><b>Systembip fra:</b> Standser biplyden på den aktive og passive server, når der opstår en fejl. Systemet vil stadig bippe på den aktive og passive server, hvis der opstår endnu en fejl senere.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Hvis du lukker den passive server, eller der ikke er en passiv server, kan tjenester ikke skiftes over, hvis fejl opstår på den aktive server.</li>
+</ul>
+</div>
+
+<h3>Serverdiagram og oplysninger</h3>
+ <p>Serverdiagrammet viser serverstatussen. Placeringen svarer til den side på modulerne, som serveren er tilsluttet. Før musen over for at få flere detaljer.</p>
+<p>Den omfatter følgende situationer:</p>
+<ul>
+  <li><b>Der er ingen passiv server i denne high-availability-klynge:</b> Viser et tomt billede.</li>
+  <li><b>Kunne ikke registrere den passive server:</b> Viser et sløret serverbillede.</li>
+  <li><b>Udråbstegn:</b> Hardware kan fejle, eller serveroplysninger er ikke tilgængelige pga. Heartbeat-forbindelsesfejl.</li>
+</ul>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Hvis der vises "ukendt" på den anden server, betyder det, at serveren ikke hører til high-availability-klyngen. Klik på <b>Administrer</b>, og vælg <b>Genopret den ukendte server</b> for at rette problemet.</li>
+</ul>
+</div>
+
+<p>Serverens oplysninger omfatter følgende. Den viser <b>Gælder ikke</b>, hvis der ikke registreres en passiv server.</p>
+
+  <ul>
+   <li><b>Serienummer:</b> Serienummer på Synology-serveren.</li>
+   <li><b>Blæserstatus:</b> Status for serverens køleblæsere. Hvis en blæser fejler, vises en advarsel. I dette tilfælde skal du kontakte din lokale forhandler for at få hjælp.</li>
+   <li><b>Temperatur:</b> Temperaturen på Synology-serveren. </li>
+   <li><b>Strømstatus:</b> Angiver, om serverens strømforsyninger alle fungerer normalt. Hvis serveren er udstyret med redundante strømforsyninger, vises en advarsel, hvis en af dem fejler.</li>
+    <li><b>Fysisk hukommelse:</b> Fysisk RAM-størrelse på Synology-serveren. Switchover kan ikke udføres, hvis de to servere ikke har samme fysiske RAM-størrelse.</li>
+  </ul>
+
+<h3>Forbindelsesstatus mellem servere</h3>
+<p>Dette afsnit indeholder billeder mellem den aktive og passive server. Den omfatter følgende situationer:</p>
+<ul>
+  <li><b>Intet billede:</b> Angiver, at der ikke registreres en passiv server.</li>
+  <li><b>Still-billede:</b> Angiver forkert heartbeat-forbindelse.</li>
+  <li><b>Udråbstegn:</b> Angiver unormal kommunikation mellem de to servere eller forkert Heartbeat-forbindelse.</li>
+</ul>
+
+<h3>Status for netværksinterface</h3>
+<p>Dette afsnit indeholder billeder mellem servere og datanetværk. Den omfatter følgende situationer:</p>
+<ul>
+  <li><b>Intet udråbstegn:</b> Angiver, at ingen netværksfejl er registreret.</li>
+  <li><b>Udråbstegn:</b> Angiver fejl, der opstår på det overvågede netværksinterface.</li>
+</ul>
+
+<h3> Delt lagerdiagram og oplysninger</h3>
+ <p>Delt lagerdiagram viser forbindelsesstatus mellem serverne og det delte lager. Før musen over for at få grundlæggende oplysninger.</p>
+<p>Den omfatter følgende situationer:</p>
+<ul>
+  <li><b>Intet udråbstegn:</b> Angiver, at der ikke er registreret fejl.</li>
+  <li><b>Udråbstegn:</b> Angiver unormal forbindelsesstatus for udvidelsesenhederne.</li>
+</ul>
+
+<p>Grundlæggende oplysninger for delt lager omfatter følgende. Gå til <b>Lagerstyring</b> for at få flere oplysninger.</p>
+
+  <ul>
+   <li><b>Blæserstatus:</b> Viser status for blæserne på udvidelsesenhederne. Hvis en blæser fejler, vises en advarsel. I dette tilfælde skal du kontakte din lokale forhandler for at få hjælp.</li>
+   <li><b>Strømstatus:</b> Angiver, om serverens strømforsyninger alle fungerer normalt. Der vises en advarsel, hvis en af dem fejler.</li>
+   </ul>
+ </body>
+</html>

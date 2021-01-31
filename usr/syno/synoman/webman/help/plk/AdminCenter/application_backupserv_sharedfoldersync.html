@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Kopia zapasowa i replikacja</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Synchronizacja folder&oacute;w wsp&oacute;łdzielonych</h2>
+<p>Usługa Synchronizacja folder&oacute;w wsp&oacute;łdzielonych umożliwia użytkownikom synchronizację folder&oacute;w wsp&oacute;łdzielonych z jednego urządzenia Synology NAS (źr&oacute;dło) na innych urządzeniach Synology NAS (cele) w sieci LAN lub przez Internet.</p>
+<p>Za pierwszym razem usługa Synchronizacja folder&oacute;w wsp&oacute;łdzielonych dokonuje pełnej synchronizacji wybranych folder&oacute;w wsp&oacute;łdzielonych. Podczas kolejnych aktywacji synchronizowane są tylko zmienione pliki. Pliki, kt&oacute;re zostały usunięte z lokalizacji źr&oacute;dłowej, zostaną r&oacute;wnież usunięte z lokalizacji docelowej.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Usługa Synchronizacja folder&oacute;w wsp&oacute;łdzielonych jest rozwiązaniem synchronizacji jednostronnej, co oznacza, że pliki w lokalizacji źr&oacute;dłowej będą synchronizowane z&nbsp;lokalizacją docelową. Aby korzystać z&nbsp;rozwiązania synchronizacji dwustronnej, użyj aplikacji <strong>Synology Drive ShareSync</strong>.</li>
+<li>Jeśli źr&oacute;dłowy folder wsp&oacute;łdzielony i folder wsp&oacute;łdzielony w lokalizacji docelowej mają tę samą nazwę (np. SharedFolder), folder docelowy otrzyma nazwę (np&bdquo;SharedFolder_1&rdquo;.</li>
+<li>Jeśli w lokalizacji docelowej nie ma folderu wsp&oacute;łdzielonego o tej samej nazwie, co źr&oacute;dłowy folder wsp&oacute;łdzielony, zostanie utworzony folder z nazwą w odpowiednim wolumenie lub pierwszym dostępnym.</li>
+<li>Domyślnie żaden użytkownik nie ma uprawnień dostępu do wsp&oacute;łdzielonego folderu w lokalizacji docelowej. Skontaktuj się z <strong>administratorem</strong> lokalizacji docelowej, aby uzyskać uprawnienia.</li>
+</ul>
+</p>
+</div>
+
+<h3>Włączanie usługi</h3>
+<h4>Aby włączyć usługę Synchronizacja folder&oacute;w wsp&oacute;łdzielonych:</h4>
+<p>Usługę należy najpierw włączyć w lokalizacji docelowej Synology NAS.</p>
+<ol>
+<li>Wybierz kolejno <strong>Panel sterowania</strong> &gt; <strong>Usługi plik&oacute;w</strong> &gt; <strong>rsync</strong>.</li>
+<li>Wybierz opcję <strong>Włącz usługę rsync</strong>, aby włączyć usługę Synchronizacja folder&oacute;w wsp&oacute;łdzielonych.</li>
+<li>Kliknij <strong>Zastosuj</strong>.</li>
+</ol>
+
+
+<h4>Aby usunąć połączenie folder&oacute;w wsp&oacute;łdzielonych z lokalizacją docelową Synology NAS:</h4>
+
+<p>Jeśli synchronizowane są jednocześnie dwa identyczne foldery wsp&oacute;łdzielone z jedną lokalizacją docelową Synology NAS, wystąpi konflikt. Należy wtedy usunąć połączenie wsp&oacute;łdzielonego folderu w lokalizacji źr&oacute;dłowej, zanim folder z innego źr&oacute;dła będzie m&oacute;gł być zsynchronizowany z lokalizacją docelową.<ol>
+<li>Zaloguj się do lokalizacji docelowej Synology NAS i wybierz kolejno <strong>Panel sterowania</strong> &gt; <strong>Synchronizacja folder&oacute;w wsp&oacute;łdzielonych</strong> &gt; <strong>Lista połączeń</strong>.</li>
+<li>Wybierz połączenie generujące konflikt z lokalizacji źr&oacute;dłowej Synology NAS i kliknij <strong>Usuń połączenie</strong>, aby je usunąć.</li>
+</ol>
+
+<p>Umożliwi to synchronizację folderu wsp&oacute;łdzielonego lokalizacji źr&oacute;dłowej z lokalizacją docelową Synology NAS.</p>
+
+<h3>Zarządzanie zadaniami synchronizacji</h3>
+
+<h4>Aby utworzyć zadanie synchronizacji:</h4>
+<ol>
+<li>Zaloguj się do lokalizacji źr&oacute;dłowej Synology NAS i wybierz kolejno <b>Panel sterowania</b> &gt; <b>Synchronizacja folder&oacute;w wsp&oacute;łdzielonych</b> &gt; <strong>Lista zadań</strong>.</li>
+<li>Kliknij przycisk <b>Utw&oacute;rz</b>.</li>
+<li>Wprowadź nazwę zadania.</li>
+<li>Wybierz folder wsp&oacute;łdzielony, kt&oacute;ry ma być zsynchronizowany z lokalizacją docelową.</li>
+<li>Określ lokalizację docelową Synology NAS i następujące opcje synchronizacji:</li>
+<ul>
+<li><strong>Dostosuj port szyfrowania SSH dla zaszyfrowanej synchronizacji folder&oacute;w wsp&oacute;łdzielonych</strong>: Określ żądany port szyfrowania dla szyfrowania przesyłania SSH.</li>
+<li><strong>Włącz szyfrowanie przesyłania SSH</strong>: szyfrowanie danych podczas przesyłania. Zapewnia to większe bezpieczeństwo, podczas gdy tryb nieszyfrowany zapewnia lepszą wydajność. Wyboru można dokonać zależnie od potrzeb.</li> 
+<li><strong>Włącz kompresję przesyłania</strong>: kompresja danych podczas przesyłania. Pozwala to zmniejszyć obciążenie sieci, ale zwiększa obciążenie CPU.</li>
+<li><strong>Włącz synchronizację na poziomie bloku</strong>: przesyłanie tylko danych, w kt&oacute;rych występują r&oacute;żnice, nie zaś całych plik&oacute;w. Pozwala to zmniejszyć obciążenie sieci, ale zwiększa obciążenie CPU.</li>
+</ul>
+<li>Po wyświetleniu monitu wybierz jedną z poniższych opcji, aby określić, kiedy uruchomić synchronizację z lokalizacji źr&oacute;dłowej do lokalizacji docelowej:</li>
+<ul>
+<li><strong>Uruchom synchronizację po modyfikacji</strong>: zadanie synchronizacji jest uruchamiane natychmiast po zmianie w źr&oacute;dłowym folderze wsp&oacute;łdzielonym.</li>
+<li><strong>Uruchom synchronizację ręcznie</strong>: zadanie synchronizacji jest uruchamiane ręcznie ze źr&oacute;dłowego folderu wsp&oacute;łdzielonego.</li>
+<li><strong>Zaawansowany plan</strong>: kliknij <strong>Harmonogram</strong>, aby określić, kiedy wykonać zadanie synchronizacji.</li>
+
+</ul>
+<li>Kliknij <strong>Zastosuj</strong>. Zadanie synchronizacji zostanie wyświetlone na liście zadań i zostanie ono wykonane zgodnie z określonym harmonogramem.</li></ol>
+<h4>Aby zarządzać zadaniem synchronizacji:</h4>
+<ol>
+<li>W lokalizacji źr&oacute;dłowej Synology NAS przejdź kolejno do opcji <strong>Panel sterowania</strong> &gt; <strong>Synchronizacja folder&oacute;w wsp&oacute;łdzielonych</strong>, kliknij <strong>Lista zadań</strong> i wybierz żądane zadanie.</li>
+<li>Wykonaj dowolną z następujących czynności:</li>
+<ul>
+<li>Kliknij przycisk <b>Edytuj</b>, aby edytować zadanie.</li>
+<li>Kliknij przycisk <b>Usuń</b>, aby usunąć zadanie.</li> 
+<li>Jeżeli zadanie synchronizacji nie jest uruchomione, kliknij przycisk <b>Synchronizuj teraz</b>, aby od razu wykonać zadanie.</li>
+<li>Jeżeli zadanie synchronizacji jest uruchomione, kliknij przycisk <b>Anuluj</b>, aby zatrzymać trwające zadanie.</li>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Jeżeli harmonogram zadania synchronizacji jest ustawiony na <b>Uruchom synchronizację po modyfikacji</b>, kliknięcie przycisku <b>Anuluj</b> spowoduje zatrzymanie trwającego zadania synchronizacji. Jeśli jednak w zawartości kt&oacute;regokolwiek z monitorowanych przez zadanie synchronizacji folder&oacute;w wsp&oacute;łdzielonych zostanie zmieniona, usługa Synchronizacja folder&oacute;w wsp&oacute;łdzielonych wznowi zadanie.</p>
+</div>
+
+<li>Kliknij przycisk <b>Pełna synchronizacja</b>, aby synchronizować wszystkie dane. Usługa Synchronizacja folder&oacute;w wsp&oacute;łdzielonych uruchomi pełną synchronizację przy pierwszej synchronizacji, a przy kolejnych synchronizacjach będzie synchronizować wyłącznie zmodyfikowane części. Kliknięcie tego przycisku może pom&oacute;c w ponownej ręcznej synchronizacji wszystkich danych.</li>
+</ul>
+</ol>
+
+<div class="section">
+<h4>Więcej informacji</h4>
+<ol>
+<li>Nazwa zadania musi składać się z od 1 do 32 znak&oacute;w Unicode i nie może zawierać następujących znak&oacute;w:<br> <span class="letterSpace5">! &quot; # $ % &amp; &apos; ( ) * + , / : ;<= >? @ [ ] \ ^ ` { } | ~</span></span></li>
+<li>W przypadku synchronizacji folder&oacute;w wsp&oacute;łdzielonych z systemu plik&oacute;w ext4 do ext3 mogą wystąpić błędy, gdy zadanie obejmuje ponad 32&nbsp;000 folder&oacute;w.</li>
+<li>Jeżeli foldery wsp&oacute;łdzielone w docelowym urządzeniu Synology NAS zostały wcześniej zsynchronizowane z innym urządzeniem Synology NAS, usługa Synchronizacja folder&oacute;w wsp&oacute;łdzielonych przeprowadzi pełną synchronizację w ramach zadania.</li>
+<li>Do wykonywania zadań Synchronizacji folder&oacute;w wsp&oacute;łdzielonych wymagane są uprawnienia administratora docelowego urządzenia Synology NAS. Wymagane jest hasło do konta admin lub przynależność do grupy administrator&oacute;w tego serwera.</li>
+<li>Podczas synchronizacji urządzenia z lokalizacją docelową Synology NAS przez Internet można wprowadzić zamiast nazwy serwera jego zewnętrzny adres IP lub nazwę hosta. Jednak w przypadku wybrania nazwy hosta nazwa musi być zapisana w formacie FQDN, czyli przykładowo www.synology.com.</li>
+<li>Jeżeli konieczne jest przekierowanie port&oacute;w, pamiętaj o&nbsp;otwarciu port&oacute;w używanych przez usługę Synchronizacja folder&oacute;w wsp&oacute;łdzielonych, czyli portu 22 (przesyłanie z&nbsp;szyfrowaniem) oraz portu 873 (przesyłanie bez szyfrowania).</li>
+<li>Usługa Synchronizacja folder&oacute;w wsp&oacute;łdzielonych nie obsługuje zewnętrznych urządzeń pamięci masowej.</li>
+<li>Podczas wykonywania zadania Synchronizacja folder&oacute;w wsp&oacute;łdzielonych, zaszyfrowane foldery wsp&oacute;łdzielone w lokalizacji docelowej zostaną automatycznie zamontowane. Jednak aby uzyskać dostęp do danych zapisanych w folderach, należy najpierw zamontować zaszyfrowane foldery wsp&oacute;łdzielone w lokalizacji docelowej.</li>
+<li>Zaplanowana Synchronizacja folder&oacute;w wsp&oacute;łdzielonych nie będzie działać o określonej godzinie, jeżeli nie dokonano żadnych zmian w wybranym folderze wsp&oacute;łdzielonym.</li>
+<li>W celu zapewnienia jak najlepszej wydajności zaleca się, aby każde zadanie synchronizacji obejmowało mniej niż 200 folder&oacute;w wsp&oacute;łdzielonych.</li>
+<li>Funkcja <strong>Użytkownik domowy</strong> zostanie wyłączona w docelowym urządzeniu Synology NAS, jeżeli folder wsp&oacute;łdzielony <strong>homes</strong> będzie synchronizowany ze źr&oacute;dłowego urządzenia Synology NAS w docelowym urządzeniu Synology NAS.</li>
+
+<li>Modele z&nbsp;CPU firmy innej niż Intel mogą za pomocą usługi Synchronizacja folder&oacute;w wsp&oacute;łdzielonych synchronizować do 100&nbsp;000 folder&oacute;w wsp&oacute;łdzielonych (razem z podfolderami).</li>
+ <li>Usługa Synchronizacja folder&oacute;w wsp&oacute;łdzielonych może obejmować ustawienia Windows ACL, gdy systemem plik&oacute;w w miejscu docelowym jest ext4 lub Btrfs. <br><span class="note_head">Uwaga:</span> Danych i ustawień listy kontroli dostępu systemu Windows (ACL) w serwerze Synology NAS nie można zsynchronizować z EDS14.</li>
+ 
+ <li>Uruchomienie usługi Synchronizacja folder&oacute;w wsp&oacute;łdzielonych nie powiedzie się, jeżeli celem synchronizacji będzie serwer z&nbsp;udziałami o&nbsp;takich samych nazwach jakie są zdefiniowane w urządzeniu Synology NAS.</li>
+ 
+<li>Zaawansowane uprawnienia do folder&oacute;w wsp&oacute;łdzielonych nie będą synchronizowane z&nbsp;serwerem docelowym. Ponadto zostanie na nim utworzona reguła Tylko do odczytu dla grupy administrator&oacute;w.</li> 
+
+  </ol>
+</div>
+
+</body></html>

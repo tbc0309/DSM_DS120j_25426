@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>ドライブを追加してストレージ プールの容量を増やす</h2>
+
+<p>Synology NAS に使用していない空のドライブ スロットがある場合は、追加のドライブをインストールして、既存のストレージ プールに追加することができます。ここでは、追加のドライブをインストールして既存のストレージ プールを拡張する手順を説明します。</p>
+
+<p>ドライブは、次の RAID 構成のストレージ プールに追加できます。</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID 5</li>
+	<li>RAID 6</li>
+	<li>RAID F1</li>
+	<li>Synology Hybrid RAID (SHR) は 2 ドライブ以上で構成されます。</li>
+</ul>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>新しく追加されたドライブのステータスは、<strong>初期化済み</strong>または<strong>未初期化</strong>のいずれかです。</li>
+</ul>
+</div>
+	
+<h4>ドライブの要件：</h4>
+
+<p>Synology NAS に追加するドライブが次の要件を満たしていることを確認してください。</p>
+<ul>
+	<li>RAID または SHR の構成は、同じタイプのドライブで作成する必要があります。タイプの異なるドライブを使用すると、システムの信頼性とパフォーマンスに影響します。次に示す混合ドライブタイプは、RAIDまたはSHR構成ではサポートされていません。
+	<ul>
+	<li>SATA ドライブと SAS ドライブ</li>
+	<li>4K ネイティブ ドライブと 4K ネイティブでないドライブ</li>
+	</ul>
+	</li>
+	<li><strong>SHR の場合</strong>：追加するドライブの容量は、ストレージ プールのドライブの中で最も大きいものと同等か、それよりも大きいもの、またはストレージ プールのドライブのいずれかと同等でなければなりません。</br><span class="note_head">例：</span>SHR ストレージ プールが 3 つのドライブ (2 TB、1.5 TB、1 TB) で構成されている場合、容量を効率良く使用するため、新しく追加されるドライブは、2 TB 以上を推奨しています。1.5 TB や 1 TB ドライブを追加することも可能ですが、2 TB ドライブの一部の容量は使われないまま残ることにご注意ください。</li>
+	<li><strong>RAID 5、RAID 6、RAID F1 の場合</strong>：追加するドライブの容量は、ストレージ プールのドライブの中で最も小さいものと同等か、それ以上でなければなりません。</br><span class="note_head">例：</span>例えば、RAID 5、RAID 6、または RAID F1 ストレージ プールが 3 つのドライブ (2 TB、1.5 TB、1 TB) で構成されている場合、新しいドライブの容量は 1 TB 以上でなければなりません。</li>
+</ul>
+
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>SHR (Synology Hybrid RAID) は特定のモデルでのみ利用可能です。お使いのモデルで SHR のサポートが制限されているか確認するには、<a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">こちら</a>を参照してください。</li>
+	<li>RAID F1 は特定のモデルのみに使用できます。お使いのモデルが RAID F1 に対応しているかどうかを確認する方法は、<a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank">こちら</a>を参照してください。</li>
+	<li>当社は、<a href="https://www.synology.com/compatibility" target="_blank">Synology 製品互換性リスト</a>のドライブを使用して問題を防止することを推奨しています。互換性のないドライブを使用すると、システムのパフォーマンスが低下し、データの損失が生じることがあります。</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">ドライブをストレージ プールに追加する：</a></h4>
+<p>開始する前に、拡張するストレージ プールのステータスが <strong>[正常]</strong> であることを確認してください。ストレージ プール ステータスが正常でない場合、ステータスの下に表示される推奨操作に従いドライブの問題を解決してください。その後、以下の手順に従って、ドライブをストレージ プールに追加します。</p>
+	
+<ol>
+	<li>Synology NAS の電源を切ります。</br><span class="note_head">注：</span>Synology NAS がホットスワップに対応している場合は、この手順は省略してください。
+	</li>
+	<li>新しいドライブを空のドライブ スロットに挿入します。</br><span class="note_head">注：</span>自分自身を傷つけたり、Synology NAS を損傷したりしないようにするには、<a href="https://www.synology.com/support/download" target="_blank">ダウンロードセンター</a>に移動し、Synology 製品を選択してください。<strong>[ドキュメント]</strong> > <strong>[ハードウェア インストール ガイド]</strong> の順に進み、希望する言語のハードウェア インストール ガイドをダウロードして、ドライブをインストールしてください。</li>
+
+	<li>Synology NASの電源を入れ、<strong>Storage Manager</strong>を起動します。</li>
+	<li><b>[ストレージプール]</b> ページに移動し、拡張するストレージ プールを選択します。次に<strong>[アクション]</strong>ドロップダウンメニューから<strong>[ドライブを追加]</strong>をクリックします。</li>
+	<li>追加したいドライブをリストから選択します。タイプおよび容量の要件を満たしているドライブのみが一覧されます。</li>
+	<li>ウィザードに従って処理を完了します。</li>
+</ol>
+
+<h4>ボリューム サイズの拡張：</h4>
+<p>ストレージプールに十分な容量があれば、それに対応するボリュームのサイズは自動的あるいは手動で、ストレージプールのタイプに応じて拡張することができます。</p>
+<ul>
+<li><b>単一ボリューム ストレージ プール：</b>シングルボリュームをサポートするストレージプールでは、ストレージプールの容量が拡張されると、ボリュームサイズは自動的に拡張されます。詳細は、「<a href="#t1">ドライブをストレージ プールに追加する</a>」を参照してください。</li>
+<li><b>複数ボリューム ストレージ プール：</b>複数ボリュームをサポートするストレージプールでは、ストレージプールが十分な容量もっていれば、ボリュームサイズを手動で拡張できます。詳しくは、「<a href="volume_expand_volume.html" target="_blank">ボリュームサイズの拡張</a>」をご参照ください。</li>
+</ul>
+
+</body>
+</html>

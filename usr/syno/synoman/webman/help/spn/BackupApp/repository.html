@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Destino de copias de seguridad - Ayuda de Synology DSM</title>
+
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Define local, network or cloud backup destination for backup tasks.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Destino de la copia de seguridad</h2>
+<p>En la pestaña <b>Destino de copias de seguridad</b> de <b>Copias de seguridad y replicación</b>, podrá definir un destino de copias de seguridad local, de red o en la nube antes de crear una tarea de copia de seguridad.</p>
+
+<h4><a name="local_backup"></a>Para crear un destino de copia de seguridad local:</h4>
+<p>Será necesario crear un destino de copia de seguridad local para realizar copias de seguridad de datos de Synology NAS a una carpeta compartida o a un volumen local, o a un disco USB/eSATA externo. El destino de la copia de seguridad debe ser diferente del origen y la capacidad del destino debe ser mayor que el tamaño total de los datos incluidos en la copia de seguridad.</p>
+
+<ol>
+<li>Haga clic en <b>Crear</b>, seleccione <b>Destino de copia de seguridad local</b>, a continuación haga clic en <b>Siguiente</b>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Nombre este destino de copia de seguridad, seleccione el destino donde se almacenarán los datos incluidos en la copia de seguridad y si desea conservar solo la copia de seguridad más reciente o si quiere todas las versiones de las copias de seguridad.</li>
+</ol>
+
+<div class="section">
+<h4>Notas:</h4>
+<ul>
+<li>Si los datos en el destino se eliminan mientras se está completando la tarea de copia de seguridad, se realizará una copia de seguridad completa cuando la tarea se vuelva a llevar a cabo.</li>
+<li>Tal vez sea necesario formatear unidades externas nuevas antes de utilizarlas como destinos de copias de seguridad. </li>
+<li>Antes de crear una tarea de copia de seguridad, asegúrese de haber conectado correctamente las unidades externas a su Synology NAS. Puede ir a <b>Panel de control</b> > <b>Dispositivos externos</b> para comprobar el estado de los discos USB/eSATA. Los discos externos no se pueden seleccionar como destino de copias de seguridad si dichos discos se están inicializando, formateando o si tienen alguna avería.</li>
+<li>Las carpetas compartidas remotas no se pueden seleccionar como origen ni como destino de copias de seguridad.</li>
+<li>Si se desmonta una carpeta compartida cifrada, no se podrá elegir como destino de la copia de seguridad.</li>
+<li>No se pueden realizar copias de seguridad de miniaturas de imágenes cuando el sistema de archivos del destino es NTFS/FAT.</li>
+</ul>
+</div>
+
+
+<h4><a name="network_backup"></a>Para crear un destino de copia de seguridad de red:</h4>
+<p>Será necesario crear un destino de copia de seguridad de red para realizar copias de seguridad de datos de Synology NAS a otro Synology NAS o a un servidor compatible con rsync a través de la red. Existen varias opciones disponibles para crear tareas de copia de seguridad con destinos de copias de seguridad de red, como el cifrado de transferencia, compresión, copia de seguridad a nivel de bloque entre otras. Tenga en cuenta que algunas opciones, como el cifrado de transferencia, pueden reducir la velocidad de la tarea de copia de seguridad.</p>
+
+<ol>
+<li>Antes de crear un destino de copias de seguridad de red, en primer lugar inicie sesión en el servidor de destino, vaya a <strong>Copia de seguridad y replicación</strong> > <strong>Servicios de copia de seguridad</strong> y habilite el servicio de copia de seguridad y/o el volumen de destino de la copia de seguridad de red.</li>
+<li>De vuelta en su Synology NAS, vaya a <strong>Copia de seguridad y replicación</strong> > <strong>Destinos de copias de seguridad</strong>. Haga clic en <strong>Crear</strong>, seleccione <strong>Destino de copia de seguridad de red</strong> y siga las instrucciones del asistente hasta el final.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Con<strong> Destino de copia de seguridad (servidor de Synology NAS)</strong> de red, podrá almacenar datos de copias de seguridad en una carpeta compartida para conservar la copia de seguridad más actualizada, o almacenar datos de copias de seguridad en un volumen para conservar varias versiones de copias de seguridad. Con <strong>Destino de copia de seguridad de red (servidor compatible con rsync)</strong> solo podrá conservar la copia de seguridad más reciente.</li>
+
+</ol>
+
+<div class="section">
+<h4>Notas:</h4>
+<ul>
+<li>Los siguientes modos están disponibles al crear tareas de copias de seguridad con servidores compatibles con rsync como destino de copias de seguridad de red: <b>modo rsync daemo,</b> que se usa si se selecciona un módulo de copia de seguridad (carpeta compartida en el servidor compatible con rsync) desde el menú desplegable situado junto a <b>Módulo de copia de seguridad</b>; y <b>modo shell remoto,</b> que se habilita solo cuando se introduce una ruta (que comience por "/") en <b>Módulo de copia de seguridad</b>.</li>
+<li>Para usuarios de Linux, sólo pueden realizar una copia de seguridad de red las cuentas <strong>admin</strong>, <strong>root</strong> y <strong>rsync</strong>.</li>
+<li>Si desea acceder al servidor de destino a través de Internet con el nombre de host, este debe ser FQDN (Nombre de dominio totalmente cualificado), por ejemplo, <strong>abc.bcd.com</strong>.</li>
+<li>Al hacer copias de seguridad de un dispositivo Synology NAS a otro, se le pedirá que introduzca un nombre de usuario y una contraseña para una cuenta en el servidor de destino. Especialmente, si desea realizar una copia de seguridad a un volumen en otro Synology NAS, deberá especificar una cuenta que pertenezca al grupo de <strong>administrators</strong>. Cuando realice copias de seguridad de carpetas compartidas en otro Synology NAS, podrá hacerlo de acuerdo con la configuración de privilegios de acceso de las carpetas. Solo serán visibles carpetas compartidas en las que las cuentas de usuarios especificadas tienen privilegios de acceso. Si no puede encontrar la carpeta compartida deseada en el destino, compruebe sus privilegios de acceso.</li>
+<li>El cifrado de copia de seguridad sólo se admite si el servidor de destino admite la copia de seguridad cifrada en red y la contraseña de autenticación no está vacía.</li>
+<li>El modo de shell remoto sólo admite la copia de seguridad cifrada.</li>
+<li>Al hacer copias de seguridad a un servidor compatible con rsync, no podrá cambiar el modo de cifrado rsync después de crear las tareas de copia de seguridad de rsync. Para cambiar la configuración, cree una nueva tarea rsync. </li>
+<li>Si desea realizar copias de seguridad a Synology NAS a través de un cliente con rsync, los nombres de los archivos deben tener formato UTF-8.</li>
+<li>Si realiza copias de seguridad en Synology NAS a través de un cliente compatible con rsync, sólo puede realizar la tarea mediante cuentas <strong>admin</strong>, <strong>root</strong> y <strong>rsync</strong> de Synology NAS.</li>
+<li>Si realiza copias de seguridad de un Synology NAS a un servidor compatible con rsync, deberá introducir la contraseña y el nombre de cuenta rsync de copias de seguridad correctos. También deberá elegir el módulo de copia de seguridad correcto con privilegios de escritura.</li>
+</ul>
+</div>
+
+<h4><a name="cloudservice_backup"></a>Para crear un destino de copia de seguridad de Amazon S3:</h4>
+<p>Será necesarios crear un destino de copia de seguridad de Amazon S3 para realizar copias de seguridad de datos de Synology NAS a un servidor Amazon S3.</p>
+  
+<ol>
+  <li>Haga clic en <b>Crear</b>, seleccione <b>Destino de copia de seguridad en una nube pública</b>, a continuación <b>Destino de copia de seguridad Amazon S3</b>, después haga clic en <b>Siguiente</b>.</li>
+  
+  <img src="about:blank" class="help_image"/>
+  
+  <li>Nombre este destino de copia de seguridad, introduzca las credenciales de inicio de sesión y rellene todos los campos necesarios para configurar la tarea de copia de seguridad.</li>
+</ol>
+
+<div class="section">
+<h4> Notas:</h4>
+<ul>
+  <li>Al crear tareas de copia de seguridad con Amazon S3 como destino de las copias de seguridad, existen varias opciones disponibles, como el cifrado de transferencia, copia de seguridad a Amazon S3 RRS (Almacenamiento de redundancia reducida), entre otras. Tenga en cuenta que algunas opciones, como el cifrado de transferencia, pueden reducir la velocidad de las tareas de copia de seguridad.</li>
+  <li>Los archivos de copia de seguridad en el <strong>Bucket</strong> seleccionado en el servidor Amazon S3 y el valor Set KEY empiezan con un nombre de directorio de su elección y terminan con la ruta completa del archivo.</li>
+  <li>La estructura de datos de Amazon S3 incluye un par de Bucket y KEY sin ninguna estructura de carpeta. La realización de copias de seguridad de carpetas vacías no es compatible.</li>
+  <li>Si no se ha modificado un archivo del que se ha realizado una copia de seguridad, no se realizará una copia de seguridad en el servidor de Amazon S3 de nuevo en el mismo Bucket.</li>
+  <li>Cada Bucket de Amazon S3 debe tener un nombre único. Además, el nombre deberá:</li>
+<ul>
+  <li>tener entre 3 y 63 caracteres.</li>
+  <li>contener letras en minúscula, números, puntos (.) y guiones (-).</li><li>comenzar y finalizar con un número o una letra, no podrá terminar en guión (-), contener dos espacios adyacentes ni contener guiones junto a puntos (por ejemplo, "my-.bucket.com" y "my.-bucket" no son válidos).</li>
+</ul>
+<li>La longitud máxima de un Amazon S3 KEY es de 1024 caracteres. Para garantizar una tarea de copia de seguridad correcta a Amazon S3, la longitud máxima de la ruta es: 1024 menos la longitud del nombre de la carpeta de destino especificada durante la creación de la tarea.</li>
+<li>Si habilita la compatibilidad con S3 RRS (Almacenamiento de redundancia reducida), solo se copiarán en el almacenamiento RRS los datos modificados después de que se habilite la opción, lo cual significa que los datos ya copiados en el almacenamiento estándar de Amazon S3 no se volverán a copiar en el almacenamiento RRS. </li>
+<li>Pasar archivos de los que se han realizado copias de seguridad de Amazon S3 a Amazon Glacier no es compatible. Si los archivos se pasan de Amazon S3 a Amazon Glacier con la consola de Administración de AWS, es posible que la tarea de copia de seguridad relacionada produzca errores.</li>
+<li>Realizar copias de seguridad de archivos a buckets tipo host virtual con SSL no es compatible.</li>
+<li>Al transferir un archivo será necesario dividirlo en partes. El tamaño de las partes se puede ajustar con la opción <strong>Tamaño de parte de Multipart Upload</strong> en la configuración de tareas, cuyo valor predeterminado es 512 MB. Si el entorno de red no es estable, la opción recomendada es utilizar un número menor.</li>
+
+<li>El número máximo de partes por carga es 10 000. El tamaño máximo de un archivo es el <strong>Tamaño de parte de Multipart Upload</strong> multiplicado por 10 000.</li>
+<li>Los nombres de los archivos no deben contener ningún carácter que no sea UTF-8 o de control.</li>
+</ul>
+</div>
+<h4>Para crear un destino de copia de seguridad de Microsoft Azure:</h4>
+<p>Será necesarios crear un destino de copia de seguridad de Microsoft Azure para realizar copias de seguridad de datos de Synology NAS a un servidor Microsoft Azure.</p>
+  
+<ol>
+<li>Haga clic en <b>Crear</b>, seleccione <b>Destino de copia de seguridad en una nube pública</b>, a continuación <b>Destino de copia de seguridad Microsoft Azure</b>, después haga clic en <b>Siguiente</b>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Nombre su destino de copia de seguridad, introduzca las credenciales de inicio de sesión y rellene todos los campos necesarios para configurar su tarea de copia de seguridad.</li>
+</ol>
+
+<div class="section">
+<h4> Notas:</h4>
+<ul>
+<li>Durante la creación de tareas de copia de seguridad con el servidor Microsoft Azure como destino de copia de seguridad de red, existen varias opciones disponibles (por ejemplo, el cifrado de transferencia). Tenga en cuenta que algunas opciones, como el cifrado de transferencia, pueden reducir la velocidad de las tareas de copia de seguridad.</li>
+<li>Los archivos de copia de seguridad en el <strong>Contenedor</strong> seleccionado en el servidor Microsoft Azure y el nombre Blob definido empiezan con un nombre de directorio de su elección y terminan con la ruta completa del archivo.</li>
+<li>La estructura de datos de Microsoft Azure incluye un par de Contenedor y Blob sin ninguna estructura de carpeta. La realización de copias de seguridad de carpetas vacías no es compatible.</li>
+<li>Si no se ha modificado un archivo del que se ha realizado una copia de seguridad, no se realizará una copia de seguridad en el servidor de Microsoft Azure de nuevo en el mismo Contenedor.</li>
+<li>Cada Contenedor de Microsoft Azure debe tener un nombre único. Además, el nombre deberá:</li>
+<ul>
+<li>tener entre 3 y 63 caracteres.</li>
+<li>contener letras en minúscula, números y guiones (-).</li>
+<li>empezar y terminar por un número o una letra y no contener dos guiones adyacentes.</li>
+</ul>
+<li>La longitud máxima de un nombre Blob de Microsoft Azure es de 1024 caracteres. Para garantizar una copia de seguridad correcta a Microsoft Azure, la longitud máxima de la ruta es: 1024 menos la longitud del nombre de la carpeta de destino especificada durante la creación de la tarea.</li>
+
+<li>Los nombres de los archivos no deben contener ningún carácter que no sea UTF-8 o de control.</li>
+<li>El mensaje de aviso de error de autenticación puede ser debido a que se ha introducido la información de autenticación incorrecta, a un problema de conexión con la red o a que la hora en el Synology NAS y en el servidor remoto no coinciden. Para comprobar la configuración de la hora en el Synology NAS, vaya a <strong>Panel de control</strong> > <strong>Opciones regionales</strong> ><strong> Hora</strong> para sincronizar la hora con el servidor NTP.</li>
+</ul>
+</div>
+
+<h4>Para crear un destino de copia de seguridad de hicloud S3:</h4>
+<p>Será necesarios crear un destino de copia de seguridad de hicloud S3 si va a realizar copias de seguridad de datos de Synology NAS a un servidor hicloud S3.</p>
+  
+<ol>
+<li>Haga clic en <b>Crear</b>, seleccione <b>Destino de copia de seguridad en una nube pública</b>, a continuación <b>Destino de copia de seguridad hicloud S3</b>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Nombre este destino de copia de seguridad, introduzca las credenciales de inicio de sesión y rellene todos los campos necesarios para configurar la tarea de copia de seguridad.</li>
+</ol>
+
+<div class="section">
+<h4> Notas:</h4>
+<ul>
+<li>Durante la creación de tareas de copia de seguridad con el servidor hicloud S3 como destino de copia de seguridad de red, existen varias opciones disponibles (por ejemplo, el cifrado de transferencia). Tenga en cuenta que algunas opciones, como el cifrado de transferencia, pueden reducir la velocidad de las tareas de copia de seguridad.</li>
+<li>Los archivos de copia de seguridad en <strong>Bucket</strong> seleccionado en el servidor hicloud S3 y el valor Set KEY empiezan con un nombre de directorio de su elección y terminan con la ruta completa del archivo.</li>
+<li>La estructura de datos de hicloud S3 incluye un par de Bucket y KEY sin ninguna estructura de carpeta. La realización de copias de seguridad de carpetas vacías no es compatible.</li>
+<li>Si no se ha modificado un archivo del que se ha realizado una copia de seguridad, no se realizará una copia de seguridad en el servidor de hicloud S3 de nuevo en el mismo Bucket.</li>
+<li>Cada Bucket de hicloud S3 debe tener un nombre único. Además, el nombre deberá:</li>
+<ul>
+<li>tener entre 3 y 63 caracteres.</li>
+<li>contener letras en minúscula, números, puntos (.) y guiones (-).</li>
+<li>comenzar y finalizar con un número o una letra, no podrá terminar en guión (-), contener dos espacios adyacentes ni contener guiones junto a puntos (por ejemplo, "my-.bucket.com" y "my.-bucket" no son válidos).</li>
+</ul>
+<li>La longitud máxima de un hicloud S3 KEY es de 255 caracteres. Para garantizar una copia de seguridad correcta a hicloud S3, la longitud máxima de la ruta es: 255 menos la longitud del nombre de la carpeta de destino especificada durante la creación de la tarea.</li>
+<li>Al transferir un archivo será necesario dividirlo en partes. El tamaño de las partes se puede ajustar con la opción <strong>Tamaño de parte de Multipart Upload</strong> en la configuración de tareas, cuyo valor predeterminado es 512 MB. Si el entorno de red no es estable, se recomienda utilizar un número menor.</li><li>Hicloud sólo admite un máximo de 1000 partes por transferencia. Esto significa que el tamaño total del archivo no puede ser superior a 1000 por el tamaño de parte. Por ejemplo, si el tamaño de parte de Multipart Upload se fija en 8 MB, no se podrán cargar archivos únicos cuyo tamaño supere los 8000 MB. </li><li>La realización de copias de seguridad de carpetas compartidas cifradas no es compatible.</li> 
+
+<li>Los nombres de los archivos no deben contener ningún carácter que no sea UTF-8 o de control.</li>
+</ul>
+</div>
+
+<h4>Para crear un destino de copia de seguridad de SFR NAS BACKUP:</h4>
+<p>Será necesarios crear un destino de copia de seguridad de SFR NAS BACKUP si va a realizar copias de seguridad de datos de Synology NAS a un servidor SFR NAS BACKUP.</p>
+  
+<ol>
+<li>Haga clic en <b>Crear</b>, seleccione <b>Destino de copia de seguridad en una nube pública</b>, a continuación <b>Destino de copia de seguridad SFR NAS BACKUP</b>, después haga clic en <b>Siguiente</b>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Nombre este destino de copia de seguridad, introduzca las credenciales de inicio de sesión y rellene todos los campos necesarios para configurar la tarea de copia de seguridad.</li>
+</ol>
+
+<div class="section">
+<h4> Notas:</h4>
+<ul>
+<li>Durante la creación de tareas de copia de seguridad con el servidor SFR NAS BACKUP como destino de copia de seguridad de red, existen varias opciones disponibles, como por ejemplo, el cifrado de transferencia y otros. Tenga en cuenta que algunas opciones, como el cifrado de transferencia, pueden reducir la velocidad de las tareas de copia de seguridad.</li>
+<li>Los archivos de copia de seguridad en el <strong>Bucket</strong> seleccionado en el servidor SFR NAS BACKUP y el valor Set KEY empiezan con un nombre de directorio de su elección y terminan con la ruta completa del archivo.</li>
+<li>La estructura de datos de SFR NAS BACKUP incluye el emparejado de Bucket y Key a una estructura de carpeta. La realización de copias de seguridad de carpetas vacías no es compatible.</li>
+<li>Si no se ha modificado un archivo del que se ha realizado una copia de seguridad, no se realizará una copia de seguridad en el servidor de SFR NAS BACKUP de nuevo en el mismo Bucket.</li>
+<li>Cada Bucket en el servidor SFR NAS BACKUP debe tener un nombre único. Además, el nombre deberá:</li>
+<ul>
+<li>tener entre 3 y 63 caracteres.</li>
+<li>contener letras en minúscula, números, puntos (.) y guiones (-).</li>
+<li>comenzar y finalizar con un número o una letra, no podrá terminar en guión (-), contener dos espacios adyacentes ni contener guiones junto a puntos (por ejemplo, "my-.bucket.com" y "my.-bucket" no son válidos).</li>
+</ul>
+<li>La longitud máxima de una SFR NAS BACKUP KEY es de 1024 caracteres. Para garantizar una copia de seguridad correcta a SFR NAS BACKUP, la longitud máxima de la ruta es: 1024 menos la longitud del nombre de la carpeta de destino especificada durante la creación de la tarea.</li>
+<li>Al transferir un archivo será necesario dividirlo en partes. El tamaño de las partes se puede ajustar con la opción <strong>Tamaño de parte de Multipart Upload</strong> en la configuración de tareas, cuyo valor predeterminado es 64MB. Si el entorno de red no es estable, se recomienda utilizar un número menor.</li>
+
+<li>Los nombres de los archivos no deben contener ningún carácter que no sea UTF-8 o de control.</li> 
+
+</ul>
+</div>
+<h4>Para administrar destinos de copias de seguridad:</h4>
+<p>Seleccione un destino de copias de seguridad existente y haga clic en uno de los botones siguientes:</p>
+<ul>
+<li><strong>Editar:</strong> Modifica la configuración del destino de copias de seguridad seleccionado.</li>
+<li><strong>Eliminar:</strong> Elimina el destino de copias de seguridad seleccionado.</li>
+</ul>
+
+<h3>Realizar copias de seguridad a una carpeta compartida</h3>
+<p>Este tipo de destino de copia de seguridad solo conservará la copia de seguridad más reciente. De manera predeterminada, cuando se completa la copia de seguridad inicial, los ficheros eliminados de la fuente se eliminan también del destino cuando se vuelve a realizar una tarea. Sin embargo, si prefiere conservar los archivos en el destino, incluso después de que hayan sido eliminados de la fuente, habilite la opción <b>Reservar los archivos de copia de seguridad en el destino</b> al crear tareas de copia de seguridad.</p>
+
+<h3>Realizar copias de seguridad en un volumen</h3>
+<p>Este tipo de destino de copias de seguridad debe ser un volumen local o de red en un dispositivo Synology NAS (sin incluir los dispositivos de almacenamiento externo). Archivará varias versiones de copias de seguridad, de manera que pueda restaurar fácilmente cualquier carpeta de cualquier momento determinado.</p>
+<h4>Para eliminar los datos almacenados de una tarea de copia de seguridad:</h4>
+<ol>
+<li>Vaya a la pestaña <strong>Destino de copia de seguridad</strong> y expanda el destino de copia de seguridad que contiene la tarea que desea eliminar.</li> 
+<li>Haga clic en el icono de <b>Eliminar</b> en su <b>Tarea de copia de seguridad</b> seleccionada y a continuación <strong>Eliminar</strong> en el cuadro de diálogo.</li>
+</ol>
+<h4>Para eliminar los datos almacenados de una versión de la copia de seguridad:</h4>
+<ol>
+<li>Vaya a la pestaña <strong>Destino de copia de seguridad</strong> y expanda el destino de copia de seguridad que contiene la versión de la tarea que desea eliminar.</li> <li>Haga clic en el icono de <strong>Información de la versión de la copia de seguridad</strong> en su<strong> Tarea de copia de seguridad</strong> seleccionada.</li>
+<li>Seleccione la versión de copia de seguridad que desea eliminar y haga clic en el icono de <b>Eliminar</b>.</li>
+</ol>
+
+<h4><a name="lock_version"></a>Para bloquear una versión de copia de seguridad de modo que no se puede eliminar durante la rotación de copias de seguridad:</h4>
+<ol>
+<li>Vaya a la pestaña <strong>Destino de copia de seguridad</strong> y expanda el destino de copia de seguridad que contiene la versión de la tarea que desea bloquear.</li>
+<li>Haga clic en el icono de <strong>Información de la versión de la copia de seguridad</strong> en su<strong> Tarea de copia de seguridad</strong> seleccionada.</li>
+<li>Seleccione la versión de copia de seguridad que desea eliminar y haga clic en el icono de <strong>Bloquear</strong>.</li>
+</ol>
+
+<h4>Para administrar el privilegio de un destino de copia de seguridad:</h4>
+<ol>
+<li>Seleccione un destino de copia de seguridad asociado con un volumen local, haga clic en <b>Editar</b>.</li>
+<li> Haga clic en <strong>Lista de permisos</strong> y a continuación <strong>Agregar</strong> para agregar el usuario o el grupo a la lista.</li>
+</ol>
+
+<h4>Para configurar un destino de copia de seguridad con un usuario:</h4>
+<ol>
+<li>Seleccione un destino de copia de seguridad asociado a un volumen local y haga clic en el icono de <b>Propiedad</b> de su <b>Tarea de copia de seguridad</b> seleccionada.</li>
+<li>En <strong>Privilegio de copia de seguridad</strong>, seleccione un <b>Propietario</b> en el menú desplegable.</li>
+</ol>
+
+<h4>Para permitir que un usuario o grupo en Synology NAS lea y restaure los datos almacenados de una tarea de copia de seguridad:</h4>
+<ol>
+<li>Seleccione un destino de copia de seguridad asociado a un volumen local y haga clic en el icono de <b>Propiedad</b> de su <b>Tarea de copia de seguridad</b> seleccionada.</li>
+<li> Haga clic en <strong>Lista de permisos</strong> y a continuación <strong>Agregar</strong> para agregar el usuario o el grupo a la lista.</li>
+</ol>
+
+<div class="section">
+<h4> Notas:</h4>
+<ul>
+	<li>El propietario predeterminado de una tarea de copia de seguridad es el usuario que ha creado la tarea.</li>
+	<li>Solo el propietario de la tarea de copia de seguridad puede realizar la tarea. Sin embargo, las tareas de copia de seguridad creadas antes de DSM 5.1 no tienen esta limitación, de manera que cualquier usuario del grupo <b>administrators</b> puede realizar estas tareas de seguridad.</li>
+	<li>El propietario de la tarea y los usuarios que pertenezcan al grupo de <b>administrators</b> pueden eliminar los datos almacenados de una tarea de copia de seguridad.</li>
+	<li>El propietario de la tarea, los usuarios que pertenezcan al grupo de <b>administrators</b> y usuarios de la <b>lista de permisos</b> pueden restaurar los datos almacenados de una tarea de copia de seguridad.</li>
+	<li>Solo los usuarios que pertenecen al grupo de <b>administrators</b> pueden configurar un destino de copia de seguridad local con privilegios de acceso y una tarea de copia de seguridad en un destino local de copia de seguridad con un propietario y una lista de permisos.</li>
+	<li>Los datos almacenados de una tarea de copia de seguridad consumen la cuota de almacenamiento del propietario de la tarea. </li>
+	<li>Si un volumen no tiene un destino de copia de seguridad, solo los usuarios que pertenecen al grupo de <b>administrators</b> pueden crear el primer destino de copia de seguridad en el volumen.</li>
+	<li>Solo los usuarios que pertenezcan al grupo de <b>administrators</b> pueden eliminar los datos almacenados de una tarea de copia de seguridad.</li>
+    
+    	<li>Cada copia de seguridad contiene configuración del sistema y metadata de archivos.</li>
+	<li>La realización de copias de seguridad de carpetas compartidas cifradas no es compatible.</li>
+    
+	<li>El bloqueo de versiones no es compatible con DSM 5.1 o versiones inferiores.</li>
+    
+</ul>
+</div>
+</body></html>

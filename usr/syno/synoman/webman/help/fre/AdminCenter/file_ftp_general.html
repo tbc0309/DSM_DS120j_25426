@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>FTP</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Général</h2>
+
+<p>Dans <strong>Panneau de configuration</strong> > <strong>Services de fichiers</strong> > <strong>FTP</strong>, vous pouvez activer la limite de vitesse. l'identification de transfert de fichier, les paramétrages de sécurité et autres paramètres avancés dans la section <strong>Général</strong></p>
+
+
+<h3>Activation de l'identification de transfert de fichier FTP</h3>
+<p>Cliquez sur <strong>Paramètres avancés</strong> pour activer cette fonction et enregistrer les identifiants des fichiers téléchargés ou transférés.</p>
+<div class="section">
+<h4>Remarque :</h4>
+<p>L'activation des enregistrements des transferts de fichiers FTP peut affecter les performances du système.</p>
+</div>
+<h3>Changement des répertoires root de l'utilisateur</h3>
+<p>Cliquez sur <strong>Paramètres avancés</strong> et vérifiez <strong>Changer les répertoires racine de l'utilisateur</strong>. De cette façon, les utilisateurs sélectionnés peuvent uniquement accéder aux dossiers spécifiés lorsqu'ils s'identifient dans DSM via le FTP. </p>
+<h4>Pour créer une règle de changement du répertoire root :</h4>
+<ol>
+  <li>Dans <strong>Paramètres avancés</strong>, vérifiez<strong>Sélectionner un utilisateur</strong>.</li>
+  <li>Cliquez sur <strong>Ajouter</strong>.</li>
+  <li>Dans <strong>Utilisateur ou groupe</strong>, sélectionnez à qui cette règle s'appliquera.</li>
+  <li>Sélectionnez quel répertoire root sera disponible lorsque l'utilisateur se connectera. Choisir entre :
+	<ul>
+		<li><strong>Accueil utilisateur :</strong>Les utilisateurs arrivent à leur répertoire d'origine après la connexion.</li>
+		<li><strong>Autre répertoire :</strong>Choisissez un dossier partagé en tant que répertoire racine et cliquez sur <strong>Sélectionner</strong>. Veuillez noter que les permissions de dossier pour l'utilisateur ou le groupe sera vérifié en premier. Un utilisateur ou un groupe avec des permissions insuffisantes ne pourra pas se connecter.</li>
+	</ul>
+  </li>
+  <li>Cliquez sur <strong>OK</strong>.</li>
+  <li>Après l'ajout de toutes les règles, cliquez sur <strong>Appliquer à</strong> pour sauvegarder les règles.</li>
+</ol>
+<div class="section">
+  <h4>Remarque :</h4>
+  <ul>
+    <li>Les règles sont hiérarchisées selon leur position dans la liste.</li>
+    <li>Réorganiser la liste des règles par glisser-déposer.</li>
+  </ul>
+</div>
+<h3>Activation du FTP anonyme</h3>
+<p>Cliquez sur <strong>Paramètres avancés</strong> et cochez l'option pour permettre à n'importe qui de s'identifier dans le service FTP des appareils Synology NAS (avec le compte <b>anonymous</b> ou <b>ftp</b>).</p>
+
+<h3>Modification de la racine anonyme</h3>
+<p>Cliquez sur <strong>Paramètres avancés</strong> et cochez l'option pour modifier le répertoire d'identification de l'utilisateur FTP anonyme. Sélectionnez un dossier partagé à partir du menu déroulant.</p>
+
+<h3>Application des permissions UNIX par défaut</h3>
+<p>Cliquez sur <strong>Paramètres avancés</strong> et cochez l'option pour appliquez les permissions UNIX par défaut lors du partage ou la création de fichiers et de dossiers. Les autorisations appliquées sont les mêmes que les autorisations appliquées par la commande UNIX <strong>umask</strong>. Lorsque cette option est activée, les permissions UNIX sont de 644 pour les fichiers et de 755 pour les dossiers. Lorsque cette option est désactivée, les permissions UNIX sont de 666 pour les fichiers et de 777 pour les dossiers. La valeur umask par défaut est 022.</p>
+<div class="section">
+<h4>Remarque :</h4>
+<ul>
+  <li>Pour les dossiers partagés avec Windows ACL activé (tous les partages sauf les « photos » et les partages sur des disques externes), veuillez exécuter la commande <strong>chmod</strong> sur votre client Linux ou FTP pour changer les types de permissions de dossier et de fichier depuis Windows ACL vers UNIX.</li>
+  <li>L'activation de cette option pourrait provoquer des problèmes d'incohérence de permission entre différents protocoles. Afin d'éviter les incohérences, nous suggérons de laisser cette option désactivée.</li>
+</ul>
+</div>
+
+<h3>Activation de la limite de vitesse</h3>
+<p>Activer une limite de vitesse pour contrôler le débit maximal utilisable par les utilisateurs et les groupes qui transfèrent des données via FTP.</p>
+
+
+<h4>Pour activer la limite de vitesse :</h4>
+<ol>
+  <li>Cochez la case <b>Activer la limite de vitesse</b>, ou <strong>Activer la limite de vitesse selon un programme</strong> si vous désirez appliquer une limite de vitesse à certaines heures seulement. Ceci est un paramétrage à l'échelle du serveur qui remplace les paramétrages des utilisateurs individuels et groupes. L'option <strong>Pas de limite de vitesse</strong> désactive les paramétrages de limite de vitesse de tous les utilisateurs et groupes.</li>
+  <li>Cliquez sur <strong>Paramètres de limite de vitesse</strong> pour modifier les paramètres des utilisateurs individuels ou groupes. Pour chaque utilisateur et groupe, vous pouvez sélectionner l'une des options suivantes :
+    <ul>
+      <li><strong>Appliquer les paramètres de groupe :</strong> Les paramètres de limite de vitesse sont les mêmes que ceux du groupe auquel l'utilisateur appartient. </li>
+      <li><strong>Aucune :</strong> Aucune limite de vitesse ne sera appliquée lorsque les membres du groupe transfèrent les fichiers avec le service (EDS14 ne prend pas en charge cette fonctionnalité).</li>
+      <li><strong>Configurer la limite de vitesse :</strong> Une limite de vitesse fixe, constante sera appliquée à l'utilisateur ou aux membres du groupe. Les vitesses de chargement et de téléchargement peuvent être spécifiées dans les champs sur la gauche.</li>
+      <li><strong>Personnaliser la plage de limites :</strong> Deux limites de vitesse différentes peuvent être spécifiées et appliquées à l'utilisateur ou aux membres du groupe en fonction d'un horaire. Cliquez sur le bouton <strong>Personnaliser</strong> pour modifier les paramètres de limite de vitesse et définir un planning.</li>
+    </ul>
+  </li>
+  <li>Cliquez sur <b>Appliquer</b>.</li>
+</ol>
+<div class="section">
+  <h4>Remarque :</h4>
+  <ul>
+    <li>Pour plus de détails concernant la dynamique de limitation de la vitesse des groupes, veuillez voir <a href="file_group_edit.html">ici</a>.</li>
+    <li>Lorsqu'une limite de vitesse est définie pour un utilisateur, la section <strong>Résultat</strong> affiche la limite de vitesse réelle de l'utilisateur selon les paramètres individuels et de groupe. Par exemple, si un utilisateur « Achille » est affecté d'une limite de vitesse de téléchargement de 100 Ko/s, mais qu'il appartient à un groupe d'utilisateurs affecté d'une limite de téléchargement de 500 Ko/s, la section <strong>Résultats</strong> affiche alors « 0/500 ».</li>
+  </ul>
+</div>
+
+
+
+</body>
+</html>

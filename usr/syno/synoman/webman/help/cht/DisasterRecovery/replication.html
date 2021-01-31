@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>複寫</h2>
+
+<p>系統管理員可於此頁面管理複寫任務。您可以新增、編輯，及刪除複寫任務。您也可以執行 / 停止同步，並檢視複寫任務資訊。</p>
+
+<h3>共用資料夾</h3>
+
+<h4>若要新增共用資料夾的複寫任務：</h4>
+<ol>
+	<li>前往 <strong>共用資料夾</strong> 頁籤。</li>
+	<li>按一下<strong>新增</strong>。</li>
+	<li>您會看到<strong>新增複寫任務</strong>精靈。請依照精靈的步驟指示來新增共用資料夾的複寫任務。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>共用資料夾「homes」無法複寫。</li>
+	<li>加密共用資料夾無法複寫。</li>
+	<li>共用資料夾的位置須為 Btrfs 檔案系統的儲存空間。</li>
+	<li>您可以為共用資料夾在不同目標伺服器上建立<a href="#multiple_replication">一對多 / 延伸式複寫任務</a>。但每個共用資料夾在一台目標伺服器上只能有一個複寫任務。</li>
+</ul>
+</div>
+
+<h4>若要移除共用資料夾的複寫任務：</h4>
+<ol>
+	<li>選擇您想刪除複寫任務的共用資料夾。</li>
+	<li>按一下<strong>刪除</strong>。</li>
+	<li>您將會看到確認視窗。按一下<strong>刪除</strong>來確認刪除。</li>
+</ol>
+
+<h4>若要編輯共用資料夾的複寫任務：</h4>
+<ol>
+	<li>選擇您想編輯複寫任務的共用資料夾。</li>
+	<li>按一下<strong>編輯</strong>。</li>
+	<li>您會看到包含下列頁籤的視窗：<ul>
+			<li>夥伴伺服器</li>
+			<li>排程</li>
+			<li>保留</li>
+		</ul>
+	</li>
+	<li>您可以在<strong>夥伴伺服器</strong>頁籤中編輯夥伴伺服器資訊，包含主機名稱、連接埠、使用者帳號及密碼。</li>
+	<li>在<strong>排程</strong>頁籤中，勾選<strong>啟動快照排程</strong>核取方塊，並設定拍攝快照的執行時間和重複間隔。您可以取消勾選此核取方塊來取消共用資料夾的排程快照。</li>
+	<li>在<strong>保留</strong>頁籤中，選擇下列其中一種選項：<ul>
+			<li><strong>保留最新的 256 個快照</strong>：達到快照數量上限 (256) 時，最舊的快照將被新拍攝的快照覆寫。</li>
+			<li><strong>永久保留快照</strong>：達到快照數量上限時，快照 &amp; 複寫將停止拍攝新的快照，但不會移除已拍攝的快照。</li>
+			<li><strong>根據以下規則保留快照</strong>：您可以為指定的時間範圍設定保留規則。</li>
+		</ul>
+	</li>
+	<li>按一下<strong>確定</strong>來套用新設定。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>您僅能從來源伺服器編輯複寫任務的排程。</li>
+	<li>變更保留設定將改變<strong>快照</strong>頁面中相同的設定。</li>
+</ul>
+</div>
+
+<h4>若要檢視共用資料夾複寫任務的資訊：</h4>
+<ol>
+	<li>選擇您想檢視複寫任務的共用資料夾。</li>
+	<li>按一下<strong>資訊</strong>。</li>
+	<li>您會看到包含下列資訊的視窗：<ul>
+			<li>複寫任務<strong>狀態</strong>。</li>
+			<li>複寫任務<strong>統計資料</strong>。</li>
+		</ul>
+	</li>
+</ol>
+
+<h4>若要執行同步共用資料夾的複寫任務：</h4>
+<ol>
+	<li>選擇您想同步複寫任務的共用資料夾。</li>
+	<li>按一下<strong>執行</strong>。</li>
+	<li>輸入將拍攝快照的描述。</li>
+	<li>按一下<strong>確定</strong>來確認動作。</li>
+</ol>
+
+<h4>若要停止同步共用資料夾的複寫任務：</h4>
+<ol>
+	<li>選擇您想停止同步複寫任務的共用資料夾。</li>
+	<li>按一下<strong>停止</strong>。</li>
+	<li>您將會看到確認視窗。按一下<strong>停止</strong>來確認動作。</li>
+</ol>
+
+<h3>iSCSI LUN</h3>
+
+<h4>若要新增 iSCSI LUN 的複寫任務：</h4>
+<ol>
+	<li>前往 <strong>iSCSI LUN</strong> 頁籤。</li>
+	<li>按一下<strong>新增</strong>。</li>
+	<li>您會看到<strong>新增複寫任務</strong>精靈。請依照精靈的步驟指示來新增 iSCSI LUN 的複寫任務。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>iSCSI LUN 須建立為<strong>進階 LUN</strong>。</li>
+	<li>您可以為 iSCSI LUN 在不同目標伺服器上建立<a href="#multiple_replication">一對多 / 延伸式複寫任務</a>。但每個 iSCSI LUN 在一台目標伺服器上只能有一個複寫任務。</li>
+</ul>
+</div>
+
+<h4>若要刪除 iSCSI LUN 複寫任務：</h4>
+<ol>
+	<li>選擇您想刪除複寫任務的 iSCSI LUN。</li>
+	<li>按一下<strong>刪除</strong>。</li>
+	<li>您將會看到確認視窗。按一下<strong>刪除</strong>來確認動作。</li>
+</ol>
+
+<h4>若要編輯 iSCSI LUN 複寫任務：</h4>
+<ol>
+	<li>選擇您想編輯複寫任務的 iSCSI LUN。</li>
+	<li>按一下<strong>編輯</strong>。</li>
+	<li>您會看到包含下列頁籤的視窗：<ul>
+			<li>夥伴伺服器</li>
+			<li>排程</li>
+			<li>保留</li>
+		</ul>
+	</li>
+	<li>您可以在<strong>夥伴伺服器</strong>頁籤中編輯夥伴伺服器資訊，包含主機名稱、連接埠、使用者帳號及密碼。</li>
+	<li>在<strong>排程</strong>頁籤中，勾選<strong>啟動快照排程</strong>核取方塊，並設定拍攝快照的執行時間和重複間隔。您可以取消勾選此核取方塊來取消 iSCSI LUN 的排程快照。</li>
+	<li>在<strong>保留</strong>頁籤中，選擇下列其中一種選項：<ul>
+			<li><strong>保留最新的 256 個快照</strong>：達到快照數量上限 (256) 時，最舊的快照將被新拍攝的快照覆寫。</li>
+			<li><strong>永久保留快照</strong>：達到快照數量上限時，快照 &amp; 複寫將停止拍攝新的快照，但不會移除已拍攝的快照。</li>
+			<li><strong>根據以下規則保留快照</strong>：您可以為指定的時間範圍設定保留規則。</li>
+		</ul>
+	</li>
+	<li>在<strong>應用程式</strong>頁籤中，勾選<strong>啟動應用程式一致性快照</strong>來啟動該功能。若要取消應用程式一致性快照，請取消勾選該核取方塊。</li>
+	<li>按一下<strong>確定</strong>來套用新設定。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>您僅能從來源伺服器編輯複寫任務的排程。</li>
+	<li>變更保留設定將改變<strong>快照</strong>頁面中相同的設定。</li>
+</ul>
+</div>
+
+<h4>若要檢視 iSCSI LUN 複寫任務的資訊：</h4>
+<ol>
+	<li>選擇您想檢視複寫任務的 iSCSI LUN。</li>
+	<li>按一下<strong>資訊</strong>。</li>
+	<li>您會看到包含下列資訊的視窗：<ul>
+			<li>複寫任務<strong>狀態</strong>。</li>
+			<li>複寫任務<strong>統計資料</strong>。</li>
+		</ul>
+	</li>
+</ol>
+
+<h4>若要執行同步 iSCSI LUN 的複寫任務：</h4>
+<ol>
+  <li>選擇您想同步複寫任務的 iSCSI LUN。</li>
+	<li>按一下<strong>執行</strong>。</li>
+	<li>輸入將拍攝快照的描述。</li>
+	<li>按一下<strong>確定</strong>來確認動作。</li>
+</ol>
+
+<h4>若要停止同步 iSCSI LUN 的複寫任務：</h4>
+<ol>
+	<li>選擇您想停止同步複寫任務的 iSCSI LUN。</li>
+	<li>按一下<strong>停止</strong>。</li>
+	<li>您將會看到確認視窗。按一下<strong>停止</strong>來確認動作。</li>
+</ol>
+
+<h3><a name="multiple_replication"></a>一對多 / 延伸式複寫任務</h3>
+
+<p>您可為共用資料夾 / iSCSI LUN 建立多個複寫任務至多台目標伺服器，以建立<strong>一對多</strong>方案。您也可以為已複寫的共用資料夾 / iSCSI LUN 建立延伸式複寫任務，以建立<strong>延伸式</strong>方案。</p>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>無論是一對多或延伸式方案，任一複寫任務至多僅可有三台目標伺服器。</li>
+</ul>
+</div>
+
+<div class="section"><h4><a name="smart_retention"></a>保留規則</h4>
+<p>此選項提供了理想的解決方案來幫助您指定快照版本數量上限以節省儲存空間，但您可能需要快照能保留更長的時間。</p>
+<p>Synology 使用祖父子 (Grandfather-Father-Son，GFS) 三代輪換保留規則。您可以分別為下列的時間範圍設定保留快照版本的數量上限：<strong>小時</strong>、<strong>天</strong>、<strong>週</strong>、<strong>月</strong>、<strong>年</strong>等。</p>
+<p>資料保護管理員將為每種時間範圍保留您所設定上限數量的快照版本。若在一段時間範圍中有超過一個快照版本，將只保留該段時間中最先拍攝的快照。例如，若您設定的規則是 10 <strong>個每週快照</strong>，資料保護管理員將保留最近 10 週裡每週最先拍攝的快照。</p><img class="help_image" src="https://help.synology.com/file/DSM/5.2/online_img/dsm/DisasterRecovery/retention_policy.png"><p>此外，資料保護管理員預設會保留最新拍攝快照時間點起算一小時之內的所有快照，讓您方便尋找並從最近快照版本中還原資料。您也可以鎖定快照以避免被您的保留規則自動刪除。</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Datensicherung</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Datensicherung</h2>
+
+<p>Mit <strong>Datensicherung und Wiederherstellung</strong> können Sie verschiedene Arten von Daten (Systemkonfigurationen, freigegebene Ordner sowie Anwendungen/Pakete) auf Ihrem Synology NAS sowohl manuell als auch nach Zeitplan sichern. Die gesicherten Daten können Sie in lokalen freigegebenen Ordnern, auf Remote Servern und in öffentlichen Clouds (Amazon S3, Microsoft Azure, hicloud S3 und SFR NAS BACKUP) speichern. Bei <strong>Datensicherung und Wiederherstellung</strong> kann jede Datensicherungsaufgabe mehrere Sicherungsversionen enthalten und diese mit Smart Recycle-Richtlinien rotieren.</p>
+
+
+<h3>Datensicherung</h3>
+<p><strong>Datensicherung und Wiederherstellung</strong> bietet verschiedene Optionen von Datensicherungszielen und Möglichkeiten, eine Datensicherungsaufgabe einzurichten.</p>
+
+<h4>Datensicherungsaufgabe erstellen:</h4>
+
+<ol>
+<li>Klicken Sie unten links auf <strong>+</strong> und wählen Sie <strong>Datensicherungsaufgabe</strong> aus, um den Sicherungsassistenten zu starten.</li>
+<li>Wählen Sie den gewünschten Datensicherungszieltyp aus:
+<ul>
+<li>Freigegebene lokale bzw. Remote-Ordner oder externe Speichergeräte</li>
+<li>Remote-rsync-Server</li>
+<li>Öffentliche Clouds (z. B. Amazon S3 und Microsoft Azure)</li>
+</ul>
+</li>
+<li>Richten Sie den gewünschten Typ der Datensicherungsaufgabe ein:
+  <ul>
+<li>Wählen Sie <strong>Datensicherungsaufgabe erstellen</strong> aus, um eine völlig neue Aufgabe zu erstellen.</li>
+<li>Wählen Sie <strong>Mit vorhandener Aufgabe neu verknüpfen</strong> aus, um vorhandene Sicherungsdaten auf einem beliebigen Ziel wiederzuverwenden. Mit der Neuverknüpfung können Sie die Sicherungsdaten aus einer anderen Aufgabe direkt nutzen.</li>
+</ul>
+</li>
+
+<li>Befolgen Sie die Anweisungen des Assistenten, um die Einstellungen abzuschließen. Wählen Sie <strong>Clientseitige Verschlüsselung aktivieren</strong>, um die Daten vor der Übertragung zu verschlüsseln und so deren Sicherheit auf dem Datensicherungsziel zu gewährleisten.</li>
+</ol>
+
+
+<div class="section">
+<h4>Hinweise:</h4>
+<ul>
+<li>Die Namen von Aufgaben können 1 bis 32 Unicode-Zeichen enthalten, aber nicht die folgenden Zeichen:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; < = > ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>Die maximale Länge des kompletten Ordnerpfads für die Sicherung beträgt 2048 Zeichen.</li>
+<li>Wenn über AFP mehr als 32.000 Dateien oder Ordner in einen freigegebenen EXT3-Ordner hochgeladen werden, schlagen alle Datensicherungsaufgaben mit dem freigegebenen Ordner fehl.</li>
+<li>Ein verschlüsselter freigegebener Ordner kann gesichert werden, wenn er angehängt ist, und in einen verschlüsselten bzw. nicht verschlüsselten Ordner wiederhergestellt werden. Jedoch wird er immer als nicht verschlüsselt wiederhergestellt und beim Starten nicht automatisch angehängt. Sie müssen den Verschlüsselungsschlüssel für den verschlüsselten freigegebenen Ordner eingeben oder importieren, um ihn anzuhängen.</li>
+<li>Die Sicherung eines verschlüsselten Ordners in einen anderen verschlüsselten Ordner wird nicht unterstützt.</li>
+<li>Die Verwendung eines Remote-Ordners als Datensicherungsquelle oder -ziel wird nicht unterstützt.</li>
+<li>Die Sicherung für bestimmte Anwendungen wird unterstützt. In der Hilfe jeder Anwendung erhalten Sie Informationen, ob ein bestimmtes Paket die Datensicherung unterstützt, sowie zum Datensicherungsinhalt und deren Einschränkungen.</li>
+<li class="enable-eds14">Der Synology NAS unterstützt nicht die Anwendungssicherung ohne ein beschreibbares externes EXT3/EXT4-Gerät.</li>
+<li class="enable-eds14">Synology NAS kann nur freigegebene Ordner sichern, die auf externen EXT3/EXT4-Geräten erstellt wurden.</li>
+</ul>
+</div>
+
+
+<div class="section disable-eds14">
+<h4>Sichern der Windows ACL-Einstellungen:</h4>
+<p>Die Windows ACL-Einstellungen der Dateien auf Synology NAS können je nach Dateisystem des Ziels ebenfalls gesichert werden:</p>
+
+<ul>
+<li>Alle Datensicherungsziele können die Windows ACL-Einstellungen unabhängig vom Dateisystem des Ziels sichern.</li>
+</ul>
+</div>
+
+<h4>Sicherungsdaten nach öffentlichen Clouds oder Remote-Synology NAS exportieren:</h4>
+<p>Wenn Sie eine große Datenmenge in einer öffentlichen Cloud sichern, sollten Sie die erste Version zu einem externen Speichergerät (z. B. USB-Laufwerk) exportieren und das Gerät dem Cloud-Serviceanbieter übergeben. Dieser kann das Gerät anschließen und die Daten direkt zur Cloud hochladen. Auf diese Weise können Sie die Zeit für die erste Sicherung erheblich verkürzen.</p>
+<ol>
+<li>Klicken Sie unten links auf <strong>+</strong> und wählen Sie <strong>Remote-Synology-NAS</strong> oder den gewünschten Cloud-Serviceanbieter aus.</li>
+<li>Wählen Sie <strong>In einen lokalen freigegebenen Ordner exportieren (einschließlich externes Speichergerät)</strong> aus und schließen Sie die Einstellungen ab. Wählen Sie, wenn Sie dazu aufgefordert werden, <strong>Clientseitige Verschlüsselung aktivieren</strong> aus, um die Datensicherung zu schützen.</li>
+<li>Übergeben Sie das externe Speichergerät dem Remote-Synology-NAS oder dem Cloud-Serviceanbieter. Importieren Sie die exportierten Daten vom externen Speichergerät.</li>
+<li>Kehren Sie nach der Überprüfung zu <strong>Datensicherung und Wiederherstellung</strong> zurück und klicken Sie auf <strong>Jetzt neu verknüpfen</strong>.</li>
+<li>Befolgen Sie die Anweisungen des Neuverknüpfungs-Assistenten, um Ihren Synology NAS mit dem Repository zu verknüpfen. Wenn die Daten verschlüsselt exportiert wurden, benötigen Sie ein Kennwort bzw. einen Verschlüsselungsschlüssel.</li>
+</ol>
+
+<div class="section">
+	<h4>Hinweis:</h4>
+	<ul>
+		<li>Nachdem die Aufgabe eingerichtet wurde, kann die clientseitige Verschlüsselung nicht mehr deaktiviert und das Kennwort nicht mehr geändert werden.</li>
+		<li>Ein Datensicherungs-Repository kann nur mit einer Datensicherungsaufgabe verknüpft werden.</li>
+		<li>Wenn der Quellordner für die Datensicherung ein verschlüsselter freigegebener Ordner oder einer seiner Unterordner ist, kann er angehängt oder getrennt werden, wenn Sie die Datensicherungsaufgabe erstellen.</li>
+		<li>Verschlüsselte freigegebener Ordner können nicht als Datensicherungsziel verwendet werden.</li>
+		<li>Wenn Sie <strong>Clientseitige Verschlüsselung aktivieren</strong> auswählen, benötigen Sie Ihr Kennwort bzw. Ihren Verschlüsselungsschlüssel, um die Daten dieser Aufgabe wiederherzustellen. <strong>Der Verlust des Kennworts bzw. des Verschlüsselungsschlüssels hat den irreversiblen Verlust von Daten zur Folge</strong>.</li>
+	</ul>
+</div>
+
+<h4>Datensicherungsaufgaben verwalten:</h4>
+<p>Wählen Sie im linken Fenster die gewünschte Datensicherungsaufgabe aus und klicken Sie zur entsprechenden Verwaltung auf die nachstehenden Schaltflächen:</p>
+<ul>
+<li><strong>Jetzt Datensicherung durchführen</strong>: Die Daten der ausgewählten Aufgabe werden sofort gesichert.</li>
+<li><strong>Datensicherungs-Explorer</strong> (das Lupensymbol): Über diese Option können Sie alle verfügbaren Sicherungsversionen anzeigen und die enthaltenen Dateien kopieren, wiederherstellen oder herunterladen.</li>
+<li><strong>Versionsliste</strong>: Über diese Option können Sie die Erstellungszeit und den Status aller Sicherungsversionen anzeigen, bestimmte Sicherungsversionen löschen oder bestimmte Versionen zur erzwungenen Reservierung sperren.</li>
+<li><strong>Bearbeiten</strong>: Über diese Option können Sie die Datensicherungsquelle, das Ziel, den Zeitplan und andere Einstellungen ändern.</li>
+<li><strong>Löschen</strong>: Über diese Option löschen Sie die Datensicherungsaufgabe.</li>
+<li><strong>Abbrechen</strong>: Über diese Option stoppen Sie die derzeit ausgeführte Datensicherungsaufgabe.</li>
+</ul>
+
+
+<h4>Versionen rotieren:</h4>
+<p>Bei der Sicherungsrotation handelt es sich um einen Versionsmanagementmechanismus. Es ist hilfreich, Sicherungsversionen durch automatisches Löschen älterer, nicht mehr benötigter Versionen zu verwalten und so möglicherweise Speicherplatz freizugeben. Diese Funktion können Sie unter <strong>Aufgabeneinstellungen</strong> aktivieren oder sie konfigurieren, wenn Sie eine Datensicherungsaufgabe erstellen.</p>
+<ol>
+<li>Wählen Sie im linken Fenster die gewünschte Datensicherungsaufgabe aus und klicken Sie auf <strong>Bearbeiten</strong> oder <strong>Einstellungen</strong> > <strong>Aufgabeneinstellungen</strong>.</li>
+<li>Wählen Sie <strong>Sicherungsrotation aktivieren</strong> aus sowie den gewünschten Rotationsmodus:
+<ul>
+<li><strong>Von den frühesten Versionen</strong>: Die frühesten Sicherungsversionen werden gelöscht, wenn die verfügbaren Versionen eine vorgegebene Anzahl überschreiten.</li>
+<li><strong>Smart Recycle</strong>: Über diese Option können Sie Datensicherungen nach folgenden Richtlinien aufbewahren:
+  <ul>
+<li><strong>Stündliche Versionen der letzten 24 Stunden</strong>: Die früheste in jeder Stunde erstellte Version wird verwahrt.</li>
+<li><strong>Tägliche Versionen vom vergangenen 1 Tag bis zu 1 Monat</strong>: Die früheste an jedem Tag erstellte Version wird verwahrt.</li>
+<li><strong>Wöchentliche Version älter als 1 Monat</strong>: Die früheste in jeder Woche erstellte Version wird verwahrt.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Legen Sie die maximale <strong>Anzahl der Versionen</strong> fest. Wenn die Anzahl der Versionen diesen Wert überschreitet, wird die älteste Version rotiert.</li>
+<li>Wenn Sie unter <strong>Zeitplan</strong> einen wiederholten Sicherungszeitplan konfiguriert haben, können Sie in der Vorschau anzeigen, wie Ihre Sicherungsversionen verwahrt werden, sowie den frühesten Wiederherstellungspunkt in der Zeitachse.</li>
+<li>Klicken Sie auf <strong>OK</strong>, um die Einstellungen zu speichern.</li>
+</ol>
+
+<div class="section">
+<h4>Hinweis:</h4>
+<ul>
+<li>Gesperrte Versionen werden nicht entfernt.</li>
+<li>Nur bei Sicherungsaufgaben für mehrere Versionen ist die Versionsrotation verfügbar.</li>
+<li>In DSM 5.1 oder niedriger wird die Versionsrotation nicht unterstützt.</li>
+<li>Die Rotation wird direkt nach Änderung der Einstellung oder nach Abschluss der Sicherungsaufgabe ausgelöst.</li>
+<li>Bei der Berechnung der maximalen Anzahl von Versionen werden gesperrte Versionen ignoriert.</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Hinweise zu Datensicherungsaufgaben</h3>
+<p>Lesen Sie für die verschiedenen Arten von Datensicherungsaufgaben die nachstehenden Hinweise zu wichtigen Einrichtungsdetails und Tipps bei der Fehlerbehebung.</p>
+
+<h4>Lokale Datensicherungsaufgaben:</h4>
+<ul>
+<li>Wenn während des Sicherungsvorgangs Daten am Ziel entfernt werden, wird bei der nächsten Ausführung der Aufgabe eine vollständige Sicherung durchgeführt.</li>
+<li>Möglicherweise müssen neue externe Laufwerke zuerst formatiert werden, bevor sie als Datensicherungsziel verwendet werden können. </li>
+<li>Bevor Sie eine Sicherungsaufgabe erstellen, müssen Sie prüfen, ob die externen Laufwerke korrekt an der Synology NAS angeschlossen wurden. Unter <b>Systemsteuerung</b> > <b>Externe Geräte</b> können Sie den Status der USB/eSATA-Laufwerke überprüfen. Externe Laufwerke können nicht als Datensicherungsziel ausgewählt werden, wenn das externe Laufwerk initialisiert oder formatiert wird oder defekt ist.</li>
+<li>Angehängte freigegebene Remote-Ordner können nicht als Datensicherungsquelle oder -ziel ausgewählt werden.</li>
+<li>Wenn ein verschlüsselter freigegebener Ordner getrennt wird, kann er nicht als Datensicherungsziel ausgewählt werden.</li>
+<li>Miniaturansichten können nicht gesichert werden, wenn das Dateisystem am Ziel NTFS/FAT ist.</li>
+</ul>
+
+
+
+
+
+<h4>Remote-rsync-Datensicherungsaufgaben:</h4>
+<ul>
+<li>Die folgenden Modi sind verfügbar, wenn Sie eine Datensicherungsaufgabe mit einem rsync-kompatiblen Server als Netzwerksicherungsziel erstellen: Der <b>rsync-Daemon-Modus</b> wird verwendet, wenn Sie ein Datensicherungsmodul (gemeinsamer Ordner auf dem rsync-kompatiblen Server) im Dropdown-Menü neben <b>Sicherungsmodul</b> und <b>Remote-Shell-Modus</b> auswählen, der nur aktiviert ist, wenn im <b>Sicherungsmodul</b> ein absoluter Pfad (beginnend mit „/“) eingegeben wurde.</li>
+<li>Für Linux-Benutzer dürfen nur die Konten „<strong>admin</strong>“, „<strong>root</strong>“ und „<strong>rsync</strong>“ eine Netzwerksicherung durchführen.</li>
+<li>Wenn Sie über das Internet auf einen Zielserver mithilfe seines Hostnamens zugreifen möchten, muss der Hostname ein FQDN (Fully Qualified Domain Name - vollständig qualifizierter Domainname) sein, etwa <strong>abc.bcd.com</strong>.</li>
+<li>Bei der Datensicherung von einem Synology NAS-Gerät auf ein anderes werden Sie aufgefordert, den Benutzernamen und das Passwort für ein Konto auf dem Zielgerät einzugeben. Die Datensicherung auf gemeinsamen Ordnern auf einem anderen Synology NAS-Gerät ist den Zugriffsrechten auf die jeweiligen Ordner unterworfen. Nur freigegebene Ordner, für die das angegebene Benutzerkonto Zugriffsberechtigungen besitzt, werden angezeigt. Überprüfen Sie Ihre Zugriffsberechtigungen, wenn Sie den gewünschten freigegebenen Ordner auf dem Zielgerät nicht finden.</li>
+<li>Die Verschlüsselung der Übertragung wird nur unterstützt, wenn der Zielserver ebenfalls die Verschlüsselung von Netzwerksicherungskopien unterstützt. Das Authentifizierungskennwort darf nicht leer sein.</li>
+<li>Der Remote-Shell-Modus unterstützt nur die Übertragungsverschlüsselung.</li>
+<li>Wenn Sie Dateien über einen rsync-Client auf einem Synology NAS sichern, müssen die Dateinamen in UTF-8-Codierung vorliegen.</li>
+<li>Wenn Sie Dateien über einen rsync-kompatiblen Client auf einem Synology NAS sichern, können Sie die Aufgaben nur über die Konten <strong>admin</strong>, <strong>root</strong> und <strong>rsync</strong> des Synology NAS ausführen.</li>
+<li>Wenn Sie Dateien von Ihrem Synology NAS auf einen rsync-kompatiblen Server sichern, müssen sie den korrekten rsync-Kontonamen und das entsprechende Kennwort eingeben. Außerdem müssen Sie das korrekte Sicherungsmodul mit Schreibberechtigung auswählen.</li>
+</ul>
+
+
+
+<h4>Amazon S3-Datensicherungsaufgaben:</h4>
+<ul>
+  <li>Bei der Erstellung von Datensicherungsaufgaben mit dem Amazon S3-Server als Netzwerksicherungsziel stehen verschiedene Optionen zur Verfügung, wie Übertragungsverschlüsselung, Datensicherung auf Amazon S3 RRS (Reduced Redundancy Storage) usw. Beachten Sie, dass einige Optionen, wie etwa die Übertragungsverschlüsselung, die Geschwindigkeit der Datensicherungsaufgaben verringern können.</li>
+  <li>Gesicherte Dateien werden in dem <strong>Bucket</strong> gespeichert, den Sie auf dem Amazon S3-Server ausgewählt haben. Der Set KEY-Wert beginnt mit einem von Ihnen ausgewählten Verzeichnisnamen und endet mit dem kompletten Dateipfad dieser Datei.</li>
+  <li>Die Datenstruktur von Amazon S3 umfasst ein Paar Buckets und KEY ohne Ordnerstruktur. Die Datensicherung leerer Ordner wird nicht unterstützt.</li>
+  <li>Wenn eine Sicherungsdatei nicht verändert wurde, wird sie nicht wieder im selben Bucket auf dem Amazon S3-Server gesichert.</li>
+  <li>Jeder Bucket auf dem Amazon S3 muss einen eindeutigen Namen haben. Der Name muss auch Folgendes erfüllen:</li>
+<ul>
+  <li>Er muss 3 bis 63 Zeichen lang sein.</li>
+  <li>Er darf nur Kleinbuchstaben, Ziffern, Punkte (.) und Bindestriche (-) enthalten.</li><li>Er muss mit einer Ziffer oder einem Buchstaben beginnen und enden, er darf nicht mit einem Bindestrich enden (-) sowie weder zwei nebeneinander liegende Punkte noch Bindestriche neben Punkten enthalten (z. B. sind „my-.bucket.com“ und „my-.bucket“ ungültig).</li>
+</ul>
+<li>Die maximale Länge eines Amazon S3 KEYs beträgt 1024 Zeichen. Um die erfolgreiche Datensicherungsaufgabe auf Amazon S3 sicherzustellen, darf die maximale Pfadlänge 1024 abzüglich der Länge des bei der Erstellung der Aufgabe angegebenen Zielordnernamens nicht überschreiten.</li>
+<li>Wenn Sie die Unterstützung für Amazon S3 RRS (Reduced Redundancy Storage) aktivieren, werden nur die Daten im RRS-Speicher gesichert, die nach Aktivierung der Option geändert wurden. Das bedeutet, dass Daten, die bereits im Standardordner von Amazon S3 gesichert wurden, nicht erneut im RRS gesichert werden. </li>
+<li>Das Verschieben von gesicherten Dateien von Amazon S3 zu Amazon Glacier wird nicht unterstützt. Wenn Dateien von Amazon S3 über die AWS-Managementkonsole zu Amazon Glacier verschoben werden, könnten die zugehörigen Datensicherungsaufgaben scheitern.</li>
+<li>Die Datensicherung über SSL von Dateien in Buckets vom Typ „Virtueller Host“ wird nicht unterstützt.</li>
+<li>Bei der Übertragung einer Datei wird diese in Teile aufgeteilt. Die Größenbegrenzung kann in „Aufgabeneinstellungen“ mit der Option <strong>Multipart Upload-Teilgröße</strong> festgelegt werden, wobei 512 MB Standard sind. Wenn die Netzwerkumgebung nicht stabil ist, wird empfohlen, eine geringere Größe festzulegen.</li>
+
+<li>Pro Upload beträgt die maximale Anzahl von Teilen 10000. Die maximale Dateigröße ist die <strong>Multipart Upload-Teilgröße</strong> multipliziert mit 10000.</li>
+<li>Die Dateinamen dürfen keine Nicht-UTF-8- oder Steuerzeichen enthalten.</li>
+</ul>
+
+
+
+<h4>Microsoft Azure-Datensicherungsaufgaben:</h4>
+<ul>
+<li>Beim Erstellen von Datensicherungsaufgaben mit einem Microsoft Azure-Server als Netzwerksicherungsziel stehen verschiedene Optionen zur Verfügung (z. B. Übertragungsverschlüsselung). Beachten Sie, dass einige Optionen, wie etwa die Übertragungsverschlüsselung, die Geschwindigkeit der Datensicherungsaufgaben verringern können.</li>
+<li>Gesicherte Dateien werden in dem <strong>Container</strong> gespeichert, den Sie auf dem Microsoft Azure-Server ausgewählt haben. Der Blob-Name beginnt mit einem von Ihnen ausgewählten Verzeichnisnamen und endet mit dem kompletten Dateipfad dieser Datei.</li>
+<li>Die Datenstruktur von Microsoft Azure schließt die Verpaarung von Container und Blob ohne Ordnerstruktur mit ein. Die Datensicherung leerer Ordner wird nicht unterstützt.</li>
+<li>Wenn eine Sicherungsdatei nicht verändert wurde, wird sie nicht wieder im selben Container auf dem Microsoft Azure-Server gesichert.</li>
+<li>Jeder Container in Microsoft Azure muss einen eindeutigen Namen haben. Der Name muss auch Folgendes erfüllen:</li>
+<ul>
+<li>Er muss 3 bis 63 Zeichen lang sein.</li>
+<li>Er darf nur Kleinbuchstaben, Ziffern und Bindestriche (-) enthalten.</li>
+<li>Er muss mit einer Zahl oder einem Buchstaben beginnen und enden, außerdem darf er keine zwei nebeneinander liegenden Bindestriche enthalten.</li>
+</ul>
+<li>Die maximale Länge eines Microsoft Azure Blob-Namens beträgt 1024 Zeichen. Um die erfolgreiche Datensicherungsaufgabe auf Microsoft Azure sicherzustellen, darf die maximale Pfadlänge 1024 abzüglich der Länge des bei der Erstellung der Aufgabe angegebenen Zielordnernamens nicht überschreiten.</li>
+
+<li>Die Dateinamen dürfen keine Nicht-UTF-8- oder Steuerzeichen enthalten.</li>
+<li>Die Warnmeldung, dass die Authentifizierung fehlgeschlagen ist, kann durch Folgendes verursacht werden: Falsche Authentifizierungsinformationen, ein Netzwerkverbindungsproblem oder die Zeit auf Ihrer Synology NAS und dem Remote-Server stimmen nicht überein. Um die Zeiteinstellung auf Ihrer Synology NAS zu überprüfen, gehen Sie zu <strong>Systemsteuerung</strong> > <strong>Regionale Optionen</strong> ><strong> Zeit</strong>, um die Zeit mit dem NTP-Server zu synchronisieren.</li>
+</ul>
+
+
+
+<h4>hicloud S3-Datensicherungsaufgaben:</h4>
+<ul>
+<li>Beim Erstellen von Datensicherungsaufgaben mit hicloud S3-Server als Netzwerksicherungsziel stehen verschiedene Optionen zur Verfügung (z. B. Übertragungsverschlüsselung). Beachten Sie, dass einige Optionen, wie etwa die Übertragungsverschlüsselung, die Geschwindigkeit der Datensicherungsaufgaben verringern können.</li>
+<li>Gesicherte Dateien werden in dem <strong>Bucket</strong> gespeichert, den Sie auf dem hicloud S3-Server ausgewählt haben. Der Set KEY-Wert beginnt mit einem von Ihnen ausgewählten Verzeichnisnamen und endet mit dem kompletten Dateipfad dieser Datei.</li>
+<li>Die Datenstruktur von hicloud S3 schließt die Verpaarung von Bucket und KEY ohne Ordnerstruktur mit ein. Die Datensicherung leerer Ordner wird nicht unterstützt.</li>
+<li>Wenn eine Sicherungsdatei nicht verändert wurde, wird sie nicht wieder im selben Bucket auf dem hicloud S3-Server gesichert.</li>
+<li>Jeder Bucket auf dem hicloud S3 muss einen eindeutigen Namen haben. Der Name muss auch Folgendes erfüllen:</li>
+<ul>
+<li>Er muss 3 bis 63 Zeichen lang sein.</li>
+<li>Er darf nur Kleinbuchstaben, Ziffern, Punkte (.) und Bindestriche (-) enthalten.</li>
+<li>Er muss mit einer Ziffer oder einem Buchstaben beginnen und enden, er darf nicht mit einem Bindestrich enden (-) sowie weder zwei nebeneinander liegende Punkte noch Bindestriche neben Punkten enthalten (z. B. sind „my-.bucket.com“ und „my-.bucket“ ungültig).</li>
+</ul>
+<li>Die maximale Länge eines hicloud S3 KEY beträgt 255 Zeichen. Um die erfolgreiche Datensicherung auf hicloud S3 sicherzustellen, darf die maximale Pfadlänge 255 abzüglich der Länge des bei der Erstellung der Aufgabe angegebenen Zielordnernamens nicht überschreiten.</li>
+<li>Bei der Übertragung einer Datei wird diese in Teile aufgeteilt. Die Größenbegrenzung kann in „Aufgabeneinstellungen“ mit der Option <strong>Multipart Upload-Teilgröße</strong> festgelegt werden, wobei 512 MB Standard sind. Wenn die Netzwerkumgebung nicht stabil ist, wird empfohlen, eine geringere Größe festzulegen.</li>
+
+<li>Hicloud unterstützt maximal 1000 Teile pro Übertragung. Das bedeutet, dass die Gesamtdateigröße 1000 multipliziert mit der Teilgröße nicht überschreiten darf. Ist die Multipart-Upload-Teilgröße beispielsweise auf 8 MB eingestellt, wird eine Datei mit mehr als 8000 MB nicht hochgeladen. </li>
+
+<li>Die Datensicherung von verschlüsselten freigegebenen Ordnern wird nicht unterstützt.</li> 
+
+<li>Die Dateinamen dürfen keine Nicht-UTF-8- oder Steuerzeichen enthalten.</li>
+</ul>
+
+
+  
+
+<h4>SFR NAS BACKUP-Datensicherungsaufgaben:</h4>
+<ul>
+<li>Beim Erstellen von Datensicherungsaufgaben mit SFR NAS BACKUP-Server als Netzwerksicherungsziel stehen verschiedene Optionen zur Verfügung, (z. B. Transfer-Verschlüsselung). Beachten Sie, dass einige Optionen, wie etwa die Übertragungsverschlüsselung, die Geschwindigkeit der Datensicherungsaufgaben verringern können.</li>
+<li>Gesicherte Dateien werden in dem <strong>Bucket</strong> gespeichert, den Sie auf dem SFR NAS BACKUP-Server ausgewählt haben. Der Set KEY-Wert beginnt mit einem von Ihnen ausgewählten Verzeichnisnamen und endet mit dem kompletten Dateipfad dieser Datei.</li>
+<li>Die Datenstruktur von SFR NAS BACKUP schließt die Paarung von Bucket und KEY ohne Ordnerstruktur mit ein. Die Datensicherung leerer Ordner wird nicht unterstützt.</li>
+<li>Wenn eine Sicherungsdatei nicht verändert wurde, wird sie nicht wieder im selben Bucket auf dem SFR NAS BACKUP-Server gesichert.</li>
+<li>Jeder Bucket auf dem SFR NAS BACKUP muss einen eindeutigen Namen haben. Der Name muss auch Folgendes erfüllen:</li>
+<ul>
+<li>Er muss 3 bis 63 Zeichen lang sein.</li>
+<li>Er darf nur Kleinbuchstaben, Ziffern, Punkte (.) und Bindestriche (-) enthalten.</li>
+<li>Er muss mit einer Ziffer oder einem Buchstaben beginnen und enden, er darf nicht mit einem Bindestrich enden (-) sowie weder zwei nebeneinander liegende Punkte noch Bindestriche neben Punkten enthalten (z. B. sind „my-.bucket.com“ und „my-.bucket“ ungültig).</li>
+</ul>
+<li>Die maximale Länge eines SFR NAS BACKUP-KEYs beträgt 1024 Zeichen. Um die erfolgreiche Datensicherung auf SFR NAS BACKUP sicherzustellen, beträgt die maximale Pfadlänge 1024 abzüglich der Länge des Zielordnernamens, der während der Erstellung der Aufgabe angegeben wurde.</li>
+<li>Bei der Übertragung einer Datei wird diese in Teile aufgeteilt. Die Teilgröße kann in „Aufgabeneinstellungen“ mit der Option <strong>Multipart Upload-Teilgröße</strong> festgelegt werden, wobei 64 MB Standard sind. Wenn die Netzwerkumgebung nicht stabil ist, wird empfohlen, eine geringere Größe festzulegen.</li>
+
+<li>Die Dateinamen dürfen keine Nicht-UTF-8- oder Steuerzeichen enthalten.</li> 
+
+</ul>
+
+<h4>Sonstige S3-kompatible Datensicherungsaufgaben:</h4>
+<ul>
+<li>Geben Sie, um andere S3-kompatible Clouds zu verwenden, die IP-Adresse bzw. die Domain der gewünschten S3-kompatiblen Cloud in das Feld <strong>S3-Server</strong> ein, wenn Sie dazu aufgefordert werden.</li>
+<li>Lesen Sie, wenn es Probleme bei der Verwendung gibt, die relevante Dokumentation oder wenden Sie sich an den Serviceanbieter der S3-kompatiblen Cloud.</li>
+</ul>
+
+<h3>LUN-Sicherung*</h3>
+
+<p>Über die Funktion <b>Sicherung lokaler LUN</b> können Sie die iSCSI LUNs auf Ihrem Synology NAS in lokalen freigegebenen Ordnern sichern. Sie können die Sicherung mit <b>Netzwerk-LUN-Sicherung (Synology-Server)</b> auch auf einem anderen Synology NAS durchführen.</p>
+
+<h4>So sichern Sie eine iSCSI LUN:</h4>
+<ol>
+<li>Klicken Sie unten links auf <strong>+</strong> und wählen Sie <strong>LUN-Sicherungsaufgabe</strong> aus.
+</li>
+<li>
+Wenn Sie aufgefordert werden, einen Zieltyp auszuwählen, wählen Sie bitte eine der folgenden Optionen:
+</li>
+<ul>
+<li>
+<b>Sicherung lokaler LUN</b>: Wählen Sie diese Option, um die LUN von Ihrer Synology NAS zu einem lokalen gemeinsamen Ordner oder einem externen Datenspeicher, welche mit dem USB- oder eSATA-Port Ihrer Synology NAS verbunden ist, zu sichern.
+</li>
+<li><b>Netzwerk-LUN-Sicherung (Synology-Server)</b>: Wählen Sie diese Option, um die LUN von Ihrer Synology NAS zu einer anderen Synology NAS zu sichern.
+</li>
+</ul>
+<li>
+Geben Sie bei Aufforderung den Sicherungszielort und die Quell-LUN an. Stellen Sie anschließend den Sicherungszeitplan ein.
+</li>
+<li>
+Folgen Sie dem Assistenten, um das Setup abzuschließen.
+</li>
+</ol>
+<p>Nachdem die Sicherungsaufgabe erstellt wurde, führt die Synology NAS die Sicherung nach dem Zeitplan durch und speichert die gesicherte LUN am Zielort. Die gesicherte LUN wird nur für Sicherungszwecke verwendet. Unter <a href="restore.html">So stellen Sie eine gesicherte LUN wieder her</a> erfahren Sie, wie Sie auf eine gesicherte LUN zugreifen können.</p>
+
+<div class="section">
+<h4>Hinweis:</h4>
+<ul>
+<li>Sowohl reguläre Datei-, als auch Block-Ebenen-LUNs werden als Datei-Images am Zielort gesichert. Bei der Wiederherstellung werden alle Block-Ebenen-LUNs zu Datei-LUNs geändert.</li>
+<li>Eine Sicherungsaufgabe kann nur eine LUN als Sicherungsquelle enthalten.</li>
+<li>LUNs können nicht auf einer externen Festplatte mit den Formaten FAT, FAT32, HFS, HFS Plus oder NTFS gesichert werden.</li>
+<li>Melden Sie sich, bevor Sie eine Netzwerk-LUN-Sicherung durchführen, beim Ziel-Synology NAS an, um sicherzustellen, dass dessen Netzwerksicherungsdienst unter <b>Systemsteuerung</b> > <b>Datensicherungsdienst</b> aktiviert wurde.</li>
+<li>Wenn Ihre Synology NAS über einen Router mit dem Netzwerk verbunden wird, stellen Sie bitte sicher, dass Sie eine Portweiterleitungsregel für den iSCSI-Dienst (TCP-Port 3260) auf dem Router angegeben haben, bevor Sie die Netzwerk-LUN-Sicherung durchführen.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Über vollständige Sicherung und inkrementelle Sicherung:</h4>
+<p>
+Die Synology NAS führt beim ersten Mal eine vollständige Sicherung für die ausgewählte LUN durch. Danach geschieht die Sicherung inkrementell. Wenn aber der Name des gemeinsamen Ordners oder Verzeichnisses des Sicherungsziels geändert wird, führt die Synology NAS erneut eine vollständige Sicherung durch.
+</p>
+</div>
+
+<p>____<br /> * Nur bei bestimmten Modellen verfügbar.</p>
+
+</body></html>

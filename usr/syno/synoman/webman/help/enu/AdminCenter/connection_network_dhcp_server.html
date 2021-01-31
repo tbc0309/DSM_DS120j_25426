@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>DHCP Server</h2>
+
+<p>Your Synology NAS can act as a DHCP server and assign dynamic IP addresses to DHCP clients within your local network.</p>
+
+<h4>To enable DHCP server:</h4>
+<ol>
+	<li>Go to <strong>Control Panel</strong> > <strong>DHCP Server</strong> > <strong>Network Interface</strong>.</li>
+	<li>Select a network interface (e.g. LAN 1) to assign IP addresses to, and click <strong>Edit</strong>.</li>
+	<li>On the pop-up window, click <strong>DHCP Server</strong> tab and select <b>Enable DHCP server</b>.</li>
+	<li>Specify the following DHCP settings:
+		<ul>
+			<li><strong>Address lease time</strong></li>
+			<li><strong>Primary DNS</strong></li>
+			<li><strong>Secondary DNS</strong> (optinal)</li>
+			<li><strong>Domain name</strong> (optional)</li>
+			<li><strong>Enable Web Proxy Automatic Discovery</strong> (optional)</li>
+		</ul>
+	</li>
+	<li>Set up at least one subnet. For the subnet setup, click <strong>Add</strong> to specifiy the following information:
+		<ul>
+			<li><strong>Start IP address</strong></li>
+			<li><strong>End IP address</strong></li>
+			<li><strong>Netmask</strong></li>
+			<li><strong>Gateway</strong></li>
+		</ul>
+	</li>
+	<li>Click <strong>Create</strong> to show the created subnet in the list.</li>
+	<li>After you create enough subnets, remember to enable at least one subnet.</li>
+	<li>Click <b>OK</b>.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>You can create as many subnets as you wish.</li>
+	<li>If coordinated with a DHCP relay server, your Synology NAS as the DHCP server can assign IP addresses to devices on another subnet.</li>
+</ul>
+</div>
+
+<h3>DHCP Clients</h3>
+<p>You can find a list of DHCP clients and their network configurations (e.g. MAC address, IP address, hostname, the amount of time left before the DHCP lease expires, and the reservation status).</p>
+
+<ol>
+	<li>Go to <strong>Control Panel</strong> > <strong>DHCP Server</strong> > <strong>Network Interface</strong> and select one desired interface.</li>
+	<li>Click <strong>Edit</strong> > <strong>DHCP Clients</strong> to find the clients and the details.</li>
+</ol>
+
+<h4>To manage IP addresses for DHCP clients:</h4>
+<p>You can have a client always receive the same IP address during DHCP lease renewal and manage these clients.</p>
+<ul>
+	<li>To add DHCP clients: Click <strong>Add</strong> to assign the IP address to the client device.</li>
+	<li>To reserve the IP address: Click the lock icon to reserve the IP address for the current device.</li>
+	<li>To cancel the reservation: Click the lock icon  to allow the current IP address to be used by another device after the address lease time passes.</li>
+</ul>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>If a device can have both IPv4 and IPv6 addresses, you can reserve one IPv4 address and one IPv6 address for the device.</li>
+</ul>
+</div>
+
+<h4>To search for DHCP clients:</h4>
+<ol>
+	<li>Click the funnel icon on the top right corner.</li>
+	<li>Select one of the search criteria below:
+		<ul>
+			<li><strong>All</strong>: List all the DHCP clients and DHCP reservations. </li>
+			<li><strong>DHCP clients</strong>: List all the DHCP clients with reserved or unreserved IP addresses.</li>
+			<li><strong>DHCP reservations</strong>: List all reserved IP addresses. A reserved IP address may not be paired with any device yet.</li>
+		</ul>
+	</li>
+</ol>
+
+<h3>DHCP Options</h3>
+<p>After you specify the DHCP options, your Synology NAS as the DHCP server can send out related information to the DHCP clients in a certain subnet.</p>
+
+<h4>To specify DHCP options for a subnet:</h4>
+<ol>
+	<li>Go to <strong>Control Panel</strong> > <strong>DHCP Server</strong> > <strong>Network Interface</strong>.</li>
+	<li>Select the desired network interface and click <strong>Edit</strong>.</li>
+	<li>Go to <strong>DHCP Server</strong> and go to the <strong>Subnet list</strong>.</li>
+	<li>Do either action below:
+		<ul>
+			<li>To specify DHCP options for an existing subnet: Select the desired interface and click <strong>Edit</strong>.</li>
+			<li>To create a subnet and specify its DHCP options: Click <strong>Add</strong> and specify the subnet settings.</li>
+		</ul>
+	</li>
+	<li>Select the wanted DHCP options; to specify the corresponding values, click on the blank fields for editing.</li>
+	<li>Click <strong>OK</strong>.</li>
+</ol>
+
+<p>For the supported DHCP options and their value limitations, please refer to the table below:</p>
+
+<table width="100%" border="1">
+	<tbody>
+		<tr>
+			<th width="20%">Code</th>
+			<th width="30%">Name</th>
+			<th width="50%">Limitation</th>
+		</tr>
+		<tr>
+			<td align="center">7</td>
+			<td>log-server</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">9</td>
+			<td>lpr-server</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">13</td>
+			<td>boot-file-size</td>
+			<td>An integer between 0 and 65536</td>
+		</tr>
+		<tr>
+			<td align="center">16</td>
+			<td>swap-server</td>
+			<td>IP address</td>
+		</tr>
+		<tr>
+			<td align="center">17</td>
+			<td>root-path</td>
+			<td>File path</td>
+		</tr>
+		<tr>
+			<td align="center">18</td>
+			<td>extension-path</td>
+			<td>File path</td>
+		</tr>
+		<tr>
+			<td align="center">19</td>
+			<td>ip-forward-enable</td>
+			<td>0 or 1</td>
+		</tr>
+		<tr>
+			<td align="center">20</td>
+			<td>non-local-source-routing</td>
+			<td>0 or 1</td>
+		</tr>
+		<tr>
+			<td align="center">21</td>
+			<td>policy-filter</td>
+			<td>One or multiple pairs of [IP address,Netmask]<br />Example:192.168.1.1,255.255.255.0</td>
+		</tr>
+		<tr>
+			<td align="center">22</td>
+			<td>max-datagram-reassembly</td>
+			<td>An integer between 576 and 65536</td>
+		</tr>
+		<tr>
+			<td align="center">23</td>
+			<td>default-ttl</td>
+			<td>An integer between 1 and 255</td>
+		</tr>
+		<tr>
+			<td align="center">26</td>
+			<td>mtu</td>
+			<td>An integer between 68 and 65536</td>
+		</tr>
+		<tr>
+			<td align="center">27</td>
+			<td>all-subnets-local</td>
+			<td>0 or 1</td>
+		</tr>
+		<tr>
+			<td align="center">31</td>
+			<td>router-discovery</td>
+			<td>0 or 1</td>
+		</tr>
+		<tr>
+			<td align="center">32</td>
+			<td>router-solicitation</td>
+			<td>IP address</td>
+		</tr>
+		<tr>
+			<td align="center">34</td>
+			<td>trailer-encapsulation</td>
+			<td>0 or 1</td>
+		</tr>
+		<tr>
+			<td align="center">35</td>
+			<td>arp-timeout</td>
+			<td>An integer between 0 and 4294967296</td>
+		</tr>
+		<tr>
+			<td align="center">36</td>
+			<td>ethernet-encap</td>
+			<td>0 or 1</td>
+		</tr>
+		<tr>
+			<td align="center">37</td>
+			<td>tcp-ttl</td>
+			<td>An integer between 1 and 255</td>
+		</tr>
+		<tr>
+			<td align="center">38</td>
+			<td>tcp-keepalive</td>
+			<td>An integer between 0 and 4294967296</td>
+		</tr>
+		<tr>
+			<td align="center">40</td>
+			<td>nis-domain</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td align="center">41</td>
+			<td>nis-server</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">42</td>
+			<td>ntp-server</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">44</td>
+			<td>netbois-ns</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">45</td>
+			<td>netbios-dd</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">46</td>
+			<td>netbios-nodetype</td>
+			<td>1, 2, 4, or 8</td>
+		</tr>
+		<tr>
+			<td align="center">47</td>
+			<td>netbios-scope</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td align="center">48</td>
+			<td>x-windows-fs</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">49</td>
+			<td>x-windows-dm</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">58</td>
+			<td>T1</td>
+			<td>An integer between 0 and 4294967296</td>
+		</tr>
+		<tr>
+			<td align="center">59</td>
+			<td>T2</td>
+			<td>An integer between 0 and 4294967296</td>
+		</tr>
+		<tr>
+			<td align="center">64</td>
+			<td>nis+-domain</td>
+			<td>String</td>
+		</tr>
+		<tr>
+			<td align="center">65</td>
+			<td>nis+-server</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">68</td>
+			<td>mobile-ip-home</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">69</td>
+			<td>smtp-server</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">70</td>
+			<td>pop3-server</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">71</td>
+			<td>nntp-server</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">74</td>
+			<td>irc-server</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		<tr>
+			<td align="center">120</td>
+			<td>sip-server</td>
+			<td>One or multiple IP addresses</td>
+		</tr>
+		 <tr>
+			<td align="center">121</td>
+			<td>classless-static-route</td>
+			<td>One ore multiple pairs of [IP address/0-32,gateway IP]<br />Example:192.168.1.0/24,192.168.1.254</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Vendor</h3>
+<p>DHCP clients of different vendors may require additional DHCP information. By setting up DHCP options for the vendors, your Synology NAS can provide such details to the clients.</p>
+<p>To know the DHCP options supported by each vendor, please contact the specific vendors for details.</p>
+
+<h4>To add vendors:</h4>
+<ol>
+	<li>Go to <strong>Control Panel</strong> > <strong>DHCP Server</strong> > <strong>Vendor</strong>.</li>
+	<li>Click <strong>Create</strong> to specify the vendor and its DHCP options:
+		<ul>
+			<li><strong>Name</strong>: Specify the vendor's name.</li>
+			<li><strong>Code</strong>: Specify the numeric code of the DHCP option.</li>
+			<li><strong>Value</strong>: Specify the option value.</li>
+			<li><strong>+</strong>: Add a DHCP option.</li>
+			<li><strong>-</strong>: Delete a DHCP option.</li>
+		</ul>
+	</li>
+	<li>Click <strong>Create</strong> to finish the setup.</li>
+</ol>
+
+<h4>To edit DHCP options for vendors:</h4>
+<ol>
+	<li>Go to <strong>Control Panel</strong> > <strong>DHCP Server</strong> > <strong>Vendor</strong>.</li>
+	<li>Select the desired vendor and click <strong>Edit</strong> to manage its DHCP options.</li>
+	<li>Click <strong>OK</strong>.</li>
+</ol>
+
+<h3>PXE</h3>
+<p>Your Synology NAS can act as a DHCP server to implement the setup of PXE (Pre-Boot Execution Environment). PXE is a network environment that allows client devices to boot up using a network interface rather than a data storage device (e.g. hard disks).</p>
+<p>When PXE is implemented, a boot loader can be stored on  your Synology NAS or a remote TFTP server, and client devices can boot up over the network using the boot loader.</p>
+
+<h4>To use your Synology NAS as a boot loader server:</h4>
+<ol>
+	<li>Make sure you have selected <strong>Enable TFTP service</strong> (at <strong>Control Panel</strong> > <strong>File Services</strong> > <strong>TFTP</strong>).</li>
+	<li>Select a folder that hosts the boot loader file as the TFTP root folder.</li>
+	<li>Make sure at least one DHCP subnet is enabled (at <strong>Control Panel</strong> > <strong>DHCP Server</strong> > <strong>Network Interface</strong>).</li>
+	<li>Go to <strong>Control Panel</strong> > <strong>DHCP Server</strong> > <strong>PXE</strong>.
+	<li>Select <strong>Enable PXE (Pre-boot Execution Environment)</strong>.</li>
+	<li>Select <strong>Local TFTP server</strong> and select the boot loader file.</li> 
+	<li>Click <strong>Apply</strong> to save the settings.</li>
+</ol>
+
+<h4>To use remote TFTP server as a boot loader server:</h4>
+<p>By using a remote TFTP server as a boot loader server, you can allow clients to boot up without having to change the current network infrastructure.</p>
+<ol>
+	<li>Make sure at least one DHCP subnet is enabled (at <strong>Control Panel</strong> > <strong>DHCP Server</strong> > <strong>Network Interface</strong>).</li>
+	<li>Go to <strong>Control Panel</strong> > <strong>DHCP Server</strong> > <strong>PXE</strong>.</li>
+	<li>Select <strong>Enable PXE (Pre-boot Execution Environment)</strong>.</li>
+	<li>Select <strong>Remote TFTP server</strong>, and specify the server IP address and the file path of the boot loader file.</li>
+	<li>Click <strong>Apply</strong> to save the settings.</li>
+</ol>
+
+</body>
+</html>

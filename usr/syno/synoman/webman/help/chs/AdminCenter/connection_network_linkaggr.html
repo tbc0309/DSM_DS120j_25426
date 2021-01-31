@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>网络</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="link_aggr"></a>Link Aggregation</h2>
+<p>Synology NAS 支持多个 LAN，可让您使用 Link Aggregation 技术组合这些 LAN 接口。Link Aggregation 通过聚合多个网络接口来提高 Synology NAS 的带宽，并能在连接中断时提供流量故障转移来维持网络连接。</p>
+<p>LAN 接口组合后，您将在<b>控制面板</b> &gt; <b>网络</b> &gt; <b>网络接口</b>中看到名为 <b>Bond</b> 的新接口，该接口可以和其他接口（如 LAN 或 PPPoE）一样进行配置。</p>
+
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>Link Aggregation 仅在配备至少两个 LAN 端口的型号上可用。</li>
+<li>通过启用 Link Aggregation，网络流量将自动调整，并在各连接的设备中取得平衡。</li>
+<li>如果网络接口连接到多个交换机，请确认端口在同一 LAN 或 VLAN 中。</li>
+</ul>
+</div>
+
+
+<h4>若要用 Link Aggregation 组合多个局域网：</h4>
+<ol>
+<li>请进入<strong>控制面板</strong> &gt; <strong>网络</strong> &gt; <strong>网络接口</strong>。请单击<strong>创建</strong> &gt; <strong>创建 Bond</strong>。</li><img src="about:blank" class="help_image"/><li>选择所需模式。<div class="section">
+<h4>模式说明：</h4>
+<ul>
+  <li><strong>Adaptive Load Balancing</strong>：此模式优化了 Synology NAS 接收和发送的网络流量，而与交换机是否支持 Link Aggregation 无关。为避免意外错误，即便交换机支持 Link Aggregation 也不要启用交换机上的 Link Aggregation。</li>
+  <li><strong>IEEE 802.3ad 动态 Link Aggregation</strong>：此模式优化了 Synology NAS 接收和发送的网络流量，并需要启用交换机上的 IEEE 802.3ad（动态）Link Aggregation（LACP，802.1AX）。如果使用多个交换机，这些交换机必须为堆叠式并已正确配置。</li>
+<li><strong>Balance XOR</strong>：此模式平衡了 Synology NAS 接收和发送的网络流量，并需要启用交换机上的静态 Link Aggregation。如果使用多个交换机，这些交换机必须为堆叠式并已正确配置。如果交换机不支持 Link Aggregation，而 Synology NAS 接收和发送的网络流量仍可平衡。通过此模式，可检测到丢失的链接，但检测不到原因（例如，以太网电缆什么时候拨出的或交换机什么时候被错误配置的）。</li>
+<li><strong>活动/备用</strong>：此模式为您的 Synology NAS 提供了 network fault tolerance 功能。即，当活动网络接口出现故障时，其他 LAN 端口之一将接管以保持网络连接。您可选择此模式而无需配置交换机，或通过支持 IEEE 802.3ad Link Aggregation 的交换机进行选择。</li>
+</ul>
+<p>如果已启用 Open vSwitch，则可选择以下模式之一：</p>
+<ul>
+ <li><b>平衡-SLB</b>：此模式可平衡网络流量，而无需支持特定网络交换机，并且可实现两个交换机之间的连接。</li>
+ <li><b>平衡-TCP</b>：此模式可实现与配置为动态 Link Aggregation (IEEE 802.3ad LACP) 的交换机的连接。如果使用多个交换机，则它们必须为堆叠式并已正确配置。</li>
+ <li><b>主动/备份模式</b>：此模式使用两个网络接口为 Synology NAS 提供 network fault tolerance。当活动网络接口出现故障时，另一个网络接口将接管以保持网络连接。可以选择此模式而不配置交换机。</li>
+</ul>
+</div>
+</li><img src="about:blank" class="help_image"/><li>选择接口以创建 Link Aggregation。</li><img src="about:blank" class="help_image"/><li>配置 IP 设置。如需要，您还可启用 VLAN。单击<b>应用</b>来保存更改。</li><img src="about:blank" class="help_image"/><li>完成后，您可在<b>网络接口</b>列表中看到新接口 <b>Bond 1</b>。</li><img src="about:blank" class="help_image"/></ol>
+
+<h4>若要编辑 Link Aggregation 设置：</h4>
+<ol>
+<li>若要更改 Link Aggregation 模式或查看物理硬盘的信息，请进入<b>控制面板</b> &gt; <b>网络</b> &gt; <b>网络接口</b>。</li>
+<li>选择接口 <b>Bond 1</b>，然后单击<b>编辑</b>按钮。</li><img src="about:blank" class="help_image"/><li>进入相应的选项卡以编辑所需设置。</li>
+</ol>
+
+<h4>若要移除 Link Aggregation：</h4>
+<ol>
+<li>请进入<b>控制面板</b> &gt; <b>网络</b> &gt; <b>网络接口</b>。</li>
+<li>选择接口 <b>Bond 1</b>，然后单击<b>删除</b>按钮。</li><img src="about:blank" class="help_image"/><li>完成后，您将在网络接口列表中看到两个单独的 LAN 接口。</li><img src="about:blank" class="help_image"/></ol>
+
+</body>
+</html>
+

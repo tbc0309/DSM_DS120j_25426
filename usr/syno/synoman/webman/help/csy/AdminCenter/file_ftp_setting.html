@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>FTP / FTPS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>FTP/FTPS</h2>
+
+<p>V části <strong>Ovládací panel</strong> > <strong>Souborové služby</strong> > <strong>FTP</strong> můžete povolením služeb FTP umožnit klientům přístup ke složkám a datům v systému. Před povolením protokolu FTP se přesvědčte, zda jsou na zařízení Synology NAS předávány následující porty TCP směrovače: 21 (výchozí kontrola připojení), 20 (datové připojení v aktivním režimu) a 55536-55567 (datové připojení v pasivním režimu).</p>
+
+<h4>Postup povolení služby FTP:</h4>
+<ol>
+<li>Povolte jednu z následujících možností:<ul>
+		<li><b>Povolit službu FTP (Bez šifrování):</b> Toto je standardní síťový protokol pro přenos souborů. Při přenosu souborů nezajišťuje protokol FTP žádné šifrování určené k zabezpečení informací (jako jsou hesla, uživatelská jména nebo soubory). Rychlost přenosu souborů je však vyšší a využití systémových prostředků je nižší.</li>
+		<li><b>Povolit službu šifrování FTP pomocí SSL/TLS (FTPS):</b> Toto je doplněk standardního protokolu FTP s dodatečnou podporou šifrovacích protokolů Transport Layer Security (TLS) a Secure Sockets Layer (SSL), které zajišťují během přenosu zabezpečení informací, jako jsou hesla, uživatelská jména nebo soubory. Rychlost přenosu souborů je však nižší a využití systémových prostředků je z důvodu šifrování intenzivnější.</li>
+	</ul>
+</li>
+<li>Klikněte na možnost <b>Použít</b>.</li>
+</ol>
+
+
+<h3>Časový limit</h3>
+<p>Po zadaném časovém intervalu provede server FTP odpojení neaktivních uživatelů.</p>
+
+
+<h3>Nastavení čísla portu služby FTP</h3>
+<p>V této části můžete zadat port řídicího kanálu FTP.</p>
+<div class="section">
+<h4>Poznámka:</h4>
+<p>Výchozím číslem portu pro řídicí kanál FTP je 21. Lze jej nastavit na hodnotu od 1 do 65535, vyjma následujících čísel: 20, 22, 23, 25, 80, 110, 137, 138, 139, 143, 199, 443, 445, 515, 543, 548, 587, 873, 993, 995, 3306, 3689, 5000, 5001, 5005, 5006, 5335, 5432, 6881, 8080, 7000, 7001, 8081, 9997, 9998, 9999, 50001, 50002 a výchozí porty eMule: 4662 (TCP), 4672 (UDP).</p>
+</div>
+
+
+<h3>Rozsah portu pasivního FTP</h3>
+<p>V této části můžete zadat rozsah portu připojení pasivního FTP. Můžete použít výchozí rozsah portu nebo zadat vlastní řadu. Rozsah portu lze nastavit v rozmezí od 1025 do 65535 a může obsahovat až 128 portů.</li>
+</p>
+
+
+<h3>Hlášení externí IP adresy v režimu PASV</h3>
+<p>Povolíte-li tuto možnost, bude server klientům FTP hlásit externí IP adresu. Hlášená IP adresa bude uvedena v protokolu připojení klienta FTP. Jakmile bude tato možnost povolena, můžete zvolit automaticky detekovanou IP adresu nebo ručně zadat externí IP adresu zařízení Synology NAS.</p>
+<p>Tato možnost funguje pouze tehdy, pokud je zařízení Synology NAS umístěno v řadě za serverem a klientská zařízení FTP jsou součástí jiné podsítě než zařízení Synology NAS. Ve většině případů není tato možnost nezbytná. Pokud však dojde k chybě připojení klientů FTP k zařízení Synology NAS, můžete tuto funkci povolit a opakovat akci.</p>
+<h3>Povolení protokolu FXP</h3>
+<p>Zkratka FXP označuje File eXchange Protocol (Protokol pro výměnu souborů). Povolením této možnosti bude služba FTP podporovat funkci přenosu souborů mezi servery.</p>
+
+<h3>Povolení kryptografického modulu FIPS</h3>
+<p>Standard FIPS je podporován v rámci služby FTPS pomocí ověřeného šifrovacího modulu OpenSSL FIPS 140-2 (certifikát #1747). Povolením této možnosti dojde k zajištění vyšší bezpečnosti relací službou FTPS pomocí dodatečných zabezpečovacích šifrovacích algoritmů.</p>
+
+
+<h3>Podpora režimu přenosu ASCII </h3>
+<p>Povolením této možnosti zajistíte podporu režimu přenosů ASCII a umožníte tak zařízení Synology NAS správný přenos souborů ve formátu prostého textu ASCII přes protokol FTP.</p>
+
+
+<h3>Kódování UTF-8</h3>
+<p>Tato možnost může být použita proto, aby FTP klientům pomohla správně zobrazit a spravovat soubory s vícejazyčnými názvy. Aby byly splněny potřeby různých klientů FTP, jsou k dispozici následující tři možnosti:<ul>
+<li><strong>Zakázat</strong>: Kódování UTF-8 nebude použito. Tato možnost je určena pro klienty používající aplikaci Průzkumník souborů systému Windows jako klienta FTP k odesílání/stahování souborů s vícejazyčnými názvy. Nedoporučuje se pro normální použití.</li>
+<li><strong>Automaticky</strong>: Nechejte server DSM automaticky stanovit, jak bude s kódováním UTF-8 zacházet. Tato možnost se doporučuje pro normální použití.</li>
+<li><strong>Vynutit</strong>: Vynuťte používání kódování UTF-8. Pokud jste u klienta FTP povolili kódování UTF-8 a názvy souborů se stále nezobrazují správně a stejně tak správně neprobíhá správa vícejazyčných souborů, vyberte tuto možnost.</li>
+</ul>
+
+<h3>Omezení připojení</h3>
+<p>Tato část obsahuje následující možnosti.</p>
+
+<ul>
+<li><strong>Omezit připojení na IP adresu:</strong> Je-li aktivní tato funkce, server bude omezovat maximální počet připojení na IP adresu. Povolením této funkce a nastavením možnosti <b>Omezit šířku pásma pro FTP</b> můžete provádět efektivní správu šířky pásma.</li>
+<li><strong>Povolit omezení šířky pásma pro FTP:</strong> Pomocí této funkce můžete omezit šířku pásma pro jedno připojení k FTP.</li>
+</ul>
+
+<div class="section">
+
+<h4>Poznámka:</h4>
+<ul>
+<li>Účet „guest“ se k serveru nemůže přihlásit přes protokol FTP.</li>
+<li>Aby byl možný přístup k datům, musí být nastavení kódové stránky v klientském počítači FTP stejné, jako nastavení v zařízení Synology NAS.</li>
+<li>U některých modelů služba FTP podporuje připojení pomocí SSL nebo TLS.</li>
+<li>Nastavení brány firewall klienta FTP a dvou serverů FTP by mělo být provedeno správně, v opačném případě nebude protokol FXP pravděpodobně fungovat.</li>
+<li>Někteří klienti FTP, jako například klienti využívající program Internet Explorer 8/9, se musí přihlašovat pomocí uživatelského jména a hesla. Příklad: <i>ftp://uživatelské jméno:heslo@váš.ftp.com</i>.</li>
+</ul>
+</div>
+
+
+
+
+</body>
+</html>

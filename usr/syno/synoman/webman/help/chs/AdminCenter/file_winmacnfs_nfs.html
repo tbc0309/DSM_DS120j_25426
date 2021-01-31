@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" charset="utf-8">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>NFS 服务</h2>
+<p>NFS 服务可让 Linux 客户端访问此 Synology NAS设备中的数据。</p>
+<h4>若要启用 NFS 服务：</h4>
+<ol>
+<li>请进入<strong>控制面板</strong> &gt; <strong>文件服务</strong> &gt; <strong>SMB/AFP/NFS</strong> 并勾选<b>启用 NFS 服务</b>。</li>
+<li>单击<b>应用</b>。</li>
+</ol>
+
+
+<div class="section">
+  <h4>注：</h4>
+<ul>
+<li> Synology NAS目前支持 NFSv2、NFSv3 和 NFSv4。</li>
+<li>装载时，您可以在装载的命令中添加参数 <strong>-o vers=2</strong>、<strong>-o vers=3</strong> 或 <strong>-o vers=4</strong> 指定您想使用的 NFS 版本。</li>
+<li>以下共享文件夹不可通过 NFS 访问：<ul>
+    <li>加密共享文件夹</li>
+    <li>PetaSpace 共享文件夹</li>
+    <li>使用 HFS、HFS Plus 和 exFAT 文件系统的共享文件夹</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>若要配置 Linux 客户端对共享文件夹的访问权限：</h4>
+<p>请进入<b>控制面板</b> &gt; <b>共享文件夹</b>。选择一个共享文件夹并单击<strong>编辑</strong>来管理 NFS 规则，并监管 Linux 客户端对该共享文件夹的访问权限。</p>
+
+
+<h3>设置 NFSv4 和 NFSv4.1 支持</h3>
+<p>Synology NAS默认支持 NFSv2 和 NFSv3。您可以决定是否应启用 NFSv4 或 NFSv4.1。</p>
+
+<h4>若要启用 NFSv4 或 NFSv4.1 支持：</h4>
+<ol>
+<li>勾选<b>启用 NFSv4 支持</b>或<b>启用 NFSv4.1 支持</b>。</li>
+<li>在 <b>NFSv4 域</b>栏中输入您想使用的 NFSv4 域名称。此栏为选填且可留空。</li>
+<li>单击<b>应用</b>。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<p>使用 NFSv4 装载共享文件夹时，请注意下列事项。否则，与用户名相关的文件操作将失败。</p>
+<ul>
+<li>NFS 客户端必须启用 idmapd。</li>
+<li>NFS 客户端上 idmapd.conf 文件的 NFSv4 域设置必须与 Synology NAS上的 <b>NFSv4 域</b>栏一致。</li>
+</ul>
+
+</div>
+<p>启用 NFSv4.1 时将自动启用 NFSv4。</li>
+
+<h4>多重路径</h4>
+<p>NFSv4.1 支持多重路径功能。客户端可同时通过多个网络连接访问 NFS 服务器。多重路径可增加带宽，并且能够在连接中断时提供流量故障转移来维持网络连接。目前，仅 VMware ESXi 6.0 及以上版本支持 NFSv4.1 客户端。有关 VMware NFSv4.1 支持的更多信息，请参阅 <a target="_blank" href="https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.storage.doc/GUID-8A929FE4-1207-4CC5-A086-7016D73C328F.html">VMware 文档</a>。</p>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>多重路径功能仅在支持 NFSv4.1 的型号上可用。</li>
+</ul>
+</div>
+
+
+
+<h3>高级设置</h3>
+
+<h4>应用默认的 UNIX 权限</h4>
+<p> 勾选<strong>应用默认的 UNIX 权限</strong>后，上传或创建文件和文件夹时将应用在 Linux 客户端设置的默认 UNIX 权限而不是 Windows ACL 权限。所应用的权限将与 UNIX <strong>umask</strong> 命令所应用的权限相同。默认 umask 值为 022。</p><div class="section">
+<h4>注：</h4>
+<ul>
+  <li>对于启用 Windows ACL 的共享文件夹（外部设备上的&ldquo;照片&rdquo;和共享文件除外），请在 Linux 或 FTP 客户端上运行 <strong>chmod</strong> 命令，以将 Windows ACL 上的文件夹和文件权限类型更改到 UNIX。</li>
+  <li>启动此选项可能会导致不同协议之间出现权限不一致的问题。为避免不一致问题，建议您保持禁用此选项。</li>
+</ul>
+</div>
+
+<h4>自定义端口</h4>
+<p>您可为 statd 和 nlockmgr 服务自定义端口号。</p>
+
+<ol>
+<li>选择<strong>自定义端口</strong>。</li>
+<li>输入 <strong>statd 端口</strong>和<strong> nlockmgr 端口</strong>的端口号。</li>
+<li>单击<b>应用</b>。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>如果您要使用 NFSv3 服务，进入<strong>控制面板</strong> &gt; <strong>安全</strong> &gt; <strong>防火墙</strong>并创建防火墙规则，该规则可从内置应用程序启用&ldquo;Mac/Linux 文件服务器&rdquo;。</li>
+</ul>
+</div>
+<h4>设置读取/写入数据包大小</h4>
+<p>如果读取/写入的数据包大小无法通过 NFS 客户端设置，您可以在此栏指定默认值。</p>
+
+<ol>
+<li>请从<strong>读取数据包大小</strong>和<strong>写入数据包大小</strong>栏选择想要的数据包大小。</li>
+<li>单击<b>应用</b>。</li>
+<li>重新装载共享文件夹。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>更改读取/写入的数据包大小后，您必须重新装载共享文件夹，新的设置才能生效。</li>
+<li>这些设置只会影响通过 UDP（用户数据报协议）连接的 NFS 客户端。</li>
+</ul>
+</div>
+
+<h3>Kerberos 设置</h3>
+<p>Kerberos 是一种网络验证通讯协议。可以让通过非安全网络通信的客户端和服务器，以安全的方式相互验证并证明彼此身份。Synology NAS提供了导入现有 Kerberos 密钥的选项。密钥成功导入后，NFS 客户端可以使用 Kerberos 验证协议连接至 Synology NAS。</p>
+
+<h4> 若要导入 Kerberos 密钥： </h4>
+<ol>
+<li>请单击 <strong>Kerberos 设置</strong>。</li>
+<li>单击<b>导入</b>按钮。</li>
+<li>选择要导入的 Kerberos 密钥。</li>
+<li>单击<b>确定</b>。</li>
+</ol>
+
+<h3><a name="idmap"></a>Kerberos ID 映射</h3>
+<p>您可以将个别的 Kerberos 原则映射至本地 DSM 的用户帐户。</p>
+<h4> 若要将 Kerberos 原则映射至本地用户帐户： </h4>
+<ol>
+<li>请单击 <strong>Kerberos 设置</strong>。</li>
+<li>进入 <strong>ID 映射</strong>选项卡。</li>
+<li> 单击<b>添加</b>按钮。选择下列其中一个选项。</li>
+<ul>
+<li><strong>ID 映射：</strong>输入 Kerberos 原则并与其映射的本地用户帐户。</li>
+<li><strong>建议的映射列表：</strong> 此选项显示由系统生成的 Kerberos 原则及本地用户映射选项列表。</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> 注： </h4>
+<ul>
+	<li>Kerberos 仅在有内部硬盘的型号上可用。</li>
+	<li>如果您要将通过 Kerberos 连接的 NFS 客户端映射至现有的域/LDAP 用户帐户，请确认您已加入目录服务。此外，目录服务器必须具有包含相应 Kerberos 原则的属性。<ul>
+		<li><strong>域用户：</strong>相应属性的格式应为 <strong>userPrincipalName</strong>。</li>
+		<li><strong>LDAP 用户：</strong>相应属性的格式应为 <strong>GSSAuthName</strong>。</li>
+		</ul></li>
+	<li>如果用户无法成功映射至本地用户或域/LDAP 用户，则该用户应映射至 guest。<li>映射优先顺序为：本地用户 &gt; 域/LDAP 用户 &gt; Guest。 </li>
+	<li>如果您要修改 NFS 客户端的访问权限，请使用 Windows 访问控制列表 (ACL)。<strong>控制面板</strong> &gt; <strong>用户</strong>提供的权限选项不适用于 NFS 客户端。</li>
+</ul>
+</div>
+
+</body>
+</html>

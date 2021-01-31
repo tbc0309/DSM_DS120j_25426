@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h2>Overføre</h2>
+  
+ <p>For å sikre kontinuerlig ytelse og å minimalisere nedetid av tjenester, kan tjenestene overføres fra den aktive serveren i en high-availability-sky til den passive serveren. Denne funksjonen kalles å "Overføre", eller i noen tilfeller å "Feiloverføring". Denne seksjonen inneholder grunnleggende informasjon om disse to konseptene.</p>
+  
+  <h3>Overføre</h3>
+  	<p>Overføring refererer til et bytte fra den aktive serveren til den passive serveren i high-availability-skyen. Under normale forhold, styrer den aktive serveren alle tjenestene. Men hvis den aktive serveren bryter sammen, kan du eller systemet overføre alle tjenestene til den passive serveren, så lenge den passive serveren fungerer som normalt. I dette tilfellet vil den aktive serveren ta på seg rollen som passiv server, og vice versa.</p>
+    
+<h4>Slik overfører du tjenester manuelt:</h4>
+ <ol>
+  <li>Gå til siden <b>Oversikt</b>.</li>
+  <li>Klikk på <b>Administrer</b> > <b>Overføre</b>.</li>
+ </ol>
+
+<div class="section">
+<h4>Merk:</h4>
+   <p>Før manuell overføring av tjenester, blir du anbefalt å sette opp en statisk IP og logge inn på DSM med denne statiske IP-en for å unngå tap av DSM-siden som følge av en IP-forskyvning etter overføringen.</p>
+</div>
+
+<div class="section">
+<h4>Merk:</h4>
+   <p>Når en overføring er igangsatt, påtar først den aktive serveren seg rollen som passiv server, og deretter blir den passive serveren den aktive serveren. Derfor vil det være en kort tidsperiode når begge serverne er passive og ikke kan styre tjenestene som normalt. Hvor lang tid det tar å fullføre en overføring er avhengig av antallet av, og størrelsen på, volum eller iSCSI LUN (blokknivå), eller antallet og den totale belastningen av tjenester og pakker i high-availability-skyen.</p>
+</div>
+
+<h3>Feiloverføring</h3>
+    
+     <p>Når visse feil oppstår, kan systemet automatisk igangsette en overføring av tjenester for å minimalisere nedetiden. Denne situasjonen kalles "feiloverføring". Systemet kan innlede en feiloverføring i følgende situasjoner, med forbehold om at den passive serveren fungerer som normalt:</p>
+    
+    <ul>
+      <li><b>Strømsvikt:</b> 
+        <ul>
+      	<li>Den aktive serveren er avslått eller startet på nytt.</li>
+        <li>Begge strømenhetene på den aktive serveren sviktet.</li>
+        <li>Ingen strømforsyning.</li>
+      </ul></li>
+      <li><b>Diskfeil:</b> Antall diskbaner på den aktive serveren er mindre enn på den passive serveren.</li>
+      <li><b>Tjenestefeil:</b> Det oppsto en feil i en overvåket tjeneste.</li>
+      <li><b>Tilkoblingsfeil:</b> Det oppsto en tilkoblingsfeil i et overvåket grensesnitt.</li>
+    </ul>    
+     
+    
+<h3>Overføringsfeil</h3>
+    
+		<p>Overføring eller feiloverføring kan mislykkes i følgende situasjoner:</p>
+  	<ul>
+  	  <li><b>Unormal Hjerteslag-tilkobling:</b> Statusen til aktiv-passiv servertilkobling er ikke normal.</li>
+  	  <li><b>Ulik minnestørrelse:</b> Den aktive og passive serveren har ikke identiske RAM-størrelser.</li>
+  	  <li><b>Strømsvikt:</b><ul>
+      	<li>Den passive serveren er avslått eller startet på nytt.</li>
+        <li>Begge strømenhetene på den passive serveren sviktet.</li>
+        <li>Ingen strømforsyning.</li>
+      </ul></li>
+  	  <li><b>Tilkoblingsfeil:</b> Det oppsto en tilkoblingsfeil i et overvåket grensesnitt på den passive serveren.</li>
+  	  <li><b>Tjenestefeil:</b> Feil har oppstått i overvåkede tjenester på den passive serveren.</li>
+  	  <li><b>Tilkoblingsfeil på utvidelsesenhet:</b> Tilkoblingen av utvidelsesenheter på de to serverne er ikke i samme rekkefølge.</li>
+  	  <li><b>Diskfeil:</b> Antall diskbaner på den passive serveren er mindre enn på den aktive serveren.</li>
+      <li><b>DSM-oppdatering:</b> Når du installerer DSM-oppdateringer, vil alle tjenester bli stanset, men vil fortsette når installeringen av DSM-oppdateringene er fullført.</li>      
+ </ul>
+
+  <p>Hvis du igangsetter en overføring manuelt, men tjenestene ikke kan overføres til den passive serveren, vil systemet prøve å overføre tjenestene tilbake til den aktive serveren.</p>
+
+ <h3>Avbruddssikker strømforsyning</h3>
+  <p>High-availability-skyer kan tilkobles avbruddssikre strømforsyninger (UPS) for å redusere risikoen for uventede strømsvikter. Hvis strømmen svikter, vil serverne motta reservestrøm fra enhver UPS-enhet de er koblet til. Når UPS-enheten som er tilkoblet den aktive serveren nesten er utladet, vil den passive serveren slå seg av, og den aktive serveren vil gå i sikkermodus. Når strømmen er gjenopprettet, vil den aktive serveren starte på nytt og prøve å slå på den andre serveren ved å kringkaste en Wake-on-LAN-melding.</p>
+   <ul>
+	   <li>Det blir anbefalt å koble begge serverne og utvidelsesenheter til den samme UPS som nettverksswitchene de er tilkoblet.</li>
+   </ul>
+
+<div class="section">
+<h4>Merk:</h4>
+<p>Synology NAS støtter kun tilkobling til nettverk-UPS-enheter. For mer informasjon, se hjelp for <strong>Kontrollpanel</strong> > <strong>Maskinvare</strong> > <strong>UPS</strong>.</p>
+</div>  
+ </body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Przegląd</h2>
+	<p>Na tej stronie wyświetlane są podstawowe informacje o klastrze high-availability i należących do niego serwerach. Dostępne są na niej również narzędzia do konserwacji klastrów high-availability oraz należących do niego serwerów.</p>
+
+<h3>Stan klastra high-availability</h3>
+  <p>W tym polu przedstawiany jest ogólny stan klastra high-availability, łącznie z powiadomieniami o ewentualnych błędach. Poniżej przedstawiono tabelę możliwych stanów wyświetlanych w tym polu:</p>
+    <table>
+     <tr>
+      <th width="12%">Stan</th>
+      <th width="88%">Opis</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Dobry stan</strong></td>
+      <td>Ogólny stan klastra high-availability jest dobry.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ładowanie</strong></td>
+	  <td>System ładuje informacje o stanie klastra. <strong>Przełączanie</strong> jest niemożliwe przed zakończeniem ładowania informacji o stanie. Więcej informacji można znaleźć w temacie <a href="switchover_fail.html">Przełączanie</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Konfigurowanie</strong></td>
+	  <td>Trwa konfiguracja systemu. <b>Przełączanie</b> jest niemożliwe przed zakończeniem konfiguracji.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ostrzeżenie</strong></td>
+      <td>Stan klastra HA jest nieprawidłowy, ale usługi nadal działają. W takim przypadku nie można wykonać operacji <strong>Przełączanie</strong>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Niebezpieczeństwo</strong></td>
+	  <td>Zarówno serwer aktywny, jak i pasywny działają nieprawidłowo, bądź wystąpiła awaria pamięci masowej. Klaster high-availability nie działa normalnie. Sprawdź stan wszystkich elementów pamięci masowej (np. grup RAID Group, grup dysków, wolumenów i jednostek iSCSI LUN). W takim przypadku nie można wykonać operacji <b>Przełączanie</b>.</td>
+     </tr>
+    </table>
+<h3>Komunikaty z ostrzeżeniami</h3>
+   <p>W poniższej tabeli przedstawiono komunikaty z ostrzeżeniami, które mogą się pojawić w razie wystąpienia błędu systemu. Jeżeli pojawi się więcej niż jeden komunikat z ostrzeżeniem, można przechodzić między nimi, używając przycisków naprzód/wstecz. </p>
+    <table>
+     <tr>
+      <th width="21%">Ostrzeżenie/błąd</th>
+      <th width="79%">Opis</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>W tym klastrze high-availability nie ma serwera pasywnego.</strong></td>
+	  <td>Informacja o braku serwera pasywnego. Sprawdź, czy serwer pasywny jest podłączony prawidłowo. W tym przypadku przełączanie będzie niedostępne.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Nie udało się wykryć serwera pasywnego</strong></td>
+      <td>Błąd mógł wystąpić, ponieważ serwer pasywny jest wyłączony lub brak połączenia Heartbeat między serwerem aktywnym i serwerem pasywnym. W tym przypadku przełączanie będzie niedostępne.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Nie udało się wykonanie przełączenia awaryjnego</strong></td>
+      <td>Uruchomiono przełączanie awaryjne na serwerze aktywnym, ale zakończyło się ono niepowodzeniem. W tym przypadku serwer aktywny nie podejmie następnej próby przełączenia awaryjnego. Aby naprawić problem, wykonaj następujące kroki:<ol>
+		  <li>Spróbuj rozwiązać problemy związane z klastrem high-availability.</li>
+		  <li>Uruchom ponownie serwer pasywny.</li>
+		  <li>Wykonaj przełączenie, klikając <strong>Zarządzaj</strong> > <strong>Przełączanie</strong>.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Błąd monitorowanego celu</strong></td>
+      <td>Wystąpił błąd co najmniej jednego z monitorowanych celów, w tym stanu systemu, usługi lub interfejsu sieciowego.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Wystąpiły błędy połączenia między jednostkami rozszerzającymi a serwerem aktywnym/pasywnym.</strong></td>
+      <td>Jednostki rozszerzające nie są prawidłowo podłączone do serwera aktywnego lub pasywnego. Podłącz je do serwera aktywnego w sposób prawidłowy i powtórz tę czynność również w przypadku serwera pasywnego. W tym przypadku przełączanie będzie niedostępne.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Wolumen ma obniżoną sprawność.</strong></td>
+      <td>Miejsce w pamięci masowej (np. grupa RAID Group, grupa dysków, wolumen, iSCSI LUN lub pamięć podręczna SSD) jest zdegradowane. Sprawdź, używając strony <b>Stan pamięci</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Wolumen jest uszkodzony.</strong></td>
+      <td>Miejsce w pamięci masowej (np. grupa RAID Group, grupa dysków, wolumen, iSCSI LUN lub pamięć podręczna SSD) jest uszkodzone. Sprawdź, używając strony <b>Stan pamięci</b>. Zostanie automatycznie wykonane przełączenie awaryjne, jeżeli na serwerze pasywnym zostaną rozpoznane dyski, które są niedostępne na serwerze aktywnym. W przeciwnym razie przełączenie awaryjne będzie niemożliwe.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Połączenie Heartbeat zostało przerwane.</strong></td>
+      <td>Błąd mógł wystąpić wskutek awarii połączenia Heartbeat. W tym przypadku przełączanie będzie niedostępne.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Usterka sprzętu</strong></td>
+      <td>Błąd mógł wystąpić z powodu awarii sprzętu (np. zasilacza lub wentylatora obudowy) serwera aktywnego lub pasywnego.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Różna wielkość pamięci RAM</strong></td>
+      <td>Błąd mógł wystąpić, ponieważ serwer aktywny i serwer pasywny mają różną wielkość pamięci RAM. W tym przypadku przełączanie będzie niedostępne.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Brak statycznego adresu IP przydzielonego do klastra high-availability.</strong></td>
+      <td>Błąd mógł wystąpić ze względu na brak przydzielenia statycznego adresu IP do klastra high-availability. W tym przypadku przełączanie będzie niedostępne.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Brak statycznego adresu IP na monitorowanym interfejsie.</strong></td>
+      <td>Błąd mógł wystąpić ze względu na brak przydzielenia statycznego adresu IP do monitorowanego interfejsu. W tym przypadku przełączanie będzie niedostępne.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Trwa odzyskiwanie serwera pasywnego</strong></td>
+      <td>Oprogramowanie klastra przeprowadza odzyskiwanie serwera pasywnego. W tym przypadku przełączanie będzie niedostępne.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Trwa aktualizowanie serwera pasywnego</strong></td>
+      <td>Oprogramowanie klastra aktualizuje zawartość serwera pasywnego. W tym przypadku przełączanie będzie niedostępne.</td>
+     </tr>
+
+    </table>
+
+<h3>Przycisk „Zarządzaj” do zarządzania klastrem high-availability</h3>
+
+<p>Przycisk ten jest umieszczony pod informacjami o klastrze high-availability. Umożliwia on wykonanie następujących operacji:</p>
+<ul>
+<li><b>Przełącz:</b> inicjowanie przełączenia usług z serwera aktywnego na serwer pasywny. Podczas tego procesu serwer aktywny przestaje zapewniać usługi i staje się nowym serwerem pasywnym. Serwer pasywny staje się nowym serwerem aktywnym i zaczyna zapewniać wszystkie usługi klastra high-availability. Opcja ta jest niedostępna, kiedy serwer pasywny ma stan <b>Błąd</b> lub jest niedostępny (niewybrany).</li>
+<li><b>Zaktualizuj DSM:</b> otwarcie strony <strong>Panel sterowania</strong> > <strong>Aktualizacja DSM</strong>. Na niej można zaktualizować oba serwery.</li>
+<li><b>Zamknij klaster high-availability:</b> zamknięcie zarówno serwera aktywnego, jak i pasywnego.</li>
+<li><b>Zamknij serwer aktywny:</b> zamknięcie serwera aktywnego. Usługi zostaną przełączone, jeżeli serwer pasywny działa prawidłowo.</li>
+<li><b>Zamknij serwer pasywny:</b> zamknięcie serwera pasywnego.</li>
+<li><b>Uruchom ponownie serwer aktywny:</b> ponownie uruchomienie serwera aktywnego. Usługi zostaną przełączone, jeżeli serwer pasywny działa prawidłowo.</li>
+<li><b>Uruchom ponownie serwer pasywny:</b> ponownie uruchomienie serwera pasywnego.</li>
+<li><b>Odzyskaj serwer nieznany:</b> odzyskanie serwera pasywnego, jeżeli został on wymieniony lub jest rozpoznawany jako serwer nieznany.</li>
+<li><b>Wyłącz sygnał dźwiękowy systemu:</b> wyłączenie sygnału dźwiękowego serwera aktywnego i serwera pasywnego w razie wystąpienia błędu. System nadal będzie emitować sygnał dźwiękowy na serwerze aktywnym i pasywnym, jeżeli wystąpi kolejny błąd.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Po zamknięciu serwera pasywnego lub w przypadku jego braku nie będzie można przełączyć usług w przypadku błędów na serwerze aktywnym.</li>
+</ul>
+</div>
+
+<h3>Diagram serwera i informacje o nim</h3>
+ <p>Diagram serwera służy do przedstawiania stanu serwera. Lokalizacja odpowiada stronie modułów, do których serwer jest podłączony. Aby uzyskać więcej informacji, umieść kursor myszy nad elementami diagramu.</p>
+<p>Dostępne są następujące sytuacje:</p>
+<ul>
+  <li><b>W tym klastrze high-availability nie ma serwera pasywnego:</b> wyświetlana jest pusta ramka.</li>
+  <li><b>Nie udało się wykryć serwera pasywnego:</b> wyświetlany jest rozmyty obraz serwera.</li>
+  <li><b>Wykrzyknik:</b> usterka sprzętu lub informacje o serwerze są niedostępne ze względu na awarię połączenia Heartbeat.</li>
+</ul>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Jeżeli obok drugiego serwera wyświetlany jest stan „Serwer nieznany”, oznacza to, że serwer ten nie należy do klastra high-availability. Kliknij przycisk <b>Zarządzaj</b> i wybierz polecenie <b>Odzyskaj serwer nieznany</b>, aby rozwiązać ten problem.</li>
+</ul>
+</div>
+
+<p>Do informacji o serwerze zaliczane są następujące wpisy. Jeżeli nie wykryto serwera pasywnego, wyświetlany jest komunikat <b>N/D</b>.</p>
+
+  <ul>
+   <li><b>Numer seryjny:</b> numer seryjny serwera firmy Synology.</li>
+   <li><b>Stan wentylatora:</b> stan wentylatorów chłodzących serwer. Jeżeli jeden z wentylatorów będzie działać nieprawidłowo, wyświetli się ostrzeżenie. W takim przypadku skontaktuj się z lokalnym dystrybutorem w celu uzyskania pomocy.</li>
+   <li><b>Temperatura:</b> temperatura serwera firmy Synology. </li>
+   <li><b>Stan zasilania:</b> wskazanie, czy wszystkie zasilacze serwera działają prawidłowo. Jeżeli serwer jest wyposażony w nadmiarowe zasilacze, pojawi się ostrzeżenie, gdy jeden z nich zacznie działać nieprawidłowo.</li>
+    <li><b>Pamięć fizyczna:</b> wielkość fizycznej pamięci RAM serwera Synology. Przełączanie nie będzie możliwe, jeżeli dwa serwery mają różną wielkość fizycznej pamięci RAM.</li>
+  </ul>
+
+<h3>Stan połączenia między serwerami</h3>
+<p>W tym obszarze przedstawiono stan połączeń między serwerem aktywnym i pasywnym. Dostępne są następujące sytuacje:</p>
+<ul>
+  <li><b>Brak obrazu:</b> serwer pasywny nie został wykryty.</li>
+  <li><b>Obraz nieruchomy:</b> błąd połączenia Heartbeat.</li>
+  <li><b>Wykrzyknik:</b> błąd komunikacji między dwoma serwerami lub błąd połączenia Heartbeat.</li>
+</ul>
+
+<h3>Stan interfejsu sieciowego</h3>
+<p>W tym obszarze przedstawiono stan połączenia serwerów z siecią (i dostępu do danych). Dostępne są następujące sytuacje:</p>
+<ul>
+  <li><b>Brak wykrzyknika:</b> sieć działa prawidłowo.</li>
+  <li><b>Wykrzyknik:</b> błąd monitorowanego interfejsu sieciowego.</li>
+</ul>
+
+<h3> Diagram współdzielonej pamięci masowej i informacje o niej</h3>
+ <p>Diagram współdzielonej pamięci masowej służy do przedstawiania stanu połączenia między serwerami a współdzieloną pamięcią masową. Aby uzyskać podstawowe informacje, umieść kursor myszy nad elementami diagramu.</p>
+<p>Dostępne są następujące sytuacje:</p>
+<ul>
+  <li><b>Brak wykrzyknika:</b> brak błędów.</li>
+  <li><b>Wykrzyknik:</b> nieprawidłowy stan połączenia z jednostkami rozszerzającymi.</li>
+</ul>
+
+<p>Do podstawowych informacji o współdzielonej pamięci masowej zaliczane są następujące wpisy. Aby uzyskać więcej informacji, przejdź do strony <b>Zarządzanie przechowywaniem</b>.</p>
+
+  <ul>
+   <li><b>Stan wentylatora:</b> wyświetlanie stanu wentylatorów jednostek rozszerzających. Jeżeli jeden z wentylatorów będzie działać nieprawidłowo, wyświetli się ostrzeżenie. W takim przypadku skontaktuj się z lokalnym dystrybutorem w celu uzyskania pomocy.</li>
+   <li><b>Stan zasilania:</b> wskazanie, czy wszystkie zasilacze serwera działają prawidłowo. Pojawi się ostrzeżenie w przypadku jakichkolwiek awarii.</li>
+   </ul>
+ </body>
+</html>

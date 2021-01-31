@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>FTP/FTPS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>FTP/FTPS</h2>
+
+<p>Su <strong>Pannello di controllo</strong> > <strong>Servizi file</strong> > <strong>FTP</strong>, è possibile abilitare i servizi FTP per consentire ai client di accedere a cartelle e dati sul sistema. Prima di abilitare l'FTP, verificare che le seguenti porte TCP del router siano inoltrate al dispositivo Synology NAS: 21 (connessione di controllo predefinita), 20 (connessione dati per la modalità attiva) e 55536-55567 (connessione dati per la modalità passiva).</p>
+
+<h4>Per abilitare il servizio FTP:</h4>
+<ol>
+<li>Abilitare una delle seguenti:
+	<ul>
+		<li><b>Abilita servizio FTP (nessuna codifica):</b> protocollo di rete standard utilizzato per il trasferimento dei file. FTP non fornisce alcuna crittografia per proteggere le informazioni durante le sessioni di trasferimento, ad esempio password, nomi utente o file. Tuttavia, la velocità di trasferimento è più alta e richiede meno risorse di sistema.</li>
+		<li><b>Abilita servizio codifica FTP SSL/TLS (FTPS):</b> aggiunta allo standard FTP con supporto aggiuntivo per i protocolli di crittografia TLS (Transport Layer Security) e SSL (Secure Sockets Layer), che protegge le informazioni durante le sessioni di trasferimento, ad esempio password, nomi utente o file. Tuttavia, la velocità di trasferimento è lenta e per la crittografia vengono utilizzate molte risorse di sistema.</li>
+	</ul>
+</li>
+<li>Fare clic su <b>Applica</b>.</li>
+</ol>
+
+
+<h3>Timeout</h3>
+<p>Il server FTP disconnetterà gli utenti inattivi al termine di un dato periodo di tempo.</p>
+
+
+<h3>Impostazione del numero della porta di servizio FTP</h3>
+<p>Questa sezione consente di specificare la porta utilizzata per il canale di controllo FTP.</p>
+<div class="section">
+<h4>Nota:</h4>
+<p>Il numero di porta predefinito per il canale di controllo FTP è 21. Può essere impostato tra 1 e 65535, ad eccezione dei seguenti numeri: 20, 22, 23, 25, 80, 110, 137, 138, 139, 143, 199, 443, 445, 515, 543, 548, 587, 873, 993, 995, 3306, 3689, 5000, 5001, 5005, 5006, 5335, 5432, 6881, 8080, 7000, 7001, 8081, 9997, 9998, 9999, 50001, 50002, porte predefinite di eMule: 4662 (TCP), 4672 (UDP).</p>
+</div>
+
+
+<h3>Intervallo porte FTP Passivo</h3>
+<p>Questa sezione consente di specificare l'intervallo porte utilizzato per le connessioni FTP passivo. È possibile utilizzare l'intervallo porte predefinito o specificare un intervallo personalizzato. L'intervallo porte può essere impostato tra 1025 e 65535 e può contenere fino a 128 porte.</li>
+</p>
+
+
+<h3>Report IP esterno in modalità PASV</h3>
+<p>Attivando questa opzione, il server riporterà i suoi indirizzi IP esterni ai client FTP. L'indirizzo IP riportato sarà visualizzato nel registro delle connessioni del client FTP. Una volta abilitato, è possibile scegliere l'indirizzo IP esterno rilevato automaticamente o immettere manualmente l'indirizzo IP esterno di Synology NAS.</p>
+<p>Questa opzione funziona solamente quando Synology NAS si trova dietro un NAT e con i client FTP che risiedano in sottoreti diverse da quella del Synology NAS. Nella maggior parte dei casi questa opzione non è necessaria, ma se i client FTP non riescono a collegarsi al Synology NAS, si consiglia di attivare questa opzione e riprovare.</p>
+<h3>Abilitazione FXP</h3>
+<p>FXP è l'acronimo File eXchange Protocol. Abilitando questa opzione, il servizio FTP supporterà la funzione di trasferimento dei file da server a server.</p>
+
+<h3>Abilitazione modulo crittografico FIPS</h3>
+<p>FIPS è supportato dal servizio FTPS utilizzando il modulo di crittografia OpenSSL FIPS 140-2 convalidato (Certificato n. 1747). Abilitando questa opzione, saranno utilizzati altri algoritmi di crittografia sicura per il servizio FTPS in modo da offrire sessioni più sicure.</p>
+
+
+<h3>Supporto modalità di trasferimento ASCII </h3>
+<p>Abilitare questa opzione per supportare la modalità di trasferimento ASCII, consentendo a Synology NAS di trasferire correttamente file di solo testo formattati ASCII via FTP.</p>
+
+
+<h3>Codifica UTF-8</h3>
+<p>Quest'opzione può essere usata per aiutare i client FTP a visualizzare e gestire correttamente i file con nomi file multilingue. Per soddisfare le esigenze di vari client FTP, sono fornite le seguenti tre opzioni:
+<ul>
+<li><strong>Disabilita</strong>: La codifica UTF-8 non verrà usata. Quest'opzione è destinata ai client che usano Windows File Explorer come client FTP per caricare/scaricare file con nomi file multilingue. Si sconsiglia per il normale utilizzo.</li>
+<li><strong>Auto</strong>: Consentire a DSM di determinare automaticamente come gestire la codifica UTF-8. Quest'opzione è consigliata per il normale utilizzo.</li>
+<li><strong>Forza</strong>: Forzare l'utilizzo della codifica UTF-8. Se è stata abilitata la codifica UTF-8 sul client FTP in uso e non è ancora possibile visualizzare e gestire correttamente i file con nomi file multilingue, selezionare quest'opzione.</li>
+</ul>
+
+<h3>Limitazioni di connessione</h3>
+<p>Questa sezione include le seguenti opzioni:</p>
+
+<ul>
+<li><strong>Limita connessioni per IP:</strong> quando questa funzione è attiva, il server limiterà il numero massimo di connessioni per IP. Attivare questa funzione e <b>Restrizione di banda FTP</b> per avere una gestione efficace dell'ampiezza di banda.</li>
+<li><strong>Abilita limite larghezza di banda FTP:</strong> attivare questa funzione per limitare l'ampiezza di banda della singola connessione FTP.</li>
+</ul>
+
+<div class="section">
+
+<h4>Nota:</h4>
+<ul>
+<li>l'account "guest" non può effettuare il login al server via FTP.</li>
+<li>L'impostazione Codice pagina sull'FTP del computer del client deve essere la stessa di quella di Synology NAS al fine di accedere ai dati correttamente.</li>
+<li>In alcuni modelli specifici, il servizio FTP supporta la connessione SSL o TLS.</li>
+<li>Le impostazioni firmware del client FTP e i due server FTP devono essere configurati correttamente per consentire il corretto funzionamento della funzione FXP.</li>
+<li>Alcuni client FTP, ad esempio quelli che utilizzano Internet Explorer 8/9, richiedono l'accesso con il relativo nome utente e password. Ad esempio: <i>ftp://username:password@your.ftp.com</i>.</li>
+</ul>
+</div>
+
+
+
+
+</body>
+</html>

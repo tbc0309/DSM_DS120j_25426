@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Cach&eacute; de SSD</h2>
+<p>Cach&eacute; de SSD puede mejorar el rendimiento de acceso aleatorio almacenando datos de acceso frecuente en la memoria cach&eacute; de SSD. Cach&eacute; de SSD se puede instalar en un volumen o iSCSI LUN (nivel de bloques).</p>
+
+<p>El objetivo de una cach&eacute; de SSD es aumentar el rendimiento del acceso aleatorio a una peque&ntilde;a porci&oacute;n de datos de acceso frecuente en el espacio de almacenamiento. Por ejemplo, las dos grandes operaciones de lectura o escritura secuencial (p. ej., transmisi&oacute;n de v&iacute;deo HD) y los patrones de lectura de datos aleatoria carecen de patrones de nueva lectura y, por tanto, no se benefician de forma significativa del almacenamiento en cach&eacute; mediante SSD. En aplicaciones generales, se recomienda activar la opci&oacute;n <b>Omitir secuencial I/O</b>, de forma que el secuencial I/O a&uacute;n pueda acceder a las unidades del espacio de almacenamiento.</p>
+
+<div class="section"><h4>Observaci&oacute;n:</h4>
+<ul>
+	<li>La cach&eacute; de SSD solo est&aacute; disponible en determinados modelos. Para ver si su modelo es compatible con cach&eacute; de SSD, consulte <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_SSD_cache" target="_blank">este art&iacute;culo</a>.</li>
+	<li>Recomendamos elegir unidades compatibles para utilizarlas como cach&eacute; de SSD con el fin de evitar problemas en Synology NAS.</li>
+	<li>Consulte las especificaciones de producto de sus modelos en el <a href="http://www.synology.com/" target=_blank>sitio web de Synology</a> para comprobar el tama&ntilde;o m&aacute;ximo de cach&eacute; de SSD permitido en Synology NAS.</li>
+</ul>
+</div>
+
+<h3>Tipos de cach&eacute; de SSD</h3>
+<p>Hay dos tipos de cach&eacute; de SSD y ambos implementan un algoritmo de LRU (Least Recently Used, menos utilizada recientemente) para intercambiar datos en la cach&eacute;:</p>
+<ul>
+	<li><strong>Cach&eacute; de solo lectura</strong> puede constar de 1 a 12 SSD que se pueden montar con una configuraci&oacute;n RAID 0 b&aacute;sica para mejorar el rendimiento de lectura aleatoria del espacio de almacenamiento en el que se monta.</li>
+	<li><strong>Cach&eacute; de lectura-escritura</strong> se puede montar con una configuraci&oacute;n RAID 1 / RAID 5 / RAID 6, dependiendo del n&uacute;mero de SSD (hasta 12 SSD) para mejorar el rendimiento de lectura y escritura aleatorias del espacio de almacenamiento en el que se monta.</li>
+</ul>
+
+<div class="section"><h4>Observaci&oacute;n:</h4>
+<ul>
+	<li>La cach&eacute; de SSD de solo lectura almacena copias de datos del volumen; por tanto, no se producir&aacute;n p&eacute;rdidas de datos incluso si la cach&eacute; de solo lectura se aver&iacute;a.</li>
+	<li>Si la cach&eacute; de lectura-escritura se degrada, se activar&aacute; el <b>mecanismo de protecci&oacute;n autom&aacute;tica</b>. Detendr&aacute; el almacenamiento en cach&eacute; de nuevas E/S y comenzar&aacute; a escribir (es decir, sincronizar) los datos nuevos existentes de SSD a discos duros. Tras completar la sincronizaci&oacute;n de datos, no se producir&aacute;n p&eacute;rdidas de los mismos incluso si la cach&eacute; de lectura-escritura se aver&iacute;a.</li>
+	<li>En situaciones normales, la cach&eacute; de lectura-escritura de SSD contiene los datos nuevos que no se han sincronizado todav&iacute;a con los discos duros. No quite las SSD de su Synology NAS (incluso con el sistema apagado) antes de retirar la cach&eacute; de Storage Manager. De lo contrario, puede que el volumen se da&ntilde;e.</li>
+</ul>
+</div>
+
+<h3>Requisitos de memoria</h3>
+<p>Los requisitos de memoria dependen de la CPU de su Synology NAS. Para ver la CPU que se utiliza en su Synology NAS, consulte <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">este art&iacute;culo</a>.</p> 
+
+<h4>Para modelos con CPU Alpine:</h4>
+	<p>Cada GB de cach&eacute; de SSD requiere aproximadamente 416&nbsp;KB de memoria del sistema (tambi&eacute;n se puede contar la memoria ampliable) y el tama&ntilde;o m&aacute;ximo de cach&eacute; es 930&nbsp;GB. Por tanto, si la configuraci&oacute;n de la cach&eacute; de solo lectura es 2 x 128 GB SSD, el tama&ntilde;o total de cach&eacute; ser&aacute; 256 GB y necesitar&aacute; al menos 104 MB de memoria, si la configuraci&oacute;n de la cach&eacute; de lectura-escritura es 2 x 128 GB SSD, el tama&ntilde;o total de cach&eacute; ser&aacute; 128 GB y necesitar&aacute; al menos 52 MB de memoria. Si la memoria es insuficiente, la creaci&oacute;n de cach&eacute; de SSD quedar&aacute; restringida o su tama&ntilde;o estar&aacute; limitado.</p>
+
+<h4>Para el resto de modelos:</h4>
+	<p>Cach&eacute; de SSD requiere una cierta cantidad de memoria del sistema en funci&oacute;n del tama&ntilde;o de cach&eacute;, por lo que, para montar una cach&eacute; de SSD m&aacute;s grande puede que necesite aumentar la memoria de Synology NAS. Para que el sistema contin&uacute;e siendo estable y r&aacute;pido, solo se puede utilizar 1/4 de la memoria del sistema preinstalada para la cach&eacute; de SSD.</p>
+	
+	<p>Cada GB de cach&eacute; de SSD requiere aproximadamente 416 KB de memoria del sistema (tambi&eacute;n se puede contar la memoria ampliable).<br><span class="note_head">Observaci&oacute;n: </span>Esto no es de aplicaci&oacute;n en cach&eacute;s de SSD de lectura-escritura creadas en DSM 5.1 o versiones anteriores. O sea, por cada GB de cach&eacute; de SSD creado antes de la versi&oacute;n DSM 5.2 necesitar&aacute; 4 MB de memoria del sistema incluso aunque se utilice en un entorno DSM 5.2.</p>
+	
+	<p>Por tanto, si la configuraci&oacute;n de la cach&eacute; de solo lectura es 2 x 128 GB SSD, el tama&ntilde;o total de cach&eacute; ser&aacute; 256 GB y necesitar&aacute; al menos 104 MB de memoria; si la configuraci&oacute;n de la cach&eacute; de lectura-escritura es 2 x 128 GB SSD, el tama&ntilde;o total de cach&eacute; ser&aacute; 128 GB y necesitar&aacute; al menos 52 MB de memoria. Si la memoria es insuficiente, la creaci&oacute;n de cach&eacute; de SSD quedar&aacute; restringida o su tama&ntilde;o estar&aacute; limitado.</p>
+
+<h3>&Iacute;ndice de aciertos de cach&eacute;</h3>
+<p>De forma predeterminada, una cach&eacute; de SSD solo acelera la E/S aleatoria y no la E/S secuencial. El &iacute;ndice de aciertos de cach&eacute; de una cach&eacute; de SSD se puede calcular de acuerdo con la f&oacute;rmula siguiente:</p>
+<ul>
+	<li>&Iacute;ndice de aciertos de una cach&eacute; de solo lectura de SSD = recuentos de lectura aleatorios acelerados/recuentos de lectura aleatorios totales * 100&nbsp;%</li>
+	<li>&Iacute;ndice de aciertos de una cach&eacute; de lectura-escritura de SSD = recuentos de lectura y escritura aleatorios acelerados/recuentos de lectura y escritura aleatorios totales * 100&nbsp;%</li>
+</ul>
+
+<h3>Administraci&oacute;n de la cach&eacute; de SSD</h3>
+<h4>Para montar una cach&eacute; de SSD:</h4>
+	<ol>
+	  <li>Instale los SSD en su Synology NAS. Observe primero las notas anteriores.</li>
+	  <li>Vaya a <strong>Administrador de almacenamiento</strong> &gt; <strong>Cach&eacute; de SSD</strong>. Haga clic en <b>Crear</b>.</li>
+	<li>Seleccione el modo de cach&eacute; (solo disponible en modelos compatibles con cach&eacute; de lectura-escritura).</li>
+	<li>Busque el men&uacute; desplegable y seleccione el volumen o iSCSI LUN (nivel de bloques) en el que desea montar la cach&eacute; de SSD.</li>
+	<li>Elija los SSD en la lista. Los datos en los SSD se eliminar&aacute;n, por tanto, aseg&uacute;rese de que no hay datos importantes.</li>
+	<li>Haga clic en <b>Aplicar</b>.</li>
+	</ol>
+
+<h4>Para detener el almacenamiento en cach&eacute; secuencial I/O:</h4>
+	<p>Si su volumen de destino o iSCSI LUN (nivel de bloques) tiene un rendimiento secuencial I/O excelente, puede hacer que la cach&eacute; de SSD detenga el almacenamiento en cach&eacute; secuencial I/O y acceda a datos directamente desde sus unidades para aumentar la velocidad y mejorar el rendimiento.</p>
+	<ol>
+	<li>Haga clic en <strong>Configurar</strong> para abrir la ventana de configuraci&oacute;n.</li>
+	<li>Marque <strong>Omitir secuencial I/O</strong>.</li>
+	</ol>
+
+<h4>Para quitar una cach&eacute; de SSD:</h4>
+	<ol>
+	<li>Haga clic en <b>Quitar</b> para eliminar de forma permanente esta cach&eacute; de SSD de Synology NAS.</li>
+	</ol>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+    <li>En el caso de la cach&eacute; de lectura-escritura, deber&aacute; quitarla mediante este procedimiento (incluso si Synology NAS est&aacute; apagado), ya que de lo contrario se producir&aacute; una aver&iacute;a debido a que los datos parciales residen &uacute;nicamente en la cach&eacute;.</li>
+	<li>Al montar o quitar la cach&eacute; de SSD, el sistema detendr&aacute; todos los servicios relacionados (p. ej., carpetas compartidas, paquetes instalados, conexiones actuales, etc.)</li>
+	<li>Si no se detecta una cach&eacute; de lectura-escritura en el espacio de almacenamiento durante el arrancado, el sistema no montar&aacute; dicho espacio de almacenamiento. Encuentre y vuelva a instalar los SSD en Synology NAS y reinicie para montar el espacio de almacenamiento.</li>
+	<li>Aseg&uacute;rese de extraer correctamente la cach&eacute; de SSD de lectura-escritura antes de desconectar su SSD correspondiente. La desconexi&oacute;n incorrecta de SSD (p. ej., cuando una cach&eacute; todav&iacute;a est&aacute; en uso o cuando el sistema est&aacute; apagado) har&aacute; que los datos almacenados en el volumen de destino o iSCSI LUN se bloqueen.</ul>
+</div>
+ 
+<h4>Para cancelar la eliminaci&oacute;n de la cach&eacute; de SSD:</h4> 
+<ol>
+    <li>Haga clic en <b>Cancelar eliminaci&oacute;n</b> para cancelar la acci&oacute;n de eliminaci&oacute;n de cach&eacute;.</li>
+    </ol>    
+
+<h4>Para reparar la cach&eacute; de SSD:</h4>
+	<ul>
+		<li><strong>Cach&eacute; de lectura-escritura:</strong> Si una de los SSD se ha averiado, siga los pasos siguientes para repararlo.<ol>
+			<li>Sustituya el SSD que no funciona por uno nuevo. (El nuevo SSD debe ser del mismo modelo y tama&ntilde;o que el anterior).</li>
+			<li>Haga clic en el bot&oacute;n <b>Reparar</b>.</li>
+			<li>Seleccione el SSD de la lista.</li>
+			<li>Haga clic en <b>Aplicar</b>.</li>
+			</ol></li>
+		<li><strong>Cach&eacute; de solo lectura:</strong> Si uno de los SSD se ha averiado, retire la cach&eacute; y sustituya el SSD averiado. A continuaci&oacute;n, haga clic en <strong>Crear</strong> para preparar una nueva configuraci&oacute;n de cach&eacute;.</li>
+	</ul>
+
+<h3>Consejero de cach&eacute; de SSD</h3>
+<p>Esta funci&oacute;n le permite calcular y ver el tama&ntilde;o y el n&uacute;mero total de archivos a los que se ha accedido recientemente en un volumen concreto. Si todav&iacute;a no ha creado ninguna cach&eacute; de SSD en el volumen seleccionado, puede consultar esta informaci&oacute;n cuando eval&uacute;e cu&aacute;nta cach&eacute; de SSD es adecuada para su sistema. Si ya ha creado alguna cach&eacute; de SSD en el volumen seleccionado, aqu&iacute; tambi&eacute;n se mostrar&aacute; el an&aacute;lisis y el uso de la misma.</p>
+
+<h4>Para utilizar un Consejero de cach&eacute; de SSD:</h4>
+	<ol>
+	<li>Haga clic en <b>Consejero de cach&eacute; de SSD</b> para abrir el asistente.</li>
+	<li>Seleccione un volumen para el c&aacute;lculo y haga clic en <b>Siguiente</b>.</li>
+	<li>El asistente empezar&aacute; autom&aacute;ticamente a calcular el tama&ntilde;o y el n&uacute;mero total de archivos a los que se ha accedido recientemente en el volumen seleccionado. El tiempo de c&aacute;lculo var&iacute;a dependiendo de su entorno individual.</li>
+	</ol>

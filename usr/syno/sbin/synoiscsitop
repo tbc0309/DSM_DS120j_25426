@@ -1,0 +1,1222 @@
+#!/bin/sh
+
+if [ -e "/etc.defaults/VERSION" ] ; then
+	source "/etc.defaults/VERSION"
+else
+	exit
+fi
+
+MAJOR_VERSION="4"
+MINOR_VERSION="3"
+
+SHOW_USAGE=""
+LOG_FILE=""
+LOG_DURATION=10
+
+LUN_LIST=""
+
+SYSFS_EP_LUN_DIR="/config/target/core/epio_0"
+SYSFS_FILE_LUN_DIR="/config/target/core/fileio_0"
+SYSFS_BLOCK_LUN_DIR="/config/target/core/iblock_0"
+
+UPDATE_STATE="a"
+UPDATE_PREV_STATE="a"
+UPDATE_USER_INPUT=""
+UPDATE_ITVL=1
+UPDATE_PAUSE=0
+UPDATE_QUEUE_CHART=1
+UPDATE_IO_PATTERN=1
+UPDATE_3D_PERF=1
+
+KEY_ESCAPE=`echo -e '\e'`
+KEY_UP=`echo -e '\e[A'`
+KEY_DOWN=`echo -e '\e[B'`
+KEY_PAGEUP=`echo -e '\e[5'`
+KEY_PAGEDOWN=`echo -e '\e[6'`
+
+SCREEN_BUFFER_HEAD="/tmp/synoiscsitop_buffer_head"
+SCREEN_BUFFER_BODY="/tmp/synoiscsitop_buffer_body"
+SCREEN_BUFFER_TAIL="/tmp/synoiscsitop_buffer_tail"
+
+SCREEN_HEAD_HEIGHT=7
+SCREEN_TAIL_HEIGHT=5
+SCREEN_MARG_HEIGHT=1
+
+SCREEN_HEIGHT=`stty size | awk -F ' ' '{ print $1 }'`
+SCREEN_WIDTH=`stty size | awk -F ' ' '{ print $2 }'`
+
+SCREEN_HEAD_LINE_COUNT=0
+SCREEN_BODY_LINE_COUNT=0
+SCREEN_TAIL_LINE_COUNT=0
+
+let "SCREEN_BODY_HEIGHT = SCREEN_HEIGHT - $SCREEN_HEAD_HEIGHT - $SCREEN_TAIL_HEIGHT - $SCREEN_MARG_HEIGHT"
+
+SCREEN_BODY_POS_Y=1
+
+TITLE="SYNOLOGY iSCSI PERFORMANCE ANALYZER v$MAJOR_VERSION.$MINOR_VERSION"
+SLINE="="
+
+get_lun_name()
+{
+	cat "$1/attrib/lun_name"
+}
+
+buffer_init()
+{
+	touch "$SCREEN_BUFFER_HEAD"
+	touch "$SCREEN_BUFFER_BODY"
+	touch "$SCREEN_BUFFER_TAIL"
+}
+
+buffer_exit()
+{
+	rm "$SCREEN_BUFFER_HEAD"
+	rm "$SCREEN_BUFFER_BODY"
+	rm "$SCREEN_BUFFER_TAIL"
+}
+
+buffer_printf()
+{
+	case "$1" in
+		"head")
+			shift
+			printf "$@" >> "$SCREEN_BUFFER_HEAD"
+			;;
+		"body")
+			shift
+			printf "$@" >> "$SCREEN_BUFFER_BODY"
+			;;
+		"tail")
+			shift
+			printf "$@" >> "$SCREEN_BUFFER_TAIL"
+			;;
+	esac
+}
+
+buffer_fill_body_new_line()
+{
+	buffer_printf "body" "\n"
+	let "SCREEN_BODY_LINE_COUNT++"
+}
+
+buffer_fill_head_new_line()
+{
+	buffer_printf "head" "\n"
+	let "SCREEN_HEAD_LINE_COUNT++"
+}
+
+buffer_fill_tail_new_line()
+{
+	buffer_printf "tail" "\n"
+	let "SCREEN_TAIL_LINE_COUNT++"
+}
+
+buffer_fill_head_section_line()
+{
+	for a in `seq $SCREEN_WIDTH` ; do
+		buffer_printf "head" "$SLINE"
+	done
+
+	buffer_fill_head_new_line
+}
+
+buffer_fill_body_section_line()
+{
+	for a in `seq $SCREEN_WIDTH` ; do
+		buffer_printf "body" "$SLINE";
+	done
+
+	buffer_fill_body_new_line
+}
+
+buffer_fill_tail_section_line()
+{
+	for a in `seq $SCREEN_WIDTH` ; do
+		buffer_printf "tail" "$SLINE"
+	done
+
+	buffer_fill_tail_new_line
+}
+
+buffer_fill_title()
+{
+	buffer_printf "head" "$TITLE"
+	buffer_fill_head_new_line
+}
+
+buffer_get_size()
+{
+	SCREEN_HEIGHT=`stty size | awk -F ' ' '{ print $1 }'`
+	SCREEN_WIDTH=`stty size | awk -F ' ' '{ print $2 }'`
+
+	SCREEN_HEAD_LINE_COUNT=0
+	SCREEN_BODY_LINE_COUNT=0
+	SCREEN_TAIL_LINE_COUNT=0
+
+	let "SCREEN_BODY_HEIGHT = SCREEN_HEIGHT - $SCREEN_HEAD_HEIGHT - $SCREEN_TAIL_HEIGHT - $SCREEN_MARG_HEIGHT"
+}
+
+printf_new_line_multi()
+{
+	local LINE_COUNT=$1
+	while [ "$LINE_COUNT" -gt 0 ] ; do
+		printf "\n"
+		let "LINE_COUNT--"
+	done
+}
+
+__buffer_flip()
+{
+	clear
+
+	cat "$SCREEN_BUFFER_HEAD"
+	printf_new_line_multi `expr $SCREEN_HEAD_HEIGHT - $SCREEN_HEAD_LINE_COUNT`
+
+	cat "$SCREEN_BUFFER_BODY" | tail -n +"$SCREEN_BODY_POS_Y" | head -n "$SCREEN_BODY_HEIGHT"
+	BODY_NEW_LINE_COUNT=`expr $SCREEN_BODY_HEIGHT - $SCREEN_BODY_LINE_COUNT + $SCREEN_BODY_POS_Y - 1`
+	if [ "$BODY_NEW_LINE_COUNT" -gt "0" ] ; then
+		printf_new_line_multi "$BODY_NEW_LINE_COUNT"
+	fi
+
+	cat "$SCREEN_BUFFER_TAIL"
+	printf_new_line_multi `expr $SCREEN_TAIL_HEIGHT - $SCREEN_TAIL_LINE_COUNT`
+}
+
+__log_flip()
+{
+	date >> "$LOG_FILE"
+	cat "$SCREEN_BUFFER_BODY" >> "$LOG_FILE"
+}
+
+buffer_flip()
+{
+	if [ "$LOG_FILE" = "" ] ; then
+		__buffer_flip
+	else
+		__log_flip
+	fi
+}
+
+buffer_fill_highlight()
+{
+	buffer_printf "$1" "\033[47;30m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_highlight_red()
+{
+	buffer_printf "$1" "\033[41;30m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_highlight_green()
+{
+	buffer_printf "$1" "\033[42;30m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_highlight_yellow()
+{
+	buffer_printf "$1" "\033[43;30m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_highlight_blue()
+{
+	buffer_printf "$1" "\033[44;37m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_highlight_purple()
+{
+	buffer_printf "$1" "\033[45;30m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_highlight_sky_blue()
+{
+	buffer_printf "$1" "\033[46;30m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_highlight_read()
+{
+	buffer_printf "$1" "\033[47;34m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_highlight_write()
+{
+	buffer_printf "$1" "\033[47;31m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_red()
+{
+	buffer_printf "$1" "\033[1;31;40m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_green()
+{
+	buffer_printf "$1" "\033[1;32;40m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_yellow()
+{
+	buffer_printf "$1" "\033[1;33;40m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_blue()
+{
+	buffer_printf "$1" "\033[1;34;40m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_purple()
+{
+	buffer_printf "$1" "\033[1;35;40m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_sky_blue()
+{
+	buffer_printf "$1" "\033[1;36;40m"
+	buffer_printf "$@"
+	buffer_printf "$1" "\033[0m"
+}
+
+buffer_fill_green_latency()
+{
+	local LINE_COUNT=$1
+	while [ "$LINE_COUNT" -gt 0 ] ; do
+		buffer_fill_green "body" "*"
+		let "LINE_COUNT--"
+	done
+}
+
+buffer_fill_yellow_latency()
+{
+	local LINE_COUNT=$1
+	while [ "$LINE_COUNT" -gt 0 ] ; do
+		buffer_fill_yellow "body" "*"
+		let "LINE_COUNT--"
+	done
+}
+
+buffer_fill_red_latency()
+{
+	local LINE_COUNT=$1
+	while [ "$LINE_COUNT" -gt 0 ] ; do
+		buffer_fill_red "body" "*"
+		let "LINE_COUNT--"
+	done
+}
+
+buffer_fill_read_percentage()
+{
+	local LINE_COUNT=$1
+	while [ "$LINE_COUNT" -gt 0 ] ; do
+		buffer_fill_highlight_read "body" "R"
+		let "LINE_COUNT--"
+	done
+}
+
+buffer_fill_write_percentage()
+{
+	local LINE_COUNT=$1
+	while [ "$LINE_COUNT" -gt 0 ] ; do
+		buffer_fill_highlight_write "body" "W"
+		let "LINE_COUNT--"
+	done
+}
+
+buffer_fill_zero_percentage()
+{
+	local LINE_COUNT=$1
+	while [ "$LINE_COUNT" -gt 0 ] ; do
+		buffer_fill_highlight "body" " "
+		let "LINE_COUNT--"
+	done
+}
+
+buffer_fill_latency()
+{
+	local LATENCY="$1"
+	let "LATENCY = (LATENCY + 999) / 1000"
+
+	if [ "$LATENCY" -le "5" ] ; then
+		buffer_fill_green_latency "$LATENCY"
+	elif [ "$LATENCY" -le "20" ] ; then
+		buffer_fill_yellow_latency "$LATENCY"
+	elif [ "$LATENCY" -le "100" ] ; then
+		buffer_fill_red_latency "$LATENCY"
+	else
+		buffer_fill_red_latency "100"
+	fi
+}
+
+alarm()
+{
+	printf "\033[41;30m%s\033[0m" "$@"
+}
+
+lun_info_parse()
+{
+	LUN_NUM="$1"
+	LUN_NAME=`get_lun_name "$2" | cut -c 1-15`
+	LUN_TYPE="$3"
+
+	LUN_INFO_DIR="$2/info"
+	LUN_INFO_BASIC_DIR="${LUN_INFO_DIR}/basic"
+	LUN_INFO_STATISTICS_DIR="${LUN_INFO_DIR}/statistics"
+	LUN_INFO_IOSTAT_DIR="${LUN_INFO_STATISTICS_DIR}/iostat"
+	LUN_INFO_NETSTAT_DIR="${LUN_INFO_STATISTICS_DIR}/netstat"
+
+	if [ "$LUN_TYPE" = "EP" ] ; then
+		LUN_PATH=`cat ${LUN_INFO_DIR}/basic/file_path`
+		LUN_TYPE="ADV-FILE"
+	elif [ "$LUN_TYPE" = "FILE" ] ; then
+		LUN_PATH=`cat ${LUN_INFO_DIR}/basic/file_path`
+	else
+		LUN_PATH=`cat "$2"/udev_path`
+	fi
+
+	QueuedCount=`cat ${LUN_INFO_BASIC_DIR}/deferred_cmd_cnt`
+	ExecutedCount=`cat ${LUN_INFO_BASIC_DIR}/ongoing_cmd_cnt`
+	MaxExecutedCount=`cat ${LUN_INFO_BASIC_DIR}/max_queue_depth`
+
+	ReadCmdCount=`cat ${LUN_INFO_IOSTAT_DIR}/read_cmd_count`
+	ReadBytes=`cat ${LUN_INFO_IOSTAT_DIR}/read_bytes`
+	ReadTimeCost=`cat ${LUN_INFO_IOSTAT_DIR}/read_time_cost`
+	ReadThroughput=`cat ${LUN_INFO_IOSTAT_DIR}/read_throughput`
+	ReadAvgCmdSize=`cat ${LUN_INFO_IOSTAT_DIR}/read_avg_cmd_size`
+	ReadAvgLatency=`cat ${LUN_INFO_IOSTAT_DIR}/read_avg_latency`
+	ReadMaxLatency=`cat ${LUN_INFO_IOSTAT_DIR}/read_max_latency`
+	ReadMinLatency=`cat ${LUN_INFO_IOSTAT_DIR}/read_min_latency`
+	WriteCmdCount=`cat ${LUN_INFO_IOSTAT_DIR}/write_cmd_count`
+	WriteBytes=`cat ${LUN_INFO_IOSTAT_DIR}/write_bytes`
+	WriteTimeCost=`cat ${LUN_INFO_IOSTAT_DIR}/write_time_cost`
+	WriteThroughput=`cat ${LUN_INFO_IOSTAT_DIR}/write_throughput`
+	WriteAvgCmdSize=`cat ${LUN_INFO_IOSTAT_DIR}/write_avg_cmd_size`
+	WriteAvgLatency=`cat ${LUN_INFO_IOSTAT_DIR}/write_avg_latency`
+	WriteMaxLatency=`cat ${LUN_INFO_IOSTAT_DIR}/write_max_latency`
+	WriteMinLatency=`cat ${LUN_INFO_IOSTAT_DIR}/write_min_latency`
+	WritesameCmdCount=`cat ${LUN_INFO_IOSTAT_DIR}/writesame_cmd_count`
+	UnmapCmdCount=`cat ${LUN_INFO_IOSTAT_DIR}/unmap_cmd_count`
+	XcopyCmdCount=`cat ${LUN_INFO_IOSTAT_DIR}/xcopy_cmd_count`
+	XcopyOptimizedRollbackCmdCount=`cat ${LUN_INFO_IOSTAT_DIR}/xcopy_optimized_rollback_cmd_count`
+	AtsCmdCount=`cat ${LUN_INFO_IOSTAT_DIR}/ats_cmd_count`
+	Duration=`cat ${LUN_INFO_IOSTAT_DIR}/duration`
+	TotalCmdCount=`cat ${LUN_INFO_IOSTAT_DIR}/total_cmd_count`
+	TotalIOLatency=`cat ${LUN_INFO_IOSTAT_DIR}/total_io_latency`
+	TotalAvgCmdIdle=`cat ${LUN_INFO_IOSTAT_DIR}/total_avg_cmd_idle`
+	TotalAvgIODoneItvl=`cat ${LUN_INFO_IOSTAT_DIR}/total_avg_io_done_itvl`
+	TotalAvgTaskItvl=`cat ${LUN_INFO_IOSTAT_DIR}/total_avg_task_itvl`
+	TotalThroughput=`cat ${LUN_INFO_IOSTAT_DIR}/total_throughput`
+	TotalIOPS=`cat ${LUN_INFO_IOSTAT_DIR}/total_iops`
+
+	NetCmdCount=`cat ${LUN_INFO_NETSTAT_DIR}/net_cmd_count`
+	RxIdleCost=`cat ${LUN_INFO_NETSTAT_DIR}/rx_idle_cost`
+	RxAvgIdleLatency=`cat ${LUN_INFO_NETSTAT_DIR}/rx_avg_idle_latency`
+	RxTimeCost=`cat ${LUN_INFO_NETSTAT_DIR}/rx_time_cost`
+	RxBytes=`cat ${LUN_INFO_NETSTAT_DIR}/rx_bytes`
+	RxAvgSize=`cat ${LUN_INFO_NETSTAT_DIR}/rx_avg_size`
+	RxAvgLatency=`cat ${LUN_INFO_NETSTAT_DIR}/rx_avg_latency`
+	RxThroughput=`cat ${LUN_INFO_NETSTAT_DIR}/rx_throughput`
+	TxIdleCost=`cat ${LUN_INFO_NETSTAT_DIR}/tx_idle_cost`
+	TxAvgIdleLatency=`cat ${LUN_INFO_NETSTAT_DIR}/tx_avg_idle_latency`
+	TxTimeCost=`cat ${LUN_INFO_NETSTAT_DIR}/tx_time_cost`
+	TxRespBytes=`cat ${LUN_INFO_NETSTAT_DIR}/tx_resp_bytes`
+	TxAvgRespSize=`cat ${LUN_INFO_NETSTAT_DIR}/tx_avg_resp_size`
+	TxAvgLatency=`cat ${LUN_INFO_NETSTAT_DIR}/tx_avg_latency`
+	TxThroughput=`cat ${LUN_INFO_NETSTAT_DIR}/tx_throughput`
+
+}
+
+______update_lun_analyzer_queuechart()
+{
+	buffer_printf "body" "%-25s" "TaskItvl"
+	buffer_fill_latency "$TotalAvgTaskItvl"
+	buffer_printf "body" "($TotalAvgTaskItvl)"
+	buffer_fill_body_new_line
+
+	buffer_printf "body" "%-25s" "Rx Avg Latency"
+	buffer_fill_latency "$RxAvgLatency"
+	buffer_printf "body" "($RxAvgLatency)"
+	buffer_fill_body_new_line
+
+	buffer_printf "body" "%-25s" "Rx Avg Idle"
+	buffer_fill_latency "$RxAvgIdleLatency"
+	buffer_printf "body" "($RxAvgIdleLatency)"
+	buffer_fill_body_new_line
+
+	buffer_printf "body" "%-25s" "I/O"
+	buffer_fill_latency "$TotalIOLatency"
+	buffer_printf "body" "($TotalIOLatency)"
+	buffer_fill_body_new_line
+
+	buffer_printf "body" "%-25s" "I/O-Done"
+	buffer_fill_latency "$TotalAvgIODoneItvl"
+	buffer_printf "body" "($TotalAvgIODoneItvl)"
+	buffer_fill_body_new_line
+
+	buffer_printf "body" "%-25s" "Avg Cmd Idle"
+	buffer_fill_latency "$TotalAvgCmdIdle"
+	buffer_printf "body" "($TotalAvgCmdIdle)"
+	buffer_fill_body_new_line
+
+	buffer_printf "body" "%-25s" "Tx Avg Idle"
+	buffer_fill_latency "$TxAvgIdleLatency"
+	buffer_printf "body" "($TxAvgIdleLatency)"
+	buffer_fill_body_new_line
+
+	buffer_printf "body" "%-25s" "Tx Avg Latency"
+	buffer_fill_latency "$TxAvgLatency"
+	buffer_printf "body" "($TxAvgLatency)"
+	buffer_fill_body_new_line
+
+	buffer_printf "body" "%-25s" "QUE/EXE/MAX"
+	buffer_printf "body" "(%02s)(%02s)(%02s)" "$QueuedCount" "$ExecutedCount" "$MaxExecutedCount"
+	buffer_fill_body_new_line
+}
+
+______update_lun_analyzer_3d_perf()
+{
+	local TMP
+	buffer_fill_purple "body" "%-25s" "Total:Throught (KB/s)"
+	let "TMP = TotalThroughput / 1024" 2>/dev/null
+	buffer_printf "body" "$TMP"
+	buffer_fill_body_new_line
+
+	buffer_fill_purple "body" "%-25s" "Total:IOPS"
+	buffer_printf "body" "$TotalIOPS"
+	buffer_fill_body_new_line
+
+	buffer_fill_blue "body" "%-25s" "Read: Throught (KB/s)"
+	let "TMP = TotalThroughput * ReadBytes / (ReadBytes + WriteBytes) / 1024" 2>/dev/null
+	buffer_printf "body" "$TMP"
+	buffer_fill_body_new_line
+
+	buffer_fill_blue "body" "%-25s" "Read: IOPS"
+	let "TMP = TotalIOPS * ReadCmdCount / (ReadCmdCount + WriteCmdCount)" 2>/dev/null
+	buffer_printf "body" "$TMP"
+	buffer_fill_body_new_line
+
+	buffer_fill_red "body" "%-25s" "Write:Throught (KB/s)"
+	let "TMP = TotalThroughput * WriteBytes / (ReadBytes + WriteBytes) / 1024" 2>/dev/null
+	buffer_printf "body" "$TMP"
+	buffer_fill_body_new_line
+
+	buffer_fill_red "body" "%-25s" "Write:IOPS"
+	let "TMP = TotalIOPS * WriteCmdCount / (ReadCmdCount + WriteCmdCount)" 2>/dev/null
+	buffer_printf "body" "$TMP"
+	buffer_fill_body_new_line
+}
+
+______update_lun_analyzer_io_pattern()
+{
+	buffer_printf "body" "%-25s" "I/O Pattern(W:R Size)"
+	buffer_printf "body" "(%6s:%6s)" "$WriteAvgCmdSize" "$ReadAvgCmdSize"
+	buffer_fill_body_new_line
+
+	buffer_printf "body" "%-25s" "I/O Pattern(W:R Count)"
+	buffer_printf "body" "(%6s:%6s)" "$WriteCmdCount" "$ReadCmdCount"
+	buffer_fill_body_new_line
+
+	buffer_printf "body" "%-25s" "I/O Pattern(W:R Percent)"
+
+	if [ "$TotalCmdCount" != "0" ] ; then
+		let "ReadPercentage = ReadCmdCount * 100 / TotalCmdCount"
+		let "WritePercentage = 100 - ReadPercentage"
+	else
+		ReadPercentage=0
+		WritePercentage=0
+	fi
+	buffer_printf "body" "(%06s:%06s)" "$WritePercentage" "$ReadPercentage"
+	buffer_fill_body_new_line
+
+	buffer_printf "body" "%-25s" "I/O Pattern(W:R Meter)"
+	if [ "$TotalCmdCount" != "0" ] ; then
+		buffer_fill_write_percentage "$WritePercentage"
+		buffer_fill_read_percentage "$ReadPercentage"
+	else
+		buffer_fill_zero_percentage "100"
+	fi
+
+	buffer_fill_body_new_line
+}
+
+____update_lun_analyzer()
+{
+	buffer_fill_sky_blue "body" "%-16s" "$LUN_NAME"
+
+	if [ "$LUN_TYPE" = "FILE" ] ; then
+		buffer_fill_green "body" "%-9s" "$LUN_TYPE"
+	elif [ "$LUN_TYPE" = "ADV-FILE" ] ; then
+		buffer_fill_yellow "body" "%-9s" "$LUN_TYPE"
+	else
+		buffer_fill_blue "body" "%-9s" "$LUN_TYPE"
+	fi
+
+	buffer_printf "body" "$LUN_PATH"
+
+	buffer_fill_body_new_line
+
+	if [ "$UPDATE_QUEUE_CHART" = "1" ] ; then
+		______update_lun_analyzer_queuechart
+	fi
+
+	if [ "$UPDATE_3D_PERF" = "1" ] ; then
+		______update_lun_analyzer_3d_perf
+	fi
+
+	if [ "$UPDATE_IO_PATTERN" = "1" ] ; then
+		______update_lun_analyzer_io_pattern
+	fi
+}
+
+____update_screen_head_analyzer()
+{
+	buffer_fill_highlight_blue "head" "[ Analyzer ]"
+	buffer_fill_head_new_line
+
+	#// fill screen-head informations
+	buffer_fill_yellow "head" "UPDATE_ITVL: ""$UPDATE_ITVL"
+	buffer_printf "head" ", "
+	buffer_fill_yellow "head" "LUN_COUNT: ""$LUN_COUNT"
+	buffer_printf "head" ", "
+	buffer_fill_yellow "head" "EP_LUN_COUNT: ""$EP_LUN_COUNT"
+	buffer_printf "head" ", "
+	buffer_fill_yellow "head" "BLOCK_LUN_COUNT: ""$BLOCK_LUN_COUNT"
+	buffer_printf "head" ", "
+	buffer_fill_yellow "head" "FILE_LUN_COUNT: ""$FILE_LUN_COUNT"
+	buffer_fill_head_new_line
+
+	buffer_fill_highlight "head" "LUN-NAME       |LUN-TYPE|"
+	buffer_fill_highlight_green "head" "%s" "1---5"
+	buffer_fill_highlight_yellow "head" "%s" "----10---15---2"
+	buffer_fill_highlight_red "head" "%s" "0----25---30---35---40---45---50---55---60---65---70---75---80---85---90---95---|"
+	buffer_fill_head_new_line
+}
+
+____update_screen_head_help()
+{
+	buffer_fill_highlight_blue "head" "[   Help   ]"
+	buffer_fill_head_new_line
+	buffer_fill_head_new_line
+	buffer_fill_head_new_line
+}
+
+____update_screen_head_exit()
+{
+	buffer_fill_highlight_blue "head" "[   Exit   ]"
+	buffer_fill_head_new_line
+	buffer_fill_head_new_line
+	buffer_fill_head_new_line
+}
+
+__update_screen_head()
+{
+	echo -n "" > "$SCREEN_BUFFER_HEAD"
+
+	buffer_fill_head_section_line
+	buffer_fill_title
+	buffer_fill_head_section_line
+
+	case "$UPDATE_STATE" in
+		"a")
+				____update_screen_head_analyzer
+			;;
+		"h")
+				____update_screen_head_help
+			;;
+		"e")
+				____update_screen_head_exit
+			;;
+	esac
+
+	buffer_fill_head_section_line
+}
+
+lun_name_matched()
+{
+	local LUN_NAME=`get_lun_name "$1"`
+
+	if [ "$LUN_LIST" = "" ] ; then
+		return 1
+	fi
+
+	for i in $LUN_LIST ; do
+		if [ "$i" = "$LUN_NAME" ] ; then
+			return 1
+		fi
+	done
+
+	return 0;
+}
+
+enumerate_lun_dirs()
+{
+	if [ -e "$SYSFS_EP_LUN_DIR" ] ; then
+		EP_LUN_COUNT="0"
+		for sub_dir in ${SYSFS_EP_LUN_DIR}/*; do
+			if [ -d "$sub_dir" ] ; then
+				EP_LUN_COUNT=$((EP_LUN_COUNT+1))
+			fi
+		done
+		EP_LUN_DIRS=`ls -d "$SYSFS_EP_LUN_DIR"/*/ 2>/dev/null`
+	else
+		EP_LUN_COUNT="0"
+	fi
+
+	if [ -e "$SYSFS_FILE_LUN_DIR" ] ; then
+		FILE_LUN_COUNT="0"
+		for sub_dir in ${SYSFS_FILE_LUN_DIR}/*; do
+			if [ -d "$sub_dir" ] ; then
+				FILE_LUN_COUNT=$((FILE_LUN_COUNT+1))
+			fi
+		done
+		FILE_LUN_DIRS=`ls -d "$SYSFS_FILE_LUN_DIR"/*/ 2>/dev/null`
+	else
+		FILE_LUN_COUNT="0"
+	fi
+
+	if [ -e "$SYSFS_BLOCK_LUN_DIR" ] ; then
+		BLOCK_LUN_COUNT="0"
+		for sub_dir in ${SYSFS_BLOCK_LUN_DIR}/*; do
+			if [ -d "$sub_dir" ] ; then
+				BLOCK_LUN_COUNT=$((BLOCK_LUN_COUNT+1))
+			fi
+		done
+		BLOCK_LUN_DIRS=`ls -d "$SYSFS_BLOCK_LUN_DIR"/*/ 2>/dev/null`
+	else
+		BLOCK_LUN_COUNT="0"
+	fi
+
+	let "LUN_COUNT = BLOCK_LUN_COUNT + FILE_LUN_COUNT + EP_LUN_COUNT"
+}
+
+clean_all_luns_info()
+{
+	enumerate_lun_dirs
+
+	for LUN_DIR in $EP_LUN_DIRS ; do
+		lun_name_matched "$LUN_DIR"
+		if [ "$?" = 1 ] ; then
+			lun_info_parse "$LUN_COUNT" "$LUN_DIR" "EP"
+		fi
+	done
+
+	for LUN_DIR in $FILE_LUN_DIRS ; do
+		lun_name_matched "$LUN_DIR"
+		if [ "$?" = 1 ] ; then
+			lun_info_parse "$LUN_COUNT" "$LUN_DIR" "FILE"
+		fi
+	done
+
+	for LUN_DIR in $BLOCK_LUN_DIRS ; do
+		lun_name_matched "$LUN_DIR"
+		if [ "$?" = 1 ] ; then
+			lun_info_parse "$LUN_COUNT" "$LUN_DIR" "BLOCK"
+		fi
+	done
+}
+
+____update_screen_body_analyzer()
+{
+	enumerate_lun_dirs
+
+	for LUN_DIR in $EP_LUN_DIRS ; do
+		lun_name_matched "$LUN_DIR"
+		if [ "$?" = 1 ] ; then
+			lun_info_parse "$LUN_COUNT" "$LUN_DIR" "EP"
+			____update_lun_analyzer
+		fi
+	done
+
+	for LUN_DIR in $FILE_LUN_DIRS ; do
+		lun_name_matched "$LUN_DIR"
+		if [ "$?" = 1 ] ; then
+			lun_info_parse "$LUN_COUNT" "$LUN_DIR" "FILE"
+			____update_lun_analyzer
+		fi
+	done
+
+	for LUN_DIR in $BLOCK_LUN_DIRS ; do
+		lun_name_matched "$LUN_DIR"
+		if [ "$?" = 1 ] ; then
+			lun_info_parse "$LUN_COUNT" "$LUN_DIR" "BLOCK"
+			____update_lun_analyzer
+		fi
+	done
+}
+
+____update_screen_body_help()
+{
+	buffer_fill_highlight_sky_blue "body" "[ OPTION ]"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    Q)ueueChart  - show the queue chart"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    3)D-Perf     - show IOPS, throught, latency"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    I)/O Pattern - show the average command size of read/write and the percentage of read/write"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    P)ause       - pause the performance accounting"
+	buffer_fill_body_new_line
+	buffer_fill_body_new_line
+
+	buffer_fill_highlight_sky_blue "body" "[  KEY   ]"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    [   Up    ]   - scroll up"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    [  Down   ]   - scroll down"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    [ PageUp  ]   - scroll up one page"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    [PageDown ]   - scroll down one page"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    [    +    ]   - increase one second of the update interval"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    [    -    ]   - decrease one second of the update interval"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    [  Space  ]   - refresh"
+	buffer_fill_body_new_line
+	buffer_fill_body_new_line
+
+	buffer_fill_highlight_sky_blue "body" "[ STATE  ]"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    A)nalyzer     - show the performance analyzer"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    H)elp         - show the help page"
+	buffer_fill_body_new_line
+	buffer_printf "body" "    E)xit         - exit the performance analyzer"
+	buffer_fill_body_new_line
+}
+
+____update_screen_body_exit()
+{
+	buffer_printf         "body" "  *****  *   *  **  *  *****  *      *****  *****  *   *  "
+	buffer_fill_body_new_line
+	buffer_printf         "body" "  *   *  *   *  **  *  *   *  *      *   *  *   *  *   *  "
+	buffer_fill_body_new_line
+	buffer_printf         "body" "  *       * *   * * *  *   *  *      *   *  *       * *   "
+	buffer_fill_body_new_line
+	buffer_printf         "body" "  *****    *    * * *  *   *  *      *   *  * ***    *    "
+	buffer_fill_body_new_line
+	buffer_printf         "body" "      *    *    * * *  *   *  *      *   *  *   *    *    "
+	buffer_fill_body_new_line
+	buffer_printf         "body" "  *   *    *    *  **  *   *  *      *   *  *   *    *    "
+	buffer_fill_body_new_line
+	buffer_printf         "body" "  *****    *    *  **  *****  *****  *****  *****    *    "
+	buffer_fill_body_new_line
+}
+
+__update_screen_body()
+{
+	echo -n "" > "$SCREEN_BUFFER_BODY"
+
+	case "$UPDATE_STATE" in
+		"a")
+			____update_screen_body_analyzer
+			;;
+		"h")
+			____update_screen_body_help
+			;;
+		"e")
+			____update_screen_body_exit
+			;;
+	esac
+}
+
+__update_screen_tail()
+{
+	echo -n "" > "$SCREEN_BUFFER_TAIL"
+
+	buffer_fill_tail_section_line
+
+	buffer_fill_highlight_sky_blue "tail" "[ OPTION ]"
+	buffer_fill_highlight "tail" " - "
+
+	if [ "$UPDATE_QUEUE_CHART" = "1" ] ; then
+		buffer_fill_highlight_green "tail" "Q)ueueChart"
+	else
+		buffer_fill_highlight "tail" "Q)ueueChart"
+	fi
+
+	buffer_fill_highlight "tail" ", "
+
+	if [ "$UPDATE_3D_PERF" = "1" ] ; then
+		buffer_fill_highlight_green "tail" "3)D-Perf"
+	else
+		buffer_fill_highlight "tail" "3)D-Perf"
+	fi
+
+	buffer_fill_highlight "tail" ", "
+
+	if [ "$UPDATE_IO_PATTERN" = "1" ] ; then
+		buffer_fill_highlight_green "tail" "I)/O Pattern"
+	else
+		buffer_fill_highlight "tail" "I)/O Pattern"
+	fi
+
+	buffer_fill_highlight "tail" ", "
+
+	if [ "$UPDATE_PAUSE" = "1" ] ; then
+		buffer_fill_highlight_red "tail" "P)ause"
+	else
+		buffer_fill_highlight "tail" "P)ause"
+	fi
+
+	buffer_fill_tail_new_line
+
+	buffer_fill_highlight_sky_blue "tail" "[  KEY   ]"
+	buffer_fill_highlight "tail" " - "
+	buffer_fill_highlight_yellow "tail" "[   Up    ]"
+	buffer_printf "tail" " "
+	buffer_fill_highlight_yellow "tail" "[  Down   ]"
+	buffer_printf "tail" " "
+	buffer_fill_highlight_yellow "tail" "[ PageUp  ]"
+	buffer_printf "tail" " "
+	buffer_fill_highlight_yellow "tail" "[PageDown ]"
+	buffer_printf "tail" " "
+	buffer_fill_highlight_yellow "tail" "[    +    ]"
+	buffer_printf "tail" " "
+	buffer_fill_highlight_yellow "tail" "[    -    ]"
+	buffer_printf "tail" " "
+	buffer_fill_highlight_yellow "tail" "[  Space  ]"
+
+	buffer_fill_tail_new_line
+
+	buffer_fill_highlight_sky_blue "tail" "[ STATE  ]"
+	buffer_fill_highlight "tail" " - "
+
+	if [ "$UPDATE_STATE" = "a" ] ; then
+		buffer_fill_highlight_blue "tail" "A)nalyzer"
+	else
+		buffer_fill_highlight "tail" "A)nalyzer"
+	fi
+
+	buffer_fill_highlight "tail" ", "
+
+	if [ "$UPDATE_STATE" = "h" ] ; then
+		buffer_fill_highlight_blue "tail" "H)elp"
+	else
+		buffer_fill_highlight "tail" "H)elp"
+	fi
+
+	buffer_fill_highlight "tail" ", "
+
+	if [ "$UPDATE_STATE" = "e" ] ; then
+		buffer_fill_highlight_blue "tail" "E)xit"
+	else
+		buffer_fill_highlight "tail" "E)xit"
+	fi
+
+	buffer_fill_tail_new_line
+
+	buffer_fill_tail_section_line
+}
+
+update_screen()
+{
+	buffer_get_size
+
+	__update_screen_head
+	__update_screen_body
+	__update_screen_tail
+
+	buffer_flip
+}
+
+itvl_inc()
+{
+	if [ "$UPDATE_ITVL" == 60 ] ; then
+		return
+	fi
+
+	let "UPDATE_ITVL = UPDATE_ITVL + 1"
+}
+
+itvl_dec()
+{
+	if [ "$UPDATE_ITVL" == 1 ] ; then
+		return
+	fi
+
+	let "UPDATE_ITVL = UPDATE_ITVL - 1"
+}
+
+pos_y_inc()
+{
+	let "SCREEN_BODY_POS_Y = SCREEN_BODY_POS_Y + $1"
+
+	if [ "$SCREEN_BODY_POS_Y" -gt "$SCREEN_BODY_LINE_COUNT" ] ; then
+		SCREEN_BODY_POS_Y="$SCREEN_BODY_LINE_COUNT"
+	fi
+}
+
+pos_y_dec()
+{
+	let "SCREEN_BODY_POS_Y = SCREEN_BODY_POS_Y - $1"
+
+	if [ "$SCREEN_BODY_POS_Y" -lt "1" ] ; then
+		SCREEN_BODY_POS_Y="1"
+	fi
+}
+
+pause()
+{
+	UPDATE_PAUSE=1
+}
+
+user_input()
+{
+	if [ "$UPDATE_PAUSE" = "0" ] ; then
+		read -s -t "$UPDATE_ITVL" -n 1 UPDATE_USER_INPUT
+	else
+		read -s -n 1 UPDATE_USER_INPUT
+	fi
+
+	if [ "$UPDATE_USER_INPUT" = "$KEY_ESCAPE" ] ; then
+		read -s -n 2 INPUT2
+		UPDATE_USER_INPUT="$UPDATE_USER_INPUT$INPUT2"
+
+		if [ "$UPDATE_USER_INPUT" = "$KEY_PAGEUP" ] ; then
+			read -s -n 1 INPUT3
+		fi
+		if [ "$UPDATE_USER_INPUT" = "$KEY_PAGEDOWN" ] ; then
+			read -s -n 1 INPUT3
+		fi
+
+	else
+		UPDATE_PAUSE=0
+	fi
+}
+
+update_state()
+{
+	if [ "$UPDATE_STATE" == "$1" ] ; then
+		return
+	fi
+
+	UPDATE_PREV_STATE="$UPDATE_STATE"
+	UPDATE_STATE="$1"
+}
+
+synoiscsitop_init()
+{
+	buffer_init
+	clean_all_luns_info
+}
+
+synoiscsitop_exit()
+{
+	buffer_exit
+}
+
+synoiscsitop_check_version()
+{
+	if [ "$majorversion" -lt "$MAJOR_VERSION" ] ; then
+		return "1"
+	fi
+
+	if [ "$majorversion" -eq "$MAJOR_VERSION" ] ; then
+		if [ "$minorversion" -lt "$MINOR_VERSION" ] ; then
+			return "1"
+		fi
+	fi
+
+	return "0"
+}
+
+synoiscsitop_trap_set()
+{
+	trap '' INT
+}
+
+synoiscsitop_main()
+{
+	synoiscsitop_check_version
+	if [ "$?" != "0" ] ; then
+		alarm "synoiscsitop-$MAJOR_VERSION.$MINOR_VERSION can't run on DSM-$majorversion.$minorversion"
+		echo ""
+		exit
+	fi
+
+	synoiscsitop_init
+	synoiscsitop_trap_set
+
+	if [ "$LOG_FILE" != "" ] ; then
+		echo "Log to file: $LOG_FILE"
+	fi
+
+	while [ 1 ] ; do
+		UPDATE_USER_INPUT=""
+		user_input
+
+		case "$UPDATE_USER_INPUT" in
+		"q")
+			let "UPDATE_QUEUE_CHART = (UPDATE_QUEUE_CHART + 1) % 2"
+			update_screen
+			if [ "$UPDATE_QUEUE_CHART" = 1 ] ; then
+				alarm "Enable QueueChart"
+			else
+				alarm "Disable QueueChart"
+			fi
+			;;
+		"3")
+			let "UPDATE_3D_PERF = (UPDATE_3D_PERF + 1) % 2"
+			update_screen
+			if [ "$UPDATE_3D_PERF" = 1 ] ; then
+				alarm "Enable 3-D Perf"
+			else
+				alarm "Disable 3-D Perf"
+			fi
+			;;
+		"i")
+			let "UPDATE_IO_PATTERN = (UPDATE_IO_PATTERN + 1) % 2"
+			update_screen
+			if [ "$UPDATE_IO_PATTERN" = 1 ] ; then
+				alarm "Enable I/O Pattern"
+			else
+				alarm "Disable I/O Pattern"
+			fi
+			;;
+		"p")
+			pause
+			__update_screen_tail
+			buffer_flip
+			alarm "Pause"
+			;;
+		"$KEY_UP")
+			pos_y_dec 1
+			buffer_flip
+			alarm "UP"
+			;;
+		"$KEY_DOWN")
+			pos_y_inc 1
+			buffer_flip
+			alarm "DOWN"
+			;;
+		"$KEY_PAGEUP")
+			pos_y_dec "$SCREEN_BODY_HEIGHT"
+			buffer_flip
+			alarm "PAGEUP"
+			;;
+		"$KEY_PAGEDOWN")
+			pos_y_inc "$SCREEN_BODY_HEIGHT"
+			buffer_flip
+			alarm "PAGEDOWN"
+			;;
+		"+")
+			itvl_inc
+			__update_screen_head
+			buffer_flip
+			alarm "Increase UpdateInterval"
+			;;
+		"-")
+			itvl_dec
+			__update_screen_head
+			buffer_flip
+			alarm "Decrease UpdateInterval"
+			;;
+		"a")
+			update_state "a"
+			update_screen
+			alarm "Analyzer"
+			;;
+		"h")
+			pause
+			update_state "h"
+			update_screen
+			alarm "Help"
+			;;
+		"e")
+			update_state "e"
+			update_screen
+			alarm "Exit"
+			echo ""
+			break
+			;;
+		*)
+			if [ "$UPDATE_STATE" = "h" ] ; then
+				update_state "$UPDATE_PREV_STATE"
+			fi
+			update_screen
+			;;
+		esac
+
+		if [ "$LOG_FILE" != "" ] ; then
+			let "LOG_DURATION--"
+
+			echo "$LOG_DURATION"
+
+			if [ "$LOG_DURATION" = "0" ] ; then
+				echo "finished"
+				break
+			fi
+		fi
+	done
+
+	synoiscsitop_exit
+
+	exit 0
+}
+
+synoiscsitop_usage_and_exit()
+{
+	echo "Usage: synoiscsitop [-h][-l NAME][-r FILE]"
+	echo ""
+	echo "Show iSCSI performance data"
+	echo ""
+	echo "Options:"
+	echo "        -h      Show this help"
+	echo "        -r FILE Log to file"
+	echo "        -l NAME Assign LUNs by LUN-NAME"
+
+	exit
+}
+
+while getopts "r:l:h" OPTION ; do
+	case "$OPTION" in
+		r)
+			LOG_FILE="$OPTARG"
+			echo -n "" > "$LOG_FILE"
+			;;
+		l)
+			if [ "$LUN_LIST" = "" ] ; then
+				LUN_LIST="$OPTARG"
+			else
+				LUN_LIST="$LUN_LIST"" $OPTARG"
+			fi
+			;;
+		h)
+			SHOW_USAGE="1"
+			;;
+		*)
+			SHOW_USAGE="1"
+			;;
+	esac
+done
+
+[ "$SHOW_USAGE" = "1" ] && synoiscsitop_usage_and_exit
+
+synoiscsitop_main
+

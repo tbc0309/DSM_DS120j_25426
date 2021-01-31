@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Estado de almacenamiento</h2>
+	<p>Esta página detalla el estado de los volúmenes de almacenamiento e iSCSI LUN (nivel de bloques) en los servidores activo y pasivo del clúster high-availability.</p>
+    <p>Dado que la capacidad y las configuraciones de los volúmenes e iSCSI LUN (nivel de bloques) correspondientes de los servidores activo y pasivo deben ser idénticas, los volúmenes e iSCSI LUN (nivel de bloques) de los dos servidores se muestran juntos como unidades individuales. Por tanto, si desea ver el estado de los volúmenes e iSCSI LUNs (nivel de bloques) del servidor activo y del servidor pasivo, debe ir a la página <b>Estado de almacenamiento</b> [al acceder a un clúster high-availability, en el <b>Administrador de almacenamiento</b> solo se pueden ver los volúmenes e iSCSI LUNs (nivel de bloques) del servidor activo].</p>
+
+    <p>Esta página contiene la siguiente información:</p>
+		<ul>
+			<li><b>Nombre:</b> muestra los nombres de los volúmenes e iSCSI LUN (nivel de bloques).</li>
+			<li><b>Usado:</b> muestra el porcentaje de capacidad usada de los volúmenes e iSCSI LUN (nivel de bloques).</li>
+			<li><b>Tamaño usado/total:</b>  muestra la capacidad total y usada de los volúmenes e iSCSI LUN (nivel de bloques).</li>
+            <li><b>Estado:</b> muestra el estado de los volúmenes e iSCSI LUNs (nivel de bloques) y cachés de SSD.</li>
+            <li><b>Descripción:</b> muestra la descripción de los errores u otra información en relación con el volumen iSCSI LUN (nivel de bloques) y el caché de SSD.</li>
+		</ul>
+<h4>Para reparar un fallo de funcionamiento en un volumen o iSCSI LUN (nivel de bloques):</h4>
+	<ul>
+		<li>Si un disco duro de uno de los servidores se ha averiado, puede ir a la página <a href="disk.html">Estado del disco</a> para saber cuál es el disco duro que se ha averiado y necesita ser sustituido. En este caso, haga lo siguiente:<ol>
+            	<li>Sustituya el disco duro averiado (para ver los pasos para la instalación del disco duro, consulte la <i>Guía de instalación rápida</i> de su producto Synology).</li>
+                <li>Vaya a la página <b>Estado de almacenamiento</b> y haga clic en <b>Reparar</b>.</li>
+            </ol>
+        </li>
+        <li>Si el servidor pasivo está desconectado, el estado de los volúmenes e iSCSI LUN (nivel de bloques) indicará que se ha producido un error, y no aparecerá ninguno de los discos del servidor pasivo en la página Estado del disco. En este caso, puede intentar resolver el problema haciendo lo siguiente:<ol>
+            	<li>Asegúrese de que el servidor pasivo está encendido.</li>
+                <li>Compruebe todas las fuentes de alimentación.</li>
+                <li>Examine todas las conexiones.</li>
+            </ol>
+        </li>
+        <li>Si se produce un error en el sistema de archivos de un volumen o iSCSI LUN (nivel de bloques) de uno de los servidores, haga lo siguiente:<ul>
+            	<li>Vaya a la página <b>Estado de almacenamiento</b>.</li>
+                <li>Haga clic en <b>Reparar</b>.</li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">Nota:</span>  El límite de volúmenes e iSCSI LUN (nivel de bloques) de un clúster high-availability es 64.</p>
+
+
+
+<h3>Servidor de quórum</h3>
+<p>Los servidores de quórum ayudan a reducir la posibilidad de que se produzcan errores de split brain. En la configuración de split brain, puede asignar otro servidor como el servidor de quórum, siempre y cuando este se conecte constantemente a los servidores activos y pasivos. Por ejemplo, un servidor de pasarela o DNS es una elección adecuada como servidor de quórum, ya que se puede conectar a los servidores activos y pasivos. Tenga en cuenta que el servidor de quórum solo puede proporcionar servicios Ping, no es necesario instalar ninguna aplicación. A continuación se muestran las circunstancias que se producirán cuando esté activado el servidor de quórum:</p>
+
+<ul>
+<li>Si el servidor pasivo no se puede conectar a los servidores activos y de quórum, no se realizará una conmutación por error para evitar que se produzcan errores de split brain.</li>
+<li>Si el servidor activo no se puede conectar al servidor de quórum pero el servidor pasivo sí puede, se realizará un cambio para garantizar una mayor disponibilidad.</li>
+</ul>
+
+ </body>
+</html>

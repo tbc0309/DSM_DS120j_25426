@@ -1,0 +1,25 @@
+#author: Consumer Platform Team
+
+SUBSYSTEM=="dvb", KERNEL=="dvb*", ACTION=="add", MODE="0666", OWNER="root", GROUP="users", GOTO="dvb_end"
+SUBSYSTEM!="usb", GOTO="dvb_end"
+ENV{DEVTYPE}!=usb_device, GOTO="dvb_end"
+ACTION!="add|remove", GOTO="dvb_end"
+ENV{SYNO_SUPPORT_DUALHEAD}=="yes", GOTO="dvb_end"
+ENV{SYNO_BLOCK_OPTIONAL_USB}=="yes", GOTO="dvb_end"
+
+ENV{MAJOR}!="?*", GOTO="dvb_end"
+ENV{MINOR}!="?*", GOTO="dvb_end"
+
+IMPORT{program}="/lib/udev/script/usb-parse-vidpid.sh"
+ENV{SYNO_USB_VENDER}!="?*", GOTO="dvb_end"
+ENV{SYNO_USB_PRODUCT}!="?*", GOTO="dvb_end"
+
+ENV{KERNEL_VERSION}=="3.10", GOTO="backports_dvb"
+
+TEST=="/tmp/dvb_filtertimeout_workaround", GOTO="dvb_end"
+TEST=="/lib/udev/script/usb-dvb-util.sh", ACTION=="add|remove", RUN+="/lib/udev/script/usb-dvb-util.sh $env{ACTION} $env{SYNO_USB_VENDER} $env{SYNO_USB_PRODUCT} $major $minor", GOTO="dvb_end"
+
+LABEL="backports_dvb"
+TEST=="/lib/udev/script/backports_dvb/usb-dvb-util-backports.sh", ACTION=="add|remove", RUN+="/lib/udev/script/backports_dvb/usb-dvb-util-backports.sh $env{ACTION} $env{SYNO_USB_VENDER} $env{SYNO_USB_PRODUCT} $major $minor"
+
+LABEL="dvb_end"

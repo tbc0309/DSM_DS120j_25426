@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Verbinding maken met VPN - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Turn your Synology NAS into a VPN client and create profiles to connect your Synology NAS to a VPN server.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h1>Verbinden met VPN</h1>
+<p>U kunt gemakkelijk van uw Synology NAS een VPN-client maken en aansluiten op een bestaande VPN-server (virtueel particulier netwerk) via PPTP-, OpenVPN- of L2TP/IPSec-protocol. Als u meerdere VPN-servers hebt, kunt u ook voor elke server een specifiek VPN-profiel maken zodat u met een enkele klik snel kunt overschakelen en een verbinding kunt maken met verschillende VPN-servers.</p>
+
+
+<div class="section">
+<h4>Wat is VPN?</h4>
+<p>Een VPN of een virtueel particulier netwerk is een oplossing om via internet veilig toegang te hebben tot bronnen in uw privénetwerk. Bedrijven of gebruikers met de permanente behoefte om hun netwerkcapaciteit uit te breiden hebben zeer hoge kosten voor zulke fysieke netwerksystemen en technische ondersteuning. Vanuit het oogpunt van kostenefficiëntie en duurzaam onderhoud is VPN een slimme en almaar aantrekkelijkere oplossing. Met codering en andere beveiligingsmechanisme biedt VPN-technologie bedrijfsmedewerkers eenvoudig toegang tot het centrale bedrijfsnetwerk en bronnen, net zoals in een LAN-netwerk. Gebruikers hebben zo onderweg toegang tot de bronnen van hun privé-LAN-netwerk.</p>
+</div>
+
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li> Synology NAS kan alleen een verbinding maken met OpenVPN-servers die tun-style tunnels op Layer 3 ondersteunen.</li>
+<li>Om het VPN-pakket te installeren hebt u een VPN-server voor de verbinding nodig. Voor een betere compatibiliteit raden wij u aan om een verbinding te maken met VPN-services die op uw Synology NAS worden gehost en waarop het <strong>VPN Server</strong>-pakket draait. Om een andere Synology NAS als VPN-server in te stellen, volg de instructies onder <b>DSM Help</b> > <b>VPN Server</b> > <b>VPN Server instellen</b>.</li>
+</ul>
+</div>
+
+
+<h4>VPN-profielen maken:</h4>
+<ol>
+<li>Ga naar <b>Configuratiescherm</b> > <b>Netwerk</b>.</li>
+
+  <img src="about:blank" class="help_image"/>
+  
+<li>In het tabblad <b>Netwerkinterface</b> klik op <b>Maken</b> en selecteer <b>VPN-profiel maken</b>.</li>
+
+  <img src="about:blank" class="help_image"/>
+  
+<li>Tijdens het maken van een nieuw VPN-profiel hebt u de keuze uit een van de volgende verbindingstypes:
+	<ul>
+		<li><b>PPTP</b>: PPTP (Point-to-Point Tunneling Protocol) is een veelgebruikte VPN-oplossing die door de meeste clients wordt ondersteund (zoals Windows, Mac, Linux en mobiele toestellen).</li>
+		<li><b>OpenVPN</b>: OpenVPN is een open-sourceoplossing voor het implementeren van een VPN-service. Het beveiligt VPN-verbinding met het coderingsmechanisme SSL/TLS.</li>
+		<li><b>L2TP/IPSec</b>: L2TP (Layer 2 Tunneling Protocol) via IPSec biedt virtuele privénetwerken verbeterde beveiliging en wordt door de meeste clients ondersteund (zoals Windows, Mac, Linux en mobiele apparaten).</li>
+	</ul>
+</li>
+
+  <img src="about:blank" class="help_image"/>
+
+<li>Zie de onderstaande gedeeltes voor instructies over de instelling van de drie types VPN-verbindingen.</li>
+</ul>
+</ol>
+
+<h4>Een PPTP-profiel maken:</h4>
+
+  <ol>
+  <li>Wanneer u om een VPN-verbindingsmethode wordt gevraagd, kiest u <b>PPTP</b> en klikt u vervolgens op <b>Volgende</b>.</li>
+  <li>Kies een naam voor het nieuwe profiel, geef het adres van de VPN-server op waarmee u een verbinding wilt maken en voer uw gebruikersnaam en wachtwoord voor de server in. Klik op <b>Volgende</b> om door te gaan.</li>
+
+<div class="section">
+<h4>Opmerking:</h4>
+
+<ul>
+<li>gebruikersnaam, wachtwoord en adres van de VPN-server worden verstrekt door de administrator van de VPN-server.</li>
+</ul>
+</div>
+
+  <li>Kies een van de volgende verificatieprotocollen in het menu <b>Verificatie</b> om het VPN-clientwachtwoord tijdens verificatie te beveiligen:
+	<ul>
+		<li><b>PAP</b>: het wachtwoord wordt niet gecodeerd tijdens de verificatie.</li>
+		<li><b>CHAP</b>: het wachtwoord wordt met CHAP (Challenge-Handshake Authentication Protocol) gecodeerd.</li>
+		<li><b>MS CHAP</b>: het wachtwoord wordt met Microsoft Chap versie 1 gecodeerd.</li>
+		<li><b>MS CHAP v2</b>: het wachtwoord wordt met Microsoft Chap versie 2 gecodeerd.</li>
+	</ul>
+  </li>
+  <li>Als u <b>MS CHAP</b> of <b>MS CHAP v2</b> selecteert, kiest u een van de volgende mogelijkheden in het menu <b>Codering</b> om de VPN-verbinding te coderen:
+	<ul>
+		<li><b>Geen MPPE</b>: de VPN-verbinding wordt niet beveiligd met Microsoft Point-to-Point-versleuteling.</li>
+		<li><b>MPPE vereisen (40/128 bit)</b>: de VPN-verbinding wordt beveiligd met een 40-bit of 128-bit Microsoft Point-to-Point-versleuteling.</li>
+		<li><b>Maximum MPPE (128 bit)</b>: de VPN-verbinding wordt beveiligd met een 128-Microsoft Point to Point-codering. Dit is het hoogste beveiligingsniveau.</li>
+	</ul>
+  </li>
+    <div class="section">
+    <h4>Opmerking:</h4>
+  
+    <ul>
+    <li>de hier ingestelde verificatie- en coderingsinstellingen moeten identiek zijn aan de op de VPN-server gespecificeerde instellingen. Voor gedetailleerde informatie neemt u contact op met de administrator van de VPN-server.</li>
+    </ul>
+    </div>
+   
+<li>Schakel een van de volgende selectievakjes in:
+	<ul>
+		<li><b>De standaardgateway op het externe netwerk gebruiken</b>: schakel deze optie in om het Synology NAS-netwerkverkeer naar de gespecificeerde VPN-server te routeren.</li>
+		<li><b>Andere netwerkapparaten toestaan om een verbinding te maken via de internetverbinding van deze Synology server</b>: schakel deze optie in zodat netwerkapparaten in hetzelfde lokale netwerk als uw Synology NAS een verbinding kunnen maken met dezelfde VPN-server.</li>
+		<li><b>Een verbroken VPN-verbinding opnieuw tot stand brengen</b>: wordt de VPN-verbinding onverwacht verbroken, dan zal het systeem na telkens een interval van 30 seconden vijf keer de verbinding proberen te herstellen.</li>
+	</ul>
+</li>
+
+<li>Klik op <b>Toepassen</b>.</li>
+</ol>
+
+
+
+
+<h4>Een OpenVPN-profiel (via .ovpn) maken:</h4>
+<ol>
+<li>Wanneer u om een VPN-verbindingsmethode wordt gevraagd, kiest u <b>OpenVPN (via importeren van een .ovpn-bestand)</b> en klikt u vervolgens op <b>Volgende</b>.</li>
+<li>Kies een naam voor het nieuwe profiel in het veld <strong>.ovpn-bestand importeren</strong> en klik op <strong>Bladeren</strong> om een van de VPN-server geëxporteerde .ovpn-bestand te importeren.</li>
+<li>Voer de volgende door uw VPN-serveradministrator verstrekte informatie in: uw <strong>gebruikersnaam</strong>, <strong>wachtwoord</strong> en importeer het <b>CA-certificaat</b>bestand (bijv. ca.crt).</li>
+<li>Als de VPN-serverprovider u tevens een <b>TLS-verificatiesleutel</b>, <b>clientsleutel</b>, <b>clientcertificaat</b> of een <b>certificaatintrekkingslijst</b> bezorgde, klikt u op <strong>Geavanceerde opties</strong> en importeert u ze in hun respectievelijke velden.</li>
+<li>Klik op <b>Volgende</b> om door te gaan. </li>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>gebruikersnaam, wachtwoord, adres en bijkomende bestanden, zoals certificaten of sleutels, worden verstrekt door de administrator van de VPN-server.</li>
+</ul>
+</div>
+
+<li>Schakel een van de volgende selectievakjes in:</li>
+<ul>
+<li><b>De standaardgateway op het externe netwerk gebruiken</b>: schakel deze optie in om het Synology NAS-netwerkverkeer naar de gespecificeerde VPN-server te routeren.</li>
+<li><b>Andere netwerkapparaten toestaan om een verbinding te maken via de internetverbinding van deze Synology server</b>: schakel deze optie in zodat netwerkapparaten in hetzelfde lokale netwerk als uw Synology NAS een verbinding kunnen maken met dezelfde VPN-server.</li>
+<li><b>Een verbroken VPN-verbinding opnieuw tot stand brengen</b>: wordt de VPN-verbinding onverwacht verbroken, dan zal het systeem na telkens een interval van 30 seconden vijf keer de verbinding proberen te herstellen.</li>
+</ul>
+<li>Klik op <b>Toepassen</b>.</li>
+</ol>
+
+
+
+
+
+<h4>Een L2TP/IPSec-profiel maken:</h4>
+<ol>
+<li>Wanneer u om een VPN-verbindingsmethode wordt gevraagd, kiest u <b>L2TP/IPSec</b> en klikt u vervolgens op <b>Volgende</b>.</li>
+<li>Kies een naam voor het nieuwe profiel, geef het adres van de VPN-server op waarmee u een verbinding wilt maken en voer uw gebruikersnaam en wachtwoord voor de server in. U moet ook de vooraf-gedeelde sleutel voor de VPN-server invoeren. Klik vervolgens op <strong>Volgende</strong>.</li>
+
+<div class="section">
+<h4>Opmerking:</h4>
+
+<ul>
+<li>gebruikersnaam, wachtwoord, adres en vooraf-gedeelde sleutel van de VPN-server worden verstrekt door de administrator van de VPN-server.</li>
+</ul>
+</div>
+
+<li>Kies een van de volgende verificatieprotocollen in het menu <b>Verificatie</b> om het VPN-clientwachtwoord tijdens verificatie te beveiligen:
+	<ul>
+		<li><b>PAP</b>: het wachtwoord wordt niet gecodeerd.</li>
+		<li><b>CHAP</b>: het wachtwoord wordt met CHAP (Challenge-Handshake Authentication Protocol) gecodeerd.</li>
+		<li><b>MS CHAP</b>: het wachtwoord wordt met Microsoft Chap versie 1 gecodeerd.</li>
+		<li><b>MS CHAP v2</b>: het wachtwoord wordt met Microsoft Chap versie 2 gecodeerd.</li>
+	</ul>
+</li>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>de hier ingestelde verificatie- en coderingsinstellingen moeten identiek zijn aan de op de VPN-server gespecificeerde instellingen. Voor gedetailleerde informatie neemt u contact op met uw administrator van de VPN-server.</li>
+</ul>
+</div>
+
+<li>Schakel een van de volgende selectievakjes in:
+	<ul>
+		<li><b>De standaardgateway op het externe netwerk gebruiken</b>: schakel deze optie in om het Synology NAS-netwerkverkeer naar de gespecificeerde VPN-server te routeren.</li>
+		<li><b>Andere netwerkapparaten toestaan om een verbinding te maken via de internetverbinding van deze Synology server</b>: schakel deze optie in zodat netwerkapparaten in hetzelfde lokale netwerk als uw Synology NAS een verbinding kunnen maken met dezelfde VPN-server.</li>
+		<li><strong>Server is achter NAT-apparaat</strong>: standaard ondersteunt het L2TP/IPSec-protocol geen verbinding met een VPN-server achter een NAT-apparaat. Schakel deze optie in om deze beperking op te lossen zodat Synology NAS een verbinding kan maken met een L2TP/IPSec VPN-server achter een NAT-apparaat.</li>
+		<li><b>Een verbroken VPN-verbinding opnieuw tot stand brengen</b>: wordt de VPN-verbinding onverwacht verbroken, dan zal het systeem na telkens een interval van 30 seconden vijf keer de verbinding proberen te herstellen.</li>
+	</ul>
+</li>
+<li>
+  Klik op <b>Toepassen</b>.
+</li>
+</ol>
+
+
+<h4>Een verbinding met een VPN-server maken of verbreken:</h4>
+
+<ol>
+<li>Selecteer een VPN-profiel.</li>
+<li>Klik op <b>Verbinden</b> of <b>Verbinding verbreken</b>.</li>
+
+  <img src="about:blank" class="help_image"/>
+  
+</ol>
+
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>er kan slechts een profiel gelijktijdig verbonden zijn.</li>
+</ul>
+</div>
+
+<h4>Om een VPN-profiel te wijzigen:</h4>
+
+<ol>
+<li>Selecteer een VPN-profiel.</li>
+<li>Klik op <strong>Bewerken</strong>.</li>
+
+</ol>
+
+
+</body>
+</html>

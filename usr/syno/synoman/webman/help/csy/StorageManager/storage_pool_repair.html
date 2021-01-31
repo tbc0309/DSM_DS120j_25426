@@ -1,0 +1,101 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Oprava fondu &uacute;loži&scaron;tě &ndash; N&aacute;pověda Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to repair a storage pool on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Oprava fondu &uacute;loži&scaron;tě</h2>
+
+<p>K&nbsp;chyb&aacute;m ve fondu &uacute;loži&scaron;tě může doch&aacute;zet z&nbsp;různ&yacute;ch důvodů, např&iacute;klad kvůli zhroucen&yacute;m diskům. V&nbsp;určit&yacute;ch př&iacute;padech můžete pomoc&iacute; n&aacute;sleduj&iacute;c&iacute;ch pokynů chyby zjistit a opravit.</p>
+	
+<p>Funkce <strong>Opravit</strong> zm&iacute;něn&aacute; v&nbsp;tomto čl&aacute;nku je k&nbsp;dispozici pouze pro fondy &uacute;loži&scaron;tě s&nbsp;typy RAID, kter&eacute; podporuj&iacute; redundanci dat (tj. SHR skl&aacute;daj&iacute;c&iacute; se alespoň ze dvou disků, RAID 1, RAID 5, RAID 6, RAID F1 a RAID 10). Tato funkce dok&aacute;že opravit fond &uacute;loži&scaron;tě, ale nedok&aacute;že opravit vadn&eacute; disky.</p>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<ul>
+<li>Aby nedoch&aacute;zelo k&nbsp;ž&aacute;dn&yacute;m probl&eacute;mům, doporučujeme použ&iacute;vat disky uveden&eacute; v&nbsp;<a href="https://www.synology.com/compatibility" target=blank>seznamu kompatibiln&iacute;ch produktů Synology</a>. Použ&iacute;v&aacute;n&iacute; nekompatibiln&iacute;ch disků může ovlivnit v&yacute;kon syst&eacute;mu a dokonce způsobit ztr&aacute;tu dat.</li>
+<li>Funkce SHR (Synology Hybrid RAID) je k&nbsp;dispozici pouze u&nbsp;vybran&yacute;ch modelů. Dal&scaron;&iacute; informace o&nbsp;typu SHR se nach&aacute;zej&iacute; <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">pod t&iacute;mto odkazem</a>.</li>
+</ul>
+</div>
+	
+<h3>Oprava fondu &uacute;loži&scaron;tě s&nbsp;po&scaron;kozen&yacute;mi syst&eacute;mov&yacute;mi odd&iacute;ly</h3>
+
+<p>V&nbsp;př&iacute;padě selh&aacute;n&iacute; syst&eacute;mov&yacute;ch odd&iacute;lů se zobraz&iacute; zpr&aacute;va informuj&iacute;c&iacute; o&nbsp;tom, že do syst&eacute;mov&yacute;ch odd&iacute;lů nelze přistupovat. Pokuste se probl&eacute;m vyře&scaron;it podle n&aacute;sleduj&iacute;c&iacute;ch pokynů:</p>
+
+<ol>
+<li>Spusťte <strong>Spr&aacute;vce &uacute;loži&scaron;tě</strong>.</li><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/><li>Přejděte na str&aacute;nku <strong>Přehled</strong> a klikněte na odkaz <strong>Opravit</strong>. Syst&eacute;m by měl zah&aacute;jit opravu syst&eacute;mov&yacute;ch odd&iacute;lů.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/fail_system_partitions.png" class="help_image"/></ol>
+
+<h3>Oprava fondu &uacute;loži&scaron;tě v&nbsp;omezen&eacute;m režimu</h4>
+
+<p>Fond &uacute;loži&scaron;tě přejde do <strong>omezen&eacute;ho</strong> režimu, když nemůže přistupovat k&nbsp;datům na disku, ale zat&iacute;m nedo&scaron;lo ke ztr&aacute;tě dat. Tato situace může nastat pouze u&nbsp;fondů &uacute;loži&scaron;tě s&nbsp;typem RAID, kter&yacute; zaji&scaron;ťuje redundanci dat (tj. SHR skl&aacute;daj&iacute;c&iacute; se alespoň ze dvou disků, RAID 1, RAID 5, RAID 6, RAID F1 a RAID 10). Před zah&aacute;jen&iacute;m opravy fondu &uacute;loži&scaron;tě v&nbsp;omezen&eacute;m režimu nejprve nahraďte vadn&eacute; disky jin&yacute;mi disky, pot&eacute; vadn&eacute; disky odeberte nebo je jednodu&scaron;e vyměňte za jin&eacute; disky.</p>
+
+<h4>Požadavky na disky:</h4>
+<p>Vyměňte vadn&eacute; disky za jin&eacute; disky odpov&iacute;daj&iacute;c&iacute; n&aacute;sleduj&iacute;c&iacute;m krit&eacute;ri&iacute;m:</p>
+	
+<ul>
+<li><b>V&nbsp;př&iacute;padě fondů &uacute;loži&scaron;tě RAID 1, RAID 5, RAID 6, RAID F1 a RAID 10</b>: Velikost n&aacute;hradn&iacute;ho disku mus&iacute; b&yacute;t stejn&aacute; nebo vět&scaron;&iacute; než velikost nejmen&scaron;&iacute;ho disku ve fondu &uacute;loži&scaron;tě.</li>
+<li><b>V&nbsp;př&iacute;padě fondů &uacute;loži&scaron;tě SHR-1</b>: N&aacute;hradn&iacute; disk mus&iacute; splňovat jedno z&nbsp;n&aacute;sleduj&iacute;c&iacute;ch krit&eacute;ri&iacute;.<ul>
+<li>Velikost n&aacute;hradn&iacute;ho disku mus&iacute; b&yacute;t stejn&aacute; nebo vět&scaron;&iacute; než velikost vadn&eacute;ho disku.</li>
+<li>Po vyloučen&iacute; největ&scaron;&iacute;ho disku fondu &uacute;loži&scaron;tě mus&iacute; b&yacute;t velikost n&aacute;hradn&iacute;ho disku stejn&aacute; nebo vět&scaron;&iacute; než velikost největ&scaron;&iacute;ho zb&yacute;vaj&iacute;c&iacute;ho disku. <br><span class="note_head">Př&iacute;klady:</span><ul>
+<li>Př&iacute;klad 1: Pole SHR-1 se skl&aacute;d&aacute; z&nbsp;disků o&nbsp;velikosti 3&nbsp;TB, 2&nbsp;TB, 2&nbsp;TB a 1&nbsp;TB. Pokud dojde k&nbsp;z&aacute;vadě disku o&nbsp;velikosti 3&nbsp;TB, lze jej opravit diskem o&nbsp;velikosti 2&nbsp;TB nebo vět&scaron;&iacute;.</li>
+<li>Př&iacute;klad 2: Pole SHR-1 se skl&aacute;d&aacute; z&nbsp;disků o&nbsp;velikosti 4&nbsp;TB, 4&nbsp;TB, 2&nbsp;TB a 2&nbsp;TB. Pokud dojde k&nbsp;z&aacute;vadě disku o&nbsp;velikosti 4TB, lze jej opravit diskem o&nbsp;velikosti 4TB nebo vět&scaron;&iacute;.</li>
+<li>Př&iacute;klad 3: Pole SHR-1 se skl&aacute;d&aacute; z&nbsp;disků o&nbsp;velikosti 4&nbsp;TB, 4&nbsp;TB, 2&nbsp;TB a 2&nbsp;TB. Pokud dojde k&nbsp;z&aacute;vadě disku o&nbsp;velikosti 2TB, lze jej opravit diskem o&nbsp;velikosti 2&nbsp;TB nebo vět&scaron;&iacute;.</li>
+</ul>	
+</li>
+			
+</ul>
+</li>
+<li><b>V&nbsp;př&iacute;padě fondů &uacute;loži&scaron;tě SHR-2</b>: N&aacute;hradn&iacute; disk mus&iacute; splňovat jedno z&nbsp;n&aacute;sleduj&iacute;c&iacute;ch krit&eacute;ri&iacute;.<ul>
+<li>Velikost n&aacute;hradn&iacute;ho disku mus&iacute; b&yacute;t stejn&aacute; nebo vět&scaron;&iacute; než velikost vadn&eacute;ho disku.</li>
+<li>Po vyloučen&iacute; dvou největ&scaron;&iacute;ch disků fondu &uacute;loži&scaron;tě mus&iacute; b&yacute;t velikost n&aacute;hradn&iacute;ho disku stejn&aacute; nebo vět&scaron;&iacute; než největ&scaron;&iacute; zb&yacute;vaj&iacute;c&iacute; disk.</li>
+</ul>	
+</li>
+</ul>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<ul>
+<li>Pokud byly dostupn&eacute; disky přiřazeny jako disky Hot Spare k&nbsp;ochraně jednoho nebo v&iacute;ce fondů &uacute;loži&scaron;tě, provedou disky Hot Spare opravu fondů &uacute;loži&scaron;tě v&nbsp;omezen&eacute;m režimu automaticky. Dal&scaron;&iacute; informace se nach&aacute;zej&iacute; v&nbsp;č&aacute;sti <a href="hotspare.html" target="_blank">Hot Spare</a>.</li>
+</ul>
+</div>
+
+
+<h4>Oprava fondu &uacute;loži&scaron;tě v&nbsp;omezen&eacute;m režimu:</h4>
+
+<p>Fond &uacute;loži&scaron;tě v&nbsp;omezen&eacute;m režimu oprav&iacute;te pomoc&iacute; n&aacute;sleduj&iacute;c&iacute;ho postupu:</p>	
+<ol>
+<li>Přejděte do č&aacute;sti <strong>Spr&aacute;vce &uacute;loži&scaron;tě</strong> &gt; <strong>Fond &uacute;loži&scaron;tě</strong> a vyhledejte fond &uacute;loži&scaron;tě ve stavu <strong>Omezen&yacute; režim</strong>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/volume_degraded.png" class="help_image"/><li>Prohl&eacute;dněte si informace o&nbsp;fondu &uacute;loži&scaron;tě a zkontrolujte stav disku.</li>
+<li>Pot&eacute; přejděte na str&aacute;nku <strong>HDD/SSD</strong> a ověřte, kter&yacute; disk je vadn&yacute;.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/hdd_ssd.png" class="help_image"/><li>Odeberte po&scaron;kozen&yacute; disk ze zař&iacute;zen&iacute; Synology NAS a nahraďte jej nov&yacute;m. Pokud va&scaron;e zař&iacute;zen&iacute; Synology NAS nepodporuje v&yacute;měnu za chodu, tak ho před odebr&aacute;n&iacute;m a&nbsp;instalac&iacute; disků vypněte.<br><span class="note_head">Pozn&aacute;mka:</span> V&scaron;echna st&aacute;vaj&iacute;c&iacute; data na n&aacute;hradn&iacute;m disku budou vymaz&aacute;na.</li>
+<li>Po instalaci n&aacute;hradn&iacute;ho disku se vraťte na str&aacute;nku <strong>Fond &uacute;loži&scaron;tě</strong> a vyberte fond &uacute;loži&scaron;tě v&nbsp;omezen&eacute;m režimu.</li>
+<li>V&nbsp;rozev&iacute;rac&iacute; nab&iacute;dce <b>Akce</b> vyberte možnost <b>Opravit</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/manage_repair.png" class="help_image"/><li>Vyberte n&aacute;hradn&iacute; disk, kter&yacute; chcete do fondu &uacute;loži&scaron;tě přidat a podle pokynů průvodce postup dokončete.</li>
+</ol>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<ul>
+<li>Pokud oprava fondu &uacute;loži&scaron;tě trv&aacute; dlouho, může to b&yacute;t způsobeno př&iacute;činami uveden&yacute;mi pod <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Why_does_it_take_a_long_time_to_repair_a_storage_pool" target="_blank">t&iacute;mto odkazem</a>.</li>
+</ul>
+</div>
+
+
+<h3>Ře&scaron;en&iacute; probl&eacute;mů se zhroucen&yacute;mi fondy &uacute;loži&scaron;tě</h3>
+
+<p>Pokud fond &uacute;loži&scaron;tě přejde do stavu <strong>Zhroucen&yacute;</strong>, nemůžete ho již sami opravit. Dal&scaron;&iacute; informace o&nbsp;čast&yacute;ch důvodech zhroucen&iacute; svazku a postupech ře&scaron;en&iacute; probl&eacute;mů jsou uvedeny v&nbsp;n&aacute;sleduj&iacute;c&iacute;ch čl&aacute;nc&iacute;ch:<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_are_the_reasons_of_volume_crash" target="_blank">Co způsobuje zhroucen&iacute; svazku?</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_do_I_do_when_a_volume_crashes" target="_blank">Co m&aacute;m dělat v&nbsp;př&iacute;padě zhroucen&iacute; svazku?</a></li>
+	</ul>
+</p>
+
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>ユーザーの作成 - Synology DSM ヘルプ</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article shows you how to create users in DSM.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="leaf_user"></a>ユーザーの作成</h2>
+<p>Synology NAS で複数のユーザー アカウントを作成、管理できます。</p>
+
+
+<h4>ユーザーを作成する：</h4>
+<ol>
+<li><strong>[コントロール パネル]</strong> > <strong>[ユーザー]</strong> の順に選択します。</li>
+<img src="about:blank" class="help_image"/>
+<li><b>[作成]</b> ボタンをクリックした後で、[ユーザーの作成] をクリックします。 これを実行すると、<b>ユーザー作成ウィザード</b>が起動します。</li>
+<img src="about:blank" class="help_image"/>
+<li><strong>[ユーザー情報]</strong> ページで次のオプションを指定してください。
+<ul>
+<li><strong>名前：</strong>ユーザーの名前を入力します。 これは必須項目です。</li>
+<li><strong>説明：</strong>ユーザーに関する簡単な説明を入力します。</li>
+<li><strong>電子メール：</strong>ユーザーの Ｅ メール アドレスを入力します。 パスワード リセット メッセージなどのシステム通知は、ここで指定したアドレスに送信されます。</li>
+<li><strong>新規ユーザーに通知メールを送る：</strong>このオプションを有効にすると、システムがユーザーに対して新しいアカウントについて知らせるためにメッセージを送信します。 このオプションを有効にするには、<b>[メイン メニュー]</b> > <b>[コントロール パネル]</b> > <b>[通知]</b> &gt; <strong>[電子メール]</strong> を選択して、システムの電子メール通知を有効にする必要があります。 デフォルトにより、通知メッセージにはユーザーのパスワードは表示されません。 通知メッセージにパスワードも記載して欲しい場合は、<strong>[通知メールにユーザー パスワードを表示する]</strong> にチェックマークを付けます。</li>
+<li><strong>アカウントパスワードの変更をユーザーに許可しない：</strong>このオプションを有効にすると、ユーザーは DSM にログインするためのパスワードを変更することができなくなります。</li></ul>
+</li>
+<li><strong>[グループ]</strong> > <strong>[作成]</strong> > <strong>[グループ作成ウィザード]</strong> ページでは、新しいユーザーが属するグループを指定します（例：users、administrators、その他）。 </li>
+<li><strong>[共有フォルダに権限を割り当てる]</strong> ページで、新しいユーザーのアクセス権を変更することによって、このユーザーがアクセスできる共有フォルダを選択します。 権限の優先順位は、 <strong>アクセスなし</strong> > <strong>読み取り/書き込み</strong> > <strong>読み取り専用</strong>です。
+  
+  <ul>
+    <li><strong>プレビュー：</strong>現在の設定とユーザーが属するグループの属性に基づいて、ユーザーの実際の共有フォルダに対するアクセス権が表示されます。</li>
+  <li><strong>グループ権限：</strong>ユーザーが属するグループの属性に基づいて、共有フォルダに対するアクセス権が表示されます。</li></ul>
+  <a name="userquota"></a>
+  <li><strong>[ユーザーデータ容量の割り当て設定]</strong> ページで、新しいユーザーが使用できるストレージ スペースをコントロールできます。 ユーザーが使用できる容量を制限するには、各ボリューム/共有フォルダ について <strong>[容量割り当てを有効にする]</strong>の下のボックスにチェックマークを付けます。 次に、<strong>[割り当て容量]</strong> 欄に使用できる最大量を入力します（例：10 GB）。
+  
+  <div class="section"><h4>注意：</h4>
+<ul>
+	<li>各共有フォルダへの割り当てを有効にするオプションは、VDSM および以下のパッケージ アーキテクチャのあるモデルのみでサポートされます。 Apollo Lake、Avoton、Braswell、Broadwell、Bromolow、Cedarview、および Grantley。 お使いのモデルがどのパッケージ アーキテクチャをサポートするかについては、<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">この記事</a>をご覧ください。</li>
+	<li>ユーザーを作成するオプションは EDS14 には適用されません。</li>
+	<li>DDSM はユーザーの割り当て設定をサポートしません。</li>
+</ul>
+</div>
+
+  
+  </li>
+<li><strong>[アプリケーション権限の割り当て]</strong> ページで、ユーザーがアクセスできるサービスをコントロールできます。</li>
+<li><strong>[グループの速度制限設定]</strong> ページでは、各サービス毎に速度制限を有効にして（例：File Station、FTP、その他）、ユーザーがファイルを転送する時に使用する帯域量を制限することができます。 それぞれのサービスに対して、次のいずれかのオプションを選択できます。
+  <ul>
+  <li><strong>なし：</strong> ユーザーが属するグループと同じ速度制限の設定が適用されます。</li>
+  <li><strong>固定：</strong>常に一定の速度制限が適用されます。 左側の欄にアップロードとダウンロードの速度制限を設定します。</li>
+  <li><strong>可変：</strong>スケジュールに基づいて、ユーザーに 2 つの速度制限を指定して適用することができます。 速度制限の設定やスケジュールを変更するには、<strong>[カスタマイズ]</strong> ボタンをクリックします。</li></ul>
+<li>設定を確定したら、<b>[適用]</b> をクリックして完了してください。</li>
+</ol>
+
+<h4>ユーザー名の制限：</h4>
+
+<ul>
+<li>ユーザー名は大文字と小文字を区別しません。また、以下の記号を除き、1～64 のユニコード文字で構成できます：<br> ! " # $ % & ' ( ) * + , / : ; < = > ? @ [ ] \ ^ ` { } | ~</li>
+<li>最初の文字にマイナス記号またはスペースは使用できません。また、最後の文字にスペースは使用できません。</li>
+<li>次のユーザー名は、システム用に予約されています： mailer-daemon、postmaster。</li>
+<li>ユーザーの説明は、最大 64 文字のユニコードが表示可能です。</li>
+</ul>
+<h4>パスワード情報：</h4>
+<ul>
+<li>パスワードは大文字と小文字が区別され、文字、数字、記号、スペースを含め最高 127 文字まで使用できます。</li>
+</ul>
+<h4>割り当て制限：</h4>
+<ul>
+<li>各ユーザーに割り当てられる最大量は、約 4 TB (4095 GB) です。</li>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>この機能は EDS14 や DDSM でサポートされていません。</li>
+</ul>
+</div>
+</ul>
+
+</body>
+</html>

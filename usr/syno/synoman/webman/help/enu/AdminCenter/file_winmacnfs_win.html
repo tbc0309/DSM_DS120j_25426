@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Win/Mac/NFS</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+
+<body>
+
+<h2>SMB</h2>
+<p>The SMB (Server Message Block) protocol allows Windows, Mac, and Linux clients with SMB/CIFS support to access data stored on the Synology NAS. If you would like to browse files on the Synology NAS via Windows Explorer or mount shared folders as network drives, please enable this option at <strong>Control Panel</strong> > <strong>File Services</strong> > <strong>SMB/AFP/NFS</strong>.</p>
+
+<h4>To enable SMB protocol:</h4>
+  <ol>
+    <li>Tick <strong>Enable SMB service</strong>.</li>
+    <li>Click <strong>Apply</strong>.</li>
+  </ol>
+
+<div class="section"><h4>Note:</h4>
+  <ul>
+    <li>After enabling the SMB protocol, you can mount fully indexed folders to your Mac computer via SMB, and use Finder to search for the files contents within the mounted folders (not applicable to NVR216 or VS360HD).</li>
+  </ul>
+</div>
+
+
+<h3>Workgroup</h3>
+<p>This option allows you to designate the system as a member of a specific workgroup for network management purposes.</p>
+
+<div class="section"><h4>Note:</h4>
+  <ul>
+    <li>The name of a workgroup can include 1 to 15 characters. The name cannot include the following characters: [ ] ; : &quot; < > * + = \ / | ? ,</li>
+    <li>If you are using a Mac running OS X 10.9 and your Synology NAS has joined a Windows domain, you can log in by adding <strong>localhost\</strong> before your Synology NAS local username to access files stored on the Synology NAS via the SMB protocol.</li>
+  </ul>
+</div>
+
+
+<h3>Disallow access to Previous Versions</h3>
+<p>In Windows Explorer, users can access the snapshots of folders or files by clicking the <strong>Previous Versions</strong> tab within a shared folder, allowing restoring or copying data without the help from an administrator. If you choose to <strong>Disallow access to Previous Versions</strong>, the “Previous Versions” Page will not display any information.</p>
+
+<div class="section"><h4>Note：</h4>
+  <ul>
+    <li>This feature is supported only by VDSM and models with the following package architectures: Apollo Lake, Avoton, Braswell, Broadwell, Bromolow, Cedarview, and Grantley. To see which package architecture your model supports, please refer to <a href="https://www.synology.com/en-us/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">this article</a>.</li>
+    <li>Users are allowed to access a previous version only if, at the time when the snapshot corresponded to by the previous version is taken, their user accounts have been created and they have been granted the permission to read the shared folder of which the corresponded snapshot is taken.</li>
+  </ul>
+</div>
+
+
+<h3>Enable Transfer Logging </h3>
+<p>Tick the <strong>Enable Transfer Log</strong> checkbox to enable the logging of file operations performed over the CIFS/SMB protocol. By default, the Transfer Log will only monitor the deleting of a file or folder; however, you can also go to <strong>Log Settings</strong> to select other file operation events⁠—creating, moving, renaming, reading, writing⁠—for the system to log. Please note the more file operation events you select, the more likely it is for the system performance to be affected.</p>
+
+
+<h3>Advanced Settings</h3>
+<p>Click the <strong>Advanced Settings</strong> button to see the below options.</p>
+  <ul>
+    <li><strong>WINS Server</strong>: Microsoft Windows Internet Name Service (WINS) is a NetBIOS name-to-IP-address mapping service. Window users will locate the system more easily on TCP/IP networks if the system has been configured to register with a WINS server.</li>
+    <li><strong>Maximum SMB protocol</strong>: Depending on your network configuration,  set the latest SMB protocol that will be supported by your Synology NAS.
+      <ul>
+        <li><strong>SMB1</strong>: SMB1 (also called CIFS) has been supported since Windows NT.</li>
+        <li><strong>SMB2</strong>: SMB2 has been supported since Windows Vista and is the enhanced version of SMB. SMB2 adds the ability to compound multiple SMB actions into a single request to reduce the number of network packets and enhance performance.</li>
+        <li><strong>SMB2 and Large MTU</strong>: Maximum transmission unit (MTU) refers to the largest data unit that can be passed over a communications protocol. In order to take advantage of faster network interfaces, such as 1- or 10-gigabit Ethernet, Large MTU increases the maximum transmission unit to 1 megabyte (MB). Enabling Large MTU improves the speed and efficiency of large file transfers, while reducing the number of packets that need to be processed.</li>
+        <li><strong>SMB3</strong>: SMB3 has been supported since Windows 8 and Windows Server 2012. It is the enhanced version of SMB2. SMB3 supports AES-based file encryption transmission, thus improving the security of peer-to-peer file transfers.</li>
+      </ul>
+
+      <div class="section"><h4>Note:</h4>
+        <ul>
+          <li>SMB2 is supported on Windows Vista, Windows Server 2008 R2, Windows 7, and later.</li>
+          <li>Large MTU is supported on Windows Server 2008 R2, Windows 7, and later.</li>
+          <li>In order to make large MTU effective with your Windows computer, you will need to modify your computer's registry settings. For more details, please refer to Microsoft technical support (such as this <a href="http://technet.microsoft.com/en-us/library/ff625695(v=ws.10).aspx" target="_blank">article</a>).</li>
+        </ul>
+      </div>
+
+      <li><strong>Minimum SMB protocol</strong>: Depending on your network configuration, set the earliest SMB protocol that will be supported by your Synology NAS.</li>
+      <li><strong>Transport encryption mode</strong>: When SMB3 is enabled, the SMB protocol will add transport encryption to strengthen file transmission security.
+        <ul>
+          <li><strong>Disable</strong>: No transport encryption will be applied.</li>
+          <li><strong>Auto</strong>: Transport encryption will only be applied to clients supporting this feature.</li>
+          <li><strong>Force</strong>: Transport encryption will always be applied. This will cause clients that do not support transport encryption to be unable to use the SMB protocol.</li>
+        </ul>
+      </li>
+
+      <div class="section"><h4>Note:</h4>
+        <ul>
+          <li>Transport encryption is supported on Windows 8,  Windows Server 2012, and later.</li>
+          <li>Anonymous logon for the SMB protocol is not supported when transport encryption is enabled.</li>
+          <li>When transport encryption is enabled, please keep <strong>Enable Opportunistic Locking</strong> checked to avoid application timeouts.</li>
+        </ul>
+      </div>
+
+      <li><strong>Enable Opportunistic Locking</strong>: Select to enable &quot;Opportunistic Locking&quot; of CIFS, so that the client can better cache file contents and avoid small read/write overhead. When this option is deselected, database applications will perform better in accessing database files stored on the Synology NAS via network.
+        <ul>
+          <li><strong>Enable SMB2 lease</strong>: Enabling this option allows more SMB2-related settings to fine-tune the client caching mechanism provided by Opportunistic Locking.</li>
+        </ul>
+      </li>
+      <li><strong>Enable Local Master Browser</strong>: When multiple Windows computers exist within the same subnet, they will negotiate and elect one computer as a &quot;local master browser.&quot; The local master browser maintains lists of the other computers within the subnet and their shared resources, and shares these lists with the other computers. This option allows the Synology NAS to assume the role of local master browser.</li>
+
+      <div class="section"><h4>Note:</h4>
+        <ul>
+          <li>Enabling this function disables hard disk hibernation and activates the guest account without a password.</li>
+        </ul>
+      </div>
+
+      <li><strong>Enable DirSort VFS module</strong>: Sorts folder names and lists them alphabetically. Enabling this option affects system performance.</li>
+      <li><strong>Veto files</strong>: Hides files according to specified criteria. Criteria can include wildcards (*), and multiple entries should be separated by a slash (/). For example: <i>/abc*/*.txt/*.conf/</i>. Enabling this option affects system performance.</li>
+      <li><strong>Allow symbolic links within shared folders</strong>: Select to allow symbolic links to point to files or folders within the same shared folder. Symbolic links can be created using DSM terminal.
+        <ul>
+          <li><strong>Allow symbolic links across shared folders</strong>: Select to allow symbolic links to point to files or folders in different shared folders. Symbolic links can be created using DSM terminal. However, unprivileged users may be able to access the target shared folders of symbolic links.</li>
+        </ul>
+      </li>
+      <li><strong>Enable VFS module to convert Mac special characters</strong>: Select to convert SMB-reserved characters (e.g. &lt;   &gt;  &quot; * ?) in filenames  to Basic Latin during file creation. Such files will be recognizable via AFP.</li>
+      <li><strong>Enable MSDFS VFS module</strong>: Allows symbolic links to point to files or folders located on other SMB servers. With older versions of Windows, such as Windows XP, the client and Synology NAS need to join a Windows domain before enabling this option. To learn more about creating MSDFS links, please see <a href="http://www.samba.org/samba/docs/man/Samba-HOWTO-Collection/msdfs.html" target=_blank>here</a>. Please note that the cache of the client device should be cleared after disabling this option (restarting the client device is also recommended), otherwise normal performance and behavior might be affected.</li>
+      <li><strong>Disable multiple connections from the same IP address</strong>: When this option is enabled, the Synology NAS only allows one connection per IP address from clients using the SMB protocol. When multiple clients with same IP address use the SMB protocol, the Synology NAS will keep the latest one and drop any older connections. In a NAT environment, the client might be using a single IP address, in which case enabling this option might affect the normal performance.</li>
+      <li><strong>Collect debug logs</strong>: When this option is enabled,  detailed logs will be stored for debugging purposes. Enabling this option affects system performance.</li>
+      <li><strong>Apply default UNIX permissions</strong>: Enable this option to apply the default UNIX permissions when uploading or creating files and folders. The UNIX permission will be 744 for files and 755 for folders. When this option is disabled, UNIX permission is 777 for files and folders.</li>
+
+      <div class="section"><h4>Note:</h4>
+        <ul>
+          <li>For Windows ACL enabled shared folders (all shares excluding &quot;photo&quot; and shares on external drives), please run the <strong>chmod</strong> command on your Linux or FTP client to change folder and file permission types from Windows ACL to UNIX (not applicable to EDS14).</li>
+          <li>Enabling this option might cause inconsistent permission issues between different protocols. To avoid inconsistencies, we suggest leaving this option disabled.</li>
+        </ul>
+      </div>
+
+      <li><strong>Do not reserve disk space when creating files</strong>: Enable this option to disallow disk space from being reserved when creating files on your Synology NAS.</li>
+      <li><strong>Enable wildcard search cache</strong>: Enable this option to improve search performance if clients send repeated wildcard search requests.</li>
+      <li><strong>Enable SMB durable handles (Cross-protocol file locking will be disabled)</strong>: Enabling this option allows users to restore lost SMB2 connection to this Synology NAS after temporary disconnection; opened files will remain available during network outage. Yet, cross-protocol file locking will be disabled so that users can access or modify a locked file via non-SMB2 protocols (e.g. AFP).</li>
+      <li><strong>Clear SMB cache</strong>: Click this button to delete the following SMB cache files for troubleshooting purposes:
+        <ul>
+          <li>/var/cache/samba/netsamlogon_cache.tdb</li>
+          <li>/var/lib/samba/winbindd_cache.tdb</li>
+          <li>/var/lib/samba/share_info.tdb</li>
+          <li>/var/lib/samba/registry.tdb</li>
+          <li>/run/samba/connections.tdb</li>
+          <li>/run/samba/gencacche.tdb</li>
+          <li>/run/samba/gencache_notran.tdb</li>
+        </ul>
+      </li>
+    </ul>
+
+</body>
+</html>

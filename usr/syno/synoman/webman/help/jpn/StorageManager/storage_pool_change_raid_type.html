@@ -1,0 +1,143 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>ストレージ プールの RAID タイプの変更 - Synology DSM ヘルプ</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing storage pools on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+	
+</head>
+<body>
+<h2>ストレージ プールの RAID タイプの変更</h2>
+
+<p>ストレージ プールは、既存のデータを消失することなく、1つの RAID タイプから別のタイプに変更することができます。例えば、Synology NAS に RAID 1 ストレージ プールを作成し、後からドライブを追加して RAID 5 タイプに変更するといったことが可能です。ここでは、Synology NAS 上にある既存のストレージ プールの RAID タイプを変更する方法を説明します。ストレージ プールの RAID タイプを変更する前に、関連する要件と制限の詳細について、以下の「<b>ドライブ要件</b>」と「<b>RAID タイプの要件と制限</b>」を参照してください。
+
+<h3>ドライブの要件</h3>
+
+<p>ストレージ プールの RAID タイプを変更するためには、Synology NAS に十分な数のドライブが必要です。RAID タイプ毎に必要となる最小ドライブ数については、次の表を参照してください。</p>
+
+<table>
+  <tr>
+    <th width="50%">RAID タイプ</th>
+    <th width="50%">必要ドライブの最小数</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 または 5 （SHR-1 のドライブ構成による）</td>
+  </tr>
+
+</table>
+
+</p>
+<h3>RAID タイプの要件と制限</h3>
+
+<p>特定の RAID タイプのみが他の RAID タイプに変更できます。たとえば、RAID 1 を RAID 5 に変更することは可能ですが、RAID 5 を RAID 1 に変更することはできません。詳しくは、下の表をご参照ください。</p>
+
+<table>
+  <tr>
+    <th width="30%">現在の RAID タイプ</th>
+    <th width="30%">可能な変換ターゲット タイプ</th>
+    <th width="40%">必要ドライブの追加数</th>
+  </tr>
+  <tr>
+    <td>基本</td>
+    <td>RAID 1</td>
+    <td>1</td>
+  </tr>
+ <tr>
+    <td>基本</td>
+    <td>RAID 5</td>
+	  <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+	  <td>1</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+	  <td>1</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+	  <td>1 または 2 （SHR のドライブ構成による）</td>
+  </tr>
+
+</table>
+
+<div class="section"><h4>注：</h4>
+<ul>
+<li>SHR (Synology Hybrid RAID) の詳細情報は<a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_is_Synology_Hybrid_RAID_SHR" target="_blank">ここ</a>を参照してください。</li>
+<li>ストレージ プール用の RAID タイプの選択に関する詳細情報は<a href="storage_pool_what_is_raid.html">ここ</a>を参照してください。</li>
+<li>スペースの使用量の見積もりに関しては、<a href="https://www.synology.com/support/RAID_calculator" target="_blank">Synology RAID 計算機</a>を参照してください。</li>
+<li>以下のドライブ構成の SHR-1 ストレージ プールは、SHR-2 に変更する際に、さらに 2 つのドライブが必要となることがあります。
+<ul>
+<li>ストレージ プールには 2 つのドライブのみで構成されます。</li>
+<li>全てのドライブには、異なる容量があります。</li>
+<li>3 台以上のドライブで構成される RAID アレイでは、2 つの最大ドライブの容量が他のドライブよりも大きくなります。</li>
+</ul>
+</li>
+<li>RAID 5 ストレージプールから RAID 6 ストレージプールへの変更はサポートされていないモデルがあります。</li>
+</ul>
+</div>
+
+<h3>RAID タイプの変更</h3>
+
+<h4>はじめる前に：</h4>
+<p>RAID タイプを変更する前に、以下の事項にご注意ください：</p>
+<ul>
+<li>ストレージ プールの状態が <b>[正常]</b> であることを確認してください。</li>
+<li>新しいドライブをストレージ プールに追加する場合、新しいドライブはストレージ プールの最小ドライブよりも大きく、すべてのドライブのタイプが同じでなければなりません。</li>
+<li>RAID Group の RAID アレイの RAID タイプは変更できません。RAID Group 機能は特定モデルでしかご使用いただけません。<br><span class="note_head">注：</span><a href="https://www.synology.com/products" target="_blank">この Web ページ</a>に移動し、Synology NAS の右上のチェックボックスと他のモデルのチェックボックスにチェックを付けてから、右下隅の [<b>比較</b>] ボタンをクリックしてください。モデルが RAID Group をサポートしているかどうかは、[<b>比較結果</b>] Web ページに表示されます。</li>
+</ul>
+
+<div class="section">
+<h4>注：</h4>
+
+<ul>
+<li>当社は、<a href="https://www.synology.com/compatibility" target=blank>Synology 製品互換性リスト</a>のドライブを使用して問題を防止することを推奨しています。互換性のないドライブを使用すると、システムのパフォーマンスに影響を及ぼしたり、データの損失が生じたりすることがあります。</li>
+</ul>
+</div>
+<h4>ストレージ プールのRAIDタイプを変更する方法：</h4>
+
+<ol>
+<li><strong>[ストレージ マネージャ]</strong> を起動します。</li>
+<img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/>
+<li><b>[ストレージ プール]</b> に進みます。</li>
+<li>そのRAIDタイプを変更しようとするストレージプールを選択し、[<b>操作</b>] ドロップダウンメニューから [<b>RAIDタイプの変更</b>] をクリックします。</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/change_raid_type.png" class="help_image"/>
+
+<li>変更先のRAIDタイプを選択します。[<b>次へ</b>] をクリックします。</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_raid.png" class="help_image"/>
+
+<li>既存のストレージ プールに追加するドライブを選択します。[<b>次へ</b>] をクリックします。<br><span class="note_head">注：</span>新しく追加したドライブ上のデータ全てが消去されます。必ず事前にデータをバックアップしてください。</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_disks.png" class="help_image"/>
+
+
+<li>ウィザードに従って終了してください。</li></ol>
+
+</body>
+</html>

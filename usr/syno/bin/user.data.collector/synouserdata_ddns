@@ -1,0 +1,26 @@
+#!/bin/sh
+
+DDNS_CONF="/etc/ddns.conf"
+DDNS_PROVIDER_INUSED=`/usr/syno/sbin/synoddnsinfo --get-provider-inused`
+DDNS_CUSTOMIZED_QUERY_URL=`/usr/syno/sbin/synoddnsinfo --get-customized-query-url`
+
+/usr/syno/sbin/synoservice --is-enabled ddns 2>&1 > /dev/null
+if [ $? -eq 1 ]; then
+    DDNS_ENABLE="yes"
+else
+    DDNS_ENABLE="no"
+fi
+
+echo -n "{"
+
+echo -n \"ddns_enable\":\"$DDNS_ENABLE\",
+echo -n \"ddns_provider\":[$DDNS_PROVIDER_INUSED],
+echo -n \"ddns_customized_provider\":[$DDNS_CUSTOMIZED_QUERY_URL],
+
+# let version be the last one msg
+echo -n \"collector_version\":2
+
+echo "}"
+
+
+

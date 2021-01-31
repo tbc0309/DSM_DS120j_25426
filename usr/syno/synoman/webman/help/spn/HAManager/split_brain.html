@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Split brain</h2>
+
+<p>Cuando un clúster high-availability funciona normalmente, solo uno de los servidores debería asumir el papel de servidor activo. En este caso, el servidor pasivo detecta la presencia del servidor activo a través de la conexión Heartbeat y de la conexión de datos.</p>
+
+<p>Si se pierden todos los datos de Heartbeat, ambos servidores intentarán asumir el papel de servidor activo. Esta situación se denomina error de "split brain" (cerebro dividido). En este caso, las conexiones a las direcciones IP del clúster high-availability se redirigirán a cualquiera de los dos servidores y los datos incoherentes se actualizarán o escribirán en los dos servidores.</p>
+        
+<p>Cuando se vuelva a establecer cualquiera de las conexiones de datos o Heartbeat, el sistema detectará el error de split brain y la incoherencia de datos entre los dos servidores y entrará en el modo seguro de high-availability.</p> 
+
+       
+<h4>En caso de que se produzca un error de "split brain":</h4>
+	<ol>
+    <li>Los servicios en los dos servidores y las direcciones IP del clúster high-availability no estarán disponibles hasta que se solucione el error de split brain.</li>
+	<li>Cuando los dos servidores entren en el modo seguro de high-availability, aparecerá una nueva pestaña llamada <strong>Split brain</strong> en el panel de la izquierda con la siguiente información: la diferencia entre los archivos de las carpetas compartidas en los dos servidores, la hora en la que los servidores se han convertido en servidores activos, así como la información más reciente de la conexión a los iSCSI Target. El resto de pestañas serán de solo lectura.</li>
+<li>En modo de seguridad high-availability, File Station estará en modo de solo lectura y podrá descargar o ver los archivos.</li>
+       <li>En la pestaña <b>Información general</b>, solo tendrá permiso para resolver errores de "split brain" o apagar el servidor de acceso actual. Para resolver errores de "split brain", realice una de las siguientes acciones:<ul>
+       <li>Elija un servidor como el servidor activo del clúster high-availability y el otro como el servidor pasivo. Una vez reiniciados ambos servidores, todos los datos y ajustes distintos del servidor activo se sincronizarán en el servidor pasivo. Tenga en cuenta que los datos que se actualicen en el servidor pasivo durante el error de split brain se perderán.</li>
+       <li>Elija un servidor como el servidor activo del clúster high-availability y desvincule el otro. Una vez reiniciados ambos servidores, el servidor activo permanecerá en el clúster high-availability y el servidor desvinculado almacenará sus datos y volverá al estado <b>Independiente</b>. Tenga en cuenta que se requerirá una replicación completa para vincular un nuevo servidor pasivo en el futuro.</li>
+       <li>Desvincule ambos servidores, almacene sus datos y permita que vuelvan al estado <b>Independiente</b>.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Notas:</h4>
+    <ul>
+    <li>Cuantos más archivos haya en las carpetas compartidas, más tiempo se tardará en mostrar las diferencias.</li>
+    <li>Antes de elegir qué servidor será el servidor activo/pasivo, asegúrese de que ambos servidores están encendidos.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

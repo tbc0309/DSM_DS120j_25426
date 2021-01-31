@@ -1,0 +1,133 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+<title>Scrubbing dat</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Data scrubbing is a data maintenance feature that inspects volumes or disk groups and repairs any detected data inconsistencies.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Scrubbing dat</h2>
+
+<h3>Proveden&iacute; scrubbingu dat</h3>
+<p>Scrubbing dat je funkce &uacute;držby dat, kter&aacute; kontroluje fondy &uacute;loži&scaron;tě. Postupně se provedou n&aacute;sleduj&iacute;c&iacute; dva typy scrubbingu dat:</p>
+
+<ul>
+<li><strong>Scrubbing souborov&eacute;ho syst&eacute;mu</strong>: Tato funkce zkontroluje svazky v&nbsp;syst&eacute;mu souborů Btrfs. V&nbsp;př&iacute;padě zji&scaron;těn&iacute; nekonzistence dat s&nbsp;kontroln&iacute;m součtem se syst&eacute;m pokus&iacute; pomoc&iacute; z&aacute;lohy data opravit a cesta k&nbsp;souboru se zaznamen&aacute; do centra protokolů.</li>
+<li><strong>Scrubbing pole RAID</strong>: Tuto funkci je možn&eacute; použ&iacute;t u&nbsp;fondů &uacute;loži&scaron;tě s&nbsp;implementac&iacute; svazku SHR (skl&aacute;daj&iacute;c&iacute;ho se ze tř&iacute; nebo v&iacute;ce disků), RAID 5 nebo RAID 6. Dok&aacute;že opravit v&scaron;echny zji&scaron;těn&eacute; nekonzistence dat.</li>
+</ul>
+
+<p>Scrubbing dat doporučujeme prov&aacute;dět pravidelně, aby se zajistila konzistence dat a v&nbsp;př&iacute;padě z&aacute;vady disku nedoch&aacute;zelo ke ztr&aacute;t&aacute;m dat.</p>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+	<ul>
+	<li>Scrubbing dat a souvisej&iacute;c&iacute; funkce popisovan&eacute; v&nbsp;tomto čl&aacute;nku jsou k&nbsp;dispozici jen u&nbsp;někter&yacute;ch modelů.</li>
+	<li>Scrubbing dat nelze prov&eacute;st tehdy, když je stav fondu &uacute;loži&scaron;tě <strong>zhroucen&yacute;</strong> nebo <b>v&nbsp;omezen&eacute;m režimu</b>.</li>
+	<li>Pokud nen&iacute; pro sd&iacute;lenou složku povolen&aacute; možnost <b>kontroln&iacute; součet dat kvůli pokročil&eacute; ochraně integrity</b>, nemůže scrubbing souborov&eacute;ho syst&eacute;mu zkontrolovat a opravit data ve složce, protože kontroln&iacute; součty neexistuj&iacute;.</li>
+	</ul>
+</div>
+
+<h3>Nastaven&iacute; pl&aacute;nu scrubbingu dat</h3>
+<p>Můžete nastavit pl&aacute;n scrubbingu dat. Syst&eacute;m spust&iacute; scrubbing dat podle va&scaron;ich nastaven&iacute;.</p>
+<h4>Nastaven&iacute; pl&aacute;nu scrubbingu dat:</h4>
+<ol>
+<li>Spusťte <strong>Spr&aacute;vce &uacute;loži&scaron;tě</strong>.</li>
+<li>Přejděte do č&aacute;sti <strong>Fond &uacute;loži&scaron;tě</strong> &gt; <strong>Scrubbing dat</strong>.</li>
+<li>Klikněte na možnost <strong>Nastavit pl&aacute;n</strong>.</li>
+<li>Za&scaron;krtněte možnost <strong>Povolen&iacute; pl&aacute;nu scrubbingu dat</strong>.</li>
+	<li>Stanovte <strong>Frekvenci</strong>, <strong>Poč&aacute;tečn&iacute; datum</strong> a <strong>Časovou relaci</strong>.</li>
+<li>Přejděte na kartu <strong>Vybrat c&iacute;l</strong>.<li>Vyberte fond &uacute;loži&scaron;tě, na kter&eacute;m chcete prov&eacute;st scrubbing dat.</li>
+<li>Klikněte na možnost <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<ul>
+<li>Aby bylo možn&eacute; přidat fond &uacute;loži&scaron;tě do pl&aacute;nu, mus&iacute; b&yacute;t ve stavu <b>Norm&aacute;ln&iacute;</b> a mus&iacute; podporovat scrubbing dat.</li>	
+<li>Pokud byl v&aacute;&scaron; syst&eacute;m upgradov&aacute;n z&nbsp;verze 6.1, přidaj&iacute; se fondy &uacute;loži&scaron;tě se schopnost&iacute; spustit scrubbing dat do pl&aacute;nu automaticky.</li>
+<li>Pokud jste pl&aacute;n nastavili ve verzi 6.1, automaticky tento pl&aacute;n povol&iacute;me podle předchoz&iacute;ch nastaven&iacute;.</li>	
+</ul></div>
+
+<h4>Přid&aacute;n&iacute; fondu &uacute;loži&scaron;tě do pl&aacute;nu nebo odebr&aacute;n&iacute; fondu &uacute;loži&scaron;tě z&nbsp;pl&aacute;nu:</h4>
+
+<ol>
+<li>Klikněte na možnost <strong>Nastavit pl&aacute;n</strong></li>
+<li>Přejděte na kartu <strong>Vybrat c&iacute;l</strong>.</li>	
+<li>Za&scaron;krtnut&iacute;m nebo zru&scaron;en&iacute;m za&scaron;krtnut&iacute; pol&iacute;čka fondu &uacute;loži&scaron;tě rozhodněte, jestli ho chcete přidat do pl&aacute;nu nebo ho z&nbsp;pl&aacute;nu odebrat.</li>
+<li>Klikněte na možnost <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<ul>
+<li>Fond &uacute;loži&scaron;tě nelze přidat do pl&aacute;nu nebo ho z&nbsp;pl&aacute;nu odebrat, pokud je na tomto fondu &uacute;loži&scaron;tě ručně spu&scaron;těn scrubbing dat.</li>
+<li>Pokud chcete odebrat fond &uacute;loži&scaron;tě, na kter&eacute;m pr&aacute;vě prob&iacute;h&aacute; napl&aacute;novan&yacute; scrubbing dat, dojde ke zru&scaron;en&iacute; průběhu scrubbingu dat na tomto fondu &uacute;loži&scaron;tě.</li>
+</ul></div>
+
+<h4>&Uacute;prava nastaven&iacute; pl&aacute;nu:</h4>
+
+<ol>
+<li>Klikněte na možnost <strong>Nastavit pl&aacute;n</strong>.</li>
+<li>Podle potřeby změňte frekvenci, poč&aacute;tečn&iacute; datum a časovou relaci.</li>
+<li>Klikněte na možnost <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<ul>
+  <li>Pokud změn&iacute;te hodnotu v&nbsp;poli <strong>Poč&aacute;tečn&iacute; datum</strong>, dojde k&nbsp;obnoven&iacute; průběhu pl&aacute;nu a scrubbing dat se znovu spust&iacute; podle nov&eacute;ho poč&aacute;tečn&iacute;ho data.</li>
+</ul>
+</div>	
+
+<h4>Pozastaven&iacute; pl&aacute;nu:</h4>
+
+<ol>
+<li>Vyberte fond &uacute;loži&scaron;tě, na kter&eacute;m prob&iacute;h&aacute; pl&aacute;n scrubbingu dat.</li>
+<li>V&nbsp;rozev&iacute;rac&iacute; nab&iacute;dce <b>Akce</b> klikněte na možnost <strong>Pozastavit pl&aacute;n</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<ul>
+<li>Chcete-li pokračovat v&nbsp;pl&aacute;nu scrubbingu dat, mus&iacute;te v&nbsp;rozev&iacute;rac&iacute; nab&iacute;dce <b>Akce</b> kliknout na možnost <strong>Obnovit pl&aacute;n</strong>. Jinak zůstane pl&aacute;n pozastaven&yacute;.</li>	
+</ul></div>
+	
+<h3>Ručn&iacute; spu&scaron;těn&iacute; scrubbingu dat:</h3>
+
+<p>Pokud syst&eacute;m zjist&iacute; nenorm&aacute;ln&iacute; chov&aacute;n&iacute; prostoru &uacute;loži&scaron;tě, můžete se pokusit data opravit ručn&iacute;m spu&scaron;těn&iacute;m scrubbingu dat.</p>	
+	
+<h4>Ručn&iacute; spu&scaron;těn&iacute; scrubbingu dat:</h4>
+
+<ol>
+	<li>Otevřete <strong>Spr&aacute;vce &uacute;loži&scaron;tě</strong>.</li>
+	<li>Přejděte do č&aacute;sti <strong>Fond &uacute;loži&scaron;tě</strong> &gt; <strong>Scrubbing dat</strong>.</li>
+	<li>Vyberte fond &uacute;loži&scaron;tě, na kter&eacute;m chcete prov&eacute;st scrubbing dat.</li>
+	<li>V&nbsp;rozev&iacute;rac&iacute; nab&iacute;dce <strong>Akce</strong> vyberte možnost <strong>Ručn&iacute; spu&scaron;těn&iacute;</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<ul>
+
+<li>Pokud dojde před dokončen&iacute;m scrubbingu dat k&nbsp;vypnut&iacute; syst&eacute;mu, může doj&iacute;t ke ztr&aacute;tě někter&yacute;ch průběhů a bude nutn&eacute; scrubbing dat spustit znovu ručně.</li>
+<li>Pokud se čas ručn&iacute;ho spu&scaron;těn&iacute; scrubbingu dat překr&yacute;v&aacute; s&nbsp;napl&aacute;novan&yacute;m scrubbingem dat, spust&iacute; se položka pl&aacute;nu až po dokončen&iacute; ručně spu&scaron;těn&eacute;ho scrubbingu dat.</li>
+<li>Spu&scaron;těn&iacute; scrubbingu dat může ovlivnit v&yacute;kon syst&eacute;mu, takže pokud to nen&iacute; nutn&eacute;, nedoporučujeme spou&scaron;tět scrubbing dat na v&iacute;ce fondech &uacute;loži&scaron;tě.</li>	
+</ul></div>	
+
+<h4>Pozastaven&iacute; pl&aacute;nu pro fond &uacute;loži&scaron;tě, na kter&eacute;m prob&iacute;h&aacute; ručně spu&scaron;těn&yacute; scrubbing dat:</h4>	
+<ol>
+<li>Vyberte fond &uacute;loži&scaron;tě, kter&yacute; chcete pozastavit.</li>
+<li>V&nbsp;rozev&iacute;rac&iacute; nab&iacute;dce <b>Akce</b> vyberte možnost <b>Pozastavit</b>.</li>	
+	</ol>	
+</body>
+</html>

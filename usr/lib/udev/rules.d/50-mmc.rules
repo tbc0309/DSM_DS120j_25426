@@ -1,0 +1,14 @@
+#author: Consumer Platform Team
+
+#Skip some useless events
+SUBSYSTEM!="block|scsi", GOTO="mmc_end"
+ENV{DEVTYPE}=="partition", GOTO="mmc_end"
+ACTION!="add|change|remove", GOTO="mmc_end"
+KERNEL!="mmcblk[0-9]", GOTO="mmc_end"
+
+#Get parent of serial
+ACTION!="remove", ATTRS{serial}!="", ENV{SYNO_ATTR_SERIAL}="$attr{serial}"
+
+RUN+="/lib/udev/script/sdcard.sh %k"
+
+LABEL="mmc_end"

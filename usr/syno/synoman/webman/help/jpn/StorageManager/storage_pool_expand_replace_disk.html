@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>ストレージ容量を拡張するために Drive を交換する</h2>
+
+<p>特定の RAID タイプを使用する場合、古いドライブを大きいサイズのものに交換することで、ストレージ プールの容量を拡張できます。ここでは、拡張手続き、および既存のドライブを交換することで、どのようにしてストレージ容量を拡張できるのかという例を紹介します。</p>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>この記事の手順は以下の RAID タイプのみに適用されます。SHR、RAID 1、RAID 5、RAID 6、RAID 10、RAID F1。</li>
+	<li>SHR (Synology Hybrid RAID) は特定のモデルでのみ利用可能です。詳しくは、<a href="https://www.synology.com/" target="_blank">Synology website</a> をご覧ください。</li>
+	<li>RAID F1 は特定のモデルのみに使用できます。詳しくは、<a href="https://www.synology.com/" target="_blank">Synology website</a> をご覧ください。</li>
+	<li>ストレージ プールがデータ スクラブをサポートしている場合、ドライブを交換する前にボリュームとストレージ プールが正常であることをチェックするためにデータ スクラブを実行することをお勧めします。</li>
+	<li>当社は、<a href="https://www.synology.com/compatibility" target=blank>Synology 製品互換性リスト</a>のドライブを使用して問題を防止することを推奨しています。互換性のないドライブを使用すると、システム のパフォーマンスが低下したり、あるいは Synology NAS でデータの損失が生じることさえあります。</li>
+</ul>
+</div>
+
+<p>複数のドライブを交換する予定であれば、ドライブを1台ずつ注意しながら交換してください。ドライブ 1 台を交換したら、次の交換に入る前にストレージ プールを修復する必要があります。以下の RAID タイプについては、ストレージ プール容量はすべてのドライブが交換された時に拡張されます。RAID 1、RAID 5、RAID 6、RAID 10、RAID F1。</p>
+
+<h3 class="list_head"><a id="t1"></a>はじめる前に</h3>
+<p>ドライブを交換する前に、次の注意をよくお読みください。</p>
+<ul>
+	<li><strong>データ バックアップ：</strong>増設することにより既存のデータが失われることはありませんが、手続きを開始する前にデータをバックアップしておくようお薦めします。</li>
+	<li><strong>ストレージ プール ステータス：</strong>始める前にまず、ストレージ プールの状態が<strong> [正常]</strong> であることを確認してください。正常でない場合は、まずこれを修復してください。</li>
+	<li><strong>増設中にデータにアクセスできますか？</strong>ストレージ プールを増設している間もシステム上のデータにはアクセスできますが、処理を開始するときに、一時的に接続が停滞する場合があります。</li>
+	<li><strong>3 TB 以上のドライブを使用：</strong>3 TB またはそれよりも大きいドライブでストレージ プールを増設するには、ストレージ プールが DSM 3.0 以上で作成されていなければなりません。</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>SHR ストレージ プールはインストールされているドライブの数とサイズをもとにストレージ容量を最適化しますので、正しく増設するために次の説明をよくお読みください。</p>
+<ul>
+	<li>既存のドライブの容量がすべて同じである場合は、ストレージを増設するには2台以上のドライブを大きい容量のものに交換する必要があります。例えば、3 台の 2 TB ドライブで構成される SHR ストレージ プールの場合、ストレージ プール容量を拡張するためには最低 2 台のドライブを取り換えてください。</li>
+	<li>既存のドライブの容量が異なる場合は、新しく交換するドライブは既存のドライブの中で最も大きいものと同等か、それよりも大きくなければなりません。また、ドライブの容量を最大限に活用するために、まず小容量のドライブから取り換えてください。例えば、SHR ストレージ ボリュームにそれぞれ 4 TB、3 TB、2 TB の 3 台のドライブがある場合、交換用のドライブは最低でも 4 TB 以上でなければなりません。また、3 TB または 2 TB のドライブも交換してください。</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID 5 / RAID 6 / RAID 10 / RAID F1</h4>
+<p>RAID 5 / RAID 6 / RAID 10 / RAID F1 のストレージ プールを交換するときは、ドライブの使用量を最大化するため一番小さいドライブを常に最初に交換する必要があります。各 RAID タイプのストレージ容量は次のとおりです。
+	<ul>
+		<li>RAID 5：(ドライブの数 – 1) x (最小ドライブのサイズ)</li>
+		<li>RAID 6：(ドライブの数 – 2) x (最小ドライブのサイズ)</li>
+		<li>RAID 10：(ドライブの数 / 2) x (最小ドライブのサイズ)</li>
+		<li>RAID F1：(ドライブの数 – 1) x (最小ドライブのサイズ)</li>
+	</ul>
+</p>
+
+<p>例えば、RAID 5 ストレージ プールにそれぞれ 4 TB、3 TB、2 TB の 3 台のドライブがある場合、ストレージ プールで使用可能な容量は 4 TB となります。4 TB または 3 TB のドライブを取り換える場合は、ストレージ プールの容量は変わりません。ストレージ プールの容量を増やすためには、先に 2 TB のドライブを取り換える必要があります。</p>
+</div>
+
+
+<h3>ストレージ容量を拡張するためにドライブを交換する</h3>
+<p>次の手順は、SHR ストレージ プールのドライブを交換する場合を想定してあります。</p>
+<h4>ドライブを交換する：</h4>
+<ol>
+	<li><strong>[ストレージ マネージャ]</strong> を起動します。<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li><strong>[ストレージ プール]</strong> に進み、一番小さいドライブを確認してください。<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>Synology NAS の電源を切ります。（Synology NAS がホットスワップに対応している場合は、この手順は省略してください。）</li>
+	<li>既存のドライブのうち最も小さい物を取り外し、新しい大きいドライブを装着してください。<br /><span class="note_head">注：</span>ケガや Synology NAS の故障の原因となりますので、必ず Synology 製品の <em>[ハードウェア インストール ガイド]</em> に記載されているドライブのインストールの手順に従ってください。</li>
+	<li>Synology NAS の電源を入れます。</li>
+	<li><strong>[ストレージ マネージャ]</strong> を再度開きます。</li>
+	<li><strong>[HDD/SSD]</strong> を選択して新しいドライブが認識されているか確認してください。<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>ストレージ プールの状態は <strong>[劣化]</strong> になっているはずです。ストレージプールを選択し、<strong>[アクション]</strong>ドロップダウンメニューから <strong>[修理]</strong> をクリックします。<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>交換するドライブを選択してストレージ プールを増設します。その後は、ウィザードの手順に従って完了します。</li>
+	<li>交換するドライブをすべて交換できるまで上記の手順を繰り返してください。</li>
+</ol>
+
+</body>
+</html>

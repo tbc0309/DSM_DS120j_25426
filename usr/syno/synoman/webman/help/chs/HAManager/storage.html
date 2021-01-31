@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>存储空间状态</h2>
+	<p>本页将详细说明 high-availability 集群活动和无源服务器上的存储卷和 iSCSI LUN（块级）的状态。</p>
+<p>由于活动和无源服务器上的相应卷和 iSCSI LUN（块级）的容量和配置必须相同，两台服务器上的卷和 iSCSI LUN（块级）将作为一个单元显示。因此，如果您想查看活动和无源服务器的卷和 iSCSI LUN（块级）的状态，您必须进入<b>存储状态</b>页面 [访问 high-availability 集群时，在<b>存储管理器</b>中只能看到活动服务器上的卷和 iSCSI LUN（块级）]。</p>
+
+<p>本页包含以下信息：</p>
+		<ul>
+			<li><b>名称：</b>显示卷和 iSCSI LUN（块级）的名称。</li>
+			<li><b>已用：</b>显示卷和 iSCSI LUN（块级）已用容量的百分比。</li>
+			<li><b>已用/总大小：</b>显示卷和 iSCSI LUN（块级）总容量和已用容量。</li>
+<li><b>状态：</b>显示卷、iSCSI LUN（块级）和 SSD 缓存的状态。</li>
+<li><b>描述：</b>显示有关卷、iSCSI LUN（块级）和 SSD 缓存的错误说明或其他信息。</li>
+		</ul>
+<h4>要修复发生故障的卷或 iSCSI LUN（块级）：</h4>
+	<ul>
+		<li>如果一个服务器已损毁，您可以进入<a href="disk.html">硬盘状态</a>页面，确定哪个硬盘已损毁并需要更换。这种情况下，请进行以下操作：
+        	<ol>
+	<li>更换已损毁硬盘（硬盘安装步骤请参看 Synology 产品的<i>快速安装指南</i>）。</li>
+<li>进入<b>存储状态</b>页面并点击<b>修复</b>。</li>
+            </ol>
+        </li>
+<li>如果无源服务器脱机，卷和 iSCSI LUNs（块级）状态将显示错误发生，无源服务器上的任何硬盘都不会出现在硬盘状态页面。这种情况下，您可以进行以下操作，尝试解决问题：
+        	<ol>
+	<li>确保无源服务器已打开。</li>
+<li>检查所有电源。</li>
+<li>检查所有连接。</li>
+            </ol>
+        </li>
+<li>如果一台服务器上发生卷或 iSCSI LUNs（块级）错误，请进行以下操作：
+        	<ul>
+	<li>进入<b>存储状态</b>页面。</li>
+<li>点击<b>修复</b>。</li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">注：</span>High-availability 集群上卷和 iSCSI LUN（块级）的限值为 64。</p>
+
+
+
+<h3>仲裁服务器</h3>
+<p>仲裁服务器有助于降低 split-brain 错误发生的可能性。在 split-brain 设置中，您可将另一台服务器指定为仲裁服务器，只要该服务器持续同时连接至活动和无源服务器。例如，网关服务器或 DNS 服务器适合选为仲裁服务器，因为它同时连接至活动和无源服务器。请注意，仲裁服务器仅提供 Ping 服务，无需安装任何应用程序。仲裁服务器启用后，会出现以下情况：</p>
+
+<ul>
+<li>如果无源服务器无法同时连接至活动服务器和仲裁服务器，则不会执行故障移转以防止 split-brain 错误。</li>
+<li>如果活动服务器无法连接至仲裁服务器而无源服务器能够连接，则会触发移转以确保更好的可用性。</li>
+</ul>
+
+ </body>
+</html>

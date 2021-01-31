@@ -1,0 +1,233 @@
+#!/usr/bin/env python
+from __future__ import print_function
+import base64
+import sys
+import os
+import mimetypes
+import google.oauth2.credentials
+import email
+from argparse import ArgumentParser
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+from email.mime.text import MIMEText
+from email.mime.audio import MIMEAudio
+from email.mime.base import MIMEBase
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+
+def add_headers_to_msg(msg, raw_header):
+    headers = raw_header.splitlines()
+
+    for header in headers:
+        kv = header.split(':', 1)
+        if len(kv) == 2:
+            key = kv[0]
+            value = kv[1]
+            msg.add_header(key, value)
+
+def concatSender(name, address):
+    if name:
+        return '{0} <{1}>'.format(name, address)
+    else:
+        return address
+
+def create_message(sender, to_addr, cc_addr, bcc_addr, subject, message_html, message_plain, extra_header):
+    message = MIMEMultipart()
+    message['to'] = ', '.join(to_addr)
+    message['from'] = sender
+    message['subject'] = subject
+    if cc_addr:
+        message['cc'] = ', '.join(cc_addr)
+    if bcc_addr:
+        message['bcc'] = ', '.join(bcc_addr)
+
+    if message_html:
+        msg = MIMEText(message_html, 'html')
+        add_headers_to_msg(msg, extra_header)
+        message.attach(msg)
+    if message_plain:
+        msg = MIMEText(message_plain)
+        add_headers_to_msg(msg, extra_header)
+        message.attach(msg)
+
+    return {'raw': base64.urlsafe_b64encode(message.as_string())}
+
+
+def create_message_with_attachment(sender, to_addr, cc_addr, bcc_addr, subject, message_html, message_plain, extra_header, attachment_path, part_header):
+    message = MIMEMultipart()
+    message['to'] = ', '.join(to_addr)
+    message['from'] = sender
+    message['subject'] = subject
+    if cc_addr:
+        message['cc'] = ', '.join(cc_addr)
+    if bcc_addr:
+        message['bcc'] = ', '.join(bcc_addr)
+
+    if message_html:
+        msg = MIMEText(message_html, 'html')
+        add_headers_to_msg(msg, extra_header)
+        message.attach(msg)
+    if message_plain:
+        msg = MIMEText(message_plain)
+        add_headers_to_msg(msg, extra_header)
+        message.attach(msg)
+
+    content_type, encoding = mimetypes.guess_type(attachment_path)
+    if content_type is None or encoding is not None:
+        content_type = 'application/octet-stream'
+    main_type, sub_type = content_type.split('/', 1)
+    if main_type == 'text':
+        fp = open(attachment_path, 'rb')
+        msg = MIMEText(fp.read(), _subtype=sub_type)
+        fp.close()
+    elif main_type == 'image':
+        fp = open(attachment_path, 'rb')
+        msg = MIMEImage(fp.read(), _subtype=sub_type)
+        fp.close()
+    elif main_type == 'audio':
+        fp = open(attachment_path, 'rb')
+        msg = MIMEAudio(fp.read(), _subtype=sub_type)
+        fp.close()
+    else:
+        fp = open(attachment_path, 'rb')
+        msg = MIMEBase(main_type, sub_type)
+        msg.set_payload(fp.read())
+        fp.close()
+
+    add_headers_to_msg(msg, part_header)
+    message.attach(msg)
+
+    return {'raw': base64.urlsafe_b64encode(message.as_string())}
+
+def create_message_with_attachment_headers(sender, to_addr, cc_addr, bcc_addr, subject, message_html, message_plain, extra_header, attachments):
+    message = MIMEMultipart()
+    message['to'] = ', '.join(to_addr)
+    message['from'] = sender
+    message['subject'] = subject
+    if cc_addr:
+        message['cc'] = ', '.join(cc_addr)
+    if bcc_addr:
+        message['bcc'] = ', '.join(bcc_addr)
+
+    if message_html:
+        msg = MIMEText(message_html, 'html')
+        add_headers_to_msg(msg, extra_header)
+        message.attach(msg)
+    if message_plain:
+        msg = MIMEText(message_plain)
+        add_headers_to_msg(msg, extra_header)
+        message.attach(msg)
+
+    for attachment_header in attachments:
+        attach_path = attachment_header[0]
+        attach_header = attachment_header[1]
+
+        content_type, encoding = mimetypes.guess_type(attach_path)
+        if content_type is None or encoding is not None:
+            content_type = 'application/octet-stream'
+        main_type, sub_type = content_type.split('/', 1)
+        if main_type == 'text':
+            fp = open(attach_path, 'rb')
+            msg = MIMEText(fp.read(), _subtype=sub_type)
+            fp.close()
+        elif main_type == 'image':
+            fp = open(attach_path, 'rb')
+            msg = MIMEImage(fp.read(), _subtype=sub_type)
+            fp.close()
+        elif main_type == 'audio':
+            fp = open(attach_path, 'rb')
+            msg = MIMEAudio(fp.read(), _subtype=sub_type)
+            fp.close()
+        else:
+            fp = open(attach_path, 'rb')
+            msg = MIMEBase(main_type, sub_type)
+            msg.set_payload(fp.read())
+            fp.close()
+
+        add_headers_to_msg(msg, attach_header)
+        message.attach(msg)
+
+    return {'raw': base64.urlsafe_b64encode(message.as_string())}
+
+def create_raw_message(raw_string):
+    message = email.message_from_string(raw_string)
+    return {'raw': base64.urlsafe_b64encode(message.as_string())}
+
+def send_message(service, user_id, message):
+    message = (service.users().messages().send(
+        userId=user_id, body=message).execute())
+
+
+def main(args):
+    credentials = google.oauth2.credentials.Credentials(
+        args.access_token, None)
+    service = build('gmail', 'v1', credentials=credentials)
+
+    sender = concatSender(args.sender_name, args.sender)
+
+    if args.raw:
+        msg = create_raw_message(args.raw)
+    elif args.attachment_path:
+        msg = create_message_with_attachment(
+            sender, args.to, args.cc, args.bcc, args.subject, args.message_html, args.message_plain, args.extra_header, args.attachment_path, args.part_header)
+    elif args.attachment_with_header:
+        msg = create_message_with_attachment_headers(
+            sender, args.to, args.cc, args.bcc, args.subject, args.message_html, args.message_plain, args.extra_header, args.attachment_with_header)
+    else:
+        msg = create_message(
+            sender, args.to, args.cc, args.bcc, args.subject, args.message_html, args.message_plain, args.extra_header)
+
+    send_message(service, args.sender, msg)
+
+
+if __name__ == '__main__':
+    parser = ArgumentParser()
+    parser.add_argument('-r', '--raw', metavar='message',
+                        help='Whole email content', dest='raw')
+    parser.add_argument('-m', '--message-html', metavar='message',
+                        help='HTML content', dest='message_html')
+    parser.add_argument('-M', '--message-plain', metavar='message',
+                        help='Plain text content', dest='message_plain')
+    parser.add_argument(
+        '--attachments', action='append', help='Attachmnent', nargs=2, metavar=('filepath', 'headers'), dest='attachment_with_header')
+    parser.add_argument(
+        '-a', '--attachment-path', help='Attachmnent Path', metavar='filepath', dest='attachment_path')
+    parser.add_argument(
+        '-F', '--from', metavar='sender_address', help='Sender mail address', dest='sender', default='me')
+    parser.add_argument(
+        '--sender-name', metavar='sender_name', help='Sender Name', dest='sender_name')
+    parser.add_argument('-s', '--subject', metavar='subject', help='Mail subject',
+                        dest='subject')
+    parser.add_argument('-t', '--token', metavar='access_token', help='Gmail Oauth access token',
+                        required=True, dest='access_token')
+    parser.add_argument(
+        '-T', '--to', action='append', metavar='recv_address', help='Receiver mail address', dest='to')
+    parser.add_argument(
+        '--cc', action='append', metavar='cc_address', help='Cc mail address', dest='cc')
+    parser.add_argument(
+        '--bcc', action='append', metavar='bcc_address', help='Bcc mail address', dest='bcc')
+    parser.add_argument('--extra-header', help='Extra header for message', dest='extra_header')
+    parser.add_argument('--part-header', help='Extra header for attachment', dest='part_header')
+    args = parser.parse_args()
+
+    try:
+        main(args)
+    except HttpError as error:
+        print('Error: Connection Failed')
+        print(error)
+        sys.exit(3)
+    except google.auth.exceptions.RefreshError as error:
+        print('Error: Authentication Failed')
+        print(error)
+        sys.exit(4)
+    except IOError as error:
+        print('Error: Attachment Failed')
+        print(error)
+        sys.exit(5)
+    except Exception as error:
+        print('Unknown Error')
+        print(error)
+        sys.exit(2)
+    except:
+        print('Unknown Error')
+        sys.exit(1)

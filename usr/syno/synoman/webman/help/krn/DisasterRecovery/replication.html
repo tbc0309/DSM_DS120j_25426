@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>복제</h2>
+
+<p>이 페이지에서는 시스템 관리자가 복제를 관리할 수 있습니다. 복제 작업을 생성, 편집 및 삭제할 수 있습니다. 또한 동기화를 실행/중지하고 복제 작업 정보를 확인할 수 있습니다.</p>
+
+<h3>공유 폴더</h3>
+
+<h4>공유 폴더에 대한 복제 작업 생성하기:</h4>
+<ol>
+	<li><strong>공유 폴더</strong> 탭으로 이동합니다.</li>
+	<li><strong>생성</strong>을 클릭합니다.</li>
+	<li><strong>복제 작업 생성</strong> 마법사가 표시됩니다. 마법사에서 진행되는 단계에 따라 공유 폴더 복제를 생성합니다.</li>
+</ol>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>공유 폴더 &ldquo;homes&rdquo;는 복제할 수 없습니다.</li>
+	<li>암호화된 공유 폴더는 복제할 수 없습니다.</li>
+	<li>공유 폴더는 Btrfs 볼륨에 있어야 합니다.</li>
+	<li>공유 폴더에 대한 <a href="#multiple_replication">일대다/확장된 복제</a>를 다른 대상 서버에 생성할 수 있습니다. 그러나 대상 서버 하나에 대해 각 공유 폴더에 대한 복제를 하나만 생성할 수 있습니다.</li>
+</ul>
+</div>
+
+<h4>공유 폴더 복제 삭제하기:</h4>
+<ol>
+	<li>삭제하려는 공유 폴더 복제 작업을 선택합니다.</li>
+	<li><strong>삭제</strong>를 클릭합니다.</li>
+	<li>확인 메시지가 표시됩니다. <strong>삭제</strong>를 클릭하여 삭제를 확인합니다.</li>
+</ol>
+
+<h4>공유 폴더 복제 편집하기:</h4>
+<ol>
+	<li>편집하려는 공유 폴더 복제 작업을 선택합니다.</li>
+	<li><strong>편집</strong>을 클릭합니다.</li>
+	<li>다음 탭이 포함된 창이 표시됩니다.
+	  <ul>
+			<li>파트너 서버</li>
+			<li>스케줄</li>
+			<li>보존</li>
+		</ul>
+	</li>
+	<li><strong>파트너 서버</strong> 탭에서 호스트 이름, 포트, 사용자 이름 및 패스워드를 비롯한 파트너 서버 정보를 편집할 수 있습니다.</li>
+	<li><strong>예약</strong> 탭에서 <strong>스냅샷 예약 활성화</strong> 확인란을 선택하고 스냅샷을 촬영할 시간과 빈도를 설정합니다. 선택 상자의 선택을 취소하여 공유 폴더에 대해 예약된 스냅샷을 취소할 수 있습니다.</li>
+	<li><strong>보존</strong> 탭에서 다음 옵션을 선택합니다.
+		<ul>
+			<li><strong>256개의 최근 스냅샷 유지하기:</strong> 최대 스냅샷 개수(256개)에 도달하면 가장 오래된 스냅샷이 새로 촬영된 스냅샷으로 덮어쓰입니다.</li>
+			<li><strong>항상 스냅샷 보존:</strong> 최대 스냅샷 개수에 도달하면 스냅샷 및 복제는 이미 촬영된 스냅샷을 제거하지 않고 새 스냅샷 촬영을 중지합니다.</li>
+			<li><strong>다음 정책에 따라 스냅샷을 보존합니다.</strong> 지정된 시간 범위에 대한 보존 규칙을 구성할 수 있습니다.</li>
+		</ul>
+	</li>
+	<li><strong>확인</strong>을 클릭하여 새 설정을 적용합니다.</li>
+</ol>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>소스 서버에서는 복제 작업의 일정만 편집할 수 있습니다.</li>
+	<li>보존 설정을 변경하면 <strong>스냅샷</strong> 페이지의 동일한 설정도 변경됩니다.</li>
+</ul>
+</div>
+
+<h4>공유 폴더 복제 정보 보기:</h4>
+<ol>
+	<li>확인하려 공유 폴더 복제 작업을 선택합니다.</li>
+	<li><strong>정보</strong>를 클릭합니다.</li>
+	<li>다음 정보가 포함된 창이 표시됩니다.
+	  <ul>
+			<li>복제의 <strong>상태</strong></li>
+			<li>복제의 <strong>통계</strong></li>
+		</ul>
+	</li>
+</ol>
+
+<h4>공유 폴더 복제 동기화 실행하기:</h4>
+<ol>
+	<li>동기화하려는 공유 폴더 복제를 선택합니다.</li>
+	<li><strong>실행</strong>을 클릭합니다.</li>
+	<li>생성할 스냅샷의 설명을 입력합니다.</li>
+	<li><strong>확인</strong>을 클릭하여 작업을 확인합니다.</li>
+</ol>
+
+<h4>공유 폴더 복제 동기화 중지하기:</h4>
+<ol>
+	<li>중지하려는 동기화 공유 폴더 복제를 선택합니다.</li>
+	<li><strong>중지</strong>를 클릭합니다.</li>
+	<li>확인 메시지가 표시됩니다. <strong>중지</strong>를 클릭하여 작업을 확인합니다.</li>
+</ol>
+
+<h3>iSCSI LUN</h3>
+
+<h4>iSCSI LUN에 대한 복제 작업 생성하기:</h4>
+<ol>
+	<li><strong>iSCSI LUN</strong> 탭으로 이동합니다.</li>
+	<li><strong>생성</strong>을 클릭합니다.</li>
+	<li><strong>복제 작업 생성</strong> 마법사가 표시됩니다. 마법사에서 진행되는 단계에 따라 iSCSI 복제를 생성합니다.</li>
+</ol>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>iSCSI LUN은 <strong>고급 LUN</strong>으로 생성되어야 합니다.</li>
+	<li>iSCSI LUN에 대한 <a href="#multiple_replication">일대다/확장된 복제</a>를 다른 대상 서버에 생성할 수 있습니다. 그러나 대상 서버 하나에 대해 각 iSCSI LUN에 대한 복제를 하나만 생성할 수 있습니다.</li>
+</ul>
+</div>
+
+<h4>iSCSI LUN 복제 삭제하기:</h4>
+<ol>
+	<li>삭제하려는 iSCSI LUN 복제 작업을 선택합니다.</li>
+	<li><strong>삭제</strong>를 클릭합니다.</li>
+	<li>확인 메시지가 표시됩니다. <strong>삭제</strong>를 클릭하여 작업을 확인합니다.</li>
+</ol>
+
+<h4>iSCSI LUN 복제 편집하기:</h4>
+<ol>
+	<li>편집하려는 iSCSI LUN 복제 작업을 선택합니다.</li>
+	<li><strong>편집</strong>을 클릭합니다.</li>
+	<li>다음 탭이 포함된 창이 표시됩니다.
+	  <ul>
+			<li>파트너 서버</li>
+			<li>스케줄</li>
+			<li>보존</li>
+		</ul>
+	</li>
+	<li><strong>파트너 서버</strong> 탭에서 호스트 이름, 포트, 사용자 이름 및 패스워드를 비롯한 파트너 서버 정보를 편집할 수 있습니다.</li>
+	<li><strong>예약</strong> 탭에서 <strong>스냅샷 예약 활성화</strong> 확인란을 선택하고 스냅샷을 촬영할 시간과 빈도를 설정합니다. 선택 상자의 선택을 취소하여 iSCSI LUN에 대해 예약된 스냅샷을 취소할 수 있습니다.</li>
+	<li><strong>보존</strong> 탭에서 다음 옵션을 선택합니다.
+		<ul>
+			<li><strong>256개의 최근 스냅샷 유지하기:</strong> 최대 스냅샷 개수(256개)에 도달하면 가장 오래된 스냅샷이 새로 촬영된 스냅샷으로 덮어쓰입니다.</li>
+			<li><strong>항상 스냅샷 보존:</strong> 최대 스냅샷 개수에 도달하면 스냅샷 및 복제는 이미 촬영된 스냅샷을 제거하지 않고 새 스냅샷 촬영을 중지합니다.</li>
+			<li><strong>다음 정책에 따라 스냅샷을 보존합니다.</strong> 지정된 시간 범위에 대한 보존 규칙을 구성할 수 있습니다.</li>
+		</ul>
+	</li>
+	<li><strong>응용 프로그램</strong> 탭에서 <strong>응용 프로그램 일치 스냅샷 활성화</strong>를 선택하여 응용 프로그램 일치 스냅샷을 활성화합니다. 응용 프로그램 일치 스냅샷을 취소하려면 이 선택 상자의 선택을 취소하십시오.</li>
+	<li><strong>확인</strong>을 클릭하여 새 설정을 적용합니다.</li>
+</ol>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>복제 소스에서는 일정만 편집할 수 있습니다.</li>
+	<li>보존/응용 프로그램 설정을 변경하면 <strong>스냅샷</strong> 페이지의 동일한 설정도 변경됩니다.</li>
+</ul>
+</div>
+
+<h4>iSCSI LUN 복제 정보 보기:</h4>
+<ol>
+	<li>보려는 iSCSI LUN 복제 작업을 선택합니다.</li>
+	<li><strong>정보</strong>를 클릭합니다.</li>
+	<li>다음 정보가 포함된 창이 표시됩니다.
+	  <ul>
+			<li>복제의 <strong>상태</strong></li>
+			<li>복제의 <strong>통계</strong></li>
+		</ul>
+	</li>
+</ol>
+
+<h4>iSCSI LUN 복제 동기화 실행하기:</h4>
+<ol>
+  <li>동기화하려는 iSCSI LUN 복제 작업을 선택합니다.</li>
+	<li><strong>실행</strong>을 클릭합니다.</li>
+	<li>생성할 스냅샷의 설명을 입력합니다.</li>
+	<li><strong>확인</strong>을 클릭하여 작업을 확인합니다.</li>
+</ol>
+
+<h4>iSCSI LUN 복제 동기화 중지하기:</h4>
+<ol>
+	<li>중지하려는 iSCSI LUN 복제 동기화 작업을 선택합니다.</li>
+	<li><strong>중지</strong>를 클릭합니다.</li>
+	<li>확인 메시지가 표시됩니다. <strong>중지</strong>를 클릭하여 작업을 확인합니다.</li>
+</ol>
+
+<h3><a name="multiple_replication"></a>일대다/확장된 복제</h3>
+
+<p>공유 폴더/iSCSI LUN에 대한 여러 복제를 여러 대상 서버에 생성하여 <strong>일대다</strong> 구성표를 생성할 수 있습니다. 복제된 공유 폴더/iSCSI LUN에 대해 확장된 복제를 생성하여 <strong>확장</strong> 구성표를 생성할 수 있습니다.</p>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>일대다 또는 확장 구성표를 사용하든 간에 복제 작업에는 대상 서버를 최대 3개까지만 사용할 수 있습니다.</li>
+</ul>
+</div>
+
+<div class="section"><h4><a name="smart_retention"></a>보존 정책</h4>
+<p>이 옵션을 사용하면 볼륨 공간에 저장할 스냅샷 버전의 최대 용량을 이상적인 방법으로 지정할 수 있지만, 스냅샷을 더 오래 보존해야 하는 경우가 있을 수 있습니다.</p>
+<p>Synology에서는 GFS 또는 Grandfather-Father-Son 보존 정책을 적용합니다. 보존할 스냅샷 버전의 최대 용량을 다음과 같은 시간 범위로 각각 구성할 수 있습니다: <strong>시간별</strong>, <strong>일별</strong>, <strong>주별</strong>, <strong>월별</strong> 및 <strong>년별</strong>.</p>
+<p>데이터 보호 관리자는 모든 시간 범위에 대해 구성된 최대 스냅샷 수를 최대한 많이 보존합니다. 시간 범위 내에 스냅샷 버전이 둘 이상 있는 경우 가장 먼저 생성된 버전만 유지됩니다. 예를 들어, 정책을 10 <strong>주별 스냅샷</strong>으로 설정하는 경우 데이터 보호 관리자가 최근 10주 동안 각각 가장 먼저 생성된 스냅샷을 보존합니다(일주일에 스냅샷이 둘 이상 촬영된 경우).</p>
+<img class="help_image" src="https://help.synology.com/file/DSM/5.2/online_img/dsm/DisasterRecovery/retention_policy.png">
+<p>또한 최근 스냅샷 버전을 쉽게 찾고 복원할 수 있도록 기본적으로 가장 최근에 스냅샷을 촬영한 이후 1시간 내에 속하는 모든 스냅샷 버전이 유지됩니다. 보존 규칙에 의해 자동으로 제거되지 않도록 스냅샷을 잠글 수도 있습니다.</p>
+</div>
+
+</body>
+</html>

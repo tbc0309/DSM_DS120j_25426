@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Gegevensback-up</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Back-up</h2>
+
+<p>Met <strong>Back-up en terugzetten</strong> kunt u de gegevens (systeemconfiguraties, gedeelde mappen en toepassingen/pakketten) op uw Synology NAS handmatig of gepland back-uppen. U kunt de back-upgegevens in lokaal gedeelde mappen, externe servers en openbare clouds (Amazon S3, Microsoft Azure, hicloud S3 en SFR NAS BACKUP) opslaan. Met <strong>Back-up en terugzetten</strong> kan elke back-uptaak meerdere back-upversies bewaren en roteren volgens Smart Recycle-beleidsregels.</p>
+
+
+<h3>Gegevensback-up</h3>
+<p><strong>Back-up en terugzetten</strong> biedt meerdere opties voor back-updoelen en manieren om gegevensback-uptaken in te stellen.</p>
+
+<h4>Een gegevensback-uptaak maken:</h4>
+
+<ol>
+<li>Klik op <strong>+</strong> in de linkerbenedenhoek en selecteer <strong>Gegevensback-uptaak</strong> om de back-upwizard te starten.</li>
+<li>Selecteer het gewenste type back-updoel:
+<ul>
+<li>Lokale/externe gedeelde mappen of externe opslagapparaten</li>
+<li>Externe rsync-servers</li>
+<li>Openbare clouds (bijv. Amazon S3 en Microsoft Azure)</li>
+</ul>
+</li>
+<li>Stel het gewenste type back-uptaak in:
+  <ul>
+<li>Selecteer <strong>Back-uptaak maken</strong> om een nieuwe taak te maken.</li>
+<li>Selecteer <strong>Opnieuw koppelen met een bestaande taak</strong> om bestaande back-upgegevens op een doel te gebruiken. Met opnieuw koppelen kunt u rechtstreeks de back-upgegevens van een andere taak gebruiken.</li>
+</ul>
+</li>
+
+<li>Volg de wizardinstructies om de instellingen te voltooien. Selecteer <strong>Codering aan clientzijde inschakelen</strong> om gegevens vóór de overdracht te coderen om gegevens te beveiligen in het back-updoel.</li>
+</ol>
+
+
+<div class="section">
+<h4>Opmerkingen:</h4>
+<ul>
+<li>de namen van back-uptaken kunnen 1 tot 32 unicode-tekens bevatten, maar mogen niet de volgende tekens bevatten:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; < = > ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>De maximumlengte van het volledige pad voor de back-up is 2048 tekens.</li>
+<li>Als u meer dan 32.000 bestanden of mappen via AFP naar een EXT3-gedeelde map uploadt, zullen alle back-uptaken van de gedeelde map mislukken.</li>
+<li>Een gecodeerde gedeelde map kan bij koppeling worden geback-upt en naar een gecodeerde/ongecodeerde map worden teruggezet. De map wordt echter altijd als ongecodeerde /////////teruggezet en wordt bij het opstarten niet automatisch gekoppeld. U moet de coderingssleutel van de gecodeerde gedeelde map invoeren of importeren om hem te koppelen.</li>
+<li>Back-uppen van een gecodeerd bestand naar een ander gecodeerd bestand wordt niet ondersteund.</li>
+<li>Gebruik van externe mappen als back-upbron of back-updoel wordt niet ondersteund.</li>
+<li>Back-uppen wordt ondersteund door bepaalde toepassingen. Om te weten of een specifiek pakket back-uppen ondersteunt, inclusief back-upinhoud en beperkingen, raadpleegt u de helppagina van de debetreffende toepassing.</li>
+<li class="enable-eds14">Synology NAS ondersteunt geen toepassingsback-up zonder een extern schrijfbaar EXT3/EXT4-apparaat.</li>
+<li class="enable-eds14">Synology NAS kan alleen gedeelde mappen back-uppen die op EXT3/EXT4-externe apparaten zijn gemaakt.</li>
+</ul>
+</div>
+
+
+<div class="section disable-eds14">
+<h4>Windows ACL-instellingen back-uppen:</h4>
+<p>Afhankelijk van de bestandssystemen van het back-updoel kunnen ook Windows ACL-instellingen van de bestanden op Synology NAS worden geback-upt:</p>
+
+<ul>
+<li>Alle back-updoelen kunnen Windows ACL-instellingen back-uppen, ongeacht het bestandssysteem van het doel</li>
+</ul>
+</div>
+
+<h4>Back-upgegevens exporteren naar openbare clouds of externe Synology NAS:</h4>
+<p>Bij het back-uppen van grote hoeveelheden gegevens naar een openbare cloud, raden we aan om de initiële versie naar een extern opslagapparaat (bijv. USB-schijf) te exporteren en het apparaat aan de cloudserviceprovider te leveren. Daar kan het apparaat worden aangesloten en gegevens rechtstreeks naar de cloud uploaden. Op deze wijze kunt u aanzienlijk de duur van de eerste back-up inkorten.</p>
+<ol>
+<li>Klik op <strong>+</strong> in de linkerbenedenhoek en selecteer <strong>Externe Synology NAS</strong> of de gewenste cloudserviceprovider.</li>
+<li>Selecteer <strong>Exporteren naar een lokale gedeelde map (inclusief een extern opslagapparaat)</strong> en voltooi de instellingen. Wanneer gevraagd, selecteer <strong>Codering aan clientzijde inschakelen</strong> om de gegevensback-up te beveiligen.</li>
+<li>Lever het externe opslagapparaat aan de externe Synology NAs of cloudserviceprovider. Importeer de geëxporteerde gegevens van het externe opslagapparaat.</li>
+<li>Eenmaal bevestigs, ga terug naar <strong>Back-up en terugzetten</strong> en klik op <strong>Nu opnieuw koppelen</strong>.</li>
+<li>Volg de wizardinstructies vom uw Synology NAS te koppelen aan de opslagplaats. Een wachtwoord/coderingssleutel is nodig voor eerder gecodeerd geëxporteerde gegevens.</li>
+</ol>
+
+<div class="section">
+	<h4>Opmerking:</h4>
+	<ul>
+		<li>de clientzijdige codering kan niet worden uitgeschakeld na de instelling van de taak. Ook het wachtwoord kan niet worden gewijzigd.</li>
+		<li>Een back-upopslagplaats kan uitsluitend met een back-uptaak worden gekoppeld.</li>
+		<li>Is de back-upbronmap een gecodeerde gedeelde map of submap, dan kunt u de bronmap koppelen of ontkoppelen bij het maken van de back-uptaak.</li>
+		<li>Gecodeerde gedeelde mappen kunnen geen back-updoel zijn.</li>
+		<li>Selecteert u <strong>Codering aan clientzijde inschakelen</strong> dan is uw wachtwoord/coderingssleutel nodig om de gegevens van deze taak terug te zetten. <strong>Verliest u het wachtwoord/coderingsleutel dan gaan de gegevens permanent verloren</strong>.</li>
+	</ul>
+</div>
+
+<h4>Om back-uptaken te beheren:</h4>
+<p>selecteer een gewenste back-uptaak in het linkerpaneel en klik op de onderstaande knoppen:</p>
+<ul>
+<li><strong>Nu een back-up maken</strong>: onmiddellijk een gegevens back-uppen van de geselecteerde taak.</li>
+<li><strong>Back-upverkenner</strong> (het vergrootglaspictogram): alle beschikbare back-upversies bekijken en bestanden kopiëren/terugzetten/downloaden.</li>
+<li><strong>Versielijst</strong>: Bekijk de tijd Gemaakt op en status van alle back-upversies, verwijder specifieke back-upversies of vergrendel specifieke versies voor geforceerde reservering.</li>
+<li><strong>Bewerken</strong>: back-upbron, doel, schema en andere instellingen wijzigen.</li>
+<li><strong>Verwijderen</strong>: back-uptaak verwijderen.</li>
+<li><strong>Annuleren</strong>: de huidige back-uptaak stoppen.</li>
+</ul>
+
+
+<h4>Om versies te roteren:</h4>
+<p>Back-uprotatie is een versiebeheermechanisme. Het is handig om back-upversies te beheren door automatische oudere onnodige versies te verwijderen en opslagruimte vrij te maken. U kunt deze functie inschakelen bij <strong>Taakinstellingen</strong> of configureren wanneer u een back-uptaak maakt.</p>
+<ol>
+<li>Selecteer de gewenste back-uptaak in het linkerpaneel en klik op <strong>Bewerken</strong> of <strong>Instellingen</strong>> <strong>Taakinstellingen</strong>.</li>
+<li>Selecteer <strong>Back-uprotatie inschakelen</strong> en kies de gewenste rotatiemodus:
+<ul>
+<li><strong>Vanaf de oudste versies</strong>: de oudste back-upversies worden verwijderd wanneer het maximum aantal versies wordt overschreden.</li>
+<li><strong>Smart Recycle</strong>: Back-upversies bewaren volgens deze beleidsregels:
+  <ul>
+<li><strong>Uurversies van de afgelopen 24 uur</strong>: de oudste versie van elk uur wordt bewaard.</li>
+<li><strong>Dagelijkse versies van afgelopen 1 dag tot 1 maand terug</strong>: de oudste versie van elke dag wordt bewaard.</li>
+<li><strong>Wekelijkse versie ouder dan 1 maand</strong>: de oudste versie van elke week wordt bewaard.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Geef het maximum <strong>aantal versies</strong> op. Wordt het maximum aantal versies overschreden, dan wordt de rotatie van de oudste versie gestart.</li>
+<li>Hebt u een regelmatig back-upplanning ingesteld bij <strong>Schema</strong>, dan kunt u een voorbeeldweergave zien van hoe uw back-upversies worden bewaard en het oudste herstelpint op de tijdlijn.</li>
+<li>Klik op <strong>OK</strong> om de instellingen op te slaan.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>Vergrendelde versies worden nooit verwijderd.</li>
+<li>Alleen back-uptaken van meerdere versies bieden versierotatie.</li>
+<li>Versierotatie wordt niet ondersteund in DSM 5.1 of eerdere versies.</li>
+<li>Rotatie wordt onmiddellijk geactiveerd na wijziging van de instelling of voltooiing van de back-uptaak.</li>
+<li>Vergrendelde versies worden uitgesloten van de berekening van het maximum aantal versies.</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Opmerkingen over gegevensback-uptaken</h3>
+<p>Lees de onderstaande opmerkingen met belangrijke instellingsinformatie over alle typen back-uptaken en oplossingen voor problemen.</p>
+
+<h4>Lokale back-uptaken:</h4>
+<ul>
+<li>als gegevens op het back-updoel tijdens het uitvoeren van de back-uptaak worden verwijderd, wordt een volledige back-up uitgevoerd bij de eerstvolgende taak.</li>
+<li>Als u nieuwe externe schijven als back-updoel wilt gebruiken, moeten de schijven mogelijk worden geformatteerd. </li>
+<li>Voor u een back-uptaak maakt, moet u controleren of de externe schijven correct zijn aangesloten op uw Synology NAS. Ga naar <b>Configuratiescherm</b> > <b>Externe apparaten</b> om de status van de USB/eSATA-schijven te controleren. Externe schijven kunnen niet als back-updoel worden gebruikt als de schijf geïnitialiseerd, geformatteerd of defect is.</li>
+<li>Extern gekoppelde gedeelde mappen kunnen niet als back-upbron of -doel worden geselecteerd.</li>
+<li>Als een gecodeerde gedeelde map is ontkoppeld, kan deze niet als back-updoel worden gekozen.</li>
+<li>Afbeeldingsminiaturen van een bestemming met het bestandssysteem NTFS/FAT kunnen niet worden geback-upt.</li>
+</ul>
+
+
+
+
+
+<h4>Externe rsync-back-uptaken:</h4>
+<ul>
+<li>de volgende modi zijn beschikbaar voor het maken van een back-uptaak met rsync-compatibele servers als netwerkback-updoel: <b>rsync daemon modus</b> wordt gebruikt als u een back-upmodule (gedeelde map op de rsync-compatible server) selecteert in het vervolgkeuzemenu naast <b>Back-upmodule</b>. <b>remote shell modus</b> wordt alleen ingeschakeld als u een absoluut pad invoert (beginnend met "/") bij <b>Back-upmodule</b>.</li>
+<li>voor Linux-gebruikers mogen alleen de accounts <strong>admin</strong>, <strong>root</strong> en <strong>rsync</strong> back-uptaken uitvoeren.</li>
+<li>Wilt u toegang tot een doelserver via internet met behulp van de desbetreffende hostnaam, moet de hostnaam het formaat FQDN (Fully Qualified Domain Name) hebben, bijvoorbeeld <strong>abc.bcd.com</strong>.</li>
+<li>Bij het maken van een back-up van de ene naar een ander Synology NAS-apparaat wordt u gevraagd om de gebruikersnaam en het wachtwoord van een account op de bestemming in te voeren. Bij het back-uppen naar gedeelde mappen van een andere Synology NAS kunt u dit uitvoeren volgens de ingestelde toegangsrechten van de mappen. Alleen de gedeelde mappen waarvoor de opgegeven gebruikersaccount toegangsrechten heeft, worden weergegeven. Controleer uw toegangsrechten als u de gewenste map niet op de bestemming kunt vinden.</li>
+<li>Overdrachtscodering wordt enkel ondersteund als de doelserver netwerkback-up ondersteunt en het verificatiewachtwoord niet leeg is.</li>
+<li>de modus Remote shell ondersteunt alleen overdrachtscodering.</li>
+<li>Als u een back-up maakt van bestanden naar een Synology NAS via een rsync-client een rsync-compatibele server, moet u de bestanden een UTF-8-codering hebben.</li>
+<li>Als u een back-up maakt van bestanden naar een Synology NAS-apparaat via een rsync-compatibele client, kunt u de taak enkel uitvoeren met een <strong>admin-</strong>, <strong>root-</strong> en <strong>rsync</strong>-account van Synology NAS.</li>
+<li>Als u een back-up maakt van bestanden op uw Synology NAS naar een rsync-compatibele server, moet u de juiste naam en het correcte wachtwoord voor de rsync-back-upaccount invoeren. U moet ook de juiste back-upmodule met schrijfrechten kiezen.</li>
+</ul>
+
+
+
+<h4>Amazon S3-back-uptaken:</h4>
+<ul>
+  <li>er zijn verschillende opties beschikbaar voor het maken van back-uptaken met Amazon S3 als netwerkback-updoel, zoals overdrachtcodering, back-up naar Amazon S3 RRS (Reduced Redundancy Storage) en andere opties. Denk eraan dat bepaalde opties, zoals overdrachtcodering, de snelheid van back-uptaken kunnen verlagen.</li>
+  <li>Een back-upbestand wordt opgeslagen in de <strong>Bucket</strong> die u hebt geselecteerd op de Amazon S3 server, en de ingestelde sleutelwaarde begint met de door u gekozen mapnaam en eindigt met het volledige pad van het bestand.</li>
+  <li>de gegevensstructuur van Amazon S3 bestaat uit een Bucket en een SLEUTEL zonder mapstructuur. Een back-up van een lege map wordt niet ondersteund.</li>
+  <li>Als een back-upbestand niet werd gewijzigd, wordt het niet opnieuw opgenomen in de back-up in dezelfde Bucket op de Amazon S3-server.</li>
+  <li>Iedere Bucket op Amazon S3 moet een unieke naam hebben. Daarnaast moet de naam:</li>
+<ul>
+  <li>een bereik van 3 tot 63 tekens hebben</li>
+  <li>alleen kleine letters, getallen, punten (.) en streepjes (-) bevatten.</li><li>beginnen en eindigen met een nummer of letter en mag de naam niet eindigen met streepje (-), geen twee opeenvolgende punten en geen streepjes naast punten bevatten (zo zijn "my-.bucket.com" en "my.-bucket" ongeldig).</li>
+</ul>
+<li>De maximumlengte van een Amazon S3-SLEUTEL is 1024 tekens. Om een succesvolle back-up naar Amazon S3 te garanderen, mag het pad niet langer zijn dan 1024 tekens min de lengte van de bij het opstellen van de taak opgegeven mapnaam.</li>
+<li>Als u Amazon S3 RRS-ondersteuning (Reduced Redundancy Storage) inschakelt, worden alleen gewijzigde gegevens na inschakeling van de optie naar RRS-opslag geback-upt. Dit betekent dat gegevens die al in de standaardopslag van Amazon S3 zijn geback-upt niet nogmaals naar RRS worden geback-upt. </li>
+<li>Het verplaatsen van geback-upte bestanden van Amazon S3 naar Amazon Glacier wordt niet ondersteund. Als bestanden via de AWS-beheerconsole van Amazon S3 naar Amazon Glacier worden verplaatst, kunnen de back-uptaken mislukken.</li>
+<li>Het back-uppen van bestanden naar virtueel gehoste buckets met SSL wordt niet ondersteund.</li>
+<li>Bij de overdracht van een bestand wordt het bestand opgedeeld in delen (partities). De partitielimiet kunt u instellen met de optie <strong>Multipart upload-partitiegrootte</strong> in taakinstelling en heeft een standaardwaarde van 512MB. Is de netwerkomgeving niet stabiel dan wordt een kleinere waarde voor deze optie aangeraden.</li>
+
+<li>Het maximum aantal partities per upload is 10000. De maximum grootte van een bestand is de <strong>Multipart upload-partitiegrootte</strong> vermenigvuldigd met 10000.</li>
+<li>De bestandnamen mogen geen UTF-8- of besturingstekens bevatten.</li>
+</ul>
+
+
+
+<h4>Microsoft Azure-back-uptaken:</h4>
+<ul>
+<li>er zijn verschillende opties beschikbaar voor het maken van back-uptaken met de Microsoft Azure-server als netwerkback-updoel, zoals overdrachtcodering. Denk eraan dat bepaalde opties, zoals overdrachtcodering, de snelheid van back-uptaken kunnen verlagen.</li>
+<li>Een back-upbestand wordt opgeslagen in de <strong>Container</strong> die u hebt geselecteerd op de Microsoft Azure-server, en de Blob-naam begint met de door u gekozen mapnaam en eindigt met het volledige pad van het bestand.</li>
+<li>De gegevensstructuur van Microsoft Azure bevat een koppeling van Container en Blob zonder mapstructuur. Een back-up van een lege map wordt niet ondersteund.</li>
+<li>Als een back-upbestand niet werd gewijzigd, wordt het niet opnieuw in dezelfde Container geback-upt naar Microsoft Azure.</li>
+<li>Elke Container op Microsoft Azure moet een unieke naam hebben. Daarnaast moet de naam:</li>
+<ul>
+<li>een bereik van 3 tot 63 tekens hebben</li>
+<li>mag de naam alleen kleine letters, getallen en streepjes (-) bevatten</li>
+<li>beginnen en eindigen met een nummer of letter en mag de naam geen opeenvolgende streepjes bevatten.</li>
+</ul>
+<li>De maximumlengte van een Microsoft Azure-Blob-naam is 1024 tekens. Om een succesvolle back-up naar Microsoft Azure te garanderen, mag het pad niet langer zijn dan 1024 tekens min de lengte van de bij het opstellen van de taak opgegeven mapnaam.</li>
+
+<li>De bestandnamen mogen geen UTF-8- of besturingstekens bevatten.</li>
+<li>De waarschuwingsmelding van de verificatiefout kan worden veroorzaakt door de onjuiste verificatie-informatie, een netwerkverbindingsprobleem of doordat de tijd op uw Synology NAS niet overeenkomt met die van de externe server. Om de tijdsinstelling te controleren op uw Synology NAS gaat u naar <strong>Configuratiescherm</strong> > <strong>Regionale opties</strong> ><strong> Tiijd</strong> om de tijd te synchroniseren met de NTP-server.</li>
+</ul>
+
+
+
+<h4>hicloud S3-back-uptaken:</h4>
+<ul>
+<li>er zijn verschillende opties beschikbaar voor het maken van back-uptaken met de hicloud S3-server als netwerkback-updoel, zoals overdrachtcodering. Denk eraan dat bepaalde opties, zoals overdrachtcodering, de snelheid van back-uptaken kunnen verlagen.</li>
+<li>Een back-upbestand wordt opgeslagen in de <strong>Bucket</strong> die u hebt geselecteerd op de hicloud S3 server, en de ingestelde SLEUTEL-waarde begint met de door u gekozen mapnaam en eindigt met het volledige pad van het bestand.</li>
+<li>de gegevensstructuur van hicloud S3 bevat een koppeling van Bucket en SLEUTEL zonder mapstructuur. Een back-up van een lege map wordt niet ondersteund.</li>
+<li>Als een back-upbestand niet werd gewijzigd, wordt het niet opnieuw in dezelfde Bucket geback-upt naar hicloud S3-server.</li>
+<li>Iedere Bucket op hicloud S3 moet een unieke naam hebben. Daarnaast moet de naam:</li>
+<ul>
+<li>een bereik van 3 tot 63 tekens hebben</li>
+<li>alleen kleine letters, getallen, punten (.) en streepjes (-) bevatten.</li>
+<li>beginnen en eindigen met een nummer of letter en mag de naam niet eindigen met streepje (-), geen twee opeenvolgende punten en geen streepjes naast punten bevatten (zo zijn "my-.bucket.com" en "my.-bucket" ongeldig).</li>
+</ul>
+<li>De maximumlengte van een hicloud S3-SLEUTEL is 255 tekens. Om een succesvolle back-uptaak naar hiclould S3 te garanderen, mag het pad niet langer zijn dan 255 tekens min de lengte van de bij het opstellen van de taak opgegeven mapnaam.</li>
+<li>Bij de overdracht van een bestand wordt het bestand opgedeeld in delen (partities). De partitielimiet kunt u instellen met de optie <strong>Multipart upload-partitiegrootte</strong> in taakinstelling en heeft een standaardwaarde van 512MB. Is de netwerkomgeving niet stabiel dan wordt een kleinere waarde voor deze optie aangeraden.</li>
+
+<li>Hicloud ondersteunt een maximum van 1000 partities per overdracht. Dit betekent dat de totale bestandsgrootte de maximale vermenigvuldiging van 1000 maal de partitie niet mag overschrijden. Als de Multipart upload-partitiegrootte bijvoorbeeld op 8 MB is ingesteld, zal een enkel bestand van meer dan 8000 MB niet worden geüpload. </li>
+
+<li>De back-up van gecodeerde gedeelde map wordt niet ondersteund.</li> 
+
+<li>De bestandnamen mogen geen UTF-8- of besturingstekens bevatten.</li>
+</ul>
+
+
+  
+
+<h4>SFR NAS BACKUP-back-uptaken:</h4>
+<ul>
+<li>er zijn verschillende opties beschikbaar voor het maken van back-uptaken met de SFR NAS BACKUP-server als netwerkback-updoel, zoals overdrachtcodering. Denk eraan dat bepaalde opties, zoals overdrachtcodering, de snelheid van back-uptaken kunnen verlagen.</li>
+<li>Een back-upbestand wordt opgeslagen in de <strong>Bucket</strong> die u hebt geselecteerd op de SFR NAS BACKUP-server, en de ingestelde sleutelwaarde begint met de door u gekozen mapnaam en eindigt met het volledige pad van het bestand.</li>
+<li>de gegevensstructuur van SFR NAS BACKUP bevat een koppeling van Bucket en Sleutel zonder mapstructuur. Een back-up van een lege map wordt niet ondersteund.</li>
+<li>Als een back-upbestand niet werd gewijzigd, wordt het niet opnieuw in dezelfde Bucket geback-upt naar SFR NAS BACKUP-server.</li>
+<li>Iedere Bucket op SFR NAS BACKUP moet een unieke naam hebben. Daarnaast moet de naam:</li>
+<ul>
+<li>een bereik van 3 tot 63 tekens hebben</li>
+<li>alleen kleine letters, getallen, punten (.) en streepjes (-) bevatten.</li>
+<li>beginnen en eindigen met een nummer of letter en mag de naam niet eindigen met streepje (-), geen twee opeenvolgende punten en geen streepjes naast punten bevatten (zo zijn "my-.bucket.com" en "my.-bucket" ongeldig).</li>
+</ul>
+<li>De maximumlengte van een SFR NAS BACKUP-SLEUTEL is 1024 tekens. Om een succesvolle back-up naar SFR NAS BACKUP te garanderen, mag het pad niet langer zijn dan 1024 tekens min de lengte van de bij het opstellen van de taak opgegeven mapnaam.</li>
+<li>Bij de overdracht van een bestand wordt het bestand opgedeeld in delen (partities). De partitielimiet kunt u instellen met de optie <strong>Multipart upload-partitiegrootte</strong> in taakinstelling en heeft een standaardwaarde van 64MB. Is de netwerkomgeving niet stabiel dan wordt een kleinere waarde voor deze optie aangeraden.</li>
+
+<li>De bestandnamen mogen geen UTF-8- of besturingstekens bevatten.</li> 
+
+</ul>
+
+<h4>Andere S3-compatibele back-uptaken:</h4>
+<ul>
+<li>om andere S3-compatibele clouds te gebruiken, voer het IP-adres/domein van de gewenste S3-compatibele cloud in het veld <strong>S3 Server</strong> in.</li>
+<li>Bij gebruiksproblemen raadpleeg de relevante documentatie of neem contact op met de S3-compatibele cloudserviceprovider.</li>
+</ul>
+
+<h3>LUN-back-up*</h3>
+
+<p>Gebruik <b>Lokale LUN-back-up</b> om de iSCSI LUN's op uw Synology NAS te back-uppen naar lokaal gedeelde mappen. U kunt ook <b>Netwerk LUN-back-up (Synology server)</b> gebruiken om een back-up naar een andere Synology NAS te maken.</p>
+
+<h4>Om een iSCSI LUN te back-uppen:</h4>
+<ol>
+<li>Klik op <strong>+</strong> in de linkerbenedenhoek en selecteer <strong>LUN-back-uptaak</strong>.
+</li>
+<li>
+Als u gevraagd wordt om het bestemmingstype op te geven, selecteert u een van de volgende handelingen:
+</li>
+<ul>
+<li>
+<b>Lokale LUN-back-up</b>: Kies deze optie om de LUN van uw Synology NAS naar een lokaal gedeelde map of een externe opslag te back-uppen, die via een USB- of eSATA-poort op uw Synology NAS is aangesloten.
+</li>
+<li><b>Netwerk LUN-back-up (Synology server)</b>: Kies deze optie om de LUN van uw Synology NAS te back-uppen naar een andere Synology NAS.
+</li>
+</ul>
+<li>
+Geef wanneer daarom wordt gevraagd de back-upbestemming en de bron-LUN op, en stel het back-upschema in.
+</li>
+<li>
+Volg de wizard om de installatie te voltooien.
+</li>
+</ol>
+<p>Na het aanmaken van een back-uptaak zal Synology NAS de back-uptaak volgens het schema uitvoeren en de LUN back-uppen op de bestemming. De LUN-back-up wordt alleen als back-up gebruikt. Voor toegang tot de back-up-LUN zie <a href="restore.html">Om de back-up-LUN terug te zetten</a> voor meer informatie.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>de gewone bestand- en blokniveau-LUN's worden als bestandsinstallatiekopieën geback-upt op de bestemming. Bij het terugzetten worden alle blokniveau-LUN's omgezet in bestand-LUN's.</li>
+<li>Elke back-uptaak kan alleen een LUN als back-upbron bevatten.</li>
+<li>LUN's kunnen niet worden geback-upt naar een externe schijf met FAT-, FAT32-, HFS-, HFS Plus- of NTFS-indeling.</li>
+<li>Om een Netwerk LUN-back-up uit te voeren, moet u zich eerst op de doel Synology NAS aanmelden en controleren of de netwerkback-upservice is ingeschakeld onder <b>Configuratiescherm</b> ><b>Back-upservice</b>.</li>
+<li>Als u Synology NAS via een router met het netwerk is verbonden, moet u ervoor zorgen dat u een poort-doorsturenregel voor de iSCSI-service (TCP-poort 3260) op de router hebt opgegeven alvorens een Netwerk LUN-back-up uit te voeren.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Over volledige back-up en incrementele back-up:</h4>
+<p>
+Synology NAS voert bij de eerste keer een volledige back-up van het geselecteerde LUN uit, en daarna alleen incrementele back-ups. Wordt de naam van de gedeelde map of directory van de back-upbestemming gewijzigd, dan zal Synology NAS bij het uitvoeren van de taak een volledige back-up maken.
+</p>
+</div>
+
+<p>____<br /> * Uitsluitend beschikbaar op specifieke modellen.</p>
+
+</body></html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Dominio</h2>
+
+<p>Su Synology NAS puede unirse a un dominio de Windows. Tras unirse, los usuarios del dominio pueden iniciar sesi&oacute;n en Synology NAS con su cuenta de dominio y contrase&ntilde;a, lo que les permite acceder a los archivos y utilizar aplicaciones de DSM sin necesidad de tener que recordar otro nombre de usuario y contrase&ntilde;a.</p>
+
+<h4>Para unirse a un dominio:</h4>
+<ol>
+	<li>Vaya a <strong>Panel de control</strong> &gt; <strong>Dominio/LDAP</strong> &gt; <strong>Dominio</strong>.</li>
+	<li>Marque la casilla <strong>Unirse a dominio</strong>.</li>
+	<li>Introduzca el nombre de dominio y especifique el servidor DNS en los campos correspondientes.</li>
+	<li>Si fuera necesario, marque la casilla <strong>Opciones avanzadas de dominio</strong>. (Para m&aacute;s informaci&oacute;n, consulte m&aacute;s abajo).</li>
+	<li>Haga clic en <strong>Aplicar</strong>.</li>
+	<li>En la ventana emergente, introduzca el nombre del usuario y la contrase&ntilde;a del administrador del servidor del dominio.</li>
+	<li>Haga clic en <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>DNS Server</h4>
+<p>Recomendamos especificar un servidor DNS para facilitar la b&uacute;squeda del dominio a su Synology NAS. Sin embargo, si el dominio no est&aacute; registrado en el servidor DNS, es posible que falle el procedimiento de unirse al dominio.</p>
+
+<h4>Tipo de servidor de dominio</h4>
+<p>Este campo muestra el tipo de dominio cuando su Synology NAS se une a un dominio. El tipo de dominio ser&aacute; &apos;Dominio AD&apos;.</p>
+
+<h4>Modo de administraci&oacute;n</h4>
+<p>Esta opci&oacute;n determinar&aacute; la manera de administrar los privilegios de usuarios y grupos dominio.</p>
+<ul>
+	<li><strong>Dominio de confianza</strong>: se pueden administrar los usuarios y grupos en el dominio unido, adem&aacute;s de en los dominios de confianza. Puede filtrar la lista de usuarios y grupos por dominios.</li>
+	<li><strong>Dominio &uacute;nico con UO</strong>: en este modo solo se mostrar&aacute;n los usuarios y grupos en el dominio al que se haya unido. Este modo le permite filtrar la lista de usuarios y grupos por unidades organizativas (UO).</li>
+</ul>
+
+<h4>Opciones avanzadas de dominio</h4>
+<p>En la mayor&iacute;a de los casos, no es necesario rellenar ninguna de las opciones de dominio avanzadas. Las opciones avanzadas de dominio &uacute;nicamente se necesitan para determinados entornos de dominio.</p>
+<ul>
+	<li><strong>DC IP/FQDN</strong>: especifique una direcci&oacute;n IP de DC (controlador de dominio) o un FQDN para que Synology NAS intente comunicarse con ella. Si hay m&aacute;s de una direcci&oacute;n IP o FQDN, inserte una coma (,) entre ellas. Si lo desea, a&ntilde;ada un asterisco (*) despu&eacute;s de la &uacute;ltima direcci&oacute;n IP de DC o FQDN y Synology NAS intentar&aacute; comunicarse con el otro DC cuando fallen todos los que haya especificado. Tendr&aacute; que a&ntilde;adir una coma entre el asterisco y la &uacute;ltima direcci&oacute;n IP o FQDN.</li>
+	<li><strong>Nombre NetBIOS de dominio</strong>: especifique el nombre de NetBIOS del dominio.</li>
+	<li><strong>FQDN de dominio (nombre DNS)</strong>: especifique el FQDN (nombre DNS) del dominio.</li>
+	<li><strong>Registrar interfaz DNS</strong>: al unirse a un dominio, la NIC (tarjeta interfaz de red) especificada aqu&iacute; se registrar&aacute; en el servidor DNS. Tenga en cuenta que si el nombre de host de Synology NAS incluye un guion bajo (_), el registro no se completar&aacute; porque no se pueden utilizar guiones bajos (_) en DNS.</li>
+	<li><strong>Actualizar la lista de usuarios/grupos</strong>: especifique con qu&eacute; frecuencia actualiza autom&aacute;ticamente su Synology NAS el nombre de usuario/la lista de grupos. Puede personalizar el periodo de tiempo para realizar actualizaciones diaria, semanal o mensualmente. Adem&aacute;s, puede actualizar manualmente las listas de grupo/usuarios del dominio en la pesta&ntilde;a <strong>Usuarios del dominio</strong>, haciendo clic en <strong>Actualizar datos de dominio</strong>. Tenga en cuenta que las actualizaciones autom&aacute;ticas afectar&aacute;n a la hibernaci&oacute;n del sistema.</li>
+</ul>
+
+<h4>Unirse a un controlador de dominio de solo lectura</h4>
+<p>Para unir su Synology NAS a un controlador de dominio de solo lectura (RODC), deber&aacute; especificar el &apos;nombre completo del equipo&apos; (FQDN) del controlador de dominio de lectura escritura (RWDC) en el campo <strong>DC IP/FQDN</strong>. El nombre completo del equipo se debe introducir con el siguiente formato: <strong>Nombredelequipo.Dominio</strong>, por ejemplo &quot;ad01.synology.com&quot;.</p>
+</div>
+
+
+<div class="section"><h4>Observaci&oacute;n:</h4>
+<ul>
+	<li>Si su nombre de usuario del dominio incluye % o $, es posible que no pueda acceder a la carpeta de inicio. Solicite un nuevo nombre de usuario al administrador de su dominio.</li>
+	<li>Los grupos de dominios <strong>Administradores de dominio</strong> y <strong>Administradores de empresa</strong> se a&ntilde;adir&aacute;n autom&aacute;ticamente al grupo local <strong>administrators</strong>. Por tanto, los usuarios del dominio en estos grupos tendr&aacute;n privilegios administrativos en Synology NAS, incluido el acceso a servicios de archivos como CIFS/FTP/AFP/WebDAV y otras aplicaciones de DSM.</li>
+	<li>Tambi&eacute;n puede configurar privilegios de acceso para que los usuarios del dominio puedan compartir las carpetas compartidas de Synology NAS. Consulte <a href="file_directory_service_user_group.html">aqu&iacute;</a> para obtener m&aacute;s informaci&oacute;n.</li>
+</ul>
+</div>
+
+<h3>Opciones de dominio</h3>
+
+<p>Esta secci&oacute;n incluye las siguientes opciones adicionales de dominio.</p>
+<ul>
+	<li><strong>DiskStation se sincronizar&aacute; con un servidor NTP cada vez que un usuario de dominio inicie sesi&oacute;n</strong>: al habilitar esta opci&oacute;n, se forzar&aacute; la sincronizaci&oacute;n de tiempo entre su Synology NAS y el servidor NTP.</li>
+	<li><strong>Conseguir listas de usuarios/grupos en modo compatible con NT4</strong>: al habilitar esta opci&oacute;n, permitir&aacute; que el sistema obtenga las listas de usuarios/grupos utilizando el modo NT4 RPC. Esta opci&oacute;n se puede habilitar si ciertas listas de usuarios/grupos del dominio no se pueden obtener con la configuraci&oacute;n predeterminada.</li>
+	<li><strong>Habilitar el inicio de sesi&oacute;n en los servidores</strong>: si el cliente ha habilitado el inicio de sesi&oacute;n de cliente, el inicio de sesi&oacute;n en los servidores tambi&eacute;n debe habilitarse en su Synology NAS para que los usuarios puedan utilizar los servicios del dominio con normalidad.</li>
+	<li><strong>Enumerar los niveles de grupos anidados</strong>: especifique el n&uacute;mero de miembros de grupo de dominio anidados que se pueden enumerar.</li>
+	<li><strong>Administradores de dominios</strong>: Especifique hasta 10&nbsp;grupos de usuarios a los que desea otorgar los permisos de administradores. Un usuario con permisos de administrador tendr&aacute; control absoluto de Synology NAS y los archivos all&iacute; almacenados.</li>
+	<li><strong>Habilitar autenticaci&oacute;n integrada de Windows</strong>: al habilitar esta opci&oacute;n, los usuarios que ya han iniciado sesi&oacute;n en sus ordenadores con sus cuentas de dominio pueden iniciar sesi&oacute;n en DSM a trav&eacute;s de un navegador de Internet sin introducir el nombre de usuario y la contrase&ntilde;a.</li>
+</ul>
+
+<div class="section"><h4>Uso de la autenticaci&oacute;n integrada de Windows</h4>
+<ul>
+	<li>El ordenador cliente debe ejecutar el sistema operativo Windows y la versi&oacute;n debe ser Windows 7 o posterior.</li>
+	<li>El ordenador cliente debe unirse al mismo dominio que Synology NAS.</li>
+	<li>En Windows, vaya a <b>Panel de control</b> &gt; <b>Opciones de Internet</b> &gt; <b>Opciones avanzadas</b> y aseg&uacute;rese de que la casilla de verificaci&oacute;n <b>Habilitar autenticaci&oacute;n integrada de Windows</b> en <b>Seguridad</b> est&aacute; marcada.</li>
+	<li>La autenticaci&oacute;n integrada de Windows funciona con todos los navegadores. En Firefox, la configuraci&oacute;n requiere algunos pasos m&aacute;s.<ul>
+			<li>Abra el navegador Firefox y escriba <b>about:config</b> en la barra de URL.</li>
+			<li>Busque <b>network.automatic-ntlm-auth.trusted-uris</b>.</li>
+			<li>Haga doble clic en el campo <b>valor</b> e introduzca la direcci&oacute;n IP del dominio.</li>
+		</ul>
+	</li>
+	<li>Si va a unir su Synology NAS a un dominio creado por Synology Directory Server, se requieren ajustes adicionales para utilizar la autenticaci&oacute;n integrada de Windows:<ol>
+			<li>En DSM, vaya a <b>Panel de control</b> &gt; <b>Servicios de archivos</b> &gt; <b>SMB/AFP/NFS</b>.</li>
+			<li>En la secci&oacute;n <b>SMB</b>, haga clic en <b>Configuraci&oacute;n avanzada</b>.</li>
+			<li>Seleccione <b>SMB1</b> en el men&uacute; desplegable <b>Protocolo SMB m&iacute;nimo</b> y haga clic en <b>Guardar</b>.</li>
+		</ol>
+	</li>
+
+</ul>
+</div>
+
+<div class="section"><h4>Observaci&oacute;n:</h4>
+<ul>
+	<li>El inicio de sesi&oacute;n con la autenticaci&oacute;n integrada de Windows solo est&aacute; disponible en DSM 6.2.2 o versiones posteriores.</li>
+		</ul></li>
+</ul>
+</div>
+
+<h3>Comprobaci&oacute;n del estado del dominio</h3>
+
+<p>Puede hacer clic en <strong>Comprobaci&oacute;n del estado del dominio</strong> para comprobar el estado de la conexi&oacute;n entre su DSM y el servidor de dominio al que se ha unido. Para obtener m&aacute;s informaci&oacute;n sobre la soluci&oacute;n de problemas, consulte los siguientes elementos de comprobaci&oacute;n:</p>
+<ul>
+	<li><strong>Comprobar si la conexi&oacute;n funciona correctamente entre el Synology NAS y el<font>controlador de dominio</font></strong>: Synology NAS no pudo comunicarse con el<font>controlador de dominio</font>.<ul>
+			<li>Aseg&uacute;rese de que los puertos 389, 139 y 445 funcionan correctamente en el<font>controlador de dominio</font>.</li>
+			<li>Aseg&uacute;rese de que el servicio NTDS funciona correctamente en el<font>controlador de dominio</font>.</li>
+		</ul>
+	</li>
+	<li><strong>Comprobar si hay nombres en conflicto en la subred</strong>: su Synology NAS tiene un nombre de host que ya exist&iacute;a en la subred.<ul>
+			<li>Si su Synology NAS est&aacute; conectado a una subred con varias interfaces de red, DSM funcionar&aacute; correctamente.</li>
+			<li>Si su Synology NAS est&aacute; conectado a una subred con una sola interfaz de red, c&aacute;mbiele el nombre de host y vuelva a unirlo al dominio.</li>
+		</ul>
+	</li>
+	<li><strong>Comprobar si la conexi&oacute;n entre el Synology NAS y el servidor Kerberos funciona correctamente</strong>: el Synology NAS no se ha podido comunicar con el servidor Kerberos.<ul>
+			<li>Aseg&uacute;rese de que el servidor DNS dispone del registro de servidor DNS de Kerberos y el registro A correspondiente correctos.</li>
+			<li>Aseg&uacute;rese de que el puerto 88 est&aacute; disponible en el servidor KDC.</li>
+		</ul>
+	</li>
+	<li><strong>Comprobar si la conexi&oacute;n entre el Synology NAS y el servidor LDAP funciona correctamente</strong>: Synology NAS no pudo comunicarse con el servidor LDAP.<ul>
+			<li>Aseg&uacute;rese de que los servidores DNS disponen del registro de servidor DNS de LDAP y el registro A correspondiente correctos.</li>
+			<li>Aseg&uacute;rese de que el puerto 389 funciona correctamente en el servidor LDAP.</li>
+		</ul>
+	</li>
+	<li><strong>Comprobar que la MTU est&aacute; configurada correctamente para garantizar que la conexi&oacute;n funciona perfectamente entre el Synology NAS y el controlador de dominio</strong>: uno o m&aacute;s conmutadores eliminaron los paquetes transferidos entre el Synology NAS y el<font>controlador de dominio</font>debido al tama&ntilde;o de MTU no v&aacute;lido de los paquetes.<ul>
+			<li>Compruebe los ajustes de la interfaz de los conmutadores entre el Synology NAS y el<font>controlador de dominio</font>.</li>
+		</ul>
+	</li>
+	<li><strong>Comprobar si la hora est&aacute; sincronizada entre el Synology NAS y el dominio</strong>: la hora del Synology NAS no est&aacute; sincronizada con el servidor de dominio.<ul>
+			<li>Puede configurar el servicio NTP en el Synology NAS para sincronizar la hora con el servidor de dominio, o bien habilitar la opci&oacute;n <strong>Synology NAS se sincronizar&aacute; con un servidor NTP cada vez que un usuario de dominio inicie sesi&oacute;n</strong> en <strong>Opciones de dominio</strong>.</li>
+		</ul>
+	</li>
+</ul>
+
+</body>
+</html>

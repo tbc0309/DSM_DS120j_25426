@@ -1,0 +1,120 @@
+#!/usr/bin/python2
+# Copyright (c) 2000-2016 Synology Inc. All rights reserved.
+
+from __future__ import print_function
+
+import ctypes
+import subprocess
+import sys
+
+NSLCD_CONF = '/usr/syno/etc/nslcd.conf'
+NETWORK_TIMEOUT = 5  # timeout in seconds
+MAX_LDAP_PASSWORD_LEN = 1024 + 1  # matches SDK
+
+
+def get_major_version():
+    cmd = ['/usr/syno/bin/synogetkeyvalue', '/etc.defaults/VERSION', 'majorversion']
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    out, _ = p.communicate()
+    return out.strip()
+
+
+def load_client_conf(f_in):
+
+    def read_bindpw(dummy):
+        pwd = ctypes.create_string_buffer(MAX_LDAP_PASSWORD_LEN)
+        sdk = ctypes.CDLL('/lib/libsynosdk.so.{}'.format(get_major_version()))
+        sdk.SYNOLDAPSecretGet(pwd, len(pwd))
+        return pwd.value
+
+    keymap = {
+        'uri': 'ldapuri',
+        'base': 'basedn',
+        'binddn': 'binddn',
+        'bindpw': {
+            'name': 'bindpw',
+            'fn': read_bindpw
+        },
+        'ssl': {
+            'name': 'starttls',
+            'fn': lambda x: x == 'start_tls'
+        },
+    }
+
+    conf = {}
+    for line in f_in.read().expandtabs(1).splitlines():
+        idx = line.find('#')
+        if idx != -1:
+            line = line[:idx]
+        line = line.strip()
+        idx = line.find(' ')
+        if idx == -1:
+            continue
+        key, val = line[:idx], line[idx:].strip()
+        try:
+            conf[keymap[key]] = val
+        except TypeError:
+            conf[keymap[key]['name']] = keymap[key]['fn'](val)
+        except KeyError:
+            pass  # ignore other keys
+    return conf
+
+
+class Host(object):
+
+    def __init__(self, **kwargs):
+        self.__uri = kwargs['ldapuri'].lower()
+        self.__basedn = kwargs['basedn'].lower()
+        self.__binddn = kwargs['binddn'].lower()
+        self.__bindpw = kwargs['bindpw']
+        self.__starttls = kwargs['starttls'] if 'starttls' in kwargs else False
+
+    @property
+    def uri(self):
+        return self.__uri
+
+    @property
+    def basedn(self):
+        return self.__basedn
+
+    @property
+    def binddn(self):
+        return self.__binddn
+
+    @property
+    def bindpw(self):
+        return self.__bindpw
+
+    @property
+    def starttls(self):
+        return self.__starttls
+
+
+def main(argv):
+    with open(NSLCD_CONF, 'r') as f_in:
+        host = Host(**load_client_conf(f_in))
+
+    cmd = ['/usr/bin/ldapsearch', '-LLL', '-x']
+    cmd.extend(['-H', host.uri])
+    cmd.extend(['-b', host.basedn])
+    cmd.extend(['-D', host.binddn])
+    cmd.extend(['-w', host.bindpw])
+    cmd.extend(['-s', 'base'])
+    cmd.extend(['-o', 'nettimeout={}'.format(NETWORK_TIMEOUT)])
+    if host.starttls:
+        cmd.append('-Z')
+
+    try:
+        with open('/dev/null', 'w') as f_null:
+            subprocess.check_call(cmd, stdout=f_null, stderr=f_null)
+        print('Connected!')
+        return 0
+    except subprocess.CalledProcessError:
+        print('Disconnected!')
+        return 1
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))
+
+# vim:ft=python ts=4 sts=4 sw=4 et

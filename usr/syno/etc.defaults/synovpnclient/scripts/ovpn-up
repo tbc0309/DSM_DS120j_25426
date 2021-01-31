@@ -1,0 +1,55 @@
+#!/bin/sh
+SYNONETD_TOOL="/usr/syno/sbin/synonetdtool"
+VPNC_CURRENT="/tmp/vpnc_current"
+OVPNCLIENT_CONF="/usr/syno/etc/synovpnclient/openvpn/ovpnclient.conf"
+IFNAME="${dev}"
+GATEWAY="NULL"
+DNS="NULL"
+CLASS="vpn-client"
+DEFAULT_GATEWAY_FILE="/etc/iproute2/config/default-gateway"
+
+logger -p user.err -t "ovpn-up" "${CLASS} ${IFNAME} is up"
+
+while [ ! -f ${VPNC_CURRENT} ]; do
+	sleep 1
+done
+
+CON_ID=`/usr/syno/bin/get_section_key_value ${VPNC_CURRENT} curr_info conf_id`
+DEFAULT_ROUTE=`/usr/syno/bin/get_section_key_value ${OVPNCLIENT_CONF} ${CON_ID} redirect-gateway`
+
+if [ "xyes" = "x${DEFAULT_ROUTE}" ]; then
+	PRIORITY="0"
+else
+	PRIORITY="-1"
+fi
+
+if test -n "${ifconfig_remote}" ; then
+	GATEWAY="${ifconfig_remote}"
+fi
+
+if test -n "${route_vpn_gateway}" ; then
+	GATEWAY="${route_vpn_gateway}"
+fi
+
+if test -n "${foreign_option_1}" ; then
+	DNS=`echo ${foreign_option_1} | cut -d' ' -f 3`
+fi
+
+if [ "${PRIORITY}" = "0" ]; then
+	/usr/syno/bin/synosetkeyvalue ${DEFAULT_GATEWAY_FILE} DEVICE ${IFNAME}
+fi
+${SYNONETD_TOOL} --add-gateway-info -4 ${PRIORITY} ${IFNAME} ${GATEWAY} ${DNS} ${CLASS}
+${SYNONETD_TOOL} --refresh-gateway -4
+
+if test -n "${ifconfig_ipv6_local}" ; then
+	${SYNONETD_TOOL} --add-gateway-info -6 ${PRIORITY} ${IFNAME} "::" NULL ${CLASS}
+	${SYNONETD_TOOL} --refresh-gateway -6
+fi
+
+ENABLE_MULTI_GATEWAY=`/bin/get_key_value /etc/synoinfo.conf multi_gateway`
+IP=`/usr/syno/bin/get_section_key_value ${VPNC_CURRENT} curr_info ip`
+
+if [ "xyes" = "x${ENABLE_MULTI_GATEWAY}" ]; then
+	${SYNONETD_TOOL} --add-policy-route-rule -4 multi-gateway ${IFNAME} NULL NULL ${GATEWAY}
+	${SYNONETD_TOOL} --refresh-route-table -4 ${IFNAME} ${IP}
+fi

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>FTP / FTPS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>FTP/FTPS</h2>
+
+<p><strong>Denetim Masası</strong> > <strong>Dosya Hizmetleri</strong> > <strong>FTP</strong> seçeneğinden istemcilerin sistemdeki klasörlere ve verilere erişmesi için FTP hizmetlerini etkinleştirebilirsiniz. FTP'yi etkinleştirmeden önce, yönlendiricinizin aşağıdaki TCP bağlantı noktalarının Synology NAS aygıtına yönlendirilmekte olduğundan emin olun: 21 (varsayılan kontrol bağlantısı), 20 (etkin mod için veri bağlantısı) ve 55536-55567 (pasif mod için veri bağlantısı).</p>
+
+<h4>FTP hizmetini etkinleştirmek için:</h4>
+<ol>
+<li>Aşağıdakilerden birini etkinleştirin:
+	<ul>
+		<li><b>FTP hizmetini etkinleştir (Şifreleme yok):</b> Bu, dosyaları aktarmak için kullanılan standart ağ protokolüdür. FTP, aktarım oturumları sırasında bilgileri korumak için, şifre, kullanıcı adı ya da dosya gibi herhangi bir şifreleme sağlamaz. Ancak aktarım hızları daha yüksektir ve daha az sistem kaynağı gerektirir.</li>
+		<li><b>FTP SSL/TLS şifreleme hizmetini etkinleştir (FTPS):</b> Standart FTP'nin, aktarım oturumları sırasında bilgileri, şifre, kullanıcı adı ya da dosya gibi yöntemlerle koruyan, Transport Layer Security (TLS) ve Secure Sockets Layer (SSL) şifrelemeli protokollere yönelik ek destek içeren devamı. Ancak şifrelemeden dolayı aktarım hızları daha düşüktür ve daha fazla sistem kaynağı kullanır.</li>
+	</ul>
+</li>
+<li><b>Uygula</b>'ya tıklayın.</li>
+</ol>
+
+
+<h3>Zaman aşımı</h3>
+<p>Belirli bir zaman aralığı sonrasında, FTP kullanıcısı boştaki kullanıcıların bağlantısını kesecektir.</p>
+
+
+<h3>FTP Hizmetinin Bağlantı Noktası Numarası Ayarı</h3>
+<p>Bu bölüm FTP kontrol kanalı için kullanılan bağlantı noktasını belirlemenizi sağlar.</p>
+<div class="section">
+<h4>Not:</h4>
+<p>FTP kontrol kanalı için varsayılan bağlantı noktası numarası 21'dir. Aşağıdaki numaralar dışında 1 ila 65535 arasında ayarlayabilirsiniz: 20, 22, 23, 25, 80, 110, 137, 138, 139, 143, 199, 443, 445, 515, 543, 548, 587, 873, 993, 995, 3306, 3689, 5000, 5001, 5005, 5006, 5335, 5432, 6881, 8080, 7000, 7001, 8081, 9997, 9998, 9999, 50001, 50002 ve eMule varsayılan bağlantı noktaları: 4662 (TCP), 4672 (UDP).</p>
+</div>
+
+
+<h3>Pasif FTP Bağlantı Noktasının Aralığı</h3>
+<p>Bu bölüm Pasif FTP bağlantıları için kullanılan bağlantı noktası aralığını belirlemenizi sağlar. Varsayılan bağlantı noktası aralığını kullanabilir veya özel bir aralık belirleyebilirsiniz. Bağlantı noktası aralığı 1025 ile 65535 arasında ayarlanabilir ve en fazla 128 bağlantı noktası içerebilir.</li>
+</p>
+
+
+<h3>Dış IP'nin PASV Modunda Bildirilmesi</h3>
+<p>Bu seçenek etkinleştirildiğinde sunucu, dış IP adresini FTP istemcilerine bildirecektir. Bildirilen IP adresi, FTP istemcisinin bağlantı günlüğünde görüntülenecektir. Etkinleştirildiğinde, harici IP adresinin otomatik olarak algılanmasını veya Synology NAS sunucusunun harici IP adresini manuel olarak girmeyi tercih edebilirsiniz.</p>
+<p>Bu seçenek sadece Synology NAS bir NAT arkasında olduğu zaman ve FTP istemcileri Synology NAS sunucusundan farklı bir alt ağa ait olduklarında çalışır. Çoğu durumda, bu seçenek gereksizdir, ancak FTP istemcileri Synology NAS'e bağlanamaz ise, bu seçeneği etkinleştirebilir ve tekrar deneyebilirsiniz.</p>
+<h3>FXP'nin Etkinleştirilmesi</h3>
+<p>FXP, File eXchange Protocol ifadesinin kısaltmasıdır. Bu seçeneğin etkinleştirilmesiyle, FTP hizmeti, sunucudan sunucuya dosya aktarma işlevini destekleyecektir.</p>
+
+<h3>FIPS Kriptografik Modülünün Etkinleştirilmesi</h3>
+<p>FIPS, OpenSSL FIPS 140-2 onaylanmış kriptografik modül (Sertifika #1747) kullanılarak FTPS hizmetinde desteklenir. Bu seçenek etkinleştirilerek, daha güvenli oturumlar sunmak amacıyla FTPS hizmeti tarafından ilave güvenli kriptografi algoritmaları kullanılır.</p>
+
+
+<h3>ASCII Aktarma Modunun Desteklenmesi </h3>
+<p>ASCII transfer modunu destekleyerek, Synology NAS'in ASCII formatlı düz metin dosyalarını FTP yoluyla uygun şekilde transfer etmesini sağlamak üzere bu seçeneği etkinleştirin.</p>
+
+
+<h3>UTF-8 Kodlama</h3>
+<p>Bu seçenek FTP istemcilerinin çok dilli dosya adlarını doğru bir şekilde görüntülemesine ve kullanmasına yardımcı olmak için kullanılabilir. Çeşitli FTP istemcilerinin ihtiyaçlarını karşılamak için, aşağıdaki üç seçenek sunulur:
+<ul>
+<li><strong>Etkisizleştir</strong>: UTF-8 kodlaması kullanılmaz. Bu seçenek, çok dilli dosya adlarına sahip dosyaları karşıya yüklemek/indirmek için Windows Dosya Gezginini bir FTP istemci olarak kullanan istemcilere yöneliktir. Normal kullanım için önerilmez.</li>
+<li><strong>Otomatik</strong>: DSM'nin UTF-8 kodlamasını nasıl yapacağını otomatik olarak belirlemesini sağlayın. Bu seçenek normal kullanım için önerilir.</li>
+<li><strong>Zorla</strong>: UTF-8 kodlamanın zorla kullanımı. FTP istemcinizde UTF-8 kodlamayı etkinleştirmişseniz ve yine de çok dilli dosya adlarını doğru görüntüleyemiyorsa ve ele alamıyorsa bu seçeneği seçin.</li>
+</ul>
+
+<h3>Bağlantı Kısıtlaması</h3>
+<p>Bu kısım aşağıdaki seçenekleri içerir.</p>
+
+<ul>
+<li><strong>IP başına bağlantıyı sınırla:</strong> Bu işlev etkinleştirildiğinde, sunucu IP başına maksimum bağlantıyı sınırlandırır. Etkin bant genişliği yönetimi sağlamak amacıyla bu işlev ve <b>FTP bant genişliği kısıtlaması</b> etkinleştirilmelidir.</li>
+<li><strong>FTP bant genişliği kısıtlamasını etkinleştir:</strong> Tekli FTP bağlantısının bant genişliğini kısıtlamak için bu işlevi seçin.</li>
+</ul>
+
+<div class="section">
+
+<h4>Not:</h4>
+<ul>
+<li>"guest" hesabı FTP yoluyla sunucuda oturum açamaz.</li>
+<li>Verilere doğru olarak erişmek için FTP istemci bilgisayardaki kod sayfası ayarı Synology NAS üzerindeki ile aynı olmalıdır.</li>
+<li>FTP hizmeti belirli bazı modellerde SSL veya TLS kullanarak bağlanmayı destekler.</li>
+<li>FTP istemcinizin ve iki FTP sunucusunun güvenlik duvarı ayarları doğru biçimde yapılandırılmalıdır; aksi halde FXP işlemi düzgün çalışmayabilir.</li>
+<li>Internet Explorer 8/9 kullananlar gibi bazı FTP istemcilerinin, kullanıcı adı ve şifreleriyle oturum açması gerekir. Örnek: <i>ftp://kullanıcıadı:şifre@ftp.adresiniz.com</i>.</li>
+</ul>
+</div>
+
+
+
+
+</body>
+</html>

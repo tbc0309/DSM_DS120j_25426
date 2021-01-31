@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>High Availability 管理員 - Synology DSM 說明</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>High Availability 管理員</h1>
+
+ <p>High Availability (高可用性) 是一種伺服器配置技術，可減少因伺服器故障而造成的服務中斷。High Availability 使用兩台伺服器來組成「high-availability 叢集」，一台伺服器扮演「主伺服器」，另一台則扮演「副伺服器」。您需要兩台相容的 Synology 伺服器來組成 high-availability 叢集。</p>
+  <p>一個 high-availability 叢集通常具備下列元件及概念：
+  </p>
+
+  <ul>
+   <li>
+   <b>概念</b>：Synology High Availability 功能需要使用兩台 Synology 伺服器來組成 high-availability 叢集，分別擔任<b>主伺服器</b>與<b>副伺服器</b>的角色。組成 high-availability 叢集之後，主伺服器的資料會持續複製至副伺服器，所有主伺服器上的檔案在副伺服器上都會有一份相同的資料。由於副伺服器擁有與主伺服器一模一樣的資料，當主伺服器發生錯誤時，可將服務轉移至副伺服器。如此一來，high-availability 叢集可將伺服器故障時間降到最低並持續提供服務。如需更多關於服務轉移的資訊，請參閱<a href="switchover_fail.html">轉移</a>。</li>
+   <li><b>主伺服器</b>：主伺服器負責各種服務之運作。若主伺服器出現問題時，您或系統可將服務轉移至副伺服器。在這樣的情況下，服務的運作會改由副伺服器提供，而主伺服器會成為新的副伺服器。</li>
+   <li>
+   <b>副伺服器</b>：在正常情況下，副伺服器處於待機狀態，而主伺服器上的資料會持續複製到副伺服器。如果主伺服器無法提供服務，您或系統可將服務轉移至副伺服器。</li>
+   <li>
+   <b>Heartbeat 連線</b>：High-availability 叢集中的主、副伺服器會透過專用的私人網域連線 (稱為 Heartbeat 連線) 來彼此連結。建立 high-availability 叢集後，Heartbeat 連線會在主、副伺服器間進行資料同步與複製。當超過一定時間沒收到對方訊息時，系統會判斷此時需要進行服務轉移。
+   </li>
+   <li>
+   <b>High-availability 叢集主要儲存空間</b>：主伺服器上的儲存空間會成為 high-availability 叢集的主要儲存空間，所有的資料都將透過 <b>Heartbeat 連線</b>複製至副伺服器的儲存空間。
+   </li>
+   <li>
+   <b>High-availability 叢集備援儲存空間</b>：副伺服器上的儲存空間會成為 high-availability 叢集的備援儲存空間，資料將透過 <b>Heartbeat 連線</b>從主伺服器持續複製至副伺服器的儲存空間。當服務轉移時便可確保檔案內容一致。
+   </li>
+   <li>
+   <b>High-availability 叢集伺服器名稱</b>：High-availability 叢集中的伺服器將會使用一個共同的名稱。您在網路中可使用此伺服器名稱來連結，服務會由主伺服器提供。
+   </li>
+   <li>
+   <b>High-availability 叢集 IP</b>：由於 high-availability 叢集中的主伺服器與副伺服器各自擁有一組 IP 位址，為避免服務轉移時造成 IP 位址必須跟著改變，high-availability 叢集會產生一組通用的 IP 位址。當您要使用各種 DSM 的服務時，不論主伺服器當時由哪一台 Synology 伺服器擔任，都可以透過這些 IP 位址連結。
+   </li>
+</ul>
+
+
+
+
+  
+ </body>
+</html>

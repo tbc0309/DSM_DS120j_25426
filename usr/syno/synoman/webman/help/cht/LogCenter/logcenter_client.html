@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>日誌傳送 - Synology DSM 說明</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Configure Synology NAS as a syslog client to transmit logs to a syslog server for centralized management.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+</head>
+<body>
+<h2>日誌傳送</h2>
+<p>如果您有 syslog 伺服器，您可以依照下列指示，將您的 Synology NAS 設定為 syslog 用戶端，並傳送 Synology NAS 上的本機系統日誌到 syslog 伺服器，以便集中監控和管理。</p>
+
+<h4>若要傳送日誌至 syslog 伺服器：</h4>
+<ol>
+<li>前往<strong>日誌中心</strong> &gt; <strong>日誌傳送</strong>。</li>
+<li>勾選<strong>傳送日誌至 syslog 伺服器</strong>核取方塊。</li>
+<li>在<strong>伺服器</strong>中輸入 syslog 伺服器的主機名稱或 IP 位址。</li>
+<li>指定一個連接埠編號以便接收<strong>連接埠</strong>的 syslog 訊息。</li>
+<li>從<strong>傳輸協定</strong>中選擇 <strong>UDP</strong> 或 <strong>TCP</strong>。此選項應與 syslog 伺服器使用的協定相符。</li>
+<li>從<strong>日誌格式</strong>中選擇 <strong>BSD (RFC 3164)</strong> 或 <strong>IETF (RFC 5424)</strong>作為傳送日誌時所使用的格式。</li>
+	
+    <div class="section">
+	<h4>注意：</h4>
+	<ul>
+    <li>預設的連接埠為 514。若要為 syslog 伺服器重新指派連接埠編號，您必須設定適當的連接埠轉送規則。</li>
+    <li>使用者資料包通訊協定 (User Datagram Protocol, UDP) 是一種訊息介面的簡易連線通訊協定，傳輸較快速，但缺乏安全性及錯誤修正機制。傳輸控制協定 (Transmission Control Protocol, TCP) 提供可靠的傳輸，使用流量控制來確認所有封包是否皆已傳送成功，而後再處理新的封包。</li>
+    <li>安全連線 (SSL) 僅可於 TCP 使用。</li>
+    <li>如果您選擇 TCP 通訊協定並想要透過 SSL 安全連線來保護 syslog 連線，您可以勾選<strong>啟動安全連線 (SSL)</strong> 核取方塊。然後按一下<strong>匯入憑證</strong>並選擇憑證來確保日誌安全地傳輸至 syslog 伺服器。</li>
+    </ul>
+	</div>
+
+<li>按一下<strong>傳送測試日誌</strong>來確認 syslog 伺服器可以成功接收到日誌。如果 syslog 伺服器無法接收到測試日誌，請檢查您的設定是否正確。</li>
+<li>按一下<strong>套用</strong>來儲存設定。</li>
+</ol>
+
+<h3>過濾日誌</h3>
+<p>在<strong>過濾器</strong>頁籤上，您可以依照類別 (例如系統、連線、備份) 或嚴重度 (例如警告、錯誤、資訊) 來指定您要傳送至 syslog 伺服器的日誌類型。</p>
+</body>
+</html>

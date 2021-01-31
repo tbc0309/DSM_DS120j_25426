@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>FTP</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Allmänt</h2>
+
+<p>I <strong>Kontrollpanel</strong> > <strong>Filtjänster</strong> > <strong>FTP</strong> kan du aktivera hastighetsbegränsning, filöverföringsloggning, säkerhetsinställningar och andra avancerade inställningar i avsnittet <strong>Allmänt</strong>.</p>
+
+
+<h3>Aktivering av loggfil för FTP-filöverföring</h3>
+<p>Klicka på <strong>Avancerade inställningar</strong> för att aktivera denna funktion och registrering i loggfiler över nedladdade och uppladdade filer.</p>
+<div class="section">
+<h4>Obs:</h4>
+<p>Aktivering av loggning för FTP-filöverföring kan komma att påverka systemets prestanda.</p>
+</div>
+<h3>Ändring av användares rootkataloger</h3>
+<p>Klicka på <strong>Avancerade inställningar</strong> och markera <strong>Ändra användares rootkataloger</strong>. På så sätt kan de valda användarna endast få åtkomst till de specificerade mappar när de loggar in på DSM via FTP. </p>
+<h4>Att skapa en regel för att ändra en rotkatalog:</h4>
+<ol>
+  <li>I <strong>Avancerade inställningar</strong>, markera <strong>Välj användare</strong>.</li>
+  <li>Klicka på <strong>Lägg till</strong>.</li>
+  <li>I <strong>Användare eller grupp</strong>, välj vilka den här regeln kommer att tillämpas på.</li>
+  <li>Välj vilken rootkatalog som kommer att finnas tillgänglig när användaren loggar in. Välj från:
+	<ul>
+		<li><strong>Användarhem:</strong> Användare kommer till sin hemkatalog efter inloggning.</li>
+		<li><strong>Annan katalog:</strong> Välj en delad mapp som rootkatalog och klicka på <strong>Välj</strong>. Vänligen observera att mappens behörigheter för användaren eller gruppen först måste markeras. En användare eller grupp med otillräckliga behörigheter på mappen kommer inte att kunna logga in.</li>
+	</ul>
+  </li>
+  <li>Klicka på <strong>OK</strong>.</li>
+  <li>Efter att reglerna lagts till, klickar på <strong>Tillämpa</strong> för att spara reglerna.</li>
+</ol>
+<div class="section">
+  <h4>Obs:</h4>
+  <ul>
+    <li>Regler prioriteras enligt deras plats i listan.</li>
+    <li>Dra och släpp för att ändra ordning på reglerna i listan.</li>
+  </ul>
+</div>
+<h3>Aktivera Anonym FTP</h3>
+<p>Klicka på <strong>Avancerade inställningar</strong> och markera alternativet att låta vem som helst logga in på Synology NAS-enhetens FTP-tjänst (med kontot <b>anonymous</b> eller <b>ftp</b>-konto).</p>
+
+<h3>Ändring av anonym rot</h3>
+<p>Klicka på <strong>Avancerade inställningar</strong> och markera alternativet att ändra anonyma FTP-användares inloggningskatalog. Markera en delad mapp från rullgardinsmenyn.</p>
+
+<h3>Tillämpning av standardbehörigheter för UNIX</h3>
+<p>Klicka på <strong>Avancerade inställningar</strong> och markera alternativet att tillämpa standardbehörigheter för UNIX när filer eller mappar laddas upp eller skapas. Tillämpade behörigheter är de samma som de behörigheter som appliceras av UNIX-kommandot <strong>umask</strong>. När detta alternativ är aktiverat är behörigheterna för UNIX 644 för filer och 755 för mappar. När detta alternativ är avaktiverat är behörigheterna för UNIX 666 för filer och 777 för mappar. Standardvärdet för umask är 022.</p>
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+  <li>För delade mappar där Windows ACL aktiverats (alla utdelningar förutom "photo" och utdelningar på externa enheter), vänligen kör kommandot <strong>chmod</strong> på din Linux- eller FTP-klient för att ändra typ av filbehörighet från Windows ACL till UNIX.</li>
+  <li>Aktivering av detta alternativ kan orsaka problem med inkonsekventa behörigheter mellan olika protokoll. För att undvika inkonsekvens rekommenderar vi att detta alternativ lämnas avaktiverat.</li>
+</ul>
+</div>
+
+<h3>Aktivering av hastighetsbegränsning</h3>
+<p>Aktivera en hastighetsbegränsning för att kontrollera den maximalt användbara bandbredden för användare och grupper som överför data via FTP.</p>
+
+
+<h4>För att aktivera hastighetsgräns:</h4>
+<ol>
+  <li>Markera kryssrutan med texten <b>Aktivera hastighetsbegränsning</b> eller <strong>Aktivera hastighetsbegränsning i enlighet med ett schema</strong> om du vill implementera hastighetsbegränsning endast vid specifika tider. Detta är en inställning som får genomslagskraft över hela servern och kommer att åsidosätta inställningar för enskilda användare och grupper. Att välja <strong>Ingen hastighetsbegränsning</strong> avaktiverar inställningarna för hastighetsbegränsning, för alla användare och grupper.</li>
+  <li>Klicka på <strong>Inställningar för hastighetsbegränsning</strong> för att ändra inställningarna för användare eller grupper. För varje användare eller grupp kan du välja en av de följande:
+    <ul>
+      <li><strong>Tillämpa gruppinställningar:</strong> Inställningen för hastighetsbegränsning kommer att vara samma som för gruppen användaren tillhör. </li>
+      <li class="disable-eds14"><strong>Ingen:</strong> Ingen hastighetsbegränsning kommer att tillämpas när gruppmedlemmar överför filer med tjänsten.</li>
+      <li><strong>Konstant:</strong> En fast, konstant hastighetsbegränsning kommer att tillämpas för användaren eller gruppmedlemmarna. Hastighetsbegränsning för uppladdning och nedladdning kan specificeras i fälten till vänster.</li>
+      <li><strong>Anpassat:</strong> Två olika hastighetsbegränsningar kan specificeras och tillämpas på användaren eller gruppmedlemmar, i enlighet med ett schema. Klicka på knappen <strong>Anpassa</strong> för att ändra inställningarna för hastighetsbegränsning och ställa in ett schema.</li>
+    </ul>
+  </li>
+  <li>Klicka på <b>Tillämpa</b>.</li>
+</ol>
+<div class="section">
+  <h4>Obs:</h4>
+  <ul>
+    <li>För mer detaljer om dynamiken för hastighetsbegränsning för grupper, vänligen se <a href="file_group_edit.html">här</a>.</li>
+    <li>Vid inställning av hastighetsbegränsning för en användare kan avsnittet <strong>Resultat</strong> visa användarens faktiska hastighetsbegränsning, i enlighet med sina individuella eller sin grupps inställningar. Till exempel, Till exempel om användaren ”Achilles” har en individuell nedladdningsgräns på 100 KB/s men hör till en grupp med en nedladdningsgräns på 500 KB/s, kommer avsnittet <strong>Resultat</strong> att visa ”0/500”.</li>
+  </ul>
+</div>
+
+
+
+</body>
+</html>

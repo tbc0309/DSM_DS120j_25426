@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>電源</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+
+<h2>UPS</h2>
+
+<p>UPS（無停電電源装置）は、停電になってもしばらくの間であれば Synology NAS を作動し続けられるバックアップ用電源装置です。この機能は、電源が切れてシャットオフしてしまう (EDS14 が停止する) 前に Synology NAS がデータを保存し、ボリュームをアンマウントするのに十分な時間を与えることで、データの消失を防止します。<strong>[コントロール パネル]</strong> > <strong>[ハードウェアと電源]</strong> > <strong>[UPS]</strong> の順に選択してください。</p>
+
+<div class="section">
+<h4>セーフモード</h4>
+<p>Synology NAS がセーフモードに入ると、UPS から電力が供給されている間にすべてのサービスを停止してボリュームをアンマウントします。このようにしてデータの消失を防止し、安全にシャットダウンします (EDS14 が停止する)。デフォルトでは、UPS 装置の電力が残り少なくなるとシステムがセーフモードに入ります。また、停電時に Synology NAS がセーフモードに入るまでの時間を指定することもできます。ただし、指定した時間に達する前に UPS 装置の残量が少なくなると、システムは即座にセーフモードに入ります。</p>
+
+<p>Synology NAS がセーフモードでシャットダウンした場合、<strong>[停電後自動的に再起動する]</strong> オプション（<strong>[コントロール パネル]</strong> > <strong>[ハードウェアと電源]</strong> > <strong>[全般]</strong>）が選択されていると、電源が復帰すると自動的にオンになります。</p>
+</div>
+
+<h3>ローカル UPS サポート</h3>
+<p>UPS 装置のインストールについては、装置の取扱説明書をお読みください。インストールが完了し、Synology NAS を UPS 装置に接続したら、次の手順に従って UPS サポートを有効にしてください。</p>
+<h4>ローカル UPS サポートを有効にする：</h4>
+<ol>
+<li>UPS 装置をSynology NAS の USB ポートに繋ぎます。</li>
+<li><b>[UPS]</b> タブで、<b>[UPS サポートを有効にする]</b> のチェックボックスを選択します。</li>
+<li>停電になったら Synology NAS がセーフモードに入るように選択します。</li>
+<li>システムがセーフモードになったとき、UPS に停止信号を送信するかどうかを設定します。ほとんどの UPS 装置は、電源が復旧すると自動的にオンになります。
+<ul><li>このオプションを有効にした場合、Synology NAS は電源の損失により直ちにシャットダウンされます。</li>
+<li>このオプションを有効にした場合は、<strong>[コントローラ パネル]</strong> > <strong>[ハードウェアと電源]</strong> > <strong>[全般]</strong> で <strong>[停電後自動的に再起動する]</strong> チェックボックスにマークを付けて、電源回復時に Synology NAS が自動的に再起動されるようにしてください。</li></ul></li>
+<li><b>[適用]</b> をクリックします。</li>
+</ol>
+
+<h3>SNMP UPS サポート</h3>
+
+<p>SNMP UPS は、SNMP と Synology NAS を接続するバックアップ電源装置です。SNMP UPS 装置のインストールについては、装置の取扱説明書をお読みください。Synology NAS を装置に接続し、同じネットワークに繋いだら、次の手順に従って UPS サポートを有効にしてください。</p>
+
+<h4>SNMP UPS サポートを有効にする：</h4>
+<ol>
+<li><strong>[UPS]</strong> タブで、<b>[UPS サポートを有効にする]</b> のチェックボックスを選択します。</li>
+<li><strong>[UPS のタイプ]</strong> ドロップダウン メニューから <strong>[SNMP UPS]</strong> を選択します。</li>
+<li><strong>[Synology NAS がセーフモードになるまでの時間]</strong>をマークし、電源の故障が発生した後、Synology NAS がセーフモードになるまでの時間をカスタマイズします。数値を入力してから、ドロップダウン メニューから <b>[秒]</b>、<b>[分]</b>、または <b>[時間]</b> を選択します。マークされていない場合は、<b>バッテリー残量が低になるまで</b>が適用され、Synology NAS はUPSのバッテリーが少なくなった時にセーフモードにはいります。</li>
+	<p><span class="note_head">注：</span>選択したオプションに関わらず、電源が低になると、Synology NAS は自動的にセーフモードに切り替わります。</p>
+<li><strong>[SNMP UPS IP アドレス]</strong> 欄で SNMP UPS デバイスの IP アドレスを入力します。</li>
+<li>ドロップダウンメニューから <strong>[SNMP MIB]</strong> を選択します。</li>
+<li>ドロップダウンメニューから <strong>[SNMP バージョン]</strong> を選択します。</li>
+<li><strong>[SNMP コミュニティ]</strong> 欄に、SNMP UPS 装置のコミュニティ ストリングを入力します。</li>
+<li>この Synology NAS が SNMP に接続され、ネットワーク UPS サーバーとして機能する場合は、<strong>[ネットワーク UPS サーバーを有効にする]</strong>チェックボックスにマークを付けます。<strong>[許可された Synology NAS デバイス]</strong> をクリックして、この UPS への接続を許可するすべての Synology NAS デバイスの IP アドレスを入力します。</li>
+<p><span class="note_head">注：</span>SA3200D では、<b>Permitted Synology NAS Devices</b> 機能は利用できません。</p>
+<li><b>[適用]</b> をクリックします。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>Synology High Availability (SHA) の導入の際は、<b>SNMP UPS</b> をお使いになることを強くお薦めします。</li>
+<li>Synology NAS は SNMPv1 と SNMPv2c UPS デバイスに対応しています。</li>
+</ul>
+</div>
+
+<h3>Synology UPS サーバー</h3>
+
+<p>USB ポートまたはネットワークを介して UPS デバイスに接続されている 1 つの Synology 製品を持つ UPS デバイスを使用する Synology 製品が複数ある場合、USB またはネットワーク経由で接続されている Synology NAS のみが、UPS デバイスの状態に関する情報を取得できます。この場合、この Synology NAS は「ネットワーク UPS サーバー」として機能します。ネットワーク UPS サーバーは UPS 情報を取得して、クライアント Synology NAS にその情報を引き渡します。</p>
+
+<h4>Synology UPS サーバーを有効にする：</h4>
+<ol>
+<li>UPS 装置（USB またはネットワーク経由）に繋いでいる Synology NAS にログインします。</li>
+<li><strong>[UPS]</strong> タブで <strong>[ネットワーク UPS サーバーを有効にする]</strong> チェックボックスをチェックし、Synology NAS がクライアントの Synology NAS に UPS 情報を引き渡せるようにしてください。</li>
+<li><strong>[許可された Synology NAS デバイス]</strong> ボタンをクリックします。</li>
+<li>表示されるウィンドウで、クライアント Synology NASの IP アドレスを入力します。<strong>[OK]</strong> をクリックします。</li>
+<li><strong>[適用]</strong> をクリックして設定を保存します。</li>
+</ol>
+
+<p>これでネットワーク UPS サーバーが UPS 情報を取得し、UPS 装置を使用しているクライアント Synology NAS に情報を引き渡すことができます。クライアント Synology NAS で UPS サポートを有効にする手順については、下記の説明をお読みください。</p></strike>
+
+<h4>クライアントの Synology NAS で UPS サポートを有効にするには：</h4>
+<ol>
+<li>UPS 装置を使用しているが、USB またはネットワークに接続されていないクライアント Synology NAS にログインします。</li>
+<li><strong>[UPS]</strong> タブで、<strong>[UPS サポートを有効にする]</strong> のチェックボックスを選択します。</li>
+<li><strong>[UPS のタイプ]</strong> ドロップダウン メニューから <strong>[Synology UPS サーバー]</strong> を選択します。</li>
+<li><strong>[Synology NAS がセーフモードになるまでの時間]</strong>をマークし、電源の故障が発生した後、Synology NAS がセーフモードになるまでの時間をカスタマイズします。数値を入力してから、ドロップダウン メニューから <strong>[秒]</strong>、<strong>[分]</strong>、または <strong>[時間]</strong> を選択します。マークされていない場合は、<b>サーバーに合わせる</b>が適用され、Synology NAS はサーバーがシャットダウンした時にセーフモードにはいります。</li>
+	<p><span class="note_head">注：</span>選択したオプションに関わらず、電源が低になると、Synology NAS は自動的にセーフモードに切り替わります。</p>
+<li><strong>ネットワーク UPS サーバーIP</strong>フィールドに ネットワーク UPS サーバーの IP アドレスを入力します。</li>
+<li><b>[適用]</b> をクリックして設定を保存します。</li>
+</ol>
+
+<div class="section">
+<h4>ネットワーク UPS の必要条件：</h4>
+<ul>
+<li>UPS 装置の情報をリレーできるように、すべての Synology NAS が同じネットワークに繋がれていなければなりません。</li>
+<li>各 Synology NAS を接続するネットワーク装置（スイッチやハブなど）は、同じ UPS 装置に繋いでください。そうしなければ、Synology NAS が停電時に UPS 装置の情報をリレーすることができません。</li>
+</ul>
+</div>
+
+
+
+
+
+
+</body>
+</html>

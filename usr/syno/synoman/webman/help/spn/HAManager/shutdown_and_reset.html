@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Apagado y reinicio</h2>
+  <p>Las siguientes instrucciones le guiarán en el proceso de apagado, eliminación o reinicio de un clúster high-availability.</p>
+
+  <h4> Para apagar el clúster high-availability utilizando Synology High Availability:</h4>
+  <p>Si desea apagar un clúster high-availability para transportar los servidores a una nueva ubicación física o realizar labores de mantenimiento, pero no quiere eliminar las configuraciones del clúster high-availability, siga estas instrucciones.</p>
+  <ol>
+   <li>Inicie sesión en DSM.</li>
+   <li>Abra Synology High Availability.</li>
+   <li>Haga clic en el botón <b>Administración</b>.</li>
+   <li>Seleccione <b>Apagar el clúster HA</b>.</li>
+   <li>Aparecerá un mensaje de confirmación. Haga clic en <b>Sí</b> para confirmar.</li>
+  </ol>
+
+  <h4>Para apagar manualmente un clúster High-Availability:</h4>
+  <p> El clúster high-availability también se puede apagar pulsando los botones de encendido de cada servidor. </p>
+  <ol>
+   <li>Mantenga pulsado el botón de encendido de un servidor (activo o pasivo) hasta que emita un pitido.</li>
+   <li>Una vez que se haya apagado por completo un servidor, espere al menos 30 segundos (el servidor que sigue en línea necesita tiempo para guardar la configuración).</li>
+   <li>Mantenga pulsado el botón de encendido del otro servidor hasta que emita un pitido.</li>
+   <li>Espere a que el servidor se apague por completo.</li>
+  </ol>
+<div class="section">
+<h4>Encender servidores:</h4>   
+<p>Cuando quiera volver a encender los servidores, debería encender el servidor activo y el servidor pasivo al mismo tiempo (o con un intervalo de cinco minutos entre ellos). Si solo enciende uno de los servidores, este intentará encender el otro servidor enviando un mensaje de Despertar con LAN.</p>
+<h4>Apagado anormal:</h4>
+<p>Cuando se crea un clúster high-availability, se habilita automáticamente la opción de reinicio tras corte de electricidad en el Panel de control. Si los servidores se apagan de forma anormal debido a un corte de electricidad, se encenderán automáticamente una vez que se restablezca la electricidad.</p>
+</div>
+
+<h4>Para eliminar un clúster de high-availability:</h4>
+ <p>Cuando desee desvincular ambos servidores y eliminar un clúster high-availability para vincular otro servidor, siga estas instrucciones.</p>
+  <ol>
+   <li>Vaya a la página <b>Información general</b>.</li>
+   <li>Haga clic en el botón <b>Administración</b>.</li> 
+   <li>Seleccione <b>Eliminar clúster HA</b>.</li>
+  </ol>
+  <p>Tras la confirmación, el sistema eliminará el clúster high-availability. El campo de estado muestra el progreso del proceso de eliminación. Cuando el clúster high-availability se haya eliminado correctamente, se le redirigirá a la dirección IP original del servidor activo. El estado de ambos servidores cambiará a <b>Independiente</b>.</li>
+
+<div class="section">
+<h4>Observación:</h4>
+<ul>
+	<li>Durante el proceso de eliminación de un clúster high-availability, pueden quedar algunas operaciones de escritura de datos incompletas. Para garantizar la integridad de los datos, realice la replicación de datos basada en el servidor activo, ya que puede que los datos del servidor pasivo no estén del todo actualizados.</li>
+</ul>
+</div>  
+ 
+ <h4>Para reiniciar un clúster high-availability que funciona mal:</h4>
+  <p>En caso de que no pueda acceder a DSM o al High Availability de Synology, debido a un error de "split brain" o a otro tipo de fallo, puede intentar forzar el clúster high-availability para que se desvincule pulsando el botón <b>Restablecer</b> ubicado en sus servidores.</p>
+  <ol>
+   <li>Mantenga pulsado el botón <b>Restablecer</b> (normalmente ubicado en el panel posterior de un servidor) hasta que el servidor emita un pitido.<li>El sistema se eliminará del clúster high-availability y el estado de este servidor cambiará a <b>Independiente</b>.</li>
+   <li>Al pulsar el botón <b>Restablecer</b>, también se restaurarán algunos valores de configuración predeterminados, como la dirección IP, el DNS y la contraseña de admin, además de lo siguiente:</li>
+   <ul>
+    <li>La contraseña de admin quedará vacía.</li>
+    <li>La cuenta de invitado se deshabilitará.</li>
+    <li>Se habilitará DHCP en IP, DNS, pasarela y otras interfaces de red.</li>
+    <li>Se deshabilitará JumboFrames y MTU se ajustará en 1500.</li>
+    <li>El puerto de administración se restablecerá en 5000/5001.</li>
+    <li>PPPoE se restablecerá en los valores predeterminados.</li>
+    <li>El bloqueo automático de IP se deshabilitará (la dirección IP bloqueada no se borrará).</li>
+    <li>Link Aggregation se deshabilitará.</li>
+    <li>Las reglas de cortafuegos se deshabilitarán (pero no se borrarán).</li>
+   </ul>
+  </ol>
+
+<div class="section">
+<h4>Observación:</h4>
+<ul>
+	<li>Al pulsar el botón <b>Restablecer</b> en un servidor, solo se elimina este servidor del clúster high-availability. Si desea eliminar ambos servidores del clúster high-availability, pulse el botón <b>Restablecer</b> en ambos servidores.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

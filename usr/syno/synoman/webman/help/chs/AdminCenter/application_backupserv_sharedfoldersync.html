@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>备份和复制</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>共享文件夹同步</h2>
+<p>&ldquo;共享文件夹同步&rdquo;服务可让用户将共享文件夹从一台 Synology NAS 设备（来源）同步至局域网或 Internet 上的另一台 Synology NAS 设备（目的地）上。</p>
+<p>第一次进行同步时，共享文件夹同步功能会将所选的共享文件夹进行完整的同步。之后则会仅同步文件修改过的部分。在来源移除的文件，在目的地上也会被移除。</p>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>&ldquo;共享文件夹同步&rdquo;是一个单向同步解决方案，将来源文件中的文件同步到目的地。对于双向同步解决方案，请使用 <strong>Synology Drive ShareSync</strong>。</li>
+<li>如果在目的地存在与来源共享文件夹相同名称的共享文件夹 (如 SharedFolder)，则目标文件夹将被名称为&ldquo; SharedFolder_1&rdquo;。</li>
+<li>如果在目的地不存在与来源共享文件夹相同名称的共享文件夹，则将使用相应或首个可用存储空间中的名称来创建文件夹。</li>
+<li>默认没有用户有访问目的地上共享文件夹的权限。请联系目的地 <strong>admin </strong>以获得权限。</li>
+</ul>
+</p>
+</div>
+
+<h3>启用此服务</h3>
+<h4>若要启用共享文件夹同步：</h4>
+<p>您必须先在目的地 Synology NAS 上启用此服务。</p>
+<ol>
+<li>请进入<strong>控制面板</strong> &gt; <strong>文件服务</strong> &gt; <strong>rsync</strong>。</li>
+<li>选择<strong>启用 rsync 服务</strong>以启用&ldquo;共享文件夹同步&rdquo;服务。</li>
+<li>单击<strong>应用</strong>。</li>
+</ol>
+
+
+<h4>若要取消共享文件夹与目的地 Synology NAS 的链接：</h4>
+
+<p>如果不同的来源同时将相同的共享文件夹同步到同一目的地 Synology NAS，将会发生冲突。在另一个来源可将其文件夹同步到目的地之前，您需要取消与来源地共享文件夹的链接。<ol>
+<li>登录到目的地 Synology NAS，进入<strong>控制面板</strong> &gt; <strong>共享文件夹同步</strong> &gt; <strong>任务列表</strong>。</li>
+<li>从来源 Synology NAS 选择冲突连接，并单击<strong>取消链接</strong>以将其删除。</li>
+</ol>
+
+<p>现在其他来源可以将该共享文件夹同步到目的地 Synology NAS。</p>
+
+<h3>管理同步任务</h3>
+
+<h4>若要创建同步任务：</h4>
+<ol>
+<li>登录到来源 Synology NAS，进入<b>控制面板</b> &gt; <b>共享文件夹同步</b> &gt; <strong>任务列表</strong>。</li>
+<li>单击<b>创建</b>。</li>
+<li>输入任务的名称。</li>
+<li>选择您要同步至目的地的共享文件夹。</li>
+<li>指定目的地 Synology NAS 及下列同步选项：</li>
+<ul>
+<li><strong>为加密共享文件夹同步自定义 SSH 加密端口</strong>：为 SSH 传输加密指定所需加密端口。</li>
+<li><strong>启用 SSH 传输加密</strong>：传输过程中对数据加密。这可提供较高的安全性，但非加密传输的性能更好。您可按需要选择。</li> 
+<li><strong>启用传输压缩</strong>：传输过程中对数据压缩。这可节省网络带宽，但会增加 CPU 负载。</li>
+<li><strong>启用块级同步</strong>：仅传输不同的数据而非整个文件。这可节省网络带宽，但会增加 CPU 负载。</li>
+</ul>
+<li>提示后，选择以下选项之一以决定什么时候从来源同步到目的地：</li>
+<ul>
+<li><strong>出现修改时运行同步</strong>：一旦来源共享文件夹内有任何变化，立即运行同步任务。</li>
+<li><strong>手动运行同步</strong>：从来源共享文件夹手动运行同步任务。</li>
+<li><strong>高级计划</strong>：单击<strong>进度计划</strong>可指定执行同步任务的时间。</li>
+
+</ul>
+<li>单击<strong>应用</strong>。现在您可以在任务列表上看到同步任务，系统会按所指定的计划管理运行任务。</li></ol>
+<h4>若要管理同步任务：</h4>
+<ol>
+<li>在来源 Synology NAS 中，进入<strong>控制面板</strong> &gt; <strong>共享文件夹同步</strong>，单击<strong>任务列表</strong>，并选择所需的任务。</li>
+<li>请执行下列任何操作：</li>
+<ul>
+<li>单击<b>编辑</b>可编辑任务。</li>
+<li>单击<b>删除</b>可删除任务。</li> 
+<li>如果该同步任务尚未进行，单击<b>立即同步</b>可立即运行任务。</li>
+<li>如果该同步任务正在进行，单击<b>取消</b>可停止正在进行的任务。</li>
+
+<div class="section">
+<h4>注：</h4>
+<p>如果同步任务的计划设置为<b>数据异动时自动进行同步</b>，单击<b>取消</b>会停止进行中的同步任务。然而，如果同步任务监控的任何共享文件夹内容发生异动，&ldquo;共享文件夹同步&rdquo;会继续进行同步任务。</p>
+</div>
+
+<li>单击<b>全部同步</b>以同步所有数据。&ldquo;共享文件夹同步&rdquo;第一次运行同步任务时会运行完整同步，之后仅同步有修改的部分。单击此按钮可辅助您以手动方式再度同步所有的数据。</li>
+</ul>
+</ol>
+
+<div class="section">
+<h4>更多信息</h4>
+<ol>
+<li>任务名称必须设置为 1 到 32 个 Unicode 字符，但不得包含以下字符：<br><span class="letterSpace5">! &quot; # $ % &amp; &apos; ( ) * + , / : ;<= >? @ [ ] \ ^ ` { } | ~</span></span></li>
+<li>如果您要将 ext4 文件系统的共享文件夹同步至 ext3 的文件系统，同步任务的文件夹数量若超过 32,000 个时可能会发生错误。</li>
+<li>若目的地 Synology NAS 上的共享文件夹曾与其他 Synology NAS 进行同步，&ldquo;共享文件夹同步&rdquo;在进行任务时会执行完整同步。</li>
+<li>若要运行&ldquo;共享文件夹同步&rdquo;任务，您必须拥有目的地 Synology NAS 的管理员权限。您必须拥有 admin 帐户的密码，或为管理群组内的一员。</li>
+<li>当您通过 Internet 同步到目的地 Synology NAS 时，可以按其外部 IP 地址或主机名输入服务器名称。然而，如果您选择以主机名来链接，此主机名必须符合 FQDN（Fully Qualified Domain Name）格式，例如&ldquo;www.synology.com&rdquo;。</li>
+<li>&ldquo;共享文件夹同步&rdquo;在端口转送时，使用端口 22 进行加密传输，使用端口 873 进行非加密传输。</li>
+<li>&ldquo;共享文件夹同步&rdquo;不支持外接存储设备。</li>
+<li>当&ldquo;共享文件夹同步&rdquo;任务运行后，将自动在目的地装载加密共享文件夹；但要访问其中的数据，必须先在目的地装载加密共享文件夹。</li>
+<li>如果对所选共享文件夹未做更改，则计划的&ldquo;共享文件夹同步&rdquo;将不会在特定时间运行。</li>
+<li>为获得最佳性能，我们建议每个同步任务包含的共享文件夹少于 200 个。</li>
+<li>如果 <strong>homes</strong> 共享文件夹从源 Synology NAS 同步到目的地 Synology NAS，则<strong>用户主目录</strong>功能在目的地 Synology NAS 将被禁用。</li>
+
+<li>对于带非 Intel CPU 的型号，您可使用共享文件夹同步最多 100,000 个共享文件夹（包括子文件夹）。</li>
+ <li>&ldquo;共享文件夹同步&rdquo;在目的地的文件系统为 ext4 或 Btrfs 时，可以备份 Windows ACL 设置。<br><span class="note_head">注：</span>存储于 Synology NAS 的数据和 Windows ACL 的设置不能同步至 EDS14。</li>
+ 
+ <li>如果您要同步到与 Synology NAS 名称相同的目的地服务器，&ldquo;共享文件夹同步&rdquo;将会失败。</li>
+ 
+<li>来源中的高级共享文件夹权限将被同步到目的地。此外，在目的地将创建 administrators 群组的只读规则。</li> 
+
+  </ol>
+</div>
+
+</body></html>

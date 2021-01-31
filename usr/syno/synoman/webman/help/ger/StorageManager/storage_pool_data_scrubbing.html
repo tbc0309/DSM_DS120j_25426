@@ -1,0 +1,134 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+<title>Datenbereinigung</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Data scrubbing is a data maintenance feature that inspects volumes or disk groups and repairs any detected data inconsistencies.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Datenbereinigung</h2>
+
+<h3>Datenbereinigung durchführen</h3>
+<p>Die Datenbereinigung ist eine Wartungsfunktion für Daten, die Speicherpools überprüft. Die nachfolgenden zwei Datenbereinigungsarten werden nacheinander ausgeführt:</p>
+
+<ul>
+<li><strong>Dateisystembereinigung</strong>: Diese Funktion überprüft die Volumes im Btrfs-Dateisystem. Wenn bei der Prüfsumme eine Dateninkonsistenz erkannt wird, versucht das System die Daten mit einem Backup zu reparieren, wobei der Dateipfad im Protokoll-Center erfasst wird.</li>
+<li><strong>RAID-Bereinigung</strong>: Diese Funktion kann bei Speicherpools verwendet werden, die SHR (bestehend aus drei oder mehr Laufwerken), RAID 5 oder RAID 6 nutzen. Sie kann alle gefundenen Datenunstimmigkeiten reparieren.</li>
+</ul>
+
+<p>Wir empfehlen eine regelmäßige Datenbereinigung, um die Datenkonsistenz sicherzustellen und den Datenverlust im Fall eines Festplattenfehlers zu vermeiden.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+	<ul>
+	<li>Die Datenbereinigung und die entsprechenden in diesem Artikel erläuterten Funktionen sind nur bei bestimmten Modellen verfügbar.</li>
+	<li>Die Datenbereinigung kann nicht ausgeführt werden, wenn der Status der Speicherpools <strong>Abgestürzt</strong> oder <b>Fehlerhaft</b> lautet.</li>
+	<li>Wenn <b>Daten-Prüfsumme für erweiterte Dateiintegrität</b> für einen freigegebenen Ordner nicht aktiviert ist, kann die Dateisystembereinigung die Daten in dem Ordner aufgrund fehlender Prüfsummen nicht überprüfen oder reparieren.</li>
+	</ul>
+</div>
+
+<h3>Zeitplan für Datenbereinigung festlegen</h3>
+<p>Sie können einen Zeitplan für die Datenbereinigung festlegen. Das System wird die Datenbereinigung gemäß Ihren Einstellungen ausführen.</p>
+<h4>Einen Zeitplan für die Datenbereinigung festlegen:</h4>
+<ol>
+<li>Starten Sie den <strong>Speicher-Manager</strong>.</li>
+<li>Gehen Sie zu <strong>Speicherpool</strong> > <strong>Datenbereinigung</strong>.</li>
+<li>Klicken Sie auf <strong>Zeitplan einstellen</strong>.</li>
+<li>Aktivieren Sie das Kontrollkästchen <strong>Zeitplan für Datenbereinigung</strong> aktivieren.</li>
+	<li>Legen Sie <strong>Frequenz</strong>, <strong>Startdatum</strong> und <strong>Zeitsitzung</strong> fest.</li>
+<li>Gehen Sie zur Registerkarte <strong>Ziel auswählen</strong>.	
+<li>Wählen Sie den Speicherpool aus, in dem die Datenbereinigung ausgeführt werden soll.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Um zu einem Zeitplan hinzugefügt werden zu können, muss der Speicherpool die Datenbereinigung unterstützen und sein Status <b>Normal</b> lauten.</li>	
+<li>Wenn Ihr System von Version 6.1 aktualisiert wird, werden Speicherpools, die Datenbereinigung ausführen können, standardmäßig zum Zeitplan hinzugefügt.</li>
+<li>Wenn Sie Ihren Zeitplan in Version 6.1 eingerichtet haben, werden wir Ihren Zeitplan automatisch gemäß Ihren früheren Einstellungen aktivieren.</li>	
+</ul></div>
+
+<h4>Speicherpool einem Zeitplan hinzufügen oder aus einem Zeitplan entfernen:</h4>
+
+<ol>
+<li>Klicken Sie auf <strong>Zeitplan einstellen</strong></li>
+<li>Gehen Sie zur Registerkarte <strong>Ziel auswählen</strong>.</li>	
+<li>Aktivieren oder deaktivieren Sie das Kontrollkästchen eines Speicherpools, um ihn zu einem Zeitplan hinzuzufügen oder zu entfernen.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Ein Speicherpool kann nicht zu einem Zeitplan hinzugefügt oder daraus entfernt werden, wenn auf ihm gerade manuell eine Datenbereinigung ausgeführt wird.</li>
+<li>Wenn ein Speicherpool, auf dem eine geplante Datenbereinigung stattfindet, entfernt wird, geht der aktuelle Fortschritt auf diesem Speicherpool verloren.</li>
+</ul></div>
+
+<h4>Einstellungen für Zeitplan ändern:</h4>
+
+<ol>
+<li>Klicken Sie auf <strong>Zeitplan einstellen</strong>.</li>
+<li>Ändern Sie je nach Bedarf Frequenz, Startdatum und Zeitsitzung.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+  <li>Wird das <strong>Startdatum</strong> geändert, so wird der aktuelle Fortschritt des Zeitplans zurückgesetzt und die Datenbereinigung gemäß dem neuen Startdatum neu begonnen.</li>
+</ul>
+</div>	
+
+<h4>Einen Zeitplan anhalten:</h4>
+
+<ol>
+<li>Wählen Sie einen Speicherpool aus, bei dem gerade eine geplante Datenbereinigung durchgeführt wird.</li>
+<li>Klicken Sie in der Dropdown-Liste <b>Aktion</b> auf <strong>Zeitplan anhalten</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Um den Datenbereinigungszeitplan fortzusetzen, müssen Sie im Dropdown-Menü <b>Aktion</b> auf <strong>Zeitplan fortsetzen</strong> klicken. Ansonsten bleibt der Zeitplan unterbrochen.</li>	
+</ul></div>
+	
+<h3>Datenbereinigung manuell ausführen:</h3>
+
+<p>Wenn das System eine Störung im Speicherplatz feststellt, können Sie versuchen, Ihre Daten durch eine manuell ausgeführte Datenbereinigung zu reparieren.</p>	
+	
+<h4>Datenbereinigung manuell ausführen:</h4>
+
+<ol>
+	<li>Öffnen Sie den <strong>Speicher-Manager</strong>.</li>
+	<li>Gehen Sie zu <strong>Speicherpool</strong> > <strong>Datenbereinigung</strong>.</li>
+	<li>Wählen Sie den Speicherpool aus, auf dem die Datenbereinigung ausgeführt werden soll.</li>
+	<li>Klicken Sie in der Dropdown-Liste <strong>Aktion</strong> auf <strong>Manuelle Ausführung</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+
+<li>Wenn das System heruntergefahren wird, bevor die Datenbereinigung abgeschlossen wurde, kann Fortschritt verloren gehen und Sie müssen die Datenbereinigung manuell erneut starten.</li>
+<li>Wenn der Zeitpunkt der manuell ausgeführten Datenbereinigung sich mit der geplanten Datenbereinigung überschneidet, wird diese Runde der geplanten Datenbereinigung erst abgeschlossen, nachdem die manuell ausgeführte Datenbereinigung beendet wurde. </li>
+<li>Die Ausführung der Datenbereinigung kann Ihre Systemleistung beeinträchtigen. Wir empfehlen, die Datenbereinigung nur dann auf mehreren Speicherpools auszuführen, wenn es wirklich notwendig ist.</li>	
+</ul></div>	
+
+<h4>Einen Zeitplan auf einem Speicherpool anhalten, auf dem eine manuell ausgeführte Datenbereinigung stattfindet:</h4>	
+<ol>
+<li>Wählen Sie den Speicherpool aus, den Sie anhalten möchten.</li>
+<li>Klicken Sie in der Dropdown-Liste <b>Aktion</b> auf <b>Pause</b>.</li>	
+	</ol>	
+</body>
+</html>

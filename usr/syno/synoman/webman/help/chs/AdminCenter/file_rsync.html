@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>备份服务 - Synology DSM 帮助</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Rsync</h2>
+
+<p>您可让其他用户通过 rsync 将数据从 Synology NAS 或 rsync 兼容客户端备份到您的 Synology NAS。</p>
+
+<h3>启用 rsync 备份服务</h3>
+
+<h4>若要启用 rsync 服务：</h4>
+
+<p>请进入<strong>控制面板</strong> &gt; <strong>文件服务</strong> &gt; <strong>rsync</strong>，并选择<strong>启用 rsync 服务</strong>。</p>
+
+
+<h4>若要分配 rsync 备份权限：</h4>
+
+
+<p>向用户分配适当的 rsync 权限，以使这些用户可将数据从源 Synology NAS 或 rsync 兼容服务器备份到目的地 Synology NAS。</p>
+
+<ol>
+<li>请进入<b>控制面板</b> &gt; <b>权限</b>。</li>
+<li>选择 <strong>rsync（特定型号支持共享文件夹同步、LUN 备份）</strong>，然后单击<strong>编辑</strong>以分配权限。</li>
+<li>将<strong>允许</strong>权限分配给所需的用户（DSM 用户用于加密 rsync，或 rsync 帐户用于未加密 rsync），或进一步为特定用户指定允许的 IP 地址。</li>
+</ol>
+
+
+
+<div class="section">
+<h4>注：</h4>
+<p>若要从运行 DSM 3.0 之前版本的 Synology NAS 或不是 Synology NAS 的客户端执行 rsync 备份，并且要保留源数据的<b>所有者</b>和<b>群组</b>信息，必须将 rsync 帐户添加到 <b>administrators</b> 群组，并在 daemon 模式下将数据备份到 <b>NetBackup</b> 共享文件夹。</p>
+</div>
+
+<h3>启用 Rsync 帐户</h3>
+<p>如果您从非 Synology NAS 客户端执行 rsync 备份，则必须在目的地 Synology NAS 上创建 rsync 帐户，以使 rsync 用户可将数据备份到您的 Synology NAS。</p>
+
+<h4>若要启用 rsync 帐户：</h4>
+<ol>
+<li>请进入<b>控制面板</b> &gt; <b>文件服务</b> &gt; <strong>rsync</strong>，然后选择<b>启用 rsync 帐户</b>。</li>
+<li>单击<b>编辑 rsync 帐户</b>可设置用户和相应的验证密码。</li>
+<li>单击<b>应用</b>。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>如果 rsync 服务被加密（即，有指定的 SSH 加密端口），则系统会将 DSM 用户的用户名和密码直接应用为其 rsync 帐户。</li>
+<li>如果 rsync 服务未加密，则您需要为其创建相应的 rsync 帐户。</li>
+</ul>
+</div>
+
+
+<h3>使用自定义的 rsync 配置</h3>
+
+<p>您可以使用自定义的 rsync 配置，并在您的 Synology NAS 上配置用户权限和备份目的地。这样，其他人就可以从其 Synology NAS 设备或 rsync 兼容客户端执行 rsync 备份到您 Synology NAS 上的目的地共享文件夹（或称&ldquo;备份模块&rdquo;）。</p>
+
+<h4>若要使用自定义的 rsync 配置：</h4>
+
+<ol>
+<li>请通过 Telnet 或 SSH 登录 Synology NAS 设备。</li>
+<li>在 rsync 配置文件&ldquo;<b><code>/etc/rsyncd.conf</code></b>&rdquo;中指定备份模块和授权用户。如需详细信息，请参阅 rsync 客户端设备的 <b>rsyncd.conf</b> 说明页面或参阅<a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">此处</a>。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<p>如果备份模块和共享文件夹的名称相同，则将使用备份模块设置。</p>
+</div>
+
+
+<h3>启用速度限制</h3>
+<p>您可控制用户和群组 rsync 备份的可用带宽上限。</p>
+
+<h4>若要启用速度限制：</h4>
+<ol>
+  <li>请进入<b>控制面板</b> &gt; <b>文件服务</b> &gt; <strong>rsync</strong>。选择以下其中一项：<ul>
+  <li><strong>无速度限制</strong></li>
+  <li><strong>启用速度限制</strong></li>
+  <li><strong>根据计划启用速度限制</strong>（单击<strong>设置计划</strong>以作进一步修改。）</li>
+  </ul>
+  
+<div class="section">
+<h4>注：</h4>
+<p>此设置将应用到整个服务器，并覆盖各个用户和群组的设置。例如，选择<strong>无速度限制</strong>可禁用所有用户和群组的速度限制设置。</p>
+</div>
+  </li>
+
+  <li>如果已启用速度限制，单击<strong>速度限制设置</strong>，然后单击所需的用户/群组可修改设置：<ul>
+       <li><strong>无</strong>：当群组成员用此服务传输文件时不应用速度限制。</li>
+      <li><strong>应用群组设置</strong>：用户将与关联群组共享相同的速度限制设置。</li>
+      <li><strong>固定</strong>：一个固定速度限制常量将应用到用户或群组成员。可在左侧栏中指定上传与下载的速度限制。</li>
+      <li><strong>自定义</strong>：可根据计划指定两种不同的速度限制并应用到用户或群组成员。单击<strong>自定义</strong>可修改速度限制设置并设置计划。</li>
+    </ul>
+  </li>
+ <li>单击<b>应用</b>。</li> 
+
+</ol>
+<div class="section">
+  <h4>注：</h4>
+    <p><strong>结果 (UL/DL)</strong> 区域会根据用户个人和群组设置显示其实际上传和下载限制。例如，如果用户&ldquo;Achilles&rdquo;的具体下载限制为 100 KB/秒，但该用户所属群组的下载限制为 500 KB/秒，则<strong>结果 (UL/DL)</strong> 区域将显示&ldquo;0/500&rdquo;。</p>
+</div>
+
+</body>
+</html>

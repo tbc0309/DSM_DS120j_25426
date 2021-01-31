@@ -1,0 +1,19 @@
+/var/log/samba/log.smbd /var/log/samba/log.nmbd /var/log/samba/log.samba {
+	size 5M
+	missingok
+	rotate 4
+	sharedscripts
+	postrotate
+		/usr/syno/sbin/synoservice --reload syslog-ng || true
+	endscript
+}
+
+/var/log/samba/log.winbindd /var/log/samba/log.winbindd-* /var/log/samba/log.wb-* {
+	size 5M
+	missingok
+	rotate 0
+	nocompress
+	postrotate
+		/usr/syno/sbin/synoservice --reload syslog-ng || true
+	endscript
+}

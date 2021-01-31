@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Backuptjenester - Synology DSM - Hjælp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Backuptjenester</h2>
+<p>Valgmuligheder under <strong>Backup og kopiering</strong> > <strong>Backuptjenester</strong> sætter andre brugere i stand til at udføre backup på data fra deres Synology NAS-enheder eller rsync-kompatible klienter til din Synology NAS.</p>
+<h3>Aktivering af netværksbackuptjeneste</h3>
+<p>Hvis du vil udføre backup af data fra en Synology NAS eller rsync-kompatibel server til en anden Synology NAS eller tillade en anden Synology NAS-enhed at udføre fjernbackupopgaver og gemme backupdata på en diskenhed på din Synology NAS-enhed, skal du først aktivere Netværksbackuptjeneste på destinationsserveren, før du opretter en backupopgave. Du kan gøre det ved at gå til <b>Kontrolpanel</b> > <b>Privilegier</b> og give <b>Netværksbackupdestination</b>-privilegium til en bruger. Du kan så oprette en DSM-bruger med korrekte program- og delte mappeprivilegier på din Synology NAS. Når konfigurationen er færdig, kan andre folk bruge brugerens privilegier til at udføre netværksbackup fra deres Synology NAS til den delte destinationsmappe på din Synology NAS.</p>
+
+<h4>Sådan aktiverer du backuptjeneste for én version:</h4>
+<ol>
+<li>Gå til <b>Backuptjenester</b> > <b>Netværksbackupdestination</b>, marker <b>Aktiver netværksbackuptjeneste</b>.</li>
+<li>Klik på <b>Anvend</b>.</li>
+<li>Gå til <b>Kontrolpanel</b> > <b>Delt mappe</b>, vælg en delt mappe, og klik på <b>Rediger</b> > <b>Tilladelser</b>, og giv privilegiet <b>Læs/skriv</b> til en bruger. Gentag dette trin for at medtage flere delta mapper, der kunne bruges som sikkerhedskopidestinationer.</li>
+</ol>
+<h4>Sådan aktiverer du backuptjeneste for flere versioner:</h4>
+<ol>
+  <li>Gå til <strong>Backuptjenester</strong> > <b>Diskenhedsdestination til netværksbackup</b>, marker feltet ved siden af <strong>Aktiver diskenhedsdestination til netværksbackup</strong>.</li>
+  <li>Gå til <b>Backupdestination</b>, og vælg en backupdestination, der er knyttet til en lokal diskenhed.</li>
+<li>Klik på <b>Rediger</b> > <b>Tilladelsesliste</b> > <strong>Tilføj</strong> for at tilføje brugeren eller gruppen til listen.</li>
+</ol>
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Hvis andre vil udføre netværksbackup fra en klient, der ikke er en Synology NAS, kan de kun gøre det med privilegierne <b>admin</b> eller <b>rsync</b> på din Synology NAS. Hvis du ikke vil dele dine <b>admin</b>-oplysninger med andre, kan du gå til <b>Kontrolpanel</b> > <strong>Bruger</strong> for at oprette en bruger med navnet <b>rsync</b>, ændre dennes privilegier og så dele brugeroplysningerne med andre.</li><li>Hvis du udfører netværksbackup fra en Synology NAS, der kører en version af DSM før 3.0 eller en klient, der ikke er Synology NAS, og du vil bevare kildedatas <b>Ejer</b> - og <b>gruppe</b>-oplysninger, skal du tilføje <b>backupkonto</b> til gruppen <b>administrators</b> og udføre backup på data til den delte mappe <b>NetBackup</b> .</li>
+</ul>
+</div>
+<h3>Aktivering af netværksbackuptjenesten med tilpasset rsync-konfiguration</h3>
+<p> Du kan aktivere netværksbackuptjenesten med tilpasset rsync-konfiguration og konfigurere brugerprivilegier og backupdestination på din Synology NAS. Når konfigurationen er færdig, kan andre udføre rsync-backup fra deres Synology NAS eller rsync-kompatible klienter til de delte destinationsmapper (eller "backupmoduler") på din Synology NAS.</p>
+<h4>Sådan aktiverer du netværksbackuptjeneste med tilpasset rsync-konfiguration:</h4>
+<ol>
+<li>Gå til <b>Backuptjenester</b> > <b>Netværksbackupdestination</b>.</li>
+<li>Marker <b>Aktiver netværksbackuptjeneste</b>.</li>
+<li>Marker <b>Brug tilpasset rsync-konfiguration</b>.</li>
+<li>Klik på <b>Anvend</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<h4>Sådan konfigurerer du brugerprivilegier og backupmoduler på din Synology NAS:</h4>
+<ol>
+<li>
+Log ind på din Synology NAS-enhed via Telnet eller SSH.
+</li>
+<li>Angiv backupmodulet og autoriserede brugere i rsync-konfigurationsfilen "<b>/etc/rsyncd.conf</b>". Detaljerede oplysninger findes på vejledningens side med <b>rsyncd.conf</b> på din rsync-klient eller <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">her</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Hvis tilpasset rsync-konfiguration bruges, vil Synology NAS ikke længere kunne være destinationsserver for <b>Synkronisering af delt mappe</b>, <b>Time Backup</b> og <b>LUN-backup</b>.</li>
+</ul>
+</div>
+
+<h3>Aktivering af hastighedsgrænse</h3>
+<p>Du kan aktivere en hastighedsgrænse for at kontrollere den maksimalt brugbare båndbredde for brugere og grupper, der overfører data via netværkssikkerhedskopiering.</p>
+<h4>Sådan aktiverer du hastighedsgrænse:</h4>
+<ol>
+  <li>Gå til <b>Backuptjenester</b> > <b>Netværksbackupdestination</b>. Marker feltet <b>Aktiver hastighedsgrænse</b> eller <strong>Aktiver hastighedsgrænse ifølge en plan</strong>, hvis du kun vil implementere en hastighedsgrænse på bestemte tidspunkter. Dette er en indstillinger, der gælder for hele serveren, og den vil overskrive indstillinger for individuelle brugere og grupper. Valg af <strong>Ingen hastighedsgrænse</strong> deaktiverer indstillingerne for hastighedsgrænse for alle brugere og grupper.</li>
+  <li>Klik på <strong>Indstillinger for hastighedsgrænse</strong> for at ændre indstillingerne for individuelle brugere eller grupper. Du kan vælge en af følgende for hver bruger og gruppe:
+    <ul>
+      <li><strong>Anvend gruppeindstillinger:</strong> Indstillingerne for hastighedsgrænse bliver de samme som den gruppe, som brugeren hører til. </li>
+      <li><strong>Ingen:</strong> Ingen hastighedsgrænse anvendes, når gruppemedlemmer overfører filer med tjenesten.</li>
+      <li><strong>Konstant:</strong> En fast, konstant hastighedsgrænse bliver anvendt til brugere eller gruppemedlemmerne. Upload- og downloadhastighedsgrænser kan angives i felterne til venstre.</li>
+      <li><strong>Variabel:</strong> To forskellige hastighedsgrænser kan angives og anvendes til brugeren eller gruppemedlemmerne ifølge en plan. Klik på knappen <strong>Tilpas</strong> for at ændre indstillingerne for hastighedsgrænse og angive en plan.</li>
+    </ul>
+  </li>
+ <li>Klik på <b>Anvend</b>.</li> 
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<div class="section">
+  <h4>Bemærk:</h4>
+    <p>Ved indstilling af hastighedsgrænsen for en bruger viser afsnittet <strong>Resultat</strong> brugerens faktiske hastighedsgrænse ifølge hans individuelle og gruppeindstillinger. Hvis f.eks. brugeren "Achilles" har en individuel downloadgrænse på 100 KB/sek., men hører til en brugergruppe med en downloadgrænse på 500 KB/sek., vil afsnittet <strong>Resultater</strong> vise "0/500."</p>
+</div>
+
+<h3>Aktivering af tjenesten Time Backup</h3>
+<p>Time Backup-tjenesten sætter brugere i stand til at udføre fjernbackup på flere versioner af mapper fra en anden Synology NAS til denne Synology NAS. Det kræver, at både netværksbackuptjenesten og Time Backup-tjenesten er aktiveret.</p>
+<h4>Sådan aktiverer du netværksbackup- og Time Backup-tjenesterne:</h4>
+<p>Gå til <strong>Backuptjenester</strong> > <b>Time Backup</b>. Marker de relevante afkrydsningsfelter.</p>
+<img src="about:blank" class="help_image"/>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<p>Kun admin-kontoen må oprette sikkerhedskopieringsforbindelse til fjern-Time Backup.</p>
+</div>
+
+</body>
+</html>

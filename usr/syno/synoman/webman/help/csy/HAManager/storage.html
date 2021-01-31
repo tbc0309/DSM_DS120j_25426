@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Stav úložiště</h2>
+	<p>Tato stránka obsahuje podrobnosti o stavu svazků úložiště a jednotek iSCSI LUN (na úrovni bloků) na aktivním a pasivním serveru clusteru high-availability.</p>
+    <p>Jelikož musí být kapacita a konfigurace odpovídajících svazků a jednotek iSCSI LUN (na úrovni bloků) na aktivním i pasivním serveru identická, zobrazují se svazky a jednotky iSCSI LUN (na úrovni bloků) společně jako jedna jednotka. Pokud si tedy chcete zobrazit stav svazků a jednotek iSCSI LUN (na úrovni bloků) aktivního i pasivního serveru, musíte přejít na stránku <b>Stav úložiště</b> [při přístupu do clusteru high-availability si lze v programu <b>Správce úložiště</b> zobrazit pouze svazky a jednotky iSCSI LUN (na úrovni bloků) na aktivním serveru].</p>
+
+    <p>Tato stránka zobrazuje následující informace:</p>
+		<ul>
+			<li><b>Název:</b> Zobrazuje názvy svazků a jednotek iSCSI LUN (na úrovni bloků).</li>
+			<li><b>Využito:</b> Zobrazuje procentuální hodnotu využité kapacity svazků a jednotek iSCSI LUN (na úrovni bloků).</li>
+			<li><b>Využito/celková velikost:</b>  Zobrazuje celkovou a využitou kapacitu svazků a jednotek iSCSI LUN (na úrovni bloků).</li>
+            <li><b>Stav:</b> Zobrazuje stav svazků, jednotek iSCSI LUN (na úrovni bloků) a mezipamětí SSD.</li>
+            <li><b>Popis:</b> Zobrazuje popis chyb a další informace týkající se svazku, jednotky iSCSI LUN (na úrovni bloků) a mezipaměti SSD.</li>
+		</ul>
+<h4>Postup opravy vadného svazku nebo jednotky iSCSI LUN (na úrovni bloků):</h4>
+	<ul>
+		<li>Pokud dojde ke zhroucení pevného disku na jednom ze serverů, můžete přejít na stránku <a href="disk.html">Stav disku</a>, na které zjistíte, u kterého disku došlo ke zhroucení a je tedy nutné jej vyměnit. V takovém případě proveďte následující:<ol>
+            	<li>Vyměňte zhroucený pevný disk (postup instalace pevného disku naleznete v <i>Rychlé instalační příručce</i> pro váš produkt Synology).</li>
+                <li>Přejděte na stránku <b>Stav úložiště</b> a klikněte na položku <b>Opravit</b>.</li>
+            </ol>
+        </li>
+        <li>Pokud je pasivní server offline, bude stav svazků a jednotek iSCSI LUN (na úrovni bloků) oznamovat výskyt chyby a na stránce Stav disku se nezobrazí žádný z disků na pasivním serveru. V takovém případě se můžete pokusit vyřešit tento problém následujícím způsobem:<ol>
+            	<li>Ověřte, zda je pasivní server zapnutý.</li>
+                <li>Zkontrolujte všechny napájecí zdroje.</li>
+                <li>Zkontrolujte všechna připojení.</li>
+            </ol>
+        </li>
+        <li>Pokud na jednom ze serverů dojde k chybě systému souborů ve svazku nebo na jednotce iSCSI LUN (na úrovni bloků), postupujte následovně:<ul>
+            	<li>Přejděte na stránku <b>Stav úložiště</b>.</li>
+                <li>Klikněte na položku <b>Opravit.</b></li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">Poznámka:</span>  Maximální počet svazků a jednotek iSCSI LUN (na úrovni bloků) v clusteru high-availability je 64.</p>
+
+
+
+<h3>Server kvora</h3>
+<p>Servery kvora pomáhají snižovat možnost výskytu chyb split brain. V nastaveních split brain můžete přiřadit další server, který bude sloužit jako server kvora. Tento server kvora se musí neustále připojovat jak k aktivnímu, tak k pasivnímu serveru. Vhodnou volbou pro server kvora je například server brány nebo server DNS, protože takový server se může připojit jak k aktivnímu, tak k pasivnímu serveru. Pamatujte si, že server kvora slouží pouze k poskytování služeb Ping a není tedy nutné instalovat žádné aplikace. Níže naleznete situace, které mohou nastat, když je povolen server kvora:</p>
+
+<ul>
+<li>Pokud se pasivní server nemůže připojit jak k aktivnímu serveru, tak k serveru kvora, neprovede se přepnutí služeb za provozu za účelem prevence chyb split brain.</li>
+<li>Pokud se aktivní server nemůže připojit k serveru kvora, ale pasivní server se k němu připojit může, provede se přepnutí za účelem zajištění lepší dostupnosti.</li>
+</ul>
+
+ </body>
+</html>

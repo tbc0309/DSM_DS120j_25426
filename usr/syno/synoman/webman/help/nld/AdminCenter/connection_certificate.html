@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="certificate"></a>Certificaat</h2>
+
+<p>U kunt een certificaat gebruiken als beveiliging van de SSL-services van de Synology NAS, bijvoorbeeld voor internet (alle HTTPS-services), e-mail of FTP. Met een certificaat kunnen gebruikers de identiteit van een server en de administrator valideren alvorens vertrouwelijke informatie te verzenden.</p>
+
+<p>In <strong>Configuratiescherm</strong> > <strong>Beveiliging</strong> > <strong>Certificaat</strong> kunt u het volgende doen:</p>
+
+<ul>
+<li>Certificaten ophalen van Let's Encrypt</li>
+<li>Een zelfondertekend certificaat maken</li>
+<li>Ondertekeningsverzoeken voor certificaten maken voor andere certificeringsinstanties (CA)</li>
+<li>Ondertekeningsverzoeken van andere aanvragers ondertekenen</li>
+<li>Uw certificaten beheren op uw Synology NAS.</li>
+</ul>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>vanaf DSM 6.0 kunt u verschillende certificaten maken en importeren naar uw Synology NAS.</li>
+<li>Als u op <strong>Instellen als standaardcertificaat</strong> certificeringsinstantie klikt, zal het certificaat dat wordt verwerkt als standaardcertificaat worden gebruikt. Het originele standaardcertificaat zal zijn standaardstatus verliezen.</li>
+</ul>
+</div>
+
+
+<h3>Certificaten ophalen van Let's Encrypt</h3>
+
+<h4>Om certificaten op te halen van Let's Encrypt:</h4>
+<p>U kunt automatisch kosteloze en veilige SSL/TLS-certificaten verkrijgen van <a href="https://letsencrypt.org/" target="_blank">Let's Encrypt</a>, een open en vertrouwde certificeringsinsantie.</p>
+
+<ol>
+<li>Klik op <strong>Toevoegen</strong>.</li>
+<li>Selecteer <strong>Een nieuw certificaat toevoegen</strong> en klik op <strong>Volgende</strong>.</li>
+<li>Selecteer <strong>Een certificaat van Let's Encrypt ophalen</strong>.</li>
+<li>Geef de volgende informatie op:
+<ul>
+<li><strong>Domeinnaam</strong>: voer de domeinnaam in die u hebt geregistreerd bij de domeinprovider.</li>
+<li><strong>E-mail</strong>: voer het e-mailadres in dat gebruikt wordt voor certificaatregistratie.</li>
+<li><strong>Onderwerp alternatieve naam</strong>: om toe te staan dat een certificaat meerdere domeinen dekt, voert u hier de andere domeinnamen in. U kunt ook een wildcard-certificaat aanvragen door de domeinnamen van de Synology DDNS in het volgende formaat in te voeren:
+		<div class="code_div">
+		<code>*.SYNOLOGY_DDNS_DOMAIN_NAME</code>
+		</div></li>
+</ul>
+</li>
+<li>Klik op <strong>Toepassen</strong> om de instellingen op te slaan. Na bevestiging zal het certificaat onmiddellijk geïmporteerd worden in uw Synology NAS.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>U kunt zich enkel registreren voor certificaten van Let's Encrypt met een beperkt aantal e-mailaccounts. Als die limiet wordt overschreden, moet u een eerder geregistreerde account gebruiken om meer certificaten op te halen.</li>
+<li>U kunt zich enkel registreren voor een beperkt aantal certificaten per domein van Let's Encrypt. Voer een van de onderstaande handelingen wanneer de limiet wordt overschreden:
+	<ul>
+		<li>Voer de huidige domeinnaam in als alternatieve naam voor onderwerp (NAS - Subject Alternative Name) en gebruik een andere domeinnaam voor het certificaatverzoek.</li> 
+		<li>Voer <code>*.SYNOLOGY_DDNS_DOMAIN_NAME</code> in als de SAN om een wildcard-certificaat aan te vragen.</li>
+	</ul>
+<li>Let's Encrypt zal een domeinvalidatie uitvoeren alvorens certificaten aan uw domeinen toe te wijzen. Vergewis u ervan dat poort 80 van uw Synology NAS en router open staat voor domeinvalidatie via het Internet. Elke andere communicatie met Let's Encrypt gaat over HTTPS om uw Synology NAS te beschermen.</li>
+<li>De door Let's Encrypt verstrekte certificaten hebben een geldigheid van 90 dagen. Voor dat de geldigheid van het certificaat vervalt, zal DSM automatisch dergelijke certificaten vernieuwen na een succesvolle domeinvalidatie. Vergewis u ervan dat poort 80 van uw Synology NAS en router open staat om het certificaat te vernieuwen.</li>
+<li>Wildcard-certificaten worden alleen ondersteund door Synology DDNS.</li>
+</ul>
+</div>
+
+<h3>Zelfondertekende certificaten</h3>
+
+<p>Een zelfondertekend certificaat is een certificaat gemaakt en ondertekend door dezelfde entiteit wiens identiteit wordt gecertificeerd (in dit geval Synology NAS). Zelfondertekende certificaten worden ondertekend met een persoonlijke sleutel die door Synology NAS is gegenereerd. Omdat zelfondertekende certificaten niet door andere certificerende autoriteiten zijn uitgegeven, leveren zij minder bewijs van de identiteit van de server en worden ze meestal gebruikt ter beveiliging van kanalen tussen de server en een groep van bekende gebruikers.</p>
+
+
+<h4>Een zelfondertekend certificaat maken:</h4>
+<ol>
+	<li>Klik op <strong>Toevoegen</strong>.</li>
+<li>Selecteer <strong>Een nieuw certificaat toevoegen</strong> en klik op <strong>Volgende</strong>.</li>
+<li>Selecteer <strong>Een zelfondertekend certificaat aanmaken</strong>.</li>
+	<li>Volg de instructies van de installatiewizard.</li>
+</ol>
+
+
+<h3>CSR's (Certificate Signing Requests)</h3>
+
+<p>Naast certificaten die zijn uitgegeven door Let's Encrypt en zelfondertekende certificaten, kunt u ook certificaten van andere commerciële of derde certificeringsinstanties aanvragen. Om een certificaat te bekomen, doet u de volgende twee dingen:</p>
+
+<ul>
+<li>Maak een CSR (Certificate Signing Request): een certificaataanvraag is een gecodeerde tekst gegenereerd door Synology NAS met informatie die in uw certificaat zal worden opgenomen, zoals uw domeinnaam, naam van de organisatie, algemene locatie en e-mailadres.</li>
+<li>Bezorg uw eigen identificatiegegevens of die van een organisatie aan de certificeringsinstantie en toon aan dat u de eigenaar bent van de domeinnaam die werd ingevoerd in het naamsveld van het ondertekeningsverzoek voor het certificaat.</li>
+</ul>
+
+
+<h4>Om CSR's te maken:</h4>
+
+<ol>
+	<li>klik op <strong>CSR</strong>.</li>
+    <li>Selecteer <strong>Een CSR (Certificate Signing Request) aanmaken.</strong></li>
+	<li>Volg de instructies van de installatiewizard om de certificaataanvraag te maken en te downloaden.</li>
+    <li>Stuur de CSR en de vereiste informatie naar de certificeringsinstantie voor bevestiging.</li>
+</ol>
+
+<p>Als u het gevraagde certificaat van de certificeringsinstantie hebt ontvangen, kunt u het samen met uw persoonlijk sleutel importeren.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>samen met de certificaataanvraag wordt ook een persoonlijke sleutel gegenereerd. Certificerende autoriteiten hebben deze persoonlijke sleutel niet nodig. Bewaar de persoonlijke sleutel van uw Synology NAS op een veilige plaats en houd deze geheim.</p>
+</div>
+
+<h4>CSR's (Certificate Signing Requests) ondertekenen:</h4>
+
+<p>Gebruikers van andere apparaten kunnen ondertekeningsverzoeken voor certificaten versturen om gecertificeerde toegang te krijgen tot uw Synology NAS. U kunt hun verzoeken ondertekenen met behulp van het rootcertificaat van Synology NAS en de gegenereerde certificaten naar de aanvragers versturen.</p>
+
+<ol>
+	<li>klik op <b>CSR</b>.</li>
+	<li>Klik op <b>Een aanvraag voor certificaatondertekening (CSR) ondertekenen</b>.</li>
+	<li>Upload de aanvraag voor certificaatondertekening en voer de relevante gegevens in. </li>
+	<li>Klik op <b>Volgende</b> en het systeem zal de certificaataanvraag ondertekenen en het desbetreffende certificaat maken.</li>
+</ol>
+
+
+
+<h3>Certificaatbeheer</h3>
+
+
+<h4>Certificaten importeren:</h4>
+<p>U kunt een eerder geëxporteerd certificaat of een certificaat van een commerciële of derde certificeringsinstantie samen met de persoonlijke sleutel importeren opdat uw Synology NAS door andere apparaten zou worden vertrouwd.</p>
+
+<ol>
+<li>Klik op <strong>Toevoegen</strong>.</li>
+<li>Selecteer <strong>Een nieuw certificaat toevoegen</strong> en klik op <strong>Certificaat importeren</strong>.</li>
+<li>Volg de wizardinstructies om het importeren van het certificaat te voltooien.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>tussencertificaten zijn optioneel voor bepaalde door certificeringsinstanties uitgegeven certificaten.</li>
+<li>Certificaten moeten X.509 PEM-bestandsindeling hebben.</li>
+<li>Persoonlijke sleutels moeten de RSA-indeling hebben en mogen niet door een wachtwoordzin worden beschermd.</li>
+</ul>
+</div>
+
+
+<h4>Certificaten exporteren:</h4>
+
+<p>Bestaande certificaten kunnen voor beheer of archiveringsdoeleinden worden gedownload. Ze kunnen tevens worden geïmporteerd naar apparaten van andere gebruikers om vertrouwen te bouwen tussen hun apparaten en uw Synology NAS. Het geëxporteerde bestand bevat het certificaat, de persoonlijke sleutel en het zelfondertekende basiscertificaat van Synology NAS. </p>
+
+<ol>
+<li>Selecteer het gewenste certificaat.</li>
+<li>Klik op <strong>Certificaat exporteren</strong>.</li>
+</ol>
+
+<h4>Certificaten vernieuwen:</h4>
+
+<p>Wanneer de geldigheid van het certificaat bijna vervalt, kunt u het certificaat met deze optie verlengen.</p>
+
+<ol>
+	<li>klik op <b>CSR</b>.</li>
+	<li>Selecteer <b>Certificaat vernieuwen</b> en klik op <b>Volgende</b>.</li>
+	<li>Download de gegenereerde persoonlijke sleutel en het ondertekeningsverzoek.</li>
+    <li>Stuur de CSR naar de gewenste certificeringsinstantie voor een vernieuwd certificaat.</li>
+</ol>
+
+
+<h4>Certificaten vervangen:</h4>
+<p>Als u geen bestaande certificaten wilt gebruiken, kunt u ze vervangen door alternatieve certificaten.</p>
+
+<ol>
+<li>Klik op <strong>Toevoegen</strong>.</li>
+<li>Selecteer in de vervolgkeuzelijst <strong>Een bestaand certificaat vervangen</strong> en het ongewenste certificaat.</li>
+<li>Volg de wizardinstructies om de vervanging van het certificaat te voltooien.</li>
+</ol>
+
+
+<h4>Certificaten bewerken:</h4>
+<p>u kutn certificaatbeschrijving bewerken of een ander certificaat instellen als standaardcertificaat.</p>
+
+<ol>
+<li>Selecteer het gewenste certificaat.</li>
+<li>Klik op <strong>Bewerken</strong> en doe een van de volgende dingen:
+
+<ul>
+<li>wijzig de beschrijving van het certificaat en klik op <strong>OK</strong>.</li>
+<li>Selecteer <strong>Instellen als standaardcertificaat</strong> om het standaardstatus toe te kennen en klik op <strong>Toepassen</strong>.</li>
+</ul>
+</ol>
+
+
+
+<h4>Om certificaten te configureren:</h4>
+<p>u kunt desgewenst een certificaat voor een service wijzigen in een ander certificaat.</p>
+
+<ol>
+<li>Klik op <strong>Configureren</strong> om alle services en de overeenkomstige certificaten te tonen.</li>
+<li>Klik op het huidige certificaat van de geviseerde service.</li>
+<li>Selecteer het juiste certificaat uit de vervolgkeuzelijst.</li>
+<li>Klik op <strong>OK</strong>.</li>
+</ol>
+
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>het certificaat <strong>Systeemstandaard</strong> is van toepassing op de verbinding die niet in de servicelijst staat.</li>
+</ul>
+</div>
+
+
+
+
+<h4>Certificaten verwijderen:</h4>
+
+<ol>
+<li>Selecteer het ongewenste certificaat.</li>
+<li>Klik op <strong>Verwijderen</strong> om het certificaat te verwijderen.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>het is niet mogelijk om het standaardcertificaat te verwijderen.</li>
+<li>Als u een niet-standaardcertificaat verwijdert, zal het standaardcertificaat de overeenkomstige diensten overnemen. Opgelet, want het standaardcertificaat is mogelijk niet compatibel met deze diensten.</li>
+</ul>
+
+<p></p>
+</div>
+
+</body>
+</html>
+

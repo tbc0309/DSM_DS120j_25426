@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Servizio NFS</h2>
+<p>Il Servizio NFS consente ai client Linux di accedere ai dati su questo dispositivo Synology NAS.</p>
+<h4>Per abilitare il servizio NFS:</h4>
+<ol>
+<li>Andare su <strong>Pannello di controllo</strong> > <strong>Servizi file</strong> > <strong>SMB/AFP/NFS</strong> e spuntare <b>Abilita NFS</b>.</li>
+<li>Fare clic su <b>Applica</b>.</li>
+</ol>
+
+
+<div class="section">
+  <h4>Nota:</h4>
+<ul>
+<li> Synology NAS al momento supporta NFSv2, NFSv3 e NFSv4.</li>
+<li>durante il montaggio, il parametro <strong>-o vers=2</strong>, <strong>-o vers=3</strong> o <strong>-o vers=4</strong> può essere aggiunto al comando mount per specificare quale versione NFS deve essere usata.</li>
+<li>Le seguenti cartelle condivise non consentono l'accesso tramite NFS:
+	<ul>
+    <li>Cartelle condivise crittografate</li>
+    <li>Cartelle condivise PetaSpace</li>
+    <li>Cartelle condivise utilizzando HFS, HFS Plus e file system exFAT</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>Per configurare i privilegi di accesso dei client Linux a cartelle condivise:</h4>
+<p>Andare su <b>Pannello di controllo</b> > <b>Cartella condivisa</b>. Selezionare una cartella condivisa e fare clic su <strong>Modifica</strong> per gestire le regole NFS e regolare l'accesso accanto a questa cartella condivisa per client Linux.</p>
+
+
+<h3>Supporto impostazione NFSv4 e NFSv4.1</h3>
+<p>Synology NAS supporta NFSv2 e NFSv3 per impostazione predefinita. È possibile decidere se abilitare NFSv4 o NFSv4.1.</p>
+
+<h4>Per attivare il supporto NFSv4 o NFSv4.1:</h4>
+<ol>
+<li>Spuntare <b>Abilita supporto NFSv4</b> o <b>Abilita supporto NFSv4.1</b>.
+</li>
+<li>
+Nel campo <b>Dominio NFSv4</b>, inserire il nome del dominio NFSv4 che si vuole utilizzare. Questo campo è opzionale e può essere lasciato vuoto.</li>
+<li>
+Fare clic su <b>Applica</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>quando si utilizza NFSv4 per montare la cartella condivisa, tenere presente quanto segue. In caso contrario, le operazioni su file associate con il nome utente non verranno eseguite in modo corretto.</p>
+<ul>
+<li>Il client NFS deve attivare idmapd.</li>
+<li>le impostazioni del dominio NFSv4 nel file idmapd.conf sul client NFS devono essere coerenti con il campo <b>Dominio NFSv4</b> su Synology NAS.</li>
+</ul>
+
+</div>
+<p>NFSv4 sarà abilitato automaticamente se NFSv4.1 è abilitato.</li>
+
+<h4>Multipercorso</h4>
+<p>NFSv4.1 supporta il Multipercorso. I client possono accedere a un server NFS tramite più connessioni di rete contemporaneamente. Il multipercorso incrementa la larghezza di banda e fornisce il failover di traffico per mantenere la connessione di rete quando la connessione è inattiva. Attualmente, solo VMware ESXi versione 6.0 e superiori supportano i client NFSv4.1. Per maggiori informazioni sul supporto VMware NFSv4.1, consultare il <a target="_blank" href="https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.storage.doc/GUID-8A929FE4-1207-4CC5-A086-7016D73C328F.html">documento VMware</a>.</p>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>il Multipercorso è disponibile solo su modelli che supportano NFSv4.1.</li>
+</ul>
+</div>
+
+
+
+<h3>Impostazioni avanzate</h3>
+
+<h4>Applicazione di autorizzazioni UNIX predefinite</h4>
+<p> quando si seleziona <strong>Applica autorizzazioni UNIX predefinite</strong>, sono applicati i permessi UNIX predefiniti impostati nel client Linux invece dei permessi Windows ACL quando si caricano o creano file e cartelle. Le autorizzazioni applicate sono le stesse applicate dal comando UNIX <strong>umask</strong>.  Il valore umask predefinito è 022.</p><div class="section">
+<h4>Nota:</h4>
+<ul>
+  <li>per le cartelle condivise abilitate per Windows ACL (tutte le condivisioni escluse le &quot;foto&quot; e le condivisioni sulle unità esterne), eseguire il comando <strong>chmod</strong> sul client Linux o FTP per cambiare la cartella e i tipi di permesso dei file da Windows ACL a UNIX.</li>
+  <li>l'abilitazione di questa funzione può causare problemi di autorizzazioni non coerenti tra diversi protocolli. Per evitare incoerenze, consigliamo di lasciare questa opzione disabilitata.</li>
+</ul>
+</div>
+
+<h4>Porta personalizzata</h4>
+<p>È possibile personalizzare numeri di porta per servizi statd e nlockmgr.</p>
+
+<ol>
+<li>Selezionare <strong>Porte personalizzate</strong>.</li>
+<li>Inserire i numeri di porta in <strong>statd port </strong>e<strong> nlockmgr port</strong>.</li>
+<li>
+Fare clic su <b>Applica</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Per utilizzare servizi NFSv3, andare a <strong>Pannello di controllo</strong> &gt; <strong>Sicurezza</strong> &gt; <strong>Firewall</strong> e creare una regola del firewall che abilita &quot;File server Mac/Linux&quot; dall'elenco delle applicazioni integrate.</li>
+</ul>
+</div>
+<h4>Impostazione dimensioni del pacchetto di lettura/scrittura</h4>
+<p>Quando le dimensioni del pacchetto di lettura/scrittura non possono essere impostate sul client NFS, è possibile specificare il valore predefinito in questo campo.</p>
+
+<ol>
+<li>Selezionare le dimensioni del pacchetto desiderate dai campi <strong>Leggi dimensioni pacchetto</strong> e <strong>Scrivi dimensioni pacchetto</strong>.</li>
+<li>
+Fare clic su <b>Applica</b>.
+</li>
+<li>
+Rimonta la condivisione.
+</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>dopo aver modificato le dimensioni del pacchetto di lettura/scrittura, la cartella condivisa deve essere rimontata prima che le nuove impostazioni abbiano effetto.</li>
+<li>Queste impostazioni influenzano solo i client NFS che si collegano via UDP (Protocollo Datagramma Utente).</li>
+</ul>
+</div>
+
+<h3>Impostazioni Kerberos</h3>
+<p>Kerberos è un protocollo di autenticazione di rete. Esso consente a client e server di comunicare su una rete non sicura per autenticare e provare le loro identità in modo sicuro. Synology NAS fornisce opzioni per importare una chiave Kerberos esistente. Una volta importata con successo, i client NFS possono usare il protocollo di autenticazione Kerberos per collegarsi a Synology NAS.</p>
+
+<h4> Per importare una chiave Kerberos: </h4>
+<ol>
+<li>Fare clic su <strong>Impostazioni Kerberos</strong>.</li>
+<li>Fare clic sul pulsante <b>Importa</b>.</li>
+<li>Scegliere la chiave Kerberos che si desidera importare.</li>
+<li>Fare clic su <b>OK</b>.</li>
+</ol>
+
+<h3><a name="idmap"></a>Mappatura ID Kerberos</h3>
+<p>È possibile mappare i singoli principi Kerberos agli account utente DSM locali.</p>
+<h4> Per mappare i principi Kerberos e gli account utente locali: </h4>
+<ol>
+<li>Fare clic su <strong>Impostazioni Kerberos</strong>.</li>
+<li>Andare alla scheda <strong>Mappatura ID</strong>.</li>
+<li> Fare clic sul tasto <b>Aggiungi</b>. Selezionare una delle seguenti opzioni.</li>
+<ul>
+<li><strong>Mappatura ID:</strong> immettere un principio Kerberos e l'account utente locale su cui deve essere mappato.</li>
+<li><strong>Elenco mappatura consigliata:</strong> questa opzione visualizza un elenco di principi Kerberos consigliati/opzioni di mappatura utente locale generate dal sistema.</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> Nota: </h4>
+<ul>
+	<li>Kerberos è disponibile solo su modelli con dischi rigidi interni.</li>
+	<li>Per mappare un client NFS che si collega attraverso Kerberos a un account utente Dominio/LDAP esistente, verificare di aver aggiunto il servizio directory. Inoltre, directory server deve avere un attributo che include il corrispondente principio Kerberos.
+		<ul>
+		<li><strong>Utente di dominio:</strong> Il formato per l'attributo corrispondente deve essere <strong>userPrincipalName</strong>.</li>
+		<li><strong>Utente LDAP:</strong> Il formato per l'attributo corrispondente deve essere <strong>GSSAuthName</strong>.</li>
+		</ul></li>
+	<li>Se l'utente non può essere mappato con successo a un utente locale o utente dominio/LDAP, l'utente dovrà essere mappato a &quot;guest.&quot;
+	<li>La priorità mappata è la seguente: Utente locale > Utente Dominio/LDAP > Guest. </li>
+	<li>Per modificare le autorizzazioni di accesso dei client NFS, utilizzare l'Elenco di controllo di accesso Windows (ACL). Le opzioni relative alle credenziali che si trovano in <strong>Pannello di controllo</strong> > <strong>Utente</strong> non sono applicabili ai client NFS.</li>
+</ul>
+</div>
+
+</body>
+</html>

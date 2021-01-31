@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Begrensninger og systemkrav - Synology DSM Hjelp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>Begrensninger og systemkrav</h1>
+
+ <p>Bruk av Synology High Availability krever to identiske Synology-servere som skal fungere som aktiv og passiv server. Før de to serverne kombineres til en high-availability-klynge, vil Veiviser for Synology High Availability søke etter følgende maskinvare- og programvarebegrensninger og forsikre seg om at en high-availability-klynge kan opprettes.</p>
+ 
+  
+ <h3>Systemkrav</h3>
+ 
+  <p>Merk følgende retningslinjer angående programvare og maskinvare:</p>
+  <ul>
+   <li><b>Synology-server:</b> Både den aktive og den passive serveren må være av identiske modeller og må støtte Synology High Availability. Vær oppmerksom på at navnet på high-availability-klyngen ikke kan være identisk med navnene på den aktive og den passive serveren.</li>
+   <li><b>DSM-versjon:</b> Den samme versjonen av DSM må være installert på både den aktive og den passive serveren. </li>
+   <li><b>Pakkeversjon:</b> Den samme versjonen av Synology High Availability må være installert begge Synology-serverne.</li>
+  </ul>
+
+  
+ <h3>Volum og disk</h3>
+ 
+  <p>Merk følgende retningslinjer angående lagringsområder (f.eks. volum, diskgrupper, RAID Groups, osv.) og administrering av harddisker.</p>
+  <ul>
+   <li><b>Diskkapasitet:</b> For å gjøre datakopiering mulig, må diskkapasiteten på den passive serveren være lik eller større enn kapasiteten på den aktive serveren. Det anbefales på det sterkeste at diskkapasiteten er identisk på begge serverne for å redusere risikoen for inkonsistens. </li>
+   <li><b>Antall disker og disktyper:</b> Både den aktive og den passive serveren må ha samme antall disker. I tillegg må plassering av disker samsvare på begge servere, og disktyper (f.eks. SSD/HDD, SAS/SATA) og spesifikasjoner (f.eks. 4K- eller 512-byte sektorstørrelse) på begge servere må være identiske. Vær oppmerksom på at eksterne enheter som USB-harddisker ikke vil være inkludert når antallet disker telles opp.</li>
+   <li><b>Hot Spare-reparasjon:</b> Degraderte volum på den passive serveren vil ikke utløse hot spare-reparasjon. Men hvis volumene på den aktive serveren er degradert, vil en hot spare-reparasjon bli utløst, og volumene på den passive serveren vil også bli degradert fordi systemet vil fjerne en fungerende disk fra RAID-volumene på den passive serveren for å utføre hot spare-reparasjonen.</li>
+   <li><b>SHR-format støttes ikke:</b> Volum i SHR-format støttes ikke. Forsikre deg om at den Synology-serveren som skal fungere som aktiv server ikke inneholder SHR-volum. </li>
+  </ul>
+
+    <div class="section">
+    <h4>Merk:</h4>
+    <ul>
+    <li>Hastigheten til diskene på den passive serveren vil også påvirke skriveytelsen i high-availability-klyngen fordi data synkroniseres til den passive serveren via Heartbeat-tilkoblingen. Det blir anbefalt å bruke identiske disker på den aktive og den passive serveren.</li>
+    <li>Hvis den passive serveren er nede, eller hvis Heartbeat-tilkoblingen blir frakoblet, vil volumene bli midlertidig utilgjengelige og iSCSI-overføring vil bli pauset i omtrent 10 sekunder.</li>
+    </ul>
+    </div>
+
+  
+  <h3>Nettverksmiljø</h3>
+  <p>Vær oppmerksom på følgende retningslinjer vedrørende nettverksinnstillinger ved danning av en high-availability-klynge.</p>
+  <ul>
+    <li><b>Nettverksinnstillinger:</b> Begge servere må ha statiske IP-adresser som tilhører det samme delnettet.</li>
+    <li><b>Antall LAN-porter:</b> Begge servere må ha samme antall LAN-porter. Hvis din Synology NAS er utstyrt med ytterligere grensesnitt for nettverkskort, teller disse nettverkskortene oggså som ytterligere LAN-porter. </li>
+        <li><b>Begrensninger i tilkoblingsmiljø:</b> Tilkoblingsmiljøet mellom de to serverne må støtte multikast, og portene som brukes av high-availability-klyngen kan ikke være blokkert av brannmurregler. Hvis Heartbeat-tilkoblingen går gjennom svitsjer, må du kontrollere at svitsjene støtter multikast og Jumbo Frame.</li>
+    <li><b>Tilkoblingsbegrensning:</b> Serverne kan ikke kobles til nettverket via DHCP, IPv6, PPPoE og Wi-Fi. Kontroller at disse funksjonene er deaktivert før du prøver å danne en high-availability-klynge.</li>
+    <li><strong>Ingen DHCP-tjeneste:</strong> Serverne kan ikke bruke de innebygde DHCP-serveralternativene når de er kombinert i en klynge.</li>
+   <li><strong>Innstillinger for Link Aggregation:</strong> Begge serverne må ha samme link aggregation-innstillinger for datanettverk og heartbeat-tilkobling. Når high-availability-klyngen er opprettet, kan ikke link aggregation-innstillinger endres.</li>
+   <li><b>Open vSwitch-innstillinger:</b> Statusen til Open vSwitch må være identisk på begge serverne (enten aktivert eller deaktivert). Når high-availability-klyngen er opprettet, kan ikke Open vSwitch-innstillinger endres.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Merk:</h4>
+    <ul>
+      <li>SSH- og NTP-tjeneste vil bli aktivert automatisk på den aktive serveren når high-availability-klyngen opprettes.</li>
+    </ul>
+  </div>
+  <h3>Begrensninger for Lagringshåndtering</h3>
+  <p>Når en high-availability-klynge er dannet, vil ikke alternativet for å endre RAID-type lenger være tilgjengelig i Lagringshåndtering. Følgende alternativer vil imidlertid være tilgjengelige:
+<ul>
+<li>Utvid lagringsområder (f.eks. volum, iSCSI LUN-er med blokknivå, diskgrupper, RAID Groups, osv.).</li>
+    <li>Opprett, slett eller reparer volum, iSCSI LUN-er, SSD-hurtigbuffere som er skrivebeskyttede eller med lese-skrivetillatelse.</li>
+    <li>Endre størrelse og plassering på iSCSI LUN (filnivå).</li>
+    <li>Endre iSCSI LUN-mål.   </li>
+  </ul>
+
+  <div class="section">
+    <h4>Merk:</h4>
+    <ul>
+      <li>Ikke endre diskplassering etter at high-availability-klyngen er opprettet. Ellers vil lagringsplassen forsvinne.</li>
+      <li>For å sikre at serveren som er tilkoblet Synology iSCSI-målet ikke støter på tidsavbrudd under feiloverføring, blir du anbefalt å justere innstillingene for tidsavbrudd for iSCSI-klienten og initiatoren til 120 sekunder eller mer.</li>
+    </ul>
+  </div>
+
+ 
+<h3>Pakke- og programvarebegrensninger</h3> 
+
+<p>Når high-availability-klyngen er dannet, vil det ikke være støtte for følgende pakker og funksjoner:</p>
+	<ul>
+
+    <li>Virtual DSM Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>Funksjonen for å starte på nytt eller avslutte high-availability-klyngen i CMS</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>Merk:</h4>
+    <ul>
+    <li>For å få støtte for Docker DSM i High Availability, må du aktivere Open vSwitch før du oppretter klyngen.</li>
+    </ul>
+   </div>
+
+<h3>Legge til utvidelsesenheter</h3>
+  <p>Når en high-availability-klynge er opprettet, kan utvidelsesenheter legges til i den eksisterende konfigurasjonen av high-availability-klyngen for å utvide lagringskapasiteten. Som med andre maskinvarekrav, er det påkrevd med identiske utvidelsesenheter på den aktive og den passive serveren. For å unngå uforenelighetsfeil, bør du følge instruksjonene nedenfor nøye når du legger til utvidelsesenheter.</p>
+  
+  <h4>Slik legger du til utvidelsesenheter:</h4>
+   <ol>
+    <li>Legg kun til identiske utvidelsesenheter og harddisker på den aktive og den passive serveren. Som nevnt ovenfor, må maskinvaren på både den aktive og den passive serveren være identisk, inkludert maskinvaremodell, typer og harddiskstørrelse og -plassering.</li>
+    <li>Sørg for å slette all eksisterende data og alle volum på harddiskene i utvidelsesenhetene.</li>
+    <li>Koble utvidelsesenhetene til den aktive og den passive serveren mens begge serverne er påslått og kjører.</li>
+    <li>Opprett et nytt lagringsområde (f.eks. volum, diskgrupper, RAID Groups, etc.) på utvidelsesenheten før du slår av serverne.</li>
+   </ol>
+<div class="section">
+<h4>Merknader:</h4>
+<p>For grunnleggende informasjon om installering av utvidelsesenheter, se brukerveiledningen for din utvidelsesenhet.</p>
+</div>
+
+
+<h3>Begrensninger for USB-enheter</h3>
+   <p>Overføring av tjenester/feiloverføring støttes ikke for USB-enheter. Tjenester eller programmer som drives av USB-enheter vil kanskje ikke fungere som normalt etter overføring av tjenester/feiloverføring.</p>
+
+   
+ </body>
+</html>

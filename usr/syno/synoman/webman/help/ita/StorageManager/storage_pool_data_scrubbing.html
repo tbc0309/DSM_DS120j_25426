@@ -1,0 +1,134 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+<title>Pulitura dati</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Data scrubbing is a data maintenance feature that inspects volumes or disk groups and repairs any detected data inconsistencies.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Pulitura dati</h2>
+
+<h3>Esegui pulitura dati</h3>
+<p>Pulitura dati è una funzione di manutenzione che consente di ispezionare gli storage pool. I due seguenti tipi di Pulitura dati saranno eseguiti in sequenza:</p>
+
+<ul>
+<li><strong>Pulitura del file system</strong>: questo funzione controllerà i volumi nel file system Btrfs. Se sono rilevati dati inconsistenti con la checksum, il sistema tenterà di usare un backup per riparare i dati e il percorso file sarà registrato in Log Center.</li>
+<li><strong>Pulitura RAID</strong>: questa funzione può essere utilizzata con gli storage pool che implementano SHR (con tre o meno unità), RAID 5 o RAID 6. Consente di riparare tutti le inconsistenze di dati rilevate.</li>
+</ul>
+
+<p>Si consiglia di eseguire regolarmente la pulitura dei dati in modo da garantire la consistenza dei dati ed evitare di perdere i dati in caso di guasto dell'unità.</p>
+
+<div class="section">
+<h4>Nota:</h4>
+	<ul>
+	<li>Pulitura dati e le funzioni correlate descritte in questo articolo sono disponibili solo su specifici modelli.</li>
+	<li>La Pulitura dati non può essere eseguita quando lo stato dello storage pool è <strong>Crash</strong> o <b>Danneggiato</b>.</li>
+	<li>Se la <b>somma di controllo dati per l'integrità dati avanzata</b> non è abilitata per una cartella condivisa, la pulizia file system non sarà in grado di controllare e riparare i dati nella cartella per mancanza di somme di controllo.</li>
+	</ul>
+</div>
+
+<h3>Impostare la programmazione della Pulitura dati</h3>
+<p>È possibile impostare una programmazione di Pulitura dati. Il sistema eseguirà la Pulitura dati in base alle impostazioni.</p>
+<h4>Per impostare una programmazione di Pulitura dati:</h4>
+<ol>
+<li>Aprire <strong>Storage Manager</strong>.</li>
+<li>Andare su <strong>Storage Pool</strong> > <strong>Pulitura dati</strong>.</li>
+<li>Fare clic su <strong>Imposta programmazione</strong>.</li>
+<li>Spuntare <strong>Abilita programmazione Pulitura dati</strong>.</li>
+	<li>Specificare <strong>Frequenza</strong>, <strong>Data di inizio</strong> e <strong>Sessione tempo</strong>.</li>
+<li>Andare nella scheda <strong>Seleziona destinazione</strong>.	
+<li>Selezionare lo storage pool su cui eseguire la Pulitura dati.</li>
+<li>Fare clic su <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>per essere aggiunto a una programmazione, lo stato dello storage pool deve essere <b>Normale</b> e supportare la Pulitura dati.</li>	
+<li>Se il sistema è aggiornato dalla versione 6.1, gli storage pool con capacità di eseguire la Pulitura dati saranno aggiunti per impostazione predefinita alla pianificazione.</li>
+<li>Se la pianificazione è stata impostata nella versione 6.1, verrà abilitata automaticamente in base alle precedenti impostazioni.</li>	
+</ul></div>
+
+<h4>Per aggiungere uno storage pool a una programmazione o per rimuovere uno storage pool da una programmazione:</h4>
+
+<ol>
+<li>Fare clic su <strong>Imposta pianificazione</strong></li>
+<li>Andare nella scheda <strong>Seleziona destinazione</strong>.</li>	
+<li>Selezionare o deselezionare la casella di controllo di uno storage pool per stabilire se aggiungerlo o rimuoverlo da una pianificazione.</li>
+<li>Fare clic su <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>uno storage pool non può essere aggiunto o rimosso da una programmazione quando la Pulitura dati è in esecuzione manuale su questo storage pool.</li>
+<li>Per rimuovere uno storage pool in fase di Pulitura dati pianificata, occorre annullare l'avanzamento di questo storage pool.</li>
+</ul></div>
+
+<h4>Per modificare le impostazioni di programmazione:</h4>
+
+<ol>
+<li>Fare clic su <strong>Imposta pianificazione.</strong></li>
+<li>A seconda delle esigenze, modificare frequenza, data di inizio e sessione ora.</li>
+<li>Fare clic su <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+  <li>la modifica della <strong>Data di inizio</strong> comporterà la reimpostazione dell'avanzamento della programmazione e la Pulitura dati sarà riavviata in base alla nuova data di inizio.</li>
+</ul>
+</div>	
+
+<h4>Per sospendere una programmazione:</h4>
+
+<ol>
+<li>Selezionare uno storage pool in fase di programmazione della Pulitura dati.</li>
+<li>Fare clic su <strong>Sospendi programmazione</strong> dal menu a discesa <b>Azione</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>per riprendere la programmazione della Pulitura dati, fare clic su <strong>Riprendi programmazione</strong> dal menu a discesa <b>Azione</b>. In caso contrario, la programmazione sarà sospesa.</li>	
+</ul></div>
+	
+<h3>Eseguire la Pulitura dati manualmente:</h3>
+
+<p>Se il sistema rileva delle anomalie nello spazio di archiviazione, provare a riparare i dati eseguendo la Pulitura dati manualmente.</p>	
+	
+<h4>Per eseguire manualmente la Pulitura dati:</h4>
+
+<ol>
+	<li>Aprire <strong>Storage Manager</strong>.</li>
+	<li>Andare su <strong>Storage Pool</strong> > <strong>Pulitura dati</strong>.</li>
+	<li>Selezionare lo storage pool su cui eseguire la Pulitura dati.</li>
+	<li>Fare clic su <strong>Esecuzione manuale</strong> dal menu a discesa <strong>Azione</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+
+<li>se il sistema viene arrestato prima del completamento della pulitura dati, alcuni progressi potrebbero andare persi e sarà necessario riavviare manualmente la pulitura dati.</li>
+<li>Se l'esecuzione manuale di Pulitura dati si sovrappone alla Pulitura dati programmata, questa fase di programmazione non sarà completata fino al termine della Pulitura dati manuale. </li>
+<li>L'esecuzione della Pulitura dati potrebbe influire sulle prestazioni di sistema; quindi, si consiglia di non eseguire la Pulitura dati su più storage pool, tranne se necessario.</li>	
+</ul></div>	
+
+<h4>Per sospendere una programmazione su uno storage pool soggetto a esecuzione manuale della Pulitura dati:</h4>	
+<ol>
+<li>Selezionare uno storage pool da sospendere.</li>
+<li>Fare clic su <b>Sospendi</b> dal menu a discesa <b>Azione</b>.</li>	
+	</ol>	
+</body>
+</html>

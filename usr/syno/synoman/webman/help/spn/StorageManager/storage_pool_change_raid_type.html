@@ -1,0 +1,128 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Cambiar el tipo de RAID de un grupo de almacenamiento: Ayuda de Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing storage pools on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+	
+</head>
+<body>
+<h2>Cambiar el tipo de RAID de un grupo de almacenamiento</h2>
+
+<p>Los grupos de almacenamiento se pueden cambiar de un tipo de RAID a otro sin perder los datos existentes. Por ejemplo, puede crear un grupo de almacenamiento RAID 1 en su Synology NAS, y cambiarlo a RAID 5 m&aacute;s adelante si instala m&aacute;s unidades. Este art&iacute;culo proporciona instrucciones para cambiar el tipo de RAID de los grupos de almacenamiento existentes en su Synology NAS. Antes de empezar a cambiar el tipo de RAID de un grupo de almacenamiento, consulte las secciones <b>Requisitos de las unidades</b> y <b>Requisitos y limitaciones de cada tipo de RAID</b> que aparecen a continuaci&oacute;n para obtener informaci&oacute;n detallada sobre los requisitos y limitaciones pertinentes.<h3>Requisitos de las unidades</h3>
+
+<p>Para cambiar el tipo de RAID de un grupo de almacenamiento, debe tener suficientes unidades disponibles e instaladas en su Synology NAS. Consulte a continuaci&oacute;n la tabla en la que se indica el n&uacute;mero m&iacute;nimo de unidades necesarias para cada tipo de RAID.</p>
+
+<table>
+  <tr>
+    <th width="50%">Tipo de RAID</th>
+    <th width="50%">N&uacute;mero m&iacute;nimo de unidades necesarias</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 o 5 (en funci&oacute;n de la configuraci&oacute;n de unidad de SHR-1)</td>
+  </tr>
+
+</table>
+
+</p>
+<h3>Requisitos y limitaciones de cada tipo de RAID</h3>
+
+<p>Solo algunos tipos de RAID se pueden cambiar a otros tipos de RAID. Por ejemplo, RAID 1 se puede cambiar a RAID 5, pero RAID 5 no se puede cambiar a RAID 1. Para obtener m&aacute;s informaci&oacute;n, consulte la tabla que aparece a continuaci&oacute;n.</p>
+
+<table>
+  <tr>
+    <th width="30%">Tipo de RAID actual</th>
+    <th width="30%">Tipo de conversi&oacute;n posible de destino</th>
+    <th width="40%">N&uacute;mero adicional de unidades necesarias</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1</td>
+    <td>1</td>
+  </tr>
+ <tr>
+    <td>Basic</td>
+    <td>RAID 5</td>
+	  <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+	  <td>1</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+	  <td>1</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+	  <td>1 o 2 (en funci&oacute;n de la configuraci&oacute;n de unidad de SHR)</td>
+  </tr>
+
+</table>
+
+<div class="section"><h4>Observaci&oacute;n:</h4>
+<ul>
+<li>Para obtener m&aacute;s informaci&oacute;n sobre SHR (Synology Hybrid RAID), haga clic <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_is_Synology_Hybrid_RAID_SHR" target="_blank">aqu&iacute;</a>.</li>
+<li>Si desea obtener m&aacute;s informaci&oacute;n sobre c&oacute;mo elegir el tipo de RAID para un grupo de almacenamiento, haga clic <a href="storage_pool_what_is_raid.html">aqu&iacute;</a>.</li>
+<li>Para obtener una estimaci&oacute;n de la utilizaci&oacute;n del espacio, utilice la <a href="https://www.synology.com/support/RAID_calculator" target="_blank">calculadora RAID de Synology</a>.</li>
+<li>Un grupo de almacenamiento SHR-1 con las siguientes configuraciones de unidad puede requerir dos unidades adicionales cuando se cambie a un grupo de almacenamiento SHR-2:<ul>
+<li>El grupo de almacenamiento contiene solo dos unidades.</li>
+<li>Todas las unidades tienen diferentes capacidades.</li>
+<li>En una matriz RAID compuesta por tres o m&aacute;s unidades, la capacidad de las dos unidades m&aacute;s grandes es mayor que la de las otras unidades.</li>
+</ul>
+</li>
+<li>Algunos modelos no admiten el cambio de un grupo de almacenamiento RAID 5 a un grupo de almacenamiento RAID 6.</li>
+</ul>
+</div>
+
+<h3>Cambiar el tipo de RAID</h3>
+
+<h4>Antes de comenzar:</h4>
+<p>Antes de cambiar el tipo de RAID, tenga en cuenta lo siguiente:</p>
+<ul>
+<li>Aseg&uacute;rese de que el estado de su grupo de almacenamiento es <b>En buen estado</b>.</li>
+<li>Al agregar unidades nuevas a un grupo de almacenamiento, estas nuevas unidades deben ser mayores que la unidad m&aacute;s peque&ntilde;a del grupo de almacenamiento y todas las unidades deben ser del mismo tipo de unidad.</li>
+<li>El tipo de RAID de las matrices RAID en un RAID Group no se puede modificar. La funci&oacute;n RAID Group solo est&aacute; disponible en modelos espec&iacute;ficos.<br><span class="note_head">Nota:</span> Vaya a <a href="https://www.synology.com/products" target="_blank">esta p&aacute;gina web</a> y marque la casilla de verificaci&oacute;n de la parte superior derecha de su Synology NAS y tambi&eacute;n la de cualquier otro modelo o modelos y, a continuaci&oacute;n, haga clic en el bot&oacute;n <b>Comparar</b> de la esquina inferior derecha. Si su modelo es compatible con RAID Group aparecer&aacute; en la p&aacute;gina web de <b>Resultados de comparaci&oacute;n</b>.</li>
+</ul>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+
+<ul>
+<li>Recomendamos el uso de unidades incluidas en la <a href="https://www.synology.com/compatibility" target=blank>lista de compatibilidad de productos de Synology</a> para evitar problemas. El uso de unidades incompatibles puede reducir el rendimiento del sistema e incluso provocar la p&eacute;rdida de datos.</li>
+</ul>
+</div>
+<h4>Para cambiar el tipo de RAID de un grupo de almacenamiento:</h4>
+
+<ol>
+<li>Inicie el <strong>Administrador de almacenamiento</strong>.</li><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/><li>Vaya a <b>Grupo de almacenamiento</b>.</li>
+<li>Seleccione el grupo de almacenamiento al cual desea cambiar el tipo de RAID y haga clic en <b>Cambiar el tipo de RAID</b> en el men&uacute; desplegable <b>Acci&oacute;n</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/change_raid_type.png" class="help_image"/><li>Seleccione el tipo de RAID al que desea cambiar. Haga clic en <b>Siguiente</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_raid.png" class="help_image"/><li>Seleccione la unidad que va a agregar al grupo de almacenamiento existente. Haga clic en <b>Siguiente</b>.<br><span class="note_head">Nota:</span> Se borrar&aacute;n todos los datos de las unidades reci&eacute;n agregadas. Aseg&uacute;rese de realizar primero una copia de seguridad de sus datos.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_disks.png" class="help_image"/><li>Siga las instrucciones del asistente para completar el proceso.</li></ol>
+
+</body>
+</html>

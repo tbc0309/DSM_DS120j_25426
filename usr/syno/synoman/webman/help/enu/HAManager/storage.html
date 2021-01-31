@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Storage Status</h2>
+	<p>This page details the status of storage volumes and iSCSI LUNs (Block-Level) on the active and passive servers of the high-availability cluster.</p>
+    <p>Because the capacity and configurations of the corresponding volumes and iSCSI LUNs (Block-Level) on the active and passive servers must be identical, the volumes and iSCSI LUN (Block-Level) on the two servers are displayed together as single units. Therefore, if you wish to view the status of volumes and iSCSI LUNs (Block-Level) of both the active and passive servers, you must go to the <b>Storage Status</b> page [when accessing a high-availability cluster, only volumes and iSCSI LUNs (Block-Level) on the active server are viewable in <b>Storage Manager</b>].</p>
+
+    <p>This page contains the following information:</p>
+		<ul>
+			<li><b>Name:</b> Displays the names of volumes and iSCSI LUNs (Block-Level).</li>
+			<li><b>Used:</b> Displays the percentage of used capacity of volumes and iSCSI LUNs (Block-Level).</li>
+			<li><b>Used/Total Size:</b>  Displays total and used capacity of volumes and iSCSI LUNs (Block-Level).</li>
+            <li><b>Status:</b> Displays the status of volumes, iSCSI LUNs (Block-Level) and SSD caches.</li>
+            <li><b>Description:</b> Displays description of errors or other information pertaining to the volume, iSCSI LUN (Block-Level) and SSD cache.</li>
+		</ul>
+<h4>To repair a malfunctioning volume or iSCSI LUN (Block-Level):</h4>
+	<ul>
+		<li>If a hard disk on one of the servers has crashed, you can go to the <a href="disk.html">Disk Status</a> page to determine which hard disk has crashed and needs to be replaced. In this case, please do the following:
+        	<ol>
+            	<li>Replace the crashed hard disk (for steps regarding hard disk installation, please refer to the <i>Quick Installation Guide</i> for your Synology product).</li>
+                <li>Go to the <b>Storage Status</b> page and click <b>Repair</b>.</li>
+            </ol>
+        </li>
+        <li>If the passive server is offline, the status of volumes and iSCSI LUNs (Block-Level) will indicate an error has occurred, and none of the disks on the passive server will appear on the Disk Status page. In this case, you can attempt to resolve the problem by doing the following:
+        	<ol>
+            	<li>Make sure the passive server is powered on.</li>
+                <li>Check all power supplies.</li>
+                <li>Examine all connections.</li>
+            </ol>
+        </li>
+        <li>If a file system error occurs on a volume or iSCSI LUN (Block-Level) on one of the servers, please do the following:
+        	<ul>
+            	<li>Go to the <b>Storage Status</b> page.</li>
+                <li>Click <b>Repair.</b></li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">Note:</span>  The limit of volumes and iSCSI LUNs (Block-Level) on a high-availability cluster is 64.</p>
+
+
+
+<h3>Quorum Server</h3>
+<p>Quorum servers can help reduce the possibility of split-brain errors. In split-brain settings, you can assign another server as the quorum server, as long as it constantly connects to both the active and passive servers. For example, a gateway server or DNS server is a suitable choice for quorum server because it can connect to both the active and passive servers. Please note that quorum server is to provide Ping services only, and no applications are required to be installed. Below are circumstances that will follow when quorum server is enabled:</p>
+
+<ul>
+<li>If the passive server cannot connect to both the active and quorum servers, failover will not be performed in order to prevent split-brain errors.</li>
+<li>If the active server cannot connect to the quorum server while the passive server can, switchover will be triggered in order to ensure better availability.</li>
+</ul>
+
+ </body>
+</html>

@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Backup e Replica</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Sincronizzazione cartella condivisa</h2>
+<p>Il servizio Sincronizzazione cartella condivisa consente agli utenti di sincronizzare le cartelle condivise da un dispositivo Synology NAS (sorgente) ad altri dispositivi Synology NAS (destinazioni) tramite una connessione LAN o Internet.</p>
+<p>Sincronizzazione cartella condivisa eseguirà la sincronizzazione completa di tutte le cartelle condivise selezionate per la prima volta. Successivamente, saranno sincronizzati solo i file modificati. I file che sono stati rimossi dall'origine verranno rimossi anche dalla destinazione.</p>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>La Sincronizzazione cartella condivisa è una soluzione di sincronizzazione a una via che consente di sincronizzare i file dall'origine alla destinazione. Per una soluzione di sincronizzazione a 2 vie, utilizzare <strong>Synology Drive ShareSync</strong>.</li>
+<li>Se nella destinazione esiste una cartella condivisa con lo stesso nome (es. SharedFolder) con la cartella condivisa di origine, la cartella di destinazione sarà denominata &quot;SharedFolder_1&quot;.</li>
+<li>Se nella destinazione non esiste alcuna cartella condivisa con lo stesso nome della cartella condivisa di origine, verrà creata una cartella con lo stesso nome nel volume corrispondente o nel primo volume disponibile.</li>
+<li>Per impostazione predefinita, nessun utente avrà i privilegi per accedere alla cartella condivisa nella destinazione. Contattare l'<strong>admin</strong> di destinazione per i privilegi.</li>
+</ul>
+</p>
+</div>
+
+<h3>Abilitazione del servizio</h3>
+<h4>Per abilitare la Sincronizzazione cartella condivisa:</h4>
+<p>È necessario attivare il servizio prima su Synology NAS di destinazione.</p>
+<ol>
+<li>Andare su <strong>Pannello di controllo</strong> > <strong>Servizio file</strong> > <strong>rsync.</strong></li>
+<li>Selezionare <strong>Abilita servizio rsync</strong> per abilitare il servizio di sincronizzazione cartella condivisa.</li>
+<li>Fare clic su <strong>Applica</strong>.</li>
+</ol>
+
+
+<h4>Per annullare il collegamento delle cartelle condivise da Synology NAS di destinazione:</h4>
+
+<p>In caso di sincronizzazione simultanea, da parte di differenti origini, di una cartella condivisa identica in un Synology NAS di destinazione, si verificherà un conflitto. Sarà necessario annullare il collegamento della cartella condivisa sul lato origine prima che un'altra origine possa sincronizzare la rispettiva cartella nella destinazione. 
+
+<ol>
+<li>Accedere a Synology NAS di destinazione e andare su <strong>Pannello di controllo</strong> > <strong>Sincronizzazione cartella condivisa</strong> > <strong>Elenco connessioni</strong>.</li>
+<li>Selezionare la connessione in conflitto da un Synology NAS di origine e fare clic su <strong>Scollega</strong> per rimuoverlo.</li>
+</ol>
+
+<p>A questo punto, un'altra origine potrà sincronizzare la cartella condivisa sul Synology NAS di destinazione.</p>
+
+<h3>Gestione attività di sincronizzazione</h3>
+
+<h4>Per creare un'attività di sincronizzazione:</h4>
+<ol>
+<li>Accedere a Synology NAS di origine e andare su <b>Pannello di controllo</b> > <b>Sincronizzazione cartella condivisa</b> > <strong>Elenco attività</strong>.</li>
+<li>Fare clic su <b>Crea</b>.</li>
+<li>Immettere un nome per l'attività.</li>
+<li>Selezionare la cartella condivisa da sincronizzare con la destinazione.</li>
+<li>Specificare il Synology NAS di destinazione e le seguenti opzioni di destinazione:</li>
+<ul>
+<li><strong>Personalizzare la porta di crittografia SSK per la sincronizzazione delle cartelle condivise crittografate</strong>: Specificare la porta di crittografia desiderata per la crittografia di trasferimento SSH.</li>
+<li><strong>Abilitare crittografia trasferimento SSH</strong>: consente la codifica dei dati durante il trasferimento. Fornisce una migliore protezione, mentre il trasferimento non codificato offre prestazioni migliori. È possibile scegliere in base alle proprie esigenze.
+</li> 
+<li><strong>Abilita compressione trasferimento</strong>: consente la compressione dei dati durante il trasferimento. Consente di risparmiare la larghezza di banda di rete aumentando il carico sulla CPU.</li>
+<li><strong>Attiva sincronizzazione livello blocco</strong>: consente di trasferire solo i dati differenziali al posto di tutti i file. Consente di risparmiare la larghezza di banda di rete aumentando il carico sulla CPU.</li>
+</ul>
+<li>Quando richiesto, selezionare una qualsiasi delle opzioni seguenti per stabilire quando eseguire la sincronizzazione dall'origine alla destinazione:</li>
+<ul>
+<li><strong>Esegui sincronizzazione su modifica</strong>: Eseguire subito l'attività di sincronizzazione ogni volta che si verifica un cambiamento nella cartella condivisa di origine.</li>
+<li><strong>Esegui sincronizzazione manuale</strong>: Eseguire manualmente l'attività di sincronizzazione dalla cartella condivisa di origine.</li>
+<li><strong>Programmazione avanzata</strong>: Fare clic su <strong>Piano di programmazione</strong> per specificare quando eseguire l'attività sincronizzazione.</li>
+
+</ul>
+<li>Fare clic su <strong>Applica</strong>. Ora è possibile visualizzare l'attività di sincronizzazione nell'elenco delle attività, che sarà eseguita secondo la pianificazione specificata.</li></ol>
+<h4>Per gestire un'attività di sincronizzazione:</h4>
+<ol>
+<li>Nel Synology NAS di origine, andare su <strong>Pannello di controllo</strong> > <strong>Sincronizzazione cartella condivisa</strong>, fare clic su <strong>Elenco attività</strong> e selezionare l'attività desiderata.</li>
+<li>Eseguire una delle seguenti azioni:</li>
+<ul>
+<li>
+Clicca su <b>Modifica</b> per modificare l'attività.
+</li>
+<li>
+Fare clic su <b>Elimina</b> per eliminare l'attività.
+</li> 
+<li>
+Se il processo di sincronizzazione non è in esecuzione, fare clic su <b>Sincronizza ora</b> per eseguire l'attività.
+</li>
+<li>
+Se il processo di sincronizzazione è in esecuzione, fare clic su <b>Annulla</b> per interrompere l'attività in corso.
+</li>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>
+nel caso in cui la pianificazione per un'attività di sincronizzazione è impostata come <b>Esegui sincronizzazione su modifica</b>, cliccando su <b>Annulla</b> l'attività in corso viene interrotta. Nel caso in cui venga apportato un cambiamento qualsiasi ai contenuti di una o più cartelle condivise monitorate dall'attività di sincronizzazione, Sincronizzazione cartella condivisa consentirebbe di riprendere l'attività.</p>
+</div>
+
+<li>
+Fare clic su <b>Sincronizzazione completa</b> per sincronizzare tutti i dati. Sincronizzazione cartella condivisa avvierà una sincronizzazione completa per la prima volta e sincronizzerà soltanto le parti modificate dopo la prima sincronizzazione. Facendo clic su questo pulsante è possibile sincronizzare manualmente di nuovo tutti i dati.
+</li>
+</ul>
+</ol>
+
+<div class="section">
+<h4>Ulteriori informazioni</h4>
+<ol>
+<li>Il nome dell'attività deve contenere da 1 a 32 caratteri Unicode e non deve contenere i seguenti caratteri:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Se vengono sincronizzate le cartelle condivise da file system ext4 a ext3, si potrebbero verificare errori quando l'attività contiene più di 32.000 cartelle.</li>
+<li>Se le cartelle condivise nel Synology NAS di destinazione sono state sincronizzate con un altro Synology NAS in precedenza, con Sincronizzazione cartella condivisa verrà eseguita una sincronizzazione completa per l'attività.</li>
+<li>Per eseguire le attività della Sincronizzazione cartella condivisa, sono necessari i privilegi admin del Synology NAS di destinazione. Nel caso in cui si dispone della password dell'account admin o si fa parte del gruppo amministrativo.</li>
+<li>Durante la sincronizzazione del Synology NAS con Internet, è possibile immettere il nome del server con il relativo indirizzo IP esterno o il nome dell'host. Tuttavia, se si sceglie di immettere il nome dell'host, il nome deve essere nel formato FQDN (nome di dominio completo), ad esempio &quot;www.synology.com&quot;.</li>
+<li>Per l'inoltro porta, Sincronizzazione cartella condivisa utilizza la porta 22 per il trasferimento codificato e la porta 873 per il trasferimento non codificato.</li>
+<li>Sincronizzazione cartella condivisa non supporta i dispositivi di archiviazione esterni.</li>
+<li>Quando l'attività Sincronizzazione cartella condivisa è in esecuzione, le cartelle condivise crittografate alla destinazione saranno montate automaticamente; tuttavia, per accedere ai dati interni, è necessario montare prima le cartelle condivise crittografate alla destinazione.</li>
+<li>Sincronizzazione cartella condivisa programmata non sarà eseguita in un momento specifico se non è stata effettuata alcuna modifica alla cartella condivisa selezionata.</li>
+<li>Per prestazioni migliori, si consiglia di includere in ciascuna attività di sincronizzazione meno di 200 cartelle condivise.</li>
+<li>La funzione <strong>Sede utente</strong> sarà disabilitata sulla destinazione del Synology NAS se la cartella condivisa <strong>homes</strong> è sincronizzata dalla sorgente del Synology NAS alla destinazione del Synology NAS.</li>
+
+<li>Per i modelli con CPU senza Intel, è possibile sincronizzare fino a 100.000 cartelle condivise (incluse le sottocartelle) usando Sincronizzazione cartella condivisa.</li>
+ <li>La Sincronizzazione cartella condivisa può eseguire il backup delle impostazioni Windows ACL quando il file system di destinazione è ext4 o Btrfs. <br><span class="note_head">Nota:</span> le impostazioni dati e Windows ACL archiviate in Synology NAS non possono essere sincronizzate su EDS14. </li>
+ 
+ <li>Sincronizzazione cartella condivisa non verrà eseguito in modo corretto se si sta sincronizzando in un server di destinazione che condivide lo stesso nome del Synology NAS.</li>
+ 
+<li>I permessi cartelle condivise avanzate alla fonte non saranno sincronizzati nella destinazione. Inoltre, nella destinazione verrà creata una regola di sola lettura per i gruppi di amministratori. </li> 
+
+  </ol>
+</div>
+
+</body></html>

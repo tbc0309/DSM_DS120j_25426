@@ -1,0 +1,435 @@
+#!/usr/bin/python2
+
+
+import sys
+import os
+import re
+import errno
+import json
+import shutil
+import imp
+import ConfigParser
+
+
+DEV_MODE = False
+
+
+class SynoException(Exception):
+    pass
+
+
+class Path(object):
+    @staticmethod
+    def mkdir_p(dir_path):
+        try:
+            os.makedirs(dir_path)
+        except OSError as e:
+            if e.errno == errno.EEXIST and os.path.isdir(dir_path):
+                pass
+            else:
+                raise
+
+    @staticmethod
+    def rm_f(file_path):
+        try:
+            os.unlink(file_path)
+        except OSError as e:
+            if e.errno == errno.ENOENT:
+                pass
+            else:
+                raise
+
+    @staticmethod
+    def rm_rf(dir_path):
+        try:
+            shutil.rmtree(dir_path)
+        except OSError as e:
+            if e.errno == errno.ENOENT:
+                pass
+            else:
+                raise
+
+    @staticmethod
+    def ls(dir_path):
+        try:
+            filenames = os.listdir(dir_path)
+        except OSError:
+            filenames = []
+        return filenames
+
+    @staticmethod
+    def ls_file_paths(dir_rel_path, file_suffix=None):
+        dir_paths = [
+            os.path.join(Path.DSM_PREFIX, dir_rel_path),
+            os.path.join(Path.PKG_PREFIX, dir_rel_path),
+        ]
+        file_paths = []
+        for dir_path in dir_paths:
+            for filename in Path.ls(dir_path):
+                if file_suffix and not filename.endswith(file_suffix):
+                    continue
+
+                file_paths.append(os.path.join(dir_path, filename))
+
+        return file_paths
+
+    DSM_PREFIX = '/usr/syno'
+    PKG_PREFIX = '/usr/local'
+
+
+class SubGenerator(object):
+    def __init__(self, file_path):
+        module_name = self._extract_module_name(file_path)
+        module = self._load_module(module_name, file_path)
+        self._set_module_functions(module)
+
+        self.name = module_name
+        self.path = file_path
+
+    @staticmethod
+    def load_all():
+        sub_gens = []
+        for file_path in Path.ls_file_paths(SubGenerator.DIR_REL_PATH, '.py'):
+            try:
+                sub_gen = SubGenerator(file_path)
+            except SynoException as e:
+                print 'ERROR: load sub-generator "{}" failed'.format(file_path)
+                print '       {}'.format(e)
+                continue
+
+            sub_gens.append(sub_gen)
+
+            print 'INFO: loaded sub-generator "{}" from "{}"'.format(sub_gen.name, sub_gen.path)
+
+        return sub_gens
+
+    def _extract_module_name(self, file_path):
+        filename = os.path.basename(file_path)
+        match = re.match(r'(.+)\.py$', filename)
+
+        if not match:
+            raise SynoException('invalid file path')
+
+        return match.group(1)
+
+    def _load_module(self, module_name, file_path):
+        try:
+            return imp.load_source(module_name, file_path)
+        except Exception as e:
+            raise SynoException(e)
+
+    def _set_module_functions(self, module):
+        try:
+            self.validate_synolog_conf = module.validate_synolog_conf
+            self.generate_syslog_ng_conf = module.generate_syslog_ng_conf
+        except AttributeError as e:
+            raise SynoException('missing required function, {}'.format(e))
+
+    DIR_REL_PATH = 'lib/synosyslog/subgens'
+
+
+class SynoLogConf(object):
+    def __init__(self, conf_path):
+        self.app_id = self._extract_app_id(conf_path)
+        self.conf = self._load_conf(conf_path)
+        self.mappings = self._load_mappings(conf_path)
+        self.path = conf_path
+
+    def is_key_enabled(self, key):
+        if key not in self.conf:
+            return False
+        return bool(self.conf[key])
+
+    def validate(self, sub_gens):
+        valid_sub_gens = []
+        for sub_gen in sub_gens:
+            try:
+                success = sub_gen.validate_synolog_conf(self)
+            except Exception as e:
+                print 'ERROR: failed to run "validate_synolog_conf" in "{}" on app "{}"'.format(sub_gen.name, self.app_id)
+                print '       {}'.format(e)
+                if DEV_MODE:
+                    raise
+                continue
+
+            if success:
+                valid_sub_gens.append(sub_gen)
+            else:
+                print 'WARN: synolog conf for app "{}" did not pass the validation in "{}"'.format(self.app_id, sub_gen.name)
+
+        return valid_sub_gens
+
+    def generate(self, sub_gens):
+        syslog_ng_conf = SyslogNgConf(self)
+        for sub_gen in sub_gens:
+            try:
+                sub_gen_result = sub_gen.generate_syslog_ng_conf(self)
+            except Exception as e:
+                print 'ERROR: failed to run "generate_syslog_ng_conf" in "{}" on app "{}"'.format(sub_gen.name, self.app_id)
+                print '       {}'.format(e)
+                if DEV_MODE:
+                    raise
+                continue
+
+            syslog_ng_conf.add(sub_gen_result, sub_gen.name)
+
+        return syslog_ng_conf
+
+    @staticmethod
+    def load_all():
+        synolog_confs = []
+        for file_path in Path.ls_file_paths(SynoLogConf.DIR_REL_PATH):
+            try:
+                synolog_conf = SynoLogConf(file_path)
+            except SynoException as e:
+                print 'ERROR: load synolog config "{}" failed'.format(file_path)
+                print '       {}'.format(e)
+                continue
+
+            synolog_confs.append(synolog_conf)
+
+            print 'INFO: loaded synolog config "{}" from "{}"'.format(synolog_conf.app_id, synolog_conf.path)
+
+        return synolog_confs
+
+    def _extract_app_id(self, conf_path):
+        return os.path.basename(conf_path)
+
+    def _load_conf(self, conf_path):
+        try:
+            with open(conf_path) as f:
+                return json.load(f)
+        except IOError:
+            raise SynoException('open synolog config failed: {}'.format(conf_path))
+        except ValueError:
+            raise SynoException('parse json file failed: {}'.format(conf_path))
+
+    def _load_mappings(self, conf_path):
+        base_dir_path = os.path.dirname(os.path.dirname(conf_path))
+        event_path = os.path.join(base_dir_path, 'events', self.app_id)
+
+        parser = ConfigParser.ConfigParser()
+        try:
+            with open(event_path) as f:
+                parser.readfp(f)
+        except IOError:
+            raise SynoException('open synolog event file failed: {}'.format(event_path))
+        except ConfigParser.Error:
+            raise SynoException('parse synolog event file failed: {}'.format(event_path))
+
+        mappings = {}
+        for section in parser.sections():
+            mappings[section] = {}
+            for option in parser.options(section):
+                if option[0] != '@':
+                    continue
+                try:
+                    arg_seq = int(option[1:])
+                except ValueError:
+                    continue
+                mappings[section][arg_seq] = parser.get(section, option)
+
+        return mappings
+
+    DIR_REL_PATH = 'share/synolog/configs'
+
+
+class SyslogNgConf(object):
+    def __init__(self, synolog_conf):
+        self.synolog_conf = synolog_conf
+        self.path = self._get_dump_path()
+        self.confs = []
+
+    def add(self, sub_gen_result, sub_gen_name):
+        if not sub_gen_result:
+            return
+
+        try:
+            sub_gen_confs = self._make_sub_gen_confs(sub_gen_result)
+        except SynoException as e:
+            print 'ERROR: generated syslog-ng conf from "{}" on app "{}" is malformed, skipped'.format(sub_gen_name, self.synolog_conf.app_id)
+            print '       {}'.format(e)
+            return
+
+        try:
+            for sub_gen_conf in sub_gen_confs:
+                self._validate_sub_gen_conf(sub_gen_conf)
+        except SynoException as e:
+            print 'ERROR: generated syslog-ng conf from "{}" on app "{}" is invalid, skipped'.format(sub_gen_name, self.synolog_conf.app_id)
+            print '       {}'.format(e)
+            return
+
+        for idx, sub_gen_conf in enumerate(sub_gen_confs):
+            base_conf = self._gen_base_conf(sub_gen_name, idx)
+            self.confs.append(base_conf + sub_gen_conf)
+
+    def dump(self):
+        contents = []
+        contents.append(SyslogNgConf.GENERATED_WARNING)
+
+        for conf in self.confs:
+            contents.extend(self._render_components(conf))
+
+        for conf in self.confs:
+            contents.append(self._render_flow(conf))
+
+        contents = self._remove_duplicated(contents)
+
+        try:
+            with open(self.path, 'w') as f:
+                f.write('\n\n'.join(contents) + '\n')
+        except IOError:
+            Path.rm_f(self.path)
+            raise SynoException('write syslog-ng config failed: {}'.format(self.path))
+
+    @staticmethod
+    def clear_all():
+        Path.rm_rf(SyslogNgConf.CONF_DIR_PATH)
+        Path.mkdir_p(SyslogNgConf.CONF_DIR_PATH)
+
+    def _get_dump_path(self):
+        return os.path.join(SyslogNgConf.CONF_DIR_PATH, self.synolog_conf.app_id)
+
+    def _gen_base_conf(self, sub_gen_name, idx):
+        return [
+            {
+                'type': 'source',
+                'name': 's_syno_synosyslog',
+                'content': None
+            },
+            {
+                'type': 'filter',
+                'name': 'f_syno_{}'.format(self.synolog_conf.app_id),
+                'content': [
+                    SyslogNgConf.FILTER_FMT.format(self.synolog_conf.app_id)
+                ]
+            },
+            {
+                'type': 'parser',
+                'name': 'p_syno_sdata_{}_{}_{}'.format(self.synolog_conf.app_id, sub_gen_name, idx),
+                'content': [
+                    SyslogNgConf.SYNOSDATA_FMT.format(sd_tag=SyslogNgConf.SYNO_SD_TAG)
+                ]
+            },
+            {
+                'type': 'rewrite',
+                'name': 'r_syno_username',
+                'content': None
+            },
+            {
+                'type': 'rewrite',
+                'name': 'r_syno_args_{}'.format(self.synolog_conf.app_id),
+                'content': self._gen_args_rewrite_content()
+            },
+        ]
+
+
+    def _gen_args_rewrite_content(self):
+        content = []
+
+        for event_id, mapping in self.synolog_conf.mappings.items():
+            for arg_seq, arg_name in mapping.items():
+                content.append(SyslogNgConf.ARGS_REWRITE_FMT.format(**{
+                    'event_id': event_id,
+                    'arg_seq': arg_seq,
+                    'arg_name': arg_name,
+                }))
+
+        return content
+
+    def _make_sub_gen_confs(self, sub_gen_result):
+        if type(sub_gen_result) is not list:
+            raise SynoException('should be a list')
+        if len(sub_gen_result) == 0:
+            raise SynoException('should not be empty list')
+
+        first = sub_gen_result[0]
+        if type(first) is list:
+            return sub_gen_result
+        elif type(first) is dict:
+            return [sub_gen_result]
+        else:
+            raise SynoException('unknown list element')
+
+    def _validate_sub_gen_conf(self, sub_gen_conf):
+        if type(sub_gen_conf) is not list:
+            raise SynoException('should be a list')
+
+        for entry in sub_gen_conf:
+            if type(entry) is not dict:
+                raise SynoException('list element should be a dict')
+            for field in ['type', 'name', 'content']:
+                if field not in entry:
+                    raise SynoException('each entry should contain the field "{}"'.format(field))
+
+        if 'destination' not in [entry['type'] for entry in sub_gen_conf]:
+            raise SynoException('should be at least one destination')
+
+    def _render_components(self, conf):
+        contents = []
+
+        for entry in conf:
+            if entry['content'] is None:
+                continue
+            component = self._render_component(entry)
+            contents.append(component)
+
+        return contents
+
+    def _render_component(self, entry):
+        lines = [SyslogNgConf.COMPONENT_ITEM_FMT.format(line) for line in entry['content']]
+        return SyslogNgConf.COMPONENT_FMT.format(lines='\n'.join(lines), **entry)
+
+    def _render_flow(self, conf):
+        lines = [SyslogNgConf.FLOW_ITEM_FMT.format(**entry) for entry in conf]
+        return SyslogNgConf.FLOW_FMT.format(lines='\n'.join(lines))
+
+    def _remove_duplicated(self, ori_items):
+        new_items = []
+        for item in ori_items:
+            if item in new_items:
+                continue
+            new_items.append(item)
+        return new_items
+
+    CONF_DIR_PATH = '/etc/syslog-ng/syno.d/synosyslog.conf.gen'
+    SYNO_SD_TAG = 'synolog@6574'
+    GENERATED_WARNING = '''# Generated by synologconfgen
+# DO NOT EDIT THIS FILE BY HAND - YOUR CHANGES WILL BE OVERWRITTEN'''
+    COMPONENT_FMT = '''{type} {name} {{
+{lines}
+}};'''
+    FLOW_FMT = '''log {{
+{lines}
+}};'''
+    COMPONENT_ITEM_FMT = '    {}'
+    FLOW_ITEM_FMT = '    {type}({name});'
+    FILTER_FMT = 'program("^{}$");'
+    SYNOSDATA_FMT = 'json-parser(template("$(format-json --key .SDATA.{sd_tag}.* --replace-prefix .SDATA.{sd_tag}.=)") prefix("SYNOSDATA."));'
+    ARGS_REWRITE_FMT = 'set("${{SYNOSDATA.arg_{arg_seq}}}", value("ARGS.{arg_name}") condition(match("0x{event_id}" value("SYNOSDATA.event_id"))));'
+
+
+def main():
+    SyslogNgConf.clear_all()
+
+    sub_gens = SubGenerator.load_all()
+    synolog_confs = SynoLogConf.load_all()
+
+    for synolog_conf in synolog_confs:
+        valid_sub_gens = synolog_conf.validate(sub_gens)
+        syslog_ng_conf = synolog_conf.generate(valid_sub_gens)
+
+        try:
+            syslog_ng_conf.dump()
+            print 'INFO: generated syslog-ng config for app "{}" on "{}"'.format(synolog_conf.app_id, syslog_ng_conf.path)
+        except SynoException as e:
+            print 'WARN: skipped generating syslog-ng config for app "{}"'.format(synolog_conf.app_id)
+            print '      {}'.format(e)
+
+    print 'INFO: syslog-ng config generation for synolog is done'
+
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1 and '--dev' in sys.argv:
+        DEV_MODE = True
+    main()

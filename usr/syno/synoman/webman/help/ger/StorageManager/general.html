@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Allgemein</h2>
+
+<p>Mit dem Speicher-Manager können alle Speicherbereiche auf Synology-Produkten verwaltet werden. Um die Speicherverwaltung zu vereinfachen und flexible Speicherbereiche mit Datenschutz zu erstellen, unterstützt Synology DSM verschiedene Speicherpools.</p>
+
+<h4><a href="storage_pool.html">Speicherpool</a></h4>
+<p>Mit der Synology NAS können Sie mehrere Laufwerke in einer als Speicherpool bezeichneten Speichereinheit organisieren. Synology NAS stellt folgende Arten von Speicherpools bereit:</p>
+<ul>
+	<li><strong>Speicherpool für bessere Leistung</strong>:
+		<ul>
+			<li>Weist die gesamte verfügbare Kapazität einem einzelnen Volume zu.</li>
+			<li>Bietet bessere Leistung, aber weniger Flexibilität bei der Speicherverwaltung.</li>
+			<li>Ermöglicht die Erstellung mehrerer iSCSI LUNs (reguläre Datei) auf Volumes.</li>
+			<li>Unterstützt maximal ein RAID Array.</li>
+		</ul>
+	</li>
+	<li><strong>Speicherpool für größere Flexibilität</strong>:
+		<ul>
+			<li>Unterstützt die Erstellung mehrerer Volumes auf einem Speicherpool.</li>
+			<li>Bietet bessere Flexibilität bei der Speicherverwaltung.</li>
+			<li>Ermöglicht die Erstellung mehrerer iSCSI LUNs (reguläre Datei) auf Volumes.</li>
+			<li>Unterstützt die Kombination mehrerer RAID Arrays unter einem Speicherpool (falls als RAID 5, RAID 6 oder RAID F1 konfiguriert).</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>RAID-Typ</h4>    
+<p>Wählen Sie beim Erstellen eines Speicherpools zuerst einen RAID-Typ aus. Verschiedene RAID-Typen bieten unterschiedliche Niveaus an Datenschutz, Speicherfunktionen und Leistung. Synology NAS unterstützt derzeit folgende RAID-Typen:</p>
+<ul>
+	<li><strong>Basic</strong>: Verwendet ein Laufwerk zum Erstellen eines Speicherpools. Speicherpools des Typs "Basic" bieten keine Datenredundanz.</li>
+	<li><strong>JBOD*</strong>: Kombiniert mindestens zwei Laufwerke, um einen Speicherpool zu erstellen. Speicherpools des Typs "JBOD" bieten keine Datenredundanz. Die verfügbare Kapazität eines Speicherpools des Typs „JBOD“ entspricht der Gesamtkapazität aller im Speicherpool enthaltenen Laufwerke. JBOD unterstützt die Kombination von Laufwerken verschiedener Größe.</li>
+	<li><strong>RAID 0*</strong>: Kombiniert mindestens zwei Laufwerke, um einen Speicherpool zu erstellen. RAID 0 bietet keine Datenredundanz. Wenn ein Laufwerk ausfällt, gehen die Daten im Speicherpool verloren. Die verfügbare Kapazität eines RAID-0-Speicherpools ist gleich der Gesamtkapazität aller beteiligten Laufwerke. RAID 0 unterstützt die Kombination von Laufwerken verschiedener Größe.</li>
+	<li><strong>RAID 1*</strong>: Kombiniert 2-4 Laufwerke zur Erstellung eines Speicherpools. Das System schreibt auf alle Laufwerke identische Daten. RAID 1 bietet Datenschutz, solange eine Laufwerke noch normal funktioniert. Die verfügbare Kapazität des RAID-1-Speicherpools ist gleich der Größe des kleinsten beteiligten Laufwerks.</li>
+	<li><strong>RAID 5*</strong>: Kombiniert mindestens drei Laufwerke für die Erstellung eines Speicherpools und speichert sowohl die Daten als auch die Paritätsinformationen auf allen Laufwerken. RAID 5 bietet Datenredundanz. Wenn ein Laufwerk ausfällt, kann das System mit den Paritätsinformationen auf den anderen Laufwerken wiederhergestellt werden. Es unterstützt die Kombination mehrerer RAID Arrays, wenn diese auf einem Speicherpool für mehrere Volumes erstellt werden. Die verfügbare Kapazität eines RAID-5-Speicherpools = <span class="note_content">Gesamtkapazität der kombinierten RAID Arrays</span>.<span class="note_content"> RAID-Array-Kapazität = (Anzahl der Laufwerke - 1) x (Kapazität des kleinsten Laufwerks)</span></li>
+	<li><strong>RAID 6*</strong>: Kombiniert mindestens vier Laufwerke für die Erstellung eines Speicherpools und speichert sowohl die Daten als auch die Paritätsinformationen auf allen Laufwerken. RAID 6 bietet Datenredundanz. Wenn zwei Laufwerke ausfallen, kann das System mit den Paritätsinformationen auf den anderen Laufwerken wiederhergestellt werden. Es unterstützt die Kombination mehrerer RAID Arrays, wenn diese auf einem Speicherpool für mehrere Volumes erstellt werden. Die verfügbare Kapazität eines RAID-6-Speicherpools = <span class="note_content">Gesamtkapazität der kombinierten RAID Arrays</span>.<span class="note_content"> RAID-Array-Kapazität = (Anzahl der Laufwerke - 2) x (Kapazität des kleinsten Laufwerks)</span></li>
+	<li><strong>RAID 10*</strong>: Kombiniert mindestens vier Laufwerke, um einen Speicherpool zu erstellen. Die Anzahl der Laufwerke muss gerade sein. RAID 10 bietet die Leistung von RAID 0 und die Datenschutzstufe von RAID 1. Die verfügbare Kapazität des RAID-10-Speicherpools = <span class="note_content">(Kapazität des kleinsten Laufwerks) x (Anzahl der Laufwerke / 2)</span></li>
+	<li><strong>RAID F1*</strong>: Dieser RAID-Typ wurde für Solid-State-Laufwerke (SSDs) entwickelt. Er kombiniert mindestens drei SSDs, um einen Speicherpool zu erstellen. Dabei werden Daten- und Paritätsinformationen auf alle beteiligten SSDs verteilt, während mehr Paritäts-Bits in eine spezifische SSD geschrieben werden, um zu verhindern, dass mehrere SSDs gleichzeitig ausfallen. RAID F1 bietet Datenredundanz. Wenn eine SSD ausfällt, kann das System mit den Paritätsinformationen auf den anderen SSDs wiederhergestellt werden. Es unterstützt die Kombination mehrerer RAID Arrays, wenn diese auf einem Speicherpool für mehrere Volumes erstellt werden. Die verfügbare Kapazität eines RAID-F1-Speicherpools = <span class="note_content">Gesamtkapazität kombinierter RAID Arrays</span>.<span class="note_content"> RAID-Array-Kapazität = (Anzahl der Laufwerke - 1) x (Kapazität des kleinsten Laufwerks)</span></li>
+</ul>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+	<li>RAID-Typen mit <strong>*</strong> sind nur für NAS-Modelle mit ausreichend vielen Einschüben verfügbar. Um festzustellen, welche RAID-Typen von Ihrem Modell unterstützt werden, gehen Sie zu <a href="https://www.synology.com" target="_blank">www.synology.com</a>. Dort finden Sie die Spezifikationen Ihres Modells.</li>
+</ul>
+</div>
+
+</body>
+</html>

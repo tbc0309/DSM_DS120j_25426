@@ -1,0 +1,16 @@
+/var/log/nginx/access.log /var/log/nginx/error.log {
+	missingok
+	sharedscripts
+	compress
+	postrotate
+		/usr/syno/sbin/synoservice --reload syslog-ng || true
+	endscript
+}
+/var/log/nginx/access_default.log /var/log/nginx/error_default.log {
+	missingok
+	sharedscripts
+	compress
+	postrotate
+		/usr/sbin/reload nginx || true
+	endscript
+}

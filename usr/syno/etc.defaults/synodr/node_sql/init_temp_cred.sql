@@ -1,0 +1,4 @@
+BEGIN TRANSACTION;
+DROP TABLE temp_cred;
+CREATE TABLE IF NOT EXISTS temp_cred (cred_id TEXT PRIMARY KEY, node_id TEXT, addr TEXT, port INTEGER, protocol TEXT, session TEXT);
+COMMIT TRANSACTION;

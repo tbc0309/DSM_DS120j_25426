@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>볼륨</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the difference between volumes and disk groups, which are used to manage the storage space and capacity of Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>볼륨</h2>
+
+<p>볼륨은 Synology NAS에 기본 저장소 공간을 제공합니다. 공유 폴더, 문서 및 패키지 데이터와 같은 모든 콘텐츠가 볼륨에 저장됩니다. 따라서 Synology NAS에 데이터 저장을 시작하기 전에 볼륨을 최소 1개 이상 생성해야 합니다.</p>
+
+<div class="section">
+<h4>참고:</h4>
+<p>볼륨이 <strong>Snapshot Replication</strong>의 복제 대상으로 사용되는 경우, 볼륨이 생성된 후 <strong>편집</strong> 창에서 <strong>파일 액세스 시간 기록 빈도</strong> 설정을 조정하여 복제 성능을 향상시킬 수 있습니다.</p>
+<ul>
+	<li><strong>매일</strong>: 대부분의 운영 체제와 마찬가지로 파일 액세스 시간이 매일 또는 파일이 수정될 때 업데이트됩니다. 일부 응용 프로그램 기능은 파일 액세스 시간의 정밀도에 따라 달라질 수 있습니다. <strong>매일</strong>을 선택하면 복제 성능이 영향을 받으므로, 다음 기능 또는 응용 프로그램을 자주 사용하는 경우에만 권장됩니다.<ul>
+			<li><strong>저장소 분석기</strong>의 <strong>가장 오래된 액세스 시간</strong></li>
+			<li><strong>저장소 관리자</strong>의 <strong>SSD 캐시 어드바이저</strong></li>
+			<li><strong>파일 액세스 시간 기록</strong>에 의존하는 타사 응용 프로그램</li>
+		</ul>
+	<li><strong>월간</strong>: 파일 액세스 시간이 월간 또는 파일이 수정될 때 업데이트됩니다. 이 옵션은 복제 성능을 약간 개선시키므로, <strong>파일 액세스 시간 기록</strong>에 의존하는 응용 프로그램이 낮은 정밀도에서도 작동할 수 있습니다.</li>
+	<li><strong>없음</strong>: 최상의 복제 성능을 원하며 일상에서 사용 시 <strong>파일 액세스 시간 기록</strong>에 의존하는 응용 프로그램이 필요하지 않은 경우에 권장됩니다.</li>
+</ul>
+</div>
+
+
+<h4>볼륨 형식</h4>
+<p>볼륨에는 사용 중인 파일 시스템에 따라 두 가지 형식이 있습니다.</p>
+<ul>
+	<li><strong>새 볼륨 형식</strong>: 이 형식은 <strong>Btrfs</strong> 파일 시스템을 사용합니다. 이 형식에서 볼륨 최소 크기는 최소한 10 GB 이상이어야 합니다. 이 형식은 데이터를 더욱 간편하게 관리할 수 있는 다음과 같은 새로운 기능을 지원합니다:<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">공유 폴더 스냅샷</a>:</strong> 스냅샷은 촬영 당시의 모든 데이터 상태를 기록합니다. 사용자가 스냅샷이 있는 볼륨의 데이터를 실수로 수정하거나 삭제한 경우, 스냅샷을 촬영한 이전 시점으로 데이터를 빠르게 다시 복원할 수 있습니다.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">공유 폴더 할당량</a>:</strong> 각 폴더에 최대 용량을 설정할 수 있습니다.</li>
+			<li><strong>공유 폴더에 기반한 <a href="../AdminCenter/file_user_create.html#userquota">사용자 할당량</a>:</strong> 모든 사용자가 사용할 수 있는 공유 폴더 내 공간량을 제어할 수 있습니다.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">고급 데이터 무결성 보호</a>:</strong> 공유 폴더는 CRC32 체크섬 및 기록 중 복사 전략으로 보호됩니다.</li>
+		</ul>
+	</li>
+	<li><strong>전통 볼륨 형식</strong>: 이 형식은 <strong>ext4</strong> 파일 시스템을 사용합니다. 이 형식에서 볼륨 최소 크기는 최소한 10 GB 이상이어야 합니다. ext4 파일 시스템은 대부분의 Synology 제품에서 지원되므로, 이 형식의 볼륨을 간편하게 다른 Synology 제품에 마이그레이션할 수 있습니다.</li>
+</ul>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>특정 모델에서만 Btrfs를 사용할 수 있습니다. 사용 중인 모델이 Btrfs를 지원하는지 확인하려면 <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">이 문서</a>를 참조하십시오.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

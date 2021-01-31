@@ -1,0 +1,35 @@
+#!/bin/bash
+
+BIN_SCHEDULE_TASK="/usr/syno/bin/synoschedtask"
+CONFIG_FILES="/usr/syno/etc/securityscanSetting.json"
+
+if [ -e $CONFIG_FILES ];then 
+    BIN_PYTHON="/usr/bin/python2"
+    RESULT=$($BIN_PYTHON -c "import json; data = json.loads(open('$CONFIG_FILES').read()); print data['defaultGroup']")
+    if [ "$RESULT" == "home" ]; then
+        LEVEL="HOME"
+    elif [ "$RESULT" == "company" ]; then
+        LEVEL="COMPANY"
+    else 
+        LEVEL="CUSTOM"
+    fi
+    TASK_ID=$($BIN_PYTHON -c "import json; data = json.loads(open('$CONFIG_FILES').read()); print data['schedule']['scheduleTaskId']")
+    RESULT=$($BIN_SCHEDULE_TASK --get id="$TASK_ID" | grep "State" | grep "enabled")
+    if [ $? -eq 0 ]; then
+        SCHEDULE_SCAN="yes"
+    else
+        SCHEDULE_SCAN="no"
+    fi
+    DAYS=$($BIN_SCHEDULE_TASK --get id="$TASK_ID" | grep "Days of week" | sed 's/^.*Days of week: \[/"/g' | sed 's/\].*$/"/g' | sed 's/,/", "/g')
+fi
+
+echo -n "{"
+
+echo -n \"security_level\":\"$LEVEL\",
+echo -n \"schedule_scan\":\"$SCHEDULE_SCAN\",
+echo -n \"schedule_date\":["$DAYS"],
+
+# let version be the last one msg
+echo -n \"collector_version\":3
+
+echo "}"

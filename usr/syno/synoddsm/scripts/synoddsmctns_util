@@ -1,0 +1,56 @@
+#!/bin/sh
+
+SZF_SPACE_MAP="/tmp/space/space_mapping.xml"
+
+ShutdownProcess()
+{
+	/bin/touch /tmp/ddsm_finish_shutdowndown
+	if [ ! -f /tmp/ddsm_do_shutdowndown ]; then
+		run_level=`runlevel | awk '{ printf $2 }'`
+		if [ "x${run_level}" = "x0" ]; then
+			/usr/syno/bin/synoddsmhostctl --shutdown
+		else
+			/usr/syno/bin/synoddsmhostctl --reboot
+		fi
+	fi
+	stop
+	exit 0
+}
+
+CorrectSpaceConf()
+{
+	count=1
+	for line in `grep -n 'reference="@storage_pool"'  ${SZF_SPACE_MAP} | cut -d':' -f 1`; do
+		sed -i "${line}s|reference=\"@storage_pool\"|reference=\"\/volume${count}\"|" ${SZF_SPACE_MAP}
+		count=$(($count+1))
+	done
+}
+
+CreateDefaltMtab()
+{
+	rm /etc/mtab
+	echo "/tmp /tmp tmpfs  0 0" > /etc/mtab
+	echo "/run /run tmpfs rw,nosuid,nodev,relatime,mode=755 0 0" >> /etc/mtab
+	echo "sysfs /sys sysfs ro,nosuid,nodev,noexec,relatime 0 0" >> /etc/mtab
+}
+
+Usage()
+{
+    echo "Usage: $0 {shutdown-process|correct-space-conf}"
+}
+
+case "$1" in
+	shutdown-process)
+		ShutdownProcess
+	;;
+	correct-space-conf)
+		CorrectSpaceConf
+	;;
+	create-default-mtab)
+		CreateDefaltMtab
+	;;
+	*)
+		Usage
+		exit 1
+	;;
+esac

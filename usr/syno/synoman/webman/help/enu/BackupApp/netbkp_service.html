@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Backup Services - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Backup Services</h2>
+<p>Options at <strong>Backup &amp; Replication</strong> > <strong>Backup Services</strong> allow other users to back up data from their Synology NAS devices or rsync-compatible clients to your Synology NAS.</p>
+<h3>Enabling Network Backup Service</h3>
+<p>If you want to back up data from one Synology NAS or rsync-compatible server to another Synology NAS, or allow  another Synology NAS device to perform remote backup tasks and store backup data on a volume of your Synology NAS device, you have to enable the network backup service on the destination server first before creating a network backup task. You can do this by going to <b>Control Panel</b> > <b>Privileges</b> and grant the <b>Network Backup Destination</b> privilege to a user.You can then create a DSM user with proper application and shared folder privileges on your Synology NAS. When the setup is complete, other people can use the user's privileges to perform network backup from their Synology NAS to the destination shared folders on your Synology NAS.</p>
+
+<h4>To enable single version backup service:</h4>
+<ol>
+<li>Go to <b>Backup Services</b> > <b>Network Backup Destination</b>, and then tick <b>Enable network backup service</b>.</li>
+<li>Click <b>Apply</b>.</li>
+<li>Go to <b>Control Panel</b> > <b>Shared Folder</b>, select a shared folder, click <b>Edit</b> > <b>Permissions</b>, and then grant the <b>Read/Write</b> privilege to a user. Repeat this step to include more shared folders that could be used as backup destinations.</li>
+</ol>
+<h4>To enable Multi version backup service:</h4>
+<ol>
+  <li>Go to <strong>Backup Services</strong> > <b>Network Backup Volume Destination</b> and tick the box next to <strong>Enable network backup volume destination</strong>.</li>
+  <li>Go to <b>Backup Destination</b> and select a backup destination associated with a local volume.</li>
+<li>Click <b>Edit</b> > <b>Allow List</b> &gt;  <strong>Add</strong> to add the user or the group into the list.</li>
+</ol>
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>If other people want to perform network backup from a client that is not Synology NAS, they can only do so with the privileges of <b>admin</b> or <b>rsync</b> on your Synology NAS. If you don't want to share your <b>admin</b> credentials with other people, you can go to <b>Control Panel</b> > <strong>User</strong> to create a user named <b>rsync</b>, modify its privileges, and then share its user credentials with other people.</li><li>If you perform network backup from  a  Synology NAS running a version of DSM before 3.0 or a client that is not Synology NAS, and you  want to retain the source data's  <b>owner</b> and <b>group</b> information, you must add the <b>backup account</b> to the <b>administrators</b> group, and back up data to the <b>NetBackup</b> shared folder.</li>
+</ul>
+</div>
+<h3>Enabling Network Backup Service Using Customized rsync Configuration</h3>
+<p> You can enable the network backup service using customized rsync configuration, and configure user privileges and backup destination on your Synology NAS. When the setup is complete, other people can perform rsync backup from their Synology NAS devices or rsync-compatible clients to the destination shared folders (or "backup modules") on your Synology NAS.</p>
+<h4>To enable network backup service using customized rsync configuration:</h4>
+<ol>
+<li>Go to <b>Backup Services</b> > <b>Network Backup Destination</b>.</li>
+<li>Tick <b>Enable network backup service</b>.</li>
+<li>Tick <b>Use customized rsync configuration</b>.</li>
+<li>Click <b>Apply</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<h4>To configure user privileges and backup modules on your Synology NAS:</h4>
+<ol>
+<li>
+Log into your Synology NAS device via Telnet or SSH.
+</li>
+<li>Specify the backup module and authorized users in the rsync configuration file "<b>/etc/rsyncd.conf</b>". For detailed information, refer to the manual page of <b>rsyncd.conf</b> on your rsync client or <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">here</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>If customized rsync configuration is used, Synology NAS will no longer be able to serve as the destination server for <b>Shared Folder Sync</b>, <b>Time Backup</b>, and <b>LUN Backup</b>.</li>
+</ul>
+</div>
+
+<h3>Enabling Speed Limit</h3>
+<p>You can enable a speed limit to control the maximum usable bandwidth for users and groups who transfer data via network backup.</p>
+<h4>To enable speed limit:</h4>
+<ol>
+  <li>Go to <b>Backup Services</b> > <b>Network Backup Destination</b>. Tick the box marked <b>Enable speed limit</b>, or <strong>Enable speed limit according to a schedule</strong> if you would like to implement a speed limit at specific times only. This is a server-wide setting and will override the settings of individual users and groups. Choosing <strong>No speed limit</strong> disables the speed limit settings of all users and groups.</li>
+  <li>Click <strong>Speed Limit Settings</strong> to modify the settings for individual users or groups. For each user and group, you can select one of the following:
+    <ul>
+      <li><strong>Apply Group Settings:</strong> The speed limit settings will be the same as the group to which the user belongs. </li>
+      <li><strong>None:</strong> No speed limit will be applied when group members transfer files with the service.</li>
+      <li><strong>Constant:</strong> A fixed, constant speed limit will be applied to the user or group members. Upload and download speed limits can be specified in the fields to the left.</li>
+      <li><strong>Variable:</strong> Two different speed limits can be specified and applied to the user or group members according to a schedule. Click the <strong>Customize</strong> button to modify the speed limit settings and set a schedule.</li>
+    </ul>
+  </li>
+ <li>Click <b>Apply</b>.</li> 
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<div class="section">
+  <h4>Note:</h4>
+    <p>When setting speed limit for a user, the <strong>Result</strong> section displays the user's actual speed limit according to his individual and group settings. For example, if a user "Achilles" has an individual download limit of 100 KB/s, but belongs to a user group with a download limit of 500 KB/s, then the <strong>Results</strong> section will display "0/500."</p>
+</div>
+
+<h3>Enabling Time Backup Service</h3>
+<p>Time Backup service allows users to back up multiple versions of folders from another Synology NAS to this Synology NAS remotely. It requires both network backup service and Time Backup service to be enabled.</p>
+<h4>To enable network backup and Time Backup services:</h4>
+<p>Go to <strong>Backup Services</strong> > <b>Time Backup</b>. Tick the appropriate checkbox.</p>
+<img src="about:blank" class="help_image"/>
+
+<div class="section">
+<h4>Note:</h4>
+<p>Only admin account is allowed to create the backup connection for remote Time Backup.</p>
+</div>
+
+</body>
+</html>

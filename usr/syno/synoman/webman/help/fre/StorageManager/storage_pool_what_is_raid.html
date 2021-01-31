@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Choix d&apos;un type de RAID</h2>
+
+<p>Le syst&egrave;me RAID (Redundant Array of Independent Disks) est une technologie de stockage qui permet de combiner plusieurs disques en un seul espace de stockage. Il existe diff&eacute;rents types de RAID, chacun fournissant diff&eacute;rents niveaux de performance, de capacit&eacute; de stockage et de fiabilit&eacute;.</p>
+
+<p>Cet article fournit un bref aper&ccedil;u des types de RAID pris en charge par Synology NAS, y compris les exigences de mise en &oelig;uvre ainsi que les avantages et les inconv&eacute;nients.</p><!--1--><h3>Types de RAID pris en charge</h3>
+
+<p>Ce tableau fournit un bref aper&ccedil;u des types de RAID diff&eacute;rents pris en charge par le Synology NAS, y compris la capacit&eacute; de stockage, le nombre de disques au minimum pour le type de RAID et le nombre d&apos;&eacute;checs de disques qui peuvent &ecirc;tre tol&eacute;r&eacute;s avant que se produise la perte de donn&eacute;es.</p>
+
+<table>
+	<tr>
+		<th>Type de volume</th>
+		<th>Nombre de HDD</th>
+		<th>D&eacute;faillances de disques tol&eacute;rables</th>
+		<th>Description</th>
+		<th>Capacit&eacute; du volume</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>Optimise la taille de volume lors de la combinaison des disques de diff&eacute;rentes tailles.</li>
+				<li>Fournit la redondance des donn&eacute;es si le volume est compos&eacute; de deux ou plusieurs disques.</li>
+				<li>Recommand&eacute; pour les utilisateurs d&eacute;butants.</li>
+			</ul>
+		</td>
+		<td>1 x (taille du HDD)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">Optimis&eacute; par le syst&egrave;me.</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Basic</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Compos&eacute; d&apos;un disque en tant qu&apos;unit&eacute; ind&eacute;pendante.</li>
+				<li>Ne fournit pas la redondance des donn&eacute;es.</li>
+			</ul>
+		</td>
+		<td>1 x (taille du HDD)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Combine une collection de disques en un espace de stockage unique avec une capacit&eacute; &eacute;gale &agrave; la somme des capacit&eacute;s des disques.</li>
+				<li>Ne fournit pas la redondance des donn&eacute;es.</li>
+			</ul>
+		</td>
+		<td>Somme des tailles de tous les HDD</td>
+	</tr>
+	<tr>
+		<td>RAID&nbsp;0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Propose «&nbsp;l&apos;agr&eacute;gation par bandes&nbsp;», un processus consistant &agrave; diviser les donn&eacute;es en blocs et &agrave; r&eacute;partir les blocs sur plusieurs disques afin d&apos;am&eacute;liorer la performance.</li>
+				<li>Ne fournit pas la redondance des donn&eacute;es.</li>
+			</ul>
+	    </td>
+		<td>Somme des tailles de tous les HDD</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID&nbsp;1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>&Eacute;crit des donn&eacute;es identiques sur tous les disques simultan&eacute;ment.</li>
+				<li>Fournit la redondance des donn&eacute;es.</li>
+			</ul>
+		</td>
+		<td rowspan="3">Taille du HDD le plus petit</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID&nbsp;5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Impl&eacute;mente l&apos;agr&eacute;gation par bandes au niveau du bloc, avec la parit&eacute; des donn&eacute;es distribu&eacute;es sur tous les disques membres, procurant ainsi une redondance des donn&eacute;es plus efficacement que sur le RAID 1.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (taille du disque le plus petit)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>Impl&eacute;mente deux couches de parit&eacute; de donn&eacute;es pour stocker des donn&eacute;es redondantes &eacute;gales &agrave; la taille de deux disques, fournissant un degr&eacute; sup&eacute;rieur de redondance des donn&eacute;es que le RAID&nbsp;5.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 2) x (taille du HDD le plus petit)</td>
+	</tr>
+	<tr>
+		<td>RAID&nbsp;10</td>
+		<td>≧4<br />(nombre pair)</td>
+		<td>Moiti&eacute; de la totalit&eacute; des HDD</td>
+		<td>
+			<ul>
+				<li>Fournit la performance de RAID&nbsp;0 et le niveau de protection des donn&eacute;es de RAID&nbsp;1, combinant les disques en groupes de deux dans lesquels les donn&eacute;es sont dupliqu&eacute;es en miroir.</li>
+			</ul>
+		</td>
+		<td>(N / 2) x (taille du disque le plus petit)</td>
+	</tr>
+	<tr>
+		<td>RAID&nbsp;F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Impl&eacute;mente l&apos;agr&eacute;gation par bandes au niveau du bloc, avec la parit&eacute; des donn&eacute;es distribu&eacute;es sur tous les disques membres.</li>
+				<li>Un disque donn&eacute; aura plus d&apos;informations de parit&eacute;.</li>
+				<li>Recommand&eacute; pour les matrices exclusivement en flash.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (taille du disque le plus petit)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>Remarque&nbsp;:</h4>
+<ul>
+	<li>Les types de RAID sauf pour «&nbsp;Basic&nbsp;» sont uniquement disponibles sur certains mod&egrave;les selon le nombre de fentes de disque et le nombre de disques install&eacute;s.</li>
+	<li>RAID&nbsp;F1 n&apos;est disponible que sur certains mod&egrave;les. Pour plus d&apos;informations, acc&eacute;dez au <a href="https://www.synology.com/" target="_blank">site Web de Synology</a>.</li>
+	<li>«&nbsp;N&nbsp;» repr&eacute;sente le nombre total de disques pr&eacute;sents dans le volume.</li>
+</ul>
+</div><!--2--><h3>Synology Hybrid RAID (SHR)</h3>
+<p>Le Synology Hybrid RAID (SHR) est un syst&egrave;me de gestion de RAID automatis&eacute;, destin&eacute; &agrave; simplifier la gestion du stockage et qui r&eacute;pond aux besoins des nouveaux utilisateurs qui ne sont pas familiers avec les types de RAID.</p>
+<p>SHR peut combiner des disques de diff&eacute;rentes tailles pour cr&eacute;er un volume de stockage avec une capacit&eacute; et une performance optimis&eacute;es, ce qui gaspille moins d&apos;espace de disque et fournit une solution de stockage plus flexible. Lorsque suffisamment de disques sont inclus, SHR permet une redondance d&apos;1 ou 2&nbsp;disques, ce qui signifie que le volume SHR peut tol&eacute;rer une ou deux d&eacute;faillances de disque sans subir de perte de donn&eacute;es.<br /><img src="about:blank" class="help_image"/></p><!--3--><h3>RAID&nbsp;0</h3>
+<p>RAID&nbsp;0 combine deux ou trois disques suppl&eacute;mentaires pour augmenter la performance mais n&apos;offre pas la tol&eacute;rance d&apos;erreur. Une seule d&eacute;faillance de disque r&eacute;sultera en une perte de donn&eacute;es sur la matrice. RAID&nbsp;0 est utile pour les syst&egrave;mes non critiques, qui n&eacute;cessitent un fort &eacute;quilibre prix/performance.<br /><img src="about:blank" class="help_image"/></p><!--4--><h3>RAID&nbsp;1</h3>
+<p>RAID&nbsp;1 est le plus souvent mis en place avec deux disques. Les donn&eacute;es sur les disques sont dupliqu&eacute;es en miroir, offrant une tol&eacute;rance d&apos;erreur en cas de d&eacute;faillance de disque de dur. La performance de lecture est augment&eacute;e tandis que la performance d&apos;&eacute;criture est similaire &agrave; un disque unique. Le syst&egrave;me peut supporter une panne sans perte de donn&eacute;es. RAID&nbsp;1 est souvent utilis&eacute; lorsque la tol&eacute;rance d&apos;erreur est capitale, alors que l&apos;espace et la performance ne constituent pas des besoins essentiels.<br /><img src="about:blank" class="help_image"/></p><!--5--><h3>RAID&nbsp;5</h3>
+<p>RAID&nbsp;5 fournit la tol&eacute;rance d&apos;erreur et augmente la performance de lecture. Ce syst&egrave;me requiert un minimum de trois disques. RAID&nbsp;5 peut supporter la perte d&apos;un seul disque. En cas de l&apos;&eacute;chec d&apos;un disque, les donn&eacute;es du disque d&eacute;faillant sont reconstruites depuis la parit&eacute;, r&eacute;parties sur les disques restants. En cons&eacute;quence, les performances de lecture et d&apos;&eacute;criture sont s&eacute;v&egrave;rement diminu&eacute;es lorsqu&apos;un RAID&nbsp;5 est dans un &eacute;tat d&eacute;grad&eacute;. RAID&nbsp;5 est id&eacute;al lorsque l&apos;espace et le co&ucirc;t sont plus importants que la performance.<br /><img src="about:blank" class="help_image"/></p><!--6--><h3>RAID&nbsp;6</h3>
+<p>RAID&nbsp;6 est similaire au RAID&nbsp;5, mais il fournit une autre couche d&apos;agr&eacute;gation en bandes et peut supporter la d&eacute;faillance de deux disques. Ce syst&egrave;me requiert un minimum de quatre disques. La performance de RAID&nbsp;6 est inf&eacute;rieure &agrave; celle de RAID&nbsp;5 du fait de cette tol&eacute;rance d&apos;erreur suppl&eacute;mentaire. RAID&nbsp;6 devient plus attractif lorsque l&apos;espace et le co&ucirc;t sont importants et que la tol&eacute;rance de plusieurs d&eacute;faillances de disques est requise.<br /><img src="about:blank" class="help_image"/></p><!--7--><h3>RAID&nbsp;10</h3>
+<p>RAID&nbsp;10 combine les avantages de RAID&nbsp;1 et de RAID&nbsp;0. La performance de lecture et d&apos;&eacute;criture est augment&eacute;e mais seule la moiti&eacute; de l&apos;espace total est disponible pour le stockage des donn&eacute;es. Quatre disques ou davantage sont requis, ce qui am&egrave;ne un co&ucirc;t relativement &eacute;lev&eacute;, cependant la performance est excellente tout en fournissant la tol&eacute;rance d&apos;erreur. En fait, un RAID&nbsp;10 peut supporter plusieurs d&eacute;faillances de disque - sous r&eacute;serve que les d&eacute;faillances ne se situent pas &agrave; l&apos;int&eacute;rieur du m&ecirc;me sous-groupe. RAID&nbsp;10 est id&eacute;al pour les applications comportant une haute demande d&apos;entr&eacute;es/sorties telles que les serveurs de bases de donn&eacute;es.<br /><img src="about:blank" class="help_image"/></p><!--8--><h3>RAID&nbsp;F1</h3>
+<p>RAID&nbsp;F1 applique le m&eacute;canisme de RAID&nbsp;5, en offrant la tol&eacute;rance d&apos;erreur et des performances de lecture augment&eacute;es. Toutefois, avec RAID&nbsp;F1, un disque donn&eacute; aura davantage d&apos;informations de parit&eacute; afin d&apos;acc&eacute;l&eacute;rer son vieillissement et donc d&apos;&eacute;viter que tous les disques n&apos;arrivent en fin de vie en m&ecirc;me temps. Cela peut affecter de mani&egrave;re subtile ses performances par comparaison au RAID&nbsp;5. Ce syst&egrave;me requiert un minimum de trois disques. RAID&nbsp;F1 peut supporter la perte d&apos;un seul disque. En cas de l&apos;&eacute;chec d&apos;un disque, les donn&eacute;es du disque d&eacute;faillant sont reconstruites depuis la parit&eacute;, r&eacute;parties sur les disques restants. En cons&eacute;quence, les performances de lecture et d&apos;&eacute;criture sont s&eacute;v&egrave;rement diminu&eacute;es lorsqu&apos;un RAID&nbsp;F1 est dans un &eacute;tat d&eacute;grad&eacute;. RAID&nbsp;F1 est id&eacute;al pour les matrices exclusivement en flash.<br /><img src="about:blank" class="help_image"/></p>
+
+</body>
+</html>

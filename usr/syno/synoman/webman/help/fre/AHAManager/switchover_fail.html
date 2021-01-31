@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h2>Basculement</h2>
+  
+ <p>Afin de garantir une performance continue et de minimiser les interruptions de service, les services peuvent être basculés du serveur actif d'un cluster high-availability au serveur passif en veille. Cette fonction est appelée "Basculement", ou dans certains cas "Permutation". Cette section comporte des informations de base relatives à ces deux concepts.</p>
+  
+  <h3>Basculement</h3>
+  	<p>Le basculement est un passage du serveur actif vers le serveur passif en veille d'un cluster high-availability. Dans des conditions normales, le serveur actif gère tous les services. Cependant, en cas de dysfonctionnement du serveur actif, vous, ou le système, pouvez initier un basculement et transférer tous les services vers le serveur passif, en supposant que le serveur passif fonctionne normalement. Dans ce cas, le serveur actif assume le rôle du serveur passif et vice versa.</p>
+    
+<h4>Pour initier manuellement un basculement :</h4>
+ <ol>
+  <li>Accédez à la page <b>Aperçu</b>.</li>
+  <li>Cliquez sur <b>Gérer</b> > <b>Basculement</b></li>
+ </ol>
+
+<div class="section">
+<h4>Remarque :</h4>
+   <p>Avant le basculement manuel, nous vous recommandons de configurer une adresse IP et de vous connecter au DSM avec celle-ci afin d'éviter une perte de page du DSM résultant d'un changement d'IP après le basculement.</p>
+</div>
+
+<div class="section">
+<h4>Remarque :</h4>
+   <p>Lorsqu'un basculement est initié, le serveur actif assume d'abord le rôle de serveur passif, puis le serveur passif devient le serveur actif. Ainsi, il y aura une courte période de temps lorsque les deux serveurs deviennent passifs et ne pourront pas fournir des services normalement. Le temps pour effectuer un basculement varie selon le nombre et la taille des volumes ou iSCSI LUN (niveau bloc), ou le nombre et la charge totale de services et de paquets sur le cluster high-availability.</p>
+</div>
+
+<h3>Permutation</h3>
+    
+     <p>Lorsque certaines erreurs se produisent, le système peut initier automatiquement un basculement de services afin de minimiser le temps d'immobilisation. Cet événement est appelé "permutation". Le système peut initier la permutation dans les situations suivantes, en supposant que le serveur passif fonctionne normalement :</p>
+    
+    <ul>
+      <li><b>Panne d'alimentation :</b> 
+        <ul>
+      	<li>Le serveur actif a été arrêté ou redémarré.</li>
+        <li>Les deux alimentations du serveur actif sont en panne.</li>
+        <li>Pas d'alimentation électrique.</li>
+      </ul></li>
+      <li><b>Erreur disque :</b> Le nombre de chemins d'accès du disque du serveur actif est inférieur à celui du serveur passif.</li>
+      <li><b>Erreur de service :</b> Une erreur s'est produite sur un service surveillé.</li>
+      <li><b>Erreur de connexion :</b> Une erreur de connexion s'est produite au niveau d'une interface surveillée.</li>
+    </ul>    
+     
+    
+<h3>Échec du basculement</h3>
+    
+		<p>Le basculement peut ne pas réussir dans les situations suivantes :</p>
+  	<ul>
+  	  <li><b>Connexion Heartbeat anormale :</b> L'état de la connexion du serveur actif-passif n'est pas normal.</li>
+  	  <li><b>Tailles de mémoire différentes :</b> Les serveurs actif et passif n'ont pas une taille de RAM identique.</li>
+  	  <li><b>Panne d'alimentation :</b><ul>
+      	<li>Le serveur passif a été arrêté ou redémarré.</li>
+        <li>Les deux alimentations du serveur passif sont en panne.</li>
+        <li>Pas d'alimentation électrique.</li>
+      </ul></li>
+  	  <li><b>Erreur de connexion :</b> Une erreur de connexion s'est produite au niveau d'une interface surveillée sur le serveur passif.</li>
+  	  <li><b>Erreur de service :</b> Il existe des erreurs au niveau des services surveillés sur le serveur passif.</li>
+  	  <li><b>Erreurs de connexion de l'unité d'expansion :</b> La connexion des unités d'expansion sur les deux serveurs n'est pas dans le même ordre.</li>
+  	  <li><b>Erreur disque :</b> Le nombre de chemins d'accès du disque du serveur passif est inférieur à celui du serveur actif.</li>
+      <li><b>Mise à jour de DSM :</b> Lors de l'installation de la mise à jour de DSM, tous les services sont interrompus et reprennent une fois l'installation de la mise à jour terminée.</li>      
+ </ul>
+
+  <p>Si vous initiez manuellement un basculement, mais les services ne peuvent pas être basculés sur le serveur passif, alors le système tentera de rebasculer les services sur le serveur actif.</p>
+
+ <h3>Onduleur</h3>
+  <p>Les clusters high-availability peuvent être connectés à des onduleurs réseau afin de réduire le risque de perte de courant inattendue. Si l'alimentation est coupée, les serveurs recevront une alimentation de secours des onduleurs qui y sont éventuellement connectés. Lorsque l'onduleur connecté au serveur actif commence à perdre de la puissance, le serveur passif s'arrête et le serveur actif passe en mode Sécurité. Lorsque l'alimentation est rétablie, le serveur actif redémarre et tente de mettre l'autre serveur sous tension en envoyant un message Wake-on-LAN.</p>
+   <ul>
+	   <li>Il est recommandé de connecter les deux serveurs et les unités d'expansion sur le même onduleur que les commutateurs du réseau local auquel ils sont raccordés.</li>
+   </ul>
+
+<div class="section">
+<h4>Remarque :</h4>
+<p>Le Synology NAS prend uniquement en charge la connexion à des onduleurs réseau. Pour plus d'informations, consultez l'aide à <strong>Panneau de configuration</strong> > <strong>Matériel</strong> > <strong>UPS</strong></p>
+</div>  
+ </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Encerramento e Reinicia&ccedil;&atilde;o</h2>
+  <p>As seguintes instru&ccedil;&otilde;es ajud&aacute;-lo-&atilde;o durante o procedimento de encerramento, remo&ccedil;&atilde;o ou reinicia&ccedil;&atilde;o de um cluster de high-availability.</p>
+
+  <h4> Para encerrar o cluster de high-availability com Synology High Availability:</h4>
+  <p>Quando pretender encerrar um cluster de high-availability para transportar os servidores para uma nova localiza&ccedil;&atilde;o f&iacute;sica ou efectuar manuten&ccedil;&atilde;o, mas n&atilde;o pretende remover as configura&ccedil;&otilde;es do cluster de high-availability, siga as instru&ccedil;&otilde;es em baixo.</p>
+  <ol>
+   <li>Inicie a sess&atilde;o no DSM.</li>
+   <li>Abra o Synology High Availability.</li>
+   <li>Clique no bot&atilde;o marcado como <b>Gest&atilde;o</b>.</li>
+   <li>Seleccione <b>Encerrar cluster HA</b>.</li>
+   <li>Aparece uma mensagem de confirma&ccedil;&atilde;o. Clique em <b>Sim</b> para confirmar.</li>
+  </ol>
+
+  <h4>Para encerrar manualmente um cluster de high-availability:</h4>
+  <p> O cluster de high-availability tamb&eacute;m pode ser encerrado usando manualmente os bot&otilde;es de energia localizadas em cada servidor. </p>
+  <ol>
+   <li>Mantenha premido o bot&atilde;o de energia num servidor (activo ou passivo) at&eacute; emitir um sinal sonoro.</li>
+   <li>Depois do servidor ser completamente encerrado, aguarde pelo menos 30 segundos (o servidor que ainda est&aacute; online demora algum tempo a guardar as defini&ccedil;&otilde;es).</li>
+   <li>Mantenha premido o bot&atilde;o de energia no outro servidor at&eacute; emitir um sinal sonoro.</li>
+   <li>Aguarde at&eacute; o servidor encerrar completamente.</li>
+  </ol>
+<div class="section">
+<h4>Ligar Servidores:</h4>   
+<p>Quando pretender ligar de novo os servidores, deve ligar tanto o servidor activo como passivo ao mesmo tempo (ou com um intervalo de cinco minutos entre si). Se apenas ligar um dos servidores, este ir&aacute; tentar ligar o outro servidor emitindo uma mensagem Despertar pela LAN.</p>
+<h4>Encerrar anormal:</h4>
+<p>Quando &eacute; criado um cluster high-availability, a op&ccedil;&atilde;o reiniciar ap&oacute;s falha de energia no Painel de Controlo &eacute; activada automaticamente. Se os servidores encerrarem de forma anormal devido a uma falha de energia, ligar-se-&atilde;o automaticamente assim que for restaurada a energia.</p>
+</div>
+
+<h4>Para remover um cluster de high-availability:</h4>
+ <p>Quando pretender desassociar ambos os servidores e remover um cluster de high-availability para poder associar um servidor diferente, siga estas instru&ccedil;&otilde;es.</p>
+  <ol>
+   <li>V&aacute; para a p&aacute;gina <b>Vis&atilde;o geral</b>.</li>
+   <li>Clique no bot&atilde;o <b>Gest&atilde;o</b>.</li> 
+   <li>Seleccione em <b>Remover cluster HA</b>.</li>
+  </ol>
+  <p>Ap&oacute;s confirma&ccedil;&atilde;o, o sistema remover&aacute; o cluster de high-availability. O campo de estado apresenta o progresso do processo de remo&ccedil;&atilde;o. Quando o cluster de high-availability for finalmente removido, ser&aacute; encaminhado para o endere&ccedil;o de IP original do servidor activo. O estado de ambos os servidores muda para <b>Aut&oacute;nomo</b>.</li>
+  
+ <h4>Para reiniciar um cluster de high-availability avariado:</h4>
+  <p>No caso de n&atilde;o conseguir aceder ao DSM ou Synology High Availability, devido a um erro de split-brain ou outras avarias, pode tentar for&ccedil;ar o cluster de high-availability a desassociar premindo o bot&atilde;o <b>Repor</b> nos servidores.</p>
+  <ol>
+   <li>Mantenha premido o bot&atilde;o <b>Repor</b> (normalmente no painel traseiro de um servidor) at&eacute; o servidor emitir um sinal sonoro.
+   <li>O sistema remover&aacute; o cluster de high-availability e o estado de ambos os servidores muda para <b>Aut&oacute;nomo</b></li>
+   <li>Se premir o bot&atilde;o <b>Repor</b> tamb&eacute;m restaura algumas predefini&ccedil;&otilde;es, como endere&ccedil;o de IP, DNS e palavra-passe de admin, para al&eacute;m do seguinte:</li>
+   <ul>
+    <li>A palavra-passe de admin ser&aacute; reposta como vazia.</li>
+    <li>A conta de convidado ser&aacute; desactivada.</li>
+    <li>DHCP ser&aacute; activado em IP, DNS, Gateway e outras interfaces de rede.</li>
+    <li>JumboFrames ser&aacute; desactivado e MTU ser&aacute; definido como 1500.</li>
+    <li>Porta de Gest&atilde;o ser&aacute; reposta como 5000/5001.</li>
+    <li>PPPoE ser&aacute; reconfigurado para a predefini&ccedil;&atilde;o.</li>
+    <li>Bloqueio autom&aacute;tica de IP ser&aacute; desactivado (o endere&ccedil;o de IP bloqueado n&atilde;o ser&aacute; apagado).</li>
+    <li>Link Aggregation ser&aacute; desactivada.</li>
+    <li>As regras de firewall ser&atilde;o desactivadas (as regras n&atilde;o ser&atilde;o apagadas).</li>
+   </ul>
+  </ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Durante o procedimento de remo&ccedil;&atilde;o de um cluster de high-availability, algumas opera&ccedil;&otilde;es de escrita de dados poder&atilde;o ficar incompletas. Para garantir a plenitude dos dados, efectue a duplica&ccedil;&atilde;o de dados com base no servidor activo porque poder&atilde;o faltar algumas actualiza&ccedil;&otilde;es de dados no servidor passivo.</p>
+</div>
+ </body>
+</html>

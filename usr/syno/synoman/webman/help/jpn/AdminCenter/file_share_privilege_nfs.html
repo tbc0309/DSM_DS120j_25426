@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>共有フォルダ</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>NFS 権限を割り当てる</h2>
+<p>NFS 権限を共有フォルダに割り当てて、Linux クライアントがアクセスできるようにします。</p>
+<h4>
+共有フォルダの NFS アクセス権を割り当てる：
+</h4>
+<ol>
+<li>編集する共有フォルダを一覧から選択します。</li>
+<li><strong>[編集]</strong> > <strong>[NFS 権限]</strong> をクリックします。</li>
+<li><b>[作成]</b> をクリックして NFS ルールを追加します。</li>
+<li>ポップアップ画面が表示されます。次のオプションを定義してください。</li>
+<li><strong>ホスト名または IP：</strong>共有フォルダにアクセスする NFS クライアントの IP アドレスを入力します。ホストは次の 3 つの方法で指定します：
+<ul>
+<li><strong>単一ホスト：</strong>有効なドメイン名、または IP アドレス。</li>
+<li><strong>ワイルドカード：</strong> *, * .synology.com</li>
+<li><strong>IP ネットワーク：</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>権限：</strong>NFS クライアントの読み取り/書き込み権を選択します。</li>
+<li> <strong> セキュリティ：</strong>セキュリティの種類を設定します。
+  <ul>
+<li><strong>AUTH_SYS：</strong>NFS クライアントの UID（ユーザー識別子）と GID（グループ識別子）を使ってアクセス権を確認します。</li>
+<li><strong>Kerberos 認証：</strong>NFS クライアントが共有フォルダに接続するときに、Kerberos 認証を実行します。クライアントは、Kerberos 認証に合格しなければ共有フォルダにアクセスできません。</li>
+<li><strong>Kerberos の統合性：</strong>データ転送時に Kerberos 認証を行い、パケットの整合性を確保します。</li>
+<li><strong>Kerberos のプライバシー：</strong>データ転送時に Kerberos 認証を行い、NFS パケットを暗号化します。このようにすると、悪意のある第三者から NFS のトラフィックを守ります。</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>：NFS クライアントのユーザーのアクセス権を制御します。以下のいずれかを選択してください。
+  <ul>
+<li><strong>マッピングしない：</strong>root ユーザーを含めた NFS クライアントの全ユーザーに、本来のアクセス権を維持させます。</li>
+<li><strong>Root を admin にマップ：</strong>NFS クライアントの root ユーザーに admin ユーザーのアクセス権と同じ権利を割り当てます。</li>
+<li><strong>Root を guest にマップ：</strong>NFS クライアントの root ユーザーに guest ユーザーのアクセス権と同じ権利を割り当てます。</li>
+<li><strong>全ユーザーを admin にマップ：</strong>NFS クライアントの全ユーザーに admin ユーザーのアクセス権と同じ権利を割り当てます。</li>
+	<li><strong>全ユーザーを guest にマップ</strong>NFS クライアントのすべてのユーザーに、システムの guest のアクセス権と同じアクセス権利を割り当てます。</li>
+  </ul>
+</li>
+
+<li><strong>非同期を有効化：</strong>このオプションにチェックを入れると、ファイルへの変更が完了する前に Synology NAS が NFS クライアントからのリクエストに応答できるようになるので、パフォーマンスが向上します。</li>
+<li><strong>非優先ポートからの接続を許可する（1024 以上のポート）</strong>このオプションにチェックを入れると、NFS クライアントは Synology NAS に接続するときに、非優先ポート（例：1024 以上のポート）を使用できます。 </li>
+<li><strong>マウントしたサブフォルダへのアクセスを許可する</strong>：NFS クライアントがマウントしたサブフォルダへのアクセスを許可します。</li>
+<li><b>[OK]</b> をクリックして終了します。</li>
+<li><b>[OK]</b> をクリックして NFS 権限を適用します。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>サーバー名のフォーマットが <strong>*.domain</strong> となっている場合は、Synology NAS に相当する IP アドレスで [*.domain] という名前を検索させるためには、NFS クライアントの IP アドレスに相当する DNS PTR レコードがなければなりません。</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>セキュリティ フレーバー：</h4>
+<p> 特定のユーザー アカウントで NFS を介して共有フォルダにアクセスする場合： </p>
+<ul>
+<li><strong>AUTH_SYS</strong> セキュリティが導入されている場合：クライアントは NFS クライアントと Synology NAS で全く同じ UID（ユーザー識別子）と GID（グループ識別子）を持っていなければなりません。そうしなければ、クライアントが共有フォルダにアクセスするときに、<strong>「others」</strong>という許可が割り当てられます。権限が競合しないように、<strong>[Squash]</strong> から <strong>[全ユーザーを admin にマップ]</strong> を選択するか、共有フォルダに｢すべてのユーザー｣&quot;権限を割り当てます。</li>
+<li><strong>Kerberos (krb5、krb5i、krb5p)</strong> セキュリティが導入されている場合：<strong>[Win/Mac/NFS]</strong> > <strong>[NFS サービス]</strong> > <strong>[Kerberos の設定]</strong> > <strong>[ID マッピング]</strong> を選択して、NFS クライアントを特定のユーザーに割り当てなければなりません。または、相当するユーザー アカウントで Windows/LDAP ドメインに加わります。そうしなければ、クライアントが共有フォルダにアクセスするときに、<strong>「guest」</strong>という許可が割り当てられます。</li>
+<li>共有フォルダを作成する拡張デバイスのファイル システムが NTFS または FAT の場合は、<strong>[すべてのユーザーを admin にマップ]</strong> オプションが強制的に適用されます。</li>
+</ul>
+<p>Synology NAS に接続するために Kerberos セキュリティを使用するには、<strong>[Win/Mac/NFS]</strong> > <strong>[NFS サービス]</strong> > <strong>[Kerberos の設定]</strong> を選択して、Kerberos 認証が設定されていなければなりません。</p>
+</div>
+
+</body>
+</html>

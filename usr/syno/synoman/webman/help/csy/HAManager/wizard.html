@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Průvodce nástrojem High Availability – Nápověda Synology DSM</title>
+
+
+ </head>
+ <body>
+<h2>Průvodce aplikací High Availability Manager</h2>
+<p>Tento průvodce vás provede procesem vytvoření a nastavení clusteru high-availability.</p>
+<h4>Postup spuštění průvodce:</h4>
+<ol>
+<li>Otevřete aplikaci <b>High Availability Manager</b>.</li>
+<li>Přejděte na kartu <b>Přehled</b>.</li>
+<li>Klikněte na možnost <b>Vytvořit cluster HA</b>.</li>
+</ol>
+   
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Projděte jednotlivé kroky průvodce nastavením clusteru high-availability v uvedeném časovém limitu. Pokud dojde k překročení tohoto časového limitu, budete muset zahájit proces nastavení znovu.</li>
+<li>Potřebujete-li zjistit, který server je aktivním serverem clusteru high-availability, doporučujeme stáhnout aplikaci Synology <strong>DS finder</strong> a použít její funkci zvukového signálu, která vyvolá vydání krátkého zvukového signálu aktivním serverem.</li>
+</ul>
+</div>
+
+<h4>Nastavení pasivního serveru:</h4>
+<p>Určete, který server Synology má být pasivním serverem. Za běžných podmínek pasivní server neposkytuje žádné služby. V případě závady je ale možné převést služby z aktivního serveru na pasivní server.</p>
+<ol>
+<li><b>IP adresa:</b> Zadejte IP adresu pasivního serveru.</li>
+<li><b>Uživatelské jméno:</b> Zadejte uživatelský účet patřící do skupiny<b>administrator</b> na cílovém serveru. </li>
+<li><b>Heslo:</b> Zadejte heslo účtu patřícího do skupiny <b>administrator</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Poznámka:</h4> 
+<ul>
+<li>Po vytvoření clusteru high-availability budou odstraněna všechna data z pasivního serveru. Zajistěte tedy, aby na pasivním serveru nebyla uložena žádná důležitá data. </li>   
+</ul>
+</div>
+  
+<h4>Konfigurace připojení prezenčního signálu:</h4>
+<p>Propojte tyto dva servery mezi sebou. Toto připojení bude sloužit jako „prezenční“ spojení mezi těmito dvěma servery, usnadňovat komunikaci a umožní replikaci dat z aktivního serveru na pasivní. Z důvodu zajištění kvality prezenčního připojení provede systém při vytváření clusteru high-availability kontrolu, jestli připojení splňuje následující kritéria:</p>
+<ul>
+<li>Mezi těmito dvěma servery se nenacházejí žádná jiná zařízení s IP adresami ve stejné vysílací doméně. Prochází-li toto připojení Heartbeat přes přepínače, je třeba zajistit podporu vícesměrového vysílání a rámce Jumbo Frame.</li>
+<li>Síťové připojení s nízkou latencí. Doba odezvy příkazu Ping mezi oběma servery musí být kratší než 1 ms a přenosová rychlost by měla být minimálně 500 Mb/s. MTU bude automaticky nakonfigurováno na 9000.</li>
+<li>Použité síťové rozhraní musí být u obou serverů shodné. Například pokud server na jedné straně je připojen přes rozhraní LAN 1, druhý server na opačné straně musí být přes něj připojen také.</li>
+<li>Oba servery používají nejvýkonnější ze síťových rozhraní. Jsou-li servery vybaveny přídavnými síťovými kartami 10GbE, musí být tyto karty pro jejich propojení použity.</li>
+</ul>
+ <p>Po potvrzení výše uvedeného přejděte do části <b>Rozhraní připojení (prezenčního signálu) HA</b> a vyberte síťové rozhraní na serverech, které bude sloužit jako připojení prezenčního signálu.</p>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Nastavení připojení prezenčního signálu vytvoří dvě sady IP adres (např. 169.254.1.1 a 169.254.1.2) pro účely replikace dat z aktivního serveru na pasivní server. Tyto dvě IP adresy nesmí být používány žádnými dalšími zařízeními v síti.</li>
+<li>Povolení VLAN ID na portech připojení prezenčního signálu vašeho Synology NAS není podporováno.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Konfigurace funkce Link Aggregation na připojení prezenčního signálu a na datovém připojení:</h4>
+
+<ul>
+<li>Funkci Link Aggregation na připojení prezenčního signálu a na datovém připojení nakonfigurujte ještě před spuštěním průvodce vytvořením clusteru high-availability nastavením dvou nebo více portů LAN v části <strong>Ovládací panel</strong> > <strong>Síť</strong> > <strong>Síťové rozhraní</strong>. Nastavení funkce Link Aggregation musí být identické na obou serverech (pokud například nastavíte funkci Link Aggregation na portech 1 a 2 aktivního serveru, musí být funkce Link Aggregation nastavena také na portech 1 a 2 pasivního serveru).</li>
+
+
+<li>Prezenční signál je vybaven funkcí failover a vyrovnáním zatížení, ale datové připojení závisí na zvoleném režimu funkce Link Aggregation.</li>
+</ul>
+
+</div>
+
+
+<h4>Postup konfigurace síťového rozhraní clusteru high-availability:</h4>
+<p>Cluster high-availability používá jako rozhraní připojení směrem ven IP adresu clusteru high-availability. Pomocí této IP adresy clusteru high-availability se můžete připojit, kdykoli chcete používat služby DSM, bez ohledu na to, který server Synology je aktivním serverem. Předejdete tak nutnosti připojování se k jiným IP adresám po provedení přepnutí z aktivního serveru na server pasivní.</p>
+
+<ol>
+<li><b>Název clusterového serveru:</b> Název clusteru high-availability. Informace o omezeních týkajících se názvů naleznete v pravidlech pojmenování serverů (v části <b>Nápověda aplikace DSM</b> > <b>Ovládací panel</b> > <b>Možnosti připojení</b> > <b>Síť</b> > <b>Obecné</b>).</li>
+<li><b>Síťové rozhraní:</b> Síťové rozhraní, které bude používáno clusterem high-availability. Musíte vybrat jiný port LAN než ten, který jste určili pro replikaci dat v předchozím kroku. </li>
+<li><b>IP adresa:</b> IP adresa, kterou bude používat cluster high-availability. Pomocí této IP adresy se lze připojit k clusteru bez ohledu na to, který server aktivně poskytuje služby.</li>
+<li> <b>Maska podsítě:</b> Maska podsítě, kterou bude používat cluster high-availability.</li>
+</ol>
+
+<div class="section">
+<h4>Přidělení VLAN ID pro datové připojení:</h4>
+<ul>
+<li>VLAN ID pro datové připojení přidělte ještě před spuštěním průvodce vytvořením clusteru high-availability v části <strong>Ovládací panel</strong> > <strong>Síť</strong> > <strong>Síťové rozhraní</strong>. Nastavení VLAN musí být identické na obou serverech (pokud je například LAN 1 nastavena pomocí VLAN ID 1 na aktivním serveru, musí být LAN 1 pasivního serveru nastavena také pomocí VLAN 1).</li>
+</ul>
+</div>
+
+
+<h4>Potvrzení nastavení:</h4>
+<p>Zkontrolujte nastavení pro cluster high-availability. Systém zahájí vzájemné propojování clusteru high-availability ihned po kliknutí na tlačítko <b>Použít</b>. </p>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Při vytváření clusteru high-availability musí být všechna data na aktivním serveru replikována do pasivního serveru. Pokud dojde před dokončením počátečního procesu replikace k přerušení připojení k pasivnímu serveru na dobu delší než 30 minut, vrátí se pasivní server do režimu <strong>Samostatný</strong>. V takovém případě jej musíte znovu navázat a znovu provést kompletní replikaci dat.</li>
+</ul>
+</div>
+ </body>
+</html>

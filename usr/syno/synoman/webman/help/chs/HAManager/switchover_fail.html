@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>切换</h2>
+  
+<p>为确保连续执行和最少服务停机，服务可以从 high-availability 集群的活动服务器切换至冗余服务器 - 无源服务器。该功能称为&ldquo;切换&rdquo;，或&ldquo;故障转移&rdquo;。此节说明这 2 个概念的基础。</p>
+  
+<h3>切换</h3>
+	<p>切换是指从 high-availability 集群的活动服务器到冗余服务器 - 无源服务器的切换。正常情况下，活动服务器管理所有服务。但如果活动服务器发生故障，在无源服务器正常运行的前提下，您可启用切换，将所有服务转换至无源服务器。这种情况下，活动服务器成为无源服务器，无源服务器则成为活动服务器。</p>
+    
+<h4>若要手动启用移转：</h4>
+ <ol>
+<li>进入<b>概述</b>选项卡。</li>
+<li>单击<b>管理</b> &gt; <b>移转</b>。</li>
+ </ol>
+<div class="section">
+<h4>注：</h4>
+<p>切换功能启动时，活动服务器会先切换为无源服务器，然后无源服务器才会切换为活动服务器。因此，切换过程间会有短暂时间，两个服务器都将为无源服务器，且可能无法正常提供服务。完成切换的时间取决于存储卷或 iSCSI LUN（块级）的数量和大小，或是 high-availability 集群上的服务量和总负载。</p>
+</div>
+   
+<h3>故障转移</h3>
+    
+<p>发生某些错误时，系统会自动启动服务切换以保持连续运行。这情况称为&ldquo;故障转移&rdquo;。在下列情况下，系统可能启动故障转移：</p>
+    
+     <ul>
+<li><b>损毁的存储空间：</b>活动服务器上的存储空间（例如存储卷、硬盘组、RAID Group、SSD 缓存等）处于损毁状态，但无源服务器上相应的存储空间运行正常。请注意，如果已损毁的存储空间上没有卷或 iSCSI LUN（块级），则系统不会启动故障转移。</li>
+<li><b>服务出错：</b>监控的服务出现错误。</li>
+<li><b>电源故障：</b>活动服务器关闭或重启、活动服务器的两个电源组件失效或断电。</li>      
+     </ul>    
+     
+    
+<h3>切换失败</h3>
+    
+		<p>在下列情况下，切换服务或故障转移可能失败：</p>
+  			<ul>
+				<li><b>数据复制不完整：</b>当开始组合两台服务器创建 high-availability 集群时，系统需要时间将所有数据从活动服务器复制到无源服务器。</li>
+				<li><b>无源服务器上的存储空间损毁：</b>无源服务器上的存储空间（例如存储卷、硬盘组、RAID Group 等）处于损毁状态。</li>
+<li><b>电源故障：</b>无源服务器关闭或重启、无源服务器的两个电源组件失效或断电。</li>
+<li><b>DSM 更新：</b>安装 DSM 更新时，所有的服务都将停止，并在 DSM 更新安装完成后恢复。</li>      
+ </ul>
+
+<p>如果手动启动切换，但是无法将服务切换至无源服务器，则系统将尝试将服务切换回活动服务器。</p>
+<p>如果故障转移失败，且由于错误，任一台服务器都无法成为活动服务器时，high-availability 集群将无法正常提供服务。如果服务器没有自动回到<b>独立</b>状态，请按两台服务器上的<b>重置</b>按钮，恢复默认设置。一旦恢复到默认设置，您可以组合服务器并再次创建 high-availability 集群。</p>
+ 
+<h3>不间断电源</h3>
+<p>High-availability 集群可连接至不间断电源（UPS）组件以减少意外断电的风险。如果断电，系统将从连接的 UPS 组件获得备用电源。UPS 组件连接时，活动服务器以低电量运行，系统将尝试切换服务至无源服务器。请参看以下说明。</p>
+   <ul>
+
+<li>如果活动和无源服务器均链接到同一网络交换器，我们建议将这两台服务器连接到与网络交换器相同的电源中。</li>
+<li>如果活动和无源服务器链接到使用不同电源的不同网络交换器（例如来自不同电厂的电源），我们建议将这两台服务器连接到与其连接的网络交换器相同的电源。</li>
+<li>如果活动和无源服务器链接到使用不同 UPS 设备的不同网络交换器，建议将这两台服务器均连接到其中一台 UPS 设备而不是分别的 UPS 设备。当 UPS 设备停电后，活动服务器将收到通知并进入安全模式，而无源服务器将适时关机。如果这两台服务器连接到不同的 UPS 设备，则活动服务器将无法检测到无源服务器的 UPS 是否电量不足，因此可能意外关机。</li>
+   </ul>
+
+   
+<div class="section">
+<h4>注：</h4>
+<p>Synology NAS 支持连接到本地和 SNMP UPS 设备。要了解更多信息，请参见<strong>控制面板</strong> &gt; <strong>硬盘</strong> &gt; <strong>UPS</strong> 中的帮助。</p>
+</div>  
+ </body>
+</html>

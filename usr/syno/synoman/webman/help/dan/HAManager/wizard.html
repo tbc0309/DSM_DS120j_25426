@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Guide til Høj tilgængelighedsstyring - Synology DSM - Hjælp</title>
+
+
+ </head>
+ <body>
+<h2>Guide til Høj tilgængelighedsstyring</h2>
+<p>Denne guide fører dig gennem processen til oprettelse og konfiguration af High Availability-klynge.</p>
+<h4>Sådan starter du guiden:</h4>
+<ol>
+<li>Åbn <b>Høj tilgængelighedsstyring</b>.</li>
+<li>Gå til siden <b>Oversigt</b>.</li>
+<li>Klik på <b>Opret HA-klynge</b>.</li>
+</ol>
+   
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Fuldfør konfigurationsguiden til High Availability-klyngen inden for den givne tidsgrænse. Hvis tidsgrænsen overskrides, skal du starte konfigurationsprocessen igen.</li>
+<li>Hvis du skal identificere den server, der er den aktive i en high-availability-klynge, anbefales det, at du downloader Synologys <strong>DS finder</strong>-program og bruger dens bipfunktion, som kan få den aktive server til at udsende en kort biplyd.</li>
+</ul>
+</div>
+
+<h4>Sådan konfigurerer du den passive server:</h4>
+<p>Udpeg en Synology-server som den passive server. Under normale forhold yder den passive server ikke tjenester. I tilfælde af fejl, vil tjenesteydelsen dog bliver overført fra den aktive server til den passive.</p>
+<ol>
+<li><b>IP-adresse:</b> Indtast IP-adressen på den passive server.
+
+</li>
+<li><b>Brugernavn:</b> Angiv en brugerkonto, der tilhører <b>administrator</b>-gruppen på destinationsserveren. </li>
+<li><b>Adgangskode:</b> Angiv adgangskoden til den konto, der tilhører <b>administrator</b>-gruppen.</li>
+</ol>
+
+<div class="section">
+<h4>Bemærk:</h4> 
+<ul>
+<li>Når high availability-klyngen er oprettet, bliver alle data på den passive server slettet. Sørg derfor for, at ingen vigtige data er lagret på den passive server. </li>   
+</ul>
+</div>
+  
+<h4>Sådan konfigurerer du Heartbeat-forbindelsen:</h4>
+<p>Tilslut de to servere til hinanden. Denne forbindelse skal være "heartbeat"-forbindelsen mellem de to servere, der gør kommunikation nemmere og muliggør, at data kan kopieres fra den aktive til den passive server. For at sikre kvaliteten af Heartbeat-forbindelsen vil systemet kontrollere, om denne forbindelse opfylder følgende kriterier ved oprettelse af high-availability-klyngen:</p>
+<ul>
+<li>Mellem de to servere er der ikke fundet andre enheder med IP-adresser i det samme udsendelesdomæne. Hvis Heartbeat-forbindelsen går gennem omskiftere, skal du sikre, at omskifterne understøtter multicast og Jumbo Frame.</li>
+<li>Har en lavlatent netværksforbindelse. Svartiden på ping mellem de to servere skal være mindre end 1 ms, og overførselshastigheden skal være mindst 500 Mbps. MTU bliver automatisk konfigureret til 9000.</li>
+<li>Bruge det samme netværksinterface på begge servere. Hvis f.eks. en ende er tilsluttet til LAN 1 på én server, skal den anden ende være tilsluttet til LAN 1 på den anden server.</li>
+<li>Bruge det hurtigste netværksinterface på begge servere. Hvis serverne er udstyret med 10 GbE tilføjelsesnetværksinterfacekort, skal denne forbindelse bruge dem.</li>
+</ul>
+ <p>Efter bekræftelse af ovenstående, skal du gå til afsnittet <b>HA-forbindelse (Heartbeat)-interface</b> og vælge netværksinterfacet på de servere, der bruges som Heartbeat-forbindelse.</p>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Heartbeat-forbindelsesindstillinger vil levere to sæt IP-adresser (f.eks. 169.254.1.1 and 169.254.1.2) til datakopiering mellem den aktiv og passive server. Sørg for, at disse to IP-adresser ikke bruges af andet udstyr på netværket.</li>
+<li>Aktivering af VLAN ID på heartbeat-forbindelsens porte for din Synology NAS understøttes ikke.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Konfiguration af Link Aggregation på Heartbeat- eller dataforbindelser:</h4>
+
+<ul>
+<li>Hvis du vil konfigurere Link Aggregation på Heartbeat- eller dataforbindelse, skal du konfigurere Link Aggregation på to eller flere LAN-porte under <strong>Kontrolpanel</strong> > <strong>Netværk</strong> > <strong>Netværksinterface</strong>, før du starter guiden til oprettelse af high-availability. Sørg for, at Link Aggregation-indstillingerne er identiske på begge servere (f.eks. hvis du konfigurerer Link Aggregation på portene 1 og 2 på den aktive server, skal Link Aggregation konfigureres på portene 1 og 2 på den passive server).</li>
+
+
+<li>Heartbeat er udstyret med Failover og Load Balancing-kapacitet, men dataforbindelser afhænger af tilstanden for den valgte Link Aggregation.</li>
+</ul>
+
+</div>
+
+
+<h4>Sådan konfigurerer du netværksinterfaceindstillinger for High Availability-klyngen:</h4>
+<p>High availability-klyngen vil bruge en Høj tilgængelighedsklynges IP-adresse som eksternt forbindelsesinterface. Du kan oprette forbindelse med denne high availability-klynges IP-adresse, når du vil DSM-tjenester, uanset hvilken Synology-server, der er den aktive server. Dette forhindrer, at der skal oprettes forbindelse til forskellige IP-adresser efter udførelsen af switchover fra aktiv til passiv server.</p>
+
+<ol>
+<li><b>Klynges servernavn:</b> Navnet på high-availability-klyngen. Der henvises til regler for servernavngivning (under <b>DSM - Hjælp</b> > <b>Kontrolpanel</b> > <b>Forbindelse</b> > <b>Netværk</b> > <b>Generelt</b>) for at få oplysninger om navnebegrænsninger.</li>
+<li><b>Netværksinterface:</b> Det netværksinterface, der bruges af high availability-klyngen. Du skal vælge en anden LAN-port end den, der er udpeget til datareplicering i forrige trin. </li>
+<li><b>IP-adresse:</b> Den IP-adresse, der bruges af high availability-klyngen. Uanset hvilken server, der er aktiv, kan der oprettes forbindelse til klyngen via denne IP.</li>
+<li> <b>Undernetmaske:</b> Den undernetmaske, der bruges af high availability-klyngen.</li>
+</ol>
+
+<div class="section">
+<h4>Tildeling af VLAN-id til dataforbindelsen:</h4>
+<ul>
+<li>Du tildeler en VLAN-id til dataforbindelse ved at gå til <strong>Kontrolpanel</strong> > <strong>Netværk</strong> > <strong>Netværksinterface</strong>, før du starter guiden til oprettelse af high-availability Sørg for, at VLAN-indstillinger er identiske på begge servere (f.eks. hvis LAN 1 er konfigureret med VLAN-id 1 på den aktive server, skal LAN 1 på den passive server konfigureres med VLAN 1).</li>
+</ul>
+</div>
+
+
+<h4>Sådan bekræfter du indstillinger:</h4>
+<p>Dobbeltklik på de indstillinger, der bruges af high availability-klyngen. Systemet vil begynde at binde High Availiability-klyngen sammen, når du klikker på <b>Anvend</b>. </p>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Ved oprettelse af en high-availability-klynge skal alle data på den aktive server kopieres til den passive server. Hvis forbindelsen til den passive server mistes i over 30 minutter, før den første kopieringsproces er færdig, vil den passive server returnere til tilstanden <strong>Standalone</strong>. I det tilfælde skal du genbinde den og udføre en fuld datakopiering igen.</li>
+</ul>
+</div>
+ </body>
+</html>

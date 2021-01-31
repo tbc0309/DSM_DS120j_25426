@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>NFS-tjeneste</h2>
+<p>Med NFS-tjenesten kan Linux-klienter f&aring; tilgang til data p&aring; denne Synology NAS-enheten.</p>
+<h4>Slik aktiverer du NFS-tjeneste:</h4>
+<ol>
+<li>G&aring; til <strong>Kontrollpanel</strong> &gt; <strong>Filtjenester</strong> &gt; <strong>SMB/AFP/NFS</strong> og merk av for <b>Aktiver NFS</b>.</li>
+<li>Klikk p&aring; <b>Bruk</b>.</li>
+</ol>
+
+
+<div class="section">
+  <h4>Merk:</h4>
+<ul>
+<li> Synology NAS st&oslash;tter for tiden NFSv2, NFSv3 og NFSv4.</li>
+<li>Ved montering, kan parameteren <strong>-o vers=2</strong>, <strong>-o vers=3</strong> eller <strong>-o vers=4</strong> legges til i monteringskommandoen for &aring; spesifisere hvilken NFS-versjon som skal brukes.</li>
+<li>F&oslash;lgende delte mapper tillater ikke tilgang via NFS:
+	<ul>
+    <li>Krypterte delte mapper</li>
+    <li>Delte PetaSpace-mapper</li>
+    <li>Delte mapper som bruker filsystemene HFS, HFS Plus og exFAT.</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>Slik gir du Linux-klienter tilgangrettigheter til delte mapper:</h4>
+<p>G&aring; til <b>Kontrollpanel</b> &gt; <b>Delt mappe</b>. Velg en delt mappe og klikk p&aring; <strong>Rediger</strong> for &aring; administrere NFS-regler og regulere tilgangsrettigheter til denne delte mappen for Linux-klienter.</p>
+
+
+<h3>Stille inn st&oslash;tte for NFSv4</h3>
+<p>Du kan bestemme om NFS-serveren din skal st&oslash;tte NFSv4. Hvis dette alternativet er aktivert, vil NFS-server st&oslash;tte NFSv2, NFSv3 og NFSv4. Hvis ikke, vil kun NFSv2 og NFSv3 st&oslash;ttes.</p>
+
+<h4>Slik aktiverer du NFSv4-st&oslash;tte:</h4>
+<ol>
+<li>Merk av for <b>Aktiver NFSv4-st&oslash;tte</b>.
+</li>
+<li>
+I feltet <b>NFSv4-domene</b> angir du navnet p&aring; NFSv4-domenet du &oslash;nsker &aring; bruke. Dette feltet er valgfritt og kan st&aring; tomt.</li>
+<li>
+Klikk p&aring; <b>Bruk</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Merk:</h4>
+<p>N&aring;r du bruker NFSv4 til &aring; montere den delte mappen, m&aring; du v&aelig;re oppmerksom p&aring; f&oslash;lgende. Hvis ikke, vil filhandlingene tilknyttet brukernavnet mislykkes.</p>
+<ul>
+<li>NFS-klienten m&aring; aktivere idmapd.</li>
+<li>Innstillinger for NFSv4-domene i idmapd.conf-filen p&aring; NFS-klienten din m&aring; v&aelig;re i tr&aring;d med feltet <b>NFSv4-domene</b> p&aring; Synology NAS.</li>
+</ul>
+
+</div>
+
+
+<h3>Avanserte innstillinger</h3>
+
+<h4>Bruke standard UNIX-tillatelser</h4>
+<p> N&aring;r det er merket av for <strong>Bruk standard UNIX-tillatelser</strong>, vil standard UNIX-tillatelser angitt i Linux-klienten bli tatt i bruk i stedet for Windows ACL-tillatelser ved opplasting og oppretting av filer og mapper. Tillatelser som brukes er de samme som tillatelsene som brukes av UNIX-kommandoen <strong>umask</strong>.  Standard umask-verdi er 022.</p><div class="section">
+<h4>Merk:</h4>
+<ul>
+  <li>For Windows ACL-aktiverte delte mapper (alle delinger unntatt &quot;photo&quot; og delinger p&aring; eksterne disker) m&aring; du kj&oslash;re kommandoen <strong>chmod</strong> p&aring; Linux- eller FTP-klienten din for &aring; endre mappe- og filtillatelsestyper fra Windows ACL til UNIX.</li>
+  <li>Aktivering av dette alternativet kan for&aring;rsake problemer med inkonsekvente tillatelser mellom forskjellige protokoller. For &aring; unng&aring; inkonsekvens, foresl&aring;r vi at dette alternativet er deaktivert.</li>
+</ul>
+</div>
+
+<h4>Tilpass port</h4>
+<p>Du kan tilpasse portnumre for statd- og nlockmgr-tjenester.</p>
+
+<ol>
+<li>Velg <strong>Tilpassede porter</strong>.</li>
+<li>Angi portnumre i <strong>statd-port</strong> og <strong>nlockmgr-port</strong>.</li>
+<li>
+Klikk p&aring; <b>Bruk</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Hvis du vil bruke NFSv3-tjenester, g&aring;r du til <strong>Kontrollpanel</strong> &gt; <strong>Sikkerhet</strong> &gt; <strong>Brannmur</strong> og oppretter en brannmurregel som aktiverer &quot;Mac-/Linux-filserver&quot; fra listen over innebygde programmer.</li>
+</ul>
+</div>
+<h4>Stille inn st&oslash;rrelse p&aring; lese-/skrivepakke</h4>
+<p>N&aring;r st&oslash;rrelsen p&aring; lese-/skrivepakken ikke kan angis p&aring; din NFS-klient, kan du spesifisere standardverdien i dette feltet.</p>
+
+<ol>
+<li>Velg &oslash;nsket pakkest&oslash;rrelse fra feltene <strong>Lesepakkest&oslash;rrelse</strong> og <strong>Skrivepakkest&oslash;rrelse</strong>.</li>
+<li>
+Klikk p&aring; <b>Bruk</b>.
+</li>
+<li>
+Monter delingen p&aring; nytt.
+</li>
+</ol>
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Etter at du har endret st&oslash;rrelse p&aring; lese-/skrivepakken, m&aring; den delte mappen monteres p&aring; nytt f&oslash;r de nye innstillingene tas i bruk.</li>
+<li>Disse innstillingene p&aring;virker kun NFS-klienter som kobler seg til via UDP (User Datagram Protocol).</li>
+</ul>
+</div>
+
+
+
+
+<h3>Kerberos-innstillinger*</h3>
+<p>Kerberos er en nettverksautentiseringsprotokoll. Den lar klienter og servere kommunisere med hverandre over et usikret nettverk for &aring; autentisere eller bevise identitetene sine til hverandre p&aring; en sikker m&aring;te. Synology NAS gir deg alternativer for &aring; importere en eksisterende Kerberos-n&oslash;kkel. N&aring;r den er importert, kan NFS-klienter bruke Kerberos-autentiseringsprotokollen til &aring; koble seg til Synology NAS.</p>
+
+<h4> Slik importerer du en Kerberos-n&oslash;kkel: </h4>
+<ol>
+<li>Klikk p&aring; <strong>Kerberos-innstillinger</strong>.</li>
+<li>Klikk p&aring; <b>Importer</b>-knappen.</li>
+<li>Velg den Kerberos-n&oslash;kkelen du &oslash;nsker &aring; importere.</li>
+<li>Klikk p&aring; <b>OK</b>.</li>
+</ol>
+
+<h3><a name="idmap"></a>Kerberos ID-tilordning</h3>
+<p>Du kan tilordne individuelle Kerberos-fullmakter til lokale DSM-brukerkontoer.</p>
+<h4> Slik tilordner du Kerberos-fullmakter til lokale brukerkontoer: </h4>
+<ol>
+<li>Klikk p&aring; <strong>Kerberos-innstillinger</strong>.</li>
+<li>G&aring; til fanen<strong>ID-tilordning</strong>.</li>
+<li> Klikk p&aring; <b>Legg til</b>-knappen. Velg ett av f&oslash;lgende.</li>
+<ul>
+<li><strong>ID-tilordning:</strong> Angi Kerberos-fullmakten og den lokale brukerkontoen den skal tilordnes til.</li>
+<li><strong>Foresl&aring;tt tilordningsliste:</strong> Dette alternativet viser en liste over foresl&aring;tte Kerberos-fullmakt/lokal bruker-tilordningsalternativer som genereres av systemet.</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> Merk: </h4>
+<ul>
+<li>Hvis du vil tilordne en NFS-klient som kobler seg til gjennom Kerberos til en eksisterende domene-/LDAP-brukerkonto, m&aring; du forsikre deg om at du er tilknyttet katalogtjenesten. I tillegg m&aring; katalogserveren ha en attributt som inkluderer den korresponderende Kerberos-fullmakten.</li>
+<ul>
+<li><strong>Domenebruker:</strong> Formatet for den korresponderende attributten skal v&aelig;re <strong>userPrincipalName</strong>.</li>
+<li><strong>LDAP-bruker:</strong> Formatet for den korresponderende attributten skal v&aelig;re <strong>GSSAuthName</strong>.</li>
+</ul>
+<li>Hvis brukeren ikke kan tilordnes til en lokal bruker eller en domene-/LDAP-bruker, skal brukeren tilordnes til &quot;guest&quot;.
+<li>Tilordningsprioritet er som f&oslash;lger: Lokal bruker &gt; domene-/LDAP-bruker &gt; Guest. </li>
+<li>Hvis du vil endre tilgangstillatelsene for NFS-klienter, bruker du Windows Access Control List (ACL). Rettighetsalternativene i <strong>Kontrollpanel</strong> &gt; <strong>Bruker</strong> gjelder ikke for NFS-klienter.</li>
+</ul>
+</div>
+<p>
+<br>____<br> * Kun tilgjengelig p&aring; enkelte modeller.
+
+</p>
+
+
+
+</body>
+</html>

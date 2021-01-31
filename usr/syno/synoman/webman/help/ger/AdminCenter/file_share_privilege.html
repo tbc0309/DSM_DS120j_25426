@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Berechtigungen für gemeinsame Ordner zuweisen - Hilfe zu Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="You can specify which users or groups can access, view, or modify a shared folder and its contents. This article shows you how to assign and customize shared folder permissions in DSM.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Berechtigungen für gemeinsame Ordner zuweisen</h2>
+
+<p>Sie können festlegen, welche Benutzer oder Gruppen auf einen gemeinsamen Ordner und seinen Inhalt anzeigen zugreifen bzw. den Ordner und seinen Inhalt anzeigen oder ändern können. Die Zugriffsrechte von gemeinsamen Ordnern sowie von einzelnen Dateien und Unterordnern können für jeden Benutzer oder für jede Gruppe angepasst werden.</p>
+
+<div class="section disable-eds14">
+<h4>Windows ACL:</h4>
+
+<p>Bei DSM 5.0 oder höheren Versionen basieren die Zugriffsrechte der gemeinsamen Ordner standardmäßig auf Windows ACL. Neu erstellte gemeinsame Ordner implementieren die Berechtigungseinstellungen von Windows ACL, in dem auch die Berechtigungen für einzelne Dateien und Unterordner angepasst werden können. Darüber hinaus können Berechtigungen über File Station oder File Explorer in Windows angepasst werden.</p>
+<p>Die folgenden gemeinsamen Ordner können das Berechtigungsverwaltungssystem von Windows ACL nicht verwenden: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+<div class="section disable-eds14">
+<h4>Anmerkung:</h4>  
+<p>Persönliche <strong>home</strong>-Ordner des Benutzers befinden sich im Ordner <strong>homes</strong>. Da ACL auf der Grundlage der Vererbung von Berechtigungen, funktioniert, haben Benutzer keinen Zugriff auf ihre persönlichen Ordner <strong>home</strong>, wenn Sie die Berechtigung für eine Benutzergruppe für <strong>homes</strong> auf „Kein Zugriff“ festlegen. </p>
+</div>
+<h4>Berechtigungen für einen gemeinsamen Ordner bearbeiten:</h4>
+
+<ol>
+
+<li>Gehen Sie zu <strong>Systemsteuerung</strong> > <strong>Freigegebener Ordner</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Wählen Sie den gemeinsamen Ordner aus, dessen Berechtigungen Sie bearbeiten möchten. Klicken Sie auf <b>Bearbeiten</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li> Gehen Sie zur Registerkarte <strong>Berechtigungen</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Wählen Sie eine der folgenden Optionen aus dem Dropdown-Menü aus:
+
+<ul>
+<li><b>Interner Systembenutzer:</b> Weist Berechtigungen für Standard-Systembenutzer, z. B. den Anonymous FTP/WebDAV-Benutzer, zu. Bevor Sie einen anonymen FTP-Benutzer auf einen gemeinsamen Ordner zugreifen lassen, müssen Sie diesem Benutzer Berechtigungen zuweisen.</li>
+<li><b>Lokale Benutzer:</b> Weist Berechtigungen für lokale Benutzer (einschließlich <b>guest</b>) zu.</li>
+<li><b>Lokale Gruppen:</b> Weist Berechtigungen für lokale Gruppen zu.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Aktivieren oder deaktivieren Sie die entsprechenden Felder für jeden Benutzer oder jede Gruppe, um ihre Berechtigungen für den gemeinsamen Ordner anzupassen:
+
+  <ul>
+<li><b>Lesen/Schreiben</b>: Der Benutzer oder die Gruppe hat Zugriff auf Dateien und Unterordner im gemeinsamen Ordner und kann Änderungen vornehmen.</li>
+<li><b>Nur Lesen</b>: Der Benutzer oder die Gruppe hat Zugriff auf die Dateien und Unterordner im gemeinsamen Ordner.</li>
+<li><b>Kein Zugriff</b>: Der Benutzer oder die Gruppe hat keinen Zugriff auf die Dateien und Unterordner im gemeinsamen Ordner.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Klicken Sie zum Beenden auf <b>OK</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+
+<ul>
+<li>Beachten Sie bei Berechtigungskonflikten folgende Priorität: Kein Zugriff > Lesen/Schreiben > Nur Lesen.</li>
+<li>Wenn beim Erstellen eines neuen gemeinsamen Ordners die Berechtigungen für die Benutzer der Gruppe <strong>administrators</strong> auf <b>Kein Zugriff</b> gesetzt sind, können diese Benutzer den gemeinsamen Ordner nur unter <strong>Systemsteuerung</strong> > <strong>Gemeinsame Ordner</strong> anzeigen.</li>
+</ul>
+</div>
+
+<h3 class="disable-eds14">Anpassen von Windows ACL-Berechtigungen</h3>
+
+<p class="disable-eds14">Zusätzlich zu den oben beschriebenen Einstellungen können Sie die Berechtigungen mit folgenden Schritten weiter anpassen. </p>
+
+<div class="section disable-eds14">
+<h4>Anmerkung:</h4>
+<p>Die nachstehenden Einstellungen können nicht mit den folgenden gemeinsamen Ordnern verwendet werden: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+
+<h4 class="disable-eds14">Berechtigungen anpassen:</h4>
+<ol class="disable-eds14">
+  <li>Wählen Sie auf der Registerkarte <strong>Berechtigungen</strong> den Benutzer, dessen Berechtigungen angepasst werden sollen. Klicken Sie auf eine beliebige Stelle in der Spalte <strong>Benutzerdefiniert</strong>.</li>
+  <img src="about:blank" class="help_image"/>
+  <li>Verwenden Sie eine der folgenden Methoden im Fenster <b>Genehmigungsbearbeitung</b>, um ACL-Berechtigungen für die Datei oder den Ordner zu verwalten:
+      <ol>
+        <li><b>Benutzer oder Gruppe:</b> Geben Sie den Benutzer oder die Gruppe an, deren Berechtigungen angepasst werden sollen.</li>
+        <img src="about:blank" class="help_image"/>
+        
+        <div class="section disable-eds14">
+<h4>Anmerkung:</h4>  
+<p>Die Optionen <strong>Authenticated Users</strong> und <strong>SYSTEM</strong> im Dropdown-Menü <strong>Benutzer oder Gruppe</strong> werden erstellt, um den Berechtigungseinstellungen in Windows ACL zu entsprechen. Die Berechtigungen umfassen Folgendes:</p>
+<ul>
+	<li><strong>Authenticated Users</strong> enthält Konten, die von <strong>https</strong> und <strong>guest</strong> ausgenommen sind.</li>
+	<li><strong>SYSTEM</strong> enthält Konten in <strong>https</strong> und <strong>anonymous</strong>.</li>
+</ul>
+</div>
+        
+        
+        
+        
+        <li><b>Übernehmen von:</b> Nur zur Ansicht. Hier finden Sie Informationen, ob eine Berechtigung (von einem übergeordneten Ordner) übernommenen oder ausdrücklich (als <b>Keine</b> angezeigt) ist. </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Typ:</b> Wählen Sie <b>Zulassen</b> oder <b>Verweigern</b>, um dem Benutzer oder der Gruppe die Genehmigung zu gewähren oder zu verweigern.</li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Anwenden auf:</b> Wenn Sie einen Genehmigungseintrag für einen Ordner erstellen, markieren Sie die Kontrollkästchen, um den Eintrag für diesen Ordner, die Ordner (oder <b>Untergeordnete Ordner</b>) oder Dateien (oder <b>Untergeordnete Dateien</b>) in diesem Ordner oder alle Dateien und Ordner in diesem Ordner (oder <b>Alle Ableitungen</b>) zu übernehmen. </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Administration:</b> Markieren Sie <b>Berechtigungen lesen</b>, <b>Berechtigungen ändern</b> oder <b>Eigentümerschaft übernehmen</b>, um die Berechtigungen des Benutzers oder der Gruppe für den Eintrag festzulegen. </li>
+        <li><b>Lesen</b> oder <b>Schreiben</b>: Aktivieren Sie die Kontrollkästchen in diesen Bereichen, um die Berechtigungseinstellungen des Benutzers oder der Gruppe für die Datei oder den Ordner zu ändern. </li>
+      </ol>    
+  <li> Klicken Sie auf <b>OK</b>.</li>
+</ol>
+<div class="section disable-eds14">
+  <h4>Die ACL-Berechtigungen können folgendermaßen kategorisiert werden:</h4>
+  <ul>
+    <li><b>Administration:</b>
+    <ul>
+      <li><b>Berechtigungen ändern</b>: Hiermit können Sie festlegen, ob ein Benutzer Berechtigungen der Datei oder des Ordners ändern kann oder nicht.</li>
+      <li><b>Eigentümerschaft übernehmen</b>: Hiermit können Sie festlegen, ob ein Benutzer die Eigentümerschaft über die Datei oder den Ordner besitzt oder nicht.</li>
+    </ul></li>
+    <li><b>Lesen:</b>
+    <ul>
+      <li><b>Ordner durchqueren/Dateien ausführen</b>: Hiermit können Sie festlegen, ob ein Benutzer eine Programmdatei ausführen kann oder nicht.</li>
+      <li><b>Ordner auflisten/Daten lesen</b>: Hiermit können Sie festlegen, ob ein Benutzer Daten in einer Datei lesen kann oder nicht.</li>
+      <li><b>Attribute lesen</b>: Hiermit können Sie festlegen, ob ein Benutzer die Attribute einer Datei lesen kann oder nicht.</li>
+      <li><b>Erweiterte Attribute lesen</b>: Hiermit können Sie festlegen, ob ein Benutzer die erweiterten Attribute einer Datei lesen kann oder nicht.</li>
+      <li><b>Berechtigungen lesen</b>: Hiermit können Sie festlegen, ob ein Benutzer die Berechtigungen der Datei oder des Ordners lesen kann oder nicht.</li>
+    </ul></li>
+    <li><b>Schreiben:</b>
+    <ul>
+      <li><b>Dateien erstellen/Daten schreiben</b>: Hiermit können Sie festlegen, ob ein Benutzer die Inhalte einer Datei ändern kann oder nicht.</li>
+      <li><b>Ordner erstellen/Daten anhängen</b>: Hiermit können Sie festlegen, ob ein Benutzer Daten an das Ende einer Datei anhängen kann oder nicht.</li>
+      <li><b>Attribute schreiben</b>: Hiermit können Sie festlegen, ob ein Benutzer die Attribute einer Datei ändern kann oder nicht.</li>
+      <li><b>Erweiterte Attribute schreiben</b>:  Hiermit können Sie festlegen, ob ein Benutzer die erweiterten Attribute einer Datei ändern kann oder nicht.</li>
+      <li><b>Unterordner und Dateien löschen</b>: Hiermit können Sie festlegen, ob ein Benutzer einen Ordner löschen kann oder nicht.</li>
+      <li><b>Löschen</b>: Hiermit können Sie festlegen, ob ein Benutzer eine Datei löschen kann oder nicht.</li>
+    </ul></li>
+  </ul>
+  <h4>Zur Übernahme von Berechtigungen:</h4>
+  <p> ACL-Berechtigungen werden von übergeordneten Objekten auf untergeordnete Objekte übertragen. Wenn z. B. ein ACL-Eintrag des Ordners „Verkäufe“ die Genehmigung „Lesen“ an den Benutzer „Amy“ vergibt, dann wird der ACL-Eintrag für alle Dateien im Ordner „Verkäufe“ (z. B. „Jahresbericht.xls“) übernommen und der Benutzer kann die Dateien öffnen. Übernommene Berechtigungen werden in Grau angezeigt, wohingegen die eigenen Berechtigungen (oder „ausdrücklichen“ Berechtigungen) des Objekts in Schwarz angezeigt werden. </p>
+</div>
+<div class="section disable-eds14">
+  <h4>Anmerkung:</h4>
+  <ul>
+    <li>Sie können nur bis zu 200 ausdrückliche ACL-Berechtigungen für eine Datei oder einen Ordner hinzufügen.</li>
+    <li>Windows ACL unterstützt das ext3-Dateisystem nicht. Benutzer, die das ext3-Dateisystem verwenden, müssen mindestens ein ext4- oder Btrfs-Volume erstellen, um Windows ACL-Berechtigungen nutzen zu können. Das heißt, Sie müssen mindestens ein Laufwerk formatieren und ein Volume neu erstellen. Das Formatieren des Synology NAS löscht alle gespeicherten Daten und Einstellungen. Vergewissern Sie sich, dass Sie Sicherheitskopien von allen Daten erstellt haben, bevor Sie fortfahren.</li>
+    <li>Stellen Sie zum Definieren neuer Berechtigungen für Domainbenutzer sicher, dass DSM- und Windows-Clients sich in der gleichen Domäne befinden.</li>
+    <li>Wenn mit Windows Explorer Änderungen an den Befugnissen vorgenommen werden, werden <strong>Ablehnungs</strong>-Regeln ignoriert, die auf die Gruppe <strong>Domain-Admins</strong> angewendet werden.</li>
+  </ul>
+</div>
+
+
+</body>
+</html>

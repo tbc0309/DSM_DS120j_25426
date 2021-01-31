@@ -1,0 +1,13 @@
+auth    requisite     pam_syno_autoblock.so
+auth    requisite     pam_syno_smartblock.so
+auth    [success=2    default=ignore]    pam_unix.so
+auth    [success=1    acct_expired=die authtok_expired=die new_authtok_reqd=die default=ignore] pam_winbind.so
+auth    [success=ok   acct_expired=die authtok_expired=die new_authtok_reqd=die default=1]  pam_ldap.so
+auth    [success=1    cred_unavail=die cred_err=bad no_module_data=die default=bad]         pam_syno_otp.so
+auth    [default=die]                 pam_syno_log_fail.so [DSM]
+auth    [default=done]                pam_syno_log_success.so [DSM]
+account [success=3 acct_expired=die authtok_expired=die new_authtok_reqd=die default=ignore] pam_ldap.so
+account [success=2 acct_expired=die authtok_expired=die new_authtok_reqd=die default=ignore] pam_winbind.so
+account [success=1 acct_expired=die authtok_expired=die new_authtok_reqd=die default=ignore] pam_unix.so
+account [default=die]                 pam_syno_log_fail.so [DSM]
+account [default=done]                pam_syno_log_success.so [DSM]

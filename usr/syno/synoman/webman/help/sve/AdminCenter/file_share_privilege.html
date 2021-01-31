@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Tilldela behörigheter till Delad mapp - Synology DSM Hjälp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="You can specify which users or groups can access, view, or modify a shared folder and its contents. This article shows you how to assign and customize shared folder permissions in DSM.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Tilldela behörigheter till Delad mapp</h2>
+
+<p>Du kan specificera vilka användare eller grupper som kan få åtkomst till eller ändra en delad mapp och dess innehåll. Åtkomstbehörigheterna för delade mappar och så även för enstaka filer och undermappar kan anpassas för varje användare eller grupp.</p>
+
+<div class="section disable-eds14">
+<h4>Windows ACL:</h4>
+
+<p>I DSM 5.0 eller senare version baseras åtkomstbehörigheter som standard på Windows ACL. Nyligen skapade delade mappar implementerar behörighetsinställningarna för Windows ACL vilket också ger utrymme för anpassning av behörigheter för enstaka filer och undermappar. Dessutom kan behörigheter anpassas via File Station eller filutforskaren i Windows.</p>
+<p>Följande delade kan inte använda Windows ACL hanteringssystem för behörigheter: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+<div class="section disable-eds14">
+<h4>Obs:</h4>  
+<p>Användares personliga mappar <strong>home</strong> finns under mappen <strong>homes</strong>. Eftersom ACL fungerar på principen att ärva behörigheter, blir resultatet av att sätta NA-behörigheter för en användare/grupp på <strong>homes</strong> att användare inte får åtkomst till sin personliga mapp <strong>home</strong>. </p>
+</div>
+<h4>Att redigera behörigheter för en delad mapp:</h4>
+
+<ol>
+
+<li>Gå till <strong>Kontrollpanel</strong> > <strong>Delad mapp</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Välj den delade mappen vars behörigheter du vill redigera. Klicka på <b>Redigera</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li> Gå till fliken <strong>Behörighet</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Välj en av följande från rullgardinsmenyn:
+
+<ul>
+<li><b>Intern systemanvändare:</b> Tilldela behörigheter för standardsystemanvändare, såsom användaren Anonymous-FTP/WebDAV. Innan du tillåter anonyma FTP-användare att ansluta till en delad mapp, måste du först tilldela denna användare åtkomstbehörigheter.</li>
+<li><b>Lokala användare:</b> Tilldela behörigheter till lokala användare (inklusive <b>guest</b>).</li>
+<li><b>Lokala grupper:</b> Tilldela behörigheter till lokala grupper.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Markera eller avmarkera de lämpliga rutorna för varje användare eller grupp för att anpassa deras åtkomstbehörigheter till den delade mappen:
+
+  <ul>
+<li><b>Läsa/skriva</b>: Användaren eller gruppen kan få åtkomst till och göra ändringar i filerna och undermappar i de delade mapparna.</li>
+<li><b>Endast läsbar</b>: Användaren eller gruppen har åtkomst åt filerna och undermapparna i den delade mappen.</li>
+<li><b>Ingen åtkomst</b>: Användaren eller gruppen kan inte få åtkomst till filerna och undermapparna i de delade mapparna.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Klicka på <b>OK</b> för att slutföra.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+
+<ul>
+<li>När du stöter på behörighetskonflikter är behörighetsprioriteten enligt följande: Ingen åtkomst > Läsa/skriva > Endast läsbar.</li>
+<li>Om behörigheterna för användarna som hör till gruppen <strong>administrators</strong> är satt till <b>Ingen åtkomst</b> vid skapande av en ny delad mapp kommer dessa användare endast kunna se den delade mappen i <strong>Kontrollpanel</strong> > <strong>Delad mapp</strong>.</li>
+</ul>
+</div>
+
+<h3 class="disable-eds14">Anpassa Windows ACL-behörigheter</h3>
+
+<p class="disable-eds14">Förutom de inställningar som beskrivs här ovanför kan du anpassa behörigheter ytterligare genom att följa stegen här nedanför. </p>
+
+<div class="section disable-eds14">
+<h4>Obs:</h4>
+<p>Inställningarna här nedanför kan inte användas med följande delade mappar: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+
+<h4 class="disable-eds14">Att anpassa behörigheter:</h4>
+<ol class="disable-eds14">
+  <li>På fliken <strong>Behörighet</strong>, välj den användare vars behörigheter du vill anpassa. Klicka var som helst i kolumnen <strong>Anpassad</strong>.</li>
+  <img src="about:blank" class="help_image"/>
+  <li>Gör något av följande i <b>Behörighetsredigerare</b> för att hantera ACL-behörigheter för filen eller mappen:
+      <ol>
+        <li><b>Användare eller grupp:</b> Specificera den användare eller grupp vars behörigheter du vill anpassa.</li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Ärv från:</b> Endast visning. Visa informationen här för att se om behörigheten ärvs (från en överordnad mapp) eller är uttrycklig (visas som <b>Ingen</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Typ:</b> Välj <b>Tillåt</b> eller <b>Neka</b> för att ge eller neka användaren eller gruppen behörigheten.</li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Tillämpa på:</b> Om du skapar en behörighetspost för en mapp, markera kryssrutorna för att tillämpa posten i denna mapp, mapparna (eller <b>Underordnade mappar</b>) eller filer (eller <b>underordnade filer</b>) i denna mapp, eller alla filer och mappar som finns i denna mapp (eller <b>Alla härstammande</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Administration:</b> Markera <b>Läsbehörigheter</b>, <b>Ändra behörigheter</b> eller <b>Ta ägarskap</b> för att specificera användarens eller gruppens inställningar för åtkomstbehörigheter till posten. </li>
+        <li><b>Läs</b> eller <b>Skriv:</b> Markera kryssrutorna i dessa avsnitt för att ändra användarens eller gruppens inställningar för behörighet till filen eller mappen. </li>
+      </ol>    
+  <li> Klicka på <b>OK</b>.</li>
+</ol>
+<div class="section disable-eds14">
+  <h4>ACL-behörigheter an kategoriseras enligt följande:</h4>
+  <ul>
+    <li><b>Administration:</b>
+    <ul>
+      <li><b>Ändra behörigheter</b>: Detta styr om en användare kan ändra filens eller mappens behörighet.</li>
+      <li><b>Ta ägarskap</b>: Detta styr om en användare har ägarskap över filen eller mappen.</li>
+    </ul></li>
+    <li><b>Läs:</b>
+    <ul>
+      <li><b>Bläddra i mappar/kör filer</b>: Detta styr om en användare kan köra en programfil.</li>
+      <li><b>Lista mappar/läsa data</b>: Detta styr om en användare kan läsa data i en fil.</li>
+      <li><b>Läsa attribut</b>: Detta styr om en användare kan visa en fils attribut.</li>
+      <li><b>Läsa utökade attribut</b>: Detta styr om en användare kan visa en fils utökade attribut.</li>
+      <li><b>Läsbehörigheter</b>: Detta styr om en användare kan läsa filens eller mappens behörigheter.</li>
+    </ul></li>
+    <li><b>Skriv:</b>
+    <ul>
+      <li><b>Skapa filer/skriva data</b>: Detta styr om en användare kan ändra innehållet i en fil.</li>
+      <li><b>Skapa mappar/lägga till data</b>: Detta styr om en användare kan lägga till data i slutet av en fil.</li>
+      <li><b>Skriva attribut</b>: Detta styr om en användare kan ändra en fils attribut.</li>
+      <li><b>Skriva utökade attribut</b>:  Detta styr om en användare kan ändra en fils utökade attribut.</li>
+      <li><b>Radera undermappar och filer</b>: Detta styr om en användare kan radera en mapp.</li>
+      <li><b>Radera</b>: Detta styr om en användare kan radera en fil.</li>
+    </ul></li>
+  </ul>
+  <h4>Om behörighetsarv:</h4>
+  <p> ACL-behörigheter ärvs från överordnade objekt till underordnade. Exempel: om en ACL-post i mappen "försäljning" ger "läs"-behörighet till användaren "Amy" kommer ACL-posten att tillämpas på alla mappar inom mappen "försäljning" (såsom "årsrapport.xls) och låter användaren öppna filerna. Ärvda behörigheter visas i grått och objektets egna behörigheter (eller "uttryckliga" behörigheter) är svarta. </p>
+</div>
+<div class="section disable-eds14">
+  <h4>Obs:</h4>
+  <ul>
+    <li>Du kan bara lägga till upp till 200 ACL-explicita behörigheter för en fil eller mapp.</li>
+    <li>Windows ACL stöds enbart av filsystemen <span class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">ext4/Btrfs</span>. För användare som tidigare använt DSM 2.3 måste du skapa minst en volym med ext4<span class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">/Btrfs</span> för att använda Windows ACL-behörigheter. Detta innebär att du måste formatera minst en disk och återskapa en volym. Om du formaterar Synology NAS kommer alla sparade data och inställningar att raderas. Se till att alla dina data har säkerhetskopierats innan de bearbetas.</li>
+    <li>För att definiera nya behörigheter för domänanvändare, se till att DSM- och Windowsklienterna befinner sig i samma domän.</li>
+    <li>Vid ändring av behörigheter med Windows Utforskaren blir regler för <strong>Neka</strong> som tillämpas på gruppen <strong>Domänadministratörer</strong> ignorerade.</li>
+  </ul>
+</div>
+
+
+</body>
+</html>

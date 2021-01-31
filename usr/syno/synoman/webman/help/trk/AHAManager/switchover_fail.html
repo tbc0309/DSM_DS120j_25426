@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h2>Geçiş</h2>
+  
+ <p>Sürekli performans sağlamak ve servis dışı kalma süresini en aza indirmek için, servisler bir high-availability kümesinin aktif sunucusundan yedek, pasif sunucuya aktarılabilir. Bu özellik "Geçiş" veya bazı durumlarda "Üstlenme" olarak adlandırılır. Bu bölüm bu iki konsepte ait temel bilgileri içerir.</p>
+  
+  <h3>Geçiş</h3>
+  	<p>Geçiş, bir high-availability kümesinin aktif sunucusundan yedek, pasif sunucusuna bir geçiş anlamına gelir. Normal koşullar altında, aktif sunucu tüm hizmetleri yönetir. Ancak, aktif sunucunun arızalanması durumunda, pasif sunucunun normal işlev yaptığını varsayarak, pasif sunucuya bir geçişi başlatabilir ve tüm hizmetleri pasif sunucuya aktarabilirsiniz. Bu durumda, aktif sunucu pasif sunucunun görevini üstlenir ve pasif sunucu aktif sunucunun görevini üstlenir.</p>
+    
+<h4>Bir geçişi manuel olarak başlatmak için:</h4>
+ <ol>
+  <li><b>Genel Bakış</b> sayfasına gidin.</li>
+  <li><b>Yönet</b> > <b>Geçiş</b> üzerine tıklayın.</li>
+ </ol>
+
+<div class="section">
+<h4>Not:</h4>
+   <p>Manuel geçiş öncesinde, geçiş sonrasında bir IP değişimi nedeniyle DSM sayfası kaybını önlemek için bir statik IP belirlemeniz ve bu statik IP ile DSM'de oturum açmanız önerilir.</p>
+</div>
+
+<div class="section">
+<h4>Not:</h4>
+   <p>Bir geçiş başlatıldığında, aktif sunucu ilk olarak pasif sunucunun görevini üstlenir ve ardından pasif sunucu aktif sunucu haline gelir. Böylece, her iki sunucunun pasif olduğu ve hizmetleri normal olarak sunamadığı kısa bir periyot olacaktır. Bir geçişin tamamlanma süresi birimlerin veya iSCSI LUN'ların (Blok-Seviyesi) sayısına ve boyutuna veya high-availability kümesindeki hizmet ve paket sayısına veya toplam yüküne bağlı olarak değişir.</p>
+</div>
+
+<h3>Üstlenme</h3>
+    
+     <p>Belirli hatalar olduğunda, sistem hizmet kesinti süresini en aza indirmek için hizmetlerin otomatik olarak aktarılmasını sağlayabilir. Bu duruma "üstlenme" adı verilir. Sistem, pasif sunucunun normal işlev yaptığını varsayarak aşağıdaki durumlarda üstlenmeyi başlatabilir:</p>
+    
+    <ul>
+      <li><b>Güç arızası:</b> 
+        <ul>
+      	<li>Aktif sunucu kapatılmıştır veya yeniden başlatılmıştır.</li>
+        <li>Aktif sunucunun her iki güç ünitesi arızalanmıştır.</li>
+        <li>Güç kaynağı yoktur.</li>
+      </ul></li>
+      <li><b>Sürücü hatası:</b> Aktif sunucu üzerindeki sürücü yolu sayısı pasif sunucu üzerindekinden az.</li>
+      <li><b>Hizmet hatası:</b> İzlenen bir serviste bir hata meydana gelmiştir.</li>
+      <li><b>Bağlantı hatası:</b> İzlenen bir arabirimde bir bağlantı hatası meydana geldi.</li>
+    </ul>    
+     
+    
+<h3>Geçiş Arızası</h3>
+    
+		<p>Aşağıdaki durumlarda geçiş veya üstlenme başarılı olmayabilir:</p>
+  	<ul>
+  	  <li><b>Anormal Kalp Atışı bağlantısı:</b> Aktif-pasif sunucu bağlantısı durumu normal değil.</li>
+  	  <li><b>Uyumsuz bellek boyutu:</b> Aktif ve pasif sunucular benzer RAM boyutuna sahip değil.</li>
+  	  <li><b>Güç arızası:</b><ul>
+      	<li>Pasif sunucu kapatılmıştır veya yeniden başlatılmıştır.</li>
+        <li>Pasif sunucunun her iki güç ünitesi arızalanmıştır.</li>
+        <li>Güç kaynağı yoktur.</li>
+      </ul></li>
+  	  <li><b>Bağlantı hatası:</b> Pasif sunucu üzerinde izlenen bir arabirimde bir bağlantı hatası meydana geldi.</li>
+  	  <li><b>Hizmet hatası:</b> Pasif sunucuda izlenen hizmetlerde hatalar mevcut.</li>
+  	  <li><b>Genişletme ünitesi bağlantı hatası:</b> Genişletme ünitelerinin iki sunucu üzerindeki bağlantıları aynı sırada değil.</li>
+  	  <li><b>Sürücü hatası:</b> Pasis sunucu üzerindeki sürücü yolu sayısı aktif sunucu üzerindekinden az.</li>
+      <li><b>DSM güncellemesi:</b> DSM güncellemesini kurarken, tüm hizmetler durdurulacaktır ve DSM güncelleme kurulumu tamamlandıktan sonra devam edecektir.</li>      
+ </ul>
+
+  <p>Manuel olarak bir geçişi başlatırsanız, ancak hizmetler pasif sunucuya aktarılamazsa, o zaman sistem hizmetleri tekrar aktif sunucuya geri almayı dener.</p>
+
+ <h3>Kesintisiz Güç Kaynağı</h3>
+  <p>High-availability kümeleri ağ kesintisiz güç kaynağı (UPS) ünitelerine beklenmedik güç kaybı riskini azaltmak amacıyla bağlanabilir. Güç kaybı yaşanırsa, sunucular kendilerine bağlı olarak herhangi bir UPS'den yedek güç alırlar. Aktif sunucuya bağlı UPS ünitesi güç kaybetmeye başladığında, pasif sunucu kapanır ve aktif sunucu güvenli moda girer. Güç geri geldiğinde, aktif sunucu yeniden başlar ve bir Yerel Ağda Uyandırma mesajı yayınlayarak diğer sunucuyu açmaya çalışır.</p>
+   <ul>
+	   <li>Her iki sunucunun ve genişletme ünitesinin bağlı oldukları ağ sviçleri ile aynı UPS'ye bağlanması önerilir.</li>
+   </ul>
+
+<div class="section">
+<h4>Not:</h4>
+<p>Synology NAS, sadece ağ UPS aygıtlarına bağlanmayı destekler. Daha fazla bilgi için lütfen <strong>Denetim Masası</strong> > <strong>Donanım</strong> > <strong>UPS</strong> için yardıma bakın.</p>
+</div>  
+ </body>
+</html>

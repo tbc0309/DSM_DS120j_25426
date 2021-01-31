@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>スプリット ブレイン</h2>
+
+<p>High-availability クラスタが正常に機能しているときには、メンバー サーバーのうちの 1 台だけがアクティブ サーバーとして機能します。この場合、受動サーバーが Heartbeat 接続とデータ接続の両方からアクティブ サーバーを検出します。</p>
+
+<p>Heartbeat 接続とデータ接続がすべて失われると、両サーバーはアクティブ サーバーの役割を代行しようとします。このような状態を「スプリット ブレイン」エラーと呼びます。この場合は、high-availability クラスタの IP アドレスへの接続は 2 台のサーバーのいずれかに転送され、整合性の取れないデータは更新されるか、2 台のサーバーに上書きされます。</p>
+        
+<p>Heartbeat かデータ接続のいずれか 1 つを再接続すると、システムはスプリット ブレイン エラーと 2 台のサーバーの間で一致しないデータを検出し、high-availability セーフモードに入ります。</p> 
+
+       
+<h4>スプリット ブレイン エラーが発生する状況：</h4>
+	<ol>
+    <li>high-availability クラスタの両サーバーのサービスと IP アドレスは、スプリット ブレイン エラーが解決されるまで使用できません。</li>
+	<li>両サーバーが high-availability セーフモードに入ると、<strong>[スプリット ブレイン]</strong> という名前の新しいタブが左パネルに表示されます。このタブには、2 台のサーバー上の共有フォルダにあるファイル間の違い、サーバーがアクティブ サーバーになった回数、最後の iSCSI Target 接続情報がリストされます。その他すべてのタブは読み取り専用のままです。</li>
+<li>high-availability セーフモードでは、File Station は読み取り専用モードとなり、ファイルをダウンロードしたり、見たりすることができます。</li>
+       <li><b>[概要]</b> タブでは、スプリット ブレイン エラーを解消するか、現在ログインしているサーバーをシャットダウンすることしかできません。スプリット ブレイン エラーを解消するには、以下のいずれかを行います：
+       <ul>
+       <li>1 台を high-availability クラスタのアクティブ サーバーに、もう 1 台を受動サーバーにします。両サーバーがリブートしたら、アクティブ サーバーのすべての異なるデータと設定は受動サーバーと同期されます。スプリット ブレイン エラー中に受動サーバーで更新したデータは失われますのでご注意ください。</li>
+       <li>1 台を high-availability クラスタのアクティブ サーバーに、もう 1 台を接続解除します。量サーバーがリブートした後は、アクティブ サーバーは high-availability クラスタとして残り、接続解除したサーバーはそのデータが維持され <b>[スタンドアローン]</b> 状態に戻ります。今後、新しく受動サーバーを Bind するには、完全置き換えが必要になりますのでご注意ください。</li>
+       <li>両サーバーの接続を解除して個々のデータを維持し、<b>[スタンドアローン]</b> 状態に戻してください。</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>注意：</h4>
+    <ul>
+    <li>共有フォルダにあるファイルの数が多ければ多いほど、差異をリストするのにより多くの時間を要します。</li>
+    <li>どちらをアクティブ/受動サーバーにするかを決定する前に、両サーバーの電源が入っているか確認してください。</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

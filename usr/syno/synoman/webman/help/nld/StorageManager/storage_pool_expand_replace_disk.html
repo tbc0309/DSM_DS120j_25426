@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Schijven vervangen om de opslagcapaciteit uit te breiden</h2>
+
+<p>Bij bepaalde RAID-types kunt u de opslagcapaciteit van opslagpool uitbreiden door oudere schijven te vervangen door nieuwe en grotere schijven. Dit artikel geeft belangrijke informatie over het uitbreidingsproces en een voorbeeld hoe u bestaande schijven kunt vervangen om de opslagcapaciteit uit te breiden.</p>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>de in dit artikel beschreven procedure is alleen van toepassing op de volgende RAID-types: SHR, RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</li>
+	<li>SHR (Synology Hybrid RAID) is alleen beschikbaar op specifieke modellen. Voor meer informatie raadpleeg <a href="https://www.synology.com/" target="_blank">Synology website</a>.</li>
+	<li>RAID F1 is uitsluitend beschikbaar op specifieke modellen. Voor meer informatie raadpleeg <a href="https://www.synology.com/" target="_blank">Synology website</a>.</li>
+	<li>Wanneer Gegevens opschonen door uw opslagpook wordt ondersteund, raden we u aan om Gegevens opschonen uit te voeren om voor vervanging van schijven te controleren of uw volume en opslagpool een normale status hebben.</li>
+	<li>We raden het gebruik van schijven aan die in de <a href="https://www.synology.com/compatibility" target=blank>Compatibiliteitslijst voor Synology-producten</a> staan om problemen te voorkomen. Het gebruik van incompatibele schijven kan de systeemprestaties verlagen of gegevensverlies van uw Synology NAS veroorzaken.</li>
+</ul>
+</div>
+
+<p>Wilt u meerdere harde schijven vervangen, dan moet u de schijven voorzichtig een voor een vervangen. Na vervanging van een schijf moet u de opslagpool herstellen voor u de volgende schijf vervangt. Bij de volgende RAID-types wordt de opslagpoolcapaciteit uitgebreid nadat alle schijven zijn vervangen: RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</p>
+
+<h3 class="list_head"><a id="t1"></a>Voor u begint</h3>
+<p>Zie de volgende opmerkingen voor u de schijf vervangt:</p>
+<ul>
+	<li><strong>Gegevensback-up:</strong> hoewel het uitbreidingsproces geen bestaande gegevens zal verwijderen, raden wij u toch aan om een gegevensback-up te maken voor u verder gaat.</li>
+	<li><strong>Status opslagpool:</strong> Controleer eerst of de status van uw opslagpool op <strong>Gezond</strong> staat. Zo niet, moet u dit eerst herstellen.</li>
+	<li><strong>Zijn de gegevens tijdens uitbreiding nog toegankelijk?</strong> Tijdens de uitbreiding van opslagpools blijven de gegevens op uw systeem beschikbaar, hoewel het systeem bij het starten van het proces de verbindingen tijdelijk kan onderbreken.</li>
+	<li><strong>3 TB-schijven of groter gebruiken:</strong> om een opslagpool met 3 TB of nog grotere schijven uit te breiden, moet u nagaan of uw opslagpool met versie DSM 3.0 of een recentere versie is gemaakt.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>Omdat SHR-opslagpools de opslagcapaciteit optimaliseren op basis van het aantal en de grootte van geïnstalleerde schijven, verzoeken we u om de volgende richtlijnen te volgen om de capaciteit correct uit te breiden:</p>
+<ul>
+	<li>als de capaciteit van alle bestaande schijven gelijk is, moet u minstens twee schijven vervangen door twee grotere schijven om de opslagcapaciteit uit te breiden. Wanneer uw SHR-opslagpool uit drie 2 TB schijven bestaat, moet u minstens twee schijven vervangen om de opslagpoolcapaciteit uit te breiden.</li>
+	<li>Als de capaciteit van bestaande schijven onderling verschilt, moeten de nieuwe schijven gelijk zijn aan of groter dan de grootste bestaande schijf. Bovendien moet u altijd eerst de kleinste schijven vervangen om het capaciteitsgebruik te optimaliseren. Als uw SHR-opslagpool bijvoorbeeld uit drie schijven van 4 TB, 3 TB en 2 TB bestaat, moet de grootte van uw nieuwe schijven minstens 4 TB zijn. Aansluitend moet u dan de 3 TB- of 2 TB-schijf vervangen.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID 5 / RAID 6 / RAID 10 / RAID F1</h4>
+<p>Bij vervanging van schijven van RAID 5-/RAID 6-/RAID 10-/RAID F1-opslagpools moet altijd eerst de kleinste schijf worden vervangen om schijfgebruik te maximaliseren. De opslagcapaciteit van elk RAID-type is als volgt:
+	<ul>
+		<li>RAID 5: (aantal schijven – 1) x (kleinste schijfgrootte)</li>
+		<li>RAID 6: (aantal schijven – 2) x (kleinste schijfgrootte)</li>
+		<li>RAID 10: (aantal schijven / 2) x (kleinste schijfgrootte)</li>
+		<li>RAID F1: (aantal schijven – 1) x (kleinste schijfgrootte)</li>
+	</ul>
+</p>
+
+<p>Als uw RAID 5-opslagpool bijvoorbeeld uit drie schijven bestaat, met respectievelijke groottes van 4 TB, 3 TB en 2 TB, zal de beschikbare capaciteit van uw opslagpool 4 TB bedragen. Vervangt u de 4 TB-schijf of de 3 TB-schijf, dan zal de capaciteit van de opslagpool niet veranderen. Om de capaciteit van uw opslagpool te vergroten, moet u eerst de 2 TB-schijf vervangen.</p>
+</div>
+
+
+<h3>Schijf vervangen om de opslagcapaciteit uit te breiden</h3>
+<p>In de onderstaande stappen geven we een voorbeeld voor de vervanging van schijven van een SHR-opslagpool.</p>
+<h4>Om schijven te vervangen:</h4>
+<ol>
+	<li>Start <strong>Opslagbeheer</strong>.<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li>Ga naar <strong>Opslagpool</strong> om te zien welke bestaande schijf het kleinst is.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>Schakel uw Synology NAS uit. (Sla deze stap over als uw Synology NAS hot-swapping ondersteunt).</li>
+	<li>Verwijder de kleinste harde schijf en installeer de nieuwe grotere harde schijf.<br /><span class="note_head">Opmerking: </span>om uzelf niet te kwetsen of uw Synology NAS niet te beschadigen, moet u de installatie-instructies van schijven in de <em>Hardwareinstallatiegids</em> van uw Synology-product volgen.</li>
+	<li>Schakel uw Synology NAS in.</li>
+	<li>Start opnieuw <strong>Opslagbeheer</strong>.</li>
+	<li>Ga naar <strong>HDD/SSD</strong> om er zeker van te zijn dat de nieuwe schijf wordt herkend.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>De status van uw opslagpool moet <strong>Beschadigd</strong> zijn. Selecteer de opslagpool en klik op <strong>Repareren</strong> in het vervolgkeuzemenu <strong>Actie</strong>.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>Selecteer de nieuwe schijf om aan de opslagpool toe te voegen. Volg vervolgens de instructies van de wizard om de handeling te voltooien.</li>
+	<li>Herhaal de bovenstaande procedure tot alle gewenste schijven door grotere schijven zijn vervangen.</li>
+</ol>
+
+</body>
+</html>

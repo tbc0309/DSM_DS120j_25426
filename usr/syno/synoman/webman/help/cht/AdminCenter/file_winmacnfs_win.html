@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Win/Mac/NFS</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+
+<body>
+
+<h2>SMB</h2>
+<p>SMB (Server Message Block，伺服器訊息區) 通訊協定可讓支援 SMB/CIFS 的 Windows、Mac 及 Linux 用戶端存取存放在 Synology NAS 上的檔案。如果您想透過 Windows 檔案總管來瀏覽 Synology NAS 上的檔案，或是掛載共用資料夾當作網路硬碟使用，請於<strong>控制台</strong> &gt; <strong>檔案服務</strong> &gt; <strong>SMB/AFP/NFS</strong> 啟動此選項。</p>
+
+<h4>若要啟動 SMB 通訊協定：</h4>
+  <ol>
+    <li>勾選<strong>啟動 SMB 服務</strong>。</li>
+    <li>按一下<strong>套用</strong>。</li>
+  </ol>
+
+<div class="section"><h4>注意：</h4>
+  <ul>
+    <li>啟動 SMB 通訊協定後，可透過 SMB 掛載已建立完整索引的資料夾至 Mac 電腦上，並可使用 Finder 搜尋掛載資料夾內的檔案 (不適用於 NVR216 或 VS360HD)。</li>
+  </ul>
+</div>
+
+
+<h3>工作群組</h3>
+<p>此選項可讓您將系統指定到一個特定的工作群組來作網路管理。</p>
+
+<div class="section"><h4>注意：</h4>
+  <ul>
+    <li>Windows 工作群組的名稱可以包含 1 至 15 個字元，但不可包含下列字元：[ ] ; : &quot;< >* + = \ / | ?,</li>
+    <li>如果您是 Mac OS X 10.9 的使用者，且您的 Synology NAS 已加入 Windows 網域，您可以在 Synology NAS 本地帳號前加上 <strong>localhost\</strong> 來登入，透過 SMB 通訊協定存取 Synology NAS 上的檔案。</li>
+  </ul>
+</div>
+
+
+<h3>不允許存取先前版本</h3>
+<p>使用者可在 Windows 檔案總管中點選<strong>先前版本</strong>頁籤來存取資料夾或檔案的快照,不需透過管理者的協助即可還原或複製資料。若您選擇<strong>不允許存取先前版本</strong>，將不會在「先前版本」頁面中看到任何資訊。</p>
+
+<div class="section"><h4>注意：</h4>
+  <ul>
+    <li>唯有具備下列套件架構的 VDSM 及機種支援此功能：Apollo Lake、Avoton、Braswell、Broadwell、Bromolow、Cedarview 及 Grantley。若要了解您的機種支援哪個套件架構，請參考<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">此文章</a>。</li>
+    <li>使用者可存取先前版本的條件，為先前版本所對映的快照拍攝時，該使用者帳號已存在，並已具有該快照所拍攝之共用資料夾的讀取權限。</li>
+  </ul>
+</div>
+
+
+<h3>啟動傳輸日誌</h3>
+<p>勾選<strong>啟動傳輸日誌</strong>方塊來啟動傳輸日誌，記錄透過 CIFS/SMB 通訊協定進行的檔案操作。在預設的設定下，傳輸日誌僅會監控檔案或資料夾刪除的事件，但您也可以在<strong>日誌設定</strong>中勾選其他事件，如建立、移動、更名、讀取、寫入等檔案操作。請注意， 選擇監控的事件越多，越有可能影響系統效能。</p>
+
+
+<h3>進階設定</h3>
+<p>按一下 <strong>進階設定</strong> 按鈕來查看下列選項。</p>
+  <ul>
+    <li><strong>WINS 伺服器</strong>：Microsoft Windows 網路名稱服務 (WINS) 是一個「NetBIOS 名稱」對「IP 位址」的對應服務。如果系統已設定為以 WINS 伺服器註冊，Windows 的使用者可以更容易在 TCP/IP 網路中尋找系統。</li>
+    <li><strong>最大 SMB 通訊協定</strong>：依據網路設定，設定 Synology NAS 支援的最新版本 SMB 通訊協定。
+      <ul>
+        <li><strong>SMB1</strong>：從 Windows NT 起，即支援 SMB1 (亦稱為 CIFS)。</li>
+        <li><strong>SMB2</strong>：從 Windows Vista 起，即支援 SMB2，且為 SMB 的增強版本。SMB2 增加將多個 SMB 動作複合成單一請求的能力，以減少網路封包數量並提昇效能。</li>
+        <li><strong>SMB2 及 Large MTU</strong>：傳輸單元最大值 (MTU) 指的是可以透過通訊協定傳送的最大筆資料。若要利用 1 或 10 gigabit (GB) 乙太網路等較快速的網路介面，Large MTU 可將最大傳輸單位提升至 1 megabyte (MB)。啟動 Large MTU 選項可增強大型檔案的傳輸速度及效率，但同時會降低封包處理的數量。</li>
+        <li><strong>SMB3</strong>：從 Windows 8 及 Windows Server 2012 起，即支援 SMB3。此為 SMB2 的增強版本。SMB3 支援以 AES 為基礎的檔案加密傳輸，因此可改善 P2P 檔案傳輸的安全性。</li>
+      </ul>
+
+      <div class="section"><h4>注意：</h4>
+        <ul>
+          <li>僅 Windows Vista、Windows Server 2008 R2、Windows 7 及以上版本支援 SMB2。</li>
+          <li>僅 Windows Server 2008 R2、Windows 7 及以上版本支援 Large MTU。</li>
+          <li>若要使 Large MTU 設定在 Windows 電腦上生效，您必須修改電腦的登錄設定。如需更多詳細的說明，請參閱微軟技術支援的說明文件 (例如此<a href="http://technet.microsoft.com/en-us/library/ff625695(v=ws.10).aspx" target="_blank">文章</a>)。</li>
+        </ul>
+      </div>
+
+      <li><strong>最小 SMB 通訊協定</strong>：依據網路設定，設定 Synology NAS 支援的最早版本 SMB 通訊協定。</li>
+      <li><strong>加密傳輸模式</strong>：SMB3 啟動時，SMB 通訊協定便會提供加密傳輸，加強檔案傳送的安全性。
+        <ul>
+          <li><strong>停用</strong>：將不會套用加密傳輸。</li>
+          <li><strong>自動</strong>：加密傳輸將只會套用至支援此功能的用戶端。</li>
+          <li><strong>強制</strong>：加密傳輸將一律套用。這將導致不支援加密傳輸的用戶端無法使用 SMB 通訊協定。</li>
+        </ul>
+      </li>
+
+      <div class="section"><h4>注意：</h4>
+        <ul>
+          <li>僅 Windows 8、Windows Server 2012 及以上版本支援加密傳輸。</li>
+          <li>啟動加密傳輸時將不支援匿名登入 SMB 通訊協定。</li>
+          <li>啟動加密傳輸時，請確認保持勾選<strong>啟動 Opportunistic Locking</strong>，以避免應用程式逾時。</li>
+        </ul>
+      </div>
+
+      <li><strong>啟動 Opportunistic Locking</strong>：選取此選項來啟動 CIFS 「Opportunistic Locking」，用戶端即可進行更完整的檔案內容快取，避免讀取 / 寫入時較小的額外負荷。取消選取此選項後，在透過網路存取 Synology NAS 存放的資料庫檔案時，資料庫應用程式將會執行更加順暢。
+        <ul>
+          <li><strong>啟動 SMB2 租用</strong>：啟動此選項後，即可使用更多 SMB2 相關設定，微調 Opportunistic Locking 的用戶端快取機制。</li>
+        </ul>
+      </li>
+      <li><strong>啟動 Local Master Browser</strong>：當同一個子網路內存在多台 Windows 電腦時，它們會進行協商並選出一台電腦出任「Local Master Browser」。Local Master Browser 負責維護子網路內其他電腦的清單及共用資源，並和其他電腦分享這些清單。此選項可讓 Synology NAS 成為 Local Master Browser。</li>
+      <div class="section"><h4>注意：</h4>
+        <ul>
+          <li>啟動此功能會使得硬碟休眠模式被停用，並一併啟動沒有密碼的 guest 帳號。</li>
+        </ul>
+      </div>
+
+      <li><strong>啟動 DirSort VFS 模組</strong>：將資料夾依照英文字母順序排列。啟動此選項會影響系統效能。</li>
+      <li><strong>禁用檔案</strong>：依照指定條件隱藏檔案。規則可以使用萬用字元 (*)，多個規則之間須以斜線符號 (/) 分隔。例如：<i>/abc*/*.txt/*.conf/</i>。啟動此選項會影響系統效能。</li>
+      <li><strong>允許在共用資料夾中使用符號連結</strong>：選取此選項，可讓符號連結連結到相同共用資料夾下的檔案或資料夾。您可以透過 DSM 終端機建立符號連結。
+        <ul>
+          <li><strong>允許符號連結跨越共用資料夾</strong>：選取此選項，可讓符號連結連結到不同共用資料夾下的檔案或資料夾。您可以透過 DSM 終端機建立符號連結。然而，未經授權的使用者可能有能力存取符號連結的目標共用資料夾。</li>
+        </ul>
+      </li>
+      <li><strong>啟動 VFS 模組來轉換 Mac 特殊字元</strong>：選取此選項，即可在新增檔案時，將檔案名稱中的 SMB 特有字元 (例如 &lt; &gt; &quot; * ?) 轉換為基本拉丁文。此類檔案能夠透過 AFP 辨識。</li>
+      <li><strong>啟動 MSDFS VFS 模組</strong>：允許符號連結連結到其他 SMB 伺服器上的檔案或資料夾。在舊版本的 Windows 環境 (例如 Windows XP)，用戶端與 Synology NAS 需要加入 Windows 網域才能啟動此選項。若要了解更多建立 MSDFS 連結的資訊，請參閱<a href="http://www.samba.org/samba/docs/man/Samba-HOWTO-Collection/msdfs.html" target=_blank>此處</a>。請注意，取消此功能需清除用戶端裝置的快取記錄 (也建議重新啟動用戶端裝置)
+      ，避免影響接下來的正常使用與功能行為。</li>
+      <li><strong>停用同一 IP 位址的多重連線</strong>：此選項啟動之後，Synology NAS 限制用戶端同一時間只能有單一 IP 位址使用 SMB 通訊協定。當 IP 位址相同的多個用戶端同時使用 SMB 通訊服務，Synology NAS 僅會保留最後一個連線並且踢除其他的使用者。在 NAT 環境下，用戶端可能只會使用單一 IP 位址，在此情況下啟動此選項可能會影響正常效能。</li>
+      <li><strong>收集偵錯記錄</strong>：此選項啟動之後，系統將會記錄詳盡的訊息作為除錯之用。啟動此選項會影響系統效能。</li>
+      <li><strong>套用 UNIX 預設權限</strong>：啟動此選項，則上傳或建立檔案及資料夾時會套用 UNIX 預設權限。檔案的 UNIX 權限為 744，而資料夾的 UNIX 權限為 755。此選項停用時，檔案及資料夾的 UNIX 權限為 777。</li>
+     
+      <div class="section"><h4>注意：</h4>
+        <ul>
+          <li>針對已啟動 Windows ACL 的共用資料夾 (所有共用資料夾，但不包含「photo」及外接硬碟上的共用資料夾)，請在您的 Linux 或 FTP 用戶端執行 <strong>chmod</strong> 指令來將資料夾及檔案權限類型從 Windows ACL 改為 UNIX (不適用於 EDS14)。</li>
+          <li>啟動此選項可能會導致不同通訊協定間出現權限不一致的情況。若要避免不一致的情況，建議您停用此選項。</li>
+        </ul>
+      </div>
+
+      <li><strong>建立檔案時不要預留硬碟空間</strong>：啟動此選項後，在您的 Synology NAS 上建立檔案時將不會預留硬碟空間。</li>
+      <li><strong>啟動萬用字元搜尋快取</strong>：啟動此選項後，如果用戶端傳送重複的萬用字元搜尋要求，即可提昇搜尋效能。</li>
+      <li><strong>啟動 SMB 耐久控制代碼 (同時停用跨協定的檔案鎖定)</strong>：啟動此選項後，使用者可在短暫斷線後重新回復遺失的 SMB2 連線；網路中斷時，已開啟的檔案仍可繼續使用。然而，同時也會停用跨協定的檔案鎖定，讓使用者能透過非 SMB2 的通訊協定 (例如 AFP) 來存取或修改已鎖定的檔案。</li>
+      <li><strong>清除 SMB 快取</strong>：按一下此按鈕來刪除以下 SMB 快取檔案以作為疑難排解之用：
+        <ul>
+          <li>/var/cache/samba/netsamlogon_cache.tdb</li>
+          <li>/var/lib/samba/winbindd_cache.tdb</li>
+          <li>/var/lib/samba/share_info.tdb</li>
+          <li>/var/lib/samba/registry.tdb</li>
+          <li>/run/samba/connections.tdb</li>
+          <li>/run/samba/gencacche.tdb</li>
+          <li>/run/samba/gencache_notran.tdb</li>
+        </ul>
+      </li>
+    </ul>
+
+</body>
+</html>

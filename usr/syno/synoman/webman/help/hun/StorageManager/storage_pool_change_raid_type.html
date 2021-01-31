@@ -1,0 +1,119 @@
+﻿ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Kötet vagy lemezcsoport RAID-típusának módosítása – Synology DSM Súgó</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing volumes and disk groups on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Kötet vagy lemezcsoport RAID-típusának módosítása</h2>
+
+<p>A kötetek és lemezcsoportok RAID-típusa adatvesztés nélkül módosítható. Létrehozhat például egy RAID 1 kötetet a(z) Synology NASeszközön, majd később, ha több merevlemezt telepít, RAID 5 típusúra változtathatja azt. Ez a cikk a(z) Synology NAS eszközben lévő kötetek és lemezcsoportok RAID-típusának módosítására vonatkozó utasításokat tartalmaz.</p>
+<h3>RAID-típusok korlátozásai</h3>
+
+<p>Bizonyos RAID-típusok csak egyes konkrét RAID-típusokra módosíthatók. A részleteket az alábbi táblázatban találja.</p>
+
+<table>
+  <tr>
+    <th width="50%">RAID-típus</th>
+    <th width="50%">Megváltoztatható a következőre...</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1<br /> RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>Példa:</h4>
+<p>A RAID 1 például módosítható RAID 5-re, de a RAID 5 nem módosítható RAID 1 típusra.</p>
+</div>
+
+
+<h3>Merevlemez-követelmények</h3>
+
+<p>Egy kötet vagy lemezcsoport RAID-típusának megváltoztatásához elegendő számú elérhető merevlemeznek kell a(z) Synology NAS eszközre telepítve lennie. Az egyes RAID-típusokhoz megkövetelt minimális merevlemezszám tekintetében lásd az alábbiakat.</p>
+
+<table>
+  <tr>
+    <th width="50%">Kívánt RAID-típus</th>
+    <th width="50%">Szükséges merevlemezek</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2 vagy 4</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 vagy 5 (az SHR-1 lemezösszetételétől függően)</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>Példa:</h4>
+<p>Amennyiben egy RAID 1 kötetet szeretne RAID 5 kötetre módosítani, összesen legalább három merevlemezre lesz szüksége (azaz két merevlemezre a RAID 1 kötethez, plusz egy szabad merevlemezre, amelyet hozzá kíván adni a kötethez).</p>
+</div>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+
+<p>Amennyiben az SHR-1 az alábbi lemezkonfigurációk valamelyikével működik, elképzelhető, hogy az SHR-2-vé módosításhoz két további lemezre lesz szükség:</p>
+<ul>
+<li>Csak két lemez van a konfigurációban.</li>
+<li>Az összes lemez eltérő kapacitással bír.</li>
+<li>A RAID-tömb legalább három lemezéhez egy pár, a RAID-tömb további lemezeinél magasabb kapacitású lemez tartozik.</li>
+</ul>
+</div>
+
+<h3>RAID-típus módosítása</h3>
+
+<p>Az alábbi példában egy <strong>Basic </strong>kötetet módosítunk <strong>RAID 1</strong> kötetre.</p>
+
+<div class="section">
+<h4>Kezdés előtt:</h4>
+<ul>
+<li>Győződjön meg róla, hogy a kötet vagy lemezcsoport állapota <b>Normál</b>-e.</li>
+<li>Amikor új merevlemezeket ad hozzá egy kötethez vagy lemezcsoporthoz, az új merevlemezek mérete meg kell haladja a kötetben vagy lemezcsoportban található legkisebb merevlemez méretét.</li>
+<li>Az új merevlemezek státusza <b>Inicializált</b> vagy <b>Nem inicializált</b> kell, hogy legyen.</li></ul>
+</div>
+
+<h4>Kötet RAID-típusának megváltoztatása:</h4>
+
+<ol>
+<li>Nyissa meg a <strong>Tároláskezelő</strong> alkalmazást.</li><img src="about:blank" class="help_image"/><li>Lépjen a <b>Kötet</b> menüpontra. (Amennyiben módosítani szeretné egy lemezcsoport RAID-típusát, lépjen a <b>Lemezcsoport</b> lapra.)</li>
+<li>Jelölje ki a módosítani kívánt kötetet, majd kattintson a <b>Kezelés</b> lehetőségre.</li><img src="about:blank" class="help_image"/><li>Amikor megjelenik a beállítási varázsló, jelölje ki a <b>RAID-típus módosítása</b> lehetőséget. Ezt követően kattintson a <b>Tovább</b> gombra.</li><img src="about:blank" class="help_image"/><li>Jelölje ki a RAID-típust, amelyre a kötetet módosítani szeretné. Kattintson a <b>Tovább</b> gombra.</li><img src="about:blank" class="help_image"/><li>Jelölje ki a merevlemez(eke)t, amellyel a meglévő kötetet ki szeretné bővíteni. Ezt követően kattintson a <b>Tovább</b> gombra.</li><img src="about:blank" class="help_image"/><li>Kövesse a varázsló utasításait és véglegesítse a beállításokat. Ne feledje, hogy a hozzáadott merevlemezen található minden adat törlődik.</li></ol>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>iSCSI Manager</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_snapshot"></a>Snapshot</h2>
+
+<h4>Een LUN-snapshot maken:</h4>
+<p>Een snapshot van een LUN is een alleen-lezenkopie van een LUN op een bepaald tijdstip.</p>
+<ol>
+	<li>Selecteer de LUN waarop u snapshot wilt maken.</li>
+	<li>Klik op <strong>Snapshot</strong> en selecteer <strong>Een snapshot maken</strong>.</li>
+	<li>Voer de beschrijving voor deze snapshot in.</li>
+	<li>Selecteer een van de volgende snapshottypes:
+		<ul>
+			<li><strong>Toepassingsconsistent</strong>: Het gebruik van dit snapshottype vereist de installatie van Synology Storage Console of Synology Snapshot Manager op uw Windows-server of VMware vCenter Server, afhankelijk van uw besturingsomgeving zodat communicatie met DSM mogelijk is. Bij de activering van toepassingsconsistente snapshots in DSM ontvangen toepassingen hiervan een melding en worden alle gegevens in het LUN-geheugen leeggemaakt waarop het snapshot wordt gemaakt om gegevensconsistentie te garanderen.</li>
+			<li><strong>Crash-consistent</strong>: Wanneer Storage Console of Snapshot Manager niet geïnstalleerd op een van uw clients, dan kunt u alleen crash-consistente snapshots van LUN's maken. Bij de activering ontvangen toepassingen hiervan geen melding en worden alle gegevens in het LUN-geheugen leeggemaakt en wordt gegevensconsistentie niet gegarandeerd.</li>
+		</ul>
+	</li>
+	<li>Klik op <strong>OK</strong>.</li>
+</ol>
+<div class="section">
+	<h4>Opmerking:</h4>
+	<ul>
+		<li>we raden u aan om <b>Synology Storage Console</b> of <b>Snapshot Manager</b> te installeren om mogelijke gegevensinconsistenties te voorkomen. </li>
+	</ul>
+</div>
+<div class="section">
+	<h4>Terminologie:</h4>
+	<ul>
+	<li><b>Synology Storage Console:</b> Synology Storage Console is een invoegtoepassing voor VMware vSphere Client of Windows Server die het beheer en bewaking van meerdere Synology-opslagsystemen vereenvoudigt. Met deze invoegtoepassing kunt u ook toepassingsconsistente snapshots rechtstreeks op DSM maken.
+		<ul>
+			<li>De invoegtoepassing is voor VMware-omgevingen alleen compatibel met VMware vCenter Server Appliance 6.5 U2 of hogere versies.</li>
+			<li>U kunt de invoegtoepassing downloaden in <a href="https://www.synology.com/support/download" target="_blank">Download Center</a> en raadpleeg <a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforVMware/storageconsoleforvmware" target="_blank">Synology Storage Console for VMware</a> en <a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforWindows/storageconsoleforwindows" target="_blank">Synology Storage Console for Windows</a> voor meer informatie.</li>
+		</ul></li>
+	<li><b>Synology Snapshot Manager:</b> Synology Snapshot Manager is een software-invoegtoepassing waarmee u toepassingsconsistente snapshots rechtstreeks in DSM kunt maken.
+		<ul>
+			<li>Deze invoegtoepassing is voor VMware-omgevingen alleen compatibel met VMware vCenter Server 6.0 of eerdere versies.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>Een snapshot verwijderen:</h4>
+<ol>
+	<li>Selecteer de LUN waarop u snapshots hebt gemaakt.</li>
+	<li>Klik op <b>Snapshot</b> > <b>Snapshotlijst</b>.</li>
+	<li>Selecteer de snapshot die u wilt verwijderen en klik op <b>Verwijderen</b>.</li>
+</ol>
+<div class="section">
+	<h4>Opmerking:</h4>
+	<ul>
+		<li>na het verwijderen van snapshots zal het ruimte opeisen-proces enige tijd duren.</li>
+	</ul>
+</div>
+
+<h4>Een LUN herstellen:</h4>
+<p>Selecteer een tijdstip-snapshot om de gegevens van een LUN te herstellen.</p>
+<ol>
+	<li>Selecteer de LUN die u wilt herstellen.</li>
+	<li>Klik op <strong>Snapshot</strong> en selecteer <strong>Snapshotlijst</strong>.</li>
+	<li>Selecteer een snapshot dat u wilt herstellen en klik op <strong>Herstellen</strong>.</li>
+</ol>
+
+<h4>Een kloon van LUN vanaf snapshots maken:</h4>
+<p>Maak een schrijfbare kopie van een LUN of een LUN-snapshot.</p>
+<ul>
+	<li>Selecteer een LUN-snapshot in de <strong>Snapshotlijst</strong> en klik op <strong>Klonen</strong>.</li>
+</ul>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>LUN-snapshot, herstellen en kloonfuncties zijn alleen beschikbaar op LUN's met opslagversnellingsopdrachten.</li>
+	<li>Als u een snapshot of een kloon hebt gemaakt en de status staat op <strong>Abnormaal</strong>/<strong>Vastgelopen</strong>, verwijder dan dit snapshot/deze kloon en maak een nieuwe.</li>
+	<li>Alle wijzigingen van een LUN na het maken van een snapshot gaan verloren wanneer u de LUN met deze snapshot herstelt.</li>
+	<li>De functies LUN's herstellen, LUN's klonen en LUN-snapshotes maken en klonen zijn niet beschikbaar wanneer er minder dan 1 GB vrije ruimte beschikbaar is op een volume.</li>
+</ul>
+</div>
+<div class="section"><h4><a id="smart_retention"></a>Bewaarbeleid</h4>
+<p>Deze optie biedt een ideale oplossing voor de opgave van het maximum aantal momentopnameversies per volume, maar het kan nodig zijn dat u uw momentopnames langer moet bewaren. Het volgende moet u over het bewaarbeleid weten:</p>
+<ul>
+<li>Synology gebruikt GFS, ofwel het bewaarbeleid Grandfather-Father-Son. U kunt het maximum aantal te bewaren momentopnameversies configureren voor de volgende tijdbereiken: <strong>uurlijks</strong>, <strong>dagelijks</strong>, <strong>wekelijks</strong>, <strong>maandelijks</strong> en <strong>jaarlijks</strong>.</li>
+<li>Een snapshot kan gelijktijdig aan verschillende bewaarregels voldoen. Een snapshot kan bijvoorbeeld aan de dagelijkse, wekelijkse en maandelijkse regels voldoen.</li>
+<li>De oudste snapshots worden behouden wanneer u vele snapshots binnen een bepaalde periode maakt. Stelt u bijvoorbeeld een bewaarregel voor <strong>10 wekelijkse snapshots</strong> in en uw snapshotplanning is ingesteld om 1 snapshot per dag te maken, dan zal Snapshot Replication de oudste snapshot van elke week over een periode van 10 weken behouden.</li>
+<li>Hebt u binnen een bepaalde periode geen snapshots gemaakt, dan zal het systeem de meest recente snapshots behouden. Als de dagelijkse snapshotregel bijvoorbeeld op 15 is ingesteld en er zijn in de afgelopen 30 dagen geen snapshots gemaakt, dan zal het systeem de snapshots behouden die 30 tot 45 dagen geleden zijn gemaakt.</li>
+<li>Alle snapshotversies binnen een uur na het maken van de meest recente snapshor worden standaard behouden. Zo kunt u gemakkelijk de meest recente snapshotversies kunt vinden en terugzetten. U kunt een snapshot ook vergrendelen om te voorkomen dat deze door uw bewaarregels automatisch wordt verwijderd.</li>
+</ul>
+
+<p>Voorbeeld 1:<br/> Als u de dagelijkse snapshots van de laatste 3 maanden wilt behouden, wekelijkse snapshots van de afgelopen 4 tot 6 maanden wilt behouden en maandelijkse snapshots van de afgelopen 7 tot 9 maanden wilt behouden, moet u een 0 voor uurlijkse snapshots invoeren, 90 voor dagelijkse snapshots, 24 voor wekelijkse snapshots, 9 voor maandelijkse snapshots en 0 voor jaarlijkse snapshots.</p>
+
+<p>Voorbeeld 2:<br/> Als u de uurlijkse snapshots van de laatste 2 dagen wilt behouden, dagelijkse snapshots van de afgelopen week wilt behouden en wekelijkse snapshots van de afgelopen maand wilt behouden en maandelijkse snapshots van het afgelopen jaar, moet u een 48 voor uurlijkse snapshots invoeren, 7 voor dagelijkse snapshots, 4 voor wekelijkse snapshots, 12 voor maandelijkse snapshots en 0 voor jaarlijkse snapshots.</p>
+
+
+<img class="help_image" src="../../images/iSCSIManager/retention_policy.png">
+</div>
+</body>
+</html>

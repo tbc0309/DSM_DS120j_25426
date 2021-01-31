@@ -1,0 +1,38 @@
+#!/bin/bash
+# Copyright (c) 2000-2015 Synology Inc. All rights reserved.
+
+set +e
+
+if [ "$(basename "$0")" = "cgi-keygen" ]; then
+    while start cgi-keygen 2>&1 | grep -q "Job is already running"; do
+        sleep 1
+    done
+
+    exit
+fi
+
+
+OPENSSL="/usr/bin/openssl"
+KEYDIR="/usr/syno/etc/ssl/cgi.key"
+
+PRIVATEKEY="$KEYDIR/private.key"
+PUBLICKEY="$KEYDIR/public.key"
+MODULUS="$KEYDIR/modulus"
+
+
+mkdir -p $KEYDIR
+
+if [ ! -s $PRIVATEKEY ]; then
+    $OPENSSL genrsa -rand "$RANDFILE" -out $PRIVATEKEY 4096
+fi
+
+if [ ! -s $PUBLICKEY -o $PRIVATEKEY -nt $PUBLICKEY ]; then
+    $OPENSSL rsa -in $PRIVATEKEY -pubout | sed '1d; $d' | sed -e ':a;N;$!ba;s/\n//g' > $PUBLICKEY
+fi
+
+if [ ! -s $MODULUS -o $PRIVATEKEY -nt $MODULUS ]; then
+    $OPENSSL rsa -in $PRIVATEKEY -noout -modulus | sed -e 's;.*Modulus=;;' > $MODULUS
+fi
+
+chmod 700 $KEYDIR
+chmod 400 $KEYDIR/*

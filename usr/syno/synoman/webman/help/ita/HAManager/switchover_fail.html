@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Passaggio</h2>
+  
+ <p>Per garantire prestazioni continue e ridurre il tempo di interruzione del servizio, i servizi possono essere passati dal server attivo del cluster high-availability al server passivo ridondante. Questa funziona prende il nome di &quot;Passaggio&quot;, o in molti casi &quot;Failover&quot;. Questa sezione illustra gli elementi di base di questi due concetti.</p>
+  
+  <h3>Passaggio</h3>
+  	<p>Il passaggio consiste nel trasferire i servizi dal server attivo al server passivo ridondante di un cluster high-availability. In condizioni normali, il server attivo gestisce tutti i servizi. Tuttavia, nel caso il server attivo non funzioni correttamente, l&apos;utente pu&ograve; inizializzare il passaggio e il trasferimento di tutti i servizi al server passivo, presumendo che il server passivo funzioni correttamente. In questo caso, il server attivo assume il ruolo di server passivo, mentre il server passivo assume il ruolo di server attivo.</p>
+    
+<h4>Per inizializzare manualmente il passaggio:</h4>
+ <ol>
+  <li>Per passare nella scheda <b>Panoramica</b>.</li>
+  <li>Fare clic su <b>Gestione</b> &gt; <b>Passaggio</b>.</li>
+ </ol>
+<div class="section">
+<h4>Nota:</h4>
+   <p>quando viene inizializzato un passaggio, prima il server attivo assume il ruolo di server passivo, quindi il server passivo diventa il server attivo. Pertanto, per un breve periodo di tempo entrambi i server saranno passivi e i servizi potrebbero non essere forniti in modo normale. Il tempo necessario per completare il passaggio varia in relazione al numero e alla dimensione dei volumi o iSCSI LUN (Livello blocco), o al numero e al carico totale di servizi sul cluster high-availability.</p>
+</div>
+   
+<h3>Failover</h3>
+    
+     <p>Quando si verificano alcuni errori, il sistema pu&ograve; inizializzare automaticamente un passaggio di servizi in modo da conservare le prestazioni. Questo evento prende il nome di &quot;failover&quot;. Il sistema potrebbe inizializzare un failover nelle seguenti situazioni:</p>
+    
+     <ul>
+      <li><b>Spazio di archiviazione in crash:</b> Uno spazio di archiviazione (ad esempio volume, Gruppo disco, Gruppo RAID, cache SSD ecc.) sul server attivo &egrave; in crash, anche se lo spazio di archiviazione corrispondente sul server passivo funziona normalmente. Il sistema non inizializza un failover nel caso non siano presenti volumi o iSCSI LUN (Livello blocco) nello spazio di archiviazione in crash.</li>
+      <li><b>Errore servizio:</b> si &egrave; verificato un errore nel servizio monitorato.</li>
+      <li><b>Interruzione corrente:</b> il server attivo viene spento e riavviato; entrambe le unit&agrave; di alimentazione sul server attivo non funzionano; o interruzione di corrente.</li>      
+     </ul>    
+     
+    
+<h3>Errore nel passaggio</h3>
+    
+		<p>Il passaggio o failover potrebbe non funzionare nelle seguenti situazioni:</p>
+  			<ul>
+   				<li><b>Replica dati incompleta:</b> quando vengono combinati due server per creare un cluster high-availability, il sistema richiede del tempo per replicare tutti i dati dal server attivo al server passivo.</li>
+   				<li><b>Spazio di archiviazione sul server passivo in crash:</b> Uno spazio di archiviazione (ad esempio volume, Gruppo disco, Gruppo RAID, ecc.) sul server passivo &egrave; in crash.</li>
+                <li><b>Interruzione corrente:</b> il server passivo viene spento e riavviato; entrambe le unit&agrave; di alimentazione sul server passivo non funzionano; o interruzione di corrente.</li>
+                <li><b>Aggiornamento DSM:</b> Quando si installano gli aggiornamenti DSM, tutti i servizi saranno interrotti e riprenderanno dopo che l&apos;installazione dell&apos;aggiornamento DSM &egrave; completata.</li>      
+ </ul>
+
+  <p>Nel caso venga inizializzato manualmente un passaggio ma i servizi non possono essere passati al server passivo, il sistema tenta di ripassare i servizi al server attivo.</p>
+ <p>Nel caso venga inizializzato un evento failover e nessuno dei server &egrave; in grado di assumere il ruolo di server attivo a causa degli errori, il cluster high-availability non sar&agrave; in grado di offrire normalmente il servizio. Se i server non tornano automaticamente allo stato <b>Standalone</b>, premere il pulsante <b>Reimposta</b> su entrambi i server per ripristinare le impostazioni predefinite. Una volta ripristinate le impostazioni predefinite, &egrave; possibile combinare i server e creare nuovamente un cluster high-availability.</p>
+ 
+ <h3>UPS (gruppo di continuit&agrave;)</h3>
+  <p>I cluster high-availability possono essere collegati a unit&agrave; UPS (gruppi di continuit&agrave;) in modo da ridurre il rischio di interruzioni di corrente. In caso di interruzione, i server riceveranno alimentazione di backup dalle unit&agrave; UPS a cui sono collegati. Quando l&apos;alimentazione dell&apos;unit&agrave; UPS collegata la server attivo non &egrave; sufficiente, il sistema tenta di passare i servizi al server passivo. Consultare le linee guida di seguito.</p>
+   <ul>
+
+<li>Se i server attivi e passivi sono collegati allo stesso switch di rete, si raccomanda di collegare entrambi i server alla stessa alimentazione dello switch di rete.</li>
+<li>Se i server attivi e passivi sono collegati a diversi switch di rete che usano diverse alimentazioni (ad es. elettricit&agrave; da societ&agrave; elettriche diverse), si raccomanda di collegare i server attivi e passivi all&apos;alimentazione corrispondente uguale ai loro switch di rete collegati.</li>
+<li>Se i server attivi e passivi sono collegati a diversi switch di rete che usano unit&agrave; UPS diverse, si raccomanda di collegare entrambi i server a una delle unit&agrave; UPS piuttosto che a unit&agrave; UPS diverse. Quando l&apos;unit&agrave; UPS perde potenza, il server attivo notificher&agrave; ed entrer&agrave; in modalit&agrave; sicura, e il server passivo si spegne correttamente. Se i server sono collegati a diverse unit&agrave; UPS, il server attivo non sar&agrave; in grado di rilevare se l&apos;UPS del server passivo sta funzionando bassa potenza e quindi il server passivo pu&ograve; spegnersi inaspettatamente.</li>
+   </ul>
+
+   
+<div class="section">
+<h4>Nota:</h4>
+<p>Synology NAS supporta il collegamento con dispositivi UPS locali e SNMP. Per ulteriori informazioni, consultare la guida su <strong>Pannello di controllo</strong> &gt; <strong>Hardware</strong> &gt; <strong>UPS</strong></p>
+</div>  
+ </body>
+</html>

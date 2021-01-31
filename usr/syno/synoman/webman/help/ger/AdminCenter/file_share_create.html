@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Freigegebenen Ordner erstellen - Hilfe zu Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Shared folders are the basic directories where you can store and manage files and folders on your Synology NAS. This article shows you how to create a shared folder.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Freigegebenen Ordner erstellen</h2>
+<p>Freigegebene Ordner sind die Grundverzeichnisse, in denen Sie Dateien und Ordner auf Ihrem Synology NAS speichern und verwalten können. Bevor Sie in DSM Dateien speichern können, muss mindestens ein freigegebener Ordner erstellt werden. </p>
+
+<h4>Freigegebenen Ordner erstellen:</h4>
+<ol>
+	<li>Gehen Sie zu <strong>Systemsteuerung</strong> > <strong>Freigegebener Ordner</strong> und klicken Sie auf <strong>Erstellen</strong>.<br /><img src="about:blank" class="help_image"/></li>
+	<li>Geben Sie einen Namen und eine Beschreibung für den freigegebenen Ordner an.<br /><img src="about:blank" class="help_image "/></li>
+	<li>Wählen Sie einen Speicher aus, in dem der freigegebene Ordner erstellt werden soll (überspringen Sie diesen Schritt, wenn nur ein Speicher vorhanden ist).<br /><img src="about:blank" class="help_image"/></li>
+	<li>Ändern Sie die folgenden Optionen, falls erforderlich:<br /><img src="about:blank" class="help_image"/>
+		<ul>
+			<li><strong>Diesen freigegebenen Ordner unter „Netzwerkumgebung“ ausblenden:</strong> Verhindert, dass der freigegebene Ordner unter „Netzwerk“ in Windows Explorer angezeigt wird. Diese Option beeinflusst nicht die Berechtigungen für den Zugriff auf den freigegebenen Ordner.
+				<div class="section"><h4>Anmerkung:</h4>
+				<ul>
+				<li>Das Ausblenden eines freigegebenen Ordners in &quot;Netzwerkumgebung&quot; hat keine Auswirkung auf dessen Zugriffsberechtigung. Die Zugriffsrechte für den ausgeblendeten freigegebenen Ordner bleiben unverändert. Benutzer mit den richtigen Berechtigungen für den Zugriff auf den freigegebenen Ordner können immer noch auf diesen zugreifen, indem sie &quot;\\server name\Name des freigegebenen Ordners&quot; eingeben.</li>
+				</ul>
+				</div>
+			</li>
+			<li><strong>Unterordner und Dateien vor Benutzern ohne Berechtigungen ausblenden:</strong> Wenn <strong>Unterordner und Dateien vor Benutzern ohne Berechtigungen ausblenden</strong> aktiviert ist, und ein Benutzer ohne Leseberechtigungen versucht, auf einen gemeinsamen Ordner über das Windows Dateifreigabeprotokoll zuzugreifen, ist der Benutzer nicht in der Lage, Unterordner oder Dateien innerhalb des gemeinsamen Ordners anzuzeigen. Dies vermeidet Verwirrung bei den Benutzern, wenn sie die Verbindung zum Synology-Produkt herstellen und auf eine große Anzahl von Dateien und Unterordnern treffen, die sie nicht öffnen können.
+				<div class="section"><h4>Anmerkung:</h4>
+				<ul>
+					<li>Diese Funktion wird nur mit dem Windows-Dateifreigabeprotokoll unterstützt.</li>
+					<li>Sie können die Berechtigungseinstellungen von Ordnern und Dateien in File Station ändern, indem Sie mit der rechten Maustaste auf den Ordner oder die Datei klicken. Wählen Sie <strong>Eigenschaften</strong> aus dem Dropdown-Menü und klicken Sie auf die Registerkarte <strong>Berechtigung</strong>.</li>
+					<li>Der gemeinsame Ordner wird für Benutzer ohne Berechtigungen nicht ausgeblendet, wenn <strong>Unterordner und Dateien vor Benutzern ohne Berechtigungen ausblenden</strong> markiert ist. Es werden nur die Unterordner und Dateien in diesem freigegebenen Ordner ausgeblendet.</li>
+				</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li><strong>Papierkorb aktivieren:</strong> Wenn Dateien im freigegebenen Ordner gelöscht werden, werden sie in einen Ordner namens <strong>#recycle</strong> verschoben. Der Zugriff auf den Papierkorb kann auf Benutzer der Gruppe <strong>administrators</strong> beschränkt werden.</li>
+	<a name="sharequota"></a><li class=""><strong>Gemeinsames Ordnerkontingent aktivieren:</strong> Um die maximale Kapazität für jeden freigegebenen Ordner anzugeben, aktivieren Sie das Kontrollkästchen <strong>Gemeinsames Ordnerkontingent aktivieren</strong> und geben Sie in das folgende Feld die maximale Kapazität (z. B. 10 GB) ein.
+		<div class="section"><h4>Anmerkung:</h4>
+		<ul>
+			<li>Die Option <strong>Gemeinsames Ordnerkontingent aktivieren</strong> ist für freigegebene Ordner nur verfügbar, wenn der Speicher das Btrfs-Dateisystem nutzt.</li>
+			<li>Die gesamte Speichernutzung der <strong>home</strong>-Verzeichnisse aller Benutzer kann das Kontingent von „<strong>homes</strong>“ nicht überschreiten.</li>
+		</ul>
+		</div>
+	</li>
+	<a name="integrity_protection"></a>
+	<li><strong>Daten-Prüfsumme für erweiterte Dateiintegrität aktivieren:</strong> Um einen freigegebenen Ordner mit den Strategien <strong>CRC32-Prüfsumme</strong> und <strong>Kopieren-nach-Schreiben</strong> zu schützen, können Sie bei der Erstellung des freigegebenen Ordners Daten-Prüfsumme für erweiterte Dateiintegrität aktivieren. Mit CRC32-Prüfsumme wird geprüft, ob die Daten sich noch in ihrem ursprünglichen Zustand befinden, und das System greift automatisch auf RAID-Redundanz zurück, um fehlerhafte Daten zu reparieren. Kopieren-nach-Schreiben verbessert die Datenkonsistenz, nachdem ein System unnormal heruntergefahren wurde.
+		<div class="section"><h4>Anmerkung:</h4>
+		<ul>
+			<li>Diese Option ist nur für Volumes mit dem Btrfs-Dateisystem verfügbar.</li>
+			<li>Diese Option können Sie für jeden freigegebenen Ordner während der Erstellung aktivieren bzw. deaktivieren. Nach der Erstellung des freigegebenen Ordners kann diese Option nicht mehr geändert werden.</li>
+			
+			<li>Wenn diese Option aktiviert wird, kann das System eine vollständige Datenbereinigung durchführen. <a href="../StorageManager/storage_pool_data_scrubbing.html">Weitere Informationen über Datenbereinigung</a></li>
+			<li>Um die Qualität der Dienste sicherzustellen, empfehlen wir, Daten-Prüfsumme nicht zu aktivieren, wenn der freigegebene Ordner für folgende Dienste genutzt wird:
+			<ul>
+				<li>Hosting von Datenbanken oder virtuellen Maschinen</li>
+				<li>Speichern von Videoaufnahmen von Surveillance Station</li>
+				<li>Ausführen von Diensten, die kleine oder zufällige Schreiboperationen erfordern</li>
+			</ul>
+			</li>
+			
+		</ul>
+		</div>
+	</li>
+    <a name="btrfs_compression"></a><li><strong>Dateikomprimierung aktivieren</strong>: Um Speicherplatz zu sparen, werden die Daten im erstellten freigegebenen Ordner vom Btrfs-Dateisystem automatisch komprimiert. Wenn Daten zur Verwendung abgerufen werden, werden sie automatisch entpackt.
+		<div class="section"><h4>Anmerkung:</h4>
+		<ul>
+			<li>Diese Option ist nur verfügbar, wenn Sie einen freigegebenen Ordner auf einem Btrfs-Volume erstellen oder wenn <strong>Erweiterter Datenintegritätsschutz</strong> aktiviert ist.</li>
+			<li>Nach der Erstellung des freigegebenen Ordners kann diese Option nicht mehr geändert werden.</li>
+			<li>Die Komprimierungsrate ist vom Datentyp abhängig: Textdateien haben die höchste Komprimierungsrate, während Multimediadateien (z. B. Bilder, Musik oder Videos) nicht sehr gut komprimiert werden können, da sie bereits für die Ausgabe komprimiert wurden.</li>
+            <li>Nach Verschlüsselung des freigegebenen Ordners kann diese Option nicht mehr aktiviert werden.</li>
+		</ul>
+		</div>
+	</li>
+	<li><strong>Diesen freigegebenen Ordner verschlüsseln:</strong> Führen Sie zum Verschlüsseln des freigegebenen Ordners die folgenden Schritte durch:
+		<ol>
+			<li>Geben Sie einen neuen Verschlüsselungsschlüssel an und bestätigen Sie ihn. Der Verschlüsselungsschlüssel darf keine Kommas (,) oder Gleichheitszeichen (=) enthalten. </li>
+			<li>Falls notwendig, markieren Sie das Kästchen <strong>Verschlüsselungsschlüssel zu Schlüssel-Manager hinzufügen</strong>, um den verschlüsselten Ordner automatisch zu verbinden, wenn das System gestartet wird. Wenn diese Option nicht aktiviert ist, wird der verschlüsselte Ordner beim nächsten Start von Synology NAS getrennt. Um einen getrennten freigegebenen Ordner anzuzeigen oder darauf zuzugreifen, müssen Sie den Ordner manuell anhängen, indem Sie den Schlüssel für die Verschlüsselung importieren oder eingeben.</li>
+		</ol>
+	</li>
+	<li>Klicken Sie zum Beenden auf <strong>OK</strong>.</li>
+	
+	
+<div class="section"><h4>Anmerkung:</h4>
+	<ul>
+	<li>Bestimmte Funktionen und Optionen eines freigegebenes Ordners werden ausschließlich von VDSM und Modellen mit folgender Paketarchitektur unterstützt: Apollo Lake, Avoton, Braswell, Broadwell, Bromolow, Cedarview und Grantley. Welche Paketarchitektur Ihr Modell unterstützt erfahren Sie in <a href="https://www.synology.com/en-us/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">diesem Artikel</a>.</li>
+	</ul>
+</div>
+	
+</ol>
+
+<div class="section"><h4>Namensregeln für freigegebene Ordner:</h4>
+<ul>
+	<li>Bei Namen für freigegebene Ordner wird die Groß-/Kleinschreibung nicht berücksichtigt und sie können 1-32 Zeichen umfassen. Namen dürfen die folgenden Zeichen nicht enthalten: <strong>! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~</strong></li>
+	<li>Die folgenden Namen sind für die Systemnutzung reserviert: <strong>.</strong>, <strong>..</strong>, <strong>global</strong>, <strong>home</strong>, <strong>homes</strong>, <strong>printers</strong>, <strong>public</strong>, <strong>satashare</strong>, <strong>surveillance</strong>, <strong>usbbackup</strong>, <strong>usbshare</strong>. </li>
+	<li>Das erste Zeichen eines freigegebenen Ordners darf kein Minus- oder Leerzeichen sein und das letzte Zeichen darf ebenfalls kein Leerzeichen sein.</li>
+	<li>Bei der <strong>Beschreibung</strong> des gemeinsamen Ordners wird die Groß-/Kleinschreibung berücksichtigt und sie ist auf bis zu 64 anzeigbare Unicode-Zeichen beschränkt.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>Freigegebene Ordner verschlüsseln:</h4>
+<p>Die AES 256-Bit-Verschlüsselung kann Daten vor nicht autorisierten Zugriffsversuchen schützen. Wenn ein freigegebener Ordner verschlüsselt ist, kann niemand ohne Schlüssel auf die verschlüsselten Daten zugreifen oder sie ändern, selbst wenn sie die Festplatten des Synology NAS aus- und in ein anderes Gerät einbauen.</p>
+</div>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+	<li>Der Name einer Datei oder eines Ordners innerhalb eines verschlüsselten gemeinsamen Ordners darf 143 deutsche Zeichen oder 47 asiatische Zeichen nicht überschreiten; wenn Sie mit Mac OS auf Ihre gemeinsamen Ordner zugreifen, darf der Name eines verschlüsselten gemeinsamen Ordners 130 deutsche oder 43 asiatische Zeichen nicht überschreiten.</li>
+	<li>Die verschlüsselten freigegebenen Ordner können nicht über NFS aufgerufen werden.</li>
+	<li>Wenn Standard-Kennwörter mit der Reset-Taste des Synology NAS wiederhergestellt werden, werden verschlüsselte freigegebene Ordner getrennt und die Option, verschlüsselte freigegebene Ordner automatisch anzuhängen, wird deaktiviert.</li>
+	<li>Verschlüsselte freigegebene Ordner werden nur im Modus hoher Priorität unterstützt (nur anwendbar auf Dockerx64). Gehen Sie, um diese Funktion zu verwenden, zum Docker-Paket des Host-DSM, wählen Sie das <strong>Docker DSM</strong> aus, für das Sie verschlüsselte freigegebene Ordner aktivieren möchten, klicken Sie auf <strong>Bearbeiten</strong> und aktivieren Sie das Kontrollkästchen neben <strong>Container mit hoher Priorität ausführen</strong>.</li>
+</ul>
+</div>
+
+</body>
+</html>

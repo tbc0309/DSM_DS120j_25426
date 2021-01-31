@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Replace Drives to Expand Storage Capacity</h2>
+
+<p>When using certain RAID types, you can expand the storage capacity of a storage pool by replacing old drives with ones of larger size. This article provides important information regarding the expansion process, as well as an example of how to replace existing drives in order to expand storage capacity.</p>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>The procedure described in this article applies to the following RAID types only: SHR, RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</li>
+	<li>SHR (Synology Hybrid RAID) is available on specific models only. For more information, please visit <a href="https://www.synology.com/" target="_blank">Synology website</a>.</li>
+	<li>RAID F1 is available on specific models only. For more information, please visit <a href="https://www.synology.com/" target="_blank">Synology website</a>.</li>
+	<li>If your storage pool supports Data Scrubbing, we recommend that you perform Data Scrubbing to check whether your volume and storage pool are normal before replacing drives.</li>
+	<li>We recommend using drives in the <a href="https://www.synology.com/compatibility" target=blank>Synology Products Compatibility List</a> to prevent any issues. Using incompatible drives may lower the system performance or even cause data loss on your Synology NAS.</li>
+</ul>
+</div>
+
+<p>If you plan on replacing multiple drives, you must be careful to replace drives one-by-one. After replacing one drive, you must repair the storage pool before replacing the next one. For the following RAID types, storage pool capacity will expand once all drives have been replaced: RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</p>
+
+<h3 class="list_head"><a id="t1"></a>Before You Start</h3>
+<p>Before replacing a drive, please see the following notes:</p>
+<ul>
+	<li><strong>Data backup:</strong> Although the expansion process will not delete any existing data, we strongly recommend backing up your data before proceeding.</li>
+	<li><strong>Storage Pool Status:</strong> Before beginning, make sure the status of your storage pool is <strong>Healthy</strong>. If not, you must first repair it.</li>
+	<li><strong>Is data still accessible during expansion?</strong> Data on your system will be available while expanding storage pools; although the system may suspend connections temporarily when first starting the process.</li>
+	<li><strong>Using 3 TB or larger drives:</strong> To expand a storage pool with 3 TB or larger drives, make sure your storage pool was created using DSM 3.0 or later.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>Because SHR storage pools optimize storage capacity based on the number and size of installed drives, please follow the following guidelines in order to properly expand capacity:</p>
+<ul>
+	<li>If the capacity of all existing drives is equal, you must replace at least two drives with larger ones in order to expand storage capacity. For example, if your SHR storage pool consists of three 2 TB drives, then you must replace at least two drives in order to expand storage pool capacity.</li>
+	<li>If the capacity of existing drives is different, then the new, replacement drives must be equal to or larger than the largest existing drive. In addition, you must replace smaller drives first in order to optimize capacity usage. For example, if your SHR storage pool consists of three drives that are 4 TB, 3 TB, and 2 TB, respectively, then your new, replacement drives must be at least 4 TB. In addition, you should replace the 3 TB or 2 TB drives first.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID 5 / RAID 6 / RAID 10 / RAID F1</h4>
+<p>When replacing drives of RAID 5 / RAID 6 / RAID 10 / RAID F1 storage pools, the smallest drive should always be replaced first in order to maximize drive usage. The storage capacity of each RAID type is as follows:
+	<ul>
+		<li>RAID 5: (number of drives – 1) x (smallest drive size)</li>
+		<li>RAID 6: (number of drives – 2) x (smallest drive size)</li>
+		<li>RAID 10: (number of drives / 2) x (smallest drive size)</li>
+		<li>RAID F1: (number of drives – 1) x (smallest drive size)</li>
+	</ul>
+</p>
+
+<p>For example, if your RAID 5 storage pool contains three drives that are 4 TB, 3 TB, and 2 TB, respectively, the available capacity of your storage pool will be 4 TB. If you replace the 4 TB drive or the 3 TB drive, the capacity of the storage pool will not change. To increase the capacity of your storage pool, the 2 TB drive must be replaced first.</p>
+</div>
+
+
+<h3>Replace Drive to Expand Storage Capacity</h3>
+<p>In the steps below, we will provide an example of replacing the drives of an SHR storage pool.</p>
+<h4>To replace drives:</h4>
+<ol>
+	<li>Launch <strong>Storage Manager</strong>.<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li>Go to <strong>Storage Pool</strong> to see which existing drive is the smallest.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>Power off your Synology NAS. (Skip this step if your Synology NAS supports hot-swapping.)</li>
+	<li>Remove the smallest of the member drives and install a new, larger drive.<br /><span class="note_head">Note: </span>To avoid harming yourself or damaging your Synology NAS, please follow the drive installation instructions found in the <em>Hardware Installation Guide</em> for your Synology product.</li>
+	<li>Power on your Synology NAS.</li>
+	<li>Launch <strong>Storage Manager</strong> again.</li>
+	<li>Go to <strong>HDD/SSD</strong> to make sure the new drive is recognized.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>The status of your storage pool should be <strong>Degraded</strong>. Select the storage pool, click <strong>Repair</strong> from the <strong>Action</strong> drop-down menu.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>Select the replacement drive to add to the storage pool. Then follow the steps of the wizard to finish.</li>
+	<li>Repeat the above process until all desired drives have been replaced with larger ones.</li>
+</ol>
+
+</body>
+</html>

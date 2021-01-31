@@ -1,0 +1,27 @@
+#!/bin/sh
+
+SZF_SAVE_COUNTER="/etc/portforward/info_center_save_udc"
+SZF_TEST_COUNTER="/etc/portforward/info_center_test_udc"
+
+SAVE_COUNTER=0
+if [ -e $SZF_SAVE_COUNTER ]; then
+    SAVE_COUNTER=`/bin/get_key_value $SZF_SAVE_COUNTER count`
+fi
+
+TEST_COUNTER=0
+if [ -e $SZF_TEST_COUNTER ]; then
+    TEST_COUNTER=`/bin/get_key_value $SZF_TEST_COUNTER count`
+fi
+
+echo -n "{"
+
+echo -n \"save\":\"$SAVE_COUNTER\",
+echo -n \"test\":\"$TEST_COUNTER\",
+
+# let version be the last one msg
+echo -n \"collector_version\":1
+
+echo "}"
+
+rm -f $SZF_SAVE_COUNTER
+rm -f $SZF_TEST_COUNTER

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Escolher um Tipo RAID</h2>
+
+<p>RAID (Redundant Array of Independent Disks) é uma tecnologia de armazenamento de dados que permite que várias unidades sejam combinadas em um único espaço de armazenamento. Existem diferentes tipos de RAID, cada um oferecendo diferentes níveis de desempenho, capacidade de armazenamento e confiabilidade.</p>
+
+<p>Este artigo fornece uma visão geral dos tipos de RAID suportados pelo Synology NAS, incluindo os requisitos de implementação, bem como suas vantagens e desvantagens.</p>
+
+<!--1-->
+
+<h3>Tipos de RAID suportados</h3>
+
+<p>Essa tabela fornece uma visão geral dos diferentes tipos de RAID suportados pelo Synology NAS, incluindo capacidade de armazenamento, número mínimo de unidades necessárias para o tipo de RAID e o número de falhas na unidade que podem ser toleradas antes que ocorra perda de dados. </p>
+
+<table>
+	<tr>
+		<th>Tipo de volume</th>
+		<th>Número de HDD</th>
+		<th>Falhas toleráveis na unidade</th>
+		<th>Descrição</th>
+		<th>Capacidade do Volume</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>Otimiza o tamanho do volume ao combinar unidades de diferentes tamanhos.</li>
+				<li>Fornece redundância de dados, se o volume for composto por duas ou mais unidades.</li>
+				<li>Recomendado para usuários iniciantes.</li>
+			</ul>
+		</td>
+		<td>1 x (tamanho do HDD)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">Otimizado pelo sistema.</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Básico</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Composto de um disco rígido como uma unidade independente.</li>
+				<li>Não fornece redundância de dados.</li>
+			</ul>
+		</td>
+		<td>1 x (tamanho do HDD)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Combina uma coleção de unidades em um único espaço de armazenamento, com capacidade igual à soma da capacidade de todas as unidades.</li>
+				<li>Não fornece redundância de dados.</li>
+			</ul>
+		</td>
+		<td>Soma de todos os tamanhos de HDD</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Oferece "distribuição", um processo de divisões dos dados em blocos e distribuição dos blocos de dados em várias unidades para aumentar o desempenho.</li>
+				<li>Não fornece redundância de dados.</li>
+			</ul>
+	    </td>
+		<td>Soma de todos os tamanhos de HDD</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>Grava dados idênticos nas duas unidades simultaneamente.</li>
+				<li>Fornece redundância de dados.</li>
+			</ul>
+		</td>
+		<td rowspan="3">Menor tamanho de HDD</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Implementa a distribuição em nível de blocos com dados de paridade distribuídos em todas as unidades membro, proporcionando, dessa forma, uma redundância de dados mais eficiente do que o RAID 1.</li>
+			</ul>
+		</td>
+		<td>(N – 1) x (Menor tamanho de HDD)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>Implementa duas camadas de paridade de dados para armazenar dados redundantes iguais ao tamanho de duas unidades, proporcionando um maior grau de redundância de dados do que o RAID 5.</li>
+			</ul>
+		</td>
+		<td>(N – 2) x (Menor tamanho de HDD)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br />(número par)</td>
+		<td>Metade do total do HDD</td>
+		<td>
+			<ul>
+				<li>Fornece o desempenho de RAID 0 e o nível de proteção de dados de RAID 1, combinando as unidades em grupos de dois, com os dados espelhados.</li>
+			</ul>
+		</td>
+		<td>(N / 2) x (menor tamanho de HDD)</td>
+	</tr>
+	<tr class="enable-grantley">
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Implementa a distribuição de nível de bloco com dados de paridade distribuídos entre todas as unidades membro.</li>
+				<li>Grava mais informações de paridade em uma certa unidade.</li>
+				<li>Recomendado para conjunto totalmente em flash.</li>
+			</ul>
+		</td>
+		<td>(N – 1) x (Menor tamanho de HDD)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Tipos de RAID, exceto para &quot;Basic&quot;, só estão disponíveis em alguns modelos, dependendo do número de compartimentos de unidade e do número de unidades instaladas.</li>
+	<li>"N" representa o número total de unidades dentro do volume.</li>
+</ul>
+</div>
+
+<!--2-->
+
+<h3>Synology Hybrid RAID (SHR)</h3>
+<p>O Synology Hybrid RAID (SHR) é um sistema de gerenciamento de RAID automatizado, projetado para simplificar o gerenciamento de armazenamento e atender às necessidades dos novos usuários que não estão familiarizados com os tipos de RAID. </p>
+<p>O SHR pode combinar unidades de diferentes tamanhos para criar um volume de armazenamento com capacidade e desempenho otimizados, desperdiçando menos espaço na unidade e fornecendo uma solução de armazenamento mais flexível.  Quando unidades suficientes são incluídas, o SHR permite a redundância de 1 ou 2 discos, ou seja, o volume de SHR pode sofrer falhas em uma ou duas unidades sem apresentar perda de dados.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--3-->
+
+<h3>RAID 0</h3>
+<p>O RAID 0 combina dois ou mais unidades para aumentar o desempenho e a capacidade, mas não fornece nenhuma tolerância a falhas. Uma única falha de unidade irá resultar na perda de todos os dados na matriz. O RAID 0 é útil para sistemas não críticos, onde é necessário um equilíbrio de alto preço/desempenho.<img src="about:blank" class="help_image" /></p>
+
+<!--4-->
+
+<h3>RAID 1</h3>
+<p>O RAID 1 é o tipo mais frequentemente implementado com duas unidades. Os dados nas unidades são espelhados, fornecendo tolerância a falhas em caso de falha na unidade. O desempenho de leitura é aumentado enquanto o desempenho de gravação será semelhante a uma única unidade. A falha de uma unidade poderá ser suportada sem perda de dados. O RAID 1 é muitas vezes usado quando a tolerância a falhas é fundamental, mas o espaço e o desempenho não são requisitos essenciais.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--5-->
+
+<h3>RAID 5</h3>
+<p>O RAID 5 oferece tolerância a falhas e maior desempenho de leitura. É necessário um mínimo de três unidades. O RAID 5 pode suportar a perda de uma única unidade. No caso de uma falha na unidade, os dados da unidade defeituosa serão reconstruídos a partir da paridade distribuída entre as unidades restantes. Como resultado, o desempenho de leitura e gravação serão severamente afetados enquanto uma matriz RAID 5 estiver em estado degradado. O RAID 5 é ideal quando o espaço e o custo são mais importantes do que o desempenho.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--6-->
+
+<h3>RAID 6</h3>
+<p>O RAID 6 é semelhante ao RAID 5, exceto que ele fornece outra camada de segmentação e pode suportar duas falhas em disco. É necessário um mínimo de quatro unidades. O desempenho do RAID 6 é menor do que o do RAID 5 por causa dessa tolerância a falhas adicionais. O RAID 6 torna-se atraente quando o espaço e o custo são importantes e o suporte a várias falhas na unidade é necessário.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--7-->
+
+<h3>RAID 10</h3>
+<p>O RAID 10 combina os benefícios do RAID 1 e do RAID 0. O desempenho de leitura e gravação é aumentado, mas apenas metade do espaço total fica disponível para armazenamento de dados. São necessárias quatro ou mais unidades, tornando o custo relativamente elevado, mas o desempenho é alto, proporcionando, ao mesmo tempo, tolerância a falhas. Na verdade, o RAID 10 pode suportar várias falhas de unidade, desde que as falhas não estejam dentro do mesmo subgrupo. O RAID 10 é ideal para aplicações com alta demanda de entrada/saída, tais como servidores de banco de dados.<br /><img src="about:blank" class="help_image" /></p>
+
+
+<!--8-->
+
+<h3 class="enable-grantley">RAID F1</h3>
+<p class="enable-grantley">O F1 RAID aplica o mecanismo do RAID 5, fornecendo tolerância a falhas e maior desempenho de leitura. Com o RAID F1, no entanto, o sistema irá gravar mais informações de paridade em determinada unidade para acelerar seu envelhecimento e, assim, evitar que todas as unidades cheguem ao fim de sua vida útil ao mesmo tempo. Isso pode sutilmente afetar seu desempenho em relação ao RAID 5. É necessário um mínimo de três unidades. O RAID F1 pode suportar a perda de uma única unidade. No caso de uma falha na unidade, os dados da unidade defeituosa serão reconstruídos a partir da paridade distribuída entre as unidades restantes. Como resultado, o desempenho de leitura e gravação serão severamente afetados enquanto uma matriz RAID F1 estiver em estado degradado. O F1 RAID é ideal para conjuntos totalmente em flash.<br /><img src="about:blank" class="help_image" /></p>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Servi&ccedil;os de Backup - Ajuda do Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Servi&ccedil;os de backup</h2>
+<p>As op&ccedil;&otilde;es em <strong>Backup e Replica&ccedil;&atilde;o</strong> &gt; <strong>Servi&ccedil;os de Backup</strong> permitem aos outros usu&aacute;rios fazer backup de dados dos seus dispositivos Synology NAS ou clientes compat&iacute;veis com rsync para seu Synology NAS.</p>
+<h3>Ativar o servi&ccedil;o de backup de rede</h3>
+<p>Se voc&ecirc; desejar fazer backup dos dados de um Synology NAS ou de um servidor compat&iacute;vel de rsync em outro Synology NAS ou permitir que outro dispositivo Synology NAS execute tarefas de backup remoto e armazene dados de backup em um volume do seu dispositivo Synology NAS, primeiro precisar&aacute; ativar o servi&ccedil;o de backup de rede no servidor de destino antes de criar uma tarefa de backup de rede. Para fazer isso, basta ir para <b>Painel de controle</b> &gt; <b>Privil&eacute;gios</b> e conceder o privil&eacute;gio <b>Destino do Backup de Rede</b> a um usu&aacute;rio. Em seguida, voc&ecirc; poder&aacute; criar um usu&aacute;rio do DSM com os privil&eacute;gios adequados de aplicativo e pasta compartilhada no seu Synology NAS. Quando a configura&ccedil;&atilde;o estiver completa, outras pessoas poder&atilde;o ter os privil&eacute;gios do usu&aacute;rio para realizar backup de rede do seu Synology NAS para as pastas compartilhadas de destino em seu Synology NAS.</p>
+
+<h4>Para ativar o servi&ccedil;o de backup de vers&atilde;o &uacute;nica:</h4>
+<ol>
+<li>V&aacute; para <b>Servi&ccedil;os de Backup</b> &gt; <b>Destino do Backup de Rede</b> e marque <b>Ativar servi&ccedil;o de backup de rede</b>.</li>
+<li>Clique em <b>Aplicar</b>.</li>
+<li>V&aacute; para <b>Painel de controle</b> &gt; <b>Pasta compartilhada</b>, selecione uma pasta compartilhada, clique em <b>Editar</b> &gt; <b>Permiss&otilde;es</b> e conceda o privil&eacute;gio <b>Leitura/grava&ccedil;&atilde;o</b> a um usu&aacute;rio. Repita essa etapa para incluir mais pastas compartilhadas que podem ser usadas como destinos de backup.</li>
+</ol>
+<h4>Para ativar o servi&ccedil;o de backup de v&aacute;rias vers&otilde;es:</h4>
+<ol>
+  <li>V&aacute; para <strong>Servi&ccedil;os de backup</strong> &gt; <b>Destino do Volume de Backup da Rede</b> e marque a caixa ao lado de <strong>Habilite o destino do volume de backup da rede</strong>.</li>
+  <li>V&aacute; para <b>Destino do Backup</b> e selecione um destino de backup associado a um volume local.</li>
+<li>Clique em <b>Editar</b> &gt; <b>Lista de permiss&atilde;o</b> &gt; <strong>Adicionar</strong> para adicionar o usu&aacute;rio ou o grupo &agrave; lista.</li>
+</ol>
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Se outras pessoas quiserem realizar o backup de rede de um cliente que n&atilde;o seja o Synology NAS, eles poder&atilde;o faz&ecirc;-lo apenas com os privil&eacute;gios de <b>admin</b> ou <b>rsync</b> em seu Synology NAS. Se n&atilde;o quiser compartilhar as suas credenciais <b>admin</b> com outras pessoas, acesse <b>Painel de controle</b> &gt; <strong>Usu&aacute;rio</strong> para criar um usu&aacute;rio chamado <b>rsync</b>, modifique seus privil&eacute;gios e, em seguida, compartilhe suas credenciais de usu&aacute;rio com outras pessoas.</li><li>Se voc&ecirc; executar um backup de rede a partir de um Synology NAS que executa uma vers&atilde;o do DSM anterior &agrave; 3.0 ou um cliente que n&atilde;o seja o Synology NAS e desejar preservar as informa&ccedil;&otilde;es de <b>propriet&aacute;rio</b> e <b>grupo</b> dos dados de origem, precisar&aacute; adicionar a <b>conta de backup</b> ao grupo <b>administrators</b> e fazer backup dos dados na pasta compartilhada <b>NetBackup</b>.</li>
+</ul>
+</div>
+<h3>Ativar o servi&ccedil;o de backup da rede usando a configura&ccedil;&atilde;o rsync personalizada</h3>
+<p> &Eacute; poss&iacute;vel ativar o servi&ccedil;o de backup da rede usando a configura&ccedil;&atilde;o rsync personalizada e configurar os privil&eacute;gios do usu&aacute;rio e o destino do backup em seu Synology NAS. Quando a configura&ccedil;&atilde;o estiver conclu&iacute;da, outras pessoas poder&atilde;o realizar o backup rsync a partir de seus dispositivos Synology NAS ou clientes compat&iacute;veis com rsync para pastas compartilhadas de destino (ou &ldquo;m&oacute;dulos de backup&rdquo;) em seu Synology NAS.</p>
+<h4>Para ativar o servi&ccedil;o de backup da rede usando uma configura&ccedil;&atilde;o de rsync personalizada:</h4>
+<ol>
+<li>V&aacute; para <b>Servi&ccedil;os de Backup</b> &gt; <b>Destino do Backup de Rede</b>.</li>
+<li>Marque <b>Ativar o servi&ccedil;o de backup de rede</b>.</li>
+<li>Marque <b>Usar configura&ccedil;&atilde;o de rsync personalizada</b>.</li>
+<li>Clique em <b>Aplicar</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<h4>Para configurar os privil&eacute;gios de usu&aacute;rio e os m&oacute;dulos de backup em seu Synology NAS:</h4>
+<ol>
+<li>
+Fa&ccedil;a login no seu dispositivo Synology NAS atrav&eacute;s de Telnet ou SSH.
+</li>
+<li>Especifique o m&oacute;dulo de backup e os usu&aacute;rios autorizados no arquivo de configura&ccedil;&atilde;o do rsync &ldquo;<b>/etc/rsyncd.conf</b>&rdquo;. Para obter informa&ccedil;&otilde;es detalhadas, consulte a p&aacute;gina do manual de <b>rsyncd.conf</b> no seu cliente rsync ou <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">aqui</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Se a configura&ccedil;&atilde;o rsync personalizada for usada, o Synology NAS n&atilde;o poder&aacute; mais servir como servidor de destino para a <b>Sincroniza&ccedil;&atilde;o da pasta compartilhada</b>, <b>Time Backup</b> e <b>Backup do LUN</b>.</li>
+</ul>
+</div>
+
+<h3>Ativar o limite de velocidade</h3>
+<p>Voc&ecirc; pode habilitar um limite de velocidade para controlar a largura de banda m&aacute;xima usada pelos usu&aacute;rios e grupos que transferem os dados via backup de rede.</p>
+<h4>Para ativar o limite de velocidade:</h4>
+<ol>
+  <li>V&aacute; para <b>Servi&ccedil;os de Backup</b> &gt; <b>Destino do Backup de Rede</b>. Marque a caixa <b>Ativar limite de velocidade</b> ou <strong>Ativar limite de velocidade de acordo com uma programa&ccedil;&atilde;o</strong> se deseja implementar um limite de velocidade apenas em momentos espec&iacute;ficos. Esta &eacute; uma configura&ccedil;&atilde;o para todo o servidor e anular&aacute; as configura&ccedil;&otilde;es de usu&aacute;rios e grupos individuais. Escolha <strong>Nenhum limite de velocidade</strong> para desativar as configura&ccedil;&otilde;es de limite de velocidade de todos os usu&aacute;rios e grupos.</li>
+  <li>Clique em <strong>Configura&ccedil;&otilde;es do limite de velocidade</strong> para modificar as configura&ccedil;&otilde;es para usu&aacute;rios ou grupos individuais. Para cada usu&aacute;rio e grupo, voc&ecirc; pode selecionar uma das seguintes op&ccedil;&otilde;es:
+    <ul>
+      <li><strong>Aplicar configura&ccedil;&otilde;es de grupo:</strong> As configura&ccedil;&otilde;es do limite de velocidade ser&atilde;o iguais &agrave;s do grupo ao qual o usu&aacute;rio pertence. </li>
+      <li><strong>Nenhum:</strong> Nenhum limite de velocidade ser&aacute; aplicado quando os membros do grupo transferirem arquivos com o servi&ccedil;o.</li>
+      <li><strong>Constante:</strong> Um limite de velocidade fixo e constante ser&aacute; aplicado ao usu&aacute;rio ou membros do grupo. Os limites de velocidade de upload e download podem ser especificados nos campos &agrave; esquerda.</li>
+      <li><strong>Vari&aacute;vel:</strong> Dois limites de velocidade diferentes podem ser especificados e aplicados ao usu&aacute;rio ou aos membros de grupo, de acordo com uma programa&ccedil;&atilde;o. Clique no bot&atilde;o <strong>Personalizar</strong> para modificar as configura&ccedil;&otilde;es de limite de velocidade e tamb&eacute;m uma programa&ccedil;&atilde;o.</li>
+    </ul>
+  </li>
+ <li>Clique em <b>Aplicar</b>.</li> 
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<div class="section">
+  <h4>Nota:</h4>
+    <p>Ao configurar o limite de velocidade para um usu&aacute;rio, a se&ccedil;&atilde;o <strong>Resultado</strong> exibe o limite de velocidade real do usu&aacute;rio de acordo com as configura&ccedil;&otilde;es individuais dele e as do grupo. Por exemplo, se o usu&aacute;rio &quot;Achilles&quot; tiver um limite de download individual de 100 KB/s, mas pertence a um grupo com um limite de 500 KB/s, a se&ccedil;&atilde;o <strong>Resultados</strong> mostrar&aacute; &quot;0/500&quot;.</p>
+</div>
+
+<h3>Ativar o servi&ccedil;o Time Backup</h3>
+<p>O servi&ccedil;o Time Backup permite aos usu&aacute;rios fazer backup de v&aacute;rias vers&otilde;es de pastas de outro Synology NAS para esse Synology NAS remotamente. Isso requer que os servi&ccedil;o de backup de rede e o servi&ccedil;o Time Backup estejam ativados.</p>
+<h4>Para ativar os servi&ccedil;os de backup de rede e Time Backup:</h4>
+<p>V&aacute; para <strong>Servi&ccedil;os de Backup</strong> &gt; <b>Time Backup</b>. Marque as caixas de sele&ccedil;&atilde;o apropriadas.</p>
+<img src="about:blank" class="help_image"/>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Apenas a conta admin tem permiss&atilde;o para criar a conex&atilde;o de backup para o Time Backup remoto.</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>修復儲存集區 - Synology DSM 說明</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to create a volume on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>修復儲存集區</h2>
+
+<p>有許多原因可能導致儲存集區出現錯誤，例如：硬碟損毀。在某些情況下，您可以依照以下步驟來進行診斷並修正問題。</p>
+	
+<p>本文提到的<strong>修復</strong>功能僅適用於支援資料備援的 RAID 類型儲存集區 (例如：至少由兩顆硬碟組成的 SHR、RAID 1、RAID 5、RAID 6、RAID F1、RAID 10)。請注意，此功能可修復儲存集區，但無法修復有問題的硬碟。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>建議您使用 <a href="https://www.synology.com/compatibility" target=blank>Synology 產品相容性清單</a>所列的硬碟以避免產生問題。使用不相容的硬碟可能降低系統效能，甚至造成資料遺失。</li>
+<li>SHR (Synology Hybrid RAID) 僅適用於特定機種。請參閱<a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">此處</a>以了更多資訊。</li>
+</ul>
+</div>
+
+<h3>修復系統磁區故障的儲存集區</h3>
+
+<p>當系統磁區故障時，會顯示訊息通知您目前無法存取系統磁區。請依照以下步驟進行疑難排解：</p>
+
+<ol>
+<li>開啟<strong>儲存空間管理員</strong>。</li>
+<li>前往<strong>總覽</strong>頁面，按一下<strong>修復</strong>連結，系統將會開始修復系統磁區。</li>
+</ol>
+
+<h3>修復降級的儲存集區</h4>
+
+<p>當無法存取某顆硬碟的資料但資料尚未遺失時，儲存集區會進入<strong>降級</strong>狀態。僅支援資料備援的 RAID 類型儲存集區才會出現此情況 (例如：至少由兩顆硬碟組成的 SHR、RAID 1、RAID 5、RAID 6、RAID F1、RAID 10)。開始修復降級的儲存集區之前，請先使用良好硬碟修復有問題的硬碟，然後再從儲存集區中移除有問題的硬碟，或直接使用良好的硬碟進行更換。</p>
+
+<h4>硬碟必要條件：</h4>
+<p>請使用符合以下條件的良好硬碟，來更換有問題的硬碟：</p>
+	
+<ul>
+<li><b>針對 RAID 1、RAID 5、RAID 6、RAID F1、RAID 10 類型的儲存集區</b>：更換用的硬碟容量，必須大於或等於儲存集區中容量最小的硬碟。</li>
+<li><b>針對 SHR-1 類型的儲存集區</b>：更換用的硬碟須符合以下任一條件。<ul>
+<li>更換用的硬碟容量，必須大於或等於有問題硬碟的容量。</li>
+<li>排除儲存集區中容量最大的硬碟之後，更換用的硬碟容量，必須大於或等於所剩的硬碟中，容量最大的硬碟。<br><span class="note_head">範例：</span><ul>
+<li>範例 1：SHR-1 由 3 TB、2 TB、2 TB、1 TB 的硬碟組成。若 3 TB 的硬碟發生問題，可以使用容量大於或等於 2 TB 的可用硬碟以進行修復。</li>
+<li>範例 2：SHR-1 由 4 TB、4 TB、2 TB、2 TB 的硬碟組成。若 4 TB 的硬碟發生問題，可以使用容量大於或等於 4 TB 的可用硬碟以進行修復。</li>
+<li>範例 3：SHR-1 由 4 TB、4 TB、2 TB、2 TB 的硬碟組成。若 2 TB 的硬碟發生問題，可以使用容量大於或等於 2 TB 的可用硬碟以進行修復。</li>
+</ul>	
+</li>
+			
+</ul>
+</li>
+<li><b>針對 SHR-2 類型的儲存集區</b>：更換用的硬碟須符合以下任一條件。<ul>
+<li>更換用的硬碟容量，必須大於或等於有問題硬碟的容量。</li>
+<li>排除儲存集區中容量最大的硬碟之後，更換用的硬碟容量，必須大於或等於所剩的硬碟中，容量最大的硬碟。</li>
+</ul>	
+</li>
+</ul>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>若可用的硬碟已被指定為 Hot Spare 硬碟以保護一個或多個儲存集區，則該 Hot Spare 硬碟會自動修復降級的儲存集區。請參閱 <a href="hotspare.html" target="_blank">Hot Spare</a> 以了解更多資訊。</li>
+</ul>
+</div>
+
+	
+
+<h4>若要修復降級的儲存集區：</h4>
+
+<ol>
+<li>前往<strong>儲存空間管理員</strong> &gt; <strong>儲存集區</strong>，選擇狀態為<strong>降級</strong>的儲存集區。</li> 
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/volume_degraded.png" class="help_image"/>
+<li>檢視儲存集區資訊並檢查硬碟狀態。</li>
+<li>接著，前往 <strong>HDD/SSD</strong> 頁面並確認哪顆硬碟有問題。</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/hdd_ssd.png" class="help_image"/>
+<li>從 Synology NAS 中移除有問題的硬碟，並更換為新硬碟。若您的 Synology NAS 不支援熱插拔功能，請先關機再拔除或安裝硬碟。<br><span class="note_head">注意：</span>更換用硬碟上的所有資料將被清除。</li>
+<li>安裝完更換用硬碟之後，回到<strong>儲存集區</strong>頁面並選擇降級的儲存集區。</li>
+<li>按一下<b>動作</b>下拉式選單並選擇<b>修復</b>。</li>  
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/manage_repair.png" class="help_image"/>
+<li>選擇要新增至儲存集區的更換用硬碟，然後依照精靈的指示來完成操作。</li>
+</ol>
+	
+	
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>若修復儲存集區花費較長的時間，請參閱<a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Why_does_it_take_a_long_time_to_repair_a_storage_pool" target="_blank">此處</a>以了解可能的原因。</li>
+</ul>
+</div>
+
+
+<h3>已損毀儲存集區的疑難排解</h3>
+
+<p>當儲存集區的狀態變成<strong>已損毀</strong>，您將無法自行修復該儲存空間。請參閱下列文章以了解儲存空間損毀的常見原因及疑難排解方式：
+<ul>
+<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_are_the_reasons_of_volume_crash" target="_blank">為何會造成儲存空間毀損？</a></li>
+<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_do_I_do_when_a_volume_crashes" target="_blank">儲存空間毀損時該如何處理？</a></li>
+</ul>	
+</p>
+
+
+</body>
+</html>

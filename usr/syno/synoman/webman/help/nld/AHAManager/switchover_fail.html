@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h2>Overschakelen</h2>
+  
+ <p>Om continue prestaties te waarborgen en de service-uitvaltijd tot een minimum te beperken, kunnen services van de actieve server van een high-availability cluster overgeschakeld worden naar de stand-by passieve server. Deze functie noemt men "Switchover" (overschakelen) of in sommige gevallen "Failover." Dit gedeelte bevat de basisinformatie over deze twee concepten.</p>
+  
+  <h3>Overschakelen</h3>
+  	<p>Overschakelen verwijst naar een overschakeling van de actieve server naar de stand-by passieve server van een high-availability cluster. In normale omstandigheden neemt de actieve server de levering van alle services voor zijn rekening. Als de actieve server echter geen services meer kan leveren, kunt u een overschakeling naar de passieve server initialiseren en alle services naar de passieve server overdragen, op voorwaarde dat die normaal functioneert. In dat geval neemt de actieve server de rol van de passieve server over, en omgekeerd.</p>
+    
+<h4>Om een overschakeling handmatig te initialiseren:</h4>
+ <ol>
+  <li>Ga naar pagina <b>Overzicht</b>.</li>
+  <li>Klik op <b>Beheren</b> > <b>Overschakelen</b>.</li>
+ </ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+   <p>Voor de handmatige overschakeling is het nodig om een statisch IP in te stellen en u met deze aan te melden bij DSM om verlies van de DSM-pagina te voorkomen door een IP-wijziging na overschakeling.</p>
+</div>
+
+<div class="section">
+<h4>Opmerking:</h4>
+   <p>bij de uitvoering van een overschakeling neemt de actieve server eerst de rol van passieve server op zich en wordt de passieve server vervolgens de actieve server. Er is dus een korte periode waarin beide servers passief worden en niet in staat zijn om normaal services te leveren. De tijd om een overschakeling te voltooien varieert afhankelijk van het aantal en de grootte van de volumes of iSCSI LUN's (blokniveau) of van het aantal en de totale belasting van services en pakketten in de high-availability cluster.</p>
+</div>
+
+<h3>Failover</h3>
+    
+     <p>Wanneer er bepaalde fouten optreden, kan het systeem automatisch een overschakeling van de services initialiseren om service-uitvaltijden te beperken. Deze gebeurtenis noemt men "failover". In de volgende situaties en ervan uitgaande dat de passieve server correct werkt, kan het systeem een failover activeren:</p>
+    
+    <ul>
+      <li><b>Stroomstoring:</b> 
+        <ul>
+      	<li>de actieve server is uitgeschakeld of wordt opnieuw opgestart.</li>
+        <li>Storing van beide voedingseenheden van de actieve server.</li>
+        <li>Geen voeding.</li>
+      </ul></li>
+      <li><b>Schijffout:</b> kleiner aantal schijfpaden op de actieve server dan op de passieve server.</li>
+      <li><b>Servicefout:</b> er is een fout opgetreden in een gecontroleerde service.</li>
+      <li><b>Verbindingsfout:</b> er is een fout opgetreden in een gecontroleerde interface.</li>
+    </ul>    
+     
+    
+<h3>Overschakelen mislukt</h3>
+    
+		<p>Overschakeling van services kan mislukken in de volgende situaties:</p>
+  	<ul>
+  	  <li><b>Abnormale Heartbeatverbinding:</b> de status van de actieve-passieve serververbinding is niet normaal.</li>
+  	  <li><b>Geheugengrootte komt niet overeen:</b> de actieve en passieve servers hebben niet dezelfde RAM-grootte.</li>
+  	  <li><b>Stroomstoring:</b><ul>
+      	<li>de passieve server is uitgeschakeld of wordt opnieuw opgestart.</li>
+        <li>Storing van beide voedingseenheden van de passieve server.</li>
+        <li>Geen voeding.</li>
+      </ul></li>
+  	  <li><b>Verbindingsfout:</b> er is een fout opgetreden in een gecontroleerde interface op de passieve server.</li>
+  	  <li><b>Servicefout:</b> er bestaan fouten in de gecontroleerde services op de passieve server.</li>
+  	  <li><b>Verbindingsfout van de uitbreidingseenheid:</b> de verbinding van de uitbreidingseenheden op de twee servers heeft niet dezelfde volgorde.</li>
+  	  <li><b>Schijffout:</b> kleiner aantal schijfpaden op de passieve server dan op de actieve server.</li>
+      <li><b>DSM-update:</b> bij de installatie van de DSM-update worden alle services gestopt en hervat na voltooiing van de DSM-update.</li>      
+ </ul>
+
+  <p>Als u een overschakeling handmatig initialiseert en de services niet overgeschakeld kunnen worden naar de passieve server, zal het systeem proberen om de services terug over te schakelen naar de actieve server.</p>
+
+ <h3>Ononderbroken stroomvoorziening</h3>
+  <p>High-availability clusters kunnen worden aangesloten op een netwerk-UPS-eenheden (uninterruptible power supply) om het risico op onverwachts stroomverlies te beperken. Als de stroom verloren gaat, zullen de servers back-upvoeding krijgen van de aangesloten UPS-eenheden. Wanneer het vermogen van de UPS-eenheid aangesloten op de actieve server te laag wordt, wordt de passieve server uitgeschakeld en schakelt de actieve server naar de veilige modus. Bij herstel van het vermogen wordt de actieve server opnieuw opgestart en een poging gedaan met een Wake-on-LAN;bericht om de andere server op te starten.</p>
+   <ul>
+	   <li>Wij raden u aan om beide servers en uitbreidingsunits aan te sluiten op dezelfde UPS-eenheid en netwerkschakelaars.</li>
+   </ul>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>Synology NAS ondersteunt uitsluitend de aansluiting op netwerk-UPS-apparaten. Ga naar de help-functie in <strong>Configuratiescherm</strong> > <strong>Hardware</strong> > <strong>UPS</strong> voor meer informatie.</p>
+</div>  
+ </body>
+</html>

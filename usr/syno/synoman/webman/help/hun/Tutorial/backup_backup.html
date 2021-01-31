@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Biztonsági mentés készítése adatairól a Synology NAS eszközre az adatok védelme érdekében</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>A Synology NAS eszköz biztonsági mentése</h1>
+<div class="tutorials_content"><img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" /><h2>Áttekintés</h2>
+<p>Kulcsfontosságú adatait számos komoly veszély fenyegeti: mind a merevlemez meghibásodása, mind a természeti katasztrófák váratlan adatvesztéssel járhatnak, ami különösen kellemetlen, ha nem rendelkezik megbízható biztonsági mentési megoldással. A <strong>Hyper Backup</strong> alkalmazás egy integrált biztonsági mentési/visszaállítási funkció, melynek révén megtarthatja/lekérheti fontos adatait, valamint visszaállíthatja egy adott időpontban telepített alkalmazásait és érvényben lévő rendszerkonfigurációját. A funkció a következő célhelyeket támogatja:</p>
+
+<ul>
+<li><strong>Helyi megosztott mappák (ideértve a(z) Synology NAS eszközhöz csatlakoztatott külső tárolóeszközöket is)</strong></li>
+<li><strong>Távoli Synology NAS</strong></li>
+<li><strong>Távoli rsync-szerverek</strong></li>
+<li><strong>Távoli OpenStack Swift szerverek</strong></li>
+<li><strong>Nyilvános felhőtárhelyek (Amazon S3, Microsoft Azure, OpenStack Swift stb.)</strong></li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>A Hyper Backup kizárólag bizonyos rendszerkonfigurációkról és alkalmazásokról készít biztonsági mentést. További információkért tekintse át a Hyper Backup alkalmazás súgódokumentációját.</p>
+</div>
+
+
+<h3 class="list_head">1. Helyi biztonsági mentési feladatok létrehozása egy helyi megosztott mappába/külső tárolóeszközre</h3>
+<p>A <strong>Hyper Backup</strong> által kínált biztonsági mentési és visszaállítási folyamat szinte megegyezik a különböző célhelytípusokon. Alább leírjuk, hogyan végezheti el adatai helyi biztonsági mentését és visszaállítását. Használja a folyamatot referenciaként a többi művelethez.</p>
+
+<ol>
+<li>Jelentkezzen be a DSM rendszerbe, és keresse meg a <strong>Hyper Backup</strong> nevű csomagot.</li>
+<li>Kattintson a bal alsó sarokban található <strong>+</strong> gombra, majd válassza ki az <strong>Biztonsági adatmentési feladat</strong> lehetőséget.</li>
+<li>Helyi biztonsági mentési feladat létrehozásához válassza a <strong>Helyi megosztott mappa</strong> lehetőséget.</li><img src="../../images/Backup/1x/Backup/1.png" width="600" alt=""/><li>Válassza a <strong>Biztonsági mentési feladat létrehozása</strong> lehetőséget, majd válasszon egy helyi megosztott mappát vagy egy, a(z) Synology NAS eszközhöz csatlakoztatott külső tárolóeszközt.</li><img src="../../images/Backup/1x/Backup/2.png" width="600" alt=""/><li>Válassza ki a forrásmappát/-mappákat, melyek adatairól biztonsági mentést kíván készíteni. Ha titkosított megosztott mappákat választ, azoknak a biztonsági mentési folyamat egésze alatt csatlakoztatva kell maradniuk. Ha a forrás és a cél is ugyanazon kötethez tartozik, a rendszer narancssárga felkiáltójellel jelöli a forrásmappákat.</li><img src="../../images/Backup/1x/Backup/3.png" width="600" alt=""/><li>Válassza ki az alkalmazás(oka)t, melyekről biztonsági mentést kíván készíteni.</li><img src="../../images/Backup/1x/Backup/4.png" width="600" alt=""/><li>Igény szerint határozza meg az alábbi biztonsági mentési beállításokat:<ul>
+  <li><strong>Feladat</strong>: A biztonsági mentési feladat neve.</li>
+  <li><strong>Feladatértesítések engedélyezése</strong>: Jelölje be, ha szeretne értesítést kapni a feladat állapotáról e-mailben, SMS-ben vagy push-szolgáltatáson keresztül.</li>
+  <li><strong>Konfiguráció biztonsági mentésének engedélyezése</strong>: Rendszerkonfiguráció (pl. felhasználói hitelesítő adatok) biztonsági mentése. A rendszer alapértelmezés szerint minden biztonsági mentési feladatban bekapcsolja ezt a beállítást.</li>
+  <li><strong>Biztonsági mentési adatok tömörítése</strong>: Biztonsági mentési adatok tömörítése a célhely kapacitásának jobb kihasználása érdekében. Az opció bekapcsolása esetén a biztonsági mentés több időt vesz igénybe.</li>
+  <li><strong>Küldési titkosítás engedélyezése</strong> (csak távoli biztonsági mentés esetén): Jelölje be, ha szeretné titkosítani a biztonsági mentés adatait a távoli célhelyre (pl. rsync-szerver vagy nyilvános felhő) történő átvitel során.</li>
+  <li><strong>Többrészes feltöltési rész mérete</strong> (csak S3-kompatibilis szerverek esetén): Biztonsági mentési adatok feldarabolása a meghatározott részméretre.</li>
+  <li><strong>Kliensoldali titkosítás engedélyezése</strong>: Jelölje be, ha szeretné jelszóval levédetni a biztonsági mentés adatait, hogy ahhoz jogosulatlan felhasználók ne férhessenek hozzá a céloldalon.</li>
+    
+  <li><strong>Biztonsági mentés ütemezés engedélyezése</strong>: Jelölje be, ha szeretné, hogy a rendszer ütemezés szerint automatikusan elvégezze a biztonsági mentési feladatot.</li>
+  </ul>
+  </li><img src="../../images/Backup/1x/Backup/5.png" width="600" alt=""/><li>A rotációs elrendezés beállításához válassza a <strong>Biztonsági mentés rotáció engedélyezése</strong> lehetőséget.<ul>
+  <li><strong>A legkorábbi verzióktól</strong>: Ha a verziók száma túllépi a <strong>Verziók száma</strong> mezőben meghatározott értéket, a rendszer a legkorábbi biztonsági mentési verziókat kezdi törölni.</li>
+  <li><strong>Smart Recycle</strong>: A rendszer minden biztonsági mentési verziót megőriz, amíg el nem éri a meghatározott verziószámot. Amikor bekapcsol a rotáció, a rendszer először azokat a verziókat törli, melyek egyetlen feltételnek sem felelnek meg; ha az összes létező verzió megfelel az alábbi feltételeknek, a rendszer a legkorábbi verziókat törli:<ul>
+  <li><strong>Óránkénti verziók az elmúlt 24 órából</strong>: A rendszer a minden órában legkorábban létrehozott verziót tartja meg.</li>
+  <li><strong>Napi verziók az előző 1 naptól 1 hónapig visszamenőleg</strong>: A rendszer minden napra vonatkozóan a legkorábban létrehozott verziót tartja meg.</li>
+  <li><strong>1 hónapnál idősebb heti verziók</strong>: A rendszer minden hétre vonatkozóan a legkorábban létrehozott verziót tartja meg.</li>
+  </ul>
+  
+  </li>
+  <li><strong>Verziók száma</strong>: Adja meg, hogy a rendszer legfeljebb hány biztonsági mentési verziót tartson meg.</li>
+  <li>Idővonal: A biztonsági mentésre vonatkozó ütemezési és rotációs szabályok alapján a biztonsági mentések megtartásának lehetséges eredményét jeleníti meg.</li>
+  </ul>
+</li><img src="../../images/Backup/1x/Backup/6.png" width="600" alt=""/><li>A beállítás befejezéséhez kattintson az <strong>Alkalmaz</strong> gombra.</li>
+<li>A biztonsági mentési feladat azonnali elvégzéséhez kövesse a Biztonsági mentés varázsló utasításait, majd kattintson az <strong>Igen</strong> gombra.</li>
+</ol>
+
+
+<h3 class="list_head">2. Önálló fájlok visszaállítása egy helyi megosztott mappából/külső tárolóeszközről</h3>
+
+
+<ol>
+<li>Lépjen a <strong>Hyper Backup</strong> menüpontra, válassza ki a kívánt biztonsági mentési feladatot a bal oldali panelen, majd kattintson a <strong>Biztonságimentés-kezelő</strong> elemre (nagyító ikon). Ha a feladatot kliensoldali titkosítás védi, adja meg a jelszót.</li><img src="../../images/Backup/1x/Backup/Single_1.png" width="600" alt=""/><li>Keresse meg, majd jelölje ki a visszaállítani kívánt fájlt. A visszaállítandó verziót az idővonalsávval is kiválaszthatja.</li><img src="../../images/Backup/1x/Backup/Single_2.png" width="600" alt=""/><li>A kiválasztott fájl/mappa visszaállításához kattintson a <strong>Visszaállítás</strong> elemre.</li>
+
+</ol>
+
+
+
+<h3 class="list_head">3. Egész feladatok visszaállítása a kiválasztott időpontra</h3>
+
+<ol>
+<li>Kattintson a bal alsó sarokban található <strong>Visszaállítás</strong> gombra, majd kattintson az <strong>Adat</strong> lehetőségre. Ha a feladatot kliensoldali titkosítás védi, adja meg a jelszót.</li><img src="../../images/Backup/1x/Backup/Restore_1.png" width="600" alt=""/><li>Válassza ki a visszaállítandó feladatot. Adatok másik tárolókból való visszaállításához válassza a <strong>Visszaállítás más tárolókból</strong> lehetőséget, majd keresse meg a visszaállítandó feladatot.</li><img src="../../images/Backup/1x/Backup/Restore_2.png" width="600" alt=""/><li>Adja meg, hogy a rendszerkonfigurációt is vissza kívánja-e állítani. Ha a <strong>Rendszerkonfiguráció visszaállítása</strong> lehetőséget választja, válassza ki az alábbi listából, hogy melyik konfigurációt kívánja visszaállítani.</li><img src="../../images/Backup/1x/Backup/Restore_3.png" width="600" alt=""/><li>Keresse meg, majd jelölje ki a visszaállítani kívánt fájl(oka)t/feladatot. A visszaállítandó verziót az idővonalsávval is kiválaszthatja.</li><img src="../../images/Backup/1x/Backup/Restore_4.png" width="600" alt=""/><li>Válassza ki a visszaállítani kívánt alkalmazásokat.</li><img src="../../images/Backup/1x/Backup/Restore_4.5.png" width="600" alt=""/><li>Megjelennek az alapvető visszaállítási adatok.</li><img src="../../images/Backup/1x/Backup/Restore_5.png" width="600" alt=""/><li>A visszaállítási megkezdéséhez kattintson az <strong>Alkalmaz</strong> gombra.</li>
+</ol>
+
+
+
+
+
+
+<div class="page-info">
+  <ul>
+    <li>Korábban a témában: <a href="backup_from_computer.html">Adatok biztonsági mentése PC/Mac számítógépen a Cloud Station alkalmazás használatával</a> </li>
+  </ul>
+</div>
+</body>
+
+</html>

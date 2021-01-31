@@ -1,0 +1,16 @@
+{{#certificate}}
+ssl_certificate             {{certificate}};
+{{/certificate}}
+{{^certificate}}
+ssl_certificate             {{SSLProfile.certificate}};
+{{/certificate}}
+{{#key}}
+ssl_certificate_key         {{key}};
+{{/key}}
+{{^key}}
+ssl_certificate_key         {{SSLProfile.key}};
+{{/key}}
+ssl_protocols               {{SSLProfile.protocols}};
+ssl_ciphers                 {{SSLProfile.ciphersuite}};
+{{#hsts}}add_header  Strict-Transport-Security max-age=15768000;{{/hsts}}
+ssl_prefer_server_ciphers   on; 

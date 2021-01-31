@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language"  charset="utf-8"/>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Zabezpečen&iacute; dat jejich z&aacute;lohov&aacute;n&iacute;m na zař&iacute;zen&iacute; Synology NAS</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>Z&aacute;lohov&aacute;n&iacute; zař&iacute;zen&iacute; Synology NAS</h1>
+<div class="tutorials_content"><img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" /><p>Neoček&aacute;van&aacute; ztr&aacute;ta dat z&nbsp;důvodu selh&aacute;n&iacute; pevn&yacute;ch disků, př&iacute;rodn&iacute; katastrofy nebo &uacute;toků pomoc&iacute; ransomwaru &ndash; to v&scaron;e představuje potenci&aacute;ln&iacute; hrozbu pro va&scaron;e kl&iacute;čov&aacute; data. Aby se zabr&aacute;nilo ztr&aacute;tě dat při takov&yacute;chto ne&scaron;ťastn&yacute;ch ud&aacute;lostech, použ&iacute;v&aacute; se běžně tzv. strategie ochrany dat 3-2-1. V&nbsp;r&aacute;mci t&eacute;to strategie se uchov&aacute;v&aacute; v&iacute;ce verz&iacute; dat z&aacute;lohy, kter&eacute; představuj&iacute; dodatečnou ochranu v&nbsp;př&iacute;padě zhroucen&iacute; aktu&aacute;ln&iacute; verze nebo infekce ransomwarem.</p>
+<p>Strategie ochrany dat 3-2-1 znamen&aacute;, že se uchov&aacute;vaj&iacute; alespoň tři kopie dat &ndash; jedna kopie se uchov&aacute;v&aacute; lok&aacute;lně a zb&yacute;vaj&iacute;c&iacute; dvě jsou uloženy na dvou různ&yacute;ch zař&iacute;zen&iacute;ch. Osobn&iacute; uživatel&eacute; mohou pomoc&iacute; t&eacute;to strategie pro svoje cenn&eacute; vzpom&iacute;nky, např&iacute;klad fotografie, rodinn&aacute; videa a vlastn&iacute; alba, zajistit ochranu dat na podnikov&eacute; &uacute;rovni, př&iacute;padně mohou uchov&aacute;n&iacute;m alespoň dvou kopi&iacute; dat zajistit jejich dostupnost. Firemn&iacute;m uživatelům doporučujeme použ&iacute;vat strategii 3-2-1, aby měli jistotu, že v&scaron;echna jejich &uacute;středn&iacute; podnikov&aacute; data a z&aacute;sadn&iacute; informace budou vždy v&nbsp;bezpeč&iacute;.</p>
+<p>Tento čl&aacute;nek představuje několik bezplatn&yacute;ch n&aacute;strojů obsažen&yacute;ch v&nbsp;<strong>Centru bal&iacute;čků</strong> syst&eacute;mu Synology DSM, pomoc&iacute; kter&yacute;ch můžete vybudovat svoje vlastn&iacute; ře&scaron;en&iacute; ochrany dat 3-2-1 &ndash; patř&iacute; sem bal&iacute;čky <strong>Hyper Backup</strong>, <strong>Snapshot Replication</strong>, <strong>USB Copy</strong> a <strong>Cloud Sync</strong>.</p>
+
+</div>
+
+<h2>Obsah</h2>
+<ol>
+<li><a href="#t1">Z&aacute;lohov&aacute;n&iacute; do stejn&eacute;ho zař&iacute;zen&iacute; Synology NAS a vytvořen&iacute; m&iacute;stn&iacute; kopie s&nbsp;v&iacute;ce verzemi</a></li>
+<li><a href="#t2">Z&aacute;lohov&aacute;n&iacute; do jin&eacute;ho c&iacute;le</a></li>
+<ul>
+<li>2.1 <a href="#t2.1">Do extern&iacute;ch zař&iacute;zen&iacute; (USB)</a></li>
+<li>2.2 <a href="#t2.2">Do jin&eacute;ho zař&iacute;zen&iacute; Synology NAS</a></li>
+<li>2.3 <a href="#t2.3">Do souborov&yacute;ch serverů</a></li>
+<li>2.4 <a href="#t2.4">Do cloudov&yacute;ch služeb</a></li>
+</ul>
+<li><a href="#t3">Porovn&aacute;n&iacute; ře&scaron;en&iacute; z&aacute;lohov&aacute;n&iacute; představen&yacute;ch v&nbsp;tomto čl&aacute;nku</a></li>
+</ol>
+<hr size="1" /><!--1--><h3 class="list_head"><a name="t1" id="t1"></a>1. Z&aacute;lohov&aacute;n&iacute; do stejn&eacute;ho zař&iacute;zen&iacute; Synology NAS a vytvořen&iacute; m&iacute;stn&iacute; kopie s&nbsp;v&iacute;ce verzemi</h3>
+<p>M&iacute;stn&iacute; kopie s&nbsp;v&iacute;ce verzemi nab&iacute;z&iacute; v&yacute;hodu rychl&eacute;ho obnoven&iacute; v&nbsp;př&iacute;padě po&scaron;kozen&iacute; dat nebo ne&uacute;mysln&eacute;ho odstraněn&iacute; souboru, protože kopii dat lze nač&iacute;st př&iacute;mo z&nbsp;va&scaron;eho zař&iacute;zen&iacute; Synology NAS. Nicm&eacute;ně ani toto opatřen&iacute; nedok&aacute;že zabr&aacute;nit př&iacute;padn&eacute; katastrofick&eacute; ztr&aacute;tě dat v&nbsp;př&iacute;padě zhroucen&iacute; svazku RAID nebo chyby pevn&eacute;ho disku. Proto se důrazně doporučuje vytvořit m&iacute;stn&iacute; kopii s&nbsp;v&iacute;ce verzemi, kter&aacute; zajist&iacute; efektivn&iacute; obnoven&iacute;, a současně z&aacute;lohovat i do jin&eacute;ho c&iacute;le a zajistit tak dal&scaron;&iacute; ochranu dat.</p>
+<p>N&aacute;sleduj&iacute;c&iacute; odstavce t&eacute;to kapitoly nab&iacute;zej&iacute; stručn&yacute; &uacute;vod do použ&iacute;v&aacute;n&iacute; n&aacute;strojů <strong>Hyper Backup</strong> a <strong>Snapshot Replication</strong>. Vybrat si můžete kter&yacute;koli z&nbsp;těchto bal&iacute;čků, podle jeho funkc&iacute; a va&scaron;ich potřeb.</p>
+<p>Služba <strong>Hyper Backup</strong> umožňuje z&aacute;lohovat konfigurace aplikac&iacute; a syst&eacute;mu a jejich obnoven&iacute;m v&nbsp;př&iacute;padě potřeby zajistit konzistenci dat. Tento bal&iacute;ček nav&iacute;c nab&iacute;z&iacute; př&iacute;růstkov&eacute; z&aacute;lohov&aacute;n&iacute; na &uacute;rovni bloku, to znamen&aacute;, že z&aacute;lohovat se budou pouze soubory, u&nbsp;kter&yacute;ch do&scaron;lo v&nbsp;porovn&aacute;n&iacute; s&nbsp;původn&iacute; verz&iacute; ke změně, zat&iacute;mco soubory, kter&eacute; se prostě přejmenuj&iacute; nebo duplikuj&iacute;, se v&nbsp;r&aacute;mci deduplikace souborů odstran&iacute;, aby se zabr&aacute;nilo zbytečn&eacute; spotřebě &uacute;loži&scaron;tě.</p>
+<p>Pokud v&aacute;&scaron; model zař&iacute;zen&iacute; NAS podporuje souborov&yacute; syst&eacute;m Btrfs<sup>1</sup>, můžete zv&aacute;žit vytvořen&iacute; m&iacute;stn&iacute; kopie pomoc&iacute; n&aacute;stroje <strong>Snapshot Replication</strong>.&nbsp;Proces vytvořen&iacute; sn&iacute;mku trv&aacute; pouze několik sekund a proto m&aacute; minim&aacute;ln&iacute; dopad na v&yacute;kon syst&eacute;mu. V&nbsp;porovn&aacute;n&iacute; s&nbsp;n&aacute;strojem Hyper Backup nab&iacute;z&iacute; n&aacute;stroj Snapshot Replication rychlej&scaron;&iacute; z&aacute;lohov&aacute;n&iacute; i&nbsp;obnoven&iacute; a lze jej použ&iacute;t tak&eacute; na sd&iacute;len&eacute; složky a jednotky iSCSI LUN.</p>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<p>Podrobn&aacute; uk&aacute;zka vytvořen&iacute; &uacute;lohy z&aacute;lohov&aacute;n&iacute; pomoc&iacute; n&aacute;strojů Hyper Backup a Snapshot Replication se nach&aacute;z&iacute; v&nbsp;n&aacute;sleduj&iacute;c&iacute;ch n&aacute;vodech:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div>
+
+<h3 class="list_head"><a name="t2" id="t2"></a>2. Z&aacute;lohov&aacute;n&iacute; do jin&eacute;ho c&iacute;le</h3>
+<p>Chcete-li zajistit ochranu před ztr&aacute;tou dat způsobenou zhroucen&iacute;m svazku RAID nebo po&scaron;kozen&iacute;m hardwaru, můžete vytvořit vzd&aacute;lenou kopii v&nbsp;cel&eacute; řadě c&iacute;lů. V&nbsp;n&aacute;sleduj&iacute;c&iacute;ch kapitol&aacute;ch se nach&aacute;z&iacute; přehled několika n&aacute;strojů, kter&eacute; lze použ&iacute;t k&nbsp;proveden&iacute; takov&yacute;ch &uacute;loh z&aacute;lohov&aacute;n&iacute;.</p><!--2.1--><h4 class="list_head"><a name="t2.1" id="t2.1"></a>2.1 Do extern&iacute;ch zař&iacute;zen&iacute; (USB)</h4>
+<p>Z&aacute;lohov&aacute;n&iacute; do zař&iacute;zen&iacute; USB je snadn&eacute; a pohodln&eacute; z&nbsp;důvodu rozs&aacute;hl&eacute;ho roz&scaron;&iacute;řen&iacute; těchto zař&iacute;zen&iacute;. Tento způsob z&aacute;lohov&aacute;n&iacute; podporuje různ&eacute; souborov&eacute; syst&eacute;my a extern&iacute; zař&iacute;zen&iacute;, např&iacute;klad z&aacute;lohov&aacute;n&iacute; kritick&yacute;ch informac&iacute; do form&aacute;tu RDX.</p>
+<p>N&aacute;stroj <strong>Hyper Backup</strong> umožňuje z&aacute;lohovat konfigurace aplikac&iacute; a syst&eacute;mu a v&nbsp;př&iacute;padě potřeby obnovit přesně stejn&aacute; data. Tento bal&iacute;ček nav&iacute;c nab&iacute;z&iacute; př&iacute;růstkov&eacute; z&aacute;lohov&aacute;n&iacute; na &uacute;rovni bloku, to znamen&aacute;, že z&aacute;lohovat se budou pouze soubory, u&nbsp;kter&yacute;ch do&scaron;lo v&nbsp;porovn&aacute;n&iacute; s&nbsp;původn&iacute; verz&iacute; ke změně, zat&iacute;mco soubory, kter&eacute; se prostě přejmenuj&iacute; nebo duplikuj&iacute;, se v&nbsp;r&aacute;mci deduplikace souborů odstran&iacute;, aby se zabr&aacute;nilo zbytečn&eacute; spotřebě &uacute;loži&scaron;tě.</p>
+<p>V&nbsp;porovn&aacute;n&iacute; s&nbsp;n&aacute;strojem Hyper Backup nepodporuje n&aacute;stroj <strong>USB Copy</strong> z&aacute;lohov&aacute;n&iacute; konfigurac&iacute; aplikac&iacute; a syst&eacute;mu a absence deduplikace souborů může snižovat efektivitu &uacute;loži&scaron;tě, tento bal&iacute;ček ale dok&aacute;že zah&aacute;jit z&aacute;lohov&aacute;n&iacute; dat ihned po připojen&iacute; extern&iacute;ho zař&iacute;zen&iacute; a po dokončen&iacute; procesu z&aacute;lohov&aacute;n&iacute; toto zař&iacute;zen&iacute; vysune. Form&aacute;t dat z&aacute;lohovan&yacute;ch pomoc&iacute; n&aacute;stroje USB Copy je nav&iacute;c čiteln&yacute;, zat&iacute;mco form&aacute;t dat z&aacute;lohovan&yacute;ch n&aacute;strojem Hyper Backup čiteln&yacute; nen&iacute;.</p>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<p>Podrobn&aacute; uk&aacute;zka vytvořen&iacute; &uacute;lohy z&aacute;lohov&aacute;n&iacute; do extern&iacute;ch zař&iacute;zen&iacute; pomoc&iacute; n&aacute;strojů Hyper Backup a USB Copy se nach&aacute;z&iacute; v&nbsp;n&aacute;sleduj&iacute;c&iacute;ch n&aacute;vodech:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/USBCopy/usbcopy_general" target="_blank">USB Copy</a></li>
+</ul>
+</div><!--2.2--><h4 class="list_head"><a name="t2.2" id="t2.2"></a>2.2 Do jin&eacute;ho zař&iacute;zen&iacute; Synology NAS</h4>
+<p>Při z&aacute;lohov&aacute;n&iacute; do jin&eacute;ho zař&iacute;zen&iacute; Synology NAS se data přen&aacute;&scaron;&iacute; prostřednictv&iacute;m protokolu NAS zař&iacute;zen&iacute; Synology.</p>
+<p>Pomoc&iacute; již dř&iacute;ve zm&iacute;něn&eacute;ho n&aacute;stroje <strong>Hyper Backup</strong>, kter&yacute; obsahuje vestavěnou technologii zv&yacute;&scaron;en&iacute; efektivity &uacute;loži&scaron;tě a podporu tak&eacute; z&aacute;lohov&aacute;n&iacute; aplikac&iacute; a konfigurac&iacute;, můžete data snadno z&aacute;lohovat do vzd&aacute;len&eacute;ho zař&iacute;zen&iacute; NAS tak, že do c&iacute;le nainstalujete bal&iacute;ček <strong>Hyper Backup Vault</strong>, kter&yacute; na přij&iacute;mac&iacute;m zař&iacute;zen&iacute; umožňuje prohl&iacute;žet &uacute;lohy z&aacute;lohov&aacute;n&iacute;, kter&eacute; jste přijali, a protokoly souvisej&iacute;c&iacute; s&nbsp;&uacute;lohami. N&aacute;stroj Hyper Backup podporuje souborov&eacute; syst&eacute;my EXT4 i&nbsp;Btrfs, ale form&aacute;t dat z&aacute;lohy nen&iacute; čiteln&yacute;.</p>
+<p>N&aacute;stroj <strong>Snapshot Replication</strong> nab&iacute;z&iacute; pohodl&iacute; replikace sn&iacute;mků do v&iacute;ce vzd&aacute;len&yacute;ch zař&iacute;zen&iacute; Synology NAS a replikuje pouze změněn&eacute; bloky dat, č&iacute;mž se snižuje využit&iacute; &scaron;&iacute;řky p&aacute;sma a zkracuje potřebn&aacute; dobu. Z&nbsp;důvodu flexibility spr&aacute;vy lze jednu replikaci roz&scaron;&iacute;řit až na tři vzd&aacute;len&eacute; servery. N&aacute;stroj Snapshot Replication je ale dostupn&yacute; pouze u modelů podporuj&iacute;c&iacute;ch souborov&yacute; syst&eacute;m Btrfs<sup>1</sup>.</p>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<p>Podrobn&aacute; uk&aacute;zka z&aacute;lohov&aacute;n&iacute; dat do jin&eacute;ho zař&iacute;zen&iacute; Synology NAS pomoc&iacute; n&aacute;strojů Hyper Backup a Snapshot Replication se nach&aacute;z&iacute; v&nbsp;n&aacute;sleduj&iacute;c&iacute;ch n&aacute;vodech:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div><!--2.3--><h4 class="list_head"><a name="t2.3" id="t2.3"></a>2.3 Do souborov&yacute;ch serverů</h4>
+<p>Tento způsob z&aacute;lohov&aacute;n&iacute; podporuje protokoly rsync, HTTP, WebDAV, OpenStack a S3 a ve srovn&aacute;n&iacute; se svazkem zanepr&aacute;zdněn&yacute;m z&aacute;lohov&aacute;n&iacute;m do jin&eacute;ho zař&iacute;zen&iacute; Synology NAS spotřebov&aacute;v&aacute; v&iacute;ce &uacute;loži&scaron;tě na straně klienta jako mezipaměť.</p>
+<p>Služba <strong>Hyper Backup</strong> umožňuje z&aacute;lohovat data do souborov&yacute;ch serverů pomoc&iacute; protokolů rsync a HTTP (WebDAV a OpenStack) &ndash; podpora v&iacute;ce verz&iacute; pom&aacute;h&aacute; zv&yacute;&scaron;it &uacute;roveň ochrany dat a deduplikace mezi verzemi snižuje velikost svazku potřebnou k&nbsp;uložen&iacute; v&iacute;ce verz&iacute;. Podpora z&aacute;lohov&aacute;n&iacute; aplikac&iacute; a konfigurac&iacute; syst&eacute;mu nav&iacute;c umožňuje bezpracně obnovit původn&iacute; nastaven&iacute;.</p>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<p>Podrobn&aacute; uk&aacute;zka z&aacute;lohov&aacute;n&iacute; dat do souborov&yacute;ch serverů pomoc&iacute; služby Hyper Backup se nach&aacute;z&iacute; v&nbsp;<a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">tomto n&aacute;vodu</a>.</p>
+</div><!--2.4--><h4 class="list_head"><a name="t2.4" id="t2.4"></a>2.4 Do cloudov&yacute;ch služeb</h4>
+<p>Z&aacute;lohov&aacute;n&iacute; dat do cloudov&yacute;ch služeb představuje nejflexibilněj&scaron;&iacute; volbu vzd&aacute;len&eacute;ho z&aacute;lohov&aacute;n&iacute;, obzvl&aacute;&scaron;tě z&nbsp;hlediska využit&iacute; prostoru a n&aacute;kladů na zakoupen&iacute; a &uacute;držbu vybaven&iacute; &uacute;loži&scaron;tě. Firmy mohou prov&aacute;dět roz&scaron;iřov&aacute;n&iacute; či zmen&scaron;ov&aacute;n&iacute; využit&eacute;ho prostoru &uacute;loži&scaron;tě podle potřeby, aniž by musely investovat dal&scaron;&iacute; pen&iacute;ze do nasazen&iacute; IT nebo &uacute;prav hardwaru.</p>
+<p>Služba <strong>Hyper Backup</strong> umožňuje z&aacute;lohovat data do cloudov&eacute; služby <a href="https://c2.synology.com" target="_blank">Synology C2</a>, jednoduch&eacute;ho ře&scaron;en&iacute; zaji&scaron;ťuj&iacute;c&iacute;ho dostupnost dat v&nbsp;cloudu pro uživatele zař&iacute;zen&iacute; Synology NAS. Vybrat si můžete jeden z&nbsp;několika různ&yacute;ch cenov&yacute;ch pl&aacute;nů. Z&iacute;sk&aacute;te tak př&iacute;stup k&nbsp;souborům a budete je moci obnovovat z&nbsp;libovoln&eacute;ho prohl&iacute;žeče. Přitom budete využ&iacute;vat zabezpečen&iacute; dat garantovan&eacute; &scaron;ifrovac&iacute; technologi&iacute;.</p>
+<p>Kromě cloudov&eacute; služby Synology můžete data z&aacute;lohovat i&nbsp;do jin&yacute;ch veřejn&yacute;ch cloudů. Služba Hyper Backup umožňuje nejen vytv&aacute;řet do veřejn&yacute;ch cloudů z&aacute;lohu v&iacute;ce verz&iacute;, zaji&scaron;ťuje tak&eacute; konzistenci dat z&aacute;loh či z&aacute;lohov&aacute;n&iacute; aplikac&iacute; a konfigurac&iacute; syst&eacute;mu.</p>
+<p>K&nbsp;synchronizaci dat ze zař&iacute;zen&iacute; Synology NAS do veřejn&yacute;ch cloudů lze jako ře&scaron;en&iacute; v&nbsp;re&aacute;ln&eacute;m čase rovněž použ&iacute;t službu <strong>Cloud Sync</strong>, ov&scaron;em pouze za předpokladu, že je povolen&aacute; funkce jednosměrn&eacute;ho odes&iacute;l&aacute;n&iacute;.&nbsp;Tento bal&iacute;ček ale uchov&aacute;v&aacute; pouze aktu&aacute;ln&iacute; verzi v&scaron;ech souborů uložen&yacute;ch v&nbsp;zař&iacute;zen&iacute; Synology NAS a &uacute;lohy z&aacute;lohov&aacute;n&iacute; v&iacute;ce verz&iacute; můžete vytv&aacute;řet pouze v&nbsp;př&iacute;padě, že uchov&aacute;v&aacute;n&iacute; v&iacute;ce verz&iacute; podporuje va&scaron;e cloudov&aacute; služba. Soubory synchronizovan&eacute; do c&iacute;le tak&eacute; zůstanou ve stejn&eacute;m form&aacute;tu jako zdrojov&aacute; data.</p>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<p>Podrobn&aacute; uk&aacute;zka vytvořen&iacute; &uacute;lohy z&aacute;lohov&aacute;n&iacute; do cloudov&yacute;ch služeb pomoc&iacute; n&aacute;strojů Hyper Backup a Cloud Sync se nach&aacute;z&iacute; v&nbsp;n&aacute;sleduj&iacute;c&iacute;ch n&aacute;vodech:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_cloud_services_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/CloudSync/cloudsync" target="_blank">Cloud Sync</a></li>
+</ul>
+</div><!--3--><h3 class="list_head"><a name="t3" id="t3"></a>3. Porovn&aacute;n&iacute; ře&scaron;en&iacute; z&aacute;lohov&aacute;n&iacute; představen&yacute;ch v&nbsp;tomto čl&aacute;nku</h3>
+<p>Chcete-li zabr&aacute;nit ztr&aacute;tě dat v&nbsp;důsledku selh&aacute;n&iacute; pevn&yacute;ch disků, př&iacute;rodn&iacute;ch katastrof nebo &uacute;toků pomoc&iacute; ransomwaru, doporučujeme použ&iacute;t ře&scaron;en&iacute; vzd&aacute;len&eacute;ho z&aacute;lohov&aacute;n&iacute;. Pro uživatele, kteř&iacute; nemaj&iacute; ž&aacute;dn&eacute; st&aacute;vaj&iacute;c&iacute; vybaven&iacute;, je z&nbsp;těchto ře&scaron;en&iacute; nejlep&scaron;&iacute; volbou z&aacute;lohov&aacute;n&iacute; do cloudů, protože cloudov&eacute; služby pom&aacute;haj&iacute; snižovat n&aacute;klady na hardware, &uacute;držbu a elektřinu i amortizačn&iacute; v&yacute;daje. Kromě toho mohou uživatel&eacute; naj&iacute;t ře&scaron;en&iacute;, kter&eacute; nejl&eacute;pe vyhovuje jejich potřeb&aacute;m, protože někteř&iacute; poskytovatel&eacute; cloudov&yacute;ch služeb nab&iacute;zej&iacute; flexibiln&iacute; cenov&eacute; pl&aacute;ny. Pokud ale již zař&iacute;zen&iacute; m&aacute;te, např&iacute;klad disky USB, dal&scaron;&iacute; zař&iacute;zen&iacute; Synology NAS nebo souborov&eacute; servery, můžete k&nbsp;z&aacute;lohov&aacute;n&iacute; dat ze sv&eacute;ho zař&iacute;zen&iacute; NAS využ&iacute;t jejich prostor. C&iacute;lov&eacute; zař&iacute;zen&iacute; ale um&iacute;stěte jinam než na m&iacute;sto, kde se nach&aacute;z&iacute; zdrojov&eacute; zař&iacute;zen&iacute; NAS, aby se zabr&aacute;nilo potenci&aacute;ln&iacute; ztr&aacute;tě dat.</p>
+
+<p>Vzd&aacute;len&eacute; kopie dat bezpochyby zvy&scaron;uj&iacute; &uacute;roveň ochrany, je v&scaron;ak nutn&eacute; m&iacute;t k&nbsp;dispozici tak&eacute; m&iacute;stn&iacute; kopii umožňuj&iacute;c&iacute; rychl&eacute; obnoven&iacute;. Z&nbsp;tohoto důvodu doporučujeme využ&iacute;t funkce bal&iacute;čků Hyper Backup nebo Snapshot Replication a vytvořit kopii dat va&scaron;eho zař&iacute;zen&iacute; NAS na stejn&eacute;m zař&iacute;zen&iacute; Synology NAS nebo na jin&yacute;ch zař&iacute;zen&iacute;ch, kter&aacute; se budou nach&aacute;zet bl&iacute;že zdroji dat a umožn&iacute; tak rychlej&scaron;&iacute; obnoven&iacute;.</p>
+
+<p>Pokud pochop&iacute;te strategii 3-2-1 a vytvoř&iacute;te alespoň dvě kopie sv&yacute;ch dat, m&aacute;te jistotu, že jsou va&scaron;e data dobře chr&aacute;něn&aacute; a snadno dostupn&aacute;.</p>
+
+<p>N&iacute;že se nach&aacute;z&iacute; souhrn v&scaron;ech n&aacute;strojů pro z&aacute;lohov&aacute;n&iacute; uveden&yacute;ch v&nbsp;tomto čl&aacute;nku a porovn&aacute;n&iacute; jejich funkc&iacute;. Pomoc&iacute; tabulky můžete zjistit, kter&yacute; bal&iacute;ček je nejvhodněj&scaron;&iacute; pro dosažen&iacute; va&scaron;ich c&iacute;lů.</p>
+
+<table id="faqtable" cellspacing="5" cellpadding="5" width="100%"><tbody>
+    <tr>
+      <th width="8%">C&iacute;l z&aacute;loh</th>
+      <th width="8%">Hyper Backup</th>
+      <th width="8%">Snapshot Replication<sup>1</sup></th>
+      <th width="8%">USB Copy</th>
+      <th width="8%">Cloud Sync</th>
+    </tr>
+
+    <tr>
+      <td>M&iacute;stn&iacute; sd&iacute;len&eacute; složky</td>
+      <td>Ano</td>
+      <td>Ano</td>
+      <td>Ne</td>
+      <td>Ne</td>
+    </tr>
+
+    <tr>
+      <td>Extern&iacute; zař&iacute;zen&iacute; (USB)</td>
+      <td>Ano</td>
+      <td>Ne</td>
+      <td>Ano</td>
+      <td>Ne</td>
+    </tr>
+    
+    <tr>
+      <td>Jin&eacute; zař&iacute;zen&iacute; Synology NAS</td>
+      <td>Ano</td>
+      <td>Ano</td>
+      <td>Ne</td>
+      <td>Ne</td>
+    </tr>
+
+    <tr>
+      <td>Souborov&eacute; servery</td>
+      <td>Ano</td>
+      <td>Ne</td>
+      <td>Ne</td>
+      <td>Pouze synchronizace dat WebDAV a OpenStack</td>
+    </tr>
+    
+<tr>
+      <td>Veřejn&eacute; cloudy</td>
+      <td>Ano</td>
+      <td>Ne</td>
+      <td>Ne</td>
+      <td>Ano</td>
+    </tr>
+
+<tr>
+	<td colspan="5"><strong>Souhrn funkc&iacute;</strong></td>
+</tr>
+
+<tr>
+      <td>Z&aacute;lohov&aacute;n&iacute; konfigurace aplikac&iacute;<sup>2</sup> a syst&eacute;mu</td>
+      <td>Ano</td>
+      <td>Ne</td>
+      <td>Ne</td>
+      <td>Ne</td>
+    </tr>
+    
+    <tr>
+      <td>V&yacute;kon z&aacute;lohov&aacute;n&iacute; a obnoven&iacute;</td>
+      <td>N&iacute;zk&yacute;</td>
+      <td>Vysok&yacute;</td>
+      <td>Středn&iacute;</td>
+      <td>Středn&iacute;</td>
+    </tr>
+    
+    <tr>
+      <td>Efektivita &uacute;loži&scaron;tě</td>
+      <td>Středn&iacute;</td>
+      <td>Vysok&yacute;</td>
+      <td>N&iacute;zk&yacute;</td>
+      <td>N&iacute;zk&yacute;</td>
+    </tr>
+    
+    <tr>
+      <td>Frekvence z&aacute;lohov&aacute;n&iacute;</td>
+      <td>Denně</td>
+		<td>5 min. (sd&iacute;len&aacute; složka)</br> 15 min. (iSCSI LUN)</td>
+      <td>Podpora připojen&iacute; za provozu</td>
+      <td>Synchronizace po proveden&iacute; změn</td>
+    </tr>
+
+</tbody></table>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<ol>
+	<li>Služba Snapshot Replication podporuje pouze souborov&yacute; syst&eacute;m Btrfs, souborov&yacute; syst&eacute;m EXT4 nepodporuje. Seznam modelů, na kter&yacute;ch lze použ&iacute;vat službu Snapshot Replication, se nach&aacute;z&iacute; na <a href="https://www.synology.com/dsm/packages/SnapshotReplication" target="_blank">t&eacute;to str&aacute;nce</a>.</li>
+	<li>Z&aacute;lohovat lze pouze vybran&eacute; aplikace. Dal&scaron;&iacute; informace se nach&aacute;z&iacute; na str&aacute;nce aplikace průvodce z&aacute;lohov&aacute;n&iacute;m.</li>
+</ol>
+</div>
+</body>
+</html>

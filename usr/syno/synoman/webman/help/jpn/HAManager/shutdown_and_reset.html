@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>シャットダウンとリセット</h2>
+  <p>ここでは、high-availability クラスタをシャットダウン、削除、リセットする手順を説明します。</p>
+
+  <h4> Synology High Availability を使用して high-availability クラスタをシャットダウンする：</h4>
+  <p>サーバーを別の場所に移動させたり、補修を行うために、high-availability クラスタをシャットダウンする必要があるが、high-availability クラスタの設定を維持したい場合は、次の手順に従ってください。</p>
+  <ol>
+   <li>DSM にログインします。</li>
+   <li>Synology High Availability を開きます。</li>
+   <li><b>[管理]</b> ボタンをクリックします。</li>
+   <li><b>[HA クラスタをシャットダウン]</b> を選択します。</li>
+   <li>確認メッセージが表示されます。 <b>[はい]</b> をクリックして確定してください。</li>
+  </ol>
+
+  <h4>high-availability クラスタを手動でシャットダウンする：</h4>
+  <p> 各サーバーの電源ボタンを押すと、High-availability クラスタを手動でシャットダウンできます。 </p>
+  <ol>
+   <li>どちらかのサーバー （アクティブか受動） の電源ボタンをビーという音がするまで押したままにします。</li>
+   <li>1 台のサーバーが完全にシャットダウンしたら、30 秒以上お待ちください (オンライン中のサーバーが設定を保存するのに時間を要します)。</li>
+   <li>もう片方のサーバーの電源ボタンをビーという音がするまで押したままにします。</li>
+   <li>サーバーが完全にシャットダウンするまでお待ちください。</li>
+  </ol>
+<div class="section">
+<h4>サーバーをオンにする：</h4>   
+<p>再びサーバーをオンにするには、アクティブ サーバーと受動サーバーの両方を同時にオンにする必要があります（少なくとも 5 分以内）。 片方のサーバーしかオンにしなかった場合は、WOL（ウェイク オン ラン）メッセージを送信して、他のサーバーもオンにしようとします。</p>
+<h4>異常シャットダウン：</h4>
+<p>high-availability クラスタが構築されている場合は、コントロール パネルの [停電後にリスタート] オプションが自動的に有効になります。 停電により、サーバーが正常にシャットダウンされなかった場合は、電源が復旧したら自動的にオンに戻ります。</p>
+</div>
+
+<h4>high-availability cluster を削除するには：</h4>
+ <p>両方のサーバーを切り離し、別のサーバーと接続するために high-availability クラスタを除去するには、次の手順に従ってください。</p>
+  <ol>
+   <li><b>[概要]</b> ページを選択します。</li>
+   <li><b>[管理]</b> ボタンをクリックします。</li> 
+   <li><b>[HA クラスタを除去]</b> を選択します。</li>
+  </ol>
+  <p>確定後にシステムが high-availability クラスタを除去します。 状態欄には、除去の進行状況が表示されます。 high-availability クラスタが除去されたら、アクティブ サーバーの本来の IP アドレスに転送されます。 両サーバーの状態は<b>「スタンドアローン」</b>に変わります。</li>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+	<li>high-availability クラスタを削除する間、一部のデータ書き込みが完了しない場合があります。 データを確実に完全に書き込むために、受動サーバーではデータが消失する恐れがありますので、アクティブ サーバーでデータを複製してください。</li>
+</ul>
+</div>  
+ 
+ <h4>故障した high-availability クラスタをリセットする：</h4>
+  <p>スプリット ブレイン エラーまたはその他の不具合により、DSM または Synology High Availability にアクセスできない場合は、サーバー上の <b>[リセット]</b> ボタンを押して、high-availability クラスタを強制的に切り離すことができます。</p>
+  <ol>
+   <li>サーバーからビーという音が聞こえるまで、<b>[リセット]</b> ボタン（通常はサーバーの背面にあります）を長押ししてください。
+   <li>システムが high-availability クラスタを除去すると、両サーバーのステータスが<b>スタンドアローン</b>に変わります。</li>
+   <li><b>[リセット]</b> ボタンを押すと、IP アドレス、DNS、管理者パスワードをはじめ、一部の設定もデフォルト値に戻ります。</li>
+   <ul>
+    <li>管理者パスワードは未設定に戻ります。</li>
+    <li>ゲスト アカウントは無効になります。</li>
+    <li>DHCP は IP、DNS、ゲートウェイ、およびその他のネットワーク インターフェイスで有効になります。</li>
+    <li>JumboFrames は無効になり、MTU は 1500 に設定されます。</li>
+    <li>管理ポートは 5000/5001 になります。</li>
+    <li>PPPoE はデフォルト値に戻ります。</li>
+    <li>IP オートブロックは無効になります（ブロックされた IP アドレスは削除されません）。</li>
+    <li>Link Aggregation は無効になります。</li>
+    <li>ファイアウォール規則は無効になります（規則は削除されません）。</li>
+   </ul>
+  </ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+	<li>サーバーの<b>[リセット]</b>ボタンを押すと、このサーバーのみが high-availability クラスタから取り除かれます。 high-availability クラスタから両方のサーバーを取り除きたい場合は、両方のサーバーの<b>[リセット]</b>ボタンを押してください。</li>
+</ul>
+</div>
+
+
+</body>
+</html>

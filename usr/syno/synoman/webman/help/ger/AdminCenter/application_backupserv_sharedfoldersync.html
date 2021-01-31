@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Datensicherung und Replikation</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Synchronisierung freigegebener Ordner</h2>
+<p>Mit dem Dienst für die Synchronisierung freigegebener Ordner können freigegebene Ordner von einem Synology NAS (Quelle) auf andere Synology NAS (Ziele) im LAN oder über das Internet synchronisiert werden.</p>
+<p>Bei der ersten Synchronisierung freigegebener Ordner wird eine vollständige Synchronisierung des oder der ausgewählten Ordner durchgeführt. Danach werden nur geänderte Dateien synchronisiert. Dateien, die in der Quelle entfernt wurden, werden auch am Ziel entfernt.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Die Synchronisierung freigegebener Ordner funktioniert in eine Richtung und synchronisiert die Dateien der Quelle mit dem Ziel. Mit <strong>Synology Drive ShareSync</strong> können Sie in beide Richtungen synchronisieren.</li>
+<li>Wenn ein freigegebener Ordner auf dem Ziel denselben Namen (z. B. SharedFolder) hat wie der freigegebene Ordner in der Quelle, wird der Zielordner umbenannt in &quot;SharedFolder_1&quot;.</li>
+<li>Wenn kein freigegebener Ordner auf dem Ziel denselben Namen hat wie der freigegebene Ordner in der Quelle, wird ein Ordner mit diesem Namen auf dem entsprechenden oder dem ersten verfügbaren Volume erstellt.</li>
+<li>Standardmäßig hat kein Benutzer Berechtigungen zum Zugreifen auf den freigegebenen Ordner auf dem Ziel. Wenden Sie sich hinsichtlich Berechtigungen an den <strong>admin</strong> des Ziels.</li>
+</ul>
+</p>
+</div>
+
+<h3>Aktivieren des Dienstes</h3>
+<h4>Synchronisierung freigegebener Ordner aktivieren:</h4>
+<p>Sie müssen zunächst den Dienst auf dem Ziel-Synology NAS aktivieren.</p>
+<ol>
+<li>Gehen Sie zu <strong>Systemsteuerung</strong> > <strong>Dateidienst</strong> > <strong>rsync</strong>.</li>
+<li>Wählen Sie <strong>rsync-Dienst aktivieren</strong> aus, um den Dienst zum Synchronisieren freigegebener Ordner zu aktivieren.</li>
+<li>Klicken Sie auf <strong>Übernehmen</strong>.</li>
+</ol>
+
+
+<h4>Verknüpfung freigegebener Ordner mit dem Ziel-Synology NAS aufheben:</h4>
+
+<p>Wenn verschiedene Quellen denselben freigegebenen Ordner gleichzeitig mit dem Ziel-Synology NAS synchronisieren, kommt es zum Konflikt. Sie müssen die Verknüpfung des freigegebenen Ordners in der Quelle aufheben, bevor eine andere Quelle ihren Ordner mit dem Ziel synchronisieren kann. 
+
+<ol>
+<li>Melden Sie sich beim Ziel-Synology NAS an und gehen Sie zu <strong>Systemsteuerung</strong> > <strong>Synchronisierung freigegebener Ordner</strong> > <strong>Verbindungsliste</strong>.</li>
+<li>Wählen Sie die im Konflikt stehende Verbindung von einem Quell-Synology NAS aus und klicken Sie auf <strong>Verknüpfung aufheben</strong>, um sie zu entfernen.</li>
+</ol>
+
+<p>Jetzt kann eine andere Quelle den freigegebenen Ordner mit dem Ziel-Synology NAS synchronisieren.</p>
+
+<h3>Verwalten von Synchronisierungsaufgaben</h3>
+
+<h4>Synchronisierungsaufgabe erstellen:</h4>
+<ol>
+<li>Melden Sie sich beim Quell-Synology NAS an und gehen Sie zu <b>Systemsteuerung</b> > <b>Synchronisierung freigegebener Ordner</b> > <strong>Aufgabenliste</strong>.</li>
+<li>Klicken Sie auf <b>Erstellen</b>.</li>
+<li>Geben Sie einen Namen für die Aufgabe ein.</li>
+<li>Wählen Sie den freigegebenen Ordner aus, den Sie mit dem Ziel synchronisieren möchten.</li>
+<li>Geben Sie den Ziel-Synology NAS und die folgenden Synchronisierungsoptionen an:</li>
+<ul>
+<li><strong>SSH-Verschlüsselungsport für verschlüsselte Synchronisierung freigegebener Ordner anpassen</strong>: Geben Sie den gewünschten Verschlüsselungsport für die Verschlüsselung der SSH-Übertragung an.</li>
+<li><strong>SSH-Übertragungsverschlüsselung aktivieren</strong>: Die Daten werden während der Übertragung verschlüsselt. Diese Option bietet mehr Sicherheit, während die unverschlüsselte Übertragung leistungsfähiger ist. Treffen Sie Ihre Auswahl je nach Bedarf.
+</li> 
+<li><strong>Übertragungskomprimierung aktivieren</strong>: Die Daten werden während der Übertragung komprimiert. Dabei wird Netzwerkbandbreite gespart, aber die CPU wird stärker beansprucht.</li>
+<li><strong>Synchronisierung in Blöcken aktivieren</strong>: Statt ganzer Dateien werden nur differentielle Daten übertragen. Dabei wird Netzwerkbandbreite gespart, aber die CPU wird stärker beansprucht.</li>
+</ul>
+<li>Wählen Sie, wenn Sie dazu aufgefordert werden, eine der nachstehenden Optionen aus, um festzulegen, wann von der Quelle zum Ziel synchronisiert wird:</li>
+<ul>
+<li><strong>Synchronisierung der Änderung ausführen</strong>: Die Synchronisierungsaufgabe wird sofort nach Durchführung einer Änderung am freigegebenen Quellordner ausgeführt.</li>
+<li><strong>Synchronisierung manuell ausführen</strong>: Sie führen die Synchronisierungsaufgabe manuell vom freigegebenen Quellordner durch.</li>
+<li><strong>Erweiterter Zeitplan</strong>: Klicken Sie auf <strong>Zeitplaner</strong>, um anzugeben, wann die Synchronisierungsaufgabe durchzuführen ist.</li>
+
+</ul>
+<li>Klicken Sie auf <strong>Übernehmen</strong>. Sie können die Synchronisierungsaufgabe jetzt in der Aufgabenliste sehen, die nach dem angegebenen Zeitplan durchgeführt wird.</li></ol>
+<h4>Synchronisierungsaufgabe verwalten:</h4>
+<ol>
+<li>Gehen Sie auf dem Quell-Synology NAS zu <strong>Systemsteuerung</strong> > <strong>Synchronisierung freigegebener Ordner</strong>, klicken Sie auf <strong>Aufgabenliste</strong> und wählen Sie die gewünschte Aufgabe aus.</li>
+<li>Führen Sie einen der folgenden Schritte durch:</li>
+<ul>
+<li>
+Klicken Sie auf <b>Bearbeiten</b>, um die Aufgabe zu bearbeiten.
+</li>
+<li>
+Klicken Sie auf <b>Löschen</b>, um die Aufgabe zu löschen.
+</li> 
+<li>
+Wenn die Synchronisierungsaufgabe nicht gerade läuft, klicken Sie auf <b>Jetzt synchronisieren</b>, um die Aufgabe umgehend durchzuführen.
+</li>
+<li>
+Wenn die Synchronisierungsaufgabe läuft, klicken Sie auf <b>Abbrechen</b>, um die laufende Aufgabe zu stoppen.
+</li>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<p>
+Wenn der Zeitplan einer Synchronisierungsaufgabe auf <b>Synchronisierung bei Änderung ausführen</b> gesetzt ist, kann die laufende Synchronisierungsaufgabe durch Klicken auf <b>Abbrechen</b> gestoppt werden. Wenn dagegen Änderungen am Inhalt eines oder mehrerer von der Synchronisierungsaufgabe überwachter Ordner vorgenommen werden, wird die Aufgabe von der Funktion "Synchronisierung freigegebener Ordner" fortgesetzt.</p>
+</div>
+
+<li>
+Klicken Sie auf <b>Vollständige Synchronisierung</b>, um alle Daten zu synchronisieren. Die Synchronisierung freigegebener Order führt beim ersten Mal eine vollständige Synchronisierung durch und synchronisiert danach nur die geänderten Teile. Durch Klicken auf diese Schaltfläche können Sie alle Daten erneut manuell synchronisieren.
+</li>
+</ul>
+</ol>
+
+<div class="section">
+<h4>Weitere Informationen</h4>
+<ol>
+<li>Der Aufgabenname muss 1 bis 32 Unicode-Zeichen lang sein und darf keines der folgenden Zeichen enthalten:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Werden freigegebene Ordner vom ext4- zum ext3-Dateisystem synchronisiert, können Fehler auftreten, wenn die Aufgabe mehr als 32.000 Ordner enthält.</li>
+<li>Wenn die freigegebenen Ordner auf dem Ziel-Synology NAS zuvor mit dem anderen Synology NAS synchronisiert wurden, führt die Synchronisierung freigegebener Ordner eine vollständige Synchronisierung für die Aufgabe durch.</li>
+<li>Um Aufgaben zur Synchronisierung freigegebener Ordner durchzuführen, benötigen Sie Administratorrechte auf dem Ziel-Synology NAS. Sie besitzen entweder das admin-Konto-Passwort des Ziels oder sind in seiner Administratorengruppe.</li>
+<li>Beim Synchronisieren mit dem Ziel-Synology NAS über das Internet können Sie den Servernamen über die externe IP-Adresse oder den Hostnamen eingeben. Wenn Sie aber den Hostnamen eingeben, muss er das FQDN-Format (Fully Qualified Domain Name) haben, z. B. &quot;www.synology.com&quot;.</li>
+<li>Für die Portweiterleitung verwendet die Synchronisierung freigegebener Ordner Port 22 bei der verschlüsselten Übertragung und Port 873 bei der unverschlüsselten Übertragung.</li>
+<li>Externe Speichergeräte werden von der Synchronisierung freigegebener Ordner nicht unterstützt.</li>
+<li>Wenn die Aufgabe „Synchronisierung freigegebener Ordner“ ausgeführt wird, wird (werden) der (die) freigegebene(n) Ordner am Ziel automatisch angehängt. Um auf die darin enthaltenen Daten zuzugreifen, muss (müssen) jedoch zunächst der (die) verschlüsselte(n) freigegebene(n) Ordner am Ziel angehängt werden.</li>
+<li>Die geplante Synchronisierung freigegebener Ordner wird nicht zum angegebenen Zeitpunkt ausgeführt, wenn keine Änderungen am ausgewählten freigegebenen Ordner durchgeführt wurden.</li>
+<li>Optimal sollten Synchronisierungsaufgaben weniger als 200 freigegebene Ordner umfassen.</li>
+<li>Die Funktion <strong>Benutzer-Home</strong> wird auf dem Zielserver-Synology NAS deaktiviert, wenn der freigegebene Ordner <strong>homes</strong> vom Quell-Synology NAS mit dem Ziel-Synology NAS synchronisiert wird.</li>
+
+<li>Bei Modellen mit CPUs, die nicht von Intel stammen, können durch die Synchronisierung freigegebener Ordner bis zu 100.000 freigegebene Ordner (inkl. Unterordner) synchronisiert werden.</li>
+ <li>Die Synchronisierung freigegebener Ordner kann die Windows ACL-Einstellungen sichern, wenn das Dateisystem des Ziels ext4 oder Btrfs ist. <br><span class="note_head">Anmerkung:</span> Auf Synology NAS gespeicherte Daten und Windows ACL-Einstellungen können nicht zu EDS14 synchronisiert werden. </li>
+ 
+ <li>Die Synchronisierung freigegebener Ordner schlägt fehl, wenn sie mit einem Zielserver erfolgt, der denselben Namen wie Ihr Synology NAS hat.</li>
+ 
+<li>Erweiterte Berechtigungen für freigegebene Ordner der Quelle werden nicht mit dem Ziel synchronisiert. Darüber hinaus wird auf dem Ziel eine Schreibschutzregel für die Gruppe "administrators" erstellt. </li> 
+
+  </ol>
+</div>
+
+</body></html>

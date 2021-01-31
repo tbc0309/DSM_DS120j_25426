@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Domain</h2>
+
+<p>Your Synology NAS can join a Windows domain. After joining the domain, domain users can sign in to your Synology NAS using their domain accounts and passwords, allowing them to access files and use DSM applications without the need to remember another set of usernames and passwords.</p>
+
+<h4>To join a domain:</h4>
+<ol>
+	<li>Go to <strong>Control Panel</strong> &gt; <strong>Domain/LDAP</strong> &gt; <strong>Domain</strong>.</li>
+	<li>Tick the box <strong>Join domain</strong>.</li>
+	<li>Enter the domain name and specify the DNS server in the appropriate fields.</li>
+	<li>If necessary, tick the box <strong>Advanced domain options</strong>. (See below for details.)</li>
+	<li>Click <strong>Apply</strong>.</li>
+	<li>In the popup window, enter the username and password of the administrator of the domain.</li>
+	<li>Click <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>DNS Server</h4>
+<p>We recommend specifying a DNS server to help your Synology NAS  search for the domain. If the domain, however, is not registered on the DNS server, the procedure of joining the domain may fail.</p>
+
+<h4>Domain Server Type</h4>
+<p>This field shows the domain type when your Synology NAS joins a domain. The domain type will be "AD domain".</p>
+
+<h4>Management Mode</h4>
+<p>This option will determine how you manage the privileges of domain users and groups. </p>
+<ul>
+	<li><strong>Trusted Domain</strong>: Users and groups in the joined domain as well as trusted domains can be managed. You can filter the list of users and groups by domains.</li>
+	<li><strong>Single Domain with OU</strong>: Only users and groups in the joined domain will be displayed in this mode. This mode allows you to filter the list of users and groups by organizational units (OUs).</li>
+</ul>
+
+<h4>Advanced Domain Options</h4>
+<p>In most cases, you do not need to fill in any of the advanced domain options. Advanced domain options are needed only for specific domain environments. </p>
+<ul>
+	<li><strong>DC IP/FQDN</strong>: Specify a DC (domain controller) IP address or FQDN, and your Synology NAS will try to communicate with it. If there is more than one IP address or FQDN, insert a comma (,) between each one. Add an asterisk (*) after the last DC IP address or FQDN if you wish, and your Synology NAS will try to communicate with the other DC if all specified ones have failed. You will need to add a comma between the asterisk and the last IP address or FQDN.</li>
+	<li><strong>Domain NetBIOS name</strong>: Specify the NetBIOS name of the domain.</li>
+	<li><strong>Domain FQDN (DNS name)</strong>: Specify the FQDN (DNS name) of the domain.</li>
+	<li><strong>Register DNS interface</strong>: When joining a domain, the NIC (Network Interface Card) specified here will be registered with the DNS server. Please note that, if the hostname of  your Synology NAS includes an underscore (_), the registration will fail because underscores (_) cannot be used with DNS.</li>
+	<li><strong>Update user/group list</strong>: Specify how often  your Synology NAS automatically updates the domain user/group list. You can customize the time to perform updates daily, weekly, or monthly. In addition, domain user/group lists can be manually updated by going to the <strong>Domain Users</strong> tab and clicking <strong>Update domain data</strong>. Please note automatic updates will affect system hibernation.</li>
+</ul>
+
+<h4>Joining Read-Only Domain Controller</h4>
+<p>To join your Synology NAS to a read-only domain controller (RODC), you need to specify the "full computer name" (FQDN) of your read-write domain controller (RWDC) in the <strong>DC IP/FQDN</strong> field. The full computer name should be in the following format: <strong>ComputerName.Domain</strong>, e.g., "ad01.synology.com".</p>
+</div>
+
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>If your domain user name includes % or $, you may not be able to access your home folder. Please ask your domain administrator to give you a new user name.</li>
+	<li>The domain groups <strong>Domain Admins</strong> and <strong>Enterprise Admins</strong> will be automatically added to the local <strong>administrators</strong> group. Therefore, the domain users in these groups will possess administrative privileges on  your Synology NAS, including access to file services like CIFS/FTP/AFP/WebDAV and other DSM applications.</li>
+	<li>You can also configure domain users’ access privileges to the shared folders on your Synology NAS. See <a href="file_directory_service_user_group.html">here</a> for more information.</li>
+</ul>
+</div>
+
+<h3>Domain Options</h3>
+
+<p>This section includes the additional domain options below.</p>
+<ul>
+	<li><strong>DiskStation will synchronize with an NTP server every time when a domain user logs in</strong>: Enabling this option will force synchronize the time between your Synology NAS and the NTP server.</li>
+	<li><strong>Get user/group lists with NT4-compatible mode</strong>: Enabling this option allows the system to obtain user/group lists using the NT4 RPC mode. This option can be enabled if certain domain user/group lists cannot be obtained using default settings.</li>
+	<li><strong>Enable server signing</strong>: If the client has enabled client signing, server signing must also be enabled on your Synology NAS so that users can use domain services normally.</li>
+	<li><strong>Enumerate nested group levels</strong>: Specify the number of nested, domain group members that can be enumerated.</li>
+	<li><strong>Domain Administrators</strong>: Specify up to 10 groups of users to whom you wish to grant the administrators permissions. Any user with administrator permissions will have full control of your Synology NAS and the files stored thereon.</li>
+	<li><strong>Enable Integrated Windows Authentication</strong>: Enabling this option allows users who have already signed in to their computers through their domain accounts to sign in to DSM via the Internet browser without entering username and password.</li>
+</ul>
+
+<div class="section"><h4>Using Integrated Windows Authentication</h4>
+<ul>
+	<li>The client computer must be running the Windows operating system, and the version must be Windows 7 or above.</li>
+	<li>The client computer must join the same domain as Synology NAS.</li>
+	<li>Go to Windows' <b>Control Panel</b> > <b>Internet Options</b> > <b>Advanced</b> and make sure <b>Enable Integrated Windows Authentication</b> checkbox under the <b>Security</b> section is ticked.</li>
+	<li>Integrated Windows Authentication works with all browsers. For Firefox, a few more steps are required for setup.
+		<ul>
+			<li>Open a Firefox browser, enter <b>about:config</b> in the URL bar.</li>
+			<li>Search for <b>network.automatic-ntlm-auth.trusted-uris</b>.</li>
+			<li>Double click on the <b>value</b> field and enter the IP address of the domain.</li>
+		</ul>
+	</li>
+	<li>If you are joining your Synology NAS to a domain created by Synology Directory Server, additional configuration is required to use integrated Windows Authentication:
+		<ol>
+			<li>Go to DSM <b>Control Panel</b> > <b>File Services</b> > <b>SMB/AFP/NFS</b>.</li>
+			<li>Under the <b>SMB</b> section, click <b>Advanced Settings</b>.</li>
+			<li>Select <b>SMB1</b> from the <b>Minimum SMB protocol</b> drop-down menu and click <b>Save</b>.</li>
+		</ol>
+	</li>
+
+</ul>
+</div>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>Signing in through Integrated Windows Authentication is only available on DSM 6.2.2 or above.</li>
+		</ul></li>
+</ul>
+</div>
+
+<h3>Domain Status Check</h3>
+
+<p>You can click <strong>Domain Status Check</strong> to check the status of the connection between your DSM and the domain server it has joined. For more information on troubleshooting, please refer to the following check items:</p>
+<ul>
+	<li><strong>Check if the connection works properly between Synology NAS and <font>domain controller</font></strong>: Synology NAS failed to communicate with the <font>domain controller</font>.
+		<ul>
+			<li>Make sure the ports 389, 139, and 445 work properly on the <font>domain controller</font>.</li>
+			<li>Make sure the NTDS service works properly on the <font>domain controller</font>.</li>
+		</ul>
+	</li>
+	<li><strong>Check if conflicting hostnames exist in the subnet</strong>: Your Synology NAS has the hostname that has already existed in the subnet.
+		<ul>
+			<li>If your Synology NAS is connected to a subnet with multiple network interfaces, your DSM will work properly.</li>
+			<li>If your Synology NAS is connected to a subnet with a single network interface, please change the hostname of your Synology NAS, and join it to the domain again.</li>
+		</ul>
+	</li>
+	<li><strong>Check if the connection works properly between Synology NAS and Kerberos server</strong>: Synology NAS failed to communicate with the Kerberos server.
+		<ul>
+			<li>Make sure the correct Kerberos DNS SRV record and related A record exist on the DNS server.</li>
+			<li>Make sure the port 88 is available on the KDC server.</li>
+		</ul>
+	</li>
+	<li><strong>Check if the connection works properly between Synology NAS and LDAP server</strong>: Synology NAS failed to communicate with the LDAP server.
+		<ul>
+			<li>Make sure the correct LDAP DNS SRV record and related A record exist on the DNS Servers.</li>
+			<li>Make sure the port 389 works properly on the LDAP server.</li>
+		</ul>
+	</li>
+	<li><strong>Check if the MTU is configured correctly to ensure the connection works properly between Synology NAS and domain controller</strong>: One or more switches dropped packets transferred between Synology NAS and <font>domain controller</font> because of invalid MTU size of the packets.
+		<ul>
+			<li>Please check the interface settings of switches between Synology NAS and the <font>domain controller</font>.</li>
+		</ul>
+	</li>
+	<li><strong>Check if the time is synced between Synology NAS and the domain</strong>: Time on your Synology NAS is not synchronized with the domain server.
+		<ul>
+			<li>You can set up NTP service on Synology NAS to sync the time with the domain server, or enable the <strong>Synology NAS will synchronize with an NTP server every time when a domain user logs in</strong> option in <strong>Domain Options</strong>.</li>
+		</ul>
+	</li>
+</ul>
+
+</body>
+</html>

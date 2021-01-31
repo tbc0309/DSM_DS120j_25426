@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>LAN / draadloos LAN</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="lan"></a>LAN/Internet</h2>
+<p>Afhankelijk van uw Synology NAS-model en netwerkinstellingen kunt u DHCP-instellingen voor LAN of internet configureren onder <strong>Configuratiescherm</strong> > <strong>Netwerk</strong> > <strong>Netwerkinterface</strong>. DHCP is een netwerk protocol voor automatische IP configuratie. Om DHCP een IP toe te laten wijzen voor het systeem, klikt u op <strong>Bewerken</strong> en selecteert u <b>Netwerkconfiguratie automatisch ophalen (DHCP)</b> in het tabblad <strong>IPv4</strong>.</p>
+<p>Als u een specifiek IP-adres van uw netwerkserviceprovider gebruikt, selecteert u <b>Handmatige configuratie gebruiken</b> en voert u het IP-adres en subnetmasker handmatig in. Als er geen DNS server of standaardgateway beschikbaar is, laat u dit vak leeg.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ol>
+<li>om zeker te zijn dat de e-mail berichten correct bezorgd worden via de SMTP-server moet een geldige DNS server IP ingevoerd worden.</li>
+<li>Jumbo Frames zijn Ethernetframes met meer dan de standaard 1500 bytes Maximum Transmission Unit (MTU), wat het versturen van grote bestanden over Ethernet veel efficiënter maakt. Het kan alleen worden ingeschakeld in een gigabitnetwerkomgeving.  Om ervoor te zorgen dat Jumbo Frames correct werken, moeten alle computers en apparaten die via het netwerk met uw Synology NAS zijn verbonden het ondersteunen en dezelfde MTU-waarde gebruiken.</li>
+</ol>
+</div>
+
+<h3><a name="vlan"></a>VLAN</h3>
+<p>Wanneer de netwerkomgeving VLAN-instellingen vereist, kunt u de VLAN-optie inschakelen en een VLAN-id voor de netwerkomgeving invoeren in het tabblad <strong>IPv4</strong> in het scherm Bewerken.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>zorg dat uw netwerkswitch correct is geconfigureerd, anders kan de service van uw Synology NAS ontoegankelijk worden.</li>
+<li>Als u na het wijzigen van de bovenstaande instellingen geen verbinding met uw Synology NAS kunt maken, druk dan op de RESET-knop op uw Synology NAS om de standaardinstellingen te herstellen.</li>
+</ul>
+</div>
+
+
+<h3><a name="ipv6"></a>IPv6 installeren</h3>
+<p>Synology NAS;apparaten ondersteunen IPv4/IPv6 dual stack-schema's. Dit impliceert dat IPv4 en IPv6 beide gelijktijdig kunnen werken op uw Synology NAS. De standaardinstelling voor IPv6 is <b>Automatisch</b>. Selecteer een bestaande netwerkinterface, klik op de knop <b>Bewerken</b> en ga naar het tabblad <b>IPv6</b> om de instellingen te wijzigen.</p>
+
+<h4>Om IPv6-instellingen te configureren:</h4>
+<ol>
+<li>Ga naar <strong>Configuratiescherm</strong> > <strong>Netwerk</strong> > <strong>Netwerkinterface</strong>.</li>
+<li>Selecteer een bestaande netwerkinterface en klik op <strong>Bewerken</strong>.</li>
+<li>Selecteer op het tabblad <strong>IPv6</strong> een installatietype van <strong>IPv6 installeren</strong>:
+  <ul>
+    <li><b>Automatisch</b>: uw Synology NAS genereert automatisch een IPv6-adres afhankelijk van de LAN Router Advertisement (RA).</li>
+	<ul>
+	  <li><strong>Stateless-modus</strong>: toestaan dat op de router aangesloten apparaten automatisch een IPv6-adres kunnen configureren zonder IPv6 DNS Server in te stellen.</li>
+      <li><strong>Stateless DHCPv6-modus</strong>: toestaan dat op de router aangesloten apparaten automatisch een IPv6-adres kunnen configureren en DNS-informatie via DHCPv6 kunnen verkrijgen.</li>
+      <li><strong>Stateful-modus</strong>: toestaan dat op de router aangesloten apparaten een IPv6-adres en DNS-informatie via DHCPv6 kunnen verkrijgen. In deze modus moet u de DHCPv6-server inschakelen en het <strong>Start IP-adres</strong> en <strong>Einde IP-adres</strong> van de DHCPv6-server instellen.</li>
+	</ul>
+<li><b>Handmatig</b>: stel handmatig IPv6 in door gegevens in te voeren voor <b>IPv6-adres</b>, <b>Lengte van prefix</b> en <b>Standaardgateway</b>.</li>
+<li><b>Uit</b>: hiermee schakelt u IPv6-ondersteuning uit.</li>
+  </ul>
+</ol>
+<p>Tot IPv6 volledig IPv4 overtreft, zijn IPv6-overgangsmechanisme nodig zodat hosts met IPv4-adressen IPv6-adressen kunnen bereiken. Kies een van de verschillende IPv6-overgangsmechanisme:</p>
+<ul>
+  <li><b>6in4</b>: verbinding maken met het IPv6-netwerk via een Tunnel Broker. U moet de velden <b>IPv6-adres</b>, <b>Lengte van prefix</b>, <b>Prefix</b> en <b>Tunnel broker IPv4-adres</b> invullen. Dit vereist een publiek IPv4-adres.</li>
+<li><b>6naar4</b>: verbinding maken met het IPv6-netwerk via een Tunnel Broker die Anycast gebruikt. Dit vereist een publiek IPv4-adres.</li>
+<li><b>DHCP-PD</b>: verkrijg een IPv6-prefix van de DHCP-server via prefixdelegatie binnen LAN. Dit vereist ondersteuning van de ISP en functioneert alleen in de routermodus.</li>
+<li><strong>IPv6 Tunneling (TSP)</strong>: Ga naar <strong>Configuratiescherm</strong> &gt; <strong>Netwerk</strong> &gt; <strong>Algemeen</strong> om deze optie te configureren.</li>
+</ul>
+
+<h3>802.1X</h3>
+<p>802.1X is een verificatiestandaard ontwikkeld door IEEE voor gebruikersverbindingsnetwerken. 802.1X kan in netwerken voor clientverificatie worden gebruikt, waardoor niet volledig geverifieerde clients geen toegang tot het beveiligde netwerk hebben. </p>
+<p>Uw Synology NAS kan via 802.1X-verificatie een verbinding maken met hetwerk.</p>
+
+<h4>802.1X-verificatie inschakelen:</h4>
+<ol>
+<li>Ga naar <strong>Configuratiescherm</strong> > <strong>Netwerk</strong> > <strong>Netwerkinterface</strong>. </li>
+<li>Selecteer een netwerkinterface (bijv. LAN) en klik op <strong>Bewerken</strong>. </li>
+<li>Ga naar het tabblad <strong>802.1X</strong> en schakel het selectievakje <strong>802.1X-verificatie inschakelen</strong> in. </li>
+<li>Kies een van de protocollen uit in het vervolgkeuzemenu <strong>Authentication</strong>. Weet u niet welk protocol het geschikst is, selecteer <strong>Automatisch</strong>.  <ul>
+<li><strong>Beveiligd EAP (PEAP)</strong>: Gebruik een CA-certificaat (optioneel) om een beveiligde verbinding te maken. Deze beveiligde verbinding wordt gebruik door de interne verificatie.</li>
+<li><strong>Tunneled TLS (TTLS)</strong>: Gebruik een CA-certificaat (optioneel) om een beveiligde verbinding te maken. Deze beveiligde verbinding wordt gebruik door de interne verificatie.</li>
+<li><strong>TLS</strong>: gebruik TLS (Transport Layer Security) voor verificatie.</li> </ul> </li>
+<li>Kiest u <strong>TTLS</strong> of <strong>PEAP</strong> dan selecteert u een van de interne verificatieprotocollen in het vervolgkeuzemenu.
+<ul>
+<li><strong>MS CHAP v2</strong>: verificatie-informatie wordt gecodeerd met Microsoft CHAP v2.</li>
+<li><strong>GTC</strong>: verificatie-informatie gebruikt GTC (Generic Token Card) voor codering.</li>
+</ul></li>
+<li>Voer uw gebruikersnaam en wachtwoord in.</li>
+<li>Indien vereist, klik op <strong>Importeren</strong> en vervolgens op <strong>Bladeren</strong> om een geëxporteerd certificaat op de Radius-server te zoeken en te downloaden (bijvoorbeeld ca.crt).</li>
+<li>Klik op <strong>OK</strong> om uw instellingen op te slaan.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>ga naar <strong>Configuratiescherm</strong> > <strong>Draadloos</strong> > <strong>Wi-Fi</strong> om de 802.1X-verificatie voor draadloze netwerken te configureren.</li>
+<li>De verificatie-instellingen moeten identiek zijn aan de Radius Server-instellingen. Voor meer informatie neem contact op met de Radius Server-administrator.</li>
+</ul>
+</div>
+
+<h2>Draadloos LAN*</h2>
+<p>Wanneer uw Synology NAS als een draadloze router fungeert, kunt u met de volgende instellingen voor draadloos LAN configureren onder <strong>Configuratiescherm</strong> > <strong>Netwerk</strong> > <strong>Netwerkinterface</strong>.</p>
+<h3>IPv4-instellingen</h3>
+
+<h4>IP-adres en subnetmasker</h4> 
+<p>Hier kunt u het IP-adres en subnetmasker instellen voor uw Synology NAS.</p>
+<h4>DHCP Server</h4>
+<p>Schakel de optie <strong>DHCP-server inschakelen</strong> in om toe te staan dat uw Synology NAS IP-adressen aan clientapparaten toewijst die een verbinding maken met het lokale netwerk van uw Synology NAS.</p>
+<h4>PPPoE-relay</h4>
+<p>Schakel <strong>PPPoE-relay</strong> in zodat op uw Synology NAS aangesloten apparaten via PPPoE-verbinding verbinding kunnen maken met internet.</p>
+
+<h4>Configureren als UPnP-internetgateway</h4>
+<p>Schakel de <strong>UPnP</strong>-service in zodat uw Synology NAS een UPnP-internetgateway wordt zodat apparaten die op het lokale netwerk van uw Synology NAS zijn aangesloten de poort doorsturen-instellingen voor UPnP kunnen configureren.</p>
+
+<h3>IPv6-instellingen</h3>
+<p>U kunt een IPv6-adres en -prefix verkrijgen van <strong>LAN/internet</strong> met 6in4, 6naar4 of DHCP-PD. Met deze informatie kunt u hier de IPv6-routeringopties voor uw Synology NAS configureren.</p>
+<ul>
+<li><strong>IPv6-adres</strong>: voer het van <strong>LAN/Internet</strong> verkregen IPv6-adres in.</li>
+<li><strong>Lengte van prefix</strong>: voer de van <strong>LAN/Internet</strong> verkregen prefixlengte van het IPv6-adres in, standaard 64.</li>
+<li><strong>Primaire DNS</strong>: de primaire DNS-server voor op de router aangesloten apparaten. In de <strong>Stateless-modus</strong> hoeft dit niet te worden ingesteld.</li>
+<li><strong>Secundaire DNS</strong>: de secundaire DNS-server voor op de router aangesloten apparaten. In de <strong>Stateless-modus</strong> hoeft dit niet te worden ingesteld.</li>
+</ul>
+<p>U hebt de keuze uit drie Router Advertisement (RA)-modi:</p>
+<ul>
+<li><strong>Stateless-modus</strong>: toestaan dat op de router aangesloten apparaten automatisch een IPv6-adres kunnen configureren zonder IPv6 DNS Server in te stellen.</li>
+<li><strong>Stateless DHCPv6-modus</strong>: toestaan dat op de router aangesloten apparaten automatisch een IPv6-adres kunnen configureren en DNS-informatie via DHCPv6 kunnen verkrijgen.</li>
+<li><strong>Stateful-modus</strong>: toestaan dat op de router aangesloten apparaten een IPv6-adres en DNS-informatie via DHCPv6 kunnen verkrijgen. In deze modus moet u de DHCPv6-server inschakelen en het <strong>Start IP-adres</strong> en <strong>Einde IP-adres</strong> van de DHCPv6-server instellen.</li>
+</ul>
+
+<h3>DHCP-clients</h3>
+<p>Hier ziet u een lijst van DHCP-clients en hun netwerkconfiguraties (bijv. MAC-adres, IP-adres, hostnaam en de geldigheidsduur van de DHCP-licentie).</p>
+<p>In het vervolgkeuzemenu van IPv4/IPv6-clients kunt u de weergave filteren op IPv4- en IPv6-clients. Selecteer een client en klik op <strong>Toevoegen aan adresreservering</strong> om een client toe te voegen aan de adresreserveringslijst.</p>
+
+<h3>DHCP-reservering</h3>
+<p>Als u wilt dat een client altijd hetzelfde IP-adres ontvangt tijdens de verlenging van de DHCP-lease kunt u de client aan de adresreserveringslijst toevoegen.</p>
+<p>In het vervolgkeuzemenu kunt de IPv4/IPv6-adresreservering filteren. De IPv4-adressen worden geïdentificeerd op MAC-adres en de IPv6-adressen op DUID.</p>
+<h4>Om een client aan de adresreserveringslijst toe te voegen:</h4>
+<ul>
+<li>Selecteer een client en klik op <b>Toevoegen</b>.</li>
+<li>Geef het MAC-adres od DUID van de client op, het IPv4/IPv6-adres dat wilt toevoegen aan de client en de hostnaam van de client. </li>
+<li>Klik op <b>OK</b> om uw instellingen op te slaan.</li>
+</ul>
+<p>
+<b>_____</b> <br> * Alleen beschikbaar op bepaalde modellen of in overeenstemming met uw omgeving.
+</p>
+</body>
+</html>

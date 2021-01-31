@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>NFS-service</h2>
+<p>NFS-tjenesten g&oslash;r det muligt for Linux-klienter at f&aring; adgang til data p&aring; Synology NAS-enheden.</p>
+<h4>S&aring;dan aktiverer du NFS-tjenesten:</h4>
+<ol>
+<li>G&aring; til <strong>Kontrolpanel</strong> &gt; <strong>Filtjenester</strong> &gt; <strong>SMB/AFP/NFS</strong>, og marker<b>Aktiver NFS</b>.</li>
+<li>Klik p&aring; <b>Anvend</b>.</li>
+</ol>
+
+
+<div class="section">
+  <h4>Bem&aelig;rk:</h4>
+<ul>
+<li> Synology NAS underst&oslash;tter aktuelt NFSv2, NFSv3 og NFSv4.</li>
+<li>Ved tilknytning kan parameteren <strong>-o vers=2</strong>, <strong>-o vers=3</strong> eller <strong>-o vers=4</strong> tilf&oslash;jes til tilknytningskommandoen for at angive den NFS-version, der skal bruges.</li>
+<li>De f&oslash;lgende delte mapper tillader ikke adgang via NFS:
+	<ul>
+    <li>Krypterede delte mapper</li>
+    <li>Delte mapper til PetaSpace</li>
+    <li>Delte mapper, der bruger filsystemerne HFS, HFS Plus og exFAT</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>S&aring;dan tillader du Linux-klienter at f&aring; adgangsprivilegier til delte mapper:</h4>
+<p>G&aring; til <b>Kontrolpanel</b> &gt; <b>Delt mappe</b>. V&aelig;lg en delt mappe, og klik p&aring; <strong>Rediger</strong> for at administrere NFS-regler og regulere adgangsrettigheder til denne delte mappe for Linux-klienter.</p>
+
+
+<h3>Indstilling af NFSv4-underst&oslash;ttelse</h3>
+<p>Du kan fastl&aelig;gge, om din NFS-server underst&oslash;tter NFSv4. N&aring;r denne muligheder er aktiveret, vil NFS-serveren underst&oslash;tte NFSv2, NFSv3 og NFSv4. Ellers underst&oslash;ttes kun NFSv2 og NFSv3.</p>
+
+<h4>S&aring;dan aktiverer du NFSv4-underst&oslash;ttelse:</h4>
+<ol>
+<li>Marker <b>Aktiver NFSv4-underst&oslash;ttelse</b>.
+</li>
+<li>
+I feltet <b>NFSv4-dom&aelig;ne</b> indtaster du navnet p&aring; det NFSv4-dom&aelig;ne, du vil bruge. Dette felt er valgfrit og kan efterlades tomt.</li>
+<li>
+Klik p&aring; <b>Anvend</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Bem&aelig;rk:</h4>
+<p>N&aring;r du bruger NFSv4 til at tilknytte den delta mappe, skal du l&aelig;gge m&aelig;rke til f&oslash;lgende. Ellers vil filoperationer, der er knyttet til brugernavnet, mislykkes.</p>
+<ul>
+<li>NFS-klienten skal aktivere idmapd.</li>
+<li>NFSv4-dom&aelig;neindstillinger i idmapd.conf-filen p&aring; NFS-klienten skal v&aelig;re i overensstemmelse med feltet <b>NFSv4-dom&aelig;ne</b> p&aring; Synology NAS.</li>
+</ul>
+
+</div>
+
+
+<h3>Avancerede indstillinger</h3>
+
+<h4>Anvender standard UNIX-tilladelser</h4>
+<p> N&aring;r <strong>Anvend standard UNIX-tilladelser</strong> er markeret, anvendes standard UNIX-tilladelser angivet p&aring; Linux-klienten i stedet for Windows ACL-tilladelser, n&aring;r filer og mapper uploades eller oprettes. Anvendte tilladelser er de samme som tilladelser, der anvendes af UNIX-kommandoen <strong>unmask</strong>.  Standard unmask-v&aelig;rdien er 022.</p><div class="section">
+<h4>Bem&aelig;rk:</h4>
+<ul>
+  <li>For Windows ACL-aktiverede delte mapper (alle delinger bortset fra &quot;photo&quot; og delinger p&aring; eksterne drev) skal du k&oslash;re kommandoen <strong>chmod</strong> p&aring; din Linux eller FTP-klient for at &aelig;ndre mappe- og filtilladelsestyper fra Windows ACL til UNIX.</li>
+  <li>Aktivering af denne mulighed kan medf&oslash;re inkonsekvente tilladelsesproblemer mellem forskellige protokoller. Hvis du vil undg&aring; inkonsekvenser, foresl&aring;r vi, at du deaktiverer denne mulighed.</li>
+</ul>
+</div>
+
+<h4>Tilpasset port</h4>
+<p>Du kan tilpasse portnumre til statd- og nlockmgr-tjenester.</p>
+
+<ol>
+<li>V&aelig;lg <strong>Tilpassede porte</strong>.</li>
+<li>Indtast portnumre i <strong>statd-port</strong> og <strong>nlockmgr-port</strong>.</li>
+<li>
+Klik p&aring; <b>Anvend</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Bem&aelig;rk:</h4>
+<ul>
+<li>Hvis du vil bruge NFSv3-tjenester, skal du g&aring; til <strong>Kontrolpanel</strong> &gt; <strong>Sikkerhed</strong> &gt; <strong>Firewall</strong> og oprette en firewallregel, der aktiverer &quot;Mac/Linux-filserver&quot; i listen over indbyggede programmer.</li>
+</ul>
+</div>
+<h4>Indstilling af l&aelig;se-/skrive-pakkest&oslash;rrelse</h4>
+<p>N&aring;r l&aelig;se/skrive-pakkest&oslash;rrelsen ikke kan angives p&aring; din NFS-klient, kan du angive standardv&aelig;rdien i dette felt.</p>
+
+<ol>
+<li>V&aelig;lg den &oslash;nskede pakkest&oslash;rrelse fra felterne <strong>L&aelig;s pakkest&oslash;rrelse</strong> og <strong>Skriv pakkest&oslash;rrelse</strong>.</li>
+<li>
+Klik p&aring; <b>Anvend</b>.
+</li>
+<li>
+Gentilknyt delen.
+</li>
+</ol>
+
+<div class="section">
+<h4>Bem&aelig;rk:</h4>
+<ul>
+<li>Efter &aelig;ndring af l&aelig;se/skrivepakkest&oslash;rrelsen skal den delte mappe gentilknyttes, f&oslash;r de nye indstillinger kan tr&aelig;de i kraft.</li>
+<li>Disse indstillinger p&aring;virker kun NFS-klienter, der opretter forbindelse via UDP (User Datagram Protocol).</li>
+</ul>
+</div>
+
+
+
+
+<h3>Kerberos-indstillinger*</h3>
+<p>Kerberos er en netv&aelig;rksgodkendelsesprotokol. Det s&aelig;tter klienter og servere i stand til at kommunikere over et ikke-sikret netv&aelig;rk for at godkende og bevise deres identiteter til hinanden p&aring; en sikker m&aring;de. Synology NAS indeholder muligheder til import af en eksisterende Kerberos-n&oslash;gle. N&aring;r den er importeret uden fejl, kan NFS-klienter bruge Kerberos-godkendelsesprotokollen til at oprette forbindelse til Synology NAS.</p>
+
+<h4> S&aring;dan importerer du en Kerberos-n&oslash;gle: </h4>
+<ol>
+<li>Klik p&aring; <strong>Kerberos-indstillinger</strong>.</li>
+<li>Klik p&aring; knappen <b>Importer</b>.</li>
+<li>V&aelig;lg den Kerberos-n&oslash;gle, du vil importere.</li>
+<li>Klik p&aring; <b>OK</b>.</li>
+</ol>
+
+<h3><a name="idmap"></a>Kerberos ID-mapping</h3>
+<p>Du kan tilknytte individuelle Kerberos-principals til lokale DSM-brugerkonti.</p>
+<h4> S&aring;dan tilknytter du Kerberos-principals og lokale brugerkonti: </h4>
+<ol>
+<li>Klik p&aring; <strong>Kerberos-indstillinger</strong>.</li>
+<li>G&aring; til fanen <strong>ID-mapping</strong>.</li>
+<li> Klik p&aring; knappen <b>Tilf&oslash;j</b> . V&aelig;lg en af f&oslash;lgende.</li>
+<ul>
+<li><strong>ID-mapping:</strong> Indtast Kerberos-principal og den lokale brugerkonto, som den skal tilknyttes.</li>
+<li><strong>Foresl&aring;et mappingliste:</strong> Denne mulighed viser en liste over foresl&aring;ede Kerberos-principal-/lokale brugertilknytningsvalg, der genereres af systemet.</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> Bem&aelig;rk: </h4>
+<ul>
+<li>Hvis du vil tilknytte en NFS-klient, som opretter forbindelse via Kerberos til en eksisterende dom&aelig;ne-/LDAP-brugerkonto, skal du s&oslash;rge for, at du deltager i katalogtjenesten. Derudover skal katalogserveren have en attribut, der inkluderer den tilsvarende Kerberos-principal.</li>
+<ul>
+<li><strong>Dom&aelig;nebruger:</strong> Formatet for den tilsvarende attribut skal v&aelig;re <strong>userPrincipalName</strong>.</li>
+<li><strong>LDAP-bruger:</strong> Formatet for den tilsvarende attribut skal v&aelig;re <strong>GSSAuthName</strong>.</li>
+</ul>
+<li>Hvis brugeren ikke kan tilknyttes korrekt til en lokal bruger eller dom&aelig;ne-/LDAP-bruger, skal brugeren s&aring; tilknyttes til &quot;guest.&quot;
+<li>Tilknytningsprioriteten er som f&oslash;lger: Lokal bruger &gt; Dom&aelig;ne-/LDAP-bruger &gt; Guest. </li>
+<li>Hvis du vil &aelig;ndre adgangstilladelserne til NFS-klienter, skal du bruge Windows-adgangskontrolliste (ACL). Privilegiemulighederne findes under <strong>Kontrolpanel</strong> &gt; <strong>Bruger</strong> og g&aelig;lder ikke for NFS-klienter.</li>
+</ul>
+</div>
+<p>
+<br>____<br> * Kun tilg&aelig;ngeligt p&aring; visse modeller.
+
+</p>
+
+
+
+</body>
+</html>

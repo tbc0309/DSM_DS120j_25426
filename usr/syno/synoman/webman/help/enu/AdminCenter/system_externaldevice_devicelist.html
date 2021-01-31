@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>External Devices</h2>
+
+<p>Go to <strong>Control Panel</strong> &gt; <b>External Devices</b> &gt; <b>External Devices</b> to view a list of external storage devices connected to your Synology NAS.</p>
+
+<h3><a name="usbdisk"></a><a name="esatadisk"></a>External Drives</h3>
+<p>By connecting an external drive to the system, you will be able to share its drive capacity through a system-created shared folder named <b>usbshare[number]</b> (for USB drives, if applicable) or <b>satashare[number]</b> (for eSATA drives, if applicable). The shared folder will be removed automatically when the external drive is ejected from the system.</p>
+
+<p>Synology NAS recognizes the following formats: <strong>Btrfs</strong>, <strong>ext3</strong>, <strong>ext4</strong>, <strong>FAT</strong>, <strong>FAT32</strong>, <strong>exFAT</strong>, <strong>HFS</strong>, <strong>HFS Plus</strong>, and <strong>NTFS</strong>. Any unrecognized external drive will have to be formatted first before being used on the system.</p>
+
+<div class="section"><h4>Note:</h4>
+<ol>
+	<li>Some models support HFS/HFS Plus with read-only.</li>
+	<li>Journal is not supported on HFS/HFS Plus.</li>
+	<li>You will need to install <strong>exFAT Access</strong> from <strong>Package Center</strong> to enable Synology NAS to support exFAT. For a list of Synology product models which support exFAT format, please refer to <a href="https://www.synology.com/dsm/packages/exFAT" target="_blank">this page</a>.</li>
+	<li>Make sure you eject the external drive before unplugging it.</li>
+	<li>Btrfs is available on specific models only. To check if your model supports Btrfs, please refer to <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">this article</a>.</li>
+</ol>
+</div>
+
+<h4>To access disc images:</h4>
+<p>Synology NAS supports mounting virtual drives to access the contents of disc images on external devices with File Station. To learn how to mount virtual drives, please refer to <a href="https://www.synology.com/knowledgebase/DSM/help/FileStation/mountiso" target="_blank">this article</a>.</p>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+<li>Supported disc image format: ".iso" files using the ISO 9960 and UDF file system.</li>
+</ul>
+</div>
+
+<h4>To format the drive:</h4>
+
+<p>Click <b>Format</b> and follow the wizard. You can format your external drives to <b>ext4</b> and <b>FAT32</b> with Synology NAS.</p>
+
+<div class="section"><h4>Note:</h4>
+<ol>
+	<li>Make sure to back up your data before formatting the external drive. All data will be deleted during the procedure and cannot be restored.</li>
+	<li>To format the external drive to ext3 or ext4 format, the drive capacity must be larger than 1 GB.</li>
+	<li>When the drive is formatted as ext3 or ext4 format, it is only recognized by Synology NAS. If you would like to read data directly from your external drive with a PC and Mac, choose FAT32 format.</li>
+</ol>
+</div>
+
+<h4>To perform S.M.A.R.T. Test:</h4>
+<p>Drive S.M.A.R.T. Test examines and reports the status of your hard drives, providing early warning of imminent drive failure. We recommend changing your drive if any errors are detected. <br />
+To perform S.M.A.R.T. Test, simply click the <strong>S.M.A.R.T. Test</strong> button and follow the wizard.<br />
+To check the test results, simply click <strong>S.M.A.R.T. Info</strong>.</p>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>Test time varies depending on your system environment.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Limitations</h4>
+
+<p>Drive formatting is not available in the following situations:</p>
+
+<ul>
+	<li>The external drive is being initialized, i.e. when the external device has just been plugged in.</li>
+	<li>The capacity of the external drive is less than 1 GB (ext3 or ext4 format).</li>
+	<li>The external drive is being formatted.</li>
+	<li>When the system is backing up files to the external drive.</li>
+	<li>The external drive is damaged.</li>
+</ul>
+
+<h4>Troubleshooting</h4>
+<ol>
+	<li>Failed to format the external drive. Why?
+		<ul>
+			<li>Check if the external drive is properly inserted.</li>
+			<li>Check if the external drive is write-protected. If yes, remove it before formatting. </li>
+		</ul>
+	</li>
+	<li>The file system of the external drive is shown as <strong>Not Supported</strong>, or the system does not create the <strong>usbshare[number]</strong> or <strong>satashare[number]</strong> shared folder for the external drive. What should I do?
+<ul>
+			<li>The current system recognizes Btrfs, ext3, ext4, FAT, FAT32, HFS, HFS Plus, and NTFS formats. Any external drive not formatted to the types above will not be recognized and the status will be shown as <b>Not Supported</b>.</li>
+		</ul>
+	</li>
+	<li>I cannot access the <b>usbshare[number]</b> or <b>satashare[number]</b> shared folder. What should I do?
+		<ul>
+			<li>This might result from a problem in the file system on your external drive. To fix it, please connect the external drive to a PC and perform a file system check.</li>
+		</ul>
+	</li>
+	<li>Can my external drive with ext3 or ext4 format be connected to my PC and Mac and accessed directly?
+		<ul>
+			<li>No, ext3 or ext4 is only recognized by the Synology NAS. If you would like to read data directly from your external drive with a PC and Mac, choose FAT32 format. </li>
+		</ul>
+	</li>
+	<li>Why do I see a folder named "lost+found" in my external drive?
+		<ul>
+			<li>This is a system default folder that is created automatically when using ext3/ext4 file system. It is normal to see the folder on your external drive. Although administrators have the right to access and manage the content within, it is strongly recommended to not tamper with the folder.</li>
+		</ul>
+	</li>
+</ol>
+</div>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>Btrfs is available on specific models only. To check if your model supports Btrfs, please refer to <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">this article</a>.</li>
+</ul>
+</div>
+
+<h4>To set default permissions for all external devices:</h4>
+<p>You can set default permissions by clicking <strong>Settings</strong> > <strong>Default Permissions</strong> and specifying which users or groups can access, view, or modify external devices and their contents. When an external device is connected to your Synology NAS, the permissions you specified will be assigned to that external device automatically.</p>
+
+<p>In the permissions window, do the following to set default permissions:</p>
+<ol>
+	<li>Select one of the following from the drop-down menu:
+		<ul>
+			<li><b>System internal user:</b> Assign permissions for default system users, such as the Anonymous FTP/WebDAV user.</li>
+			<li><b>Local users:</b> Assign permissions for local users (including <b>guest</b>).</li>
+			<li><b>Local groups:</b> Assign permissions for local groups.</li>
+		</ul>
+	</li>
+	<li>Tick or untick checkboxes to customize external devices' access permissions for each user or group:
+		<ul>
+			<li><b>Read/Write</b>: The user or group can access and make changes to the files and folders on the external devices.</li>
+			<li><b>Read only</b>: The user or group can access the files and folders on the external devices.</li>
+			<li><b>No access</b>: The user or group cannot access the files and folders on the external devices.</li>
+		</ul>
+	</li>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" charset="utf-8">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>SSD 快取</h2>
+<p>SSD 快取可將經常存取的資料存放於 SSD 快取上，藉此提升隨機存取的效能。SSD 快取可掛載於儲存空間或 iSCSI LUN (段落分塊)。</p>
+
+<p>啟動 SSD 快取的目的在於提升儲存空間中小部分經常存取的資料其隨機存取效能。例如，大型循序讀取或寫入操作 (如 HD 影片串流) 以及完全隨機資料讀取模式皆缺乏再次讀取模式，故 SSD 快取功能對它們並不會有明顯效益。對於一般應用程式，建議您啟動<b>略過循序 I/O</b> 選項，讓循序 I/O 仍可通過、在儲存空間的硬碟上運作。</p>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>SSD 快取僅適用於特定機種。若要查看您的機種是否支援 SSD 快取，請參閱<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_SSD_cache" target="_blank">此篇文章</a>。</li>
+	<li>建議在您的 Synology NAS 上使用相容的硬碟作為 SSD 快取以避免產生問題。</li>
+	<li>請至 <a href="http://www.synology.com/" target=_blank>Synology 網站</a>參考機種的產品規格，以瞭解 Synology NAS 的 SSD 快取大小上限。</li>
+</ul>
+</div>
+
+<h3>SSD 快取類型</h3>
+<p>共有兩種 SSD 快取可使用，兩種快取皆使用 LRU (Least Recently Used) 演算法來置換快取中的資料：</p>
+<ul>
+	<li><strong>唯讀快取</strong>可由 1 至 12 顆 SSD 組成，並可分別掛載於 Basic / RAID 0 / RAID 1 / RAID 10 設置中以提升掛載此快取的存放空間其隨機讀取效能。</li>
+	<li><strong>讀寫快取</strong>可掛載於 RAID 1 / RAID 5 / RAID 6 設置中 (視 SSD 數量而定，最多可使用 12 顆 SSD) 來提升掛載此快取的存放空間之隨機讀寫效能。</li>
+</ul>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>儲存空間的資料複本將儲存於 SSD 唯讀快取；因此即使唯讀快取損毀，亦不會造成任何資料遺失。</li>
+	<li>SSD 讀寫快取降級時，<b>自動防護機制</b>將會啟動，並停止快取新資料，開始將 SSD 上的新資料寫入 (亦即同步) 至 HDD。資料同步完成後，即使讀寫快取損毀，亦不會造成任何資料遺失。</li>
+	<li>在正常狀況下，SSD 讀寫快取中含有尚未寫入 HDD 的新資料。將快取從儲存空間管理員移除之前，請勿從 Synology NAS 上移除相對應的 SSD (即使系統已關機)，否則可能造成儲存空間毀損。</li>
+</ul>
+</div>
+
+<h3>記憶體需求</h3>
+<p>記憶體需求視 Synology NAS 的 CPU 而定。若要瞭解您的 Synology NAS 使用何種 CPU，請參閱<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">此篇文章</a>。</p> 
+
+<h4>針對使用 Alpine CPU 的機種：</h4>
+	<p>每 1 GB 的 SSD 快取需要使用大約 416 KB 的系統記憶體 (包含可擴充的記憶體)，且快取大小上限為 930 GB。因此，若唯讀快取配置為 2 x 128 GB SSD，則快取總大小將是 256 GB，需要至少 104 MB 記憶體；若讀寫快取配置為 2 x 128 GB SSD，則快取總大小將是 128 GB ，需要至少 52 MB 記憶體。若記憶體不足，您僅能建立有限的 SSD 快取或 SSD 快取大小會受限。</p>
+
+<h4>針對所有其他機種：</h4>
+	<p>SSD 快取需使用特定大小的系統記憶體 (視快取大小而定)，因此，您可能需要升級 Synology NAS 的記憶體，才能掛載較大的 SSD 快取。為維持系統穩定度及速度，僅 1/4 的系統記憶體 (預先安裝) 可作為 SSD 快取。</p>
+	
+	<p>每 1 GB 的 SSD 快取需要使用大約 416 KB 的系統記憶體 (包含可擴充的記憶體)。<br><span class="note_head">注意：</span>此不適用於 DSM 5.1 或之前版本所建立的讀寫 SSD 快取。換句話說，在 DSM 5.2 的環境下使用 DSM 5.2 以前所建立的 SSD 快取，每 1 GB 的 SSD 快取仍需要使用 4 MB 的系統記憶體。</p>
+	
+	<p>因此，若唯讀快取配置為 2 x 128 GB SSD，則快取總大小將是 256 GB，需要至少 104 MB 記憶體；若讀寫快取配置為 2 x 128 GB SSD，則快取總大小將是 128 GB ，需要至少 52 MB 記憶體。若記憶體不足，您僅能建立有限的 SSD 快取或 SSD 快取大小會受限。</p>
+
+<h3>快取命中率</h3>
+<p>預設上，SSD 快取僅加速隨機 &nbsp;I/O 而非循序 I/O。SSD 快取的快取命中率可依據以下公式計算：</p>
+<ul>
+	<li>SSD 唯讀快取的命中率 = 被加速的隨機讀取數 / 所有的隨機讀取數 * 100%</li>
+	<li>SSD 讀寫快取的命中率 = 被加速的隨機讀寫數 / 所有的隨機讀寫數 * 100%</li>
+</ul>
+
+<h3>管理 SSD 快取</h3>
+<h4>若要掛載 SSD 快取：</h4>
+	<ol>
+	  <li>在 Synology NAS 上安裝 SSD 硬碟。請先參考上述注意事項。</li>
+	  <li>前往<strong>儲存空間管理員</strong> &gt; <strong>SSD 快取</strong>。按一下<b>新增</b>。</li>
+	<li>選擇快取模式 (僅適用於支援讀寫快取的機種)。</li>
+	<li>找到下拉式選單並挑選您要掛載 SSD 快取的儲存空間或 iSCSI LUN (段落分塊)。</li>
+	<li>從清單中選擇 SSD。SSD 上的資料將會被清除，請確認其上沒有重要資料。</li>
+	<li>按一下<b>套用</b>。</li>
+	</ol>
+
+<h4>若要停止對循序 I/O 進行快取處理：</h4>
+	<p>若您的目標儲存空間或 iSCSI LUN 具有極佳的循序 I/O 效能，您可以讓 SSD 快取停止對循序 I/O 進行快取處理、直接從硬碟存取資料，以提升速度及效能。</p>
+	<ol>
+	<li>按一下<strong>設定</strong>來打開設定視窗。</li>
+	<li>按一下<strong>略過循序 I/O</strong>。</li>
+	</ol>
+
+<h4>若要移除 SSD 快取：</h4>
+	<ol>
+	<li>按一下<b>移除</b>來永久移除 Synology NAS 上的 SSD 快取。</li>
+	</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+    <li>您務必透過此程序來移除讀寫快取 (即使您的 Synology NAS 已關機)，否則儲存空間將因部分資料僅存放於快取上而損毀。</li>
+	<li>掛載或移除 SSD 快取時，系統會暫時停止所有相關的服務 (如共用資料夾、安裝的套件、目前連線等)。</li>
+	<li>若開機時未偵測到某存放空間上的讀寫快取，系統將不會掛載該存放空間。請尋找並重新安裝 Synology NAS 上的 SSD，然後重新開機來掛載存放空間。</li>
+	<li>拔除 SSD 之前，請確認已正確移除其所對應的讀寫 SSD 快取。若未正確拔除 SSD (如，尚在使用快取的情況下或系統電源關閉的情況下)，將導致儲存在目標儲存空間或 iSCSI LUN 的資料損毀。</ul>
+</div>
+ 
+<h4>若要取消移除 SSD 快取：</h4> 
+<ol>
+    <li>按一下<b>取消移除</b>來取消移除快取的動作。</li>
+    </ol>    
+
+<h4>若要修復 SSD 快取：</h4>
+	<ul>
+		<li><strong>針對讀寫快取：</strong>若其中一個 SSD 損毀，請依照下列步驟進行修復。<ol>
+			<li>使用新 SSD 置換故障的 SSD。(新 SSD 型號及大小必須與原先的相同)。</li>
+			<li>按一下<b>修復</b>按鈕。</li>
+			<li>從清單中選擇 SSD。</li>
+			<li>按一下<b>套用</b>。</li>
+			</ol></li>
+		<li><strong>針對唯讀快取：</strong>若其中一個 SSD 損毀，請移除快取並置換故障的 SSD。然後按一下<strong>新增</strong>來建立新的快取。</li>
+	</ul>
+
+<h3>SSD 快取建議</h3>
+<p>此功能可讓您計算並檢視特定儲存空間上最近存取的檔案總數及大小。若您尚未在選定的儲存空間上建立任何 SSD 快取，您可以參考此資訊來估算系統需要多少 SSD 快取。若您已在選定的儲存空間上建立 SSD 快取，您亦可於此檢視該快取的分析結果及使用量。</p>
+
+<h4>若要使用 SSD 快取建議：</h4>
+	<ol>
+	<li>按一下 <b>SSD 快取建議</b>來開啟精靈。</li>
+	<li>選擇要進行計算的儲存空間，然後按一下<b>下一步</b>。</li>
+	<li>精靈會自動開始在選定的儲存空間上計算最近存取的檔案大小及總數。計算所需的時間視系統環境而有所不同。</li>
+	</ol>

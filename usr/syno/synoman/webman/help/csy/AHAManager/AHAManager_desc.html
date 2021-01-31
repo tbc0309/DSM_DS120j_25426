@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Rozšíření Synology High Availability – Nápověda k Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and the other server acts as a standby passive server.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h1>Synology High Availability</h1>
+
+  <p>High Availability představuje systém rozvržení serveru, který slouží k omezení přerušení služeb způsobených poruchou serveru. Synology High Availability (SHA) vytváří pomocí dvou serverů tzv. „cluster high-availability“, v rámci kterého jeden ze serverů představuje „aktivní server“ a druhý server slouží jako „pasivní server“ v pohotovostním režimu. Implementace a vytvoření clusteru high-availability vyžaduje dva kompatibilní servery Synology.</p>
+  
+  <p>Cluster high-availability využívá následující součásti a koncepty:</p>
+
+  <ul>
+   <li><b>Koncept: </b>Implementace technologie Synology High Availability vyžaduje k vytvoření clusteru high-availability dva servery Synology. Jeden ze severů představuje „aktivní server“, druhý pak „pasivní server“. Aktivní i pasivní server v high-availability clusteru jsou připojeny ke stejným rozšiřovacím jednotkám a sdílejí v těchto jednotkách stejné úložiště. Pro zajištění integrity dat zpracovává požadavky pouze aktivní server. V případě selhání aktivního serveru bude pasivní server připraven převzít všechny služby. Cluster high-availability tak bude i nadále zajišťovat běžný provoz služeb a sníží riziko výpadku serverů. Další informace o funkci přepnutí najdete v části <a href="switchover_fail.html">Přepnutí</a>.</li>
+   <li><b>Aktivní server:</b> Aktivní server provádí správu provozu všech služeb. V případě chyby aktivního serveru můžete vy nebo váš systém zahájit proces přepnutí služeb na pasivní server. V takovém případě bude provoz těchto služeb předán pasivnímu serveru a aktivní server bude poté plnit funkci pasivního serveru.</li>
+   <li><b>Pasivní server:</b> Za běžných podmínek je pasivní server v pohotovostním režimu. V případě, že aktivní server nemůže zajistit provoz služeb, můžete vy nebo váš systém zahájit proces přepnutí služeb na pasivní server.</li>
+   <li><b>Připojení Heartbeat:</b> Aktivní a pasivní server clusteru high-availability jsou propojeny samostatným připojením privátní sítě, které se označuje jako „Připojení Heartbeat“. Pokud je kontakt mezi servery na nějakou dobu přerušen, bude systém zjišťovat, zda je nutné přepnutí.</li>
+   <li><b>Sdílené úložiště clusteru high-availability:</b> Disky v rozšiřovací jednotce připojené současně k aktivnímu i pasivnímu serveru se chovají jako sdílené úložiště v clusteru high-availability. Pouze aktivní server má oprávnění k zápisu do úložiště.</li>
+   <li><b>Název serveru a nastavení sítě v clusteru high-availability:</b> Název serveru a síťová nastavení v clusteru high-availability jsou dána příslušnými nastaveními v DSM. V rámci sítě se můžete připojit pomocí tohoto názvu serveru, provoz služeb pak bude zajišťovat aktivní server. Více informací o nastavení sítě najdete <a href="../AdminCenter/connection_network_general.html">zde</a>.</li>
+
+  </ul>
+
+ </body>
+</html>

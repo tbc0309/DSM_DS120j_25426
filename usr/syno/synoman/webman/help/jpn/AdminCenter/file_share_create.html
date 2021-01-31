@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>共有フォルダの作成 - Synology DSM ヘルプ</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Shared folders are the basic directories where you can store and manage files and folders on your Synology NAS. This article shows you how to create a shared folder.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>共有フォルダの作成</h2>
+<p>共有フォルダは、Synology NAS でファイルやフォルダを保存したり、管理したりするための基本的なディレクトリです。 ファイルを保管する前に、DSM に 1 個以上の共有フォルダを作成してください。 </p>
+
+<h4>共有フォルダを作成する：</h4>
+<ol>
+	<li><strong>[コントロール パネル]</strong> > <strong>[共有フォルダ]</strong> に移動し、<strong>[作成]</strong> をクリックします。<br /><img src="about:blank" class="help_image"/></li>
+	<li>共有フォルダの名前と説明を指定します｡<br /><img src="about:blank" class="help_image "/></li>
+	<li>共有フォルダを作成するストレージを選択します（ストレージが 1 つしかない場合は、このステップは省略してください）。<br /><img src="about:blank" class="help_image"/></li>
+	<li>必要であれば、次のオプションを変更してください。<br /><img src="about:blank" class="help_image"/>
+		<ul>
+			<li><strong>「マイ ネットワーク」でこの共有フォルダを非表示にする：</strong>Windows エクスプローラーで「ネットワーク」の下に共有フォルダが表示されません。 このオプションによって、共有フォルダへのアクセス権が影響を受けることはありません。
+				<div class="section"><h4>注：</h4>
+				<ul>
+				<li>&quot;マイ ネットワーク&quot;の共有フォルダを非表示にしても、そのアクセス権には影響しません。 非表示の共有フォルダのアクセス権は維持されます。 共有フォルダへの適切なアクセス権を持つユーザーは、&quot;\\サーバー名\共有フォルダ名&quot;を入力することでアクセスできます。</li>
+				</ul>
+				</div>
+			</li>
+			<li><strong>無許可のユーザーにサブフォルダとファイルを見せない：</strong><strong>[無許可のユーザーにサブフォルダとファイルを見せない]</strong>が有効化されている場合は、読み取り権を持たないユーザーが Windows ファイル共有プロトコルを介して共有フォルダにアクセスしようとしても、共有フォルダ内のサブフォルダやファイルは表示されません。 これは、ユーザーが Synology 製品に接続したときに、開けないサブファイルやフォルダが大量にあることで混乱しないようにするための機能です。
+				<div class="section"><h4>注：</h4>
+				<ul>
+					<li>この機能は、Windows ファイル共有プロトコルでのみサポートされています。</li>
+					<li>各フォルダやファイルの権限設定は、それらを右クリックして File Station で行ってください。 ドロップダウン メニューから <strong>[プロパティ]</strong> を選択し、<strong>[許可]</strong> タブをクリックします。</li>
+					<li><strong>[無許可のユーザーにサブフォルダとファイルを見せない]</strong> を有効にすることで、共有フォルダそのものが許可なく非表示になる訳ではありません。 この共有フォルダ内のサブフォルダとファイルだけが非表示になります。</li>
+				</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li><strong>ごみ箱を有効にする：</strong>共有フォルダ内のファイルを削除すると、それらのファイルは <strong>#recycle</strong> というフォルダに移動されます。 ごみ箱にアクセスできるユーザーは、<strong>administrators</strong> グループに属するユーザーだけです。</li>
+	<a name="sharequota"></a><li class=""><strong>共有フォルダの割り当てを有効にする：</strong> それぞれの共有フォルダの最大容量を指定するには、<strong>[共有フォルダの割り当てを有効にする]</strong> にチェックマークを付けて、その後の欄に最大容量を入力してください（例：10 GB）。
+		<div class="section"><h4>注：</h4>
+		<ul>
+			<li>ストレージが Btrfs ファイル システムを使用している場合に限り、共有フォルダに <strong>[共有フォルダの割り当てを有効にする]</strong> オプションを使用することができます。</li>
+			<li>すべてのユーザーの <strong>[ホーム]</strong> ディレクトリのストレージ使用量の合計が、<strong>[homes]</strong> の割り当て量を超えないようにしてください。</li>
+		</ul>
+		</div>
+	</li>
+	<a name="integrity_protection"></a>
+	<li><strong>高度なデータ整合性のためにデータ チェックサムを有効化：</strong>共有フォルダを<strong>[CRC32 checksum]</strong> および <strong>[コピー オン ライト]</strong>の戦略で保護するため、共有フォルダの作成時において [高度なデータ整合保護を有効にする] ことができますn. データが最初に書き込まれたときと同じ状態になっていれば、CRC32 checksum が適用されます。また、システムは自動的に RAID の冗長性を使用して破損したデータを修正します。 コピー オン ライトは、システムが突然シャットダウンしたときにデータの整合性を高めます。
+		<div class="section"><h4>注：</h4>
+		<ul>
+			<li>このオプションは、Btrfs ファイルシステムを使うボリュームに対してのみ有効です。</li>
+			<li>作成時に、各共有フォルダに対してこのオプションを有効/無効にすることができます。 共有フォルダが作成されると、このオプションは変更できません。</li>
+			
+			<li>このオプションを有効化すると、システムがフルスケールのデータ スクラブをできるようになります。 <a href="../StorageManager/storage_pool_data_scrubbing.html">データ スクラブの詳細</a></li>
+			<li>サービス品質を確保するため、共有フォルダが以下のサービスに使用される場合には、データ チェックサムの有効化はお勧めしません。
+			<ul>
+				<li>データベースまたは仮想マシンのホスト</li>
+				<li>Surveillance Station のビデオ記録の保管</li>
+				<li>小さいランダムな書き込パターンを必要とするサービスの実行</li>
+			</ul>
+			</li>
+			
+		</ul>
+		</div>
+	</li>
+    <a name="btrfs_compression"></a><li><strong>ファイル圧縮を有効にする</strong>： 作成した共有フォルダのデータは、スペースを節約するために、Btrfs ファイル システムのよって自動的に圧縮されます。 これを使用するために取得するすると、データは自動的に展開されます。
+		<div class="section"><h4>注：</h4>
+		<ul>
+			<li>このオプションは、Btrfs ボリュームで共有フォルダを作成する場合、または<strong>[高度なデータ整合保護]</strong> が有効になっている場合にしか使用できません。</li>
+			<li>共有フォルダを作成すると、このオプションは変更できません。</li>
+			<li>圧縮率はデータ タイプによって異なります。 テキスト ファイルは最高の圧縮率を実現できますが、マルチメディア ファイル（画像、音楽、動画など）はすでに出力時に圧縮されているため、あまり圧縮されません。</li>
+            <li>共有フォルダの暗号化が有効化されている場合は、このオプションを有効化することはできません。</li>
+		</ul>
+		</div>
+	</li>
+	<li><strong>この共有フォルダを暗号化する：</strong>共有フォルダを暗号化する場合は、以下を行います：
+		<ol>
+			<li>新しい暗号化キーを指定した後、確定してください。 暗号化キーにカンマ（,）、等記号（=）を使用することはできません。 </li>
+			<li>必要に応じて、<strong>[キー マネージャに暗号化キーを追加する]</strong> ボックスにチェックマークを入れて、システムの起動時に自動的に暗号化したフォルダをマウントするようにします。 このオプションを選択解除すると、次回 Synology NAS を再起動したときに、暗号化した共有フォルダがアンマウントされます。 アンマウントされた共有フォルダを表示またはアクセスするには、暗号化キーをインポートまたは入力してフォルダを手動でマウントする必要があります。</li>
+		</ol>
+	</li>
+	<li><strong>[OK]</strong> をクリックして終了します。</li>
+	
+	
+<div class="section"><h4>注：</h4>
+	<ul>
+	<li>共有フォルダの一部の機能とオプションは、VDSM および以下のパッケージ アーキテクチャがあるモデルでのみサポートされます。 Apollo Lake、Avoton、Braswell、Broadwell、Bromolow、Cedarview、および Grantley。 お使いのモデルがどのパッケージ アーキテクチャをサポートするかについては、<a href="https://www.synology.com/en-us/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">この記事</a>をご覧ください。</li>
+	</ul>
+</div>
+	
+</ol>
+
+<div class="section"><h4>共有フォルダの名前付けの規則：</h4>
+<ul>
+	<li>共有フォルダ名は大文字と小文字の区別があり、1～32 文字で構成される必要があります。 名前に次の文字を使用することはできません： <strong>! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~</strong></li>
+	<li>次の名前は、システム用に予約されています： <strong>.</strong>、<strong>..</strong>、<strong>global</strong>、<strong>home</strong>、<strong>homes</strong>、<strong>printers</strong>、<strong>public</strong>、<strong>satashare</strong>、<strong>surveillance</strong>、<strong>usbbackup</strong>、<strong>usbshare</strong> </li>
+	<li>共有フォルダ名の最初の文字にマイナス記号またはスペースは使用できません。また、最後の文字にスペースは使用できません。</li>
+	<li>共有フォルダの<strong>説明</strong>は大文字と小文字が区別され、最高で64の表示可能なUnicode文字で構成される必要があります。</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>共有フォルダの暗号化：</h4>
+<p>AES 256 ビット暗号化は、すべての不正アクセスをブロックしてデータを保護します。 共有フォルダを暗号化しておくと、暗号化キーがないユーザーは、Synology NAS からハードドライブを取り外して他のデバイスに取り付けたとしても、暗号化データにアクセスしたり、変更したりすることはできません。</p>
+</div>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>暗号化した共有フォルダ内のファイルやフォルダ名は、英語で 143 文字、アジア文字（CJK）で 47 文字を超過することはできません。また、必用に応じて、Mac OS との共有フォルダにアクセスする場合、暗号化したフォルダ内のファイルまたはフォルダ名は、英語で 130 文字またはアジア（CJK）で43 文字を超過することはできません。</li>
+	<li>暗号化した共有フォルダは、NFS からはアクセスできません。</li>
+	<li>Synology NAS のリセット ボタンを使ってデフォルトのパスワードを復元すると、暗号化した共有フォルダはマウント解除され、暗号化した共有フォルダを自動的にマウントするオプションも無効になります。</li>
+	<li>暗号化した共有フォルダは、高権限モードでのみサポートされています (Dockerx64 にのみ適用されます)。 この機能を使用するには、ホスト DSM で Docker パッケージを選択し、暗号化した共有フォルダを有効にする <strong>[Docker DSM]</strong> を選択します。次に、<strong>[編集]</strong> をクリックし、<strong>[高権限実行コンテナを使う]</strong> にチェックマークを付けます。</li>
+</ul>
+</div>
+
+</body>
+</html>

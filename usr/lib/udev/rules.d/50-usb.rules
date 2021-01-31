@@ -1,0 +1,16 @@
+#author: Consumer Platform Team
+
+#Skip some useless events
+SUBSYSTEM!="block|scsi", GOTO="usb_end"
+ENV{DEVTYPE}=="partition", GOTO="usb_end"
+ACTION!="add|change|remove", GOTO="usb_end"
+
+#Get parent of busnum and devnum
+ACTION!="remove", ATTRS{busnum}!="", ATTRS{devnum}!="", ENV{SYNO_ATTR_BUSNUM_DEVNUM}="$attr{busnum}.$attr{devnum}"
+
+#Get parent of serial
+ACTION!="remove", ATTRS{serial}!="", ENV{SYNO_ATTR_SERIAL}="$attr{serial}"
+
+RUN+="/lib/udev/script/usb.sh %k"
+
+LABEL="usb_end"

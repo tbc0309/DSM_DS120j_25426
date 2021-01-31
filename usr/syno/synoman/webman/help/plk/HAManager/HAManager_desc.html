@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Menedżer High Availability — Pomoc Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>Menedżer High Availability</h1>
+
+  <p>Pojęcie High Availability (wysoka dostępność) odnosi się do układu serwerów, który ma za zadanie zredukować zakłócenia w dostępności usług spowodowane nieprawidłowym działaniem serwera. W konfiguracji Synology High Availability używa się dwóch serwerów tworzących „klaster high-availability”, w którym jeden serwer pełni rolę „serwera aktywnego”, a drugi serwer — „serwera pasywnego”. Do utworzenia i wdrożenia klastra high-availability potrzebne są dwa kompatybilne serwery Synology.</p>
+  <p>W klastrze high-availability wykorzystuje się następujące elementy i koncepcje:</p>
+
+  <ul>
+   <li><b>Koncepcja: </b>Wdrożenie konfiguracji Synology High Availability wymaga utworzenia klastra high-availability z dw&oacute;ch serwer&oacute;w Synology. Jeden serwer działa jako &bdquo;serwer aktywny&rdquo;, a drugi &mdash; jako &bdquo;serwer pasywny&rdquo;. Po utworzeniu klastra high-availability dane są nieustannie replikowane z serwera aktywnego na serwer pasywny. Wszystkie pliki na serwerze aktywnym będą mieć swoje duplikaty na serwerze pasywnym. W przypadku awarii serwera aktywnego serwer pasywny będzie m&oacute;gł przejąć wszystkie usługi, dysponując pełną kopią lustrzaną danych na serwerze aktywnym. W ten spos&oacute;b klaster high-availability będzie m&oacute;gł nadal świadczyć normalnie usługi, minimalizując przest&oacute;j serwera. Więcej informacji o przełączaniu usług zawiera rozdział <a href="switchover_fail.html">Przełączanie</a>.</li>
+   <li><b>Serwer aktywny:</b> Serwer aktywny zarządza działaniem wszystkich usług. Jeżeli na serwerze aktywnym wystąpią błędy, administrator lub system mogą zainicjować przełączenie usług na serwer pasywny. W takim przypadku zapewnianie działania usług zostanie przekazane serwerowi pasywnemu, a serwer dotychczas aktywny stanie się serwerem pasywnym.</li>
+   <li><b>Serwer pasywny:</b> W normalnych warunkach serwer pasywny pozostaje w trybie gotowości. Dane na serwerze aktywnym są nieustannie replikowane na serwerze pasywnym. Jeżeli aktywny serwer nie będzie m&oacute;gł świadczyć usług, administrator lub system mogą zainicjować ich przełączenie na serwer pasywny. </li>
+   <li><b>Połączenie pulsu:</b> Serwer aktywny i pasywny w klastrze high-availability są połączone dedykowanym, prywatnym połączeniem sieciowym określanym jako &bdquo;połączenie pulsu&rdquo;. Po utworzeniu klastra high-availability połączenie pulsu umożliwia synchronizację danych i replikację pomiędzy serwerem aktywnym i pasywnym. Jeżeli dojdzie do utraty kontaktu pomiędzy serwerami trwającej określony czas, system stwierdzi konieczność przełączenia.</li>
+   <li><b>Gł&oacute;wny wolumen pamięci masowej klastra high-availability:</b> Wolumen pamięci masowej serwera aktywnego zostaje gł&oacute;wnym wolumenem pamięci masowej klastra high-availability. Dane są replikowane na wolumen pamięci masowej serwera pasywnego za pośrednictwem połączenia pulsu.</li>
+   <li><b>Zapasowy wolumen pamięci masowej klastra high-availability: </b>Wolumen pamięci masowej na serwerze pasywnym zostaje zapasowym wolumenem pamięci masowej klastra high-availability. Dane są nieustannie replikowane z wolumenu pamięci masowej serwera aktywnego na wolumen serwera pasywnego za pośrednictwem połączenia pulsu. Zapewnia to sp&oacute;jność zawartości plik&oacute;w w razie przełączenia.</li>
+   <li><b>Nazwa serwera klastra high-availability:</b> Serwery w klastrze high-availability mają jedną nazwę. Z serwerem można łączyć się przez sieć przy użyciu tej nazwy serwera, a usługi będzie zapewniać serwer aktywny. </li>
+   <li><b>Adres IP klastra high-availability: </b>Serwer aktywny i pasywny w klastrze high-availability mają własne adresy IP. Aby uniknąć konieczności zmiany adresu IP po przełączeniu, klaster high-availability generuje wsp&oacute;lne adresy IP w celu zapewnienia dostępu. Aby uzyskać dostęp do jakichkolwiek usług DSM, niezależnie od tego, kt&oacute;ry serwer firmy Synology działa jako serwer aktywny, można używać do łączenia się tych adres&oacute;w IP. </li>
+  </ul>
+
+
+
+ </body>
+</html>

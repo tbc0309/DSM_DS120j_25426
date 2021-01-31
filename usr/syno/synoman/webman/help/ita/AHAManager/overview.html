@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Panoramica</h2>
+	<p>Questa pagina visualizza le informazioni di base relative al cluster con high-availability e ai server membri. Fornisce, inoltre, gli strumenti per eseguire la manutenzione dei cluster con high-availability e server membri.</p>
+
+<h3>Stato di cluster con high-availability</h3>
+  <p>Questo campo visualizza lo stato globale del cluster high-availability, avvisando in caso di errori. Di seguito una tabella delle possibile condizioni visualizzate nel campo:</p>
+    <table>
+     <tr>
+      <th width="12%">Stato</th>
+      <th width="88%">Descrizione</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Integrità</strong></td>
+      <td>La condizione globale del cluster high-availability è buona.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Caricamento</strong></td>
+	  <td>Il sistema sta caricando lo stato del cluster. <strong>Non è possibile eseguire il Passaggio</strong> fino a quando non è stato completato il caricamento dello stato. Consultare <a href="switchover_fail.html">Passaggio</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Configurazione</strong></td>
+	  <td>Il sistema è in corso di configurazione. <b>Non è possibile eseguire il Passaggio</b> fino a quando non è stata completata la configurazione.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Avvertenza</strong></td>
+      <td>Lo stato del cluster HA è anomalo,ma i servizi sono ancora funzionanti. <strong>In questa situazione il Passaggio</strong> potrebbe non essere eseguito.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Pericolo</strong></td>
+	  <td>Entrambi i server attivo e passivo non funzionano correttamente oppure l'archiviazione è danneggiata. Il cluster high-availability non funziona normalmente. Verificare lo stato di tutti gli spazi di archiviazione (ad esempio RAID Group, Gruppi disco, volumi e iSCSI LUN). <b>In questa situazione il Passaggio</b> non può essere eseguito</td>
+     </tr>
+    </table>
+<h3>Messaggi di avviso</h3>
+   <p>La tabella di seguito visualizza i messaggi di avviso che possono essere visualizzati quando si verifica un errore del sistema. Quando viene visualizzato più di un messaggio di avviso, è possibile scorrere i messaggi utilizzando i pulsanti avanti/indietro. </p>
+    <table>
+     <tr>
+      <th width="21%">Avvertenza/Errore</th>
+      <th width="79%">Descrizione</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Non è presente alcun server passivo nel cluster con high-availability</strong></td>
+	  <td>Le informazioni del server passivo non sono disponibili. Accertarsi che il server passivo sia connesso correttamente. In questo caso, il passaggio non sarà disponibile.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Impossibile rilevare il server passivo</strong></td>
+      <td>Questo errore si potrebbe verificare perché il server passivo è offline o i server attivo e passivo non possono comunicare tramite la connessione Heartbeat. In questo caso, il passaggio non sarà disponibile.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Impossibile eseguire il failover.</strong></td>
+      <td>Un failover è stato attivato nel server attivo, ma avuto esito negativo. In questo caso, il server attivo non tenterà un altro failover. Per eliminare l'errore, seguire i passi indicati:
+		<ol>
+		  <li>Provare a ordinare i problemi nel cluster high-availability.</li>
+		  <li>Riavvia il server passivo.</li>
+		  <li>Eseguire uno switchover facendo clic su <strong>Gestisci</strong> > <strong>Passaggio</strong>.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Errore destinazione monitorata</strong></td>
+      <td>Si è verificato un errore in una o più destinazioni monitorate, incluso lo stato di sistema, servizio o interfaccia di rete.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Si sono verificati degli errori nella connessione tra le unità di espansione e il server attivo/passivo</strong></td>
+      <td>Le unità di espansione non sono connesse correttamente al server attivo o passivo. Verificare che la relativa connessione al server attivo sia corretta e configurare la stessa connessione sul server passivo. In questo caso, il passaggio non sarà disponibile.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Un volume è stato danneggiato</strong></td>
+      <td>Uno spazio di archiviazione (ad esempio RAID Group, Gruppo disco, volume, iSCSI LUN e cache SSD) è danneggiato. Controllare la pagina <b>Stato archiviazione</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Un volume si è bloccato</strong></td>
+      <td>Uno spazio di archiviazione (ad esempio RAID Group, Gruppo disco, volume, LUN iSCSI e cache SSD) è danneggiato. Controllare la pagina <b>Stato archiviazione</b>. Il failover verrà eseguito automaticamente se il server passivo prevede il riconoscimento delle unità a cui il server attivo non è riuscito ad accedere. In caso contrario, il passaggio non sarà disponibile.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Connessione Heartbeat persa</strong></td>
+      <td>Questo errore si potrebbe verificare a causa di un errore di connessione Heartbeat. In questo caso, il passaggio non sarà disponibile.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Malfunzionamento dell'hardware</strong></td>
+      <td>Questo errore potrebbe verificarsi a causa di un errore dell'hardware (es., unità di alimentazione o ventola del sistema) nel server attivo o passivo.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Dimensioni RAM fisica differenti</strong></td>
+      <td>Questo errore potrebbe verificarsi a causa della mancata corrispondenza delle dimensioni della RAM fisica nei server attivo e passivo. In questo caso, il passaggio non sarà disponibile.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Nessun IP statico è stato assegnato a questo cluster con high-availability</strong></td>
+      <td>Questo errore potrebbe verificarsi a causa della mancanza di un IP statico per il cluster con high-availability. In questo caso, il passaggio non sarà disponibile.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Non è presente alcun IP statico nell'interfaccia monitorata</strong></td>
+      <td>Questo errore potrebbe verificarsi a causa della mancanza di un IP statico per l'interfaccia monitorata. In questo caso, il passaggio non sarà disponibile.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Recupero server passivo</strong></td>
+      <td>Il recupero del server passivo è in corso. In questo caso, il passaggio non sarà disponibile.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Aggiornamento server passivo</strong></td>
+      <td>Questo sistema sta aggiornando il server passivo. In questo caso, il passaggio non sarà disponibile.</td>
+     </tr>
+
+    </table>
+
+<h3>Pulsante "Gestisci" Cluster High-Availability</h3>
+
+<p>Questo pulsante si trova al di sotto delle informazioni sul cluster con high-availability. Comprende le seguenti operazioni:</p>
+<ul>
+<li><b>Passaggio:</b> inizializza il passaggio dal server attivo al server passivo. Durante questo processo, il server attivo smette di fornire i servizi e diventa il nuovo server passivo. Quindi, il server passivo vecchio diventa il server attivo nuovo e inizia a fornire tutti i servizi del cluster high-availability. Questa opzione non è disponibile se il server passivo è in stato <b>errore</b> o non è selezionato.</li>
+<li><b>Aggiorna DSM:</b> Apre la pagina <strong>Aggiornamento DSM</strong> del <strong>Pannello di controllo</strong>. Da qui, entrambi i server possono essere aggiornati.</li>
+<li><b>Spegni cluster con high-availability:</b> spegne entrambi i server attivi e passivi.</li>
+<li><b>Spegni server attivo:</b> spegne il server attivo. I servizi saranno passati se lo stato del server passivo è integro.</li>
+<li><b>Spegni server passivo:</b> spegne il server passivo.</li>
+<li><b>Riavvio server attivo:</b> riavvia il server attivo. I servizi saranno passati se lo stato del server passivo è integro.</li>
+<li><b>Riavvia server passivo:</b> riavvia il server passivo.</li>
+<li><b>Recupera server sconosciuto:</b> recupera il server passivo se il server passivo viene sostituito o se viene ancora riconosciuto come sconosciuto.</li>
+<li><b>Avviso acustico sistema disattivato:</b> disattiva il suono bip del server passivo e di quello passivo quando si verifica un errore. Il sistema emetterà il suono bip nel server attivo o nel server passivo se, successivamente, si verifica un altro errore.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>se si arresta il server passivo o se non è presente alcun server passivo, i servizi non possono essere passati se si verificano errori sul server attivo.</li>
+</ul>
+</div>
+
+<h3>Schema del server e informazioni</h3>
+ <p>Nello schema del server viene mostrato lo stato del server. La posizione corrisponde al lato dei moduli a cui è collegato il server. Per maggiori dettagli, posizionarvi sopra il puntatore del mouse.</p>
+<p>Comprende le seguenti situazioni:</p>
+<ul>
+  <li><b>Non è presente alcun server passivo nel cluster con high-availability:</b> visualizza un fotogramma vuoto.</li>
+  <li><b>Impossibile rilevare il server passivo:</b> visualizza un'immagine offuscata del server.</li>
+  <li><b>Punto esclamativo:</b> l'hardware potrebbe non funzionare correttamente oppure le informazioni sul server non sono disponibili a causa di un errore della connessione Heartbeat.</li>
+</ul>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>se viene visualizzato "sconosciuto" nell'altro server, il server non appartiene al cluster con high-availability. Fare clic su <b>Gestisci</b> e selezionare <b>Recupera server sconosciuto</b> per correggere l'errore.</li>
+</ul>
+</div>
+
+<p>Le informazioni sul server comprendono le seguenti voci. Mostra <b>N/D</b> se non viene rilevato alcun server passivo.</p>
+
+  <ul>
+   <li><b>Numero di serie:</b> il numero di serie del server Synology.</li>
+   <li><b>Stato ventola:</b> lo stato delle ventole di raffreddamento del server. In caso di malfunzionamento di una ventola viene visualizzato un avviso. In questo caso, contattare il distributore locale per assistenza.</li>
+   <li><b>Temperatura:</b> la temperatura del server Synology. </li>
+   <li><b>Stato alimentazione:</b> indica se le alimentazioni del server funzionano tutte normalmente. Se il server è dotato di due sorgenti di alimentazione ridondanti, in caso di malfunzionamento di una delle due, viene visualizzato un messaggio di avviso.</li>
+    <li><b>Memoria fisica:</b> dimensioni della RAM fisica del server Synology. Il passaggio non può essere eseguito se i due server non dispongono delle stesse dimensioni di RAM fisica.</li>
+  </ul>
+
+<h3>Stato di connettività tra i server</h3>
+<p>in questa sezione sono contenute le immagini tra i server attivo e passivo. Comprende le seguenti situazioni:</p>
+<ul>
+  <li><b>Nessuna immagine:</b> indica che non è stato rilevato alcun server passivo.</li>
+  <li><b>Fermo immagine:</b> indica un'errata connessione Heartbeat.</li>
+  <li><b>Punto esclamativo:</b> indica una comunicazione anomala tra i due server o un'errata connessione Heartbeat.</li>
+</ul>
+
+<h3>Stato dell'Interfaccia di rete</h3>
+<p>In questa sezione sono contenute le immagini tra i server e la rete dati. Comprende le seguenti situazioni:</p>
+<ul>
+  <li><b>Nessun punto esclamativo:</b> indica che non è stato rilevato alcun errore di rete.</li>
+  <li><b>Punto esclamativo:</b> indica un errore che si verifica nell'interfaccia di rete monitorata.</li>
+</ul>
+
+<h3> Schema di archiviazione condivisa e Informazioni</h3>
+ <p>Nello schema di archiviazione condivisa viene mostrato lo stato di connettività tra i server e l'archiviazione condivisa. Per le informazioni di base, usare il puntatore del mouse.</p>
+<p>Comprende le seguenti situazioni:</p>
+<ul>
+  <li><b>Nessun punto esclamativo:</b> indica che non è stato rilevato alcun errore.</li>
+  <li><b>Punto esclamativo:</b> indica uno stato di connettività anomalo delle unità di espansione.</li>
+</ul>
+
+<p>Le informazioni di base sull'archiviazione condivisa comprendono le seguenti voci. Per informazioni dettagliate, andare su <b>Gestore archiviazione</b>.</p>
+
+  <ul>
+   <li><b>Stato ventola:</b> visualizza lo stato delle ventole delle unità di espansione. In caso di malfunzionamento di una ventola viene visualizzato un avviso. In questo caso, contattare il distributore locale per assistenza.</li>
+   <li><b>Stato alimentazione:</b> indica se le alimentazioni del server funzionano tutte normalmente. In caso di malfunzionamento di una di queste, viene visualizzato un avviso.</li>
+   </ul>
+ </body>
+</html>

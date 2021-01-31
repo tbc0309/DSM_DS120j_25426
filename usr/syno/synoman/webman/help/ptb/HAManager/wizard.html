@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Assistente do Gerenciador de High Availability - Ajuda do Synology DSM</title>
+ </head>
+ <body>
+<h2>Assistente do High Availability Manager</h2>
+<p>Esse assistente o guiar&aacute; atrav&eacute;s dos processos de cria&ccedil;&atilde;o e configura&ccedil;&atilde;o do cluster de high-availability.</p>
+<h4>Para abrir esse assistente:</h4>
+<ol>
+<li>Abra o <b>Gerenciador de High Availability</b>.</li>
+<li>V&aacute; para a p&aacute;gina <b>Vis&atilde;o geral</b>.</li>
+<li>Clique em <b>Criar cluster de HA</b>.</li>
+</ol>
+   
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Conclua o assistente de configura&ccedil;&atilde;o do cluster de high-availability dentro do tempo limite dado. Se o limite de tempo for ultrapassado, voc&ecirc; precisar&aacute; iniciar o processo de configura&ccedil;&atilde;o novamente.</li>
+<li>Se voc&ecirc; precisar identificar qual servidor &eacute; o servidor ativo de um conjunto de high-availability, recomendamos que baixe o aplicativo <strong>DS finder</strong> da Synology e use sua fun&ccedil;&atilde;o bipe, que pode fazer com que o servidor ativo emita um bipe curto.</li>
+</ul>
+</div>
+<h4>Para configurar o servidor passivo:</h4>
+<p>Designe um servidor Synology como servidor passivo. Sob condi&ccedil;&otilde;es normais, o servidor passivo n&atilde;o fornece servi&ccedil;os. Entretanto, em caso de defeito, os servi&ccedil;os podem ser transferidos do servidor ativo para o servidor passivo.</p>
+<ol>
+<li><b>Endere&ccedil;o IP:</b> Digite o endere&ccedil;o IP do servidor passivo.
+</li>
+<li><b>Nome do usu&aacute;rio:</b> Forne&ccedil;a uma conta de usu&aacute;rio pertencente ao grupo <b>administrator</b> no servidor de destino. </li>
+<li><b>Senha:</b> Forne&ccedil;a a senha para a conta pertencente ao grupo <b>administrator</b>.</li>
+</ol>
+<div class="section">
+<h4>Nota:</h4> 
+<ul>
+<li>Quando o cluster de high-availability for criado, todos os dados do servidor passivo ser&atilde;o exclu&iacute;dos. Certifique-se de que n&atilde;o haja nenhum dado importante armazenado no servidor passivo. </li>   
+</ul>
+</div>
+  
+<h4>Para configurar a conex&atilde;o de Heartbeat:</h4>
+<p>Conecte os dois servidores. Esta ser&aacute; a conex&atilde;o de &quot;Heartbeat&quot; entre os dois servidores, facilitando a comunica&ccedil;&atilde;o e permitindo que os dados sejam replicados do servidor ativo para o passivo. Para garantir a qualidade da conex&atilde;o Heartbeat, o sistema verificar&aacute; se a conex&atilde;o atende aos seguintes crit&eacute;rios ao criar o cluster de high-availability:</p>
+<ul>
+<li>Entre os dois servidores, n&atilde;o h&aacute; nenhum outro dispositivo com endere&ccedil;o IP encontrado no mesmo dom&iacute;nio de transmiss&atilde;o. Se essa conex&atilde;o Heartbeat passar atrav&eacute;s de qualquer switch, voc&ecirc; deve garantir que os switches suportem multicast e Jumbo Frame.</li>
+<li>Tem uma conex&atilde;o de rede de baixa lat&ecirc;ncia. O tempo de resposta de Ping entre os dois servidores deve ser inferior a 1 ms e a velocidade de transmiss&atilde;o deve ser de pelo menos 500 Mbps. O MTU ser&aacute; configurado automaticamente para 9000.</li>
+<li>Usar a mesma interface de rede nos dois servidores Por exemplo, se uma extremidade estiver conectada &agrave; LAN 1 em um servidor, a outra deve estar conectada &agrave; LAN 1 no outro servidor.</li>
+<li>Usar a interface de rede mais r&aacute;pida nos dois servidores Se os servidores estiverem equipados com placas de interface de rede de 10 GbE complementares, essa conex&atilde;o deve us&aacute;-las.</li>
+</ul>
+ <p>﻿Depois de confirmar os itens acima, v&aacute; para a se&ccedil;&atilde;o <b>Interface de conex&atilde;o HA (Heartbeat)</b> e escolha a interface de rede nos servidores que ir&aacute; servir como conex&atilde;o Heartbeat.</p>
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>As configura&ccedil;&otilde;es da conex&atilde;o Heartbeat produzir&atilde;o dois conjuntos de endere&ccedil;os IP (por exemplo, 169.254.1.1 e 169.254.1.2) para fins de replica&ccedil;&atilde;o de dados do servidor ativo para o servidor passivo. Certifique-se de que esses dois endere&ccedil;os IP n&atilde;o sejam usados por nenhum outro equipamento da rede.</li>
+<li>A habilita&ccedil;&atilde;o do ID de VLAN das portas de conex&atilde;o Heartbeat de seu Synology NAS n&atilde;o &eacute; suportada.</li>
+</ul>
+</div>
+<div class="section">
+<h4>Configurando o Link Aggregation nas conex&otilde;es de dados ou Heartbeat:</h4>
+<ul>
+<li>Para configurar o Link Aggregation nas conex&otilde;es de dados ou Heartbeat, configure-o em duas ou mais portas LAN em <strong>Painel de controle</strong> &gt; <strong>Rede</strong> &gt; <strong>Interface de rede</strong> antes de abrir o assistente de cria&ccedil;&atilde;o de high availability. As configura&ccedil;&otilde;es do Link Aggregation devem ser id&ecirc;nticas nos dois servidores (por exemplo, se voc&ecirc; configur&aacute;-lo nas portas 1 e 2 do servidor ativo, deve configur&aacute;-lo nas portas 1 e 2 do servidor passivo).</li>
+<li>O Heartbeat &eacute; equipado com recursos de failover e balanceamento de carga, mas as conex&otilde;es de dados dependem do modo de Link Aggregation que voc&ecirc; escolher.</li>
+</ul>
+</div>
+<h4>Para ajustar as configura&ccedil;&otilde;es da interface de rede de um cluster de high-availability:</h4>
+<p>O cluster de high-availability usar&aacute; um endere&ccedil;o IP de cluster de high-availability como sua interface de conex&atilde;o com o meio externo. Voc&ecirc; pode se conectar usando esse endere&ccedil;o IP de conjunto de high-availability quando quiser usar os servi&ccedil;os DSM, independente de qual Synology NAS for o servidor ativo. Isso evita ter que se conectar a endere&ccedil;os IP diferentes ap&oacute;s realizar uma mudan&ccedil;a de um servidor ativo para o servidor passivo.</p>
+<ol>
+<li><b>Nome do servidor do cluster:</b> O nome do conjunto de high-availability. Consulte as regras de nomenclatura do servidor (em <b>Ajuda do DSM</b> &gt; <b>Painel de Controle</b> &gt; <b>Conectividade</b> &gt; <b>Rede</b> &gt; <b>Geral)</b> para obter informa&ccedil;&otilde;es sobre as restri&ccedil;&otilde;es de nome.</li>
+<li><b>Interface de rede:</b> A interface de rede a ser usada pelo conjunto de high-availability. &Eacute; necess&aacute;rio selecionar uma porta LAN diferente daquela designada para a replica&ccedil;&atilde;o de dados na etapa anterior. </li>
+<li><b>Endere&ccedil;o IP:</b> O endere&ccedil;o IP a ser usado pelo conjunto de high-availability. Independentemente de qual servidor est&aacute; fornecendo servi&ccedil;os ativamente, o cluster pode ser conectado atrav&eacute;s desse IP.</li>
+<li> <b>M&aacute;scara de sub-rede:</b> A m&aacute;scara de sub-rede a ser usada pelo conjunto de high-availability.</li>
+</ol>
+<div class="section">
+<h4>Atribuindo um ID de VLAN &agrave; conex&atilde;o de dados:</h4>
+<ul>
+<li>Para atribuir um ID de VLAN &agrave; conex&atilde;o de dados, v&aacute; para <strong>Painel de controle</strong> &gt; <strong>Rede</strong> &gt; <strong>Interface de rede</strong> antes de abrir o assistente de cria&ccedil;&atilde;o de high-availability. As configura&ccedil;&otilde;es de VLAN devem ser id&ecirc;nticas nos dois servidores (por exemplo, se a LAN 1 for configurada com ID de VLAN 1 no servidor ativo, a LAN 1 do servidor passivo tamb&eacute;m deve ser VLAN 1).</li>
+</ul>
+</div>
+<h4>Para confirmar as configura&ccedil;&otilde;es:</h4>
+<p>Verifique novamente as configura&ccedil;&otilde;es a serem usadas pelo cluster de high-availability. O sistema iniciar&aacute; a vincula&ccedil;&atilde;o do cluster de high-availability quando voc&ecirc; clicar em <b>Aplicar</b>. </p>
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Ao criar um cluster de high-availability, todos os dados do servidor ativo devem ser replicados para o servidor passivo. Se a conex&atilde;o para o servidor passivo for perdida por mais de 30 minutos antes que o processo de replica&ccedil;&atilde;o inicial esteja conclu&iacute;do, o servidor passivo voltar&aacute; para o modo <strong>Independente</strong>. Nesse caso, voc&ecirc; precisar&aacute; vincul&aacute;-lo novamente e repetir a replica&ccedil;&atilde;o completa dos dados.</li>
+</ul>
+</div>
+ </body>
+</html>

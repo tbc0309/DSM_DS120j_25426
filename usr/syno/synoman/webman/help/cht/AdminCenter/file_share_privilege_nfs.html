@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>共用資料夾</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>指派 NFS 權限</h2>
+<p>您可以將 NFS 權限指派給任何共用資料夾，讓 Linux 用戶端可以存取該共用資料夾。</p>
+<h4>若要為共用資料夾指派 NFS 權限：</h4>
+<ol>
+<li>請從共用資料夾清單選擇您想要編輯的共用資料夾。</li>
+<li>按一下<strong>編輯</strong> &gt; <strong>NFS 權限</strong>。</li>
+<li>按一下<b>新增</b>來新增 NFS 規則。</li>
+<li>畫面上會出現一個對話視窗。 請定義下列選項。</li>
+<li><strong>伺服器名稱或 IP 位址</strong>：輸入會存取共用資料夾之 NFS 用戶端的 IP 位址。 您可用下列三種方式填寫此欄位：<ul>
+<li><strong>單一主機</strong>：完全合格的網域名稱或 IP 地址。</li>
+<li><strong>萬用符號</strong>：*, *.synology.com</li>
+<li><strong>IP 網路</strong>：203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>權限</strong>：選擇 NFS 用戶端的讀寫權限。</li>
+<li><strong>安全性：</strong>指定要套用的安全性標註。<ul>
+  <li><strong>AUTH_SYS：</strong>使用 NFS 用戶端的 UID (使用者識別碼) 及 GID (群組識別碼) 來檢查存取權限。</li>
+<li><strong>Kerberos 認證：</strong>在 NFS 用戶端連線至共用資料夾時執行 Kerberos 認證。 唯有通過 Kerberos 認證，用戶端才能存取共用資料夾。</li>
+<li><strong>Kerberos 完整性：</strong>執行 Kerberos 認證，並確保封包在資料傳輸過程中的完整性。</li>
+<li><strong>Kerberos 私密性：</strong>執行 Kerberos 認證，並在 NFS 封包傳輸資料過程中進行加密，藉以防止他人惡意竄改 NFS 流量。</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>：此欄位可讓您控制 NFS 用戶端使用者的存取權限。 請選擇下列其中一項操作：<ul>
+    <li><strong>不調整：</strong>讓所有 NFS 用戶端使用者 (包含 root 使用者) 保留原有存取權限。</li>
+    <li><strong>將 root 調整為 admin：</strong>指派 NFS 用戶端 root 使用者的存取權限，使其權限和您系統上的 admin 使用者相同。</li>
+    <li><strong>將 root 調整為 guest：</strong>指派 NFS 用戶端 root 使用者的存取權限，使其權限和您系統上的 guest 使用者相同。</li>
+    <li><strong>將所有使用者調整為 admin：</strong>指派 NFS 用戶端所有使用者的存取權限，使其權限和您系統上的 admin 使用者相同。</li>
+	<li><strong>將所有使用者調整為 guest：</strong>指派 NFS 用戶端所有使用者的存取權限，使其權限和您系統上的 guest 使用者相同。</li>
+  </ul>
+</li>
+
+<li><strong>啟動非同步</strong>：勾選此選項可讓 Synology NAS 在檔案變更完成之前先回覆 NFS 用戶端的請求，以產生較佳的效能。</li>
+<li><strong>允許來自非特殊權限之連接埠的連線 (大於 1024 的連接埠)</strong>：勾選此選項可讓 NFS 用戶端以非特殊權限之連接埠 (即大於 1024 的連接埠) 與 Synology NAS 進行連線。 </li>
+<li><strong>允許使用者存取已掛載的子資料夾</strong>：勾選此選項可讓 NFS 用戶端存取已掛載的子資料夾。</li>
+<li>按一下<b>確定</b>來完成。</li>
+  <li>按一下<b>確定</b>來套用 NFS 權限。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>當伺服器名稱設定為 <strong>*.domain</strong> 的格式時，NFS 用戶端的 IP 位址必須要有對應的 DNS 指標 (PTR) 記錄，使 Synology NAS 能藉由搜尋對應的 IP 位址來反查到網域名稱 *.domain。</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>安全性標註：</h4>
+<p> 當您使用特定使用者帳號透過 NFS 存取共用資料夾時： </p>
+<ul>
+<li>如果套用的安全性標註為 <strong>AUTH_SYS</strong>：用戶端必須在 NFS 用戶端本身及 Synology NAS 擁有一模一樣的數字 UID (使用者識別碼) 及 GID (群組識別碼)，否則用戶端存取共用資料夾時的權限將被設定為<strong>others</strong>。 為避免權限發生任何衝突，您可以從 <strong>Squash</strong> 中選擇<strong>將所有使用者調整為 admin</strong>，或將共用資料夾的權限指派給「Everyone」使用者。</li>
+<li>如果套用的安全性標註為 <strong>Kerberos (krb5, krb5i, krb5p)</strong>：您必須前往 <strong>Win/Mac/NFS</strong> &gt; <strong>NFS 服務</strong> &gt; <strong>Kerberos 設定</strong> &gt; <strong>識別碼對應</strong>將 NFS 用戶端對應到特定的使用者，或是使用對應的使用者帳號加入 Windows/LDAP 網域，否則用戶端存取共用資料夾時的權限將被設定為<strong>guest</strong>。</li>
+<li>若建立共用資料夾的外接裝置使用 NTFS 或 FAT 檔案系統，則<strong>將所有使用者調整為 admin</strong> 選項將會強制套用。</li>
+</ul>
+<p>若要使用 Kerberos 安全性標註來連線至 Synology NAS，您必須前往 <strong>Win/Mac/NFS</strong> &gt; <strong>NFS 服務</strong> &gt; <strong>Kerberos 設定</strong>設定 Kerberos 認證。</p>
+</div>
+
+</body>
+</html>

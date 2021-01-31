@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>使用限制及系統需求 - Synology DSM 說明</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>使用限制及系統需求</h1>
+
+ <p>Synology High Availability 功能需要使用兩台相同的 Synology 伺服器來分別擔任主伺服器與副伺服器的角色。在將兩台 Synology 伺服器組成 high-availability 叢集前，Synology High Availability 精靈會檢查以下硬體及軟體限制，以確保 high-availability 叢集能夠順利組成。</p>
+ 
+  
+ <h3>系統需求</h3>
+ 
+  <p>請注意下列硬體及軟體相關說明：</p>
+  <ul>
+   <li><b>Synology 伺服器：</b>主伺服器與副伺服器型號必須相同，且需支援 Synology High Availability。請注意，high-availability 叢集名稱必須使用與主伺服器及副伺服器不同的名稱。</li>
+   <li><b>DSM 版本：</b>主伺服器與副伺服器需安裝相同版本的 DSM。 </li>
+   <li><b>套件版本：</b>兩台 Synology 伺服器需安裝相同版本的 Synology High Availability 套件。</li>
+  </ul>
+
+  
+ <h3>儲存空間及硬碟</h3>
+ 
+  <p>請注意下列儲存空間 (例如儲存空間、磁碟群組、RAID Group 等) 及硬碟管理相關說明：</p>
+  <ul>
+   <li><b>硬碟容量：</b>為能容納所有複製的資料，副伺服器的硬碟容量必須大於或等於主伺服器的硬碟容量。強烈建議兩台伺服器具備完全相同的硬碟容量，如此可避免不一致的情形發生。</li>
+   <li><b>硬碟數量及類型：</b>主伺服器與副伺服器必須具備相同數量的硬碟。此外，兩台伺服器的硬碟位置必須相對應，且兩台伺服器的硬碟類型 (例如 SSD/HDD、SAS/SATA) 及規格 (例如磁區大小為 4K 或 512 byte) 也須完全相同。請注意，檢查硬碟數量時不會把 USB 硬碟等外接裝置計算在內。</li>
+   <li><b>Hot Spare 修復：</b>副伺服器上降級的儲存空間不會觸發 hot spare 修復。然而，當主伺服器上的儲存空間降級時，將會觸發 hot spare 修復，且副伺服器上的儲存空間會一併被降級，因為系統會從副伺服器的 RAID 儲存空間中移除一顆狀態正常的硬碟，藉此強制執行 hot spare 修復。</li>
+   <li><b>不支援 <b>SHR 格式：</b></b>不支援 SHR 格式的儲存空間。請確認要做為主伺服器的 Synology 伺服器中沒有 SHR 格式的儲存空間。 </li>
+  </ul>
+  
+
+ <div class="section">
+   <h4>注意：</h4>
+   <ul>
+    <li>由於資料是透過 Heartbeat 連線同步至副伺服器，副伺服器上硬碟的速度會影響 high-availability 叢集的讀取效能。建議您主伺服器與副伺服器使用相同的硬碟。</li>
+    <li>若副伺服器斷線或 Heartbeat 連線斷線，儲存空間將暫時無法使用且 iSCSI 傳輸會暫停約 10 秒鐘。</li>
+   </ul>
+   </div>
+
+  
+  
+  <h3>網路環境</h3>
+  <p>在嘗試建立 high-availability 叢集時，請注意下列關於網路設定的指示。</p>
+  <ul>
+    <li><b>網路設定：</b>兩台伺服器都必須具備位於同一子網路內的固定 IP 位址。</li>
+    <li><b>網路孔數量：</b>兩台伺服器必須擁有相同的網路孔數量。若您的 Synology NAS 上裝有額外的網路卡介面，則該網路卡也算額外的網路孔。 </li>
+            <li><b>連線環境限制：</b>兩台伺服器之間的連線環境須支援多點傳送 (Multicast)，且 high-availability 叢集所使用的連接埠不可被任何防火牆規則所封鎖。若 Heartbeat 連線有通過任何交換器，您須確認交換器支援多點傳送與 Jumbo Frame。</li>
+    <li><b>連線限制：</b>伺服器無法透過 DHCP、IPv6、PPPoE 及 Wi-Fi 連接至網路。在嘗試建立 high-availability 叢集前，請確認這些功能皆已停用。</li>
+    <li><strong>無 DHCP 服務：</strong>伺服器組成叢集後，無法使用內建的 DHCP 伺服器選項。</li>
+   <li><strong>Link Aggregation 設定：</strong>兩台伺服器皆須擁有相同的 link aggregation 設定，以用於資料網路及 heartbeat 連線。建立 high-availability 叢集後，將無法再修改 link aggregation 設定。</li>
+   <li><b>Open vSwitch 設定：</b>兩台伺服器上 Open vSwitch 的狀態必須相同 (啟動或停用)。建立 high-availability 叢集後，將無法再修改 Open vSwitch 設定。</li>
+
+  </ul>
+  <div class="section">
+    <h4>注意：</h4>
+    <ul>
+      <li>建立 high-availability 叢集後，主伺服器上的 NTP 伺服器將會自動啟動。</li>
+    </ul>
+  </div>
+  <h3>儲存空間管理員使用限制</h3>
+  <p>一旦建立 high-availability 叢集後，儲存空間管理員中變更 RAID 類別的選項將無法使用。然而，下列選項仍可使用：
+<ul>
+<li>擴充儲存空間 (例如儲存空間、段落分塊 iSCSI LUN、磁碟群組、RAID Group 等)。</li>
+    <li>新增、移除、修復儲存空間、iSCSI LUN、SSD 唯讀快取及讀寫快取。</li>
+    <li>變更 iSCSI LUN (一般檔案) 大小及位置。</li>
+    <li>變更 iSCSI LUN target。   </li>
+  </ul>
+
+  <div class="section">
+    <h4>注意：</h4>
+    <ul>
+      <li>High-availability 叢集建立完成後，請勿再變更硬碟位置，否則儲存空間將會遺失。</li>
+            <li>為確保連線至 Synology iSCSI target 的伺服器不會在執行故障轉移時發生連線逾時，建議您將 iSCSI 用戶端及啟動器的逾時設定調整為 120 秒鐘或更長。</li>
+    </ul>
+  </div>
+
+<h3>套件及軟體限制</h3> 
+
+
+<p>High-availability 叢集組成後，不支援下列套件及功能：</p>
+	<ul>
+    <li>Virtual Machine Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+    <li>CMS 中將 high-availability 叢集重新開機 / 關機的功能</li>
+    </ul>
+
+  <div class="section">
+    <h4>注意：</h4>
+    <ul>
+      <li>若要在 High Availability 中支援 Docker DSM，您必須在建立叢集之前先啟動 Open vSwitch。</li>
+    </ul>
+  </div>
+
+    
+<h3>新增擴充裝置</h3>
+  <p>建立 high-availability 叢集後，可以在現有的 high-availability 叢集配置中增加擴充裝置來擴充儲存空間。如同其它硬體需求，主伺服器與副伺服器必須使用相同的擴充裝置。為避免發生資料不一致的錯誤，新增擴充裝置時請謹慎地跟隨下列指示。</p>
+  
+  <h4>若要新增擴充裝置：</h4>
+   <ol>
+    <li>務必為主、副伺服器新增相同的擴充裝置及硬碟。如前文所述，主、副伺服器的硬體必須完全相同，包括硬體型號、類型、硬碟大小及位置。</li>
+    <li>請確認您已刪除擴充裝置的硬碟上所有資料及儲存空間。</li>
+    <li>在主、副伺服器均開機且正常運作的情況下連接擴充裝置。</li>
+    <li>在關閉其中任一台伺服器之前，請先於擴充裝置上建立新的儲存空間 (例如儲存空間、磁碟群組、RAID Group 等)。</li>
+   </ol>
+<div class="section">
+<h4>注意：</h4>
+<p>欲取得擴充裝置安裝步驟的相關資訊，請參閱擴充裝置的使用手冊。</p>
+</div>
+
+
+<h3>USB 裝置限制</h3>
+   <p>不支援 USB 裝置的轉移/故障轉移。轉移/故障轉移後，USB 裝置提供的服務或應用程式可能會無法正常運作。</p>
+
+      
+ </body>
+</html>

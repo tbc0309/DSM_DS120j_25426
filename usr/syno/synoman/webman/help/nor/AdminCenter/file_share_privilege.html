@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Tilordne tillatelser til delt mappe - Synology DSM Hjelp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="You can specify which users or groups can access, view, or modify a shared folder and its contents. This article shows you how to assign and customize shared folder permissions in DSM.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Tilordne tillatelser til delt mappe</h2>
+
+<p>Du kan spesifisere brukere eller grupper som skal kunne få tilgang til, vise eller endre en delt mappe og innholdet i den. Tilgangstillatelsene for delte mapper, og individuelle filer og undermapper, kan tilpasses for hver bruker eller gruppe.</p>
+
+<div class="section disable-eds14">
+<h4>Windows ACL:</h4>
+
+<p>I DSM 5.0 eller nyere versjoner er tilgangstillatelsene for delte mapper basert på Windows ACL som standard. Nyopprettede delte mapper tar i bruk tillatelsesinnstillingene for Windows ACL, som også gir deg muligheten til å tilpasse tillatelsene for individuelle filer og undermapper. I tillegg kan tillatelser tilpasses via File Station eller Filutforsker i Windows.</p>
+<p>Følgende delte mapper kan ikke bruke Windows ACL-administrasjonssystemet for tillatelser: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+<div class="section disable-eds14">
+<h4>Merk:</h4>  
+<p>Brukernes personlige <strong>home</strong>-mapper ligger under mappen <strong>homes</strong>. Siden ACL fungerer på grunnlag av tillatelsesarv, vil ikke brukere få tilgang til sine personlige <strong>home</strong>-mappe hvis du angir NA-tillatelser for en bruker/gruppe i <strong>homes</strong>. </p>
+</div>
+<h4>Slik redigerer du tillatelsene for en delt mappe:</h4>
+
+<ol>
+
+<li>Gå til <strong>Kontrollpanel</strong> > <strong>Delt mappe</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Velg den delte mappen hvis tillatelser du ønsker å redigere. Klikk på <b>Rediger</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li> Gå til fanen <strong>Tillatelser</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Velg ett av følgende fra rullegardinmenyen:
+
+<ul>
+<li><b>Intern systembruker:</b> Tilordne tillatelser til standard systembrukere, som for eksempel FTP/WebDAV-brukeren Anonymous. Før du tillater at anonyme FTP-brukere kobler seg til en delt mappe, må du tilordne tillatelser til denne brukeren.</li>
+<li><b>Lokale brukere:</b> Tilordne tillatelser til lokale brukere (inkludert <b>guest</b>).</li>
+<li><b>Lokale grupper:</b> Tilordne tillatelser til lokale grupper.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Merk av for eller fjern avmerking for hver bruker eller gruppe for å tilpasse deres tilgangstillatelser til den delte mappen:
+
+  <ul>
+<li><b>Lese/skrive</b>: Brukeren eller gruppen får tilgang til og kan gjøre endringer på filene og undermappene i den delte mappen.</li>
+<li><b>Skrivebeskyttet</b>: Brukeren eller gruppen får tilgang til filene og undermappene i den delte mappen.</li>
+<li><b>Ingen tilgang</b>: Brukeren eller gruppen får ikke tilgang til filene eller undermappene i den delte mappen.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Klikk på <b>OK</b> for å fullføre.</li>
+</ol>
+
+<div class="section">
+<h4>Merk:</h4>
+
+<ul>
+<li>Hvis det oppstår tillatelseskonflikter, er tillatelsesprioriteringen som følger: Ingen tilgang > Lese/skrive > Skrivebeskyttet.</li>
+<li>Når du oppretter en ny delt mappe, og tillatelsene for brukerne som tilhører gruppen <strong>administrators</strong> er satt til <b>Ingen tilgang</b>, vil disse brukerne kun se den delte mappen i <strong>Kontrollpanel</strong> > <strong>Delt mappe</strong>.</li>
+</ul>
+</div>
+
+<h3 class="disable-eds14">Tilpasse Windows ACL-tillatelser</h3>
+
+<p class="disable-eds14">I tillegg til innstillingene som ble beskrevet ovenfor, kan du tilpasse tillatelser ytterligere ved å følge trinnene nedenfor. </p>
+
+<div class="section disable-eds14">
+<h4>Merk:</h4>
+<p>Innstillingene nedenfor kan ikke brukes for følgende delte mapper: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+
+<h4 class="disable-eds14">Slik tilpasser du tillatelser:</h4>
+<ol class="disable-eds14">
+  <li>Under fanen <strong>Tillatelser</strong> velger du brukeren du ønsker å tilpasse tillatelser for. Klikk hvor som helst i kolonnen <strong>Tilpass</strong>.</li>
+  <img src="about:blank" class="help_image"/>
+  <li>Gjør ett av følgende i vinduet <b>Tillatelsesredigering</b> for å administrere ACL-tillatelser for filen eller mappen:
+      <ol>
+        <li><b>Bruker eller gruppe:</b> Spesifiser brukeren eller gruppen som du vil tilpasse tillatelser for.</li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Arv fra:</b> Kun for visning. Vis informasjonen her for å se om tillatelsen er arvet (fra en overordnet mappe) eller eksplisitt (vises som <b>Ingen</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Type:</b> Velg <b>Tillat</b> eller <b>Nekt</b> for å tildele eller nekte tillatelse til brukeren eller gruppen.</li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Bruk på:</b> Hvis du oppretter en tillatelsesoppføring for en mappe, merker du av for å bruke oppføringen på denne mappen, mappene (eller <b>Underordnede mapper</b>) eller filer (eller <b>Underordnede filer</b>) i denne mappen, eller alle filer og mapper i denne mappen (eller <b>Alle etterkommere</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Administrasjon:</b> Merk av for <b>Les tillatelser</b>, <b>Endre tillatelser</b> eller <b>Ta eierskap</b> for å angi brukerens eller gruppens tilgangstillatelse for oppføringen. </li>
+        <li><b>Lese</b> eller <b>Skrive:</b> Merk av i disse seksjonene for å endre brukerens eller gruppens tillatelsesinnstillinger for filen eller mappen. </li>
+      </ol>    
+  <li> Klikk på <b>OK</b>.</li>
+</ol>
+<div class="section disable-eds14">
+  <h4>ACL-tillatelser kan kategoriseres som følger:</h4>
+  <ul>
+    <li><b>Administrasjon:</b>
+    <ul>
+      <li><b>Endre tillatelser</b>: Dette kontrollerer om en bruker kan endre tillatelsen til filen eller mappen.</li>
+      <li><b>Ta eierskap</b>: Dette kontrollerer om en bruker har eierskap til filen eller mappen.</li>
+    </ul></li>
+    <li><b>Les:</b>
+    <ul>
+      <li><b>Traversere mapper / kjøre filer</b>: Dette kontrollerer om en bruker kan kjøre en programfil.</li>
+      <li><b>List opp mapper / les data</b>: Dette kontrollerer om en bruker kan lese data i en fil.</li>
+      <li><b>Les attributt</b>: Dette kontrollerer om en bruker kan vise attributtene til en fil.</li>
+      <li><b>Les utvidede attributter</b>: Dette kontrollerer om en bruker kan vise de utvidede attributtene til en fil.</li>
+      <li><b>Les tillatelser</b>: Dette kontrollerer om en bruker kan lese tillatelsene til filen eller mappen.</li>
+    </ul></li>
+    <li><b>Skriv:</b>
+    <ul>
+      <li><b>Opprett filer / skriv data</b>: Dette kontrollerer om en bruker kan endre innholdet i en fil.</li>
+      <li><b>Opprette mapper / tilføye data</b>: Dette kontrollerer om en bruker kan legge til data i slutten av en fil.</li>
+      <li><b>Skriv attributter</b>: Dette kontrollerer om en bruker kan endre attributtene til en fil.</li>
+      <li><b>Skriv utvidede attributter</b>:  Dette kontrollerer om en bruker kan endre de utvidede attributtene til en fil.</li>
+      <li><b>Slett undermapper og filer</b>: Dette kontrollerer om en bruker kan slette en mappe.</li>
+      <li><b>Slett</b>: Dette kontrollerer om en bruker kan slette en fil.</li>
+    </ul></li>
+  </ul>
+  <h4>Om arving av tillatelse:</h4>
+  <p> ACL-tillatelser arves fra overordnede objekter til underordnede objekter. Hvis for eksempel en ACL-oppføring av mappen Salg gir tillatelsen Les til brukeren Amy, vil ACL-oppføringen bli brukt på alle filer i mappen Salg (for eksempel "årsrapport.xls"), noe som gir brukeren tillatelse til å åpne filene. Arvede tillatelser vil bli vist i grått, mens objektets egene tillatelser (eller eksplisitte tillatelser) vil bli vist i svart. </p>
+</div>
+<div class="section disable-eds14">
+  <h4>Merk:</h4>
+  <ul>
+    <li>Du kan bare legge til opptil 200 ACL eksplisitte tillatelser for en fil eller mappe.</li>
+    <li>Windows ACL støttes kun på ext4-<span class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">/Btrfs</span>-filsystemer. For tidligere DSM 2.3 brukere, må du opprette minst ett ext4-<span class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">/Btrfs</span>-volum for å bruke Windows ACL-tillatelser. Dette betyr at du må formatere minst én disk og gjenopprette et volum. Formatering av Synology NAS vil medføre sletting av alle lagrede data og innstillinger. Vennligst forsikre deg om at alle dataene dine er sikkerhetskopiert før behandling.</li>
+    <li>For å definere nye tillatelser for domenebrukere, forsikre deg om at DSM- og Windows-klienter er i det samme domenet.</li>
+    <li>Når du endrer tillatelser med Windows Filutforsker, vil <strong>Nekt</strong>-regler som gjelder for gruppen <strong>Domeneadminer</strong> bli ignorert.</li>
+  </ul>
+</div>
+
+
+</body>
+</html>

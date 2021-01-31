@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Netwerk</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="link_aggr"></a>Link Aggregation</h2>
+<p>Synology NAS ondersteunt multi-LAN waarmee u de LAN-interfaces kunt combineren met behulp van Link Aggregation-technologie. Link Aggregation vergroot de bandbreedte van uw Synology NAS door meerdere netwerkinterfaces te combineren en biedt Traffic Failover om de netwerkverbinding te handhaven ingeval de verbinding wordt verbroken.</p>
+<p>Na de combinatie van uw LAN-interfaces ziet u een nieuwe interface met de naam <b>Bond</b> bij <b>Configuratiescherm</b> > <b>Netwerk</b> > <b>Netwerkinterface</b> die net zoals andere interfaces (zoals LAN of PPPoE) kan worden geconfigureerd.</p>
+
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>Link Aggregation is alleen beschikbaar op modellen met minstens twee LAN-poorten.</li>
+<li>met ingeschakelde Link Aggregation wordt het netwerkverkeer automatisch aangepast en uitgebalanceerd voor elk aangesloten apparaat.</li>
+<li>Als de netwerkinterfaces verbonden zijn met meerdere switches, zorg dan dat de switchpoorten tot hetzelfde LAN of VLAN behoren.</li>
+</ul>
+</div>
+
+
+<h4>Om meerdere LANs met Link Aggregation te combineren:</h4>
+<ol>
+<li>Ga naar <strong>Configuratiescherm</strong> > <strong>Netwerk</strong> > <strong>Netwerkinterface</strong>. Klik op <strong>Maken</strong> > <strong>Bond maken</strong>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+
+<li>Selecteer de gewenste modus.
+
+<div class="section">
+<h4>Modusbeschrijvingen:</h4>
+<ul>
+  <li><strong>Adaptive Load Balancing</strong>: Deze modus optimaliseert door uw Synology NAS ontvangen en verzonden netwerkverkeer ongeacht of de switch Link Aggregation ondersteunt. Om onverwachte fouten te voorkomen, schakel Link Aggregation niet in op de switch, ook al wordt het ondersteund.</li>
+  <li><strong>IEEE 802.3ad Dynamic Link Aggregation</strong>: Deze modus optimaliseert het door uw Synology NAS ontvangen en verzonden netwerkverkeer en vereist inschakeling van IEEE 802.3ad (Dynamic) Link Aggregation (LACP, 802.1AX) op de switches. Worden er meerdere switches gebruikt, dan moeten ze opgestapeld worden en correct worden geconfigureerd.</li>
+<li><strong>Balans XOR</strong>: Deze modus balanceert het door uw Synology NAS ontvangen en verzonden netwerkverkeer en vereist inschakeling van Static Link Aggregation op de switches. Worden er meerdere switches gebruikt, dan moeten ze opgestapeld worden en correct worden geconfigureerd. Wordt Link Aggregation niet ondersteund door de switch, dan is het nog steeds mogelijk om het verkeer uit te balanceren op uw Synology NAS. Met deze modus worden verloren koppelingen gedetecteerd, maar niet de oorzaak ervan (bv. bij ontkoppeling van Ethernet-kabels of verkeerde configuratie van de switch).</li>
+<li><strong>Actief/stand-by</strong>: Deze modus voorziet uw Synology NAS van network fault tolerance. Dit wil zeggen dat wanneer de actieve netwerkinterface faalt, een van de andere LAN-poorten het verkeer overneemt om de netwerkverbinding te behouden. De selectie van deze modus vereist geen configuratie van de switch of vereist een switch die IEEE 802.3ad Link Aggregation ondersteunt.</li>
+</ul>
+<p>Als u Open vSwitch hebt ingeschakeld kunt u een van de volgende modi selecteren.</p>
+<ul>
+ <li><b>Balans-SLB</b>: Deze modus balanceert het netwerkverkeer zonder dat specifieke netwerkswitches nodig zijn en schakelt de verbinding tussen twee switches in.</li>
+ <li><b>Balans-TCP</b>: Deze modus wordt gebruikt voor de aansluiting van switches die als Dynamic Link Aggregation (IEEE 802.3ad LACP) zijn geconfigureerd. Als er meerdere switches worden gebruikt, moeten ze opstapelbaar en correct worden geconfigureerd.</li>
+ <li><b>Actieve/back-up-modus</b>: Deze modus voorziet uw Synology NAS met network fault tolerance met behulp van twee netwerkinterfaces. Wanneer de actieve netwerkinterface faalt, zal de andere netwerkinterface het werk overnemen om de netwerkconnectiviteit te behouden. U kunt deze modus kiezen zonder daarvoor de switch te configureren.</li>
+</ul>
+</div>
+</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Kies de interfaces om een Link Aggregation te maken.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Configureer de IP-instellingen. U kunt ook VLAN inschakelen Klik op <b>Toepassen</b> om de wijzigingen op te slaan.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Na voltooiing ziet u de nieuwe interface <b>Bond 1</b> in de lijst <b>Netwerkinterface</b>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+<h4>Link Aggregation-instellingen bewerken:</h4>
+<ol>
+<li>Ga naar <b>Configuratiescherm</b> > <b>Netwerk</b> > <b>Netwerkinterface</b> om de Link Aggregation-modus te wijzigen of de informatie van fysieke apparaten te bekijken.</li>
+<li>Selecteer de interface <b>Bond 1</b> en klik op de knop <b>Bewerken</b>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Ga naar de desbetreffende tabbladen om de gewenste instellingen te bewerken.</li>
+</ol>
+
+<h4>Link Aggregation verwijderen:</h4>
+<ol>
+<li>Ga naar <b>Configuratiescherm</b> > <b>Netwerk</b> > <b>Netwerkinterface</b>.</li>
+<li>Selecteer de interface <b>Bond 1</b> en klik op de knop <b>Verwijderen</b>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Na voltooiing ziet u twee LAN-interfaces in de lijst Netwerkinterface.</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+</body>
+</html>
+

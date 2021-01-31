@@ -1,0 +1,133 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+<title>Nettoyage des donn&eacute;es</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Data scrubbing is a data maintenance feature that inspects volumes or disk groups and repairs any detected data inconsistencies.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Nettoyage des donn&eacute;es</h2>
+
+<h3>Effectuer le nettoyage de donn&eacute;es</h3>
+<p>Le nettoyage des donn&eacute;es est un param&egrave;tre de maintenance des donn&eacute;es qui inspecte les groupes de stockage. Les deux types suivants de nettoyage de donn&eacute;es sont effectu&eacute;s de mani&egrave;re s&eacute;quentielle&nbsp;:</p>
+
+<ul>
+<li><strong>Nettoyage du syst&egrave;me de fichiers</strong>&nbsp;: cette fonction v&eacute;rifie les volumes du syst&egrave;me de fichiers Btrfs. Si des donn&eacute;es sont incoh&eacute;rentes par rapport &agrave; la somme de contr&ocirc;le d&eacute;tect&eacute;e, le syst&egrave;me essaie d&apos;utiliser une sauvegarde pour r&eacute;parer les donn&eacute;es et le chemin du fichier est enregistr&eacute; dans le Log Center.</li>
+<li><strong>Nettoyage du RAID</strong>&nbsp;: cette fonction peut &ecirc;tre utilis&eacute;e avec les groupes de stockage qui impl&eacute;mentent SHR (comportant trois disques ou plus), RAID&nbsp;5 ou RAID&nbsp;6. Elle peut r&eacute;parer toute incoh&eacute;rence de donn&eacute;es d&eacute;tect&eacute;e.</li>
+</ul>
+
+<p>Nous recommandons d&apos;effectuer r&eacute;guli&egrave;rement le nettoyage des donn&eacute;es afin d&apos;assurer la coh&eacute;rence des donn&eacute;es et d&apos;&eacute;viter de perdre des donn&eacute;es en cas de panne de disque.</p>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+	<ul>
+	<li>Le nettoyage des donn&eacute;es et les fonctions connexes d&eacute;crites dans cet article sont disponibles sur certains mod&egrave;les uniquement.</li>
+	<li>Le nettoyage des donn&eacute;es ne peut pas &ecirc;tre effectu&eacute; lorsque l&apos;&eacute;tat du groupe de stockage a <strong>Plant&eacute;</strong> ou <b>D&eacute;grad&eacute;</b>.</li>
+	<li>Si la <b>somme de contr&ocirc;le des donn&eacute;es pour l&apos;int&eacute;grit&eacute; avanc&eacute;e</b> n&apos;est pas activ&eacute;e pour un dossier partag&eacute;, le nettoyage des fichiers syst&egrave;me n&apos;est pas en mesure de v&eacute;rifier et de r&eacute;parer les donn&eacute;es dans le dossier pour un manque de somme de contr&ocirc;le.</li>
+	</ul>
+</div>
+
+<h3>Configuration de la planification du nettoyage des donn&eacute;es</h3>
+<p>Vous pouvez configurer une planification du nettoyage des donn&eacute;es. Le syst&egrave;me ex&eacute;cutera le nettoyage des donn&eacute;es en fonction de vos param&egrave;tres.</p>
+<h4>Pour configurer la planification du nettoyage des donn&eacute;es&nbsp;:</h4>
+<ol>
+<li>Ouvrez le <strong>Gestionnaire de stockage</strong>.</li>
+<li>Acc&eacute;dez &agrave; <strong>Groupe de stockage</strong> &gt; <strong>Nettoyage des donn&eacute;es</strong>.</li>
+<li>Cliquez sur <strong>D&eacute;finir la programmation</strong>.</li>
+<li>Cochez <strong>Activer la planification du nettoyage des donn&eacute;es</strong>.</li>
+	<li>Pr&eacute;cisez la <strong>fr&eacute;quence</strong>, la <strong>date de d&eacute;but</strong> et la <strong>session temporelle</strong>.</li>
+<li>Acc&eacute;dez &agrave; l&apos;onglet <strong>S&eacute;lectionner une cible</strong>.<li>S&eacute;lectionnez le groupe de stockage sur lequel vous souhaitez effectuer le nettoyage des donn&eacute;es.</li>
+<li>Cliquez sur <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<ul>
+<li>Pour &ecirc;tre ajout&eacute; &agrave; une planification, un groupe de stockage doit &ecirc;tre en &eacute;tat <b>Normal</b> et prendre en charge le nettoyage des donn&eacute;es.</li>	
+<li>Si votre syst&egrave;me est mis &agrave; jour &agrave; partir de la version 6.1, les groupes de stockage ayant la capacit&eacute; d&apos;ex&eacute;cuter le nettoyage de donn&eacute;es sont ajout&eacute;s par d&eacute;faut &agrave; la planification.</li>
+<li>Si vous avez configur&eacute; votre planification dans la version 6.1, nous activerons automatiquement votre planification en fonction de vos param&egrave;tres pr&eacute;c&eacute;dents.</li>	
+</ul></div>
+
+<h4>Pour ajouter un groupe de stockage &agrave; une planification ou supprimer un groupe de stockage d&apos;une planification&nbsp;:</h4>
+
+<ol>
+<li>Cliquez sur <strong>D&eacute;finir la programmation</strong>.</li>
+<li>Acc&eacute;dez &agrave; l&apos;onglet <strong>S&eacute;lectionner une cible</strong>.</li>	
+<li>Cochez ou d&eacute;cochez la case d&apos;un groupe de stockage pour d&eacute;cider si vous souhaitez l&apos;ajouter ou le supprimer d&apos;une planification.</li>
+<li>Cliquez sur <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<ul>
+<li>Un groupe de stockage ne peut pas &ecirc;tre ajout&eacute; &agrave; ou supprim&eacute; d&apos;une planification lorsque le nettoyage des donn&eacute;es est ex&eacute;cut&eacute; manuellement sur ce groupe de stockage.</li>
+<li>Pour supprimer un groupe de stockage qui subit un nettoyage de donn&eacute;es planifi&eacute;, la progression de ce groupe de stockage sera annul&eacute;e.</li>
+</ul></div>
+
+<h4>Pour modifier les param&egrave;tres de la planification&nbsp;:</h4>
+
+<ol>
+<li>Cliquez sur <strong>D&eacute;finir la programmation</strong></li>
+<li>Modifiez la fr&eacute;quence, la date de d&eacute;but et la session temporelle selon vos besoins.</li>
+<li>Cliquez sur <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<ul>
+  <li>La modification de la <strong>date de d&eacute;but</strong> r&eacute;initialisera la progression de la planification et le nettoyage des donn&eacute;es red&eacute;marrera en fonction de la nouvelle date de d&eacute;but.</li>
+</ul>
+</div>	
+
+<h4>Pour mettre en pause une planification&nbsp;:</h4>
+
+<ol>
+<li>S&eacute;lectionnez un groupe de stockage sur lequel une planification de nettoyage des donn&eacute;es est en cours.</li>
+<li>Cliquez sur <strong>Mettre en pause la planification</strong> &agrave; partir de la liste d&eacute;roulante <b>Action</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<ul>
+<li>Vous devez cliquer sur <strong>Reprendre la planification</strong> &agrave; partir du menu d&eacute;roulant <b>Action</b> pour reprendre la planification du nettoyage des donn&eacute;es. Sinon, la planification demeure en pause.</li>	
+</ul></div>
+	
+<h3>Ex&eacute;cution manuelle du nettoyage des donn&eacute;es&nbsp;:</h3>
+
+<p>Lorsqu&apos;une anomalie est d&eacute;tect&eacute;e par le syst&egrave;me au niveau de l&apos;espace de stockage, vous pouvez essayer de r&eacute;parer vos donn&eacute;es en ex&eacute;cutant manuellement le nettoyage des donn&eacute;es.</p>	
+	
+<h4>Pour ex&eacute;cuter manuellement le nettoyage des donn&eacute;es&nbsp;:</h4>
+
+<ol>
+	<li>Ouvrez le <strong>Gestionnaire de stockage</strong>.</li>
+	<li>Acc&eacute;dez &agrave; <strong>Groupe de stockage</strong> &gt; <strong>Nettoyage des donn&eacute;es</strong>.</li>
+	<li>S&eacute;lectionnez le groupe de stockage sur lequel vous souhaitez effectuer le nettoyage des donn&eacute;es.</li>
+	<li>Cliquez sur <strong>Ex&eacute;cution manuelle</strong> dans le menu d&eacute;roulant <strong>Action</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<ul>
+
+<li>Si le syst&egrave;me est arr&ecirc;t&eacute; avant la fin du nettoyage des donn&eacute;es, une partie de la progression peut &ecirc;tre perdue et vous devrez recommencer le nettoyage des donn&eacute;es manuellement.</li>
+<li>Si le moment de l&apos;ex&eacute;cution manuelle du nettoyage des donn&eacute;es recouvre un nettoyage des donn&eacute;es planifi&eacute;, cette cession de planification n&apos;est pas effectu&eacute;e tant le nettoyage manuel des donn&eacute;es n&apos;est pas termin&eacute;.</li>
+<li>Comme l&apos;ex&eacute;cution du nettoyage des donn&eacute;es peut avoir une influence sur les performances de votre syst&egrave;me, nous vous sugg&eacute;rons de ne pas l&apos;ex&eacute;cuter sur plusieurs groupes de stockage, &agrave; moins que cela ne soit n&eacute;cessaire.</li>	
+</ul></div>	
+
+<h4>Pour mettre en pause une planification sur un groupe de stockage soumis &agrave; un nettoyage des donn&eacute;es manuel&nbsp;:</h4>	
+<ol>
+<li>S&eacute;lectionnez un groupe de stockage que vous souhaitez mettre en pause.</li>
+<li>Cliquez sur <b>Pause</b> dans le menu d&eacute;roulant <b>Action</b>.</li>	
+	</ol>	
+</body>
+</html>

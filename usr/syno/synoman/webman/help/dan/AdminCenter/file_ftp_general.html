@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>FTP</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Generelt</h2>
+
+<p>Under <strong>Kontrolpanel</strong> > <strong>Filtjenester</strong> > <strong>FTP</strong> kan du aktivere hastighedsgrænser, logføring af filoverførsel, sikkerhedsindstillinger og andre avancerede indstillinger i afsnittet <strong>Generelt</strong>.</p>
+
+
+<h3>Aktivering af logføring af FTP-filoverførsel</h3>
+<p>Klik på <strong>Avancerede indstillinger</strong> for at aktivere denne funktion og registrere logfilerne over downloadede og uploadede filer.</p>
+<div class="section">
+<h4>Bemærk:</h4>
+<p>Aktivering af logføring af FTP-filoverførsel vil påvirke systemets ydeevne.</p>
+</div>
+<h3>Skifte af rodbiblioteker for bruger</h3>
+<p>Klik på <strong>Avancerede indstillinger</strong>, og marker <strong>Skift rodbiblioteker for bruger</strong>. På denne måde kan de valgte brugere kun få adgang til de angivne mapper, når de logger ind på DSM via FTP. </p>
+<h4>Sådan opretter du en regel for biblioteksændring:</h4>
+<ol>
+  <li>Under <strong>Avancerede indstillinger</strong> markerer du <strong>Vælg bruger</strong>.</li>
+  <li>Klik på <strong>Tilføj</strong>.</li>
+  <li>Under <strong>Bruger eller gruppe</strong> vælger du dem, som reglen gælder for.</li>
+  <li>Vælg det rodbibliotek, der bliver tilgængeligt, når brugeren logger ind. Vælg fra:
+	<ul>
+		<li><strong>Brugerstart:</strong> Brugere kommer til deres startbibliotek efter pålogning.</li>
+		<li><strong>Andet bibliotek:</strong> Vælg en delt mappe som rodbibliotek, og klik på <strong>Vælg</strong>. Bemærk, at mappetilladelser for brugeren eller gruppen først skal markeres. En bruger eller gruppe med utilstrækkelige mappetilladelser kan ikke logge ind.</li>
+	</ul>
+  </li>
+  <li>Klik på <strong>OK</strong>.</li>
+  <li>Klik på <strong>Anvend</strong> for af gemme reglerne, når alle regler er tilføjet.</li>
+</ol>
+<div class="section">
+  <h4>Bemærk:</h4>
+  <ul>
+    <li>Reglerne prioriteres i overensstemmelse med deres position i listen.</li>
+    <li>Træk og slip for at omsortere reglerne i listen.</li>
+  </ul>
+</div>
+<h3>Aktivering af anonym FTP</h3>
+<p>Klik på <strong>Avancerede indstillinger</strong>, og marker denne mulighed for at logge ind på Synology NAS-enhedens FTP-tjeneste (med kontoen <b>anonym</b> eller <b>ftp</b>).</p>
+
+<h3>Ændring af anonym rod</h3>
+<p>Klik på <strong>Avancerede indstillinger</strong>, og marker muligheden for at ændre anonyme FTP-brugeres loginbibliotek. Vælg en delte mappe i rullelisten.</p>
+
+<h3>Anvendelse af standard UNIX-tilladelser</h3>
+<p>Klik på <strong>Avancerede indstillinger</strong>, og marker muligheden for at anvende standard UNIX-tilladelser ved upload eller oprettelse af filer og mapper. Anvendte tilladelser er de samme som tilladelser, der anvendes af UNIX-kommandoen <strong>unmask</strong>. Når denne valgmulighed er aktiveret, er UNIX-tilladelser 644 til filer og 755 til mapper. Når denne valgmulighed er deaktiveret, er UNIX-tilladelser 666 til filer og 777 til mapper. Standard unmask-værdien er 022.</p>
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+  <li>For Windows ACL-aktiverede delte mapper (alle delinger bortset fra "photo" og delinger på eksterne drev) skal du køre kommandoen <strong>chmod</strong> på din Linux eller FTP-klient for at ændre mappe- og filtilladelsestyper fra Windows ACL til UNIX.</li>
+  <li>Aktivering af denne mulighed kan medføre inkonsekvente tilladelsesproblemer mellem forskellige protokoller. Hvis du vil undgå inkonsekvenser, foreslår vi, at du deaktiverer denne mulighed.</li>
+</ul>
+</div>
+
+<h3>Aktivering af hastighedsgrænse</h3>
+<p>Aktiver en hastighedsgrænse for at kontrollere den maksimalt brugbare båndbredde for brugere og grupper, der overfører data via FTP.</p>
+
+
+<h4>Sådan aktiverer du hastighedsgrænse:</h4>
+<ol>
+  <li>Marker feltet <b>Aktiver hastighedsgrænse</b> eller <strong>Aktiver hastighedsgrænse ifølge en plan</strong>, hvis du kun vil implementere en hastighedsgrænse på bestemte tidspunkter. Dette er en indstillinger, der gælder for hele serveren, og den vil overskrive indstillinger for individuelle brugere og grupper. Valg af <strong>Ingen hastighedsgrænse</strong> deaktiverer indstillingerne for hastighedsgrænse for alle brugere og grupper.</li>
+  <li>Klik på <strong>Indstillinger for hastighedsgrænse</strong> for at ændre indstillingerne for individuelle brugere eller grupper. Du kan vælge en af følgende for hver bruger og gruppe:
+    <ul>
+      <li><strong>Anvend gruppeindstillinger:</strong> Indstillingerne for hastighedsgrænse bliver de samme som den gruppe, som brugeren hører til. </li>
+      <li class="disable-eds14"><strong>Ingen:</strong> Ingen hastighedsgrænse anvendes, når gruppemedlemmer overfører filer med tjenesten.</li>
+      <li><strong>Konstant:</strong> En fast, konstant hastighedsgrænse bliver anvendt til brugere eller gruppemedlemmerne. Upload- og downloadhastighedsgrænser kan angives i felterne til venstre.</li>
+      <li><strong>Tilpasset:</strong> To forskellige hastighedsgrænser kan angives og anvendes til brugeren eller gruppemedlemmerne ifølge en plan. Klik på knappen <strong>Tilpas</strong> for at ændre indstillingerne for hastighedsgrænse og angive en plan.</li>
+    </ul>
+  </li>
+  <li>Klik på <b>Anvend</b>.</li>
+</ol>
+<div class="section">
+  <h4>Bemærk:</h4>
+  <ul>
+    <li>Detaljer om dynamik for gruppers hastighedsgrænse findes <a href="file_group_edit.html">her</a>.</li>
+    <li>Ved indstilling af hastighedsgrænsen for en bruger viser afsnittet <strong>Resultat</strong> brugerens faktiske hastighedsgrænse ifølge hans individuelle og gruppeindstillinger. Hvis f.eks. brugeren "Achilles" har en individuel downloadgrænse på 100 KB/sek., men hører til en brugergruppe med en downloadgrænse på 500 KB/sek., vil afsnittet <strong>Resultater</strong> vise "0/500."</li>
+  </ul>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>RAID 유형 선택</h2>
+
+<p>RAID(Redundant Array of Independent Disks: 복수 배열 독립 디스크)는 드라이브 여러 개를 단일 저장소 공간에 결합할 수 있는 데이터 저장소 기술입니다. RAID 유형에는 여러 가지가 있으며, 서로 다른 성능, 저장 용량 및 안정성은 유형마다 다릅니다.</p>
+
+<p>이 문서에서는 구현 요구 사항뿐만 아니라 장단점을 포함하여 Synology NAS에서 지원하는 RAID 유형에 대한 개요를 간략하게 설명합니다.</p><!--1--><h3>지원되는 RAID 유형</h3>
+
+<p>이 표에서는 저장 용량, RAID 유형에 필요한 최소 드라이브 개수 및 데이터가 손실되기 전까지 견딜 수 있는 오류가 발생한 드라이브 개수를 포함하여 Synology NAS에서 지원하는 여러 RAID 유형에 대한 개요를 간략하게 설명합니다.</p>
+
+<table>
+	<tr>
+		<th>볼륨 유형</th>
+		<th>HDD 개수</th>
+		<th>허용 가능한 드라이브 오류</th>
+		<th>설명</th>
+		<th>볼륨 용량</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>크기가 서로 다른 드라이브 결합 시 볼륨 크기를 최적화합니다.</li>
+				<li>볼륨이 드라이브 두 개 이상으로 구성된 경우, 데이터 중복을 제공합니다.</li>
+				<li>초보 사용자에게 권장됩니다.</li>
+			</ul>
+		</td>
+		<td>1 x (HDD 크기)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">시스템에서 최적화됩니다.</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Basic</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>드라이브 한 개(독립 유닛)로 구성됩니다.</li>
+				<li>데이터 중복을 제공하지 않습니다.</li>
+			</ul>
+		</td>
+		<td>1 x (HDD 크기)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>드라이브 모음을 단일 저장소 공간에 결합하며, 용량은 모든 드라이브 용량 합계와 동일합니다.</li>
+				<li>데이터 중복을 제공하지 않습니다.</li>
+			</ul>
+		</td>
+		<td>모든 HDD 크기 합계</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>성능을 강화하기 위해 데이터를 블록으로 나누고 데이터 블록을 여러 드라이브에 분배하는 &quot;스트라이프&quot;를 제공합니다.</li>
+				<li>데이터 중복을 제공하지 않습니다.</li>
+			</ul>
+	    </td>
+		<td>모든 HDD 크기 합계</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>동일한 데이터를 동시에 모든 드라이브에 씁니다.</li>
+				<li>데이터 중복을 제공합니다.</li>
+			</ul>
+		</td>
+		<td rowspan="3">가장 작은 HDD 크기</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>모든 멤버 드라이브에 분산된 패리티 데이터로 블록 수준 스트라이프를 구현하여 RAID 1보다 효율적으로 데이터 중복을 제공합니다.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (최소 HDD 크기)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>데이터 패리티 레이어 두 개를 구현하여 드라이브 두 개 크기와 동일한 중복 데이터를 저장하므로, RAID 5보다 데이터 중복 정도가 더 큽니다.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 2) x (최소 HDD 크기)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br />(짝수)</td>
+		<td>총 HDD의 절반</td>
+		<td>
+			<ul>
+				<li>RAID 0 성능과 RAID 1의 데이터 보호 수준을 제공하므로, 데이터가 미러링되는 두 그룹에서 드라이브가 결합됩니다.</li>
+			</ul>
+		</td>
+		<td>(N / 2) x (가장 작은 HDD 크기)</td>
+	</tr>
+	<tr>
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>모든 멤버 드라이브에 분산된 패리티 데이터를 사용하여 블록 수준 스트라이프를 구현합니다.</li>
+				<li>특정 드라이브에는 더 많은 패리티 정보가 있습니다.</li>
+				<li>모든 플래시 배열에 권장됩니다.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (최소 HDD 크기)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>드라이브 슬롯 개수와 설치된 드라이브 개수에 따라 특정 모델에서만 &quot;Basic&quot;을 제외한 RAID 유형을 사용할 수 있습니다.</li>
+	<li>특정 모델에서만 RAID F1을 사용할 수 있습니다. 자세한 내용은 <a href="https://www.synology.com/" target="_blank">Synology 웹사이트</a>를 참조하십시오.</li>
+	<li>&quot;N&quot;은 볼륨 내의 총 드라이브 개수를 나타냅니다.</li>
+</ul>
+</div><!--2--><h3>Synology Hybrid RAID(SHR)</h3>
+<p>Synology Hybrid RAID(SHR)는 저장소 관리를 간소화하고 RAID 유형에 익숙하지 않은 신규 사용자의 필요성을 충족시키기 위해 설계된 자동 RAID 관리 시스템입니다.</p>
+<p>SHR은 크기가 다른 드라이브를 결합하여 성능과 용량이 최적화된 하나의 저장소 볼륨을 만들 수 있으므로, 드라이브 공간을 보다 적게 소모하는 보다 유연한 저장소 솔루션을 제공합니다. 드라이브가 충분한 경우, SHR은 1- 또는 2-드라이브 중복을 허용합니다. 즉, SHR 볼륨이 데이터를 손실시키지 않고 오류가 발생한 드라이브를 최대 한 개 또는 두 개까지 사용할 수 있습니다.<br /><img src="about:blank" class="help_image"/></p><!--3--><h3>RAID 0</h3>
+<p>RAID 0은 드라이브를 두 개 이상 결합하여 성능과 용량을 향상시키지만 내결함성을 제공하지 않습니다. 단일 드라이브 오류로 인해 배열에 있는 모든 데이터가 손실됩니다. RAID 0은 고비용/성능 간 균형이 크게 중요하지 않은 시스템에 유용합니다.<br /><img src="about:blank" class="help_image"/></p><!--4--><h3>RAID 1</h3>
+<p>RAID 1은 드라이브 두 개를 사용하여 가장 많이 구현됩니다. 드라이브의 데이터가 미러링되므로, 드라이브에 오류가 발생하면 내결함성을 제공합니다. 읽기 성능은 향상되지만 쓰기 성능은 단일 드라이브와 유사합니다. 데이터 손실 없이 오류가 발생한 단일 드라이브를 견딜 수 있습니다. RAID 1은 주로 내결함성이 중요하지만 공간이나 성능이 크게 중요하지 않는 경우에 사용됩니다.<br /><img src="about:blank" class="help_image"/></p><!--5--><h3>RAID 5</h3>
+<p>RAID 5는 내결함성과 향상된 읽기 성능을 제공합니다. 드라이브가 최소 세 개 이상 필요합니다. RAID 5는 단일 드라이브 손실을 견딜 수 있습니다. 드라이브에 오류가 발생한 경우, 오류가 발생한 드라이브의 데이터는 나머지 드라이브에 스트라이핑된 패리티에서 다시 구성됩니다. 그 결과, RAID 5 배열이 저하된 상태이면 읽기와 쓰기 성능 모두 심각한 영향을 받습니다. RAID 5는 공간과 비용이 성능보다 더 중요한 경우에 이상적입니다.<br /><img src="about:blank" class="help_image"/></p><!--6--><h3>RAID 6</h3>
+<p>RAID 6은 RAID 5와 유사하지만, 또 다른 스트라이핑 레이어를 제공하고 오류가 발생한 드라이브 두 개를 견딜 수 있습니다. 드라이브가 최소 4개 이상 필요합니다. RAID 6 성능은 이 추가 내결함성으로 인해 RAID 5보다 낮습니다. RAID 6은 공간과 비용이 중요하고 여러 개의 드라이브 오류를 견뎌야 하는 경우에 매력적입니다.<br /><img src="about:blank" class="help_image"/></p><!--7--><h3>RAID 10</h3>
+<p>RAID 10은 RAID 1과 RAID 0의 이점이 결합되어 있습니다. 읽기와 쓰기 성능이 향상되지만, 전체 공간의 절반만 데이터 저장에 사용될 수 있습니다. 드라이브가 4개 이상 필요하므로, 비용이 상대적으로 비싸지만 고성능과 동시에 내결함성을 제공합니다. 실제로, 동일한 하위 그룹에서 오류가 발생하지 않는 한 RAID 10은 여러 개의 드라이브 오류를 견딜 수 있습니다. RAID 10은 데이터베이스 서버와 같은 입력/출력 요구 사항이 까다로운 응용 프로그램에 이상적입니다.<br /><img src="about:blank" class="help_image"/></p><!--8--><h3>RAID F1</h3>
+<p>RAID F1은 RAID 5의 메커니즘을 적용하여 내결함성과 향상된 읽기 성능을 제공합니다. 그러나 RAID F1에서는 특정 드라이브에 더 많은 패리티 정보가 있으므로, 해당 드라이브 수명이 빠르게 단축됩니다. 이를 통해 동시에 모든 드라이브 수명이 종료되는 것이 방지됩니다. 이는 RAID 5와 비교 시 성능에 미미한 영향을 미칠 수 있습니다. 드라이브가 최소 세 개 이상 필요합니다. RAID F1은 단일 드라이브 손실을 견딜 수 있습니다. 드라이브에 오류가 발생한 경우, 오류가 발생한 드라이브의 데이터는 나머지 드라이브에 스트라이핑된 패리티에서 다시 구성됩니다. 그 결과, RAID F1 배열이 저하된 상태이면 읽기와 쓰기 성능 모두 심각한 영향을 받습니다. RAID F1은 올 플래시 배열에 이상적입니다.<br /><img src="about:blank" class="help_image"/></p>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Säkerhetskopieringstjänster - Synology DSM Hjälp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Säkerhetskopieringstjänster</h2>
+<p>Alternativen i <strong>Säkerhetskopiering & Replikering</strong> > <strong>Säkerhetskopieringstjänster</strong> låter andra användare säkerhetskopiera data från sina Synology NAS-enheter eller rsync-kompatibla klienter till din Synology NAS.</p>
+<h3>Aktivering av Nätverkssäkerhetskopiering</h3>
+<p>Om du vill säkerhetskopiera data från en Synology NAS eller rsync-kompatibel server till en annan Synology NAS eller låta en annan Synology NAS-enhet utföra uppgifter för fjärrsäkerhetskopiering och lagra säkerhetskopierat data på en volym för din Synology NAS-enhet måste du aktivera tjänsten nätverkssäkerhetskopiering på målservern innan du skapar en nätverkssäkerhetskopieringsuppgift. Du kan göra detta genom att gå till <b>Kontrollpanel</b> > <b>Privilegier</b> och tilldela privilegiet <b>Nätverksmål för säkerhetskopiering</b> till en användare. Du kan sedan skapa en DSM-användare med rätt privilegier för applikation och delad mapp på din Synology NAS. När installationen är färdig, kan andra människor använda användarens privilegier för att utföra nätverkssäkerhetskopiering på deras Synology NAS till de delade målmapparna på din Synology NAS.</p>
+
+<h4>Aktivera nätverkssäkerhetskopiering för en version:</h4>
+<ol>
+<li>Gå till <b>Säkerhetskopieringstjänster</b> > <b>Nätverksmål för säkerhetskopiering</b> och markera sedan <b>Aktivera tjänst för nätverkssäkerhetskopiering</b>.</li>
+<li>Klicka på <b>Tillämpa</b>.</li>
+<li>Gå till <b>Kontrollpanel</b> > <b>Delad mapp</b> och välj en delad mapp, klicka på <b>Redigera</b> > <b>Behörigheter</b> och tilldela sedan en användare privilegiet <b>Läsa/skriva</b>. Upprepa det här steget för att inkludera fler delade mappar som kan användas som mål för säkerhetskopiering.</li>
+</ol>
+<h4>Aktivera nätverkssäkerhetskopiering för flera versioner:</h4>
+<ol>
+  <li>Gå till <strong>Säkerhetskopieringstjänster</strong> > <b>Volym som mål för nätverkssäkerhetskopiering</b> och markera rutan bredvid <strong>Aktivera volym som mål för nätverkssäkerhetskopiering</strong>.</li>
+  <li>Gå till <b>Säkerhetskopieringsmål</b> och välj ett säkerhetskopieringsmål som är associerat med en lokal volym.</li>
+<li>Klicka på <b>Redigera</b> > <b>Tillåten lista</b> > och sedan på <strong>Lägg till</strong> för att lägga till användaren eller gruppen till listan.</li>
+</ol>
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Om andra personer vill utföra nätverkssäkerhetskopiering från en klient som inte är Synology NAS, kan de endast göra detta med privilegier för <b>admin</b> eller <b>rsync</b> på din Synology NAS. Om du inte vill dela dina <b>admin</b>-uppgifter med andra, kan du gå till <b>Kontrollpanel</b> > <strong>Användare</strong> för att skapa en användare med namnet <b>rsync</b>, ändra dess privilegier och sedan dela dess användaruppgifter med andra personer.</li><li>Om du utför en nätverkssäkerhetskopiering från en Synology NAS med en version av DSM tidigare än 3.0 eller en klient som inte är Synology NAS och du vill behålla källans <b>ägare</b> till datat och informationen för <b>grupp</b> måste du lägga till <b>kontot för säkerhetskopiering</b> till gruppen <b>administrators</b> och säkerhetskopiera data till den delade mappen <b>NetBackup</b>.</li>
+</ul>
+</div>
+<h3>Aktivering av Nätverkssäkerhetskopiering med Anpassad rsync-konfiguration</h3>
+<p> Du kan aktivera tjänsten nätverkssäkerhetskopiering med anpassad rsync-konfiguration och konfigurera användarprivilegier och mål för säkerhetskopiering på din Synology NAS. När installationen är färdig, kan andra människor utföra rsync-säkerhetskopiering från deras Synology NAS-enheter eller rsync-kompatibla klienter till de delade målmapparna (eller "säkerhetskopieringsmodulerna") på din Synology NAS.</p>
+<h4>Aktivera nätverkssäkerhetskopiering med anpassad rsync-konfiguration:</h4>
+<ol>
+<li>Gå till <b>Säkerhetskopieringstjänster</b> > <b>Nätverksmål för säkerhetskopiering</b>.</li>
+<li>Markera <b>Aktivera Nätverkssäkerhetskopiering</b>.</li>
+<li>Markera <b>Använd anpassad rsync-konfiguration</b>.</li>
+<li>Klicka på <b>Tillämpa</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<h4>Att konfigurera användarprivilegier och säkerhetskopieringsmoduler på din Synology NAS:</h4>
+<ol>
+<li>
+Logga in på din Synology NAS-enhet via Telnet eller SSH.
+</li>
+<li>Ange säkerhetskopieringsmodul och auktoriserade användare i konfigureringsfilen för rsync "<b>/etc/rsyncd.conf</b>". Du hittar detaljerad information i handbokens sida <b>rsyncd.conf</b> på din rsync-klient eller <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">här</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Om anpassad rsync-konfiguration används kommer Synology NAS inte längre att kunna användas som destinationsserver för <b>Synkronisera delade mappar</b>, <b>Time Backup</b> och <b>LUN-säkerhetskopiering</b>.</li>
+</ul>
+</div>
+
+<h3>Aktivering av hastighetsbegränsning</h3>
+<p>Du kan aktivera hastighetsbegränsning för att kontrollera den maximalt användbara bandbredden för användare och grupper som överför data via FTP via nätverkssäkerhetskopiering.</p>
+<h4>För att aktivera hastighetsgräns:</h4>
+<ol>
+  <li>Gå till <b>Säkerhetskopieringstjänster</b> > <b>Nätverksmål för säkerhetskopiering</b>. Markera kryssrutan med texten <b>Aktivera hastighetsbegränsning</b> eller <strong>Aktivera hastighetsbegränsning i enlighet med ett schema</strong> om du vill implementera hastighetsbegränsning endast vid specifika tider. Detta är en inställning som får genomslagskraft över hela servern och kommer att åsidosätta inställningar för enskilda användare och grupper. Att välja <strong>Ingen hastighetsbegränsning</strong> avaktiverar inställningarna för hastighetsbegränsning, för alla användare och grupper.</li>
+  <li>Klicka på <strong>Inställningar för hastighetsbegränsning</strong> för att ändra inställningarna för användare eller grupper. För varje användare eller grupp kan du välja en av de följande:
+    <ul>
+      <li><strong>Tillämpa gruppinställningar:</strong> Inställningen för hastighetsbegränsning kommer att vara samma som för gruppen användaren tillhör. </li>
+      <li><strong>Ingen:</strong> Ingen hastighetsbegränsning kommer att tillämpas när gruppmedlemmar överför filer med tjänsten.</li>
+      <li><strong>Konstant:</strong> En fast, konstant hastighetsbegränsning kommer att tillämpas för användaren eller gruppmedlemmarna. Hastighetsbegränsning för uppladdning och nedladdning kan specificeras i fälten till vänster.</li>
+      <li><strong>Variabel:</strong> Två olika hastighetsbegränsningar kan specificeras och tillämpas på användaren eller gruppmedlemmar, i enlighet med ett schema. Klicka på knappen <strong>Anpassa</strong> för att ändra inställningarna för hastighetsbegränsning och ställa in ett schema.</li>
+    </ul>
+  </li>
+ <li>Klicka på <b>Tillämpa</b>.</li> 
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<div class="section">
+  <h4>Obs:</h4>
+    <p>Vid inställning av hastighetsbegränsning för en användare kan avsnittet <strong>Resultat</strong> visa användarens faktiska hastighetsbegränsning, i enlighet med sina individuella eller sin grupps inställningar. Till exempel, Till exempel om användaren ”Achilles” har en individuell nedladdningsgräns på 100 KB/s men hör till en grupp med en nedladdningsgräns på 500 KB/s, kommer avsnittet <strong>Resultat</strong> att visa ”0/500”.</p>
+</div>
+
+<h3>Aktivering av tjänsten Time Backup</h3>
+<p>Tjänsten Time Backup låter användare säkerhetskopiera flera versioner av mappar från en annan Synology NAS till denna Synology NAS, fjärrstyrt. Det kräver att både tjänsten nätverkssäkerhetskopiering och tjänsten Time Backup är aktiverade.</p>
+<h4>För att aktivera tjänsterna nätverkssäkerhetskopiering och Time Backup:</h4>
+<p>Gå till <strong>Säkerhetskopieringstjänster</strong> > <b>Time Backup</b>. Markera tillämplig kryssruta.</p>
+<img src="about:blank" class="help_image"/>
+
+<div class="section">
+<h4>Obs:</h4>
+<p>Endast kontot admin får skapa anslutningen för säkerhetskopiering för fjärrstyrd Time Backup.</p>
+</div>
+
+</body>
+</html>

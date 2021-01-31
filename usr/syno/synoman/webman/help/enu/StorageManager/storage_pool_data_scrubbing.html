@@ -1,0 +1,134 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+<title>Data Scrubbing</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Data scrubbing is a data maintenance feature that inspects volumes or disk groups and repairs any detected data inconsistencies.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Data Scrubbing</h2>
+
+<h3>Perform Data Scrubbing</h3>
+<p>Data Scrubbing is a data maintenance feature that inspects storage pools. The following two types of Data Scrubbing will be performed sequentially:</p>
+
+<ul>
+<li><strong>File system scrubbing</strong>: This function will check the volumes in Btrfs file system. If any data inconsistent with the checksum is detected, the system will try to use a backup to repair the data and the file path will be recorded in Log Center.</li>
+<li><strong>RAID scrubbing</strong>: This function can be used with storage pools that implement SHR (comprised of three or more drives), RAID 5, or RAID 6. It can repair any detected data inconsistencies.</li>
+</ul>
+
+<p>We recommend regularly performing Data Scrubbing to ensure data consistency and avoid data loss in the event of drive failure.</p>
+
+<div class="section">
+<h4>Note:</h4>
+	<ul>
+	<li>Data Scrubbing and the related functions described in this article are available on specific models only.</li>
+	<li>Data Scrubbing cannot be performed when the status of the storage pools is <strong>Crashed</strong> or <b>Degraded</b>.</li>
+	<li>If <b>data checksum for advanced data integrity</b> is not enabled for a shared folder, file system scrubbing will not be able to check and repair the data in the folder for lack of checksums.</li>
+	</ul>
+</div>
+
+<h3>Set Data Scrubbing Schedule</h3>
+<p>You can set a Data Scrubbing schedule. The system will run Data Scrubbing according to your settings.</p>
+<h4>To set a Data Scrubbing schedule:</h4>
+<ol>
+<li>Launch <strong>Storage Manager</strong>.</li>
+<li>Go to <strong>Storage Pool</strong> > <strong>Data Scrubbing</strong>.</li>
+<li>Click <strong>Set schedule</strong>.</li>
+<li>Tick <strong>Enable Data Scrubbing schedule</strong>.</li>
+	<li>Specify the <strong>Frequency</strong>, <strong>Start date</strong>, and <strong>Time Session</strong>.</li>
+<li>Go to <strong>Select Target</strong> tab.	
+<li>Select the storage pool on which you want to perform Data Scrubbing.</li>
+<li>Click <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>To be added to a schedule, storage pool has to be in <b>Normal</b> status and supports Data Scrubbing.</li>	
+<li>If your system is upgraded from version 6.1, storage pools with the capability of running Data Scrubbing will by default be added to the schedule.</li>
+<li>If you have set your schedule in version 6.1, we will automatically enable your schedule according to your previous settings.</li>	
+</ul></div>
+
+<h4>To add a storage pool to a schedule or remove a storage pool from a schedule:</h4>
+
+<ol>
+<li>Click <strong>Set Schedule</strong></li>
+<li>Go to <strong>Select Target</strong> tab.</li>	
+<li>Tick or untick the checkbox of a storage pool to decide whether you want to add or remove it from a schedule.</li>
+<li>Click <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>A storage pool cannot be added to or removed from a schedule when Data Scrubbing is being manually run on this storage pool.</li>
+<li>To remove a storage pool that is undergoing a scheduled Data Scrubbing, the progress of this storage pool will be canceled.</li>
+</ul></div>
+
+<h4>To modify schedule settings:</h4>
+
+<ol>
+<li>Click <strong>Set Schedule</strong>.</li>
+<li>Modify the frequency, start date, and time session according to your needs.</li>
+<li>Click <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+  <li>Modifying the <strong>Start date</strong> will reset the progress of the schedule and Data Scrubbing will be restarted according to the new start date.</li>
+</ul>
+</div>	
+
+<h4>To pause a schedule:</h4>
+
+<ol>
+<li>Select a storage pool that is undergoing Data Scrubbing schedule.</li>
+<li>Click <strong>Pause Schedule</strong> from the <b>Action</b> drop-down list.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>You need to click <strong>Resume Schedule</strong> from the <b>Action</b> drop-down menu to resume a Data Scrubbing schedule. Otherwise, the schedule will remain paused.</li>	
+</ul></div>
+	
+<h3>Run Data Scrubbing manually:</h3>
+
+<p>When an abnormality in storage space is detected by the system, you can try to repair your data by running Data Scrubbing manually.</p>	
+	
+<h4>To run Data Scrubbing manually:</h4>
+
+<ol>
+	<li>Open <strong>Storage Manager</strong>.</li>
+	<li>Go to <strong>Storage Pool</strong> > <strong>Data Scrubbing</strong>.</li>
+	<li>Select the storage pool on which to perform Data Scrubbing.</li>
+	<li>Click <strong>Manual Run</strong> from the <strong>Action</strong> drop-down menu.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+
+<li>If the system is shut down before Data Scrubbing completes, some progress may be lost and you will need to manually restart Data Scrubbing.</li>
+<li>If the time of manually-run Data Scrubbing overlaps with the scheduled Data Scrubbing, this round of schedule will not be completed until manually-run Data Scrubbing is finished. </li>
+<li>Running Data Scrubbing may influence your system performance, we suggest you not to run Data Scrubbing on multiple storage pools unless it is necessary.</li>	
+</ul></div>	
+
+<h4>To pause a schedule on a storage pool that is undergoing manual-run Data Scrubbing:</h4>	
+<ol>
+<li>Select a storage pool that you want to pause.</li>
+<li>Click <b>Pause</b> from the <b>Action</b> drop-down menu.</li>	
+	</ol>	
+</body>
+</html>

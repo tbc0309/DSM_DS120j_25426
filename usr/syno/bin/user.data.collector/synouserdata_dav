@@ -1,0 +1,42 @@
+#!/bin/sh
+
+BIN_GET_KEY_VALUE="/bin/get_key_value"
+CONFIG_PATH="/etc/synoinfo.conf"
+CALDAV_KEY="runCalDav"
+
+RESULT=`synoservice --status webdav-httpd-pure | grep enable`
+if [ $? -eq 0 ]; then
+    ENABLE_HTTP="yes"
+else
+    ENABLE_HTTP="no"
+fi
+
+RESULT=`synoservice --status webdav-httpd-ssl | grep enable`
+if [ $? -eq 0 ]; then
+    ENABLE_HTTPS="yes"
+else
+    ENABLE_HTTPS="no"
+fi
+
+if [ "$ENABLE_HTTP" == "yes" -o "$ENABLE_HTTPS" == "yes" ]; then
+    ENABLE_WEBDAV="yes"
+else
+    ENABLE_WEBDAV="no"
+fi
+
+ENABLE_CALDAV=`$BIN_GET_KEY_VALUE $CONFIG_PATH $CALDAV_KEY`
+
+echo -n "{"
+
+echo -n \"webdav_enable\":\"$ENABLE_WEBDAV\",
+echo -n \"webdav_http_enable\":\"$ENABLE_HTTP\",
+echo -n \"webdav_https_enable\":\"$ENABLE_HTTPS\",
+echo -n \"caldav_enable\":\"$ENABLE_CALDAV\",
+
+# let version be the last one msg
+echo -n \"collector_version\":1
+
+echo "}"
+
+
+

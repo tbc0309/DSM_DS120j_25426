@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Router Configuration</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="router"></a>Router Configuration</h2>
+<p>If your Synology NAS device is on a local area network, other devices on the Internet cannot connect to it. You can set up port forwarding rules at <strong>Control Panel</strong> > <strong>External Access</strong> > <strong>Router Configuration</strong> to make your Synology NAS device accessible over the Internet.</p>
+
+
+
+<h3><a name="leaf_routerconf"></a>Setting up Router</h3>
+
+<p>
+Before adding port forwarding rules, you need to set up a connection between your Synology NAS device and the router.
+</p>
+
+<div class="section">
+<h4>Note:</h4>
+<ol>
+<li>
+To configure port forwarding rules and assign static IP address, you need to have administrative privileges to the router.
+</li>
+<li>
+Before setting up Synology NAS device's connection to an UPnP router, make sure DSM has successfully retrieved the external IP address of your Synology NAS (at <b>Control Panel</b> > <b>External Access</b> > <strong>DDNS</strong>). If not, please check the network and firewall settings of your Synology NAS device and the UPnP router.
+</li>
+</ol>
+</div>
+
+<p>To set up Synology NAS device's connection to your router:
+<ol>
+  <li>
+    Click <b>Set up router</b> to launch the setup wizard. DSM will begin by testing the following network components/settings before proceeding to the next step.
+    <ul>
+    <li>Network interface</li>
+    <li>Gateway connection</li>
+    <li>Internet connection</li>
+    <li>Port forwarding</li>
+    <li>DNS</li>
+  </ul>
+  </li>
+  <li>Depending on the type of your router, do one of the following:
+</li>
+<ul>
+<li>
+If your router doesn't support UPnP, refer to step 3.
+</li>
+<li>
+If your UPnP router has been tested to be compatible with Synology NAS device, click <b>Apply</b> when you see a summary of the router's information. Your Synology NAS device's connection to the router is then successfully set up.
+</li>
+<li>
+If your UPnP router has not been tested to be compatible with Synology NAS device, do either of the following:</li>
+
+<ul>
+<li>
+If you want to automatically set up connection to the router, choose <b>Automatic</b> and click <b>Next</b> to have the system perform a compatibility test:</li>
+<ul>
+<li>
+If the router is tested to be compatible with Synology NAS device's router configuration service, tick the checkbox to send the test report to help Synology update the router compatibility database, and then click <b>Apply</b>. Your Synology NAS device's connection to the router is then successfully set up.
+</li>
+<li>
+If the router is tested to be incompatible with Synology NAS device's router configuration service, tick the checkbox to send the test report to help Synology update the router compatibility database, and then click <b>Close</b> to leave the setup wizard.
+</li>
+<div class="section">
+<h4>Note:</h4>
+<p>If your router is tested to be incompatible here, you can still configure port forwarding rules on the router's user interface. Please contact the manufacturer (e.g., Netgear, Cisco, TP-Link, D-Link, etc) of your router if you have any questions concerning its configuration.</p> 
+</div>
+</ul>
+
+<li>
+If you want to manually set up connection to the router, choose <b>Manual</b>, click <b>Next</b>, and refer to step 3.
+</li>
+</ul>
+
+</ul>
+
+<li>
+If you are required to manually set up Synology NAS device's connection to the router, do the following:
+</li>
+<ol>
+<li>
+Choose your router from the <b>Router</b> drop-down menu.
+</li>
+<div class="section">
+<h4>Note:</h4>
+<p>If you cannot find your router here, click <b>Update List</b> to get the latest list from Synology.</p>
+</div>
+
+<li>Set up protocol and port of your router. The protocol and port vary depending on the model of your router. If you cannot connect using the default <b>Protocol</b> (HTTP) and <b>Port</b> (80), refer to the documentation that comes with your router for correct settings.</li>
+<li>If your router requires a custom account, tick <b>Use custom account</b> and fill in the <b>Account</b> and <b>Password</b> fields.
+</li>
+<li>
+Click <b>Apply</b> to finish.
+</li>
+</ol>
+</ol>
+
+
+
+
+<h3>Managing Port Forwarding Rules</h3>
+<p>Port forwarding rules can specify destination ports of your Synology NAS that will receive packages from specific ports of your router.</p>
+<p>If your Synology NAS connects to the Internet via a router, please click <b>Create</b> to open the port forwarding setup wizard.</p>
+<p>There are two ways to add port forwarding rules:</p>
+<ul>
+<li>If you want to create port forwarding rules for system services (for example, FTP, Web Station, etc), select <b>Built-in application</b>.</li>
+<li>If you want to create port forwarding rules for other services, select <b>Custom port</b>.</li>
+</ul>
+<p>You can use the following syntax to specify port numbers and range:</p>
+<ul>
+<li>Use &ldquo;-&rdquo; to describe port range, for example: 6881-6890.</li>
+<li>Use &ldquo;,&rdquo; to separate ports, for example: &ldquo;21,22&rdquo;, &ldquo;21,55536-55663&rdquo;.</li>
+</ul>
+
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>Each port of the gateway router can be used for one forwarding rule only. Using a router port for two or more rules will cause conflicts, and a warning message will appear on the screen. You need to set another port in the rule to avoid conflicts.</li>
+<li>Some routers don't allow using custom ports for system services forwarding. </li>
+</ul>
+</div>
+
+<h4>To save rules:</h4>
+<p>Click <b>Save</b> after creating the rules. Otherwise, the rules won't be applied.</p>
+<p>
+After saving the rules, you might need to wait for a few minutes before the rules start working, depending on the models of your routers.
+</p>
+<h4>To test whether your rules are working or not:</h4>
+<p>Choose the rules you want to test and click <b>Test Connection</b>. The result will be displayed in the <b>Connection Test Result</b> column.</p>
+<h3>For Wireless Router Configurations*</h3>
+<p>When your Synology NAS acts as a wireless router, port forwarding rules will be carried out directly by Synology NAS.</p>
+<h4>To add port forwarding rules:</h4>
+<ol>
+<li>Click <b>Create</b> to open the setup window. </p>
+<li>Specify the <strong>Service</strong> name, <strong>Protocol</strong> (TCP or UDP), <strong>Private IP Address</strong>,<strong> Private Port</strong> and <strong>Public Port</strong>. You can use the following syntax to specify port numbers and range:
+<ul>
+<li>Use &ldquo;-&rdquo; to describe port range, for example: 6881-6890.</li>
+<li>Use &ldquo;,&rdquo; to separate ports, for example: &ldquo;21,22&rdquo;, &ldquo;21,55536-55663&rdquo;.</li>
+</ul>
+<li>Click <strong>Create</strong> at the bottom to complete the settings.
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+<p>Most routers permit local machine ports and router ports to be different when configuring port forwarding rules. If your router supports this feature:</p>
+<ul>
+<li>When saving a rule, if a router port is already in use by an existing rule, a new router port will be assigned.</li>
+<li>When adding or editing rules, you can directly specify the router port number.</li>
+</ul>
+</div>
+<h3>DMZ*</h3>
+<p>You can enable DMZ on your Synology NAS when the Network Map Configuration is Wireless Router. A host in the DMZ can connect directly to the external network, free from limitation and protection of the firewall. It is usually used for setting up servers.</p>
+<h4>To enable DMZ:</h4>
+<ol>
+<li>Click <strong>DMZ Settings</strong> to open the setup window.</li>
+<li>Tick the <strong>Enable DMZ</strong> checkbox.</li>
+<li>Enter your DMZ Host IP address.</li>
+<li>Click <strong>Apply</strong>.</li>
+</ol>
+<div class="section">
+<h4>Note:</h4>
+<p>From the external network, you will need an external IP address retrieved by Synology NAS to connect to a host in the DMZ.</p>
+</div>
+
+
+<p>____<br>
+  * Only available on certain models or according to your environment.
+</p>
+
+
+</body>
+</html>

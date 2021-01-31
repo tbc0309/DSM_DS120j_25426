@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>網路</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="link_aggr"></a>Link Aggregation</h2>
+<p>支援多重網路埠的 Synology NAS 可讓您使用 Link Aggregation 技術合併多個區域網路介面。Link Aggregation 能聚合多個網路介面來增加 Synology NAS 的頻寬，並能在連線中斷時提供流量容錯移轉來維持網路連線。</p>
+<p>使用 Link Aggregation 合併區域網路介面之後，您將會在<b>控制台</b> &gt; <b>網路</b> &gt; <b>網路介面</b>中看到一個新的 <b>Bond</b> 介面，此介面的設定方式與其他介面 (例如：區域網路或 PPPoE) 雷同。</p>
+
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>Link Aggregation 僅支援於具備至少兩個區域網路埠的機種。</li>
+<li>啟動 Link Aggregation 後，每一個連接的裝置所使用的網路流量將會自動調整並達到平衡。</li>
+<li>若網路介面連接至多個交換器，請確認交換器連接埠皆在同一個區域網路或 VLAN 之中。</li>
+</ul>
+</div>
+
+
+<h4>若要使用 Link Aggregation 合併多個區域網路：</h4>
+<ol>
+<li>請前往<strong>控制台</strong> &gt; <strong>網路</strong> &gt; <strong>網路介面</strong>。按一下<strong>新增</strong> &gt; <strong>新增 Bond</strong>。</li>
+
+<img src="about:blank" class="help_image"/>
+
+
+<li>選擇您想要的模式。
+
+<div class="section">
+<h4>模式說明：</h4>
+<ul>
+<li><strong>適應性負載平衡</strong>：無論交換器是否支援 Link Aggregation，此模式能使  Synology NAS 接收及傳送的網路流量達到最佳狀態。為避免未知錯誤發生，即使交換器支援 Link Aggregation，也請勿在交換器上啟動該功能。</li>
+<li><strong>IEEE 802.3ad Link Aggregation 動態模式</strong>：此模式能使  Synology NAS 接收及傳送的網路流量達到最佳狀態，並且須在交換器上啟動 IEEE 802.3ad Link Aggregation (動態模式) (LACP, 802.1AX)。若使用多個交換器，所有交換器皆須為堆疊式交換器並且設定正確。</li>
+<li><strong>Balance XOR</strong>：此模式能平衡 Synology NAS 接收與傳送的網路流量，並且須在交換器上啟動 Link Aggregation 靜態模式。若使用多個交換器，所有交換器皆須為堆疊式交換器並且設定正確。若交換器不支援 Link Aggregation，Synology NAS 的傳送流量仍可達到平衡。使用此模式可偵測到中斷的連線，但無法偵測原因 (例如：乙太網路纜線已拔除或是交換器未正確設定)。</li>
+<li><strong>啟動 / 待命模式</strong>：此模式能為 Synology NAS 提供網路容錯功能。也就是，當可用的網路介面發生問題時，其餘的區域網路連接埠之一將接續服務來維持網路連線不中斷。選擇此模式無需設定交換器，亦可使用支援 IEEE 802.3ad Link Aggregation 的交換器。</li>
+</ul>
+	<p>若已啟動 Open vSwitch，則有以下三種模式：</p>
+<ul>
+ <li><b>平衡 SLB</b>：此模式無需特定網路交換器即可平衡網路流量，且能夠連接兩台不同的交換器。</li>
+ <li><b>平衡 TCP</b>：此模式可用來連接已設定為動態 Link Aggregation (IEEE 802.3ad LACP) 的交換器。若使用多台交換器，所有交換器皆須為堆疊式交換器且設定正確。</li>
+ <li><b>啟動 / 備份模式</b>：此模式使用兩個網路介面為 Synology NAS 提供網路容錯功能。當啟動的網路介面發生問題時，另一個網路介面將接續服務以維持網路連線。選擇此模式無需設定交換器。</li>
+</ul>
+</div>
+</li>
+
+<img src="about:blank" class="help_image"/>
+
+
+<li>選擇實體網路介面來建立 Link Aggregation。</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>進行 IP 設定。如有需要，請啟動 VLAN。按一下<b>套用</b>來完成設定。</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>設定完成後，<b>網路介面</b>清單中會出現一個名為 <b>Bond 1</b> 的新介面。</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+<h4>若要編輯 Link Aggregation 設定：</h4>
+<ol>
+<li>請前往<b>控制台</b> &gt; <b>網路</b> &gt; <b>網路介面</b> 來變更 Link Aggregation 模式或檢視實體網路介面資訊。</li>
+<li>選擇 <b>Bond 1</b> 介面並按一下<b>編輯</b>按鈕。</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>前往對應的頁籤來修改設定。</li>
+</ol>
+
+<h4>若要移除 Link Aggregation：</h4>
+<ol>
+<li>前往<b>控制台</b> &gt; <b>網路</b> &gt; <b>網路介面</b>。</li>
+<li>選擇 <b>Bond 1</b> 介面並按一下<b>刪除</b>按鈕。</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>完成後，<b>Bond 1</b> 會被兩個 LAN 介面所取代。</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+</body>
+</html>
+

@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>High Availability Manager ウィザード - Synology DSM ヘルプ</title>
+
+
+ </head>
+ <body>
+<h2>High Availability Manager ウィザード</h2>
+<p>このウィザードは、high-availability クラスタを構築し、設定する手順を示してくれます。</p>
+<h4>ウィザードを起動する：</h4>
+<ol>
+<li><b>High Availability Manager </b>を起動します。</li>
+<li><b>[概要]</b> ページを選択します。</li>
+<li><b>[HA クラスタの作成]</b> をクリックします。</li>
+</ol>
+   
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>High-availability クラスタのセットアップ ウィザードは一定時間内に完了してください。この時間を過ぎると、最初からセットアップをやり直す必要があります。</li>
+<li>high-availability クラスタのアクティブ サーバーを識別するには、Synology <strong>DS finder</strong> アプリケーションをダウンロードして、検出音機能を使って識別する方法をお勧めします。短く検出音が鳴ったものがアクティブ サーバーです。</li>
+</ul>
+</div>
+
+<h4>受動サーバーのセットアップ：</h4>
+<p>受動サーバーにする Synology サーバーを決定してください。正常な状況においては、受動サーバーはサービスを提供しません。しかし、一度故障が発生すると、サービスはアクティブ サーバーから受動サーバーに転送されます。</p>
+<ol>
+<li><b>IP アドレス：</b> 受動サーバーの IP アドレスを入力してください。
+
+</li>
+<li><b>ユーザー名：</b> 目的のサーバーで <b>administrator</b> グループに属するユーザー アカウントを入力します。</li>
+<li><b>パスワード：</b> <b>administrator</b> グループに属するアカウントのパスワードを入力します。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4> 
+<ul>
+<li>High-availability クラスタが構築されると、受動サーバーのデータはすべて消去されます。受動サーバーに重要なデータが保存されていないことを確認してください。</li>   
+</ul>
+</div>
+  
+<h4>Heartbeat 接続を設定する：</h4>
+<p>2 台のサーバーを互いに接続します。この接続が、2 台のサーバー間の「Heartbeat」接続としての役割を果たし、通信しやすくすることで、アクティブ サーバーから受動サーバーにデータが複製されます。Heartbeat 接続の品質を保証するために、high-availability クラスタを構築した際、この接続が次の条件に合致しているかどうかをシステムが確認します。</p>
+<ul>
+<li>2 台のサーバーの間に、同じブロードキャスト ドメイン内で見つかった IP アドレスを持つデバイスがない。Heartbeat 接続がスイッチをパススルーする場合は、スイッチがマルチキャストと Jumbo Frame に対応しているか確認してください。</li>
+<li>ネットワーク接続の応答が遅い。2 台のサーバーが 1 ミリ秒以内に Ping に応答しなければなりません。また、通信速度は 500 Mbps 以上でなければなりません。MTU は自動的に 9000 に構成します。</li>
+<li>両方のサーバーが同一ネットワーク インターフェイスを使用すること。例えば、片方が 1 台のサーバーの LAN 1 に接続されている場合は、もう片方は別のサーバーの LAN 1 に接続しなければなりません。</li>
+<li>両方のサーバーで最も速いネットワーク インターフェイスを使用すること。サーバーに 10GbE アドオン ネットワーク インターフェイス カードが装備されている場合は、この接続はそれを使用しなければなりません。</li>
+</ul>
+<p>上記のことが確認できたら、<b>[HA 接続 (Heartbeat) インターフェイス]</b> セクションに進み、Heartbeat 接続としての役割を果たすサーバーのネットワーク インターフェイスを選択してください。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>Heartbeat 接続を設定すると、アクティブ サーバーと受動サーバーの間でデータを複製するために、IP アドレス（例：169.254.1.1 および 169.254.1.2）を 2 セット作成します。ネットワーク内の別の装置が、これら 2 つの IP アドレスを使用していないことを確認してください。</li>
+<li>Synology NAS の Heartbeat 接続ポートの VLAN ID を有効にすることはできません。</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Heartbeat またはデータ接続で Link Aggregation を設定する：</h4>
+
+<ul>
+<li>Heartbeat またはデータ接続で Link Aggregation を設定するには、high availability 構築ウィザードを起動する前に、<strong>[コントロール パネル]</strong> &gt;<strong> [ネットワーク]</strong> &gt; <strong>[ネットワーク インターフェイス] </strong>を選択して、2 つの LAN ポートで Link Aggregation を設定してください。両方のサーバーで Link Aggregation の設定が同じになるようにしてください（例：Link Aggregation がアクティブ サーバーのポート 1 と 2 で設定されている場合は、Link Aggregation は受動サーバーでもポート 1 と 2 で設定する必要があります）。</li>
+
+
+<li>Heartbeat にはフェイルオーバー機能と読み込みバランス機能が搭載されていますが、データ接続は選択した Link Aggregation のモードによって異なります。</li>
+</ul>
+
+</div>
+
+
+<h4>High-availability クラスタのネットワーク インターフェイス設定を行う：</h4>
+<p>High-availability クラスタは外部への接続インターフェイスとして、high-availability クラスタ IP アドレスを使用します。どの Synology サーバーがアクティブ サーバーになっているかに関係なく、DSM サービスを使用したい場合は、この high-availability クラスタ IP アドレスを使用して接続することができます。これを使用すると、アクティブ サーバーから受動サーバーへの切替えが完了した後、別の IP アドレスに接続するのを防止することができます。</p>
+
+<ol>
+<li><b>クラスタ サーバー名：</b> High-availability クラスタの名前です。名前制限についての情報については、サーバー名規則を参照してください（<b>[DSM ヘルプ]</b> &gt; <b>[コントロール パネル]</b> &gt; <b>[接続性]</b> &gt; <b>[ネットワーク]</b> &gt; <b>[全般]</b>）。</li>
+<li><b>ネットワーク インターフェイス:</b> High-availability クラスタが使用するネットワーク インターフェイスです。前のステップでデータ複製用に指定したものとは別の LAN ポートを選択してください。</li>
+<li><b>IP アドレス：</b> High-availability クラスタが使用する IP アドレスです。現在サービスを提供しているサーバーに関係なく、クラスタはこの IP を使って接続できます。</li>
+<li> <b>サブネットマスク：</b> High-availability クラスタが使用するサブネット マスクです。</li>
+</ol>
+
+<div class="section">
+<h4>データ接続に VLAN ID を割り当てる：</h4>
+<ul>
+<li>データ接続に VLAN ID を割り当てるには、high-availability 構築ウィザードを実行する前に、<strong>[コントロール パネル]</strong> &gt; <strong>[ネットワーク]</strong> &gt; <strong>[ネットワーク インターフェイス] </strong>を選択します。両方のサーバーで VLAN 設定が同じになるようにしてください（例：アクティブ サーバーの VLAN ID 1 で LAN 1 が設定されている場合は、受動サーバーの LAN 1 も VLAN 1 で設定しなければなりません）。</li>
+</ul>
+</div>
+
+
+<h4>設定を確認する：</h4>
+<p>High-availability クラスタが使用する設定を再度確認してください。<b>[適用]</b> をクリックすると、システムは high-availability クラスタの接続を開始します。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>High-availability クラスタを構築する時には、アクティブ サーバーのすべてのデータは受動サーバーに複製してください。初期複製処理が完了する前に、受動サーバーへの接続が 30 分以上切断されていると、受動サーバーは<strong>「スタンドアローン」</strong>モードに戻ります。この場合、再度繋ぎ直し、完全複製をやり直す必要があります。</li>
+</ul>
+</div>
+ </body>
+</html>

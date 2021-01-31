@@ -1,0 +1,55 @@
+#!/bin/sh
+
+SYNOINFO="/etc/synoinfo.conf"
+
+UPS_MASTER_ENABLE=`/bin/get_key_value $UPS_INFO upsmaster`
+UPS_SLAVE_ENABLE=`/bin/get_key_value $SYNOINFO upsslave_enabled`
+
+UPSMON=`ps -aux | grep "upsmon" | grep -cv "grep"`
+if [ "$UPSMON" -gt 0 ]; then
+    GET_UPS_INFO="/usr/bin/upsc ups"
+    if [ "yes" == "$UPS_SLAVE_ENABLE" ]; then 
+      UPS_SLAVE_SERVER=`/bin/get_key_value $SYNOINFO upsslave_server`
+      GET_UPS_INFO=$GET_UPS_INFO"@"$UPS_SLAVE_SERVER
+    fi
+    
+    BRAND=`$GET_UPS_INFO | grep "ups.mfr:" | sed 's/ups.mfr: //g'`
+    MODEL=`$GET_UPS_INFO | grep "ups.model:" | sed 's/ups.model: //g'`
+    STATUS=`$GET_UPS_INFO | grep "ups.status:" | sed 's/ups.status: //g'`
+    VID=`$GET_UPS_INFO | grep "ups.vendorid:" | sed 's/ups.vendorid: //g'`
+    PID=`$GET_UPS_INFO | grep "ups.productid:" | sed 's/ups.productid: //g'`
+    REV=`/bin/cat /proc/bus/usb/devices | grep "Vendor=${VID} ProdID=${PID}" | head -n 1 | awk -F"=" '{print $4}'`
+    MODE=`/bin/get_key_value $SYNOINFO ups_mode`
+    DRIVER=`ps -aux | grep "a ups" | grep -v "grep" | sed 's/^.*\/usr\/syno\/bin\///g' | sed 's/ -a.*$//g'`
+    WAIT_TIME=`/bin/get_key_value $SYNOINFO ups_wait_time`
+    if [ "" == "$WAIT_TIME" ]; then
+      WAIT_TIME="-1"
+    fi
+    SAFE_SHUTDOWN=`/bin/get_key_value $SYNOINFO ups_safeshutdown`
+    if [ "" == "$SAFE_SHUTDOWN" ]; then
+      SAFE_SHUTDOWN="yes"
+    fi
+fi
+
+echo -n "{"
+
+if [ "$REV" != "" ]; then
+	echo -n \"pid\":\"$PID\",
+	echo -n \"vid\":\"$VID\",
+	echo -n \"rev\":\"$REV\",
+fi
+echo -n \"brand\":\"$BRAND\",
+echo -n \"model\":\"$MODEL\",
+echo -n \"status\":\"$STATUS\",
+echo -n \"mode\":\"$MODE\",
+echo -n \"driver\":\"$DRIVER\",
+echo -n \"time_before_safemode\":\"$WAIT_TIME\",
+echo -n \"shutdown_ups\":\"$SAFE_SHUTDOWN\",
+
+# let version be the last one msg
+echo -n \"collector_version\":1
+
+echo "}"
+
+
+

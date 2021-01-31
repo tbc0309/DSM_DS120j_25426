@@ -1,0 +1,117 @@
+#!/usr/bin/env python2
+# Copyright (c) 2000-2018 Synology Inc. All rights reserved.
+# -*- coding: utf-8 -*-
+import json
+import sys
+import os
+from subprocess import check_output
+
+VERSION = 3
+
+
+def run_cmd(cmd):
+    return check_output(cmd, shell=True).strip()
+
+
+def collect_cpuinfo():
+    cpuinfo = dict()
+    get_cpuinfo = '/usr/syno/bin/user.data.collector/ds_integrity_cpuinfo {}'
+
+    for _ in ['signature', 'brandstring', 'feature']:
+        try:
+            if _ == 'signature':
+                cpuinfo[_] = int(run_cmd(get_cpuinfo.format(_)), 16)
+            elif _ == 'brandstring':
+                cpuinfo[_] = run_cmd(get_cpuinfo.format(_))
+            elif _ == 'feature':
+                feature = run_cmd(get_cpuinfo.format(_)).split()
+                cpuinfo[_] = {'ebx': int(feature[0], 16),
+                              'ecx': int(feature[1], 16),
+                              'edx': int(feature[2], 16)}
+        except Exception as e:
+            sys.stderr.write(str(e) + '\n')
+            if _ != 'feature':
+                cpuinfo[_] = 'unknown'
+            else:
+                cpuinfo[_] = {'ebx': 0, 'ecx': 0, 'edx': 0}
+
+    return cpuinfo
+
+
+def collect_latest_pmesg():
+    if not os.path.exists('/var/log/pmesg'):
+        return []
+
+    try:
+        with open('/var/log/pmesg', 'r') as f:
+            raw_logs = f.readlines()
+    except IOError as e:
+        sys.stderr.write(str(e) + '\n')
+        return []
+
+    return [_.strip().split()[3] for _ in raw_logs[::-1][0:10]]
+
+
+def collect_device_list():
+    if not os.path.exists('/bin/lspci'):
+        return []
+
+    try:
+        raw_devices = run_cmd('/bin/lspci -k')
+    except Exception as e:
+        sys.stderr.write(str(e) + '\n')
+        return []
+
+    devices = []
+    device = None
+    for _ in raw_devices.strip().split('\n'):
+        if 'Class' in _:
+            if device:
+                devices.append(device)
+            device = _
+        elif 'Kernel' in _:
+            device += ' ' + _.split(':')[1].strip(' \n')
+    if device:
+        devices.append(device)
+
+    return devices
+
+
+def collect_kernel_version():
+    try:
+        with open('/proc/version', 'rb') as f:
+            return f.read().strip()
+    except IOError as e:
+        sys.stderr.write(str(e) + '\n')
+        return 'unknown'
+
+
+def collect_unique():
+    try:
+        with open('/etc.defaults/synoinfo.conf', 'r') as f:
+            synoinfo = f.readlines()
+    except IOError as e:
+        sys.stderr.write(str(e) + '\n')
+        return 'unknown'
+
+    for _ in synoinfo:
+        if 'unique' in _:
+            return _.split('=')[1].strip('"\n')
+
+    return 'unknown'
+
+
+def main():
+    result = {
+        'collector_version': VERSION,
+        'cpuinfo': collect_cpuinfo(),
+        'unique': collect_unique(),
+        'pmesg': collect_latest_pmesg(),
+        'kernel_version': collect_kernel_version(),
+        'device_list': collect_device_list()
+    }
+
+    sys.stdout.write(json.dumps(result))
+
+if __name__ == '__main__':
+    main()

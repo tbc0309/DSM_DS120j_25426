@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>&Eacute;tat du stockage</h2>
+	<p>Cette page affiche l'&eacute;tat des volumes de stockage et iSCSI LUN (niveau bloc) sur le serveur actif et le serveur passif du cluster high-availability.</p>
+    <p>Parce que la capacit&eacute; et les configurations des volumes correspondants et des iSCSI LUN (niveau bloc) sur le serveur actif et le serveur passif doivent &ecirc;tre identiques, les volumes et les iSCSI LUN (niveau bloc) sur les deux serveurs sont affich&eacute;s ensemble comme des unit&eacute;s simples. Par cons&eacute;quent, si vous souhaitez consulter l'&eacute;tat des volumes et iSCSI LUN (niveau bloc) &agrave; la fois du serveur actif et du serveur passif, vous devez aller &agrave; page <b>&Eacute;tat du stockage</b> [lorsque vous acc&eacute;dez &agrave; un cluster high-availability, seuls les volumes et iSCSI LUN (niveau bloc) sur le serveur actif sont visibles dans le <b>Gestionnaire de stockage</b>].</p>
+
+    <p>Cette page contient les informations suivantes&nbsp;:</p>
+		<ul>
+			<li><b>Nom&nbsp;:</b> Affiche les noms des volumes et iSCSI LUN (niveau bloc).</li>
+			<li><b>Utilis&eacute;&nbsp;:</b> Affiche le pourcentage de capacit&eacute; utilis&eacute;e des volumes et iSCSI LUN (niveau bloc).</li>
+			<li><b>Taille utilis&eacute;e/totale&nbsp;:</b>  Affiche la capacit&eacute; totale et utilis&eacute;e des volumes et iSCSI LUN (niveau bloc).</li>
+            <li><b>&Eacute;tat&nbsp;:</b> Affiche l'&eacute;tat des volumes, iSCSI LUN (niveau bloc) et des caches SSD.</li>
+            <li><b>Description&nbsp;:</b> Affiche la description des erreurs ou autres informations relatives au volume, iSCSI LUN (niveau bloc) et le cache SSD.</li>
+		</ul>
+<h4>Pour r&eacute;parer un volume ou iSCSI LUN (niveau bloc) d&eacute;fectueux&nbsp;:</h4>
+	<ul>
+		<li>Si un disque dur sur l'un des serveurs est plant&eacute;, vous pouvez aller &agrave; la page <a href="disk.html">&Eacute;tat du disque</a> pour d&eacute;terminer quel disque dur est plant&eacute; et doit &ecirc;tre remplac&eacute;. Dans ce cas, faites comme suit&nbsp;:
+        	<ol>
+            	<li>Remplacez le disque dur plant&eacute; (pour les &eacute;tapes relatives &agrave; l'installation du disque dur, veuillez consulter le <i>Guide d'installation rapide</i> pour votre produit Synology).</li>
+                <li>Allez &agrave; la page <b>&Eacute;tat du stockage</b> et cliquez sur <b>R&eacute;parer</b>.</li>
+            </ol>
+        </li>
+        <li>Si le serveur passif est hors ligne, l'&eacute;tat des volumes et iSCSI LUN (niveau bloc) indiquera qu'une erreur s'est produite, et aucun des disques sur le serveur passif n'appara&icirc;tra sur la page &Eacute;tat du disque. Dans ce cas, vous pouvez tenter de r&eacute;soudre le probl&egrave;me en proc&eacute;dant comme suit&nbsp;:
+        	<ol>
+            	<li>Assurez-vous que le serveur passif est aliment&eacute;.</li>
+                <li>V&eacute;rifiez toutes les alimentations.</li>
+                <li>Examinez toutes les connexions.</li>
+            </ol>
+        </li>
+        <li>Si une erreur de syst&egrave;me de fichiers se produit sur un volume ou iSCSI LUN (niveau bloc) sur l'un des serveurs, veuillez proc&eacute;der comme suit&nbsp;:
+        	<ul>
+            	<li>Allez &agrave; la page <b>&Eacute;tat du stockage</b>.</li>
+                <li>Cliquez sur <b>R&eacute;parer.</b></li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">Remarque&nbsp;:</span>  La limite des volumes et iSCSI LUN (niveau bloc) sur un cluster high-availability est 64.</p>
+
+
+
+<h3>Serveur quorum</h3>
+<p>Les serveurs quorum peuvent contribuer &agrave; r&eacute;duire le risque d'erreur de d&eacute;doublement de cerveau. Dans les param&egrave;tres de d&eacute;doublement de cerveau, vous pouvez affecter un autre serveur comme serveur quorum tant qu'il reste connect&eacute; aux serveurs actif et passif. Par exemple, un serveur de passerelle ou un serveur DNS est un choix adapt&eacute; &agrave; un serveur quorum car il peut se connecter aux serveurs actif et passif. Veuillez noter qu'un serveur quorum doit fournir uniquement des services Ping et qu'aucune installation d'application n'est n&eacute;cessaire. Vous trouverez ci-dessous les circonstances qui d&eacute;coulent de l'activation d'un serveur quorum&nbsp;:</p>
+
+<ul>
+<li>Si le serveur passif ne peut pas se connecter aux serveurs actif et quorum, la permutation ne s'effectue pas afin d'&eacute;viter les erreurs de d&eacute;doublement de cerveau.</li>
+<li>Si le serveur actif n'est pas en mesure de se connecter au serveur quorum alors que le serveur passif le peut, le basculement est d&eacute;clench&eacute; afin d'assurer une meilleure disponibilit&eacute;.</li>
+</ul>
+
+ </body>
+</html>

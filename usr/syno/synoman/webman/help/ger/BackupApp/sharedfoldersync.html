@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Datensicherung & Replikation</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Synchronisierung gemeinsamer Ordner</h2>
+<p>Die Synchronisierung freigegebener Ordner ermöglicht es, freigegebene Ordner eines Synology-Produkts (Quelle) mit denen eines anderen Synology-Produkts (Ziel) im LAN oder über das Internet zu synchronisieren. Die Grundlage hierfür sind gemeinsame Ordner. Wenn bei der Synchronisierung bereits ein gleichnamiger Ordner (z. B. SharedFolder) auf dem Synology-Zielprodukt vorhanden ist, wird der Ordner auf dem Ziel umbenannt, z. B. in „SharedFolder_1\ldblquote“. Ist ein solcher Ordner nicht vorhanden, wird er auf dem entsprechenden oder dem ersten verfügbaren Volume erstellt. Das Zugriffsrecht für diesen Ordner auf dem Ziel-Synology NAS wird als Standard festgelegt, d. h. dass keine Zugriffsrechte für diesen Ordner angegeben werden.</p>
+<p>Bei der ersten Synchronisierung von gemeinsamen Ordnern wird eine vollständige Synchronisierung des oder der ausgewählten Ordner durchgeführt. Danach werden nur geänderte Dateien synchronisiert. Dateien, die in der Quelle entfernt wurden, werden auch am Ziel entfernt.</p>
+
+<div class="section">
+<h4>Hinweis:</h4>
+<ul>
+<li>
+Bei der Synchronisierung freigegebener Ordner handelt es sich um eine Einweg-Synchronisierungslösung, d. h. dass die Dateien der Quelle mit dem Ziel synchronisiert werden, nicht aber umgekehrt. Wenn Sie eine Lösung für die 2-Wege-Synchronisierung benötigen, sollten Sie <strong>Cloud Station</strong> verwenden.</li></ul></div>
+
+<h3>Aktivieren des Dienstes</h3>
+<h4>Synchronisierung gemeinsamer Ordner aktivieren:</h4>
+<p>Sie müssen den Dienst auf dem Ziel-Synology NAS aktivieren. Gehen Sie dazu zu <b>Datensicherung & Replikation</b> > <b>Synchronisierung gemeinsamer Ordner</b>. Markieren Sie auf der Registerkarte <b>Server</b> das Kontrollkästchen <b>Synchronisierung gemeinsamer Ordner aktivieren</b>, um den Dienst zu aktivieren.</p>
+<h4>Freigegebene Ordner zwischen Synology-Quell- und -Zielprodukt verbinden:</h4> 
+<p>Sie können gemeinsame Ordner von einer Quelle mit vielen verschiedenen Zielservern synchronisieren. Zusätzlich steht ab DSM 4.1 unter der Synchronisierung gemeinsamer Ordner auch der Synchronisierungsdienst für gemeinsame Ordner aus mehreren Quellen zur Verfügung, mit dem mehrere Clients ihre gemeinsamen Ordner mit einem Synology NAS synchronisieren können. Wenn verschiedene Clients denselben gemeinsamen Ordner gleichzeitig mit einem Synology NAS synchronisieren, kommt es zu einem Konflikt und Sie müssen die Verknüpfung zum gemeinsamen Ordner aufheben, bevor ein anderer Client diesen Ordner mit dem Ziel synchronisieren kann. Um die Verknüpfung des freigegebenen Ordners aufzuheben, gehen Sie zu <b>Synchronisierung von freigegebenen Ordnern</b> > <b>Server</b>, klicken auf <b>Verbindungsliste</b>, wählen eine Verbindung aus und klicken auf der Zielseite auf <b>Verknüpfung aufheben</b></b>. </li>
+</ul>
+<p>Sie können jetzt beginnen, gemeinsame Ordner vom Quell- mit dem Ziel-Synology NAS zu synchronisieren. Führen Sie anschließend die Schritte der folgenden Abschnitte durch.</p>
+
+<h3>Verwalten von Synchronisierungsaufgaben</h3>
+<p>Mit dem Synchronisierungsassistenten für gemeinsame Ordner können Sie auf einfache Weise eine Synchronisierungsaufgabe erstellen.</p>
+<h4>Synchronisierungsaufgabe erstellen:</h4>
+<ol>
+<li>Gehen Sie zu <b>Datensicherung & Replikation</b> > <b>Synchronisierung gemeinsamer Ordner</b> > <strong>Client</strong>.</li>
+<li>Klicken Sie auf <b>Erstellen</b>.</li>
+<li>Geben Sie einen Namen für die Aufgabe ein.</li>
+<li>Wählen Sie den gemeinsamen Ordner aus, den Sie mit dem Ziel synchronisieren möchten. Aktivieren Sie zur Bestätigung das Kontrollkästchen unten und klicken Sie auf <b>Weiter</b>, um fortzufahren.</li>
+<li>Legen Sie das Ziel und die folgenden Synchronisierungsoptionen fest:</li>
+<ul>
+<li><b>Übertragungsverschlüsselung aktivieren:</b> Daten während der Übertragung verschlüsseln. Diese Option bietet mehr Sicherheit, während die unverschlüsselte Übertragung leistungsfähiger ist. Treffen Sie Ihre Auswahl je nach Bedarf.
+</li> 
+<li><b>Übertragungskomprimierung aktivieren:</b> Daten während der Übertragung komprimieren. Dabei wird Netzwerkbandbreite gespart, aber die CPU wird stärker beansprucht.</li>
+<li><b>Synchronisierung in Blöcken aktivieren:</b> Nur unterschiedliche Daten und nicht ganze Dateien übertragen. Dabei wird Netzwerkbandbreite gespart, aber die CPU wird stärker beansprucht.</li>
+</ul>
+<li>Legen Sie einen Zeitplan für die Aufgabe fest:</li>
+<ul>
+<li><b>Synchronisierung alle [Zahl] Stunden ausführen</b> oder <b>Synchronisierung alle [Zahl] Minuten ausführen</b>: Synchronisierungsaufgabe in bestimmten Stunden- oder Minutenintervallen ausführen. Die Zählung der Zeitspanne beginnt um Mitternacht. Das Intervall darf 24 Stunden nicht überschreiten.</li>
+<li><b>Synchronisierung automatisch jeden Tag um (hh:mm) ausführen</b>: Die Synchronisierung wird täglich zu einem bestimmten Zeitpunkt durchgeführt.</li>
+<li><b>Synchronisierung manuell ausführen</b>: Die Synchronisierung wird nur manuell durchgeführt.</li>
+<li><b>Synchronisierung nach Änderung ausführen</b>: Die Synchronisierungsaufgabe wird sofort nach Durchführung einer Änderung am gemeinsamen Quellordner ausgeführt.</li>
+</ul>
+<li>Klicken Sie auf <b>Übernehmen</b>. Sie können die Synchronisierungsaufgabe jetzt in der Aufgabenliste sehen, die nach dem angegebenen Zeitplan durchgeführt wird.</li></ol>
+<h4>Synchronisierungsaufgabe verwalten:</h4>
+<ol>
+<li>
+Wählen Sie die Aufgabe in der Aufgabenliste aus.
+</li>
+<li>
+Führen Sie einen der folgenden Schritte durch:
+</li>
+<ul>
+<li>
+Klicken Sie auf <b>Bearbeiten</b>, um die Aufgabe zu bearbeiten.
+</li>
+<li>
+Klicken Sie auf <b>Löschen</b>, um die Aufgabe zu löschen.
+</li> 
+<li>
+Wenn die Synchronisierungsaufgabe derzeit nicht läuft, klicken Sie auf <b>Jetzt synchronisieren</b>, um die Aufgabe sofort durchzuführen.
+</li>
+<li>
+Wenn die Synchronisierungsaufgabe läuft, klicken Sie auf <b>Abbrechen</b>, um die laufende Aufgabe zu stoppen.
+</li>
+
+<div class="section">
+<h4>Hinweis:</h4>
+<p>
+Wenn der Zeitplan einer Synchronisierungsaufgabe auf <b>Synchronisierung nach Änderung ausführen</b> eingestellt ist, kann die laufende Synchronisierungsaufgabe durch Klicken auf <b>Abbrechen</b> gestoppt werden. Werden dagegen Änderungen am Inhalt eines oder mehrerer von der Synchronisierungsaufgabe überwachter Ordner vorgenommen, wird die Aufgabe durch die Funktion "Synchronisierung gemeinsamer Ordner" fortgesetzt.
+</p>
+</div>
+
+<li>
+Klicken Sie auf <b>Vollständige Synchronisierung</b>, um alle Daten zu synchronisieren. Die Synchronisierung gemeinsamer Order führt beim ersten Mal eine vollständige Synchronisierung durch und synchronisiert danach nur die geänderten Teile. Durch Klicken auf diese Schaltfläche können Sie alle Daten erneut manuell synchronisieren.
+</li>
+</ul>
+</ol>
+
+<div class="section disable-eds14">
+<h4>Weitere Informationen</h4>
+<ol>
+<li>Der Aufgabenname muss aus 1 bis 32 Unicode-Zeichen bestehen und darf folgende Zeichen nicht enthalten:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Werden freigegebene Ordner vom ext4- zum ext3-Dateisystem synchronisiert, können Fehler auftreten, wenn die Aufgabe mehr als 32.000 Ordner enthält.</li>
+<li>Wenn die gemeinsamen Ordner auf dem Ziel-Synology NAS zuvor mit dem anderen Synology NAS synchronisiert wurden, führt die Synchronisierung gemeinsamer Ordner eine vollständige Synchronisierung für die Aufgabe durch.</li>
+<li>Um Aufgaben zur Synchronisierung gemeinsamer Ordner durchzuführen, benötigen Sie Administratorrechte auf dem Ziel-Synology NAS. Sie besitzen entweder das admin-Konto-Passwort des Ziels oder sind in seiner Administratorengruppe.</li>
+<li>Beim Synchronisieren mit Synology NAS über das Internet können Sie den Servernamen durch die externe IP-Adresse oder den Hostnamen eingeben. Wenn Sie den Hostnamen eingeben, muss er als FQDN (voll qualifizierter Domainname), z. B. im Format „www.synology.com“ vorliegen.</li>
+<li>Für die Portweiterleitung verwendet die Synchronisierung gemeinsamer Ordner Port 22 bei der verschlüsselten Übertragung und Port 873 bei der unverschlüsselten Übertragung.</li>
+<li>Externe Speichergeräte werden von der Synchronisierung gemeinsamer Ordner nicht unterstützt.</li>
+<li>Verschlüsselte gemeinsame Ordner müssen manuell unter Verwendung des Schlüssels am Ziel bereitgestellt werden.</li>
+<li>Die geplante Synchronisierung gemeinsamer Ordner wird nicht zum angegebenen Zeitpunkt ausgeführt, wenn keine Änderungen am ausgewählten gemeinsamen Ordner durchgeführt wurden.</li>
+<li>Optimal sollten Synchronisierungsaufgaben weniger als 200 gemeinsame Ordner umfassen.</li>
+<li>Die Funktion <strong>Benutzerbasis</strong> wird auf dem Ziel-Synology NAS deaktiviert, wenn der gemeinsame Ordner <strong>homes</strong> vom Quell-Synology NAS mit dem Ziel-Synology NAS synchronisiert wird.</li>
+
+<li>Bei Modellen mit CPUs, die nicht von Intel stammen, können durch die Synchronisierung gemeinsamer Ordner bis zu 100.000 gemeinsame Ordner (inkl. Unterordner) synchronisiert werden.</li>
+ <li>Die Synchronisierung freigegebener Ordner kann die Windows ACL-Einstellungen sichern, wenn das Dateisystem des Ziels ext4 ist.</li>
+ 
+ <li>Die Synchronisierung gemeinsamer Ordner schlägt fehl, wenn sie mit einem Zielserver erfolgt, der denselben Namen wie Ihr Synology NAS hat.</li>
+ 
+<li>Erweiterte Berechtigungen für freigegebene Ordner der Quelle werden nicht mit dem Ziel synchronisiert. Darüber hinaus wird auf dem Ziel eine Schreibschutzregel für Benutzer der Gruppe "administrators" erstellt. </li> 
+
+  </ol>
+</div>
+<div class="section enable-eds14">
+<h4>Weitere Informationen</h4>
+<ol>
+<li>Der Aufgabenname muss aus 1 bis 32 Unicode-Zeichen bestehen und darf folgende Zeichen nicht enthalten:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Werden freigegebene Ordner vom ext4- zum ext3-Dateisystem synchronisiert, können Fehler auftreten, wenn die Aufgabe mehr als 32.000 Ordner enthält.</li>
+<li>Wenn die gemeinsamen Ordner auf dem Ziel-Synology NAS zuvor mit dem anderen Synology NAS synchronisiert wurden, führt die Synchronisierung gemeinsamer Ordner eine vollständige Synchronisierung für die Aufgabe durch.</li>
+<li>Um Aufgaben zur Synchronisierung gemeinsamer Ordner durchzuführen, benötigen Sie Administratorrechte auf dem Ziel-Synology NAS. Sie besitzen entweder das admin-Konto-Passwort des Ziels oder sind in seiner Administratorengruppe.</li>
+<li>Beim Synchronisieren mit Synology NAS über das Internet können Sie den Servernamen durch die externe IP-Adresse oder den Hostnamen eingeben. Wenn Sie den Hostnamen eingeben, muss er als FQDN (voll qualifizierter Domainname), z. B. im Format „www.synology.com“ vorliegen.</li>
+<li>Für die Portweiterleitung verwendet die Synchronisierung gemeinsamer Ordner Port 22 bei der verschlüsselten Übertragung und Port 873 bei der unverschlüsselten Übertragung.</li>
+<li>Externe Speichergeräte werden von der Synchronisierung gemeinsamer Ordner nicht unterstützt.</li>
+<li>Verschlüsselte gemeinsame Ordner müssen manuell unter Verwendung des Schlüssels am Ziel bereitgestellt werden.</li>
+<li>Die geplante Synchronisierung gemeinsamer Ordner wird nicht zum angegebenen Zeitpunkt ausgeführt, wenn keine Änderungen am ausgewählten gemeinsamen Ordner durchgeführt wurden.</li>
+<li>Optimal sollten Synchronisierungsaufgaben weniger als 200 gemeinsame Ordner umfassen.</li>
+<li>Die Funktion <strong>Benutzerbasis</strong> wird auf dem Ziel-Synology NAS deaktiviert, wenn der gemeinsame Ordner <strong>homes</strong> vom Quell-Synology NAS mit dem Ziel-Synology NAS synchronisiert wird.</li>
+<li>Bei Modellen mit CPUs, die nicht von Intel stammen, können durch die Synchronisierung gemeinsamer Ordner bis zu 100.000 gemeinsame Ordner (inkl. Unterordner) synchronisiert werden.</li>
+ 
+ <li>Die Synchronisierung gemeinsamer Ordner schlägt fehl, wenn sie mit einem Zielserver erfolgt, der denselben Namen wie Ihr Synology NAS hat.</li>
+ 
+<li>Erweiterte Berechtigungen für freigegebene Ordner der Quelle werden nicht mit dem Ziel synchronisiert. Darüber hinaus wird auf dem Ziel eine Schreibschutzregel für Benutzer der Gruppe "administrators" erstellt. </li> 
+ 
+ </ol>
+</div>
+</body></html>

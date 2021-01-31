@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Menedżer iSCSI</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_lun"></a>LUN</h2>
+<p>Przed utworzeniem jednostki LUN, należy najpierw utworzyć wolumen w narzędziu <a href="../StorageManager/volume_create_volume.html">Zarządzanie przechowywaniem</a>.</p>
+<p>Typy jednostek LUN o r&oacute;żnych funkcjach będą wyświetlane w r&oacute;żnych kolorach:</p>
+<ul>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #00adad;"></span> Liczba jednostek LUN z mechanizmem Thin Provisioning, utworzonych na wolumenie ext4.</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #1a9900;"></span> Liczba jednostek LUN z mechanizmem Thin Provisioning, utworzonych na wolumenie Btrfs.</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #0068b3;"></span> Liczba jednostek LUN z mechanizmem Thick Provisioning.</li>
+ </ul>
+ 
+
+<div class="section"><h4>Ważne:</h4>
+<ul>
+	<li>Tylko jednostki LUN utworzone w wolumenie Btrfs w systemie DSM 6.2 i nowszych obsługują nowe zaawansowane funkcje i natychmiastowe migawki. Jednostki LUN na wolumenie ext4 obsługują tylko zaawansowane funkcje starszego typu.</li>
+</ul>
+</div>
+
+<h4>Tworzenie jednostki LUN:</h4>
+<ol>
+  <li>Kliknij przycisk <strong>Utw&oacute;rz</strong>.</li>
+  <li>Ustaw właściwości tej jednostki LUN.<ul>
+			<li>Nazwa LUN</li>
+			<li>Lokalizacja: Nie możesz zmodyfikować lokalizacji po utworzeniu jednostki LUN, ale możesz skopiować tę jednostkę LUN do innego wolumenu.</li>
+			<li>Pojemność: Rozmiar jednostki LUN musi wynosić co najmniej 1 GB. W przypadku jednostek LUN ze starszymi zaawansowanymi funkcjami, rozmiar musi wynosić co najmniej 10 GB.</li>
+			<li>Przydział pamięci: Mechanizm Thick Provisioning zapewnia lepszą stabilność i wydajność, natomiast Thin Provisioning obsługuje alokację na żądanie i wszystkie zaawansowane funkcje, ale może powodować awarie systemu plik&oacute;w na jednostce LUN, gdy w wolumenie zabraknie miejsca.</li>
+			<li>Funkcje zaawansowane: Jednostki LUN z mechanizmem Thick Provisioning obsługują tylko funkcje <strong>Hardware-Assisted Zeroing</strong> i <strong>Hardware-Assisted Locking</strong>, natomiast jednostki LUN na wolumenach ext4 obsługują tylko zaawansowane funkcje starszego typu.</li></li>
+		</ul></li>
+	<li>Postępuj zgodnie z instrukcjami kreatora, aby zakończyć proces.</li>
+</ol>
+
+<div class="section"><h4>Uwaga:</h4>
+	<ul>
+	<li>Nie można utworzyć nowych jednostek LUN, gdy na wolumenie jest dostępne mniej niż 1 GB wolnej przestrzeni.</li>
+	<li>Możesz włączyć funkcje zaawansowane, aby obsługiwać odpowiadające im funkcje VMware VAAI.</li>
+	<li>Możesz włączyć funkcję <strong>Hardware-Assisted Data Transfer</strong>, aby jednostki LUN mogły w tym samym czasie obsługiwać transfer danych Windows Offload Data Transfer (ODX).</li>
+	<li>Włączenie starszych zaawansowanych funkcji może wpływać na wydajność operacji wejścia/wyjścia.</li>
+	<li>Liczba jednostek LUN r&oacute;żni się w zależności od Synology NAS model&oacute;w. Więcej danych technicznych produktu można znaleźć w witrynie <a href="http://www.synology.com/" target="_blank">www.synology.com</a>.</li>
+ 	</ul>
+</div>
+<div class="section"><h4><a name="terminologies_advanced_features"></a>Terminologia:</h4>
+	<ul>
+		<li><strong>Hardware-Assisted Zeroing:</strong> Pomaga hostom VMware ESXi w inicjowaniu dysk&oacute;w wirtualnych z większą wydajnością podczas tworzenia nowych dysk&oacute;w wirtualnych.</li>
+		<li><strong>Hardware-Assisted Locking:</strong> Blokuje tylko wymagane części jednostki LUN, gdy host VMware ESXi uzyskuje dostęp do danych na tym hoście, umożliwiając jednoczesny dostęp wielu host&oacute;w VMware ESXi do tych samych jednostek LUN bez obniżania wydajności.</li>
+		<li><strong>Hardware-Assisted Data Transfer:</strong> Przesyłanie danych na serwerze Synology NAS może odbywać się szybko, bez konieczności korzystania z zasob&oacute;w host&oacute;w, podczas kopiowania danych na hostach VMware ESXi i Microsoft Hyper-V.</li>
+		<li><strong>Migawka:</strong> Dzięki funkcjom systemu plik&oacute;w Btrfs dostępne są natychmiastowe migawki i replikacja.</li>
+		<li><strong>Odzyskiwanie miejsca:</strong> Obsługuje polecenie odzyskiwania miejsca inicjatora. Po usunięciu lub przesłaniu danych używane miejsce zostanie zwolnione. Może to jednak wpłynąć na wydajność operacji we/wy.</li>
+	</ul></div>
+
+	
+
+<h4>Usuwanie jednostki LUN:</h4>
+<p>Usunięcie jednostki LUN spowoduje usunięcie wszystkich danych przechowywanych na tej jednostce LUN. Utracisz także połączenia pomiędzy jednostką LUN a wszystkimi zmapowanymi obiektami Target.</p>
+<ol>
+	<li>Wybierz jednostkę LUN do usunięcia.</li>
+	<li>Kliknij przycisk <b>Usuń</b> i postępuj zgodnie z instrukcjami kreatora, aby ukończyć proces.</li>
+</ol>
+
+<h4>Edytowanie jednostki LUN:</h4>
+<ol>
+	<li>Wybierz jednostkę LUN do edycji.</li>
+	<li>Wybierz polecenie <b>Edycja</b> w menu rozwijanym <b>Akcja</b>.</li>
+	<li>Dokonaj edycji odpowiednich właściwości.</li>
+	<li>Kliknij przycisk <b>OK</b>, aby zapisać ustawienia.</li>
+</ol>
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+<li>Aby zapobiec utracie danych podczas edycji wielkości jednostki LUN, można ją tylko powiększać.</li>
+<li>Jeżeli stan jednostki LUN zmieni się na <b>Niedostępna</b>, będzie to oznaczać, że wystąpiły błędy związane z danymi podczas uzyskiwania dostępu do jednostki LUN. Aby uniknąć poważnej utraty danych w systemie, ta jednostka LUN będzie tymczasowo niedostępna. Skontaktuj się jak najszybciej z firmą Synology w celu uzyskania pomocy.</li>
+</ul>
+</div>
+
+<p>Jeżeli serwer Synology NAS działa jako pamięć wewnętrzna OpenStack Cinder, podczas tworzenia wolumen&oacute;w Cinder zostaną użyte jednostki LUN z poleceniami przyspieszenia pamięci masowej. Zarządzanie jednostkami LUN / obiektami Target używanymi przez Cinder oraz ich działanie na serwerze Synology NAS zostanie ograniczone.</p>
+<ul>
+<li>Nie można edytować jednostek Cinder LUN.</li>
+<li>Nie można edytować informacji, takich jak nazwa, IQN, mapowanie i maskowanie obiekt&oacute;w Cinder Target.</li>
+<li>Jednostek Cinder LUN/obiekt&oacute;w Cinder Target nie można mapować do og&oacute;lnych jednostek LUN/obiekt&oacute;w Target.</li>
+<li>Nie można wykonywać migawek jednostek Cinder LUN przy użyciu interfejsu użytkownika systemu DSM ani edytować, usuwać czy przywracać migawek jednostek Cinder LUN.</li>
+<li>Jednostki LUN sklonowane z jednostek Cinder LUN / migawek staną się og&oacute;lnymi jednostkami LUN.</li>
+</ul>
+
+<h4>Aby sklonować jednostkę LUN:</h4>
+	<ol>
+	<li>Wybierz jednostkę LUN, kt&oacute;rą chcesz sklonować.</li>
+	<li>Wybierz polecenie <b>Klonuj</b> w menu rozwijanym <b>Akcja</b>.</li>
+	<li>Zmień nazwę sklonowanej jednostki LUN i wybierz wolumen docelowy.</li>
+	<li>Kliknij przycisk <b>OK</b>, aby rozpocząć klonowanie.</li>
+</ol>
+<div class="section">
+	<h4>Uwaga:</h4>
+	<ul>
+		<li>Jednostki LUN nie można sklonować, jeśli ilość wolnego miejsca na jej wolumenie jest mniejsza niż 1 GB.</li>
+	</ul>
+</div>
+
+<h4>Aby wykonać defragmentację jednostkę LUN:</h4>
+<p>Defragmentacja może przywr&oacute;cić pogorszoną wydajność jednostek LUN spowodowaną fragmentacją danych lub przez migawki. Defragmentacja może mieć wpływ na wydajność operacji we/wy jednostek LUN, ale można ją zatrzymać w dowolnym momencie i wznowić proces p&oacute;źniej.</p>
+<ol>
+	<li>Wybierz jednostkę LUN, kt&oacute;rą chcesz defragmentować.</li>
+	<li>Kliknij opcję <b>Defragmentacja</b> &gt; <b>Rozpocznij</b>.</li>
+</ol>
+<h4>Aby zatrzymać defragmentację jednostki LUN:</h4>
+<ol>
+	<li>Wybierz jednostkę LUN do defragmentacji.</li>
+	<li>Kliknij opcję <b>Defragmentacja</b> &gt; <b>Zatrzymaj</b>.</li>
+</ol>
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+<li>Defragmentacja jest obsługiwana tylko w przypadku jednostek LUN Btrfs z funkcją Thin Provisioning.</li>
+<li>W trakcie defragmentacji nie można edytować/klonować jednostki LUN ani robić migawek, ale można ją usunąć.</li>
+<li>Defragmentację można zatrzymać w dowolnym momencie. System zapisuje postęp i wznowi proces od miejsca ostatniego zatrzymania.</li>
+<li>Istniejące migawki jednostek LUN zajmą dodatkowe miejsce na wolumenie po defragmentacji jednostki LUN.</li>
+</ul>
+</div>
+
+	
+<div class="section"><h4>Informacje dodatkowe</h4>
+<ul>
+	
+	<li>Jednostki LUN z włączoną funkcją migawki lub starszymi zaawansowanymi funkcjami można szybko sklonować w ramach tego samego wolumenu.</li>
+	<li>Jednostki LUN z nowymi zaawansowanymi funkcjami mogą być klonowane tylko na wolumeny Btrfs.</li>
+	<li>Kiedy jednostki LUN ze starszymi zaawansowanymi funkcjami są klonowane na wolumen Btrfs, są one konwertowane na jednostki LUN z nowymi zaawansowanymi funkcjami. W przypadku klonowania na inny wolumen ext4, zaawansowane funkcje zostaną wyłączone.</li>
+	<li>Właściwości jednostek LUN nie zmieniają się po klonowaniu, z wyjątkiem jednostek LUN ze starszymi zaawansowanymi funkcjami.</li>
+	<li>Podczas klonowania jednostek LUN bez funkcji migawek lub zaawansowanych funkcji, zaleca się odłączyć te jednostki LUN, aby zapobiec błędom klonowania lub niesp&oacute;jności danych.</li>
+</ul>
+</div>
+	
+<h4>Aby przekonwertować jednostkę LUN ze starszymi zaawansowanymi funkcjami:</h4>
+<ol>
+	<li>Wybierz jednostkę LUN, kt&oacute;rą chcesz przekonwertować.</li>
+	<li>Wybierz polecenie <b>Konwertuj</b> w menu rozwijanym <b>Akcja</b>.</li>
+	<li>Skonfiguruj ustawienia:<ul>
+			<li>Nazwa LUN</li>
+			<li>Lokalizacja: Nie możesz zmodyfikować lokalizacji po utworzeniu jednostki LUN, ale możesz przekonwertować tę jednostkę LUN do innego wolumenu Btrfs.</li>
+		</ul></li>
+	<li>Zaznacz pole wyboru, jeśli chcesz usunąć oryginalną jednostkę LUN i po konwersji zmapować obiekt Target do nowej jednostki LUN.</li>
+	<li>Kliknij <strong>Zastosuj</strong> w celu potwierdzenia ustawień.</li>
+</ol>
+
+<div class="section"><h4>Uwaga:</h4>
+	<ul>
+	<li>Tylko jednostki LUN ze starszymi zaawansowanymi funkcjami mogą być konwertowane na jednostki LUN z nowymi zaawansowanymi funkcjami.</li>
+	<li>Jednostki LUN można przekonwertować do wolumen&oacute;w Btrfs z wystarczającą ilością wolnego miejsca.</li>
+	<li>Aby zapewnić sp&oacute;jność danych, podczas konwersji jednostki LUN zostaną odmapowane z obiektu Target.</li>
+	<li>Na nowej zaawansowanej jednostce LUN nie będzie żadnych migawek.</li>
+</div>
+
+<div class="section"><h4>Terminologia:</h4>
+<ul>
+	<li><b>Thin Provisioning</b>: Thin Provisioning to metoda optymalizacji wykorzystania pamięci przez alokowanie miejsca w pamięci dynamicznie i na żądanie.</li>
+	<li><b>VMware VAAI</b>: technologia VMware vStorage APIs for Array Integration (VAAI) umożliwia przenoszenie zadań związanych ze standardowymi operacjami na wirtualnych macierzach pamięci masowej na urządzenie iSCSI w środowisku VMware vSphere i optymalizowanie wydajności pamięci masowej.</li>
+	<li><b>Windows ODX</b>: Offload Data Transfer (ODX) to nowa technologia transferu danych opracowana przez firmę Microsoft w systemach Windows Server 2012 i 8. ODX umożliwia zwiększenie wydajności transferu przez przeniesienie części obciążenia na macierz pamięci masowej.<br />Jeżeli zar&oacute;wno źr&oacute;dło danych, jak i miejsce docelowe znajdują się w jednostkach LUN zlokalizowanych na tym samym wolumenie, klonowanie odbywa się przy użyciu poleceń przyspieszenia pamięci masowej, co pozwala zaoszczędzić do 99,9% używanego miejsca, a jednocześnie przyspiesza klonowanie.</li>
+	<li><b>Mapowanie obiekt&oacute;w Target</b>: mapowanie jednostki LUN do jednego lub większej liczby obiekt&oacute;w Target.</li>
+
+</ul>
+</div>
+
+</body>
+</html>

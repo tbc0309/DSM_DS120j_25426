@@ -1,0 +1,38 @@
+# author: System Integration Team
+# only handle usb printer add task
+# printer remove task handles by printer-bus.rules
+
+KERNEL!="lp*", GOTO="printer_end"
+SUBSYSTEM!="usb|usbmisc", GOTO="printer_end"
+ACTION!="add", GOTO="printer_end"
+ENV{SYNO_SUPPORT_DUALHEAD}=="yes", GOTO="printer_end"
+ENV{SYNO_BLOCK_OPTIONAL_USB}=="yes", GOTO="printer_end"
+ATTRS{busnum}!="", ATTRS{devnum}!="", ENV{SYNO_PRINTER_BUSNUM_DEVNUM}="$attr{busnum}.$attr{devnum}"
+
+# change group and mode of /dev/usb/lp*
+GROUP="lp"
+MODE="0660"
+
+PROGRAM="/lib/udev/script/printer-util.py util get-usb-printer-remain-slots", ENV{SYNO_USB_PRINTER_REMAIN_SLOTS}="%c"
+RUN+="/usr/bin/logger -p err -t udev_printer (%E{ACTION}) [%E{SEQNUM}] SYNO_USB_PRINTER_REMAIN_SLOTS=%E{SYNO_USB_PRINTER_REMAIN_SLOTS}"
+ENV{SYNO_USB_PRINTER_REMAIN_SLOTS}=="0", GOTO="no_available_usb_printer_slots"
+
+RUN+="/usr/bin/logger -p err -t udev_printer (%E{ACTION}) [%E{SEQNUM}] %E{ID_VENDOR_ID}:%E{ID_MODEL_ID}:%E{ID_SERIAL_SHORT} (%E{PHYSDEVDRIVER})"
+RUN+="/lib/udev/script/printer-usbdev-check.py --action=%E{ACTION} --printerid=%E{ID_VENDOR_ID}:%E{ID_MODEL_ID}:%E{ID_SERIAL_SHORT} --devpath=%E{DEVPATH} --bus_dev=%E{SYNO_PRINTER_BUSNUM_DEVNUM}"
+RUN+="/lib/udev/script/printer-util.py genticket --bus_dev=%E{SYNO_PRINTER_BUSNUM_DEVNUM}"
+
+GOTO="printer_end"
+
+
+########################################
+# no_available_usb_printer_slots
+########################################
+LABEL="no_available_usb_printer_slots"
+RUN+="/usr/bin/logger -p err -t udev_printer no available USB printer slots"
+GOTO="printer_end"
+
+
+########################################
+# printer_end
+########################################
+LABEL="printer_end"

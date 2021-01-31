@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Split brain</h2>
+
+<p>Pokud cluster high-availability funguje správně, může úlohu aktivního serveru plnit pouze jeden ze členských serverů. V takovém případě pasivní server zjistí přítomnost aktivního serveru jak prostřednictvím připojení Heartbeat, tak prostřednictvím datového připojení.</p>
+
+<p>Pokud dojde k přerušení připojení Heartbeat i datového připojení, mohou se oba servery pokusit převzít roli aktivního serveru. Tato situace se označuje jako chyba „split brain“. V tomto případě bude připojení k IP adresám clusteru high-availability přesměrováno na některý ze dvou serverů a nekonzistentní data je možné aktualizovat nebo zapsat na oba servery.</p>
+        
+<p>Když se obnoví připojení Heartbeat nebo datové připojení, systém zjistí chybu split brain a nekonzistenci dat mezi oběma servery, a přejde do bezpečného režimu high-availability.</p> 
+
+       
+<h4>V případě výskytu chyby split brain:</h4>
+	<ol>
+    <li>Služby na obou serverech a IP adresy clusteru high-availability budou nedostupné, dokud se chyba split brain nevyřeší.</li>
+	<li>Jakmile oba servery přejdou do bezpečného režimu high-availability, zobrazí se na levém panelu nová karta s názvem <strong>Split brain</strong>. Na této kartě budou uvedeny tyto informace: rozdíl mezi soubory ve sdílených složkách na obou serverech, čas, kdy se servery staly aktivními servery i informace o posledním připojení cíle iSCSI Target. Všechny ostatní karty budou určeny pouze ke čtení.</li>
+<li>V bezpečném režimu high-availability bude služba File Station v režimu pouze ke čtení a vy můžete soubory stahovat nebo zobrazovat.</li>
+       <li>Na kartě <b>Přehled</b> můžete pouze vyřešit chyby split brain nebo vypnout aktuální přihlašovací server. Chyby split brain můžete vyřešit některým z následujících způsobů:<ul>
+       <li>Vyberte jeden server jako aktivní server clusteru high-availability a druhý jako pasivní server. Po restartování obou serverů se budou všechna odlišná data a nastavení na aktivním serveru synchronizovat na pasivní server. Data aktualizovaná na pasivním serveru během chyby split brain budou ztracena.</li>
+       <li>Vyberte jeden server jako aktivní server clusteru high-availability a druhý server odpojte. Po restartování obou serverů zůstane aktivní server v clusteru high-availability, odpojený server bude svá data rezervovat a vrátí se do stavu <b>Samostatný</b>. K připojení nového pasivního serveru v budoucnosti bude nutná úplná replikace.</li>
+       <li>Odpojte oba servery, rezervujte jejich data a nechte je přejít do stavu <b>Samostatný</b>.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Poznámky:</h4>
+    <ul>
+    <li>Čím více souborů se nachází ve sdílených složkách, tím déle bude trvat vypsání rozdílů.</li>
+    <li>Před určením aktivního a pasivního serveru ověřte, jestli jsou oba servery zapnuté.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

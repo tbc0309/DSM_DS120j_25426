@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>总览</h2>
+	<p>本页显示 high-availability 集群和成员服务器的基本信息。另外，本页提供在 high-availability 集群和成员服务器上进行创建、删除或执行维护等操作的工具。</p>
+
+<h3>High Availability 集群状态</h3>
+  <p>本栏显示 high-availability 集群的整体状态，并在发生错误时提醒您。下表为本栏中可能显示的状况：</p>
+    <table>
+     <tr>
+      <th>状态</th>
+      <th>描述</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>独立</strong></td>
+      <td>服务器未组合进 high-availability 集群。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>良好</strong></td>
+      <td>High-availability 集群整体状况良好。将数据从活动服务器复制到无源服务器正常运作。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>正在准备</strong></td>
+	  <td>服务器已成功组合进 high-availability 集群，但是尚未完成初始数据复制。此时无法执行切换。欲了解更多信息，请参阅<a href="switchover_fail.html">切换</a>。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>正在加载</strong></td>
+	  <td>系统正在加载集群状态。在状态加载完成后才能执行<b>切换</b>。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>警告</strong></td>
+      <td>HA 集群的状态异常，但服务仍在运行。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>危险</strong></td>
+	  <td>活动服务器和无源服务器皆发生故障。High-availability 集群无法正常运作。请检查所有存储空间（例如 RAID Group、硬盘组、卷和 iSCSI LUN）的状态。</td>
+     </tr>
+    </table>
+<h3>警告信息</h3>
+   <p>下表列示了系统出现错误时可能显示的警告信息。当出现多个警告信息时，您可用向前/向后按钮浏览这些信息。</p>
+    <table>
+     <tr>
+      <th>警告/错误</th>
+      <th>描述</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>监控的服务错误</strong></td>
+      <td>一个或多个监控的服务出现错误。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>存储空间已降级</strong></td>
+      <td>活动服务器或无源服务器上的存储空间（例如 RAID Group、硬盘组、卷、iSCSI LUN 和 SSD 缓存）已处于降级状态。请检查<b>存储空间状态</b>页面。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>存储空间损毁</strong></td>
+      <td>活动服务器或无源服务器上的存储空间（例如 RAID Group、硬盘组、卷、iSCSI LUN 和 SSD 缓存）已损毁。请检查<b>存储空间状态</b>页面。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>无法检测无源服务器</strong></td>
+      <td>该错误可能是由于无源服务器离线或活动服务器与无源服务器无法通过 Heartbeat 连接进行连接。在这种情形下，无法使用切换。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>无法将数据复制到无源服务器</strong></td>
+      <td>该错误可能是由于存储卷或硬盘发生故障。在这种情形下，无法使用切换。请检查<b>存储空间状态</b>页面。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>未选择无源服务器</strong></td>
+	  <td>如果取消无源服务器与 high-availability 集群的绑定，将显示此状态。在这种情形下，无法使用切换。如果要重新绑定无源服务器，请单击<b>维护</b>下拉菜单并单击<b>绑定</b>。重新绑定无源服务器时，将需要进行完整的数据复制。</td>
+     </tr>
+    </table>
+
+
+<h3>High Availability 集群信息</h3>
+	<p>此栏位于 high-availability 集群状态下方，显示有关集群的基本信息。如果无 high-availability 集群，此栏将只会显示 high-availability 集群的功能说明。</p>
+    <p>本栏包括以下信息：</p>
+ <ul>
+    	<li><b>集群服务器名称：</b>high-availability 集群使用的服务器名称。</li>
+   <li><b>集群 IP 地址：</b>high-availability 集群使用的 IP 地址。不论哪台服务器正在运行服务，用户都可以用该 IP 地址连接到 high-availability 集群。</li>
+        <li><b>建立时间：</b>high-availability 集群创建的日期。</li>
+ </ul>
+
+
+<h3>High Availability 集群操作按钮</h3>
+
+<p>以下三个按钮位于 high-availability 集群信息下方：</p>
+
+<ol>
+	<li><b>创建 HA 集群：</b>如果没有 high-availability 集群存在，您可以单击此按钮来组合两台服务器并创建 high-availability 集群。如需更多创建 high-availability 集群的相关信息，请参阅 <a href="wizard.html">Synology High Availability 向导</a>。</li>
+	<li><b>管理：</b>仅当 high-availability 集群存在时，此按钮才可用。其包含以下选项：<ul>
+	<li><b>管理向导：</b>启动向导，向导包含各种管理程序的指示。</li>
+	<li><b>切换：</b>进行从活动服务器到无源服务器的切换。在此过程中，活动服务器将停止提供服务并成为新的无源服务器。然后，旧的无源服务器将成为新的活动服务器，并开始提供 high-availability 集群的所有服务。当无源服务器处于<b>错误</b>状态或未被选定时，此选项将无法使用。</li>
+	<li><b>更新 DSM：</b>打开<strong>控制面板</strong>中的 <strong>DSM 更新</strong>页面。两台服务器都可在此进行更新。</li>
+	<li><b>关闭 HA 集群：</b>关闭活动服务器和无源服务器。</li></ul>
+	<li><b>禁用哔声：</b>此选项仅在活动服务器或无源服务器发生错误时可用。发生错误时关闭两台服务器的哔声。稍后如果发生其他错误，服务器仍会发出哔声。</li>
+</ol>
+	
+<h3>管理向导</h3>
+<p>管理向导引导您完成以下管理程序。</p>
+<ul>
+	<li><b>管理集群：</b><ul>
+			<li><b>将活动服务器切换为无源服务器：</b>进行从活动服务器到无源服务器的切换。在此过程中，活动服务器将停止提供服务并成为新的无源服务器。然后，旧的无源服务器将成为新的活动服务器，并开始提供 high-availability 集群的所有服务。当无源服务器处于<b>错误</b>状态或未被选定时，此选项将无法使用。</li>
+			<li><b>更新活动和无源服务器的 DSM：</b>打开<strong>控制面板</strong>中的 <strong>DSM 更新</strong>页面。两台服务器都可在此进行更新。</li>
+			<li><b>删除 HA 集群：</b>取消绑定集群。重启后，两台服务器将恢复独立运行模式。</li>
+			<li><b>添加新无源服务器：</b>向集群添加无源服务器。仅 high-availability 集群中不存在无源服务器的情况下，您才能使用此选项。</li>
+			<li><b>取消无源服务器与 high-availability 集群的绑定：</b>从集群中删除无源服务器。服务器取消绑定后，若要再次添加至 high-availability 集群，将需要进行完整的数据复制。因此，我们建议仅当您想要将现有无源服务器更换为新服务器时才使用此选项。</li>
+			<li><b>移动这两台服务器到其他位置：</b>如果您需要移动集群，请选择此选项。执行此操作后，服务器将关闭。</li>
+		</ul></li>
+	<li><b>管理活动服务器：</b><ul>
+			<li>将活动服务器关机。</li>
+			<li>重启活动服务器。</li>
+			<li>升级/更换活动服务器上的故障组件：选择此选项将关闭活动服务器。</li>
+		</ul></li>
+	<li><b>管理无源服务器：</b><ul>
+			<li>将无源服务器关机。</li>
+			<li>重启无源服务器。</li>
+			<li>升级/更换无源服务器上的故障组件：选择此选项将关闭无源服务器。</li>
+		</ul></li>
+</ul>
+	
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>High-availability 集群一旦被删除，如果希望创建一个新的 high-availability 集群，则需要进行完整的数据复制。</li>
+<li>如果您关闭或取消绑定无源服务器，一旦活动服务器发生错误，将无法切换服务。</li>
+</ul>
+</div>
+
+<h3>服务器和数据复制状态</h3>
+<p>此区域包含显示活动和无源服务器状态以及服务器之间数据流复制的图像。</p>
+<p>数据复制图像表示下列可能的情况：</p>
+	<ul>
+    	<li><b>数据复制运作正常：</b>将以活动服务器到无源服务器的数据流来表示。</li>
+    	<li><b>无数据复制：</b>将以无数据流图像来表示。</li>
+    </ul>
+
+
+<h3>服务器信息</h3>
+ <p>此区域位于服务器图像下方。显示有关活动服务器和无源服务器的信息。如果未检测到无源服务器，此区块将显示为<b>未知</b>。</p>
+  <ul>
+   <li><b>服务器名称：</b>Synology 服务器的名称。</li>
+   <li><b>型号名称：</b>Synology 服务器的型号。</li>
+   <li><b>序列号：</b>Synology 服务器的序列号。</li>
+   <li><b>风扇状态：</b>服务器冷却风扇的状态。如果风扇发生故障，将出现警告。在这种情况下，请联系本地经销商获得帮助。</li>
+   <li><b>温度：</b>Synology 服务器的温度。</li>
+   <li><b>电源状态：</b>指示服务器电源工作是否正常。如果该服务器型号配有冗余电源，则当其中一个电源发生故障时将出现警告。</li>
+  </ul>
+
+ </body>
+</html>

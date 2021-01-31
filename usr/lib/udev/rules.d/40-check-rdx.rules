@@ -1,0 +1,10 @@
+# author: "System Integration Team"
+# description: check if event belong to a RDX device
+
+ACTION!="add|change", GOTO="rdx_check_end"
+ENV{SYNO_DEV_DISKPORTTYPE}!="USB", GOTO="rdx_check_end"
+
+## TANDBERG RDX and Imation RDX have product prefix RDX/RDx
+ATTRS{product}=="[Rr][Dd][Xx]*", ENV{SYNO_IS_RDX}="1"
+
+LABEL="rdx_check_end"

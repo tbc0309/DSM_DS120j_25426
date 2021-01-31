@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Crear un usuario - Ayuda de Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article shows you how to create users in DSM.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="leaf_user"></a>Crear un usuario</h2>
+<p>Se pueden crear y administrar varias cuentas de usuarios en Synology NAS</p>
+
+
+<h4>Para crear un usuario:</h4>
+<ol>
+<li>Vaya al <strong>Panel de control</strong> > <strong>Usuario</strong>.</li><img src="about:blank" class="help_image"/><li>Haga clic en el botón <b>Crear</b> y a continuación cree el usuario. Esta acción abrirá el <b>Asistente de creación de usuario</b>.</li><img src="about:blank" class="help_image"/><li>En la página de <strong>Información de usuario</strong> especifique las siguientes opciones:<ul>
+<li><strong>Nombre:</strong> introduzca un nombre para el usuario. Esta sección es obligatoria.</li>
+<li><strong>Descripción:</strong> escriba una breve descripción para el usuario.</li>
+<li><strong>Correo electrónico:</strong> escriba una dirección de correo electrónico para el usuario. Notificaciones del sistema, como mensajes de restablecimiento de contraseñas, se enviarán a la dirección introducida aquí.</li>
+<li><strong>Enviar un correo electrónico de notificación al usuario recién creado:</strong> si esta opción está habilitada, el sistema enviará un mensaje al usuario para informarle de la nueva cuenta. Esta opción requiere que se habilite el sistema de notificaciones por correo electrónico en <b>Menú principal</b> > <b>Panel de control</b> > <b>Notificación</b> > <strong>Correo electrónico</strong>. De forma predeterminada, la contraseña del usuario no se muestra en mensaje de notificación. Sin embargo, si desea mostrar la contraseña en el mensaje de notificación, marque la casilla <strong>Mostrar la contraseña de usuario en el correo de notificación</strong>.</li>
+<li><strong>No permitir que el usuario cambie la contraseña de la cuenta:</strong> Si se habilita esta opción, el usuario no será capaz de cambiar la contraseña utilizada para iniciar sesión en DSM.</li></ul>
+</li>
+<li>En la página de <strong>Grupo</strong> > <strong>Crear</strong> > <strong>Asistente de creación de grupo</strong>, especifique los grupos a los que pertenecerá el nuevo usuario (por ejemplo, usuarios, administrators, etc.). </li>
+<li>En la página de <strong>Asignar permisos de carpetas compartidas</strong>, elija las carpetas a las que puede acceder el nuevo usuario modificando sus privilegios de acceso. La prioridad de los privilegios es la siguiente: <strong>Sin acceso</strong> > <strong>Lectura/Escritura</strong> > <strong>Sólo lectura</strong>.<ul>
+    <li><strong>Vista previa:</strong> esta columna muestra los privilegios reales de acceso a la carpeta compartida del usuario de acuerdo con la configuración actual y los grupos a los que pertenece el usuario.</li>
+  <li><strong>Permisos de grupo:</strong> esta columna muestra los privilegios de acceso a la carpeta compartida asignados de acuerdo con los grupos de usuarios a los que pertenece el usuario.</li></ul><a name="userquota"></a><li>En la página de <strong>Configuración de cuota de usuario</strong>puede controlar el volumen de almacenamiento que puede utilizar el nuevo usuario. Para restringir la cantidad de espacio disponible para el usuario, marque la casilla debajo de <strong>Habilitar cuota</strong> para cada volumen/carpeta compartida. A continuación introduzca la cantidad máxima de espacio que se puede utilizar en el campo <strong>Cuota</strong> (por ejemplo 10 GB).<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>La opción de habilitar cuota para cada carpeta compartida solo es compatible con VDSM y los modelos con las siguientes arquitecturas de paquete: Apollo Lake, Avoton, Braswell, Broadwell, Bromolow, Cedarview y Grantley. Para ver qué arquitectura de paquete es compatible con su modelo, consulte <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">este artículo</a>.</li>
+	<li>Algunas opciones de creación de usuarios pueden no aplicarse a EDS14.</li>
+	<li>DDSM no es compatible con la configuración de la cuota de usuario.</li>
+</ul>
+</div>
+
+  
+  </li>
+<li>En la página de <strong>Asignar permisos de aplicaciones</strong>puede controlar los servicios a los que puede acceder el usuario.</li>
+<li>En la página de <strong>Ajuste del límite de velocidad de grupo</strong> puede habilitar un límite de velocidad para los diferentes servicios (por ejemplo, File Station, FTP, etc.) para restringir la cantidad de ancho de banda consumida por el usuario al transferir archivos. Puede elegir una de las siguientes opciones para cada servicio:<ul>
+  <li><strong>Ninguno:</strong> los ajustes del límite de velocidad serán los mismos que los del grupo al que pertenece el usuario.</li>
+  <li><strong>Constante:</strong> se aplicará un límite de velocidad fijo constante. Podrá especificar los límites de velocidad de carga y descarga en los campos de la izquierda.</li>
+  <li><strong>Variable:</strong> se pueden especificar dos límites de velocidad diferentes para el usuario de acuerdo con un programa. Haga clic en el botón <strong>Personalizar</strong> para modificar el ajuste del límite de velocidad y el programa.</li></ul>
+<li>Tras confirmar el ajuste haga clic en <b>Aplicar</b> para terminar.</li>
+</ol>
+
+<h4>Limitación de nombre de usuario:</h4>
+
+<ul>
+<li>El nombre de usuario no distingue entre mayúsculas y minúsculas y puede incluir de 1 a 64 caracteres Unicode, excluyendo los siguientes símbolos:<br> ! " # $ % & ' ( ) * + , / : ; < = > ? @ [ ] \ ^ ` { } | ~</li>
+<li>El primer carácter no puede ser un signo menos o un espacio y el último no puede ser un espacio.</li>
+<li>Los siguientes nombres de usuario están reservados para el uso del sistema: mailer-daemon, postmaster.</li>
+<li>La descripción del usuario puede incluir hasta 64 caracteres Unicode que se pueden mostrar.</li>
+</ul>
+<h4>Limitación de la contraseña:</h4>
+<ul>
+<li>La contraseña distingue entre mayúsculas y minúsculas y está limitada a 127 caracteres que se puedan mostrar, incluidas letras, números, signos y espacios.</li>
+</ul>
+<h4>Limitación de cuota:</h4>
+<ul>
+<li>La cuota máxima de almacenamiento que se puede introducir para cada usuario es de aproximadamente 4 TB (4095 GB).</li>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Esta función no es compatible con EDS14 o DDSM.</li>
+</ul>
+</div>
+</ul>
+
+</body>
+</html>

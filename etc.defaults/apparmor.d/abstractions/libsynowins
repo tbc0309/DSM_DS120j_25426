@@ -1,0 +1,83 @@
+# ----------------------------------------------------------------------------
+#
+#    Copyright (C) 2000-2015 Synology Inc. All rights reserved.
+#
+# ----------------------------------------------------------------------------
+#include <abstractions/libsynocore>
+#include <abstractions/synoscheduler>
+#include <abstractions/libsynosdk>
+#include <abstractions/libsynonetsdk>
+
+/run/samba/winbind_domain_list					r,
+/run/samba/winbindd.pid						r,
+
+/etc/nsswitch.conf						rw,
+/etc/krb5.conf							rw,
+/etc/synoinfo.conf{,*}						rw,
+
+/etc/samba/smbinfo.conf						rw,
+/etc/samba/smb.conf						rw,
+/etc/samba/smb.share.conf					rw,
+/etc/samba/smb.reserved.conf					rw,
+/etc/samba/private/secrets.tdb					rwk,
+
+/var/log/winlock.state						rw,
+
+/usr/syno/etc/smb.ads						rw,
+
+/volume*/.db.domain_{group,user}_full.*				rwk,
+
+/usr/syno/etc/private/adsinfo					rw,
+/usr/syno/etc/private/last_join_info				rw,
+/usr/syno/etc/private/trust_domain_info				rw,
+/usr/syno/etc/private/last_join_info				rw,
+/usr/syno/etc/private/domain_ou					rw,
+/usr/syno/etc/private/domain_list				rw,
+/usr/syno/etc/private/domain_info				rw,
+/usr/syno/etc/private/domain_user.*				rw,
+/usr/syno/etc/private/domain_group.*				rw,
+/usr/syno/etc/private/.db.domain_{user,group}*			rwk,
+/usr/syno/etc/private/workgroup					rw,
+/usr/syno/etc/private/workgroup.bak				rw,
+/usr/syno/etc/private/credentials.sqlite			rw,
+/usr/syno/etc/private/kdc_ip					rw,
+/usr/syno/etc/private/pdc_ip					rw,
+
+/usr/syno/etc/private/diagnose/target				rw,
+/usr/syno/etc/private/diagnose/ps				rw,
+/usr/syno/etc/private/diagnose/ifconfig				rw,
+/usr/syno/etc/private/diagnose/local_nmblookup			rw,
+/usr/syno/etc/private/diagnose/local_smbconn			rw,
+/usr/syno/etc/private/diagnose/domain_nslookup			rw,
+/usr/syno/etc/private/diagnose/domain_nmblookup			rw,
+/usr/syno/etc/private/diagnose/domain_ping			rw,
+/usr/syno/etc/private/diagnose/date				rw,
+/usr/syno/etc/private/diagnose/lookup_ldap			rw,
+/usr/syno/etc/private/diagnose/lookup_kdc			rw,
+/usr/syno/etc/private/diagnose/lookup_dc			rw,
+/usr/syno/etc/private/diagnose/lookup_pdc			rw,
+/usr/syno/etc/private/diagnose/lookup_domain_master		rw,
+/usr/syno/etc/private/diagnose/klist				rw,
+
+/tmp/domain_user.pid						rw,
+/tmp/domain_group.pid						rw,
+/tmp/domain_list.pid						rw,
+/tmp/domain_updating						rw,
+
+/usr/sbin/ntpdate						ix,
+/usr/bin/net							Ux,
+/var/cache/samba/names.tdb					rwk,
+
+# for smbpasswd
+/etc/samba/private/passdb.tdb rwk,
+/var/lib/samba/{account_policy,winbindd_idmap}.tdb rwk,
+/var/packages/ActiveDirectoryServer/conf/etc/smb.tls.conf r,
+/volume*/@appstore/ActiveDirectoryServer/private/secrets.tdb rwk,
+/volume*/@appstore/ActiveDirectoryServer/private/{sam,idmap}.ldb rwk,
+/volume*/@appstore/ActiveDirectoryServer/private/sam.ldb.d/* rwk,
+/var/packages/DirectoryServerForWindowsDomain/conf/etc/smb.tls.conf r,
+/volume*/@appstore/DirectoryServerForWindowsDomain/private/secrets.tdb rwk,
+/volume*/@appstore/DirectoryServerForWindowsDomain/private/{sam,idmap}.ldb rwk,
+/volume*/@appstore/DirectoryServerForWindowsDomain/private/sam.ldb.d/* rwk,
+
+/usr/bin/smbpasswd              rUx,

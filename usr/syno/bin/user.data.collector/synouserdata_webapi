@@ -1,0 +1,46 @@
+#!/usr/bin/python
+
+import os, json, time
+
+COUNT_POOL_PATH = "/var/spool/webapi"
+COUNT_POOL_TIMESTAMP = os.path.join(COUNT_POOL_PATH, ".timestamp")
+
+collect_data = { "collector_version": 2, "version": 1, "method": [] };
+try:
+	st = os.stat(COUNT_POOL_TIMESTAMP)
+	collect_data["time_begin"] = st.st_mtime
+except: pass
+
+for root, dirs, files in os.walk(COUNT_POOL_PATH):
+	for f in files:
+		if f.startswith(".") or f.endswith(".lock"):
+			continue
+
+		path = os.path.join(root, f)
+
+		data = None
+		try:
+			with open(path, "r") as h:
+				data = json.load(h)
+		except:
+			if not collect_data.has_key("broken"):
+				collect_data["broken"] = []
+			collect_data["broken"].append(os.path.basename(f))
+		finally:
+			os.unlink(path)
+			os.unlink(path + ".lock")
+
+		if not data:
+			continue
+
+		for key,value in data.items():
+			value["method"] = key
+			collect_data['method'].append(value)
+try:
+	with open(COUNT_POOL_TIMESTAMP, 'a'):
+		os.utime(COUNT_POOL_TIMESTAMP, None)
+except: pass
+
+collect_data["time_end"] = time.time()
+
+print json.dumps(collect_data)

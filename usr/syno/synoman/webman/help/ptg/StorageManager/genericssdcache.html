@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Cache SSD*</h2>
+<p>A cache SSD pode melhorar o desempenho de acesso aleatório, armazenando dados acedidos frequentemente na cache SSD. A cache SSD pode ser montada num volume ou iSCSI LUN (Nível de Bloco). Existem dois tipos de cache SSD:</p>
+<ul>
+<li><strong>Cache apenas de leitura</strong> pode consistir de 1 a 12 SSDs que podem ser respectivamente montados numa configuração básica ou RAID 0, para melhorar a velocidade de leitura aleatória do espaço de armazenamento no qual está montado.
+<div class="section"><h4>Nota:</h4>
+	<p>A cache SSD apenas de leitura armazena cópias de dados do volume; deste modo não ocorre qualquer perda de dados, mesmo que encrave a cache apenas de leitura.</p>
+	</div>
+</li>
+<li>A <strong>Cache de leitura e escrita</strong> pode ser instalada numa configuração RAID 1 / RAID 5 / RAID 6, dependendo do número de SSDs (até 12 SSDs), para melhorar o desempenho de leitura e escrita aleatória do espaço de armazenamento onde está instalada.</li>
+</ul>
+
+<p>Ambos os tipos de cache SSD implementam um algoritmo LRU (Least Recently Used, menos utilizado recentemente) para trocar os dados na cache.</p>
+
+<div class="section">
+<h4>Importante:</h4>
+<p>Antes de instalar qualquer SSD para utilização como cache, verifique as seguintes notas:</p>
+<ul>
+<li>O objectivo da activação da cache SSD é de aumentar o desempenho do acesso aleatório a uma pequena porção de dados acedida com frequência no espaço de armazenamento. Por exemplo, grandes operações de leitura ou escrita sequencial (por ex., transmissão vídeo em HD) e padrões de leitura de dados completamente aleatórios carecem de padrões de leitura repetida, e por isso não beneficiam grandemente de cache SSD. Para aplicações gerais, recomendamos que active a opção <b>Ignorar sequencial I/O</b>, para que I/O sequencial ainda possa chegar às uniaddes do espaço de armazenamento.</li>
+<li>Consulte a lista de compatibilidade no <a href="http://www.synology.com/" target=_blank>site da Synology</a> para escolher o SSD a ser utilizado como cache no seu Synology NAS.</li>
+<li class="disable-alpine">A cache SSD requer um certo montante de memória de sistema dependendo do tamanho da cache, pelo que a montagem de uma cache SSD maior poderá necessitar da atualização da memória de Synology NAS. Para manter o sistema estável e rápido, só é possível utilizar 1/4 da memória do sistema pré-instalado para a cache SSD. Cada 1 GB da cache do SSD requer, aproximadamente, 416 KB de memória do sistema (a memória expandida pode ser contada)**. Por isso, se a configuração da cache só de leitura for de 2 x 128 GB SSD, o tamanho total da cache será de 256 GB e requer, pelo menos, 104 MB de memória e se a configuração da cache só de leitura for de 2 x 128 GB SSD, o tamanho total da cache será de 128 GB e requer, pelo menos, 52 MB de memória. Se a memória for insuficiente, a criação da cache SSD será restrita ou o tamanho da cache SSD será limitado.</li>
+<li class="enable-alpine">Cada 1 GB da cache do SSD requer, aproximadamente, 416 KB de memória do sistema (a memória expandida pode ser calculada) e o tamanho máximo da cache é 930 GB. Por isso, se a configuração da cache só de leitura for de 2 x 128 GB SSD, o tamanho total da cache será de 256 GB e requer, pelo menos, 104 MB de memória e se a configuração da cache só de leitura for de 2 x 128 GB SSD, o tamanho total da cache será de 128 GB e requer, pelo menos, 52 MB de memória. Se a memória for insuficiente, a criação da cache SSD será restrita ou o tamanho da cache SSD será limitado.</li>
+<li>Consulte as especificações do produto dos seus modelos no <a href="http://www.synology.com/" target=_blank>site da Synology</a> para obter informações sobre o tamanho máximo da cache SSD permitido no seu Synology NAS.</li>
+<li>Quando uma cache SSD de leitura-escrita fica degradada, a funcionalidade de cache será desactivada, e o sistema começa a escrever (ou seja, a sincronizar) dados em cache do SSD para os HDD. Depois de concluída a sincronização de dados, não ocorrerá qualquer perda de dados mesmo que tenha avariado a cache de leitura-escrita.</li>
+<li>Certifique-se que remove devidamente a cache SSD de leitura-escrita antes de desligar o SSD correspondente. Desligar incorretamente o SSD (por exemplo, quando a cache ainda está em utilização ou quando o sistema está desligado) irá levar a que os dados armazenados no volume de destino ou iSCSI LUN avariem.
+</li>
+<li>A cache de leitura-escrita não pode ser utilizada juntamente com o Time Backup. Por exemplo, quando cria uma cache SSD de leitura-escrita, não será possível executar o Time Backup. De igual modo, se estiver a executar o Time Backup, não será possível criar uma cache SSD de leitura-escrita.</li>
+</ul>
+</div>
+
+<h4>Para montar a cache SSD:</h4>
+<ol>
+  <li>Instale os SSDs no Synology NAS. Primeiro, consulte as notas acima.</li>
+  <li>Aceda a <strong>Gestor de Armazenamento</strong> > <strong>Cache SSD</strong>. Clique em <b>Criar</b>.</li>
+<li>Selecione o modo de cache (apenas disponível para modelos que suportem cache de leitura e escrita).</li>
+<li>Encontre o menu pendente e selecione o volume ou iSCSI LUN (Nível de Bloqueio) no qual pretende montar a cache SSD.</li>
+<li>Escolha os SSD a partir da lista. Os dados nos SSD serão eliminados, por isso, certifique-se de que não serão eliminados dados importantes.</li>
+<li>Clique em <b>Aplicar</b>.</li>
+</ol>
+
+<h4>Para parar a colocação em cache sequencial I/O: </h4>
+<p>Se o seu volume alvo ou iSCSI LUN (Nível de Bloco) tiver um excelente desempenho sequencial I/O, pode fazer com que a cache SSD pare a colocação em cache sequencial I/O e que aceda aos dados diretamente das suas unidades, para maior velocidade e melhor desempenho. </p>
+<ol>
+<li>Clique em <strong>Configurar</strong> para abrir a janela de definições.</li>
+<li>Marque a opção <strong>Ignorar sequencial I/O</strong>. </li>
+</ol>
+
+
+<h4>Para remover a cache SSD:</h4>
+<ol>
+<li>Clique <b>Remover</b> para remover permanentemente a cache SSD do Synology NAS.</li>
+<li>Para cache de leitura/escrita, a remoção deve ser efetuada através deste procedimento (ainda que o seu Synology NAS esteja desligado), dado que, caso contrário, pode ocorrer uma avaria do volume porque dados parciais se encontram apenas na cache.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Quando montar ou remover a cache SSD, o sistema interrompe todos os serviços associados (por exemplo, pastas partilhadas, pacotes instalados, ligações atuais, etc.)</li>
+<li>Se uma cache de leitura e escrita num espaço de armazenamento não for detetada durante o arranque, o sistema não irá montar o espaço de armazenamento. Encontre e reinstale os SSD no Synology NAS e reinicie para montar o espaço de armazenamento. Se não conseguir encontrar os SSD, pode ser necessário forçar a montagem do espaço de armazenamento. Consulte <a href="space.html">Volume</a> ou <a href="iscsilun.html">iSCSI LUN</a>.</li>
+</ul>
+</div>
+
+<h4>Para reparar a cache SSD:</h4>
+<ul>
+<li><strong>Para cache de leitura e escrita:</strong> Se um dos SSD tiver avariado, siga os passos abaixo para repará-lo.
+  <ol>
+<li>Substitua o SSD com falhas por um novo. (O novo SSD deve ser do mesmo modelo e tamanho do antigo).</li>
+<li>Clique no botão <b>Reparar</b>.</li>
+<li>Selecione o SSD a partir da lista.</li>
+<li>Clique em <b>Aplicar</b>.</li>
+</ol>
+</li>
+<li><strong>Para cache só de leitura:</strong> Se um dos SSD tiver avariado, remova a cache e substitua o SSD com problemas. De seguida, clique em <strong>Criar</strong> para criar uma nova configuração da cache.</li>
+</ul>
+
+
+<h3>Aconselhamento da Cache SSD</h3>
+<p>Esta função permite calcular e visualizar o tamanho total e o número de ficheiros acedidos recentemente num volume específico. Se ainda não tiver criado quaisquer caches SSD no volume selecionado, esta informação pode ser referenciada ao avaliar o montante de cache SSD adequado para o seu sistema. Se já tiver criado anteriormente uma cache SSD no volume selecionado, a análise e utilização da cache também será mostrada aqui.</p>
+
+<h4>Para utilizar o Consultor da Cache SSD</h4>
+
+<ol>
+<li>Clique em <b>Consultor da Cache SSD</b> para abrir o assistente.</li>
+<li>Selecione um volume para calcular e depois clique em <b>Seguinte</b>.</li>
+<li>O assistente começa automaticamente a totalizar o tamanho e número de ficheiros acedidos recentemente no volume selecionado. A duração do cálculo varia em função do seu ambiente individual.</li>
+</ol>
+<p>_____<br> *A cache SSD apenas está disponível em alguns modelos.<br> <span class="disable-alpine">** Isto não se aplica a caches SSD de leitura-escrita criadas na DSM versão 5.1 ou anteriores. Ou seja, cada 1 GB de cache SSD criado antes de DSM 5.2 ainda requer 4 MB de memória de sistema, mesmo quando usado no ambiente DSM 5.2.</span>
+  </p>
+</body>
+</html>

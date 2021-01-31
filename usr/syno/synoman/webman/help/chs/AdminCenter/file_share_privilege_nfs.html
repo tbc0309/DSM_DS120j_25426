@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>共享文件夹</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>指派 NFS 权限</h2>
+<p>您可以为任何共享文件夹指定 NFS 权限，让 Linux 客户端可以访问该共享文件夹。</p>
+<h4>若要指定共享文件夹的 NFS 权限：</h4>
+<ol>
+<li>从共享文件夹列表中选择您要编辑的共享文件夹。</li>
+<li>单击<strong>编辑</strong> > <strong>NFS 权限</strong>。</li>
+<li>单击<b>创建</b>以添加 NFS 规则。</li>
+<li>此时将会弹出窗口。请定义以下选项。</li>
+<li><strong>主机名或 IP：</strong>输入将访问共享文件夹之 NFS 客户端的 IP 地址。您可以用以下三种方式填写此栏：<ul>
+<li><strong>单一主机：</strong>完全限定的域名或 IP 地址。</li>
+<li><strong>通配符：</strong> *, *.synology.com</li>
+<li><strong>IP 网络：</strong>203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>权限：</strong>选择 NFS 客户端的读写权限。</li>
+<li><strong> 安全性：</strong>指定要实施的安全类型。<ul>
+  <li><strong>AUTH_SYS：</strong>使用 NFS 客户端的 UID（用户标识符）和 GID（群组标识符）来检查访问权限。</li>
+<li><strong>Kerberos 验证：</strong>当 NFS 客户端连接到共享文件夹时执行 Kerberos 验证。客户端必须通过 Kerberos 验证才能访问共享文件夹。</li>
+<li><strong>Kerberos 完整性：</strong>传输数据时执行 Kerberos 验证并确保数据包的完整性。</li>
+<li><strong>Kerberos 隐私性：</strong>传输数据时执行 Kerberos 验证并对 NFS 数据包进行加密，从而防止他人恶意干扰 NFS 通信量。</li>
+</ul>
+</li>
+
+<li><strong>Squash：</strong>此栏可让您控制 NFS 客户端用户的访问权限。请选择下列操作之一：<ul>
+    <li><strong>无映射：</strong>允许 NFS 客户端的所有用户（包括 root 用户）保有原始访问权限。</li>
+    <li><strong>映射 root 为 admin：</strong>将访问权限指定到 NFS 客户端的 root 用户，相当于您系统中的 admin 用户访问权限。</li>
+    <li><strong>映射 root 为 guest：</strong>将访问权限指定到 NFS 客户端的 root 用户，相当于您系统中的 guest 用户访问权限。</li>
+    <li><strong>映射所有用户为 admin：</strong>将访问权限指定到 NFS 客户端的所有用户，相当于您系统中的 admin 用户访问权限。</li>
+	<li><strong>映射所有用户为 guest：</strong>将访问权限指定到 NFS 客户端的所有用户，相当于您系统中的 guest 用户访问权限。</li>
+  </ul>
+</li>
+
+<li><strong>启用异步：</strong>勾选此选项可让您的 Synology NAS 在完成对文件的更改之前回复来自 NFS 客户端的请求，以获得更好的性能。</li>
+<li><strong>允许来自非特权端口的连接（大于 1024 的端口）：</strong>勾选该选项可让 NFS 客户端使用非特权端口（即大于 1024 的端口）连接到 Synology NAS。</li>
+<li><strong>允许用户访问装载的子文件夹：</strong>勾选此选项可让 NFS 客户端访问装载的子文件夹。</li>
+<li>单击<b>确定</b>完成。</li>
+  <li>单击<b>确定</b>来应用 NFS 权限。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>当服务器名称格式为 <strong>*.domain</strong> 时，NFS 客户端的 IP 地址必须有相应的 DNS PTR 记录，使 Synology NAS 能通过搜索相应的 IP 地址找到相同的 *.domain 名称。</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>安全类型：</h4>
+<p>使用特定用户帐户通过 NFS 访问共享文件夹时：</p>
+<ul>
+<li>如果实施的安全类型为 <strong>AUTH_SYS</strong>：客户端在 NFS 客户端和 Synology NAS 上必须有完全相同的 UID（用户标识符）和 GID（群组标识符）数值，否则该客户端在访问共享文件夹时的权限将被指定为 <strong>others</strong>。为避免任何权限冲突，您可从 <strong>Squash</strong> 中选择<strong>映射所有用户为 admin</strong>，或将共享文件夹的权限授予“Everyone”。</li>
+<li>如果实施的安全类型为 <strong>Kerberos（krb5、krb5i、krb5p）</strong>：您必须进入 <strong>Win/Mac/NFS</strong> > <strong>NFS 服务</strong> > <strong>Kerberos 设置</strong> > <strong>ID 映射</strong>将 NFS 客户端映射到特定用户，或使用相应的用户帐户加入 Windows /LDAP 域，否则该客户端在访问共享文件夹时的权限将被指定为 <strong>guest</strong>。</li>
+<li>如果创建共享文件夹的外接设备使用 NTFS 或 FAT 文件系统，则<strong>映射所有用户为 admin</strong> 选项将被强制应用。</li>
+</ul>
+<p>若要使用 Kerberos 安全类型连接到 Synology NAS，您必须进入 <strong>Win/Mac/NFS</strong> > <strong>NFS 服务</strong> > <strong>Kerberos 设置</strong>配置 Kerberos 验证。</p>
+</div>
+
+</body>
+</html>

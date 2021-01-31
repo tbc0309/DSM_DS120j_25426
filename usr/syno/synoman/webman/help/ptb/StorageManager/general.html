@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Geral</h2>
+
+<p>O Gerenciador de armazenamento permite que os usuários gerenciem todos os espaços de armazenamento nos produtos Synology. Para simplificar o gerenciamento de armazenamento e criar espaços de armazenamento flexíveis com proteção de dados, o Synology DSM suporta vários tipos de RAID Groups.</p>
+
+<h4><a href="raid.html">RAID Group</a></h4>
+<p>Com o Synology NAS é possível combinar vários discos rígidos em uma única unidade de armazenamento chamada RAID Group. O Synology NAS fornece os seguintes tipos de RAID Groups:</p>
+<ul>
+	<li><strong>RAID Group para volume único ou iSCSI LUN (nível de bloqueio)</strong>:
+		<ul>
+			<li>Aloca toda a capacidade disponível para um único volume ou iSCSI LUN (nível de bloqueio).</li>
+			<li>Fornece melhor desempenho mas menos flexibilidade de gerenciamento de armazenamento.</li>
+			<li>Permite a criação de vários iSCSI LUNs (arquivos regulares) nos volumes.</li>
+			<li>Suporta um máximo de um conjunto RAID.</li>
+		</ul>
+	</li>
+	<li><strong>RAID Group para volumes múltiplos ou iSCSI LUNs (nível de bloqueio)</strong>:
+		<ul>
+			<li>Suporta a criação de múltiplos volumes ou iSCSI LUNs (nível de bloqueio) em um RAID Group.</li>
+			<li>Fornece melhor flexibilidade de gerenciamento de armazenamento.</li>
+			<li>Permite a criação de vários iSCSI LUNs (arquivos regulares) nos volumes.</li>
+			<li>Suporta a combinação de múltiplos conjuntos RAID em um RAID Group (quando configurado como RAID 5<span class="enable-grantley">,</span> <span class="disable-grantley"></span>RAID 6<span class="enable-grantley"> ou RAID F1</span>).</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>Tipo de RAID</h4>    
+<p>Ao criar um RAID Group, escolha primeiro um tipo de RAID. Tipos diferentes de RAID fornecem níveis diferentes de proteção de dados, recursos de armazenamento e desempenho. O Synology NAS atualmente suporta os seguintes tipos de RAID:</p>
+<ul>
+	<li><strong>Básico</strong>: usa um disco rígido para criar um RAID Group. RAID Group básicos não oferecem redundância de dados.</li>
+	<li><strong>JBOD*</strong>: combina pelo menos 2 discos rígidos para criar um grupo RAID. RAID Groups JBOD não oferecem redundância de dados. A capacidade disponível de um grupo RAID JBOD é igual à capacidade total de todos os discos incluídos no grupo. O JBOD suporta a combinação de discos rígidos de vários tamanhos.</li>
+	<li><strong>RAID 0*</strong>: combina pelo menos 2 discos rígidos para criar um grupo RAID. O RAID 0 não oferece redundância de dados. Se um único disco membro falhar, os dados no RAID Group serão perdidos. A capacidade disponível de um Grupo RAID 0 é igual à capacidade total de todos os discos membros. O RAID 0 suporta a combinação de discos rígidos de diferentes tamanhos.</li>
+	<li><strong>RAID 1*</strong>: combina de 2 a 4 discos rígidos para criar um RAID Group. O sistema gravará dados idênticos em cada disco rígido. O RAID 1 fornece proteção de dados desde que um disco esteja funcionando normalmente. A capacidade disponível de um grupo RAID 1 é igual ao tamanho do menor disco membro.</li>
+	<li><strong>RAID 5*</strong>: combina pelo menos 3 discos rígidos para criar um RAID Group, eliminando os dados e as informações de paridade de todos os discos membros. O RAID 5 fornece redundância de dados. Se um disco membro falhar, o sistema poderá ser reconstruído usando-se as informações de paridade dos outros discos membros. Suporta a combinação de vários conjuntos RAID quando criado em um RAID Group para vários volumes ou iSCSI LUNs (nível de bloqueio). A capacidade disponível de um grupo RAID 5 = <span class="note_content">Capacidade total dos conjuntos RAID combinados. Capacidade do conjunto RAID = (número de discos rígidos - 1) x (Capacidade do menor disco rígido)</span></li>
+	<li><strong>RAID 6*</strong>: combina pelo menos quatro discos rígidos para criar um RAID Group, eliminando os dados e as informações de paridade de todos os discos membros. O RAID 6 fornece redundância de dados. Se um dos dois discos membros falhar, o sistema poderá ser reconstruído usando-se as informações de paridade dos outros discos membros. Suporta a combinação de vários conjuntos RAID quando criado em um RAID Group para vários volumes ou iSCSI LUNs (nível de bloqueio). A capacidade disponível de um grupo RAID 6 = <span class="note_content">Capacidade total dos conjuntos RAID combinados. Capacidade do conjunto RAID = (número de discos rígidos - 2) x (Capacidade do menor disco rígido)</span></li>
+	<li><strong>RAID 10*</strong>: combina pelo menos quatro discos rígidos para criar um RAID Group. O número de discos deve ser par. RAID 10 oferece o desempenho de RAID 0 além do mesmo nível de proteção de dados de RAID 1. A capacidade disponível do Grupo RAID 10 = <span class="note_content">(capacidade do menor disco rígido) X (número de discos rígidos / 2)</span></li>
+	<li class="enable-grantley"><strong>RAID F1*</strong>: Este tipo de RAID é destinado a unidades de estado sólido (SSDs). Ele combina pelo menos três SSDs para criar um RAID Group, distribuindo dados e informações de paridade entre todos os SSDs membro, além de gravar mais bits de paridade em um SSD específico para evitar que vários SSDs sofram falha ao mesmo tempo. O RAID F1 fornece redundância de dados. Se um SSD membro falhar, o sistema poderá ser reconstruído usando-se as informações de paridade do outro SSD membro. Suporta a combinação de vários conjuntos RAID quando criado em um RAID Group para vários volumes ou iSCSI LUNs (nível de bloqueio). A capacidade disponível de um RAID F1 Group = <span class="note_content">Capacidade total dos conjuntos RAID combinados. Capacidade do conjunto RAID = (número de unidades - 1) x (Capacidade da menor unidade)</span></li>
+</ul>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Tipos de RAID com <strong>*</strong> estão disponíveis apenas em modelos NAS com baias de discos rígidos suficientes.</li>
+</ul>
+</div>
+
+<h4><a href="space.html">Tipo de volume</a></h4>
+<p>Dependendo do tipo do RAID Group básico, existem dois tipos de volumes:</p>
+<ul>
+	<li><strong>Volume no RAID Group para volume único ou iSCSI LUN (nível de bloqueio)</strong>
+		<ul>
+			<li>Aloca toda a capacidade de armazenamento de um RAID Group em um volume único. Fornece melhor desempenho mas menos flexibilidade de gerenciamento.</li>
+			<li>Permite a criação de vários iSCSI LUNs (arquivos regulares) nos volumes.</li>
+		</ul>
+	</li>
+	<li><strong>Volume no RAID Group para volumes múltiplos ou iSCSI LUNs (nível de bloqueio)</strong>
+		<ul>
+			<li>Aloca uma parte designada da capacidade de armazenamento em um RAID Group para criar um volume.  Fornece melhor flexibilidade de gerenciamento, permitindo que você expanda o tamanho do volume ou crie volumes adicionais conforme necessário.</li>
+			<li>Permite a criação de vários iSCSI LUNs (arquivos regulares) nos volumes.</li>
+		</ul>
+	</li>
+</ul>
+
+<h4 class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Formato do volume</h4>
+<p class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Dependendo do sistema de arquivo em uso, existem dois formatos de volume:</p>
+<ul class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">
+	<li><strong>Novo formato de volume</strong>: Esse formato usa o sistema de arquivo <strong>Btrfs</strong>. O tamanho mínimo de um volume nesse formato deve ser de pelo menos 10 GB. Ele suporta os seguintes novos recursos com os quais você pode gerenciar seus dados mais facilmente:
+		<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">Instantâneo de pasta compartilhada</a>:</strong> O instantâneo registra todo o status dos dados no momento em que foi tirado. Se um usuário modificar ou excluir dados acidentalmente em um volume com instantâneos, você consegue restaurar rapidamente os dados para o momento anterior em que o instantâneo foi tirado.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">Cota de pasta compartilhada</a>:</strong> Você pode definir a capacidade máxima para cada pasta.</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">Cota do usuário</a> baseada na pasta compartilhada:</strong> Você pode controlar quanto espaço dentro de uma pasta compartilhada pode ser usado por cada usuário.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">Proteção avançada de integridade de dados</a>:</strong> A pasta compartilhada é protegida pelas estratégias de soma de verificação CRC32 e cópia em gravação.</li>
+		</ul>
+	</li>
+	<li><strong>Formato de volume tradicional</strong>: Esse formato usa o sistema de arquivo <strong>ext4</strong>. O tamanho mínimo de um volume nesse formato deve ser de pelo menos 10 GB. Como o sistema de arquivo ext4 é suportado pelos produtos Synology, você pode migrar facilmente seu volume nesse formato para outro produto Synology.</li>
+</ul>
+
+</body>
+</html>

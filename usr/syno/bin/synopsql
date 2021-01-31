@@ -1,0 +1,92 @@
+#!/bin/sh
+# Copyright (c) 2000-2015 Synology Inc. All rights reserved.
+
+ShowHelp() {
+	echo "Usage: synopsql"
+	echo "synopsql --change-own <db-name> <role-name>	change specified pgsql database to given role";
+	echo "synopsql --drop-all-db <role-name>		delete all pgsql database owned by given role";
+}
+
+case $1 in
+	--change-own)
+		if [ $# -ne 3 ]; then
+			ShowHelp
+			exit 1
+	    fi
+
+		# Tables
+		for tbl in `/usr/bin/psql -U postgres -qAt -c "select tablename from pg_tables where schemaname = 'public';" "$2"`;
+		do
+			/usr/bin/psql -U postgres -qc "alter table \"$tbl\" owner to \"$3\"" "$2";
+			if [ 0 != $? ]; then
+				exit 1
+			fi
+		done
+
+		# Sequences
+		for tbl in `/usr/bin/psql -U postgres -qAt -c "select sequence_name from information_schema.sequences where sequence_schema = 'public';" "$2"`;
+		do
+			/usr/bin/psql -U postgres -qc "alter sequence \"$tbl\" owner to \"$3\"" "$2";
+			if [ 0 != $? ]; then
+				exit 1
+			fi
+		done
+
+		# Views
+		for tbl in `/usr/bin/psql -U postgres -qAt -c "select table_name from information_schema.views where table_schema = 'public';" "$2"`;
+		do
+			/usr/bin/psql -U postgres -qc "alter view \"$tbl\" owner to \"$3\"" "$2";
+			if [ 0 != $? ]; then
+				exit 1
+			fi
+		done
+
+		# Functions
+		for oid in `/usr/bin/psql -U postgres -qAt -c "SELECT p.oid FROM pg_proc p JOIN pg_namespace nsp ON p.pronamespace = nsp.oid WHERE nsp.nspname = 'public';" "$2"`;
+		do
+			# Get function argument types
+			tbl=`/usr/bin/psql -U postgres -qAt -c "SELECT proname FROM pg_proc WHERE oid = '$oid'" "$2"`
+			arg_types=`/usr/bin/psql -U postgres -qAt -c "SELECT pg_get_function_identity_arguments('$oid')" "$2"`
+
+			/usr/bin/psql -U postgres -qc "ALTER FUNCTION \"$tbl\"($arg_types) OWNER TO \"$3\"" "$2";
+			if [ 0 != $? ]; then
+				exit 1
+			fi
+		done
+
+		# Objects
+		for tbl in `/usr/bin/psql -U postgres -qAt -c "SELECT DISTINCT oid FROM pg_catalog.pg_largeobject_metadata;" "$2"`;
+		do
+			/usr/bin/psql -U postgres -qc "ALTER LARGE OBJECT $tbl OWNER TO \"$3\"" "$2";
+			if [ 0 != $? ]; then
+				exit 1
+			fi
+		done
+
+		# Database
+		/usr/bin/psql -U postgres -qAt -c "ALTER DATABASE \"$2\" OWNER TO \"$3\""
+		if [ 0 != $? ]; then
+			exit 1
+		fi
+
+		exit 0
+	;;
+	--drop-all-db)
+		if [ $# -ne 2 ]; then
+			ShowHelp
+			exit 1
+	    fi
+
+		for db in `/usr/bin/psql -U postgres -l | /usr/bin/awk '{if ($3 == PG_ROLE) print $1}' PG_ROLE="$2"`; do
+			/usr/bin/dropdb -U postgres $db
+			if [ 0 != $? ]; then
+				exit 1
+			fi
+		done
+
+		exit 0
+	;;
+	*)
+		ShowHelp
+	;;
+esac

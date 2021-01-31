@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Replikálás</h2>
+
+<p>A rendszergazda ezen az oldalon kezelheti a replikálási feladatokat. Itt van lehetőség replikálási feladatok létrehozására, módosítására és törlésére. Ezenfelül ebben a menüpontban indíthatja el/állíthatja le a szinkronizálást, valamint tekintheti meg a replikálási feladatokra vonatkozó adatokat.</p>
+
+<h3>Megosztott mappa</h3>
+
+<h4>Megosztott mappára vonatkozó replikálási feladat létrehozása:</h4>
+<ol>
+	<li>Lépjen a <strong>Megosztott mappa</strong> lapra.</li>
+	<li>Kattintson a <strong>Létrehozás</strong> gombra.</li>
+	<li>Megjelenik a <strong>Replikálási feladat létrehozása</strong> varázsló. A varázsló lépéseit követve hozza létre a megosztott mappa replikációját.</li>
+</ol>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>A „homes” megosztott mappa nem replikálható.</li>
+	<li>Titkosított megosztott mappák nem replikálhatók.</li>
+	<li>A megosztott mappának egy Btrfs köteten kell elhelyezkednie.</li>
+	<li>Egy megosztott mappához különböző célszerverekre <a href="#multiple_replication">egy-a-többhöz/kibővített replikálásokat</a> is létrehozhat. Egy megosztott mappához és egy célszerverhez azonban csak egy replikálás tartozhat.</li>
+</ul>
+</div>
+
+<h4>Megosztott mappa replikálásának törlése:</h4>
+<ol>
+	<li>Válassza ki a megosztott mappát, amelynek replikálását törölni kívánja.</li>
+	<li>Kattintson a <strong>Törlés</strong> gombra.</li>
+	<li>Megjelenik egy megerősítő üzenet. A törlés megerősítéséhez kattintson a <strong>Törlés</strong> gombra.</li>
+</ol>
+
+<h4>Megosztott mappa replikálásának módosítása:</h4>
+<ol>
+	<li>Válassza ki a megosztott mappát, amelynek replikálását módosítani kívánja.</li>
+	<li>Kattintson a <strong>Szerkesztés</strong> gombra.</li>
+	<li>Megjelenik egy ablak, mely az alábbi lapokat tartalmazza:<ul>
+			<li>Partnerszerver</li>
+			<li>Ütemezés</li>
+			<li>Megőrzés</li>
+		</ul>
+	</li>
+	<li>A <strong>Partnerszerver</strong> lapon a partnerszerver adatait (pl. állomásnév, port, felhasználónév és jelszó) módosíthatja.</li>
+	<li>Az <strong>Ütemezés</strong> lapon jelölje be a <strong>Pillanatfelvétel ütemezésének engedélyezése</strong> jelölőnégyzetet, majd határozza meg a pillanatfelvétel készítésének idejét és gyakoriságát. A megosztott mappáról ütemezve készített pillanatfelvételek letiltásához törölje a jelölőnégyzet bejelölését.</li>
+	<li>A <strong>Megőrzés</strong> lapon válasszon az alábbi beállítások közül:<ul>
+			<li><strong>A legutóbbi 256 pillanatfelvétel megtartása:</strong> Amikor a pillanatfelvételek száma eléri a maximális értéket (256), az újonnan készült pillanatfelvételek elkezdik felülírni a legrégebbi pillanatfelvételeket.</li>
+			<li><strong>Mindig őrizze meg a pillanatfelvételeket:</strong> A pillanatfelvételek maximális mennyiségének elérését követően a Pillanatfelvétel és replikáció nem készít új pillanatfelvételeket, így nem távolítja el a régi pillanatfelvételeket sem.</li>
+			<li><strong>Pillanatfelvételek megőrzése az alábbi irányelv szerint:</strong> Megőrzési szabályokat konfigurálhat a meghatározott időtartományokra vonatkozóan.</li>
+		</ul>
+	</li>
+	<li>A beállítások alkalmazásához kattintson az <strong>OK</strong> gombra.</li>
+</ol>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>A replikálási feladat ütemezését csak a forrásszerveren módosíthatja.</li>
+	<li>A megőrzési szabályok módosítása a <strong>Pillanatfelvétel</strong> oldalon található beállításokra is hatással van.</li>
+</ul>
+</div>
+
+<h4>Megosztott mappa replikálási adatainak megtekintése:</h4>
+<ol>
+	<li>Válassza ki a megosztott mappát, amelynek replikálási feladatát meg kívánja tekinteni.</li>
+	<li>Kattintson az <strong>Információ</strong> lehetőségre.</li>
+	<li>Megjelenik egy ablak, mely az alábbi információkat tartalmazza:<ul>
+			<li><strong>Állapot</strong>: a replikálás állapota.</li>
+			<li><strong>Statisztika</strong>: a replikálásra vonatkozó statisztikák.</li>
+		</ul>
+	</li>
+</ol>
+
+<h4>Megosztott mappa replikálási szinkronizálásának elindítása:</h4>
+<ol>
+	<li>Válassza ki a megosztott mappát, amelynek replikálását szinkronizálni kívánja.</li>
+	<li>Kattintson a <strong>Futtatás</strong> gombra.</li>
+	<li>Adja meg a készítendő pillanatfelvételre vonatkozó leírást.</li>
+	<li>A művelet megerősítéséhez kattintson az <strong>OK</strong> gombra.</li>
+</ol>
+
+<h4>Megosztott mappa replikálási szinkronizálásának leállítása:</h4>
+<ol>
+	<li>Válassza ki a megosztott mappát, amelynek replikálási szinkronizálását le kívánja állítani.</li>
+	<li>Kattintson a <strong>Leállítás</strong> elemre.</li>
+	<li>Megjelenik egy megerősítő üzenet. A művelet megerősítéséhez kattintson a <strong>Leállítás</strong> gombra.</li>
+</ol>
+
+<h3>iSCSI LUN</h3>
+
+<h4>iSCSI LUN-ra vonatkozó replikálási feladat létrehozása:</h4>
+<ol>
+	<li>Lépjen az <strong>iSCSI LUN</strong> lapra.</li>
+	<li>Kattintson a <strong>Létrehozás</strong> gombra.</li>
+	<li>Megjelenik a <strong>Replikálási feladat létrehozása</strong> varázsló. A varázsló lépéseit követve hozza létre az iSCSI LUN replikációját.</li>
+</ol>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>Csak <strong>speciális LUN</strong> típussal létrehozott iSCSI LUN-okat választhat.</li>
+	<li>Egy iSCSI LUN-hoz különböző célszerverekre <a href="#multiple_replication">egy-a-többhöz/kibővített replikálásokat</a> is létrehozhat. Egy iSCSI LUN-hoz és egy célszerverhez azonban csak egy replikálás tartozhat.</li>
+</ul>
+</div>
+
+<h4>iSCSI LUN replikálás törlése:</h4>
+<ol>
+	<li>Válassza ki az iSCSI LUN replikálási feladatot, amelyet törölni kíván.</li>
+	<li>Kattintson a <strong>Törlés</strong> gombra.</li>
+	<li>Megjelenik egy megerősítő üzenet. A művelet megerősítéséhez kattintson a <strong>Törlés</strong> gombra.</li>
+</ol>
+
+<h4>iSCSI LUN replikálás módosítása:</h4>
+<ol>
+	<li>Válassza ki az iSCSI LUN replikálási feladatot, amelyet módosítani kíván.</li>
+	<li>Kattintson a <strong>Szerkesztés</strong> gombra.</li>
+	<li>Megjelenik egy ablak, mely az alábbi lapokat tartalmazza:<ul>
+			<li>Partnerszerver</li>
+			<li>Ütemezés</li>
+			<li>Megőrzés</li>
+		</ul>
+	</li>
+	<li>A <strong>Partnerszerver</strong> lapon a partnerszerver adatait (pl. állomásnév, port, felhasználónév és jelszó) módosíthatja.</li>
+	<li>Az <strong>Ütemezés</strong> lapon jelölje be a <strong>Pillanatfelvétel ütemezésének engedélyezése</strong> jelölőnégyzetet, majd határozza meg a pillanatfelvétel készítésének idejét és gyakoriságát. Az iSCSI LUN-ról ütemezve készített pillanatfelvételek letiltásához törölje a jelölőnégyzet bejelölését.</li>
+	<li>A <strong>Megőrzés</strong> lapon válasszon az alábbi beállítások közül:<ul>
+			<li><strong>A legutóbbi 256 pillanatfelvétel megtartása:</strong> Amikor a pillanatfelvételek száma eléri a maximális értéket (256), az újonnan készült pillanatfelvételek elkezdik felülírni a legrégebbi pillanatfelvételeket.</li>
+			<li><strong>Mindig őrizze meg a pillanatfelvételeket:</strong> A pillanatfelvételek maximális mennyiségének elérését követően a Pillanatfelvétel és replikáció nem készít új pillanatfelvételeket, így nem távolítja el a régi pillanatfelvételeket sem.</li>
+			<li><strong>Pillanatfelvételek megőrzése az alábbi irányelv szerint:</strong> Megőrzési szabályokat konfigurálhat a meghatározott időtartományokra vonatkozóan.</li>
+		</ul>
+	</li>
+	<li>Az alkalmazáskonzisztens pillanatfelvételek engedélyezéséhez az <strong>Alkalmazás</strong> lapon jelölje be az <strong>Engedélyezze az alkalmazáskonzisztens pillanatfelvételeket</strong> jelölőnégyzetet. Az alkalmazáskonzisztens pillanatfelvétel-készítési funkció kikapcsolásához törölje a jelölőnégyzet bejelölését.</li>
+	<li>A beállítások alkalmazásához kattintson az <strong>OK</strong> gombra.</li>
+</ol>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>Az ütemezést kizárólag a replikálás forrásán módosíthatja.</li>
+	<li>A megőrzési/alkalmazási beállítások módosítása a <strong>Pillanatfelvétel</strong> oldalon található beállításokra is hatással van.</li>
+</ul>
+</div>
+
+<h4>iSCSI LUN replikálás adatainak megtekintése:</h4>
+<ol>
+	<li>Válassza ki az iSCSI LUN replikálási feladatot, amelyet meg kíván tekinteni.</li>
+	<li>Kattintson az <strong>Információ</strong> lehetőségre.</li>
+	<li>Megjelenik egy ablak, mely az alábbi információkat tartalmazza:<ul>
+			<li><strong>Állapot</strong>: a replikálás állapota.</li>
+			<li><strong>Statisztika</strong>: a replikálásra vonatkozó statisztikák.</li>
+		</ul>
+	</li>
+</ol>
+
+<h4>iSCSI LUN replikálási szinkronizálásának elindítása:</h4>
+<ol>
+  <li>Válassza ki az iSCSI LUN replikálási feladatot, amelyet szinkronizálni kíván.</li>
+	<li>Kattintson a <strong>Futtatás</strong> gombra.</li>
+	<li>Adja meg a készítendő pillanatfelvételre vonatkozó leírást.</li>
+	<li>A művelet megerősítéséhez kattintson az <strong>OK</strong> gombra.</li>
+</ol>
+
+<h4>iSCSI LUN replikálási szinkronizálásának leállítása:</h4>
+<ol>
+	<li>Válassza ki a szinkronizálás alatt álló iSCSI LUN replikálási feladatot, amelyet le kíván állítani.</li>
+	<li>Kattintson a <strong>Leállítás</strong> elemre.</li>
+	<li>Megjelenik egy megerősítő üzenet. A művelet megerősítéséhez kattintson a <strong>Leállítás</strong> gombra.</li>
+</ol>
+
+<h3><a name="multiple_replication"></a>Egy-a-többhöz/kibővített replikálás</h3>
+
+<p>Egy megosztott mappáról/iSCSI LUN-ról több replikálást is létrehozhat több célszerverre, melyek így <strong>egy-a-többhöz</strong> sémába kerülnek. Ezenfelül létrehozhat egy kibővített replikálást is egy már replikált megosztott mappáról/iSCSI LUN-ról, mely így <strong>kibővített</strong> sémába kerül.</p>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>A replikálási feladatok egy-a-többhöz és kibővített replikálás esetén is legfeljebb három célszerverrel rendelkezhetnek.</li>
+</ul>
+</div>
+
+<div class="section"><h4><a name="smart_retention"></a>Megőrzési szabályok</h4>
+<p>Ez az opció ideális megoldást kínál arra, hogy meghatározza, hogy legfeljebb hány pillanatfelvétel-verziót kíván megtartani. Ezzel tárhelyet takarít meg, ám a pillanatfelvételeket esetleg hosszabb ideig kell megőriznie.</p>
+<p>A Synology a GFS, avagy nagyapa-apa-fiú megőrzési irányelvet alkalmazza. A megőrizendő pillanatfelvétel-verziók maximális száma meghatározható az alábbi időtartomány-bontásban: <strong>óránként</strong>, <strong>naponta</strong>, <strong>hetente</strong>, <strong>havonta</strong> és <strong>évente</strong>.</p>
+<p>A Data Protection Manager minden időtartományban a maximálisan engedélyezett számú pillanatfelvételt tartja meg. Amennyiben egynél több pillanatfelvétel-verzió létezik egy adott időtartományban, kizárólag a legrégebbi megőrzésére kerül sor. Ha például a <strong>heti pillanatfelvételek</strong> számát tízre állítja, a Data Protection Manager az elmúlt tíz hét mindegyikén készült legkorábbi pillanatfelvételt tárolja (amennyiben egy héten egynél több pillanatfelvétel készül).</p><img class="help_image" src="https://help.synology.com/file/DSM/5.2/online_img/dsm/DisasterRecovery/retention_policy.png"><p>Ezenfelül a legfrissebb pillanatfelvétel készítésétől számított egy órán belül készült összes pillanatfelvételt alapértelmezés szerint megőrzi a rendszer, így könnyedén kereshet a friss pillanatfelvétel-verziók között, illetve visszaállítást végezhet azok alapján. Zárolhat is egy pillanatfelvételt, ha szeretné, hogy a rendszer ne távolítsa el azt automatikusan a megőrzési szabályok alapján.</p>
+</div>
+
+</body>
+</html>

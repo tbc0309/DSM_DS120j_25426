@@ -1,0 +1,44 @@
+#! /bin/python2
+# Copyright (c) 2000-2017 Synology Inc. All rights reserved.
+
+from wsdiscovery import WSDiscovery, QName
+from wsdiscovery.namespaces import NS_WSDP, NS_PUB
+import uuid
+import os
+import json
+import socket
+import time
+import syslog
+
+UUID_CONF_PATH = '/usr/syno/etc/synowstransfer.conf'
+
+if __name__ == "__main__":
+    # TODO: reload uuid
+    if not os.path.exists(UUID_CONF_PATH):
+        syslog.syslog(syslog.LOG_ERR, "config file %f not exists" % UUID_CONF_PATH)
+
+    f = open(UUID_CONF_PATH)
+    ds_uuid = uuid.UUID('urn:uuid:' + json.load(f)['uuid'])
+    f.close()
+
+    ds_hostname = socket.gethostname()
+
+    wsd = WSDiscovery()
+    wsd.start()
+
+    ttype1 = QName(NS_WSDP, "Device")
+    ttype2 = QName(NS_PUB, "Computer")
+
+    xAddr = 'http://' + ds_hostname + ':5357/' + ds_uuid.urn.split(':')[-1]
+
+    wsd.publishService(types=[ttype1, ttype2], scopes=[], xAddrs=[xAddr])
+
+    stop = False
+
+    while not stop:
+        time.sleep(10)
+        if not wsd.isThreadsAlive():
+            syslog.syslog(syslog.LOG_ERR, "ws-discovery threads are not alive")
+            break
+
+    wsd.stop()

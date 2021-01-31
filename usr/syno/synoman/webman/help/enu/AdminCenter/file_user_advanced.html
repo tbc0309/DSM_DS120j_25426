@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Advanced User Settings</h2>
+
+<p>To modify advanced user settings, you can go to <strong>Control Panel</strong> &gt; <strong>User</strong> &gt; <strong>Advanced</strong>. The options below are available. </p>
+
+<h3>Password Settings</h3>
+<p>You can set up the settings related to password security and strength rules for users on your Synology NAS.</p>
+
+<h4>To allow users to reset forgotten passwords via email:</h4>
+<ol>
+	<li>Tick the <strong>Allow non-admin users to reset forgotten passwords via email</strong> checkbox.</li>
+	<li>Click <strong>Apply</strong> to save settings.</li>
+	<li>The link marked "Forgot your password?" will display on the DSM login page. Once the password is forgotten, the user can click this link and enter the username. In this case, the system will send this user an email containing a link to reset the forgotten password.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>Before enabling this option, make sure you have already enabled SMTP email notifications. To do so, go to <strong>Control Panel</strong> &gt; <strong>Notification</strong>.</li>
+	<li>To receive messages from the system, users must provide an email address in the user information section of their accounts.</li>
+	<li>Users who belong to the <strong>administrators</strong> group cannot reset passwords with this option.</li>
+	<li>Domain users cannot reset passwords with this option.</li>
+	<li>LDAP users can reset passwords with this option, as long as the Synology NAS serves as the LDAP directory server and satisfies the following conditions:
+		<ul>
+			<li>Synology <strong>LDAP Server</strong> package version must be 2457 or above.</li>
+			<li>LDAP user cannot be a member of administrators, Directory Operators, Directory Consumers, or Directory Clients.</li>
+			<li>If the Synology LDAP Server is a <strong>Consumer</strong>, its <strong>Provider</strong> must satisfy the conditions mentioned above.</li>
+			<li>The final Provider must be accessible with the user's web browser, and its email notifications must be enabled.</li>
+			<li>To avoid the reset forgotten password link from being used by someone else, the link must be clicked from the identical IP address where the forgotten password request has been made.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>To force users to change password upon password reset:</h4>
+<ol>
+	<li>Tick the <strong>Force users to change passwords after the administrator resets the password</strong> checkbox.</li>
+	<li>Click <strong>Apply</strong> to save settings.</li>
+	<li>When the administrator changes the password for a user, the user will be required to change his or her password upon next login.</li>
+</ol>
+
+<h4>To enable password strength rules:</h4>
+<ol>
+	<li>Tick the <strong>Apply password strength rules</strong> checkbox.</li>
+	<li>Tick or untick the following options according to your needs:
+		<ul>
+			<li><strong>Exclude name and description of user from password</strong>: The password must not contain the user name or the user description. But UTF-8 encoded characters are excluded.</li>
+			<li><strong>Include mixed case</strong>: The password must contain both upper and lower case letters.</li>
+			<li><strong>Include numeric character</strong>: The password must contain at least one numeric character (0~9).</li>
+			<li><strong>Include special character</strong>: The password must contain at least one ASCII special character (i.e., <span class="note_content">&#126; &#96; &#33; &#64; &#35; &#36; &#37; &#94; &amp; &#42; &#40; &#41; &#45; &#95; &#61; &#43; &#91; &#123; &#93; &#125; &#92; &#124; &#59; &#58; &#39; &#34; &lt; &gt; &#47; &#63; &#44; &#46;</span> and space character).</li>
+			<li><strong>Exclude common password</strong>: Refrain users from setting common passwords, such as <em>123456</em>, <em>password</em>, <em>qwerty</em>, et cetera.</li>
+			<li><strong>Minimal password length</strong>: The password must be at least the value specified in the text field. The  length should be a number between 6 and 127.</li>
+			<li><strong>Password history</strong>: The password must be different from the previously set ones, the number of which is to be specified here.</li>
+		</ul>
+	</li>
+	<li>Click <strong>Apply</strong> to save settings.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>Password strength rules only apply to new passwords. For example, new password strength rules are only applied when creating a new user account or when an existing user changes his password. Existing passwords and those belonging to imported user accounts are excluded from new password rules.</li>
+</ul>
+</div>
+
+<h3>Password Expiration</h3>
+<p>You can enhance the security of user accounts with the password expiration function to force users to change password after the specified period of time.</p>
+
+<h4>To set up the password expiration schedule:</h4>
+<ol>
+	<li>Tick the <strong>Enable password expiration</strong> checkbox.</li>
+	<li>The following options are configurable:
+		<ul>
+			<li><strong>Maximum password valid duration</strong>: Specify the number of days after which the passwords expire.</li>
+			<li><strong>Minimum password valid duration</strong>: Tick the checkbox to enable this function, and specify the number of days before which the users are disallowed to change their passwords.</li>
+			<li><strong>Prompt users to change password upon login before expiration</strong>: Tick the checkbox to enable this function, and specify the number of days before password expiration the users will be reminded to change their passwords upon login.</li>
+			<li><strong>Allow users to change password after expiration</strong>: Tick the checkbox to allow users to sign in with their current passwords having expired and change their passwords.</li>
+			<li><strong>Send expiration notification emails</strong>: Tick the checkbox to notify users of password expiration via email.</li>
+		</ul>
+	</li>
+	<li>Click <strong>Apply</strong> to save settings.</li>
+</ol>
+
+<h3>2-Step Verification</h3>
+<p>2-step verification provides improved security for DSM user accounts. You can force DSM administrators or all DSM users to enable their 2-step verification in order to further protect their accounts.</p>
+
+<h4>To enforce 2-step verification for DSM users:</h4>
+<ol>
+	<li>Tick the <strong>Enforce 2-step verification for the following users</strong> box, and select which users you want to apply this to.</li>
+	<li>Click <strong>Apply</strong> to save settings.</li>
+	<li>With this enforcement applied, users that have not enabled their 2-step verification will be asked to finish the settings before they can log in to DSM.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>If you have not yet configured 2-step verification at <strong>Personal</strong> &gt; <strong>Account</strong>, the 2-step verification setup wizard will be launched to help you complete the required settings before you can apply this enforcement.</li>
+	<li>Disabling 2-step verification enforcement here will not affect or disable the 2-step verification settings of each user. Users can keep their 2-step verification settings, or go to <strong>Personal</strong> &gt; <strong>Account</strong> to disable these settings.</li>
+	<li style="display: none;">2-step verification also applies to all SSH-related services, such as SSH terminal, SFTP, and rsync with SSH transfer encryption. However, since Hyper Backup and Shared Folder Sync via rsync with SSH transfer encryption do not support 2-step verification, these two services will not be able to work normally after 2-step verification is enabled.</li>
+</ul>
+</div>
+
+
+<h3>User Home</h3>
+
+<p>Enable user homes to create a personal <strong>home</strong> folder for each user, except for <strong>guest</strong>. All users can access their own home folder via CIFS, AFP, FTP, or File Station.</p>
+
+<p>Users belonging to the <strong>administrators</strong> group can access all personal folders located in the <strong>homes</strong> default shared folder. The name of home folder is the same as the user account.</p>
+
+<h4>To enable the user home service:</h4>
+<ol>
+	<li>Check <strong>Enable user home service</strong>.</li>
+	<li>If there are multiple volumes, select where you want the <strong>homes</strong> folder to be stored.</li>
+	<li>Click <strong>Apply</strong>.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>Once the local user home service is disabled, the domain user home service will also be disabled concurrently.</li>
+</ul>
+</div>
+
+<h4>To disable the user home service:</h4>
+<ol>
+	<li>Uncheck <strong>Enable user home service</strong>.</li>
+	<li>Click <strong>Apply</strong> to save settings.</li>
+</ol>
+
+<p>After the user home service is disabled, the <strong>homes</strong> shared folder will be preserved for administrator access.  Users will be able to access their home folders again when  the user home service is enabled again.</p>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>To delete the <strong>homes</strong> shared folder, user  home service must be disabled first.</li>
+	<li>The domain user home service would be disabled if the local user home service is disabled.</li> 
+</ul> 
+</div>
+
+</body>	
+</html> 

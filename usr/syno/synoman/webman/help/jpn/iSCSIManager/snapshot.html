@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>iSCSI マネージャー</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_snapshot"></a>スナップショット</h2>
+
+<h4>LUN スナップショットを取得する：</h4>
+<p>LUN のスナップショットは、LUN のポイントインタイムの読み出し専用のコピーです。</p>
+<ol>
+	<li>スナップショットを取得する LUN を選択します。</li>
+	<li><strong>[スナップショット]</strong> をクリックし、<strong>[スナップショットの取得]</strong>を選択します。</li>
+	<li>このスナップショットの説明を入力します。</li>
+	<li>必要に応じて以下のいずれかのスナップショットの種類を選択します。
+		<ul>
+			<li><strong>アプリケーション コンシステント：</strong>この種類のスナップショットは、DSM と通信するためにお客様の運用環境に応じて、Synology Storage Console または Synology Snapshot Manager が Windows サーバーまたは VMware vCenter Serverにインストールされている場合にのみ取得できます。アプリケーションと整合性があるスナップショットが DSM で起動されると、アプリケーションに通知され、データの整合性を保証するためにスナップショットが取得されるメモリーから LUN までのすべてのデータをフラッシュします。</li>
+			<li><strong>クラッシュ コンシステント：</strong>どちらのクライアントにも Storage Console または Snapshot Manager がインストールされていない場合は、クラッシュの整合性がある LUN のスナップショットのみを取得できます。それらが開始されると、アプリケーションは、メモリーから LUN までのデータのフラッシュを通知しなくなり、そのために、データの整合性は保証されません。</li>
+		</ul>
+	</li>
+	<li><strong>[OK]</strong> をクリックします。</li>
+</ol>
+<div class="section">
+	<h4>注：</h4>
+	<ul>
+		<li>データの不整合を避けるため、<b>Synology Storage Console</b> または <b>Snapshot Manager</b> をインストールすることをお勧めします。 </li>
+	</ul>
+</div>
+<div class="section">
+	<h4>用語集：</h4>
+	<ul>
+	<li><b>Synology Storage Console：</b>Synology Storage Console は、VMware vSphere Client または Windows Server のストレージ管理プラグインで、複数の Synology ストレージシステムの管理と監視を簡素化します。これはまた、DSM から直接、アプリケーション コンシステントなスナップショットを作成できます。
+		<ul>
+			<li>VMware 環境では、このプラグインは VMware vCenter Server Appliance 6.5 U2以降のバージョンにのみ対応します。</li>
+			<li>プラグインのダウンロードは<a href="https://www.synology.com/support/download" target="_blank">Download Center</a> で、詳細は<a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforVMware/storageconsoleforvmware" target="_blank">Synology Storage Console for VMware</a> および <a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforWindows/storageconsoleforwindows" target="_blank">Synology Storage Console for Windows</a> を参照してください。</li>
+		</ul></li>
+	<li><b>Synology Snapshot Manager：</b>Synology Snapshot Manager は、アプリケーション コンシステントなスナップショットを DSM から直接取得するためのソフトウェア プラグインです。
+		<ul>
+			<li>VMware環境では、このプラグインは VMware vCenter Server Appliance 6.0以前のバージョンにのみ対応します。</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>スナップショットを削除する：</h4>
+<ol>
+	<li>スナップショットを取得する LUN を選択します。</li>
+	<li><b>[スナップショット]</b> > <b>[スナップショット リスト]</b> をクリックします。</li>
+	<li>削除したいスナップショットを選択し、[<b>削除</b>] をクリックします。</li>
+</ol>
+<div class="section">
+	<h4>注：</h4>
+	<ul>
+		<li>スナップショットが削除された後に、スペース再利用の処理が一定時間行われます。</li>
+	</ul>
+</div>
+
+<h4>LUN を復元する：</h4>
+<p>LUN でデータを復元するには、ポイントインタイムのスナップショットを選択します。</p>
+<ol>
+	<li>復元する LUN を選択します。</li>
+	<li><strong>[スナップショット]</strong> をクリックし、<strong>[スナップショット リスト]</strong> を選択します。</li>
+	<li>復元ポイント（時点）となるスナップショットを選択して、<strong>[復元]</strong> をクリックします。</li>
+</ol>
+
+<h4>スナップショットから LUN のクローンを作る：</h4>
+<p>LUN の書き込み可能なコピー、または LUN スナップショットを作ります。</p>
+<ul>
+	<li><strong>[スナップショット リスト]</strong> から LUN スナップショットを選択して、<strong>[クローン]</strong> をクリックします。</li>
+</ul>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>LUN スナップショット、復元、および複製機能は、ストレージ アクセラレーション コマンドにより LUN でのみご利用いただけます。</li>
+	<li>スナップショットを取得、またはクローンを作成したとき、ステータスが<strong>異常</strong>/<strong>クラッシュ</strong>になってしまった場合は、このスナップショット/クローンを削除して、もう一度取得/作成し直してください。</li>
+	<li>スナップショットが作成された後の LUN への変更はすべて、LUN をこのスナップショットに復元するときに失われます。</li>
+	<li>LUN の復元、LUN の複製、LUN スナップショットの取得および複製を含む機能は、ボリュームの空き容量が 1GB 未満になると、利用できなくなります。</li>
+</ul>
+</div>
+<div class="section"><h4><a id="smart_retention"></a>保持ポリシー</h4>
+<p>このオプションは、ボリュームのスペースを節約するためにスナップショットのバージョンが占有する最大容量を指定するのに理想的な方法ですが、長期間にわたってスナップショットを保持する必要があるかもしれません。保持ポリシーについて注意すべきいくつかのことがあります。</p>
+<ul>
+<li>Synology は GFS（｢Grandfather-Father-Son｣親子三代）保持ポリシーを採用しています。スナップショット バージョンが占有する最大容量を保持しておく期間を次のように設定することができます。<strong>毎時</strong>、<strong>毎日</strong>、<strong>毎週</strong>、<strong>毎月</strong>、<strong>毎年</strong>。</li>
+<li>1枚のスナップショットが同時にいくつかの維持ルールを満たすことがあります。例えば、1枚のスナップショットが毎日、毎週および毎月のルールを満たす場合があります。</li>
+<li>一定の期間内に多くのスナップショットを撮った場合、最も初期のスナップショットが維持されます。例えば、<strong>毎週10枚のスナップショット</strong>という維持ルールを設定した場合で、スナップショットのスケジュールが1日に1枚のスナップショットを撮るように設定されている場合、Snapshot Replication は過去10週間における各週の一番最初のスナップショットを維持します。</li>
+<li>もし一定の期間の間スナップショットが撮られていない場合、システムは最も最近のスナップショットを維持します。例えば、毎日のスナップショット ルールが15に設定されていて、過去30日間で撮られたスナップショットが1枚もない場合、スナップショットは30日から45日前までの間に撮られたスナップショットを維持します。</li>
+<li>最近取得したスナップショット バージョンから簡単に復元できるように、デフォルトでは最新のスナップショットが取得されてから1時間以内に取得したすべてのスナップショット バージョンが保持されます。保持規則により自動的にスナップショットが削除されないように、スナップショットをロックすることも可能です。</li>
+</ul>
+
+<p>例1：<br/>過去3か月間の毎日のスナップショット、過去4～6か月間の毎週のスナップショット、過去7～9か月間の毎月のスナップショットを維持したい場合、毎時のスナップショットに0を入力し、毎日のスナップショットに90、毎週のスナップショットに24、毎月のスナップショットに9、そして毎年のスナップショットに0を入力する必要があります。</p>
+
+<p>例2：<br/>過去2日間の毎時のスナップショット、過去1週間の毎日のスナップショット、過去1か月間の毎週のスナップショット、および過去1年間の毎月のスナップショットを維持したい場合、毎時間のスナップショットに48を入力し、毎日のスナップショットに7、毎週のスナップショットに4、毎月のスナップショットに12、そして毎年のスナップショットに0を入力する必要があります。</p>
+
+
+<img class="help_image" src="../../images/iSCSIManager/retention_policy.png">
+</div>
+</body>
+</html>

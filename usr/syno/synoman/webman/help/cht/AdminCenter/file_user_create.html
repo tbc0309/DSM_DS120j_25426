@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>新增使用者 - Synology DSM 說明</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article shows you how to create users in DSM.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="leaf_user"></a>新增使用者</h2>
+<p>請參見下方說明來在 Synology NAS 新增使用者帳號。</p>
+
+
+<h4>若要新增使用者：</h4>
+<ol>
+<li>請前往<strong>控制台</strong> &gt; <strong>使用者帳號</strong>。</li><img src="about:blank" class="help_image"/><li>按一下<b>新增</b>按鈕來新增使用者。此動作會開啟<b>新增使用者精靈視窗</b>。</li>
+<img src="about:blank" class="help_image"/>
+<li>在<strong>使用者帳號資訊</strong>頁面，填入下列項目：<ul>
+<li><strong>名稱：</strong>為使用者輸入名稱。此為必填欄位。</li>
+<li><strong>描述：</strong>為使用者輸入簡短描述。</li>
+<li><strong>電子郵件：</strong>為使用者輸入電子郵件地址。密碼重設訊息等系統通知信件會一律寄送至此地址。</li>
+<li><strong>寄通知信給新使用者：</strong>啟動此選項，系統將在新帳號建立之後，寄送訊息知會該使用者。此選項須要先在<b>主選單</b> &gt; <b>控制台</b> &gt; <b>通知設定</b> &gt; <strong>電子郵件</strong>啟動系統電子郵件通知。依照預設，使用者的密碼不會顯示在通知訊息中。但是，如果您希望通知訊息裡出現密碼，請勾選<strong>在通知郵件中顯示使用者密碼</strong>核取方塊。</li>
+<li><strong>不允許此使用者修改密碼：</strong>啟動此選項，使用者將無法變更登入 DSM 使用的密碼。</li></ul>
+</li>
+<li>在<strong>群組</strong> &gt; <strong>新增</strong> &gt; <strong>新增使用者群組精靈</strong>頁面，指定新使用者所屬的群組 (例如：users 或 administrators)。</li>
+<li>在<strong>指派共用資料夾權限</strong>頁面，修改新使用者的存取權限來選擇其可存取的共用資料夾。權限優先順序為：<strong>禁止存取</strong> &gt; <strong>可讀寫</strong> &gt; <strong>唯讀</strong>。<ul>
+    <li><strong>預覽：</strong>此欄位顯示使用者共用資料夾的實際存取權限，此權限乃根據目前設定及其所屬使用者群組而定。</li>
+  <li><strong>群組權限：</strong>此欄位顯示共用資料夾分配的存取權限，此權限乃根據使用者所屬群組而定。</li></ul><a name="userquota"></a><li>在<strong>使用者空間配額設定</strong>頁面，您可以控制新使用者可使用的儲存空間大小。若要限制使用者可使用的空間大小，請為每一個儲存空間<span>/共用資料夾</span>勾選<strong>設定使用空間配額</strong>核取方塊。然後在<strong>空間配額</strong>欄位 (例如：10 GB) 輸入可使用的最大容量。
+
+  <div class="section"><h4>注意：</h4>
+<ul>
+  <li>唯有具備下列套件架構的 VDSM 及機種可為每一個共用資料夾啟用空間配額：Apollo Lake、Avoton、Braswell、Broadwell、Bromolow、Cedarview 及 Grantley。若要了解您的機種支援哪個套件架構，請參考<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">此文章</a>。</li>
+  <li>建立使用者的特定選項可能不適用於 EDS14。</li>
+  <li>DDSM 不支援使用者的空間配額設定。</li>
+</ul>
+</div>
+
+</li>
+
+<li>在<strong>指派應用程式權限</strong>頁面，您可以控制使用者可存取的服務。</li>
+<li>在<strong>使用者群組速度限制設定</strong>頁面，您可以為各種服務 (例如：File Station、FTP) 啟動速限，限制使用者傳輸檔案時可使用的最大頻寬。請針對每一項服務，選擇下列其中一個選項：<ul>
+  <li><strong>無：</strong>速度限制設定會與使用者所屬的群組相同。</li>
+  <li><strong>固定：</strong>套用固定的速限。您可以在左側欄位指定上傳及下載的速限。</li>
+  <li><strong>變換：</strong>可指定兩種速限，速限將根據排程套用至使用者。按一下<strong>自訂</strong>按鈕來修改速限設定及排程。</li></ul>
+<li>確認設定後，按一下<b>套用</b>來結束。</li>
+</ol>
+
+
+ 
+
+<h4>使用者名稱限制：</h4>
+
+<ul>
+<li>帳號名稱不分大小寫，可包含 1 到 64 個 Unicode 字元，但不可為下列字元︰<br>!&quot; # $ % &amp; &apos; ( ) * + , / :< = >?@ [ ] \ ^ ` { } | ~</li>
+<li>第一個字元不可是減號 (-) 或空格，最後一個字元也不可為空格。</li>
+<li>下列使用者名稱保留給系統使用：mailer-daemon、postmaster。</li>
+<li>使用者描述最多可包含 64 個可顯示的 Unicode 字元。</li>
+</ul>
+<h4>密碼限制：</h4>
+<ul>
+<li>密碼有區分大小寫，最多可輸入127 個可顯示的字元，包含英文字、數字、符號、空白鍵等等。</li>
+</ul>
+<h4>配額限制：</h4>
+<ul>
+<li>您可為每位使用者輸入的配額上限約為 4 TB (4095 GB)。</li>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+  <li>EDS14 與 DDSM 皆不支援此功能。</li>
+</ul>
+</div>
+</ul>
+
+</body>
+</html>

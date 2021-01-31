@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Domain</h2>
+
+<p>Ihr Synology NAS kann einer Windows-Domain beitreten. Nach dem Beitritt zur Domain können Domainbenutzer sich mit ihrem Konto und Kennwort beim Synology NAS anmelden, wodurch sie Zugriff auf Dateien und DSM-Anwendungen haben, ohne sich weitere Benutzernamen und Kennwörter merken zu müssen.</p>
+
+<h4>Einer Domain beitreten:</h4>
+<ol>
+	<li>Gehen Sie zu <strong>Systemsteuerung</strong> &gt; <strong>Domain/LDAP</strong> &gt; <strong>Domain</strong>.</li>
+	<li>Markieren Sie das Kontrollkästchen <strong>Einer Domäne beitreten</strong>.</li>
+	<li>Geben Sie den Domainnamen und den DNS-Server in die entsprechenden Felder ein.</li>
+	<li>Falls erforderlich, aktivieren Sie das Kontrollkästchen <strong>Erweiterte Domänenoptionen</strong>. (Details siehe unten.)</li>
+	<li>Klicken Sie auf <strong>Übernehmen</strong>.</li>
+	<li>Geben Sie im eingeblendeten Fenster den Benutzernamen und das Kennwort des Administrators der Domain ein.</li>
+	<li>Klicken Sie auf <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>DNS Server</h4>
+<p>Wir empfehlen, einen DNS-Server anzugeben, um Ihr Synology NAS bei der Suche nach der Domain zu unterstützen. Wenn die Domain jedoch nicht auf dem DNS-Server registriert ist, kann der Beitritt zur Domain fehlschlagen.</p>
+
+<h4>Domainservertyp</h4>
+<p>Dieses Feld zeigt den Domaintyp an, wenn Ihr Synology NAS einer Domain beigetreten ist. Der Domaintyp ist „AD-Domain“.</p>
+
+<h4>Verwaltungsmodus</h4>
+<p>Diese Option bestimmt, wie Sie die Berechtigungen der Domainbenutzer und -gruppen verwalten. </p>
+<ul>
+	<li><strong>Vertrauenswürdige Domain</strong>: Es können Benutzer und Gruppen in der verknüpften Domain sowie vertrauenswürdige Domains verwaltet werden. Sie können die Liste der Benutzer und Gruppen nach Domains filtern.</li>
+	<li><strong>Einzeldomain mit OU</strong>: Nur Benutzer und Gruppen in der verknüpften Domain werden in diesem Modus angezeigt. Mit diesem Modus können Sie die Liste der Benutzer und Gruppen nach Organisationseinheiten (OU) filtern.</li>
+</ul>
+
+<h4>Erweiterte Domainoptionen</h4>
+<p>In den meisten Fällen müssen Sie die erweiterten Domainoptionen nicht angeben. Die erweiterten Domainoptionen werden nur für bestimmte Domain-Umgebungen benötigt. </p>
+<ul>
+	<li><strong>DC IP/FQDN</strong>: Geben Sie eine DC-(Domain Controller)-IP-Adresse oder FQDN an. Ihr Synology NAS versucht dann, damit zu kommunizieren. Fügen Sie, wenn mehr als eine IP-Adresse oder FQDN vorhanden ist, ein Komma (,) zwischen ihnen ein. Wenn Sie ein Sternchen (*) hinter der letzten DC-IP-Adresse oder dem letzten FQDN einfügen, wird Ihr Synology NAS versuchen, mit dem anderen DC zu kommunizieren, wenn alle angegebenen fehlgeschlagen sind. Sie müssen zwischen dem Sternchen und der letzten IP-Adresse oder FQDN ein Komma einfügen.</li>
+	<li><strong>NetBIOS-Name der Domäne</strong>: Geben Sie den NetBIOS-Namen der Domain an.</li>
+	<li><strong>FQDN (DNS-Name) der Domäne</strong>: Geben Sie den FQDN (DNS-Namen) der Domain an.</li>
+	<li><strong>DNS-Schnittstelle registrieren</strong>: Beim Beitritt zu einer Domain wird die hier angegebene NIC (Netzwerkkarte) beim DNS-Server registriert. Beachten Sie, dass die Registrierung fehlschlägt, wenn der Hostname Ihres Synology NAS einen Unterstrich (_) enthält, da Unterstriche (_) bei DNS nicht verwendet werden können.</li>
+	<li><strong>Benutzer/Gruppenliste aktualisieren</strong>: Gibt an, wie oft Ihr Synology NAS automatisch die Domainbenutzer-/-gruppenliste aktualisiert. Sie können tägliche, wöchentliche oder monatliche Aktualisierung wählen. Außerdem können die Listen von Domainbenutzern bzw. -gruppen durch Navigieren zur Registerkarte <strong>Domainbenutzer</strong> und Klicken auf <strong>Domain-Daten aktualisieren</strong> aktualisiert werden. Beachten Sie, dass automatische Aktualisierungen den Ruhezustand des Systems beeinflussen.</li>
+</ul>
+
+<h4>Einem schreibgeschützten Domain-Controller beitreten</h4>
+<p>Um mit Ihrem Synology NAS einem schreibgeschützten Domain Controller (RODC) beizutreten, müssen Sie den „vollständigen Computernamen“ (FQDN) des Lese/Schreib-Domain-Controllers mit vollständigem Zugriff (RWDC) in das Feld <strong>DC IP/FQDN</strong> eingeben. Der vollständige Computername muss in folgendem Format angegeben werden: <strong>Computername.Domain</strong>, z. B. „ad01.synology.com“.</p>
+</div>
+
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+	<li>Wenn Ihr Domain-Benutzername die Zeichen % oder $ enthält, können Sie möglicherweise nicht auf Ihren Home-Ordner zugreifen. Bitten Sie Ihren Domainadministrator, Ihnen einen neuen Benutzernamen zu geben.</li>
+	<li>Die Gruppen <strong>Domainadministratoren</strong> und <strong>Unternehmensadministratoren</strong> werden automatisch zur lokalen Gruppe <strong>administrators</strong> hinzugefügt. Daher besitzen die Domainbenutzer in diesen Gruppen Administratorrechte auf der Synology NAS , einschließlich des Zugangs zu Diensten wie CIFS/FTP/AFP/WebDAV und anderen DSM-Anwendungen.</li>
+	<li>Sie können auch die Zugriffsberechtigung für den Domainbenutzer für die freigegebenen Ordner auf dem Synology NAS konfigurieren. Weitere Informationen finden Sie <a href="file_directory_service_user_group.html">hier</a>.</li>
+</ul>
+</div>
+
+<h3>Domainoptionen</h3>
+
+<p>Dieser Abschnitt enthält die folgenden zusätzlichen Domainoptionen.</p>
+<ul>
+	<li><strong>Die DiskStation synchronisiert sich jedes Mal mit einem NTP-Server, wenn sich ein Domainbenutzer anmeldet</strong>: Die Aktivierung dieser Option erzwingt die Synchronisierung der Zeit zwischen Synology NAS und NTP-Server.</li>
+	<li><strong>Benutzer-/Gruppenlisten mit NT4-kompatiblem Modus abrufen</strong>: Durch die Aktivierung dieser Option kann das System Benutzer-/Gruppenlisten mit dem NT4 RPC-Modus abfragen. Diese Option kann aktiviert werden, wenn bestimmte Domainbenutzer-/-gruppenlisten nicht mit den Standardeinstellungen abgerufen werden können.</li>
+	<li><strong>Server-Signierung aktivieren</strong>: Wenn auf dem Client die Clientsignatur aktiviert ist, muss auch die Serversignatur auf Ihrem Synology NAS aktiviert sein, damit Benutzer die Domaindienste normal verwenden können.</li>
+	<li><strong>Verschachtelte Gruppenebenen aufzählen</strong>: Geben Sie die Anzahl der verschachtelten Domaingruppenmitglieder an, die aufgezählt werden können.</li>
+	<li><strong>Domänenadministratoren</strong>: Geben Sie bis zu 10 Benutzergruppen an, denen Sie Administratorrechte gewähren möchten. Ein Benutzer mit Administratorberechtigungen hat volle Kontrolle über Ihre Synology NAS und die darauf gespeicherten Dateien.</li>
+	<li><strong>Integrierte Windows-Authentifizierung aktivieren</strong>: Wenn diese Option aktiviert ist, können Benutzer, die sich bereits über ihre Domainkonten bei ihren Computern angemeldet haben, sich über den Internetbrowser bei DSM anmelden, ohne Benutzername und Kennwort eingeben zu müssen.</li>
+</ul>
+
+<div class="section"><h4>Integrierte Windows-Authentifizierung verwenden</h4>
+<ul>
+	<li>Auf dem Client-Computer muss Windows 7 oder höher laufen.</li>
+	<li>Der Client-Computer muss derselben Domain beitreten wie der Synology NAS.</li>
+	<li>Wechseln Sie in Windows zu <b>Systemsteuerung</b> > <b>Internetoptionen</b> > <b>Erweitert</b> und stellen Sie sicher, dass unter <b>Sicherheit</b> bei der Option <b>Integrierte Windows-Authentifizierung aktivieren</b> ein Häkchen gesetzt ist.</li>
+	<li>Die integrierte Windows-Authentifizierung funktioniert mit allen Browsern. Für Firefox sind einige weitere Schritte für die Einrichtung erforderlich.
+		<ul>
+			<li>Öffnen Sie den Firefox-Browser und geben Sie <b>about:config</b> in die Adresszeile ein.</li>
+			<li>Suchen Sie nach <b>network.automatic-ntlm-auth.trusted-uris</b>.</li>
+			<li>Doppelklicken Sie auf das Feld <b>Wert</b> und geben Sie die IP-Adresse der Domain ein.</li>
+		</ul>
+	</li>
+	<li>Wenn Sie mit Ihrem Synology NAS einer von Synology Directory Server erstellten Domain beitreten, sind weitere Konfigurationen erforderlich, um die integrierte Windows-Authentifizierung zu verwenden:
+		<ol>
+			<li>Gehen Sie zu DSM <b>Systemsteuerung</b> > <b>Dateidienste</b> > <b>SMB/AFP/NFS</b>.</li>
+			<li>Klicken Sie unter <b>SMB</b> auf <b>Erweiterte Einstellungen</b>.</li>
+			<li>Wählen Sie im Dropdown-Menü <b>Mindest-SMB-Protokoll</b> die Option <b>SMB1</b> und klicken Sie auf <b>Speichern</b>.</li>
+		</ol>
+	</li>
+
+</ul>
+</div>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+	<li>Die Anmeldung über die integrierte Windows-Authentifizierung ist nur in DSM 6.2.2 oder höher verfügbar.</li>
+		</ul></li>
+</ul>
+</div>
+
+<h3>Domänen-Statusprüfung</h3>
+
+<p>Sie können auf <strong>Domänen-Statusprüfung</strong> klicken, um den Verbindungsstatus zwischen DSM und seinem Domainserver zu überprüfen. Weitere Informationen zur Fehlersuche finden Sie in den folgenden Checks:</p>
+<ul>
+	<li><strong>Überprüfen Sie, ob die Verbindung zwischen Synology NAS und <font>Domain-Controller</font> korrekt funktioniert</strong>: Synology NAS konnte nicht mit dem <font>Domain-Controller</font> kommunizieren.
+		<ul>
+			<li>Stellen Sie sicher, dass die Ports 389, 139 und 445 auf dem <font>Domain-Controller</font> korrekt funktionieren.</li>
+			<li>Stellen Sie sicher, dass der NTDS-Dienst auf dem <font>Domain-Controller</font> korrekt funktioniert.</li>
+		</ul>
+	</li>
+	<li><strong>Prüfen Sie, ob im Subnetz kollidierende Hostnamen vorhanden sind</strong>: Ihr Synology NAS hat den Hostnamen, der bereits im Subnetz existierte.
+		<ul>
+			<li>Wenn Ihr Synology NAS mit einem Subnetz mit mehreren Netzwerkschnittstellen verbunden ist, funktioniert Ihr DSM korrekt.</li>
+			<li>Wenn Ihr Synology NAS mit einem Subnetz mit einer einzigen Netzwerkschnittstelle verbunden ist, ändern Sie bitte den Hostnamen Ihres Synology NAS und treten Sie damit erneut der Domain bei.</li>
+		</ul>
+	</li>
+	<li><strong>Überprüfen Sie, ob die Verbindung zwischen Synology NAS und Active Kerberos-Server korrekt funktioniert</strong>: Synology NAS konnte keine Kommunikation mit dem Kerberos-Server herstellen.
+		<ul>
+			<li>Stellen Sie sicher, dass Kerberos DNS SRV-Eintrag und zugehöriger A-Eintrag auf dem DNS-Server vorhanden sind.</li>
+			<li>Sorgen Sie dafür, dass der Port 88 auf dem KDC-Server verfügbar ist.</li>
+		</ul>
+	</li>
+	<li><strong>Überprüfen Sie, ob die Verbindung zwischen Synology NAS und Active LDAP-Server korrekt funktioniert</strong>: Synology NAS konnte keine Kommunikation mit dem LDAP-Server herstellen.
+		<ul>
+			<li>Stellen Sie sicher, dass der korrekte LDAP DNS SRV-Eintrag und der zugehörige A-Eintrag auf den DNS-Servern vorhanden sind.</li>
+			<li>Sorgen Sie dafür, dass der Port 389 auf dem LDAP-Server korrekt funktioniert.</li>
+		</ul>
+	</li>
+	<li><strong>Prüfen Sie, ob MTU korrekt konfiguriert ist, um sicherzustellen, dass die Verbindung zwischen Synology NAS und Domain-Controller korrekt funktioniert</strong>: Mindestens ein Switch verwarf zwischen Synology NAS und <font>Domain-Controller</font> übertragene Pakete aufgrund einer ungültigen MTU-Größe der Pakete.
+		<ul>
+			<li>Bitte überprüfen Sie die Schnittstellen-Einstellungen zwischen Synology NAS und dem <font>Domain-Controller</font>.</li>
+		</ul>
+	</li>
+	<li><strong>Prüfen Sie, ob die Uhrzeit zwischen Synology NAS und der Domain synchronisiert wird</strong>: Die Zeit auf Ihrem Synology NAS ist nicht mit dem Domainserver synchronisiert.
+		<ul>
+			<li>Sie können den NTP-Dienst auf dem Synology NAS einrichten, um die Zeit mit dem Domainserver zu synchronisieren, oder die Option <strong>Synology NAS synchronisiert sich jedes Mal mit einem NTP-Server, wenn sich ein Domainbenutzer anmeldet</strong> in <strong>Domänenoptionen</strong> aktivieren.</li>
+		</ul>
+	</li>
+</ul>
+
+</body>
+</html>

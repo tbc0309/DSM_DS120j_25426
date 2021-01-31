@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Pasta Partilhada</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Atribui permiss&otilde;es NFS</h2>
+<p>Pode atribuir permiss&otilde;es NFS para qualquer pasta partilhada, permitindo que clientes Linux tenham acesso &agrave; mesma.</p>
+<h4>Para atribuir permiss&otilde;es NFS a uma pasta partilhada:</h4>
+<ol>
+<li>Selecione a pasta partilhada que pretende editar na lista de pastas partilhadas.</li>
+<li>Clique em <strong>Editar</strong> &gt; <strong>Permiss&otilde;es NFS</strong>.</li>
+<li>Clique em <b>Criar</b> para adicionar uma regra NFS.</li>
+<li>Aparece uma janela de pop-up. Defina as op&ccedil;&otilde;es abaixo.</li>
+<li><strong>Nome de anfitri&atilde;o ou IP:</strong>&nbsp;Introduza o endere&ccedil;o IP do cliente NFS que ter&aacute; acesso &agrave; pasta partilhada. Pode especificar um anfitri&atilde;o de tr&ecirc;s formas:<ul>
+<li><strong>Anfitri&atilde;o &Uacute;nico:</strong> O nome do dom&iacute;nio totalmente qualificado ou um endere&ccedil;o IP.</li>
+<li><strong>Caracteres universais:</strong> *,* .synology.com</li>
+<li><strong>Redes IP:</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>Privil&eacute;gio:</strong> Selecione as permiss&otilde;es de leitura/escrita para o cliente NFS.</li>
+<li> <strong> Seguran&ccedil;a:</strong> Especifique o tipo de seguran&ccedil;a a implementar.<ul>
+  <li><strong>AUTH_SYS:</strong> Utilize o UID (identificador do utilizador) do cliente NFS e GID (identificador do grupo) para verificar as permiss&otilde;es de acesso.</li>
+<li><strong>Autentica&ccedil;&atilde;o Kerberos:</strong> Efetue a autentica&ccedil;&atilde;o Kerberos quando o cliente NFS estabelecer liga&ccedil;&atilde;o &agrave; pasta partilhada. O cliente s&oacute; pode aceder &agrave; pasta partilhada depois de passar na autentica&ccedil;&atilde;o Kerberos.</li>
+<li><strong>Integridade Kerberos:</strong> Efetue a autentica&ccedil;&atilde;o Kerberos e assegure a integridade dos pacotes durante a transfer&ecirc;ncia de dados.</li>
+<li><strong>Privacidade Kerberos:</strong> Efetue a autentica&ccedil;&atilde;o Kerberos e encripte os pacotes NFS durante a transfer&ecirc;ncia de dados, deste modo, evita a adultera&ccedil;&atilde;o por parte de entidades mal intencionadas com o tr&aacute;fego NFS.</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>:&nbsp;Este campo permite-lhe controlar os privil&eacute;gios de acesso do utilizador do cliente NFS. Selecione um dos seguintes:<ul>
+    <li><strong>Sem mapeamento:</strong>&nbsp;Permite que todos os utilizadores do cliente NFS, incluindo os utilizadores root, mantenham os privil&eacute;gios de acesso originais.</li>
+    <li><strong>Mapear root para admin:</strong>&nbsp;Atribui privil&eacute;gios de acesso aos utilizadores root do cliente NFS equivalentes aos privil&eacute;gios de acesso do utilizador admin no seu sistema.</li>
+    <li><strong>Mapear root para guest:</strong>&nbsp;Atribui privil&eacute;gios de acesso aos utilizadores root do cliente NFS equivalentes aos privil&eacute;gios de acesso do guest no seu sistema.</li>
+    <li><strong>Mapear todos os utilizadores para admin:</strong>&nbsp;Atribui privil&eacute;gios de acesso a todos os utilizadores do cliente NFS equivalentes aos privil&eacute;gios de acesso do utilizador admin no seu sistema.</li>
+  </ul>
+</li>
+
+<li><strong>Activar assíncrono:</strong>&nbsp;Marcar esta op&ccedil;&atilde;o permite que Synology NAS responda a pedidos de clientes NFS antes da conclus&atilde;o de qualquer altera&ccedil;&atilde;o nos ficheiros, permitindo um melhor desempenho.</li>
+<li><strong>Permitir ligações a partir de portas sem privilégios (portas superiores a 1024):</strong> A marca&ccedil;&atilde;o desta op&ccedil;&atilde;o permite que os clientes NFS utilizem as portas sem privil&eacute;gios (por exemplo, as portas superiores a 1024) quando estabelecem liga&ccedil;&atilde;o a Synology NAS. </li>
+<li><strong>Permite aos utilizadores acederem a sub-pastas montadas：</strong> Marcar esta op&ccedil;&atilde;o permite aos clientes NFS acederem a sub-pastas montadas.</li>
+<li>Clique em <b>OK</b> para terminar.</li>
+  <li>Clique em <b>OK</b> para aplicar as permiss&otilde;es NFS.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Quando o formato do nome do servidor &eacute; <strong>*.domain</strong>, o endere&ccedil;o IP do cliente NFS deve ter um registo DNS PTR correspondente, para permitir que o Synology NAS encontre o nome *.domain ao pesquisar pelo correspondente endere&ccedil;o IP.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Tipos de Seguran&ccedil;a:</h4>
+<p> Quando aceder a uma pasta partilhada atrav&eacute;s de NFS com uma conta de utilizador espec&iacute;fica: </p>
+<ul>
+<li>Se o tipo de seguran&ccedil;a <strong>AUTH_SYS</strong> for implementado: O cliente tem de ter exatamente o mesmo UID (identificador do utilizador) e GID (identificador do grupo) num&eacute;ricos no cliente NFS e Synology NAS ou ser&atilde;o atribu&iacute;das ao cliente as permiss&otilde;es&nbsp;<strong>others</strong>&nbsp;quando aceder &agrave; pasta partilhada. Para evitar quaisquer conflitos de permiss&otilde;es, pode selecionar <strong>Mapear todos os utilizadores para admin</strong> de <strong>Squash</strong> ou conceder permiss&otilde;es &quot;Everyone&quot; (Todos) &agrave; pasta partilhada.</li>
+<li>Se o tipo de seguran&ccedil;a <strong>Kerberos (krb5, krb5i, krb5p)</strong> for implementado: Deve aceder a <strong>Win/Mac/NFS</strong> &gt; <strong>Servi&ccedil;o NFS</strong> &gt; <strong>Defini&ccedil;&otilde;es Kerberos</strong> &gt; <strong>Mapeamento de ID</strong> para mapear o cliente NFS para um utilizador espec&iacute;fico ou aderir a um dom&iacute;nio Windows/LDAP com a conta de utilizador correspondente, caso contr&aacute;rio, ser&atilde;o atribu&iacute;das ao cliente as permiss&otilde;es&nbsp;<strong>guest</strong>&nbsp;quando aceder &agrave; pasta partilhada.</li>
+<li>Se o sistema de ficheiros do dispositivo externo no qual as pastas partilhadas s&atilde;o criadas for NTFS ou FAT, a op&ccedil;&atilde;o&nbsp;<strong>Mapear todos os utilizadores para admin</strong> ser&aacute; aplicada de forma for&ccedil;ada.</li>
+</ul>
+<p>Para utilizar os tipos de seguran&ccedil;a Kerberos para ligar ao Synology NAS, tem de ser configurada a autentica&ccedil;&atilde;o Kerberos indo para <strong>Win/Mac/NFS</strong> &gt; <strong>Servi&ccedil;o NFS</strong> &gt; <strong>Defini&ccedil;&otilde;es Kerberos</strong>.</p>
+</div>
+
+</body>
+</html>

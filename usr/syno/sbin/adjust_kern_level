@@ -1,0 +1,64 @@
+#!/bin/sh
+
+SYSLOG_CONF=/etc/syslog-ng/patterndb.d/kernel.conf
+SYSLOG_CONF_BAK=/etc/syslog-ng/patterndb.d/kernel.conf.bak
+
+restore_config()
+{
+    cp $SYSLOG_CONF_BAK $SYSLOG_CONF
+}
+
+parsing_log_level()
+{
+    case $1 in
+        7)
+            log_level="debug"
+            ;;
+        6)
+            log_level="info"
+            ;;
+        5)
+            log_level="notice"
+            ;;
+        4)
+            log_level="warning"
+            ;;
+        3)
+            log_level="err"
+            ;;
+        2)
+            log_level="crit"
+            ;;
+        1)
+            log_level="alert"
+            ;;
+        0)
+            log_level="emerg"
+            ;;
+        *)
+            restore_config
+            exit 0
+            ;;
+    esac
+}
+
+adjust_kernel_loglv()
+{
+    # Get line num of kernel level
+    result=`egrep "and level\(.*\)" $SYSLOG_CONF -n | awk -F ':' '{print $1}'`
+    # replace log level
+    for line in $result
+    do
+	    if [ ! -z "$line" ]; then
+		    sed -i -e "${line}s/level(.*\.\.emerg)/level($log_level\.\.emerg)/" $SYSLOG_CONF
+	    fi
+    done
+}
+
+if [ ! -f $SYSLOG_CONF_BAK ]; then
+    cp $SYSLOG_CONF $SYSLOG_CONF_BAK
+fi
+
+parsing_log_level $1
+adjust_kernel_loglv
+synoservice --reload syslog-ng

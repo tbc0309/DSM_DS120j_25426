@@ -1,0 +1,15 @@
+/var/log/messages /var/log/kern.log /var/log/auth.log {
+	size 10M
+	missingok
+	postrotate
+		/usr/syno/sbin/synoservice --reload syslog-ng || true
+	endscript
+}
+
+/var/log/syslog.log {
+	missingok
+	sharedscripts
+	postrotate
+		/usr/syno/sbin/synoservice --reload syslog-ng || true
+	endscript
+}

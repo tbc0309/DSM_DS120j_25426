@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Megosztott mappa</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>NFS engedélyek hozzárendelése</h2>
+<p>Bármely megosztott mappához NFS engedélyeket rendelhet hozzá, így lehetővé téve a hozzáférést a Linux kliensek számára.</p>
+<h4>
+NFS engedélyek hozzárendelése egy megosztott mappához:
+</h4>
+<ol>
+<li>A megosztott mappa listából jelölje ki a szerkeszteni kívánt megosztott mappát.</li>
+<li>Kattintson a <strong>Szerkesztés</strong> > <strong>NFS engedélyek</strong> gombra.</li>
+<li>NFS szabály hozzáadásához kattintson a <b>Létrehozás</b> gombra.</li>
+<li>Megjelenik egy felbukkanó ablak. Határozza meg az alábbi lehetőségeket.</li>
+<li><strong>Gazdanév vagy IP:</strong> Adja meg annak az NFS kliensnek az IP-címét, ami hozzá fog férni a megosztott mappához. A gazdagépet háromféle módon határozhatja meg:
+<ul>
+<li><strong>Egy gazdagép:</strong> A teljes értékű tartománynév vagy IP-cím.</li>
+<li><strong>Helyettesítő karakterek:</strong> *,* .synology.com</li>
+<li><strong>IP hálózatok:</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>Jogosultság:</strong> Válassza ki az olvasási/írási engedélyeket az NFS kliens számára.</li>
+<li> <strong> Biztonság:</strong> Határozza meg a végrehajtandó biztonsági eljárásokat.
+  <ul>
+  <li><strong>AUTH_SYS:</strong> Használja az NFS kliens UID (felhasználó-azonosító) és GID (csoportazonosító) azonosítóit a hozzáférési engedélyek ellenőrzéséhez.</li>
+<li><strong>Kerberos hitelesítés:</strong> Hajtson végre Kerberos hitelesítést, amikor az NFS kliens a megosztott mappához csatlakozik. A kliens csak a Kerberos hitelesítés végrehajtását követően tud hozzáférni a megosztott mappához.</li>
+<li><strong>Kerberos integritás:</strong> Hajtson végre Kerberos hitelesítést és adattovábbítás közben biztosítsa a csomagok integritását.</li>
+<li><strong>Kerberos titoktartás:</strong> Hajtson végre Kerberos hitelesítést és adattovábbítás közben titkosítsa az NFS csomagokat, így meggátolva a rosszindulatú feleket az NFS forgalom szabotálásában.</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>: Ez a mező lehetővé teszi az NFS kliens felhasználó hozzáférési jogosultságainak ellenőrzését. Válassza ki a következők egyikét:
+  <ul>
+    <li><strong>Nincs hozzárendelés:</strong> Az NFS kliens valamennyi felhasználója, köztük a gyökérfelhasználók számára lehetővé teszi az eredeti hozzáférési jogosultságok megőrzését.</li>
+    <li><strong>Root hozzárendelése adminhoz:</strong> A rendszer admin felhasználó hozzáférési jogosultságaival megegyező hozzáférési jogosultságokat rendel hozzá az NFS kliens gyökérfelhasználóihoz.</li>
+    <li><strong>Root hozzárendelése guesthez:</strong> A rendszer guest felhasználó hozzáférési jogosultságaival megegyező hozzáférési jogosultságokat rendel hozzá az NFS kliens gyökérfelhasználóihoz.</li>
+    <li><strong>Valamennyi felhasználó hozzárendelése adminhoz:</strong> A rendszer admin felhasználó hozzáférési jogosultságaival megegyező hozzáférési jogosultságokat rendel hozzá az NFS kliens valamennyi felhasználójához.</li>
+  </ul>
+</li>
+
+<li><strong>Aszinkron engedélyezése:</strong> Ennek az opciónak a bejelölése lehetővé teszi a(z) Synology NAS számára, hogy a fájlok módosításainak befejezése előtt válaszoljon az NFS kliensektől érkező kérésekre, és így jobb teljesítményt biztosítson.</li>
+<li><strong>Nem-privilagizált portokról (1024-nél magasabb portok) származó csatlakozások lehetővé tétele:</strong> Ennek a lehetőségnek a bejelölésével lehetővé teszi az NFS kliensek számára nem-privilagizált portok (vagyis 1024-nél nagyobb portok) használatát a(z) Synology NAS eszközhöz történő csatlakozáskor. </li>
+<li><strong>Csatolt almappákhoz való hozzáférést tesz a felhasználók számára lehetővé:</strong> E jelölőnégyzet bejelölésével lehetővé teszi az NFS kliensek számára a csatolt almappákhoz való hozzáférést.</li>
+<li>A befejezéshez kattintson az <b>OK</b> gombra.</li>
+  <li>Az NFS engedélyek alkalmazásához kattintson az <b>OK</b> gombra.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Amikor a szerver nevének formátuma <strong>*.domain</strong>, akkor az NFS kliens IP-címének megfelelő DNS PTR rekorddal kell rendelkeznie annak érdekében, hogy lehetővé tegye a(z) Synology NAS számára a *.domain név megtalálását a megfelelő IP-cím megkeresésével.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Biztonsági eljárások:</h4>
+<p> Ha NFS segítségével, meghatározott felhasználói fiókkal fér hozzá egy megosztott mappához: </p>
+<ul>
+<li>Ha az <strong>AUTH_SYS</strong> biztonsági eljárás kerül végrehajtásra: A kliensnek ugyanazzal a számszerű UID (felhasználó-azonosító) és GID (csoportazonosító) azonosítóval kell rendelkeznie mind az NFS kliensen, mind pedig a(z) Synology NAS eszközön, máskülönben a klienshez <strong>mások</strong> engedélyei kerülnek hozzárendelésre a megosztott mappa elérésekor. Az engedélyek ütközésének elkerülése érdekében kiválaszthatja a <strong>Valamennyi felhasználó hozzárendelése adminhoz</strong> lehetőséget a <strong>Squash</strong> menüből, vagy "Mindenkinek" engedélyeket adhat a megosztott mappához.</li>
+<li>Ha a <strong>Kerberos (krb5, krb5i, krb5p)</strong> biztonsági eljárás kerül végrehajtásra: Menjen a <strong>Win/Mac/NFS</strong> > <strong>NFS szolgáltatás</strong> > <strong>Kerberos beállítások</strong> > <strong>ID leképezés</strong> menühelyre az NFS kliens meghatározott felhasználóra történő leképezéséhez, vagy a megfelelő felhasználói fiókkal csatlakozzon egy Windows /LDAP tartományhoz, máskülönben a klienshez a <strong>guest</strong> engedélyek kerülnek hozzárendelésre a megosztott mappa elérésekor.</li>
+<li>Ha annak a külső eszköznek a fájlrendszere, amelyen megosztott mappák kerülnek létrehozásra, NTFS vagy FAT, kényszerített módon a <strong>Valamennyi felhasználó hozzárendelése adminhoz</strong> lehetőség kerül alkalmazásra.</li>
+</ul>
+<p>Ha a Kerberos biztonsági eljárást a(z) Synology NAS eszközhöz történő csatlakozásra szeretné használni, a Kerberos hitelesítést a <strong>Win/Mac/NFS</strong> > <strong>NFS szolgáltatás</strong> > <strong>Kerberos beállítások</strong> menüpontban konfigurálni kell.</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Split-brain</h2>
+
+<p>當 High Availability 叢集正常運作時，只有一台成員伺服器會扮演主伺服器的角色。在此情況下，副伺服器會透過 Heartbeat 連線以及連接共用擴充裝置的資料連線來偵測主伺服器的存在，如此一來就不會觸發轉移。此外，副伺服器還會偵測共用儲存空間的狀態，避免在當前的主伺服器仍正常存取共用的擴充裝置時，錯誤地轉移為主伺服器。</p>
+
+<p>當 Heartbeat 連線及所有資料連線中斷，或共用儲存空間及系統不穩定時，兩台伺服器都可能會試圖擔任主伺服器。此情形稱為「split-brain」。在此情況下，為了避免兩台伺服器同時存取而造成資料損毀，一台伺服器將嘗試繼續提供服務，另一台伺服器則會重新開機，並於重新開機後要求檢查連線。在此過程中，用戶端使用者可能會有一段時間遇到連線不穩定的情形。</p>
+        
+ </body>
+</html>

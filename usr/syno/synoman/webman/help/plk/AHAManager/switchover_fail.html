@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ <meta charset="utf-8">
+</head>
+ <body>
+  <h2>Przełączanie</h2>
+  
+ <p>W celu zapewnienia ciągłości działania i minimalizacji przestoj&oacute;w można przełączać usługi z serwera aktywnego w klastrze high-availability na serwer pasywny. Funkcja ta nazywa się &bdquo;przełączanie&rdquo; lub, w niekt&oacute;rych przypadkach, &bdquo;przełączanie awaryjne&rdquo;. W tej części objaśniono podstawy obu tych pojęć.</p>
+  
+  <h3>Przełączanie</h3>
+  	<p>Pojęcie &bdquo;przełączanie&rdquo; odnosi się do przełączania z serwera aktywnego na serwer pasywny klastra high-availability. W warunkach normalnych serwer aktywny zarządza działaniem wszystkich usług. W przypadku nieprawidłowego działania serwera aktywnego można zainicjować przełączenie i przeniesienie wszystkich usług na serwer pasywny, pod warunkiem że serwer pasywny działa normalnie. W takim przypadku serwer aktywny przejmuje rolę serwera pasywnego i&nbsp;na odwr&oacute;t.</p>
+    
+<h4>Aby ręcznie zainicjować przełączenie:</h4>
+ <ol>
+  <li>Przejdź do strony <b>Przegląd</b>.</li>
+  <li>Kliknij <b>Zarządzaj</b> &gt; <b>Przełącz</b>.</li>
+ </ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+   <p>Przed przystąpieniem do ręcznego przełączenia zaleca się skonfigurowanie statycznego adresu IP i&nbsp;zalogowanie się w&nbsp;systemie DSM przy użyciu tego statycznego adresu IP, aby zapobiec utracie połączenia z&nbsp;systemem DSM w&nbsp;przypadku zmiany adresu IP po przełączeniu.</p>
+</div>
+
+<div class="section">
+<h4>Uwaga:</h4>
+   <p>Po zainicjowaniu przełączania serwer aktywny przejmuje rolę serwera pasywnego, a następnie serwer pasywny staje się serwerem aktywnym. W związku z tym występuje kr&oacute;tki okres, w kt&oacute;rym oba serwery są pasywne i mogą nie być w stanie zapewniać usług w normalny spos&oacute;b. Czas przełączania r&oacute;żni się w zależności od liczby i rozmiaru wolumin&oacute;w lub jednostek iSCSI LUN (na poziomie bloku), a także liczby i łącznego obciążenia usług i&nbsp;pakiet&oacute;w w klastrze high-availability.</p>
+</div>
+
+<h3>Przełączanie awaryjne</h3>
+    
+     <p>Po wystąpieniu pewnych błęd&oacute;w system może automatycznie zainicjować przełączenie usług w celu zminimalizowania czasu przestoju. Zdarzenie takie nazywa się &bdquo;przełączaniem awaryjnym&rdquo;. Przełączenie awaryjne może zostać zainicjowane w&nbsp;następujących sytuacjach, o&nbsp;ile serwer pasywny działa normalnie.</p>
+    
+    <ul>
+      <li><b>Awaria zasilania:</b><ul>
+      	<li>Serwer aktywny jest wyłączony lub uruchamiany.</li>
+        <li>Wystąpiła awaria obu zasilaczy w serwerze aktywnym lub brak zasilania.</li>
+        <li>Brak zasilania.</li>
+      </ul></li>
+      <li><b>Błąd dysku:</b> liczba ścieżek dysk&oacute;w na aktywnym serwerze jest mniejsza niż na serwerze pasywnym.</li>
+      <li><b>Błąd usługi:</b> wystąpił błąd usługi monitorowanej.</li>
+      <li><b>Błąd połączenia:</b> wystąpił błąd połączenia monitorowanego interfejsu.</li>
+    </ul>    
+     
+    
+<h3>Niepowodzenie przełączania</h3>
+    
+		<p>Przełączanie lub przełączanie awaryjne usług może się nie powieść w następujących sytuacjach:</p>
+  	<ul>
+  	  <li><b>Nieprawidłowe połączenie Heartbeat:</b> stan połączenia między serwerem aktywnym i&nbsp;pasywnym jest nieprawidłowy.</li>
+  	  <li><b>Niezgodność wielkości pamięci:</b> serwer aktywny i&nbsp;pasywny mają r&oacute;żną wielkość pamięci RAM.</li>
+  	  <li><b>Awaria zasilania:</b><ul>
+      	<li>Serwer pasywny jest wyłączony lub uruchamiany.</li>
+        <li>Wystąpiła awaria obu zasilaczy w serwerze pasywnym lub brak zasilania.</li>
+        <li>Brak zasilania.</li>
+      </ul></li>
+  	  <li><b>Błąd połączenia:</b> wystąpił błąd połączenia monitorowanego interfejsu na serwerze pasywnym.</li>
+  	  <li><b>Błąd usługi:</b> występują błędy monitorowanych usług na serwerze pasywnym.</li>
+  	  <li><b>Błąd połączenia jednostki rozszerzającej:</b> kolejność podłączenia jednostek rozszerzających na dw&oacute;ch serwerach jest r&oacute;żna.</li>
+  	  <li><b>Błąd dysku:</b> liczba ścieżek dysk&oacute;w na serwerze pasywnym jest mniejsza niż na serwerze aktywnym.</li>
+      <li><b>Aktualizacja oprogramowania DSM:</b> na czas instalowania aktualizacji oprogramowania DSM wszystkie usługi zostaną zatrzymane; po zakończeniu aktualizacji usługi zostaną wznowione.</li>      
+ </ul>
+
+  <p>W&nbsp;przypadku ręcznej aktywacji przełączania i&nbsp;braku możliwości przełączenia usług na serwer pasywny system spr&oacute;buje przełączyć usługi z powrotem na serwer aktywny.</p>
+
+ <h3>Zasilacz awaryjny (UPS)</h3>
+  <p>Klastry high-availability można podłączyć do sieciowych zasilaczy awaryjnych (UPS) w celu zmniejszenia ryzyka nieoczekiwanej awarii zasilania. W razie utraty zasilania serwery będą zasilane z podłączonych zasilaczy UPS. Kiedy energia w&nbsp;zasilaczu UPS podłączonym do serwera aktywnego zacznie się wyczerpywać, serwer pasywny zostanie wyłączony, a&nbsp;serwer aktywny &mdash; przełączony w&nbsp;tryb awaryjny. Po przywr&oacute;ceniu zasilania serwer aktywny zostanie ponownie uruchomiony, po czym zostanie podjęta pr&oacute;ba włączenia drugiego serwera za pomocą rozgłaszanego komunikatu Wake-on-LAN.</p>
+   <ul>
+	   <li>Zaleca się podłączenie obu serwer&oacute;w i&nbsp;jednostek rozszerzających do tego samego zasilacza UPS, do kt&oacute;rego podłączone są przełączniki sieciowe.</li>
+   </ul>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Serwer Synology NAS można podłączać tylko do sieciowych zasilaczy UPS. Więcej informacji można znaleźć w&nbsp;pomocy na stronie <strong>Panel sterowania</strong> &gt; <strong>Sprzęt</strong> &gt; <strong>UPS</strong>.</p>
+</div>  
+ </body>
+</html>

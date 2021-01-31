@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Freigegebener Ordner</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>NFS-Berechtigungen zuweisen</h2>
+<p>Sie können jedem freigegebenen Ordner NFS-Berechtigungen zuweisen. Dadurch können Linux-Clients darauf zugreifen.</p>
+<h4>
+NFS-Berechtigungen für einen freigegebenen Ordner zuweisen:
+</h4>
+<ol>
+<li>Wählen Sie den freigegebenen Ordner, den Sie bearbeiten möchten, aus der Ordnerliste aus.</li>
+<li>Klicken Sie auf <strong>Bearbeiten</strong> > <strong>NFS-Berechtigungen</strong>.</li>
+<li>Klicken Sie auf <b>Erstellen</b>, um eine NFS-Regel hinzuzufügen.</li>
+<li>Ein Popup-Fenster wird angezeigt. Definieren Sie die unten stehenden Optionen.</li>
+<li><strong>Hostname oder IP:</strong> Geben Sie die IP-Adresse des NFS Client ein, der auf den freigegebenen Ordner zugreifen wird. Sie können den Hostnamen auf drei Arten festlegen:
+<ul>
+<li><strong>Single Host:</strong> Den vollen Domänennamen oder eine IP-Adresse.</li>
+<li><strong>Platzhalter:</strong> *,* .synology.com</li>
+<li><strong>IP-Netzwerke:</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>Berechtigung:</strong> Wählen Sie Lese-/Schreib-Berechtigungen für den NFS-Client.</li>
+<li> <strong> Sicherheit:</strong> Geben Sie die zu implementierende Sicherheitsvariante an.
+  <ul>
+  <li><strong>AUTH_SYS:</strong> Verwenden Sie die UID (Benutzer-ID) und GID (Gruppen-ID) des NFS-Clients, um die Zugangsberechtigungen zu überprüfen.</li>
+<li><strong>Kerberos-Authentifizierung:</strong> Führen Sie die Kerberos-Authentifizierung durch, wenn der NFS-Client eine Verbindung zum freigegebenen Ordner herstellt. Der Client kann nur nach der bestandenen Kerberos-Authentifizierung auf den freigegebenen Ordner zugreifen.</li>
+<li><strong>Kerberos-Integrität:</strong> Führen Sie die Kerberos-Authentifizierung durch, und gewährleisten Sie so die Integrität der Pakete während der Datenübertragung.</li>
+<li><strong>Kerberos-Datenschutz:</strong> Führen Sie die Kerberos-Authentifizierung durch, und verschlüsseln Sie die NFS-Pakete während der Datenübertragung, um die Manipulation des NFS-Verkehrs durch bösartige Dritte zu unterbinden.</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>: In diesem Feld können Sie die Zugriffsberechtigungen der Benutzer für den NFS-Client regeln. Bitte wählen Sie eine der folgenden Optionen:
+  <ul>
+    <li><strong>Keine Zuordnung:</strong> Erlaubt den Benutzern einschließlich der Root-Benutzer von NFS-Client die Beibehaltung der ursprünglichen Zugriffsberechtigungen.</li>
+    <li><strong>Root zu „Admin“ zuordnen:</strong> Weist den Root-Benutzern Zugriffsberechtigungen für den NFS-Client zu, die identisch sind mit den Zugriffsberechtigungen des Admin-Benutzers auf Ihrem System.</li>
+    <li><strong>Root zu „Guest“ zuordnen:</strong> Weist den Root-Benutzern Zugriffsberechtigungen für den NFS-Client zu, die identisch sind mit den Guest-Zugriffsberechtigungen auf Ihrem System.</li>
+    <li><strong>Alle Benutzer zu „Admin“ zuordnen:</strong> Weist allen Benutzern Zugriffsberechtigungen für den NFS-Client zu, die identisch sind mit den Zugriffsberechtigungen des Admin-Benutzers auf Ihrem System.</li>
+	<li><strong>Alle Benutzer zu „Guest“ zuordnen:</strong> Weist allen Benutzern Zugriffsberechtigungen für den NFS-Client zu, die identisch sind mit den Guest-Zugriffsberechtigungen auf Ihrem System.</li>
+  </ul>
+</li>
+
+<li><strong>Asynchron aktivieren:</strong> Wenn diese Option aktiviert ist, antwortet Ihr Synology NAS auf Anfragen von NFS-Clients, bevor Änderungen an Dateien durchgeführt worden sind, wodurch die Leistung verbessert wird.</li>
+<li><strong>Verbindungen von nicht-privilegierten Ports (Ports über 1024) zulassen:</strong> Durch die Markierung dieser Option können NFS-Clients nicht-privilegierte Ports (d. h. Ports über 1024) für die Verbindung zu Synology NAS verwenden. </li>
+<li><strong>Benutzern den Zugriff auf bereitgestellte Unterordner erlauben:</strong> Wenn Sie diese Option markieren, können NFS-Clients auf bereitgestellte Unterordner zugreifen.</li>
+<li>Klicken Sie zum Beenden auf <b>OK</b>.</li>
+  <li>Klicken Sie auf <b>OK</b>, um die NFS-Berechtigungen anzuwenden.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Wenn das Format des Servernamens <strong>*.domain</strong> ist, muss die IP-Adresse des NFS-Clients einen entsprechenden DNS-PTR-Bericht umfassen, damit Synology NAS den Namen *.domain durch die Suche nach der entsprechenden IP-Adresse finden kann.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Sicherheitsvarianten:</h4>
+<p> Beim Zugriff auf einen freigegebenen Ordner über NFS mit einem bestimmten Benutzerkonto: </p>
+<ul>
+<li>Wenn die Sicherheitsvariante <strong>AUTH_SYS</strong> implementiert wird: Der Client muss genau dieselbe numerische UID (Benutzer-ID) und GID (Gruppen-ID) auf dem NFS-Client und Synology NAS verwenden, sonst werden dem Client beim Zugriff auf den freigegebenen Ordner die Berechtigungen von <strong>others/Sonstige</strong>“ zugewiesen. Um alle Berechtigungskonflikte zu vermeiden, können Sie <strong>Alle Benutzer zu Admin zuordnen</strong> aus <strong>Squash</strong> auswählen, oder Sie geben „Everyone/Jedem“ die Berechtigungen für den freigegebenen Ordner.</li>
+<li>Wenn die Sicherheitsvariante <strong>Kerberos (krb5, krb5i, krb5p)</strong> implementiert wird: Gehen Sie zu <strong>Win/Mac/NFS</strong> > <strong>NFS-Dienst</strong> > <strong>Kerberos-Einstellungen</strong> > <strong>ID-Zuordnung</strong>, um den NFS-Client einem bestimmten Benutzer zuzuordnen, oder treten Sie einer Windows/LDAP-Domain mit dem entsprechenden Benutzerkonto bei, sonst werden dem Client beim Zugriff auf den freigegebenen Ordner die Berechtigungen von <strong>guest/Gast</strong> zugewiesen.</li>
+<li>Wenn das Dateisystem des externen Geräts, auf dem freigegebene Ordner erstellt werden, NTFS oder FAT ist, wird die Option <strong>Alle Benutzer zu Admin zuordnen</strong> zwangsweise angewendet.</li>
+</ul>
+<p>Für die Verwendung der Kerberos-Sicherheitsvarianten zur Verbindung mit Synology NAS muss die Kerberos-Authentifizierung unter <strong>Win/Mac/NFS</strong> > <strong>NFS-Dienst</strong> > <strong>Kerberos-Einstellungen</strong> konfiguriert werden.</p>
+</div>
+
+</body>
+</html>

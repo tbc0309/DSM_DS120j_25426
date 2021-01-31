@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Erstat diske for at udvide lagerkapaciteten</h2>
+
+<p>N&aring;r du bruger bestemte RAID-typer, kan du udvide lagerkapaciteten for en diskenhed eller diskgruppe ved at udskifte gamle diske med st&oslash;rre. Denne artikel indeholder vigtige oplysninger om udvidelsesprocessen samt et eksempel p&aring;, hvordan eksisterende diske udskiftes for at udvide lagerkapaciteten</p>
+
+<div class="section"><h4>Bem&aelig;rk:</h4>
+<ul>
+	<li>Den procedure, der beskrives i denne artikel fungerer kun med SHR, RAID 1, RAID 5 <span class="disable-grantley">og</span> RAID 6 <span class="enable-grantley">og RAID F1.</span> Hvis du planl&aelig;gger at udskifte flere diske, skal du n&oslash;je udskifte diskene en for en. Efter udskiftning af en disk, skal diskenheden eller diskgruppen repareres, f&oslash;r den n&aelig;ste disk udskiftes. For RAID 1-, RAID 5- <span class="disable-grantley">og</span> RAID 6<span class="enable-grantley"> og RAID F1</span> bliver diskenhedskapaciteten udvidet, n&aring;r alle diske er udskiftet.</li>
+</ul>
+</div>
+
+<h3 class="list_head"><a id="t1"></a>F&oslash;r du begynder</h3>
+<p>Se f&oslash;lgende noter, f&oslash;r du udskifter en disk:</p>
+<ul>
+	<li><strong>Backup data:</strong> Selv om diskenhedens udvidelsesproces ikke vil slette eksisterende data, s&aring; anbefaler vi kraftigt, at der udf&oslash;res backup, f&oslash;r du g&aring;r videre.</li>
+	<li><strong>Status for diskenhed eller diskgruppe:</strong> S&oslash;rg for, at status for din diskenhed eller diskgruppe er <strong>Normal</strong>, f&oslash;r du begynder. Hvis det ikke er tilf&aelig;ldes, skal du f&oslash;rste reparere den.</li>
+	<li><strong>Er der stadig adgang til data under udvidelsen af diskenheden?</strong> Data p&aring; dit system bliver tilg&aelig;ngelige under udvidelse af diskenheder og diskgrupper. Selv om systemet kan blive midlertidigt suspenderet, n&aring;r processen startes f&oslash;rste gang.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>Da SHR-diskenheder optimerer lagerkapaciteten baseret p&aring; antallet og st&oslash;rrelsen af installerede diske, skal du f&oslash;lge nedenst&aring;ende retningslinjer for at udvide kapaciteten korrekt:</p>
+<ul>
+	<li>Hvis kapaciteten af alle eksisterende diske er ens, skal du udskifte mindst to diske med st&oslash;rre for at udvide lagerkapaciteten. Hvis f.eks. din SHR-diskenhed best&aring;r af tre 2 TB-harddiske, skal du udskifte mindst to diske for at udvide kapaciteten.</li>
+	<li>Hvis kapaciteten af eksisterende diske er forskellig, skal de nye udskiftningsharddiske v&aelig;re lig med eller st&oslash;rre end den st&oslash;rste eksisterende disk. Derudover skal du udskifte mindre diske f&oslash;rst for at optimere kapacitetsudnyttelsen. Hvis f.eks. din SHR-diskenhed indeholder 3 diske p&aring; henholdsvis 4 TB, 3 TB og 2 TB, skal de nye udskiftningsdiske v&aelig;re mindst 4 TB. Derudover skal du f&oslash;rst udskifte 3 TB eller 2 TB-diskene.</li>
+</ul>
+</div>
+
+<div class="section"><h4>RAID 5<span class="enable-grantley">,</span> <span class="disable-grantley">og </span>RAID 6<span class="enable-grantley"> og RAID F1</span></h4>
+<p>Ved udskiftning af diske p&aring; RAID 5<span class="enable-grantley">,</span> <span class="disable-grantley">eller </span>RAID 6<span class="enable-grantley"> eller RAID F1</span>-diskenheder eller diskgrupper, skal den mindste disk altid udskiftes f&oslash;rst. Lagerkapaciteten p&aring; RAID 5- <span class="enable-grantley">og RAID F1</span>-diskenheder er (antal diske - 1) x (mindste diskst&oslash;rrelse) og p&aring; RAID 6 (antal diske - 2) x (mindste diskst&oslash;rrelse). Derfor skal den mindste disk altid udskiftes f&oslash;rst for at maksimere diskbrugen.</p>
+<p>Hvis f.eks. din RAID 5-diskenhed indeholder 3 diske p&aring; henholdsvis 4 TB, 3 TB og 2 TB, vil den tilg&aelig;ngelige kapacitet p&aring; diskenheden v&aelig;re 4 TB. Hvis du udskifter 4 TB- eller 3 TB-diskene, vil kapaciteten p&aring; diskenheden ikke &aelig;ndres. Hvis du vil &oslash;ge kapaciteten p&aring; diskenheden, skal 2 TB-disken udskiftes f&oslash;rst.</p>
+</div>
+
+<h3>Udskift diske for at udvide lagerkapaciteten</h3>
+<p>I nedenst&aring;ende trin viser vi et eksempel p&aring; udskiftning af diske p&aring; en SHR-diskenhed.</p>
+<h4>S&aring;dan erstatter du diske:</h4>
+<ol>
+	<li>&Aring;bn <strong>Lagerstyring</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>G&aring; til <strong>Diskenhed</strong> for at se den disk, der er mindst.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Sluk for din Synology NAS. (Du kan springe dette trin over hvis Synology NAS underst&oslash;tter hot-swapping).</li>
+	<li>Fjern den mindst af medlemsdiskene, og installer en ny st&oslash;rre disk.<br /><span class="note_head">Bem&aelig;rk: </span>Undg&aring; af skade dig selv eller din Synology NAS ved at f&oslash;lge diskinstallationsvejledningen i <em>Hurtiginstallationsvejledning</em> til dit Synology-produkt.</li>
+	<li>T&aelig;nd for din Synology NAS.</li>
+	<li>&Aring;bn <strong>Lagerstyring</strong> igen.</li>
+	<li>G&aring; til <strong>HDD/SSD</strong> for at sikre, at den nye disk anerkendes.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Status for din diskenhed skulle v&aelig;re <strong>Degraderet</strong>. V&aelig;lg den &oslash;nskede diskenhed, og klik p&aring; <strong>Administrer</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>V&aelig;lg <strong>Reparer</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>V&aelig;lg den erstatningsdisk, som du vil tilf&oslash;je til diskenheden. F&oslash;lg trinnene i guiden for at afslutte.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Gentag ovenst&aring;ende proces, til alle &oslash;nskede diske er udskiftet med st&oslash;rre.</li>
+</ol>
+
+</body>
+</html>

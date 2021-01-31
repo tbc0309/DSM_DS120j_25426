@@ -1,0 +1,130 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Reparer en diskenhed eller diskgruppe - Synology DSM - Hjælp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to create a volume on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Reparer en diskenhed eller diskgruppe</h2>
+
+<p>Diskenhedsfejl kan skyldes forskellige ting, f.eks. ødelagt systempartitionering eller ødelagte harddiske.  I nogle tilfælde kan du følge nedenstående trin for at diagnosticere fejlen og rette den.</p>
+
+<div class="section">
+<h4>Noter:</h4>
+<ul>
+<li>Funktionen <strong>Reparer</strong>, der beskrives her findes kun til RAID-typer med dataredundans (dvs. RAID 1, RAID 5, RAID 6 osv.). Bemærk, at funktionen ikke reparerer brudte harddiske, og garanterer heller ikke, at data på ødelagte diskenheder bliver gendannet.</li>
+<li>Ved diskenheder, der er brudt sammen, anbefaler vi, at du kontakter vores <span class="last"><a href="https://account.synology.com/support/support_form.php?lang=enu" target="_blank">Supportteam</a> for at få hjælp</span>.</li>
+</ul>
+</div>
+
+<h3>Systempartitioneringer med fejl</h3>
+
+<p>Når systempartitioneringer fejler, skulle du se en meddelelse, der fortæller, at der ikke er adgang til dine systempartitioneringer.</p>
+<h4>Sådan reparerer du systempartitioneringer:</h4>
+
+<ol>
+<li>Åbn <strong>Lagerstyring</strong>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Gå til <strong>Oversigt</strong>, og klik på knappen <strong>Reparer</strong>. Systemet skulle reparere systempartitioneringerne.</li>
+
+<img src="about:blank" class="help_image"/>
+</ol>
+
+
+<h3>Degraderede diskenheder</h3>
+
+
+<p>En diskenhed eller diskgruppe bliver <strong>Degraderet</strong>, når en harddisk har fejl, men der forekom ikke datatab. Dette sker kun med RAID-typer, der yder dataredundans, f.eks. SHR, RAID 1, RAID 5, RAID 6 og RAID 10. </p>
+<p>En degraderet diskenhed eller diskgruppe kan hurtigt rettes ved at udskifte den fejlede harddisk med en sund og reparere diskenheden eller diskgruppen.</p>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+  <li>Størrelsen på udskiftningsharddisken skal være større end eller lig med størrelsen på den mindste disk i diskenheden.</li>
+  <li>Status for udskiftningsharddisken skal være <strong>Initialiseret</strong> eller <strong>Ikke initialiseret</strong>.</li>
+</ul>
+
+</div>
+
+<h4> Sådan reparerer du en degraderet diskenhed eller diskgruppe:</h4>
+
+<ol>
+
+<li>Gå til <strong>Lagerstyring</strong> > <strong>Diskenhed</strong> eller <strong>Diskgruppe</strong> for at bekræfte status er ændret til <strong>Degraderet</strong>.</li> 
+<img src="about:blank" class="help_image"/>
+
+<li>Gå til fanen <strong>Harddisk/SSD</strong> for at se de harddiske, der har fejl.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Fjern den fejlede harddisk, og udskift den med en ny.</li>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Hvis din Synology NAS ikke understøtter hot-swapping, skal du huske at slukke for den, før du fjerner og installerer harddiske.</li>
+<li>Eksisterende data på udskiftningsharddisken bliver slettet.</li>
+</ul>
+</div>
+
+<li>Efter udskiftningsharddiske er installeret, skal du gå tilbage til fanen <strong>Diskenhed</strong> eller <strong>Diskgruppe</strong>.</li>
+
+<li>Vælg den degraderede diskenhed eller diskgruppe.</li>
+
+<li>Klik på <strong>Administrer</strong>.</li>  
+<img src="about:blank" class="help_image"/>
+
+<li>Vælg <strong>Reparer</strong>, og klik på <strong>Næste</strong>. </li>  
+<img src="about:blank" class="help_image"/>
+
+<li>Vælg den udskiftningsharddisk, som du vil tilføje til diskenheden. Klik derefter på <strong>Næste</strong>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li> Følg vejledningen i guiden for at afslutte. </li>
+</ol>
+
+
+
+
+<h3>Reparer diskenheder</h3>
+<p>For at reparere en degraderet diskenhed/diskgruppe/iSCSI LUN skal du udskifte den fejlede disk med en tilgængelige disk, der matcher følgende kriterier:</p>
+<ul>
+<li>For RAID 1, RAID 5 eller RAID 6-diskenheder kan den degraderede diskenhed repareres af en tilgængelig disk, hvis størrelse er lig med eller større end størrelsen på den mindste disk i en RAID-diskenhed.</li>
+<li>For SHR-1-diskenheder skal den tilgængelige disk opfylde ét af følgende kriterier: (1) Dens størrelse skal være lig med eller større end størrelsen på den fejlede disk, (2) Med den største disk i RAID-diskenheden udelukket, skal dens størrelse være lig med eller større end med størrelsen af den største resterende disk.
+
+<ol>
+<li>Eksempel 1: SHR-1 består af 3 TB, 2 TB, 2 TB og 1 TB diske. Hvis 3 TB disken fejler, kan den repareres af en tilgængelig disk, hvis størrelse er lig med eller større end 2 TB.</li>
+<li>Eksempel 2: SHR-1 består af 4 TB, 4 TB, 2 TB og 2 TB diske. Hvis 4 TB disken fejler, kan den repareres af en tilgængelig disk, hvis størrelse er lig med eller større end 4 TB.</li>
+<li>Eksempel 3: SHR-1 består af 4 TB, 4 TB, 2 TB og 2 TB diske. Hvis 2 TB disken fejler, kan den repareres af en tilgængelig disk, hvis størrelse er lig med eller større end 2 TB.</li>
+</ol>
+</li>
+<li>For SHR-2-diskenheder skal den tilgængelige disk opfylde ét af følgende kriterier: (1) Dens størrelse skal være lig med eller større end størrelsen på den fejlede disk, (2) Med de to største diske i RAID-diskenheden udelukket, skal dens størrelse være lig med eller større end den største resterende disk.</li>
+</ul>
+<p>Hvis du har konfigureret diske som Hot Spares, der matcher ovenstående kriterier, bliver de brugt til at reparere diskenheden/diskgruppen/RAID Group/iSCSI LUN.</p>
+
+
+<h3>Løs nedbrudt diskenhed</h3>
+
+<p>Når status for en diskenhed bliver<strong> Brudt sammen</strong>, kan du ikke reparere disken selv. For at løse dette problem anbefaler vi, at du kontakter vores <a href="https://account.synology.com/support/support_form.php?lang=enu" target="_blank">Supportteam</a> for at få hjælp.</p>
+
+<div class="section">
+<h4>Før du kontakter support:</h4>
+
+<ul>
+<li>Red dine data på din Synology NAS ved at kopiere filerne på computeren eller eksterne diske via File Station, Windows-filservice, FTP eller andre filtjenester.</li>
+<li>Bevar rækkefølgen af harddiskene, som da diskenheden brød sammen.</li>
+<li>Udfør en S.M.A.R.T.-test på de problematiske harddiske. Det gør du ved at gå til <strong>Lagerstyring</strong> > <strong>Harddisk/SSD</strong>.  Vælg den pågældende harddisk, og klik på <strong>S.M.A.R.T.-test</strong>.<br />
+</li>
+</ul>
+</div>
+</body>
+</html>

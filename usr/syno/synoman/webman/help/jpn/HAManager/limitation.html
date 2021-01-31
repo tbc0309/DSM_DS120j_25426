@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>制限およびシステム要件 - Synology DSM ヘルプ</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>制限およびシステム要件</h1>
+
+<p>Synology High Availability の実装には、アクティブ サーバーおよびパッシブ サーバーとして機能する 2 つのまったく同じ Synology サーバーが必要です。2 つのサーバーが high-availability クラスターに結合される前に、Synology High Availability ウィザードは、確実に high-availability クラスターを作成できるようにするために、以下のハードウェアおよびソフトウェアをチェックします。</p>
+ 
+  
+<h3>システム要件</h3>
+ 
+<p>ソフトウェアおよびハードウェアに関する以下のガイドラインにご注意ください。</p>
+  <ul>
+<li><b>Synology サーバー：</b>アクティブ サーバーとパッシブ サーバーはどちらも同じモデルであり、Synology High Availability に対応していなければなりません。High-availability クラスタの名前は、アクティブ サーバーとパッシブ サーバーの名前とは別にしなければなりません。</li>
+<li><b>DSM バージョン：</b>アクティブ サーバーとパッシブ サーバーには同じバージョンの DSM をインストールする必要があります。 </li>
+<li><b>パッケージ バージョン：</b>2 台の Synology サーバーには同じバージョンの Synology High Availability をインストールする必要があります。</li>
+  </ul>
+
+  
+<h3>ボリュームおよびドライブ</h3>
+ 
+<p>ストレージスペース（ボリューム、ディスクグループ、RAID Group など）とハードドライブの管理についてのガイドラインに従ってください。</p>
+  <ul>
+<li><b>ドライブの容量：</b>データを複製するためには、パッシブ サーバーのドライブ容量がアクティブ サーバーのそれと同じであるか、またはそれ以上でなければなりません。統一性を保つために、両方のサーバーのドライブ容量が完全に同等となるようにしてください。 </li>
+<li><b>ドライブの数とタイプ：</b>アクティブ サーバーとパッシブ サーバーには、同じ数のハードドライブを装着してください。また、ドライブの番号付けと位置が両方のサーバーで同じでなければなりません。ドライブのタイプ（SSD/HDD、SAS/SATA 等）と規格（4K または 512-byte セクターサイズ）も両方のサーバーで同じでなければなりません。ドライブ数の中には、USB ハードドライブなどの外部デバイスは含まれていません。</li>
+<li><b>Hot Spare 修復：</b>パッシブ サーバーの劣化したボリュームでは Hot Spare 修復は開始されません。ただし、アクティブ サーバーのボリュームが劣化した場合は、Hot Spare 修復が実行されます。また、システムがパッシブ サーバーの RAID ボリュームから正常なドライブを1台取り除いて Hot Spare 修復を確実に実行させるため、パッシブ サーバーのボリュームも劣化します。</li>
+<li><b>SHR フォーマット未対応：</b>SHR フォーマットのボリュームはサポートされていません。アクティブ サーバーとなる Synology サーバーに、SHR ボリュームがないことを確認してください。 </li>
+  </ul>
+
+    <div class="section">
+<h4>注：</h4>
+    <ul>
+<li>パッシブ サーバーのドライブの速度も high-availability クラスタの書き込み性能に影響します。なぜなら、データは Heartbeat 接続を介してパッシブ サーバーに同期されるからです。アクティブ サーバーとパッシブ サーバーの両方で同じドライブを使用するようお勧めします。</li>
+<li>パッシブ サーバーが故障したり、Heartbeat の接続が切断された場合は、ボリュームが一時的に使用できなくなり、iSCSI 転送は約 10 秒間一時的に停止します。</li>
+    </ul>
+    </div>
+
+  
+<h3>ネットワーク環境</h3>
+<p>High-availability クラスタを構築する際は、ネットワーク設定に関するガイドラインに従ってください。</p>
+  <ul>
+<li><b>ネットワーク設定：</b>両サーバーとも、同じサブネットに属する固定 IP アドレスを持っていなければなりません。</li>
+<li><b>LAN ポートの数：</b>両方のサーバーは同じ数の LAN ポートを備えていなければなりません。Synology NAS に別のネットワーク カード インターフェイスがある場合は、これらのネットワーク カードも追加の LAN ポートとしてカウントされます。 </li>
+<li><b>接続環境の制限：</b>2 台のサーバーの接続環境はマルチキャストでサポートされている必要があり、ファイアウォール規則が high-availability クラスタが使用するポートをブロックしないようにしてください。Heartbeat 接続がスイッチをパススルーする場合は、スイッチがマルチキャストと Jumbo Frame に対応しているか確認してください。</li>
+<li><b>接続制限：</b> サーバーは、DHCP、IPv6、PPPoE、Wi-Fi を介してネットワークに接続することはできません。High-availability クラスタを構築する前に、これらの機能を無効にしておいてください。</li>
+<li><strong>DHCP サービスなし：</strong>クラスタに結合されているときには、サーバーは内蔵の DHCP サーバー オプションを使用することができません。</li>
+<li><strong>Link Aggregation 設定：</strong>両サーバーとも、データ ネットワークと heartbeat 接続に同じ link aggregation 設定を使用しなければなりません。high-availability クラスタを構築した後は、link aggregation の設定は変更できなくなります。</li>
+<li><b>Open vSwitch の設定:</b> 両方のサーバーの Open vSwitch の状態は、同じでなければなりません（有効または無効のいずれかで）。high-availability クラスターが作成されると、Open vSwitch の設定は変更できません。</li>
+
+  </ul>
+  <div class="section">
+<h4>注：</h4>
+    <ul>
+<li>NTP サービスは、high-availability クラスタが構築されるとアクティブ サーバーで自動的に有効になります。</li>
+    </ul>
+  </div>
+<h3>ストレージ マネージャの制限</h3>
+<p>High-availability クラスタが完成すると、ストレージマネージャで RAID タイプを変更することはできなくなります。ただし、次のオプションは使用できます。
+<ul>
+<li>ストレージ スペースの拡張（例：ボリューム、ブロックレベルの iSCSI LUN、ディスク グループ、RAID Group など）。</li>
+<li>ボリューム、iSCSI LUN、SSD 読み取り専用キャッシュおよび読み書きキャッシュの作成、削除、修復。</li>
+<li>iSCSI LUN（ファイル レベル）のサイズと位置の変更。</li>
+<li>iSCSI LUN ターゲットの変更。   </li>
+  </ul>
+
+  <div class="section">
+<h4>注：</h4>
+    <ul>
+<li>high-availability クラスタが構築されたら、ドライブの位置を変えないでください。変えてしまうと、ストレージスペースが失われてしまいます。</li>
+<li>Synology iSCSI target に接続したサーバーがフェイルオーバー中にタイムアウトしないように、iSCSI クライアントとイニシエーターのタイムアウト設定を120秒以上に調整するようお勧めします。</li>
+    </ul>
+  </div>
+
+ 
+<h3>パッケージとソフトウェアの制限</h3> 
+
+<p>High-availability クラスタが構成されると、次のパッケージと機能はサポートされなくなります。</p>
+	<ul>
+
+<li>Virtual Machine Manager</li>
+<li>MailPlus Server</li>
+<li>PetaSpace</li>
+
+<li>CMS で high-availability クラスタをリブート/シャットダウンする機能</li>
+    </ul>
+
+
+  <div class="section">
+<h4>注：</h4>
+    <ul>
+<li>High Availability の Docker DSM に対応できるようにするには、クラスターを作成する前に、Open vSwitch を有効にしなければなりません。</li>
+    </ul>
+   </div>
+
+<h3>追加される拡張ユニット</h3>
+<p>High-availability クラスタが構築されたら、ストレージ領域を拡張するために、拡張ユニットを既存の high-availability クラスタ構成に追加することができます。他のハードウェアの条件と同じで、アクティブ サーバーとパッシブ サーバーでも同じ拡張ユニットが必要です。整合が取れないことが原因でエラーが発生しないように、拡張ユニットを追加する際は次の説明にしたがってください。</p>
+  
+<h4>拡張ユニットを追加する：</h4>
+   <ol>
+<li>アクティブ サーバーとパッシブ サーバーには、全く同じ拡張ユニットとハードディスクを追加してください。すでに説明したとおり、アクティブ サーバーとパッシブ サーバーのハードウェア（ハードウェア モデル、タイプ、ハードディスクのサイズ、位置を含みます）は、どちらの同じものでなければなりません。</li>
+<li>拡張ユニットのハードディスクにデータやボリュームが何もないことを確認してください。</li>
+<li>アクティブ サーバーとパッシブ サーバーの両方に電源が入り、作動した後で、拡張ユニットを接続してください。</li>
+<li>どちらかのサーバーの電源を切る前に、拡張ユニットに新しいストレージスペース（ボリューム、ディスクグループ、RAID Group など）を作成してください。</li>
+   </ol>
+<div class="section">
+<h4>注：</h4>
+<p>拡張ユニットの装着についての基本的な情報は、拡張ユニットの取扱説明書をお読みください。</p>
+</div>
+
+
+<h3>USB デバイスの制限</h3>
+<p>USB デバイスのスイッチオーバー/フェイルオーバーには対応していません。USB デバイスが提供するサービスやアプリケーションは、スイッチオーバー/フェイルオーバーの後では正しく機能しない場合があります。</p>
+
+   
+ </body>
+</html>

@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Volum</h2>
+<p>Volum er grunnleggende lagringsomr&aring;der hvor brukeren kan opprette delte mapper, iSCSI LUN-er (vanlig fil), lagre data eller installere pakker. F&oslash;r du oppretter volum, m&aring; du kontrollere at du allerede har opprettet en RAID Group. For mer informasjon om RAID Group-er kan du se <a href="raid.html">RAID Group</a>.
+</p>
+
+<h4>Slik oppretter du et volum:</h4>
+<ol>
+	<li>Kontroller at din Synology NAS har en eksisterende RAID Group med ledig plass.</li>
+	<li>Klikk p&aring; knappen <strong>Opprett</strong>.</li>
+	<li>Velg en RAID Group du vil opprette volumet p&aring;.</li>
+	<li>Endre &oslash;nskede innstillinger.</li>
+	<li>Angi st&oslash;rrelsestilordningen for volumet. (Du kan ikke angi st&oslash;rrelsestilordning for volum som er opprettet p&aring; RAID Group-er for ett enkelt volum eller iSCSI LUN.)</li>
+    <li>Velg om du vil arkivere tidspunkt for filtilgang:</li>
+	  <ul>
+      <li>Aktivering av <strong>Arkiver tidspunkt for filtilgang</strong>-alternativet tilsvarer bruk av monteringsalternativet relatime i Linux-systemer. Tidspunktet for filtilgang blir kun oppdatert n&aring;r det siste tilgangstidspunktet (atime) er tidligere enn gjeldende modifiseringstidspunkt (mtime) eller endringstidspunkt (ctime). Tilgangstidspunktet blir ogs&aring; oppdatert hvis det siste tilgangstidspunktet er eldre enn &eacute;n dag.</li>
+      <li>Deaktivering av <strong>Arkiver tidspunkt for filtilgang</strong>-alternativet tilsvarer bruk av monteringsalternativet noatime i Linux-systemer. Tilgangstidspunktet for filer og mapper blir ikke oppdatert, noe som f&oslash;rer til mindre filsystemforbruk. V&aelig;r oppmerksom p&aring; at enkelte programmer er avhengig av filtilgangstidspunkt for &aring; fungere som normalt.</li>
+      </ul>
+    <li>Klikk p&aring; knappen <strong>Bruk</strong> for &aring; bekrefte innstillingene.</li>
+
+
+</ol>
+
+<div class="section"><h4>Merk:</h4>
+<ul>
+	<li>Maksimum volumst&oslash;rrelse som kan tilordnes er 200 TB.</li>
+	<li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Minimumsst&oslash;rrelsen som tilordnes et Btrfs-volum m&aring; v&aelig;re minst 10 GB.</li>
+    <li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Btrfs-volum reserverer 4 % av plassen til metadata.</li>
+</ul>
+</div>
+
+<h4>Slik fjerner du et volum:</h4>
+<ol>
+	<li>Velg volumet du &oslash;nsker &aring; fjerne.</li>
+	<li>Klikk p&aring; <strong>Fjern</strong>-knappen og f&oslash;lg veiviseren for &aring; fullf&oslash;re prosessen.</li>
+</ol>
+
+<div class="section"><h4>Merk:</h4>
+<ul>
+	<li>Fjerning av et volum vil slette all eksisterende data p&aring; det volumet.</li>
+</ul>
+</div>
+
+<h4>Slik tvangsmonterer du et volum:</h4>
+<p>Hvis bufferen p&aring; et volum mangler, vil ikke systemet kunne montere volumet ved oppstart. Hvis bufferen ikke kan gjenopprettes, og du vil ha tilgang til volumet, kan du klikke p&aring; <strong>Tving montering</strong>. </p>
+
+<div class="section"><h4>Merk:</h4>
+<ul>
+	<li>Denne funksjonen er kun tilgjengelig p&aring; bestemte modeller.</li>
+</ul>
+</div>
+
+<h4>Slik reparerer du et volum:</h4>
+<p>Hvis volumstatusen er <strong>Degradert</strong>, g&aring; du til fanen <strong>RAID Group</strong> og finner riktig RAID Group. Deretter f&oslash;lger du de foresl&aring;tte instruksjonene for &aring; reparere den.</p>
+
+<h4>Slik utvider du volumets st&oslash;rrelse</h4>
+<ul>
+	<li>For volum som er opprettet p&aring; en RAID Group for flere volum eller iSCSI LUN-er (blokkniv&aring;). 
+		<ol>
+			<li>Velg volumet du &oslash;nsker &aring; utvide.</li>
+			<li>Klikk p&aring; <strong>Rediger</strong>.</li>
+			<li>Angi ny st&oslash;rrelse og klikk p&aring; <strong>OK</strong> for &aring; utvide.</li>
+		</ol>
+	</li>
+	<li>For volum som er opprettet p&aring; en RAID Group for ett enkelt volum eller iSCSI LUN (blokkniv&aring;), kan du se seksjonen <strong>For &aring; utvide st&oslash;rrelsen til en RAID Group</strong> p&aring; <a href="raid.html">RAID Group</a>, volumst&oslash;rrelsen vil bli utvidet etter at underliggende RAID Group er blitt utvidet.</li>
+</ul>
+
+<h3>SSD TRIM</h3>
+<p>Hvis et volum utelukkende best&aring;r av SSD-er (Solid State Drives), anbefaler vi &aring; aktivere SSD TRIM. Denne funksjonen forbedrer lese- og skriveytelsen til volum som er opprettet p&aring; SSD-er og &oslash;ker effektiviteten i tillegg til &aring; forlenge levetiden p&aring; dine SSD-er.</p>
+
+<h4>Slik aktiverer du SSD TRIM:</h4>
+<ol>
+	<li>&Aring;pne <strong>Lagringsh&aring;ndtering</strong> og g&aring; til <strong>Volum</strong>.</li>
+	<li>Velg et volum som utelukkende best&aring;r av SSD-er og klikk deretter p&aring; knappen <strong>Konfigurer</strong>.</li>
+	<li>I vinduet som &aring;pnes g&aring;r du til fanen <strong>SSD TRIM</strong> og merker av for <strong>Aktiver TRIM</strong>.</li>
+	<li>Klikk p&aring; knappen <strong>Stille inn tidsplan</strong> for &aring; velge n&aring;r systemet skal utf&oslash;re SSD TRIM.</li>
+	<li>Klikk p&aring; <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>Merk:</h4>
+<ul>
+	<li>SSD TRIM er kun tilgjengelig p&aring; enkelte Synology NAS-modeller og RAID-typer. </li>
+	<li>Enkelte SSD-modeller kan ikke utf&oslash;re SSD TRIM p&aring; RAID 5-<span class="enable-grantley">,</span> <span class="disable-grantley"></span>RAID 6-<span class="enable-grantley"> og RAID F1</span>-volum. Se kompatibilitetslisten p&aring; Synologys <a href="https://www.synology.com/" target="_blank">offisielle nettside</a>.</li>
+	<li>SSD TRIM kan ikke aktiveres i f&oslash;lgende situasjoner:
+		<ul>
+			<li>Volumet er montert med SSD-hurtigbuffer.</li>
+			<li><strong>Time Backup</strong>-pakken er installert.</li>
+		</ul>
+	</li>
+	<li>SSD TRIM kan ikke aktiveres p&aring; iSCSI LUN-er med blokkniv&aring;.</li>
+	<li>Systemytelsen vil bli p&aring;virket mens SSD TRIM utf&oslash;res. Tiden det tar &aring; fullf&oslash;re TRIM varierer avhengig av volumst&oslash;rrelse og SSD-modell.</li>
+	<li>N&aring;r TRIM er aktivert p&aring; et volum, vil det ogs&aring; aktiveres p&aring; andre volum som er opprettet p&aring; samme diskgruppe eller RAID Group.</li>
+</ul>
+</div>
+
+
+<h3>Skrubbing av filsystem*</h3>
+<p>Skrubbing av filsystem er en datavedlikeholdsfunksjon som inspiserer volum. Hvis det oppdages data som ikke er konsekvent med kontrollsummen, vil filbanen bli oppf&oslash;rt i Loggsenter. Vi anbefaler deg &aring; bruke en sikkerhetskopi til &aring; reparere dataene.</p>
+
+<p>Vi anbefaler regelmessig skrubbing av filsystemet for &aring; sikre datakonsekvens.</p>
+
+<h4>Slik utf&oslash;rer du skrubbing av filsystemet:</h4>
+<ol>
+	<li>&Aring;pne <strong>Lagringsh&aring;ndtering</strong> og g&aring; til <strong>Volum</strong>.</li>
+	<li>Velg volumet du vil skrubbe.</li>
+	<li>Klikk p&aring; <strong>Administrer</strong>.</li>
+	<li>Velg <strong>Skrubbing av filsystem</strong>.</li>
+</ol>
+
+<div class="section"><h4>Merk:</h4>
+<ul>
+	<li>Skrubbing av filsystemet kan kun utf&oslash;res p&aring; volum i et <strong>Btrfs</strong>-filsystem.</li>
+	<li>Skrubbing av filsystemet kan kun utf&oslash;res n&aring;r statusen til volumet er <strong>Normal</strong>.</li>
+	<li>Ikke sl&aring; av maskinen f&oslash;r skrubbingen av filsystemet er fullf&oslash;rt. Hvis systemet sl&aring;s av f&oslash;r prosessen er fullf&oslash;rt, m&aring; du starte skrubbingen av filsystemet p&aring; nytt manuelt.</li>
+</ul>
+</div>
+
+<h3>Defragmentering av filsystem*</h3>
+<p>Hvis dataene dine er i konstant endring, vil mengden av fragmenterte filer p&aring; filsystemet ditt &oslash;ke, og det vil ta lengre tid &aring; &aring;pne filer p&aring; harddisken. Defragmentering av filsystemet kan forbedre ytelsen.</p>
+
+<h4>Slik defragmenterer du filsystemet:</h4>
+<ol>
+	<li>&Aring;pne <strong>Lagringsh&aring;ndtering</strong> og g&aring; til <strong>Volum</strong>.</li>
+	<li>Velg volumet som skal defragmenteres.</li>
+	<li>Klikk p&aring; <strong>Administrer</strong>.</li>
+	<li>Velg <strong>Defragmentering av filsystem</strong>.</li>
+</ol>
+
+<div class="section"><h4>Merk:</h4>
+<ul>
+	<li>Defragmentering av filsystemet kan kun utf&oslash;res p&aring; volum i et <strong>Btrfs</strong>-filsystem.</li>
+	<li>Defragmentering av filsystemet kan kun utf&oslash;res n&aring;r statusen til volumet er <strong>Normal</strong>.</li>
+	<li>Ikke sl&aring; av maskinen f&oslash;r defragmenteringen av filsystemet er fullf&oslash;rt. Hvis systemet sl&aring;s av f&oslash;r prosessen er fullf&oslash;rt, m&aring; du starte defragmenteringen av filsystemet p&aring; nytt manuelt.</li>
+	<li>Volumforbruket kan &oslash;ke hvis volumet inneholder snapshots av delte mapper.</li>
+</ul>
+</div>
+
+<p>____<br />*Kun tilgjengelig p&aring; enkelte modeller.</p>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>域</h2>
+
+<p>您的 Synology NAS 可加入 Windows 域。加入 Windows 域后，域用户可以使用其域帐号及密码登录 Synology NAS 来访问文件及使用 DSM 应用程序，而无需记住另一套用户名和密码。</p>
+
+<h4>若要加入域：</h4>
+<ol>
+	<li>请进入<strong>控制面板</strong> &gt; <strong>域/LDAP</strong> &gt; <strong>域</strong>。</li>
+	<li>勾选<strong>加入域</strong>复选框。</li>
+	<li>在相应的栏目中输入域名并指定 DNS 服务器。</li>
+	<li>如需要，勾选<strong>高级域选项</strong>复选框。（参阅下述内容以了解详情。）</li>
+	<li>单击<strong>应用</strong>。</li>
+	<li>在弹出的窗口中，输入该域管理员的用户名和密码。</li>
+	<li>单击<strong>确定</strong>。</li>
+</ol>
+
+<div class="section"><h4>DNS Server</h4>
+<p>建议指定 DNS 服务器来帮助 Synology NAS 搜索域。但是如果没有在 DNS 服务器上注册域，则加入域的过程可能会失败。</p>
+
+<h4>域服务器类型</h4>
+<p>当 Synology NAS 加入域时，此栏将显示域类型。域类型为&ldquo;AD domain&rdquo;。</p>
+
+<h4>管理模式</h4>
+<p>此选项将决定您管理域用户和群组的方式。</p>
+<ul>
+	<li><strong>受信任域</strong>：可以管理已加入域和受信任域中的用户和群组。可以按域过滤用户和群组的列表。</li>
+	<li><strong>带组织单元的单域</strong>：在此模式下，将仅显示加入域中的用户和群组。此模式允许您按组织单元 (OU) 过滤用户和群组的列表。</li>
+</ul>
+
+<h4>高级域选项</h4>
+<p>正常状况下您不需要填写高级域选项。仅在特殊域环境时，您才需要填写高级域选项。</p>
+<ul>
+	<li><strong>DC IP/FQDN</strong>：指定 DC（域控制器）的 IP 地址或 FQDN，Synology NAS 会尝试与它进行通信。如果有多个 IP 地址或 FQDN，请在两者之间插入逗号 (,) 隔开。如需要，您可以在最后一个 DC IP 地址或 FQDN 的末尾加上星号 (*)，Synology NAS 将会在与您指定的 DC 通信失败后，尝试和其他 DC 通信。同时以英文逗号将最后一个 IP 地址或 FQDN 与星号隔开。</li>
+	<li><strong>域的 NetBIOS 名称</strong>：指定域的 NetBIOS 名称。</li>
+	<li><strong>域的 FQDN（DNS 名称）</strong>：指定域的 FQDN（DNS 名称）。</li>
+	<li><strong>注册 DNS 接口</strong>: 加入域后，在此指定的 NIC（网络接口卡）将注册到 DNS 服务器。请注意，如果 Synology NAS 的主机名包括下划线 (_)，则注册会失败，因为下划线 (_) 不能与 DNS 一起使用。</li>
+	<li><strong>更新用户/群组列表</strong>：指定 Synology NAS 自动更新域用户/群组列表的频率。您可以自定义每天、每周或每月执行更新的时间。此外，您可以进入<strong>域用户</strong>选项卡，单击<strong>更新域数据</strong>来手动更新域用户/群组列表。请注意，自动更新会影响系统休眠。</li>
+</ul>
+
+<h4>加入只读域控制面板</h4>
+<p>若要让 Synology NAS 加入只读域控制面板 (RODC)，您需要在 <strong>DC IP/FQDN</strong> 栏内指定读写域控制器 (RWDC) 的&ldquo;完整计算机名称&rdquo;(FQDN)。完整计算机名称的格式如下：<strong>计算机名称.域</strong>，例如&ldquo;ad01.synology.com&rdquo;。</p>
+</div>
+
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>如果您的域用户名称包含 % 或 $，则可能无法访问您的主目录文件夹。请向域管理员要求一个新的用户名。</li>
+	<li>域组 <strong>Domain Admins</strong> 和 <strong>Enterprise Admins</strong> 将自动添加到本地 <strong>administrators</strong> 群组中。因此，这些群组中的域用户将拥有 Synology NAS 的管理权限，包括访问文件服务（如 CIFS/FTP/AFP/WebDAV）以及其他 DSM 应用程序。</li>
+	<li>您也可以设置域用户对 Synology NAS 共享文件夹的访问权限。参阅<a href="file_directory_service_user_group.html">此处</a>以了解更多信息。</li>
+</ul>
+</div>
+
+<h3>域选项</h3>
+
+<p>本部分包括下列其它域选项。</p>
+<ul>
+	<li><strong>域用户每次登录时，DiskStation 将自动与 NTP 服务器同步</strong>：启用此选项将强制同步 Synology NAS 与 NTP 服务器之间的时间。</li>
+	<li><strong>通过 NT4 兼容模式获取用户/群组列表</strong>：启动此选项可让系统获取使用 NT4 RPC 模式的用户/群组列表。如果使用默认设置无法获取特定域用户/群组列表，您可以启用此选项。</li>
+	<li><strong>启用服务器签发</strong>：如果客户端已启用客户端签发，则 Synology NAS 也必须启用服务器签发，这样用户才能正常使用域服务。</li>
+	<li><strong>列举嵌套组的级别数</strong>：指定可以被列举的嵌套数量、域群组成员。</li>
+	<li><strong>域管理员</strong>：指定您要向其授予管理员权限的至多 10 个用户群组。拥有管理员权限的任何用户都可完全控制您的 Synology NAS 及存储其中的文件。</li>
+	<li><strong>启用集成 Windows 验证</strong>：启用此选项可使已通过域帐户登录其计算机的用户无需输入用户名和密码，即可通过 Internet 浏览器登录 DSM。</li>
+</ul>
+
+<div class="section"><h4>使用集成 Windows 验证</h4>
+<ul>
+	<li>客户端计算机必须运行 Windows 操作系统，并且版本必须为 Windows 7 或以上版本。</li>
+	<li>客户端计算机必须加入与 Synology NAS 相同的域。</li>
+	<li>进入 Windows <b>控制面板</b> &gt; <b>Internet 选项</b> &gt; <b>高级</b>，确保勾选<b>安全</b>区域下的<b>启用集成 Windows 验证</b>复选框。</li>
+	<li>集成 Windows 验证适用于所有浏览器。对于 Firefox，还需要执行几个其他步骤才能进行设置。<ul>
+			<li>打开 Firefox 浏览器，在 URL 栏中输入 <b>about:config</b>。</li>
+			<li>搜索 <b>network.automatic-ntlm-auth.trusted-uris</b>。</li>
+			<li>双击<b>值</b>栏并输入域的 IP 地址。</li>
+		</ul>
+	</li>
+	<li>如果您要将 Synology NAS 加入 Synology Directory Server 创建的域，则需要进行额外配置才能使用集成 Windows 验证：<ol>
+			<li>进入 DSM <b>控制面板</b> &gt; <b>文件服务</b> &gt; <b>SMB/AFP/NFS</b>。</li>
+			<li>在 <b>SMB</b> 区域下，单击<b>高级设置</b>。</li>
+			<li>从<b>最小 SMB 协议</b>下拉菜单中选择 <b>SMB1</b>，然后单击<b>保存</b>。</li>
+		</ol>
+	</li>
+
+</ul>
+</div>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>通过集成 Windows 验证登录仅在 DSM 6.2.2 或以上版本上可用。</li>
+		</ul></li>
+</ul>
+</div>
+
+<h3>域状态检查</h3>
+
+<p>您可单击<strong>域状态检查</strong>以检查 DSM 与其加入的域服务器之间的连接状态。有关故障排除的详情，请参阅以下检查项目：</p>
+<ul>
+	<li><strong>检查 Synology NAS 和域控制器之间是否<font>正确连接</font></strong>: Synology NAS 无法与域控制器<font>进行通信</font>。<ul>
+			<li>请确认端口 389、139 和 445 在域控制器上<font>正常工作</font>。</li>
+			<li>请确认 NTDS 服务在域控制器上<font>正常工作</font>。</li>
+		</ul>
+	</li>
+	<li><strong>检查子网中是否存在冲突主机名</strong>：您的 Synology NAS 有子网中已存在的主机名。<ul>
+			<li>如果您的 Synology NAS 通过多个网络接口连接到子网，您的 DSM 将正常工作。</li>
+			<li>如果您的 Synology NAS 通过单个网络接口连接到子网，请更改 Synology NAS 的主机名，并将其再次加入到该域。</li>
+		</ul>
+	</li>
+	<li><strong>检查 Synology NAS 和 Kerberos 服务器之间是否正确连接</strong>：Synology NAS 无法与 Kerberos 服务器进行通信。<ul>
+			<li>请确认 DNS 服务器上存在正确的 Kerberos DNS SRV 记录和相关 A 记录。</li>
+			<li>请确认 KDC 服务器的端口 88 可用。</li>
+		</ul>
+	</li>
+	<li><strong>检查 Synology NAS 和 LDAP 服务器之间是否正确连接</strong>：Synology NAS 无法与 LDAP 服务器进行通信。<ul>
+			<li>请确认 DNS Server 上存在正确的 LDAP DNS SRV 记录和相关 A 记录。</li>
+			<li>请确认 LDAP 服务器上的端口 389 正常工作。</li>
+		</ul>
+	</li>
+	<li><strong>检查 MTU 是否正确配置，以确保 Synology NAS 和域控制器之间的连接正常工作</strong>：由于数据包的 MTU 大小无效，导致一个或多个交换机丢弃 Synology NAS 和<font>域控制器</font>之间传输的数据包。<ul>
+			<li>请检查 Synology NAS 和域控制器之间的交换机<font>接口设置</font>。</li>
+		</ul>
+	</li>
+	<li><strong>检查 Synology NAS 和域之间的时间是否同步</strong>：Synology NAS 上的时间未与域服务器同步。<ul>
+			<li>您可以在 Synology NAS 上设置 NTP 服务以便与域服务器时间同步，或在<strong>域选项</strong>中启用<strong>域用户每次登录时，使 Synology NAS 与 NTP 服务器同步</strong>选项。</li>
+		</ul>
+	</li>
+</ul>
+
+</body>
+</html>

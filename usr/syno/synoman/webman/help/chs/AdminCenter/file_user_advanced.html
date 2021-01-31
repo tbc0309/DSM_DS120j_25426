@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>用户高级设置</h2>
+
+<p>若要修改用户高级设置，您可以进入<strong>控制面板</strong> > <strong>用户</strong> > <strong>高级</strong>。您有以下选项可使用。</p>
+
+<h3>密码设置</h3>
+<p>您可以为 Synology NAS 上的用户调整密码安全性和强度规则相关的设置。</p>
+
+<h4>若要允许用户在忘记密码时通过电子邮件重置：</h4>
+<ol>
+	<li>请勾选<strong>允许非管理员用户在忘记密码时通过电子邮件重置</strong>复选框。</li>
+	<li>单击<strong>应用</strong>来保存设置。</li>
+	<li>DSM 登录页面将显示标记为“忘了密码？”的链接。当用户忘记密码时，可单击此链接并输入用户名。然后，系统会向此用户发送电子邮件，邮件中含有重置密码的链接。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>启用该选项之前，请先确认您已启用 SMTP 电子邮件通知。若要执行此操作，请进入<strong>控制面板</strong> > <strong>通知</strong>。</li>
+	<li>若要接收系统信息，用户必须在帐户的用户信息区域中提供电子邮件地址。</li>
+	<li>属于 <strong>administrators</strong> 群组的用户无法使用此选项来重置密码。</li>
+	<li>域用户无法使用此选项来重置密码。</li>
+	<li>只要 Synology NAS 作为 LDAP 目录服务器并满足以下条件，LDAP 用户就能使用此选项来重置密码：<ul>
+			<li>Synology <strong>LDAP Server</strong> 套件版本必须为 2457 或以上版本。</li>
+			<li>LDAP 用户不可是管理员、Directory Operators、Directory Consumers 或 Directory Clients 的成员。</li>
+			<li>如果 Synology LDAP Server 为 <strong>Consumer</strong>，则其 <strong>Provider</strong> 必须满足上述条件。</li>
+			<li>最终的 Provider 必须可通过用户的网页浏览器访问，且其电子邮件通知必须启用。</li>
+			<li>若要避免重置遗忘密码的链接被他人使用，必须从提出忘记密码请求的同一 IP 地址单击该链接。</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>若要强制用户在密码重置后更改密码：</h4>
+<ol>
+	<li>请勾选<strong>管理员重置密码后，强制用户更改密码</strong>复选框。</li>
+	<li>单击<strong>应用</strong>来保存设置。</li>
+	<li>管理员为某用户更改密码后，该用户下次登录时，系统会要求其更改密码。</li>
+</ol>
+
+<h4>若要启用密码强度规则：</h4>
+<ol>
+	<li>勾选<strong>应用密码强度规则</strong>复选框。</li>
+	<li>根据需要勾选或取消勾选以下选项：<ul>
+			<li><strong>密码中不能包含用户名及用户描述</strong>：密码中不能包含用户名或用户描述。若用户名称或描述为 UTF-8 字符，则不在此限制中。</li>
+			<li><strong>包括大小写</strong>：密码须包含大小写字母。</li>
+			<li><strong>包含数字字符</strong>：密码中至少要包含 0 ~ 9 中的一个数字字符。</li>
+			<li><strong>包含特殊字符</strong>：密码必须至少包含一个 ASCII 特殊字符（即 <span class="note_content">~ ` ! @ # $ % ^ & * ( ) - _ = + [ { ] } \ | ; : ' " < > / ? , .</span> 及空格）。</li>
+			<li><strong>排除常用密码</strong>：禁止用户设置常用密码，例如 <em>123456</em>、<em>password</em>、<em>qwerty</em> 等。</li>
+			<li><strong>最短密码长度</strong>：最短密码长度不可小于文本栏中指定的值。密码长度必须介于 6 到 127 个字符之间。</li>
+			<li><strong>密码历史</strong>：密码必须不同于之前设置的密码，限制须相异的次数可于此处指定。</li>
+		</ul>
+	</li>
+	<li>单击<strong>应用</strong>来保存设置。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>密码强度规则仅适用于新创建的密码。例如，只有在创建新用户帐户或现有用户更改密码时，才会应用新的密码强度规则。新密码强度规则不适用于现有用户帐户密码以及属于导入的用户帐户密码。</li>
+</ul>
+</div>
+
+<h3>密码到期</h3>
+<p>您可通过密码到期功能强制用户在特定时间后更改密码来增强用户帐户的安全性。</p>
+
+<h4>若要设置密码到期计划：</h4>
+<ol>
+	<li>请勾选<strong>启用密码到期</strong>复选框。</li>
+	<li>以下选项可供配置：<ul>
+			<li><strong>密码有效期上限</strong>：指定密码将于多少天后到期。</li>
+			<li><strong>密码有效期下限</strong>：勾选复选框可启用此功能，并指定在多少天之后才允许用户更改其密码。</li>
+			<li><strong>密码到期前将于每次登录时提醒用户更改密码</strong>：勾选复选框可启用此功能，指定在密码到期前多少天开始，将在用户登录时提醒用户更改其密码。</li>
+			<li><strong>允许用户在密码到期后更改密码</strong>：勾选此复选框可让用户用当前已到期密码登录并更改其密码。</li>
+			<li><strong>发送到期通知电子邮件</strong>：勾选此复选框可通过电子邮件通知用户密码到期。</li>
+		</ul>
+	</li>
+	<li>单击<strong>应用</strong>来保存设置。</li>
+</ol>
+
+<h3>两步验证功能</h3>
+<p>两步验证可为 DSM 用户帐户提供更进一步的安全保护。您可以强制 DSM 管理员或所有的 DSM 用户启用两步验证功能，以进一步保护其帐户。</p>
+
+<h4>若要为 DSM 用户强制执行两步验证：</h4>
+<ol>
+	<li>请勾选<strong>强制以下用户进行两步验证</strong>复选框，然后选择要应用此功能的用户。</li>
+	<li>单击<strong>应用</strong>来保存设置。</li>
+	<li>应用此强制功能后，尚未启用两步验证的用户必须完成系统要求的相关设置，才能登录 DSM。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>如果尚未在<strong>个人</strong> > <strong>帐户</strong>中配置两步验证，则在您应用此强制功能之前，系统将启用两步验证设置向导，以帮您完成所需设置。</li>
+	<li>禁用此处的两步验证强制功能不会影响或禁用个别用户的两步验证设置。用户可保留其两步验证设置，或进入<strong>个人</strong> > <strong>帐户</strong>以禁用这些设置。</li>
+	<li style="display: none;">两步验证还能应用到所有 SSH 相关服务，如 SSH 终端机、SFTP 以及使用 SSH 传输加密的 rsync。但由于使用 SSH 传输加密 rsync 的 Hyper Backup 和共享文件夹不支持两步验证，因此就算启用两步验证功能，这两种服务也将无法正常工作。</li>
+</ul>
+</div>
+
+
+<h3>用户主目录</h3>
+
+<p>启用用户主目录功能来为每一位用户（<strong>guest</strong> 用户除外）创建个人 <strong>home</strong> 文件夹。所有的用户都可以通过 CIFS、AFP、FTP 或 File Station 来访问自己的 home 文件夹。</p>
+
+<p>属于 <strong>administrators</strong> 群组的用户可访问所有用户的个人文件夹（位于默认的 <strong>homes</strong> 共享文件夹中）。Home 文件夹的名称与用户帐户的名称相同。</p>
+
+<h4>若要启动用户主目录服务：</h4>
+<ol>
+	<li>请勾选<strong>启用用户主目录服务</strong>。</li>
+	<li>如有多个存储卷，请选择要用来存储 <strong>homes</strong> 文件夹的存储卷。</li>
+	<li>单击<strong>应用</strong>。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>禁用本地用户的主目录服务后，域用户的主目录服务也会一并禁用。</li>
+</ul>
+</div>
+
+<h4>若要禁用用户主目录服务：</h4>
+<ol>
+	<li>请取消勾选<strong>启用用户主目录服务</strong>。</li>
+	<li>单击<strong>应用</strong>来保存设置。</li>
+</ol>
+
+<p>禁用用户主目录服务后，<strong>homes</strong> 共享文件夹将会保留以供系统管理员访问。重新启用用户主目录服务后，用户仍可访问其 home 文件夹。</p>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>若要删除 <strong>homes</strong> 共享文件夹，您必须先禁用用户主目录服务。</li>
+	<li>如果本地用户的主目录服务已禁用，域用户的主目录服务也会一并禁用。</li> 
+</ul> 
+</div>
+
+</body>	
+</html> 

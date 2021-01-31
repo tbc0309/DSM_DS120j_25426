@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Overview</h2>
+	<p>This page displays basic information regarding the high-availability cluster and member servers. In addition, this page provides tools to perform maintenance on high-availability clusters and member servers.</p>
+
+<h3>High-Availability Cluster Status</h3>
+  <p>This field displays the overall status of your high-availability cluster, alerting you to any errors. The following is a table of possible conditions displayed in this field:</p>
+    <table>
+     <tr>
+      <th width="12%">Status</th>
+      <th width="88%">Description</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Healthy</strong></td>
+      <td>The overall condition of your high-availability cluster is good.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Loading</strong></td>
+	  <td>The system is loading the cluster status. <strong>Switchover</strong> cannot be performed until the status loading is finished. Please refer to <a href="switchover_fail.html">Switchover</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Configuring</strong></td>
+	  <td>The system is being configured. <b>Switchover</b> cannot be performed until the configuration is completed.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Warning</strong></td>
+      <td>The status of HA cluster is abnormal, but the services are still functioning. <strong>Switchover</strong> may not be performed in this situation.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Danger</strong></td>
+	  <td>Both the active and passive servers are malfunctioning, or the storage is crashed. The high-availability cluster is unable to function normally. Please check the status of all storage spaces (e.g. RAID Groups, Disk Groups, volumes, and iSCSI LUNs). <b>Switchover</b> cannot be performed in this situation.</td>
+     </tr>
+    </table>
+<h3>Warning Messages</h3>
+   <p>The following table displays warning messages that might appear when an error occurs in the system. When more than one warning message appears, you can navigate between them with the forward/backward buttons. </p>
+    <table>
+     <tr>
+      <th width="21%">Warning/Error</th>
+      <th width="79%">Description</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>There is no passive server in this high-availability cluster</strong></td>
+	  <td>The information of passive server is not available. Please make sure the passive server is connected correctly. In this case, switchover will be unavailable.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Failed to detect the passive server</strong></td>
+      <td>This error might occur because the passive server is offline or the active and passive servers cannot communicate via  Heartbeat connection. In this case, switchover will be unavailable.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Failed to perform failover</strong></td>
+      <td>A failover has been triggered on the active server but failed. In this case, the active server will not attempt another failover. To eliminate this error, follow the steps below:
+		<ol>
+		  <li>Try to sort out the problems in the high-availability cluster.</li>
+		  <li>Reboot the passive server.</li>
+		  <li>Perform a switchover by clicking <strong>Manage</strong> > <strong>Switchover</strong>.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Monitored target error</strong></td>
+      <td>An error occurred in one or more monitored targets, including system status, service, or network interface.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Error(s) have occurred in the connection between the expansion units and active/passive server</strong></td>
+      <td>The expansion units are not correctly connected to the active or passive server. Please make sure their connection to the active server is correct, and setup the same connection to the passive server. In this case, switchover will be unavailable.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>A volume has been degraded</strong></td>
+      <td>A storage space (e.g. RAID Group, Disk Group, volume, iSCSI LUN and SSD cache) is degraded. Please check the <b>Storage Status</b> page.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>A volume has been crashed</strong></td>
+      <td>A storage space (e.g. RAID Group, Disk Group, volume, iSCSI LUN and SSD cache) is crashed. Please check the <b>Storage Status</b> page. Failover will be performed automatically if the passive server manages to recognize the drives that the active server has failed to access. Otherwise, switchover will be unavailable.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Heartbeat connection is lost</strong></td>
+      <td>This error might occur due to Heartbeat connection failure. In this case, switchover will be unavailable.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Hardware malfunction</strong></td>
+      <td>This error might occur due to hardware (e.g., power unit or system fan) failure on the active server or passive server..</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Different physical RAM size</strong></td>
+      <td>This error might occur due to mismatched physical RAM size on the active and passive servers. In this case, switchover will be unavailable.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>No static IP has been assigned to this high-availability cluster</strong></td>
+      <td>This error might occur due to lack of a static IP for the high-availaility cluster. In this case, switchover will be unavailable.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>There is no static IP on monitored interface</strong></td>
+      <td>This error might occur due to lack of a static IP for the monitored interface. In this case, switchover will be unavailable.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Recovering passive server</strong></td>
+      <td>Passive server recovery is in progress. In this case, switchover will be unavailable.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Upgrading passive server</strong></td>
+      <td>The system is upgrading the passive server. In this case, switchover will be unavailable.</td>
+     </tr>
+
+    </table>
+
+<h3>High-Availability Cluster &quot;Manage&quot; Button</h3>
+
+<p>This button is located beneath the high-availability cluster information. It includes the following operations:</p>
+<ul>
+<li><b>Switchover:</b> Initiates a switchover from the active server to the passive server. During this process, the active server stops providing services and becomes the new passive server. Then, the old passive server becomes the new active server and begins providing all services of the high-availability cluster. This option is unavailable when the passive server is <b>error</b> status or not selected.</li>
+<li><b>Update DSM:</b> Opens the <strong>DSM Update</strong> page of <strong>Control Panel</strong>. From here, both servers can be updated.</li>
+<li><b>Shut down high-availability cluster:</b> Shuts down both the active and passive servers.</li>
+<li><b>Shut down active server:</b> Shuts down the active server. Services will be switched over if the passive server is healthy.</li>
+<li><b>Shut down passive server:</b> Shuts down the passive server.</li>
+<li><b>Reboot active server:</b> Reboots the active server. Services will be switched over if the passive server is healthy.</li>
+<li><b>Reboot passive server:</b> Reboots the passive server.</li>
+<li><b>Recover the unknown server:</b> Recover the passive server if the passive server is replaced or is still recognized as unknown.</li>
+<li><b>System beep off:</b> Halts the beeping sound of the actie server and passive server when an error occurs. The system will still beep on active server or passive server if another error occurs later.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>If you shut down the passive server or there is no passive server, services cannot be switched over when errors occur in the active server.</li>
+</ul>
+</div>
+
+<h3>Server Diagram and Information</h3>
+ <p>The server diagram shows the server status. The location corresponds to the side of modules to which the server is connected. Mouse over it to get more details.</p>
+<p>It includes the following situations:</p>
+<ul>
+  <li><b>There is no passive server in this high-availability cluster:</b> Displays a blank frame.</li>
+  <li><b>Failed to detect the passive server:</b> Displays a blurred server image.</li>
+  <li><b>Exclamation Mark:</b> Hardware may malfunction, or server information is not available due to Heartbeat connection failure.</li>
+</ul>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>If it shows "unknown" on the other server, it means that the server does not belong to the high-availability cluster. Click <b>Manage</b> and select <b>Recover the unknown server</b> to fix this issue.</li>
+</ul>
+</div>
+
+<p>Server information includes the following entries. It shows <b>N/A</b> if no passive server is detected.</p>
+
+  <ul>
+   <li><b>Serial Number:</b> Serial number of the Synology server.</li>
+   <li><b>Fan Status:</b> Status of the server’s cooling fans. If one of the fans malfunctions, a warning will appear. In this case, please contact your local distributor for assistance.</li>
+   <li><b>Temperature:</b> Temperature of the Synology server. </li>
+   <li><b>Power Status:</b> Indicates whether the server's power supplies are all functioning normally. If the server is equipped with redundant power supplies, a warning will appear if one of them malfunctions.</li>
+    <li><b>Physical Memory:</b> Physical RAM size of the Synology server. Switchover cannot be performed if the two servers do not have the same physical RAM size.</li>
+  </ul>
+
+<h3>Connectivity status between servers</h3>
+<p>This section contains images between the active and passive servers. It includes the following situations:</p>
+<ul>
+  <li><b>No image:</b> Indicates no passive server is detected.</li>
+  <li><b>Still image:</b> Indicates incorrect Heartbeat connection.</li>
+  <li><b>Exclamation Mark:</b> Indicates abnormal communication between the two servers, or incorrect Heartbeat connection.</li>
+</ul>
+
+<h3>Network interface status</h3>
+<p>This section contains images between servers and data network. It includes the following situations:</p>
+<ul>
+  <li><b>No exclamation mark:</b> Indicates no network failure is detected.</li>
+  <li><b>Exclamation Mark:</b> Indicates failure occurring in the monitored network interface.</li>
+</ul>
+
+<h3> Shared Storage Diagram and Information</h3>
+ <p>Shared storage diagram shows the connectivity status between the servers and shared storage. Mouse over it to get basic information.</p>
+<p>It includes the following situations:</p>
+<ul>
+  <li><b>No exclamation mark:</b> Indicates no error is detected.</li>
+  <li><b>Exclamation Mark:</b> Indicates abnormal connectivity status of the expansion units.</li>
+</ul>
+
+<p>Shared storage basic information includes the following entries. Go to <b>Storage Manager</b> for more detailed information.</p>
+
+  <ul>
+   <li><b>Fan Status:</b> Displays the status of the fans of your expansion units. If a fan malfunctions, a warning will appear. In this case, please contact your local distributor for assistance.</li>
+   <li><b>Power Status:</b> Indicates whether the server's power supplies are all functioning normally. A warning will appear if one of them malfunctions.</li>
+   </ul>
+ </body>
+</html>

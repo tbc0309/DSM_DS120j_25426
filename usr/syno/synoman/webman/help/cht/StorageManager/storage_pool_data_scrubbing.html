@@ -1,0 +1,138 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+<title>Data Scrubbing</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Data scrubbing is a data maintenance feature that inspects volumes or disk groups and repairs any detected data inconsistencies.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Data Scrubbing</h2>
+
+<h3>執行 Data Scrubbing</h3>
+<p>Data Scrubbing 的功能為資料維護，用於檢測儲存集區。Data Scrubbing 有以下兩種類型，將依序執行：</p>
+
+<ul>
+<li><strong>檔案系統 scrubbing：</strong>此功能可用於 Btrfs 檔案系統上的儲存空間。若偵測到任何與總和檢查碼不一致的資料，系統會嘗試使用備份來修復資料，並將檔案路徑記錄於日誌中心。</li>
+<li><strong>RAID scrubbing：</strong>此功能可用於採用 SHR (由三顆以上的硬碟組成)、RAID 5 或 RAID 6 的儲存集區。它可修復所偵測到的不一致資料。</li>
+
+</ul>
+
+<p>建議您定期執行 Data Scrubbing 以確保資料的一致性，避免重要資料在硬碟故障時出現遺失的情形。</p>
+
+<div class="section">
+<h4>注意：</h4>
+	<ul>
+	<li>Data Scrubbing 及本文中提到的相關功能僅適用於特定機種。</li>
+	<li>Data Scrubbing 在儲存集區的狀態為<strong>降級</strong>或是<b>損毀</b>的情況下無法執行。</li>
+	<li>未啟動<b>資料總和檢查碼以進行進階資料保護</b>功能的共用資料夾將不會記錄檢查碼，因此檔案系統 Scrubbing 無法檢查與修復這類資料夾中的檔案。</li>
+	</ul>
+</div>
+
+<h3>設定 Data Scrubbing 排程</h3>
+<p>您可以設定 Data Scrubbing 排程。系統將根據您的設定執行 Data Scrubbing。</p>
+<h4>若要設定排程：</h4>
+<ol>
+<li>開啟<strong>儲存空間管理員</strong>。</li>
+<li>前往<strong>儲存集區</strong> > <strong>Data Scrubbing</strong>。</li>
+<li>按一下<strong>設定排程</strong>。</li>	
+<li>勾選<strong>啟動 Data Scrubbing 排程</strong>。</li>
+<li>指定<b>執行頻率</b>、<b>開始日期</b>以及希望執行的<b>執行時段</b>。</li>
+<li>前往<strong>選擇執行目標</strong>頁籤。</li>
+<li>勾選欲加入排程的儲存集區。</li>
+<li>按一下<strong>確定</strong>。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>狀態<b>正常</b>且支援 Data Scrubbing 的儲存集區才能加入排程。</li>
+<li>若您的系統是從 6.1 版本升級，預設會將可以執行 Data Scrubbing 的儲存集區加入排程。</li>
+<li>若您在 6.1 版本已經設定過排程，我們會依據之前的設定幫您自動啟用排程。</li>	
+</ul></div>
+
+<h4>若要將儲存集區加入排程或從排程中移除：</h4>
+
+<ol>
+<li>按一下<strong>設定排程</strong>。</li>
+<li>前往<strong>選擇執行目標</strong>頁籤。</li>
+<li>勾選或取消勾選儲存集區的核取方塊來決定要加入或是移出排程。</li>
+<li>按一下<strong>確定</strong>。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>儲存集區正在手動執行 Data Scrubbing 時，無法被加入排程或從排程中移除。</li>
+<li>若要將正在執行 Data Scrubbing 排程的儲存集區從排程中移除，該儲存集區的所有進度將會流失。</li>
+</ul></div>
+
+<h4>若要修改排程設定：</h4>
+
+<ol>
+<li>按一下<strong>設定排程</strong>。</li>
+<li>依照需求修改<b>執行頻率</b>、<b>開始日期</b>以及<b>執行時段</b>。</li>
+<li>按一下<strong>確定</strong>。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>修改<strong>開始日期</strong>將會重置整個排程的進度，Data Scrubbing 將依據新的開始日期重新執行排程。</li>
+</ul></div>
+
+<h4>若要暫停排程：</h4>
+
+<ol>
+<li>選擇正在執行 Data Scrubbing 排程的儲存集區。</li>
+<li>按一下<b>動作</b>下拉式選單中的<strong>暫停排程</strong>。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>您需要按一下<b>動作</b>下拉式選單中的<strong>繼續排程</strong>才能讓 Data Scrubbing 的排程繼續執行。否則，排程將維持暫停的狀態。</li>
+</ul></div>
+
+<h4>若要停用排程：</h4>
+<ol>
+	<li>按一下<strong>設定排程</strong>。</li>
+	<li>取消勾選<strong>啟動 Data Scrubbing 排程</strong>。</li>
+	<li>按一下<strong>確定</strong>。</li>
+</ol>	
+	
+<h3>手動執行 Data Scrubbing</h3>
+<p>當系統偵測到儲存空間異常時，您可以藉由手動執行 Data Scrubbing 來嘗試修復資料。</p>
+<h4>若要手動執行 Data Scrubbing：</h4>	
+<ol>
+<li>開啟<strong>儲存空間管理員</strong>。</li>
+<li>前往<strong>儲存集區</strong> > <strong>Data Scrubbing</strong>。</li>
+<li>選擇要執行 Data Scrubbing 的儲存集區。</li>
+<li>按一下<strong>動作</strong>下拉式選單中的<strong>手動執行</strong>。</li>
+</ol>
+	
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>系統若在 Data Scrubbing 結束前關機，部分程序將會遺失，您需手動重新執行 Data Scrubbing。</li>
+<li>若手動執行時間和排程執行時間相重疊，仍須等待手動執行完畢，此輪排程才會完成。</li>	
+<li>執行 Data Scrubbing 可能會影響系統效能，若非必要不建議您同時對多組儲存集區手動執行 Data Scrubbing。</li>		
+</ul></div>
+
+<h4>若要暫停正在手動執行 Data Scrubbing 的儲存集區：</h4>
+<ol>
+<li>選擇要暫停 Data Scrubbing 的儲存集區。</li>
+<li>按一下<strong>動作</strong>下拉式選單中的<b>暫停</b>。</li>
+</ol>	
+
+</body>
+</html>

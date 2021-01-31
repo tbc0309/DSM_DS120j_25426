@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>DSM 帮助 - SSO 客户端</title>
+<meta name="author" content="Synology Inc.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>SSO 客户端</h2>
+
+<h3>域/LDAP SSO 客户端</h3>
+
+<p>如果您的 Synology NAS 已加入与 SSO 服务器同一个域或 LDAP 服务，可将 Synology NAS 设置为 SSO 客户端。用户在以其证书信息登录 SSO 服务器后可访问 Synology NAS 提供的服务。</p>
+
+<p>开始之前，请确认 Synology NAS 已加入与 SSO 服务器同一个域或 LDAP 服务。</p>
+
+<h4>若要将 Synology NAS 设置为 SSO 客户端：</h4>
+<ol>
+	<li>请进入<strong>控制面板</strong> > <strong>域/LDAP</strong> > <strong>SSO 客户端</strong>。</li>
+	<li>勾选<strong>启用 SSO 服务</strong>复选框。</li>
+	<li>在复选框的以下栏中指定 <strong>SSO 服务器 URL</strong> 和<strong>应用程序 ID</strong>。<div class="section"><h4>注：</h4>
+		<p>若要获取应用程序 ID，请选择以下方法之一：</p>
+		<ul>
+			<li><strong>方法 1：</strong><ol>
+					<li>登录作为 SSO 服务器运行的 DSM。</li>
+					<li>将起到客户端应用程序作用的 Synology NAS 添加到 SSO Server 的“应用程序列表”中。要了解详细步骤，请参见 <strong>SSO Server</strong> > <strong>应用程序列表</strong>中的“帮助”文章。</li>
+					<li>Synology NAS 添加到 SSO 服务器后，复制和粘贴 SSO Server 分配的应用程序 ID。</li>
+				</ol>
+			</li>
+			<li><strong>方法 2：</strong><ol>
+					<li>输入 <strong>SSO 服务器 URL</strong>* 后，单击应用程序 ID 栏旁的<strong>快速注册</strong>。</li>
+					<li>在注册框内，在<strong>服务器管理员</strong>和<strong>密码</strong>栏中输入 SSO 服务器管理员帐户的证书信息。</li>
+					<li>在<strong>应用程序名称</strong>栏中指定客户端应用程序的名称。</li>
+					<li>确认<strong>重定向 URI</strong> 为指向 Synology NAS 的登录页面。</li>
+					<li>单击<strong>确定</strong>，您的 Synology NAS 将被添加到 SSO Server，并*自动填入“应用程序 ID”。</li>
+				</ol>
+			</li>
+		</ul>
+		<p>______</p><p style="margin-left: 20px; text-indent: -10px;">* 在配置每个 SSO 客户端时，您需要输入相同的 SSO 服务器 URL (主机名或 IP 地址)。</p>
+		</div>
+	</li>
+	<li>单击<strong>应用</strong>来保存设置。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>如果 SSO 服务器使用 HTTPS 协议，SSO 登录可能被默认的受信任证书中的浏览器所封锁。</li>
+	<li>当通过 HTTP 协议访问 SSO 服务器时，如果您的 Synology NAS（设置为 SSO 客户端）使用 HTTPS 连接，则用户需要配置其浏览器的配置，以允许使用不安全的连接。</li>
+	<li>如果您在 DSM 的<strong>控制面板</strong> > <strong>安全性</strong> > <strong>安全性</strong>中勾选了<strong>启动 HTTP 内容安全政策 (CSP) 标题以提高安全性</strong>复选框，将不支持在 IPv6 格式下 SSO 服务器的 IP 地址。</li>
+</ul>
+</div>
+
+<h3>Azure AD SSO 客户端</h3>
+
+<p>如果您的 Synology NAS 已经使用 <strong>site-to-site VPN</strong> 加入了 Azure AD 域，或是同步到了 Azure AD 域的 Windows 域，则可以将您的 Synology NAS 设置为 Azure SSO 客户端。用户在以其证书信息登录 Azure SSO 服务器后可访问 Synology NAS 提供的服务。</p>
+
+<p>开始之前，请确保您的 Synology NAS 已通过 VPN 加入到 Azure AD 域或是已同步到 Azure AD 域的 Windows 域。</p>
+
+<h4>若要将 Synology NAS 设置为 Azure SSO 客户端：</h4>
+<ol>
+	<li>请进入<strong>控制面板</strong> > <strong>域/LDAP</strong> > <strong>SSO 客户端</strong>。</li>
+	<li>勾选<strong>启用 Azure SSO 服务</strong>复选框。</li>
+	<li>在相应字段中指定<strong>客户端 ID</strong>、<strong>客户端密码</strong>、<strong>租户 ID</strong> 以及 <strong>重定向 URI</strong>。</li>
+	<li>单击<strong>应用</strong>来保存设置。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>若需获取<a href="#clientid">客户端 ID/密码</a>以及<a href="#tenantid">租户 ID</a>的详细步骤，请参阅下面的部分。</li>
+	<li>出于安全原因，用户有责任使用 Azure SSO 通过 <strong>HTTPS</strong> 登录到 DSM。</li>
+</ul>
+</div>
+
+<h4><a id="clientid"></a>若要获取应用程序的客户端 ID 和客户端密码：</h4>
+<ol>
+	<li>使用管理账户登录到 Azure 常用门户。</li>
+	<li>在 <strong>ACTIVE DIRECTORY</strong> 中，选择包含您的用户账户的目录。</li>
+	<li>进入到<strong>应用程序</strong>选项卡，然后单击底部的<strong>添加</strong>以添加新应用程序。</li>
+	<li>单击<strong>添加我的组织正在开发的应用程序</strong>。</li>
+	<li>填写您的应用程序的<strong>名称</strong>，然后选中 <strong>WEB 应用程序和/或 WEB API</strong> 复选框。</li>
+	<li>填写<strong>登录 URL</strong>。例如：<em>https://yourdomain:port/webman/login.cgi</em></li>
+	<li>填写 <strong>APP ID URI</strong>。例如，<em>https://yourdomain:port/</em></li>
+	<li>完成设置后，选择您的应用程序，您将会找到<strong>客户端 ID</strong>。</li>
+	<li>添加一个密钥，然后单击<strong>保存</strong>。您将会获得纯文本格式的<strong>客户端密码</strong>。</li>
+</ol>
+
+<h4><a id="tenantid"></a>若要获取应用程序的租户 ID：</h4>
+<ol>
+	<li>如上所述重复步骤 1 至 3。</li>
+	<li>在<strong>应用程序</strong>选项卡中，选择一个应用程序，然后单击底部的<strong>查看端点</strong>。</li>
+	<li>将在每个文本字段中显示一系列 ID。将 ID 复制粘贴到<strong>租户 ID</strong> 字段中。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>Microsoft Azure™ 的用户界面可能随时更改，恕不另行通知。</li>
+	<li>有关 Azure AD 机制的详情，请参阅下列网页：<ul>
+			<li><a href="https://docs.microsoft.com/en-us/azure/active-directory/" target="_blank">Azure Directory 文档</a></li>
+			<li><a href="https://docs.microsoft.com/en-us/azure/active-directory-domain-services/" target="_blank">Active Directory Domain Services 文档</a></li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+</body>
+</html>

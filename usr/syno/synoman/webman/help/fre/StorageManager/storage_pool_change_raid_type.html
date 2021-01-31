@@ -1,0 +1,128 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Modifier le type de RAID d&apos;un groupe de stockage - Aide de Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing storage pools on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+	
+</head>
+<body>
+<h2>Modifier le type de RAID d&apos;un groupe de stockage</h2>
+
+<p>Les groupes de stockage peuvent &ecirc;tre modifi&eacute;s d&apos;un type de RAID &agrave; un autre, sans perdre les donn&eacute;es existantes. Par exemple, vous pouvez cr&eacute;er un groupe de stockage RAID&nbsp;1 sur votre Synology NAS, et par la suite passer &agrave; RAID&nbsp;5 si vous installez davantage de disques. Cet article fournit des instructions pour modifier le type de RAID des groupes de stockage existants sur votre Synology NAS. Avant de commencer &agrave; modifier le type de RAID d&apos;un groupe de stockage, reportez-vous aux sections <b>Conditions requises pour le disque</b> et <b>Configuration requise et limitations du type de RAID</b> ci-dessous, pour plus d&apos;informations sur les exigences et les limitations applicables.<h3>Conditions requises pour le disque</h3>
+
+<p>Pour modifier le type de RAID d&apos;un groupe de stockage, vous devez avoir un nombre suffisant de disques disponibles install&eacute;s sur votre Synology NAS. Veuillez consulter ci-dessous le nombre minimum de disques requis pour chaque type de RAID.</p>
+
+<table>
+  <tr>
+    <th width="50%">Type de RAID</th>
+    <th width="50%">Nombre minimum de disques requis</th>
+  </tr>
+  <tr>
+    <td>RAID&nbsp;1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID&nbsp;5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID&nbsp;6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 ou 5 (selon la configuration de disque de SHR-1)</td>
+  </tr>
+
+</table>
+
+</p>
+<h3>Configuration requise et limitations du type de RAID</h3>
+
+<p>Seuls certains types de RAID peuvent &ecirc;tre transform&eacute;s en d&apos;autres types de RAID. Par exemple, le RAID&nbsp;1 peut &ecirc;tre transform&eacute; en RAID&nbsp;5 mais le RAID&nbsp;5 ne peut pas &ecirc;tre transform&eacute; en RAID&nbsp;1. Pour plus de d&eacute;tails, veuillez consulter le tableau ci-dessous.</p>
+
+<table>
+  <tr>
+    <th width="30%">Type de RAID actuel</th>
+    <th width="30%">Type de cible de conversion possible</th>
+    <th width="40%">Nombre de disques suppl&eacute;mentaires requis</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID&nbsp;1</td>
+    <td>1</td>
+  </tr>
+ <tr>
+    <td>Basic</td>
+    <td>RAID&nbsp;5</td>
+	  <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID&nbsp;1</td>
+    <td>RAID&nbsp;5</td>
+	  <td>1</td>
+  </tr>
+  <tr>
+    <td>RAID&nbsp;5</td>
+    <td>RAID&nbsp;6</td>
+	  <td>1</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+	  <td>1 ou 2 (selon la configuration de disque de SHR-1)</td>
+  </tr>
+
+</table>
+
+<div class="section"><h4>Remarque&nbsp;:</h4>
+<ul>
+<li>Pour plus d&apos;informations sur SHR (Synology Hybrid RAID), cliquez <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_is_Synology_Hybrid_RAID_SHR" target="_blank">ici</a>.</li>
+<li>Pour plus d&apos;informations sur le choix du type de RAID d&apos;un groupe de stockage, cliquez <a href="storage_pool_what_is_raid.html">ici</a>.</li>
+<li>Pour une estimation de l&apos;utilisation de l&apos;espace, consultez la <a href="https://www.synology.com/support/RAID_calculator" target="_blank">calculatrice Synology RAID</a>.</li>
+<li>Avec les configurations de disques suivantes, un groupe de stockage&nbsp;SHR-1 peut n&eacute;cessiter deux disques suppl&eacute;mentaires lors de sa transformation en groupe de stockage&nbsp;SHR-2&nbsp;:<ul>
+<li>Le groupe de stockage ne contient que deux disques.</li>
+<li>Tous les disques ont des capacit&eacute;s diff&eacute;rentes.</li>
+<li>Dans une matrice&nbsp;RAID comprenant au moins trois disques, la capacit&eacute; des deux disques les plus volumineux est sup&eacute;rieure &agrave; celle des autres disques.</li>
+</ul>
+</li>
+<li>Certains mod&egrave;les ne prennent pas en charge le passage d&apos;un groupe de stockage RAID&nbsp;5 &agrave; un groupe de stockage RAID&nbsp;6.</li>
+</ul>
+</div>
+
+<h3>Modifier le type de RAID</h3>
+
+<h4>Avant de commencer&nbsp;:</h4>
+<p>Avant de modifier le type de RAID, veuillez prendre en compte les informations suivantes&nbsp;:</p>
+<ul>
+<li>Assurez-vous que l&apos;&eacute;tat de votre groupe de stockage est <b>Sain</b>.</li>
+<li>Lorsque vous ajoutez de nouveaux disques &agrave; un groupe de stockage, ils doivent &ecirc;tre plus volumineux que le plus petit disque du groupe de stockage et tous les disques doivent &ecirc;tre du m&ecirc;me type.</li>
+<li>Le type de RAID des matrices&nbsp;RAID dans un RAID&nbsp;Group ne peut pas &ecirc;tre modifi&eacute;. La fonctionnalit&eacute; RAID&nbsp;Group n&apos;est disponible que sur certains mod&egrave;les.<br><span class="note_head">Remarque&nbsp;:</span> Veuillez acc&eacute;der &agrave; <a href="https://www.synology.com/products" target="_blank">cette page Web</a> et cocher la case situ&eacute;e en haut &agrave; droite de votre Synology NAS, ainsi que celle de tous les autres mod&egrave;les, puis cliquez sur le bouton <b>Comparer</b> dans le coin inf&eacute;rieur droit. Si votre mod&egrave;le prend en charge RAID&nbsp;Group, il sera affich&eacute; sur la page Web intitul&eacute;e <b>R&eacute;sultats de la comparaison</b>.</li>
+</ul>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+
+<ul>
+<li>Nous vous recommandons d&apos;utiliser des disques figurant dans la <a href="https://www.synology.com/compatibility" target=blank>Liste de compatibilit&eacute; des produits Synology</a> pour &eacute;viter tout probl&egrave;me. L&apos;utilisation de disques non compatibles pourrait avoir une incidence sur les performances syst&egrave;me, voire provoquer une perte de donn&eacute;es.</li>
+</ul>
+</div>
+<h4>Pour modifier le type de RAID d&apos;un groupe de stockage&nbsp;:</h4>
+
+<ol>
+<li>Lancez le <strong>Gestionnaire de stockage</strong>.</li><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/><li>Acc&eacute;dez &agrave; <b>Groupe de stockage</b>.</li>
+<li>S&eacute;lectionnez le groupe de stockage dont vous voulez modifier le type de RAID et cliquez sur <b>Modifier le type de RAID</b> dans le menu d&eacute;roulant <b>Action</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/change_raid_type.png" class="help_image"/><li>S&eacute;lectionnez le type de RAID que vous voulez appliquer. Cliquez sur <b>Suivant</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_raid.png" class="help_image"/><li>S&eacute;lectionnez les disques durs &agrave; ajouter au groupe de stockage existant. Cliquez sur <b>Suivant</b>.<br><span class="note_head">Remarque&nbsp;:</span> Toutes les donn&eacute;es du disque nouvellement ajout&eacute; seront effac&eacute;es. Veillez &agrave; sauvegarder vos donn&eacute;es &agrave; l&apos;avance.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_disks.png" class="help_image"/><li>Suivez l&apos;assistant pour terminer le processus.</li></ol>
+
+</body>
+</html>

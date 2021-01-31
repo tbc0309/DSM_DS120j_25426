@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>備份 &amp; 同步</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>共用資料夾同步</h2>
+<p>透過共用資料夾同步服務，使用者可將共用資料夾從一台 Synology NAS 裝置 (來源) 同步至區域網路或網際網路上的其它 Synology NAS 裝置 (目的地)。</p>
+<p>第一次進行同步時，共用資料夾同步功能會將所選的共用資料夾進行完整的同步。之後則會僅同步檔案修改過的部分。若在來源端移除檔案，目的地也會移除對應的檔案。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>共用資料夾同步提供單向同步功能，可將來源端檔案同步至目的地。若要使用雙向同步功能，請使用 <strong>Synology Drive ShareSync</strong>。</li>
+<li>如果目的地已存在共用資料夾，其名稱與來源端共用資料夾 (例如名稱為 SharedFolder) 相同，目的地資料夾將被命名為「SharedFolder_1」。</li>
+<li>如果目的地沒有與來源端共用資料夾同名的共用資料夾，將會在對應或第一個可用的儲存空間中建立同名的資料夾。</li>
+<li>依照預設，使用者皆無權限存取目的地共用資料夾。請連絡目的地 <strong>admin</strong>，請求權限。</li>
+</ul>
+</p>
+</div>
+
+<h3>啟動服務</h3>
+<h4>若要啟動共用資料夾同步：</h4>
+<p>您必須在目的地 Synology NAS 上啟動此服務。</p>
+<ol>
+<li>請前往<strong>控制台</strong> &gt; <strong>檔案服務</strong> &gt; <strong>rsync</strong>。</li>
+<li>選擇<strong>啟動 rsync 服務</strong>，便可啟動共用資料夾同步服務。</li>
+<li>按一下<strong>套用</strong>。</li>
+</ol>
+
+
+<h4>若要取消共用資料夾與目的地 Synology NAS 的連結：</h4>
+
+<p>如果不同的來源端同時同步名稱相同的共用資料夾至相同目的地 Synology NAS，將會產生衝突。在另一個來源端能夠同步資料夾至目的地前，須先在原先的來源端取消共用資料夾的連結。<ol>
+<li>登入目的地 Synology NAS，前往<strong>控制台</strong> &gt; <strong>共用資料夾同步</strong> &gt; <strong>連線清單</strong>。</li>
+<li>選擇發生衝突的來源端 Synology NAS 連線，然後按一下<strong>取消連結</strong>，便可移除。</li>
+</ol>
+
+<p>現在，另一個來源端便可以同步共用資料夾至目的地 Synology NAS。</p>
+
+<h3>管理同步任務</h3>
+
+<h4>若要新增同步任務：</h4>
+<ol>
+<li>登入來源端 Synology NAS，前往<b>控制台</b> &gt; <b>共用資料夾同步</b> &gt; <strong>任務清單</strong>。</li>
+<li>按一下<b>新增</b>。</li>
+<li>輸入任務的名稱。</li>
+<li>選擇您要同步至目的地的共用資料夾。</li>
+<li>指定目的地 Synology NAS 及下列同步選項：</li>
+<ul>
+<li><strong>自訂 SSH 加密連接埠</strong>：指定 SSH 傳輸加密的連接埠。</li>
+<li><strong>啟動 SSH 傳輸加密</strong>：傳輸資料時進行資料加密。此選項提供較高的安全性，但非加密傳輸的效能較佳。您可根據需要選擇。</li> 
+<li><strong>啟動傳輸壓縮</strong>：傳輸資料時進行資料壓縮。可節省頻寬，但會增加 CPU 工作量。</li>
+<li><strong>啟動段落分塊 (block-level) 同步化</strong>：僅同步資料修改的部分，而非整個檔案。可節省頻寬，但會增加 CPU 工作量。</li>
+</ul>
+<li>請依提示，選擇下列任一選項，決定何時要從來源端同步至目的地：</li>
+<ul>
+<li><strong>資料異動時自動進行同步</strong>：來源端共用資料夾的資料改變時立即執行同步任務。</li>
+<li><strong>手動執行同步化</strong>：手動從來源端共用資料夾執行同步任務。</li>
+<li><strong>進階排程</strong>：按一下<strong>設定排程</strong>，指定何時執行同步任務。</li>
+
+</ul>
+<li>按一下<strong>套用</strong>。現在，可在任務清單上看到同步任務，系統會根據所指定的排程執行任務。</li></ol>
+<h4>若要管理同步任務：</h4>
+<ol>
+<li>在來源端 Synology NAS 上前往<strong>控制台</strong> &gt; <strong>共用資料夾同步</strong>，按一下<strong>任務清單</strong>，然後選擇任務。</li>
+<li>執行下列任何操作：</li>
+<ul>
+<li>按一下<b>編輯</b>來編輯任務。</li>
+<li>按一下<b>刪除</b>來移除任務。</li> 
+<li>如果同步任務尚未進行，請按一下<b>立即同步</b>來立即執行任務。</li>
+<li>如果同步任務正在進行，請按一下<b>取消</b>來停止正在進行的任務。</li>
+
+<div class="section">
+<h4>注意：</h4>
+<p>如果同步任務的排程是設定為<b>資料異動時自動進行同步</b>，按一下<b>取消</b>會停止進行中的同步任務。然而，如果同步任務監控的任何共用資料夾內容改變，共用資料夾同步會繼續進行同步任務。</p>
+</div>
+
+<li>按一下<b>完整同步</b>來同步所有的資料。第一次執行同步任務時，共用資料夾同步會執行完整同步；第一次同步完成之後，僅會同步變更的部分。按一下此按鈕可讓您再次手動同步所有資料。</li>
+</ul>
+</ol>
+
+<div class="section">
+<h4>更多資訊</h4>
+<ol>
+<li>任務名稱必須設定為 1 到 32 個 Unicode 字元，但不可為下列字元：<br> <span class="letterSpace5">! &quot; # $ % &amp; &apos; ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>若您欲將 ext4 檔案系統的共用資料夾同步至 ext3 的檔案系統，同步任務的資料夾數量若超過 32,000 個時可能會發生錯誤。</li>
+<li>若目的地端 Synology NAS 上的共用資料夾曾與其它 Synology NAS 進行同步，共用資料夾同步在進行任務時會執行完整的同步。</li>
+<li>若要執行共用資料夾同步任務，您必須擁有目的地 Synology NAS 的管理權限。您必須擁有 admin 帳號的密碼，或為管理群組內的一員。</li>
+<li>透過網際網路同步至 Synology NAS 時，您可在伺服器名稱欄位輸入其外部 IP 位址或主機名稱來連線。然而，若您選擇以主機名稱來連線，此主機名稱必須符合 FQDN (Full Qualified Domain Name) 格式，例如「www.synology.com」。</li>
+<li>針對連接埠轉送，共用資料夾同步於加密傳輸時使用 22 埠，非加密傳輸時使用 873 埠。</li>
+<li>共用資料夾同步不支援外接儲存裝置。</li>
+<li>執行共用資料夾同步時，目的地的加密共用資料夾將被自動掛載；然而，若要存取內部資料，必須先在目的地掛載加密共用資料夾。</li>
+<li>若所選的共用資料夾沒有任何變更，同步排程將不會在指定的時間執行。</li>
+<li>為了達到最佳使用效能，建議每個同步任務中不要包含超過 200 個共用資料夾。</li>
+<li>若來源端 Synology NAS 將 <strong>homes</strong> 共用資料夾同步至目的地端 Synology NAS，目的地端 Synology NAS 的<strong>使用者家目錄</strong>功能會被停用。</li>
+
+<li>針對搭載非 Intel 處理器的機種，您可以使用共用資料夾同步來同步最多 100,000 個共用資料夾 (包含子資料夾)。</li>
+ <li>共用資料夾同步在目的地資料系統為 ext4 或 Btrfs 時可備份 Windows ACL 設定。<br><span class="note_head">備註 :</span> Synology NAS 上的資料與 Windows ACL 設定無法同步到 EDS14。</li>
+ 
+ <li>若目的地端伺服器名稱和您的 Synology NAS 相同，共用資料夾同步將會失敗。</li>
+ 
+<li>來源進階共用資料夾權限將不會被同步至目的地。系統會在目的地自動設定對管理群組內的使用者的 read-only 權限。</li> 
+
+  </ol>
+</div>
+
+</body></html>

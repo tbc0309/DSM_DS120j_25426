@@ -1,0 +1,118 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Einen Speicherpool reparieren - Hilfe zu Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to repair a storage pool on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Speicherpool reparieren</h2>
+
+<p>Speicherpool-Fehler können verschiedene Ursachen haben, etwa abgestürzte Laufwerke. In bestimmten Fällen können Sie die Fehler mit den folgenden Anweisungen identifizieren und beheben.</p>
+	
+<p>Die in diesem Artikel genannte Funktion <strong>Reparieren</strong> ist nur verfügbar für Speicherpools mit RAID-Typen, die Datenredundanz unterstützen (d. h. SHR mit mindestens 2 Laufwerken, RAID 1, RAID 5, RAID 6, RAID F1 und RAID 10). Beachten Sie bitte, dass mit dieser Funktion Speicherpools jedoch keine fehlerhaften Laufwerke repariert werden können.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Wir empfehlen, Laufwerke aus der <a href="https://www.synology.com/compatibility" target=blank>Synology-Kompatibilitätsliste</a> zu verwenden, um Probleme zu vermeiden. Die Verwendung nicht kompatibler Laufwerke kann die Systemleistung beeinträchtigen oder sogar zu Datenverlust führen.</li>
+<li>SHR (Synology Hybrid RAID) ist nur bei bestimmten Modellen verfügbar. Weitere Informationen zu SHR finden Sie <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">hier</a>.</li>
+</ul>
+</div>
+	
+<h3>Einen Speicherpool mit defekten Systempartitionen reparieren</h3>
+
+<p>Wenn Systempartitionen defekt sind, wird eine Meldung angezeigt, dass auf die Systempartitionen nicht zugegriffen werden kann. Gehen Sie wie folgt vor, um das Problem zu beheben:</p>
+
+<ol>
+<li>Starten Sie den <strong>Speicher-Manager</strong>.</li>
+<img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/>
+
+<li>Gehen Sie zur Seite <strong>Überblick</strong> und klicken Sie auf den Link <strong>Reparieren</strong>. Das System sollte mit der Reparatur der Systempartitionen beginnen.</li>
+
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/fail_system_partitions.png" class="help_image"/>
+</ol>
+
+<h3>Einen fehlerhaften Speicherpool reparieren</h4>
+
+<p>Ein Speicherpool wird <strong>fehlerhaft</strong>, wenn nicht auf die Daten auf einem Laufwerk zugegriffen werden kann, aber noch kein Datenverlust aufgetreten ist. Dies geschieht nur bei Speicherpools mit RAID-Typen mit Datenredundanz (d. h. SHR mit mindestens 2 Laufwerken, RAID 1, RAID 5, RAID 6, RAID F1 und RAID 10). Bevor Sie einen fehlerhaften Speicherpool reparieren, ersetzen Sie bitte zuerst die defekten Laufwerke durch einwandfreie und entfernen Sie sie dann, oder tauschen Sie sie einfach gegen einwandfreie Laufwerke aus.</p>
+
+<h4>Voraussetzungen:</h4>
+<p>Ersetzen Sie die defekten Laufwerke bitte durch einwandfreie, die folgende Kriterien erfüllen:</p>
+	
+<ul>
+<li><b>Für Speicherpools mit RAID 1, RAID 5, RAID 6, RAID F1 und RAID 10</b>: Das Ersatzlaufwerk muss mindestens so groß sein wie das kleinste Laufwerk im Speicherpool.</li>
+<li><b>Für SHR-1-Speicherpools</b>: Das Ersatzlaufwerk muss eines der folgenden Kriterien erfüllen.
+<ul>
+<li>Das Ersatzlaufwerk muss mindestens so groß sein wie das defekte Laufwerk.</li>
+<li>Das Ersatzlaufwerk muss mindestens so groß sein wie das zweitgrößte Laufwerk im Speicherpool. <br><span class="note_head">Beispiele:</span>
+<ul>
+<li>Beispiel 1: SHR-1 umfasst Laufwerke mit 3 TB, 2 TB, 2 TB und 1 TB. Wenn das 3-TB-Laufwerk defekt ist, kann es durch ein Laufwerk repariert werden, dessen Kapazität gleich oder größer 2 TB ist.</li>
+<li>Beispiel 2: SHR-1 umfasst Laufwerke mit 4TB, 4TB, 2 TB und 2TB. Wenn das 4-TB-Laufwerk defekt ist, kann es durch ein Laufwerk repariert werden, dessen Kapazität gleich oder größer 4TB ist.</li>
+<li>Beispiel 3: SHR-1 umfasst Laufwerke mit 4TB, 4TB, 2 TB und 2TB. Wenn das 2-TB-Laufwerk defekt ist, kann es durch ein Laufwerk repariert werden, dessen Kapazität gleich oder größer 2 TB ist.</li>
+</ul>	
+</li>
+			
+</ul>
+</li>
+<li><b>Für SHR-2-Speicherpools</b>: Das Ersatzlaufwerk muss eines der folgenden Kriterien erfüllen.
+<ul>
+<li>Das Ersatzlaufwerk muss mindestens so groß sein wie das defekte Laufwerk.</li>
+<li>Das Ersatzlaufwerk muss mindestens so groß sein wie das drittgrößte Laufwerk im Speicherpool.</li>
+</ul>	
+</li>
+</ul>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Wenn die verfügbaren Laufwerke als Hot-Spare-Laufwerke zum Schutz eines oder mehrerer Speicherpools zugewiesen wurden, reparieren die Hot-Spare-Laufwerke den fehlerhaften Speicherpool automatisch. Weitere Informationen dazu finden Sie unter <a href="hotspare.html" target="_blank">Hot Spare</a>.</li>
+</ul>
+</div>
+
+
+<h4>Fehlerhaften Speicherpool reparieren:</h4>
+
+<p>Gehen Sie wie folgt vor, um einen fehlerhaften Speicherpool zu reparieren:</p>	
+<ol>
+<li>Gehen Sie zu <strong>Speicher-Manager</strong> > <strong>Speicherpool</strong> und suchen Sie den Speicherpool mit dem Status <strong>Fehlerhaft</strong>.</li> 
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/volume_degraded.png" class="help_image"/>
+<li>Zeigen Sie die Informationen zum Speicherpool an und kontrollieren Sie den Laufwerkstatus.</li>
+<li>Gehen Sie danach zur Seite <strong>HDD/SSD</strong>, um sich zu vergewissern, welches Laufwerk defekt ist.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/hdd_ssd.png" class="help_image"/>
+
+<li>Entfernen Sie das defekte Laufwerk aus Ihrem Synology NAS und ersetzen Sie es durch ein neues. Wenn Ihr Synology NAS „Hot-Swapping“ (Austausch während des Betriebs) nicht unterstützt, müssen Sie das Gerät vor dem Aus- und Einbau von Laufwerken herunterfahren.<br><span class="note_head">Anmerkung:</span> Alle auf dem Ersatzlaufwerk vorhandenen Daten werden gelöscht.</li>
+<li>Nachdem das Ersatzlaufwerk installiert wurde, gehen Sie wieder zur Seite <strong>Speicherpool</strong> und wählen Sie den fehlerhaften Speicherpool aus.</li>
+<li>Wählen Sie im Dropdown-Menü <b>Aktion</b> <b>Reparieren</b> aus.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/manage_repair.png" class="help_image"/>
+<li>Wählen Sie das Ersatzlaufwerk aus, das zum Speicherpool hinzugefügt werden soll, und folgen Sie den Anweisungen des Assistenten.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Wenn die Reparatur eines Speicherpools lange dauert, kann es an den <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Why_does_it_take_a_long_time_to_repair_a_storage_pool" target="_blank">hier</a> aufgelisteten Gründen liegen.</li>
+</ul>
+</div>
+
+
+<h3>Probleme mit abgestürzten Speicherpools beheben</h3>
+
+<p>Wenn der Status eines Speicherpools <strong>Abgestürzt</strong> lautet, können Sie ihn nicht mehr selbst reparieren. Lesen Sie auch die folgenden Artikel für weitere Informationen zu gängigen Ursachen für Volume-Abstürze und wie man sie beheben kann:
+	<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_are_the_reasons_of_volume_crash" target="_blank">Was bringt ein Volume zum Absturz?</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_do_I_do_when_a_volume_crashes" target="_blank">Was soll ich tun, wenn ein Volume abstürzt?</a></li>
+	</ul>
+</p>
+
+
+</body>
+</html>

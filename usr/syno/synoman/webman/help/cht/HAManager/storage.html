@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>儲存空間狀態</h2>
+  <p>本頁顯示 high-availability 叢集主、副伺服器的儲存空間、iSCSI LUN (段落分塊) 狀態。</p>
+  <p>由於主、副伺服器在對應的儲存空間、iSCSI LUN (段落分塊) 容量及設定必須一致，因此兩台伺服器上的儲存空間、iSCSI LUN (段落分塊) 統一由一個清單顯示。若您要檢視主、副伺服器的儲存空間、iSCSI LUN (段落分塊) 狀態，須前往<strong>儲存空間狀態</strong>頁面 [存取 high-availability 叢集時，在<strong>儲存空間管理員</strong>中僅能看到主伺服器的儲存空間、iSCSI LUN (段落分塊)]。</p>
+  <p>本頁面包含以下資訊：</p>
+  <ul>
+   <li><b>名稱</b>：顯示儲存空間、iSCSI LUN (段落分塊) 名稱。</li>
+   <li><b>已使用</b>：顯示儲存空間、iSCSI LUN (段落分塊) 已使用的容量百分比。</li>
+   <li><b>已使用/總容量</b>：顯示儲存空間、iSCSI LUN (段落分塊) 總容量及已使用的容量。</li>
+   <li><b>狀態</b>：顯示儲存空間、iSCSI LUN (段落分塊) 及 SSD 快取的狀態。</li>
+   <li><b>敘述</b>：描述儲存空間、iSCSI LUN (段落分塊) 及 SSD 快取狀態異常時的原因。</li>
+  </ul>
+<h4>若要修復狀態異常的儲存空間或 iSCSI LUN (段落分塊)：</h4>
+ <ul>
+   <li>若其中一台伺服器的硬碟損毀，您可以前往<a href="disk.html">硬碟狀態</a>頁面查看哪一顆硬碟損毀而需要更換。在這樣的情況下，請進行下列步驟：
+   <ol>
+   <li>更換損毀的硬碟 (請參閱 Synology 產品隨附的<em><strong>快速安裝指南</strong></em>來了解硬碟安裝的相關步驟)。</li>
+   <li>前往<strong>儲存空間狀態</strong>頁面然後按一下<strong>修復</strong>。</li>
+   </ol>
+   <li>若副伺服器處於離線狀態，儲存空間、iSCSI LUN (段落分塊) 狀態會提示您發生錯誤，而硬碟狀態頁面不會顯示副伺服器的任何硬碟。在這樣的情況下，請進行下列步驟來排除問題：
+   <ol>
+   <li>確認副伺服器已開機。</li>
+   <li>檢查所有電源供應。</li>
+   <li>檢查所有連線。</li>
+   </ol>
+   <li>若其中一台伺服器的儲存空間、iSCSI LUN (段落分塊) 發生檔案系統問題，請進行下列步驟：
+   <ul>
+   <li>前往<strong>儲存空間狀態</strong>頁面。</li>
+   <li>按一下<strong>修復</strong>。</li>
+   </ul>
+</ul>
+
+ <p>
+  <span class="note_head">注意：</span>
+High-availability 叢集最多支援 64 個儲存空間與 iSCSI LUN (段落分塊)。</p>
+
+
+<h3>仲裁伺服器</h3>
+<p>仲裁伺服器可協助減少發生 split-brain 錯誤的可能性。在 split-brain 設定中，您可以將另一台伺服器指派為仲裁伺服器，只要該伺服器可持續連接至主伺服器與副伺服器。例如，閘道器伺服器或 DNS 伺服器可連接至主伺服器與副伺服器，故適合作為仲裁伺服器之用。請注意，仲裁伺服器只需提供 Ping 服務即可，無需安裝任何應用程式。下列為啟動仲裁伺服器後的行為：</p>
+
+<ul>
+<li>若副伺服器無法同時連接至主伺服器與仲裁伺服器，便不會進行容錯移轉，以避免發生 split-brain 錯誤。</li>
+<li>若主伺服器無法連接至仲裁伺服器，但副伺服器可連接至仲裁伺服器，便會進行服務轉移，以確保較佳可用性。</li>
+</ul>
+
+
+ </body>
+</html>

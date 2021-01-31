@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Generelt</h2>
+
+<p>Lagerstyring s&aelig;tter brugere i stand til at styre al lagerpladsen p&aring; deres Synology-produkter. For at forenkle lagerstyringen og oprette fleksibel lagerplads med databeskyttelse underst&oslash;tter Synology DSM flere typer RAID Groups.</p>
+
+<h4><a href="raid.html">RAID Group</a></h4>
+<p>Med Synology NAS kan du kombinere flere harddiske til &eacute;n lagerenhed, som kaldes en RAID Group. Synology NAS indeholder f&oslash;lgende typer RAID Groups:</p>
+<ul>
+	<li><strong>RAID Group til &eacute;n diskenhed eller iSCSI LUN (blokniveau)</strong>:
+		<ul>
+			<li>Allokerer al tilg&aelig;ngelig kapacitet til &eacute;n diskenhed eller iSCSI LUN (blokniveau).</li>
+			<li>Giver bedre ydelse men mindre lagerstyringsfleksibilitet.</li>
+			<li>Tillader oprettelse af flere iSCSI LUN'er (almindelig fil) p&aring; diskenheder.</li>
+			<li>Underst&oslash;tter maks. &eacute;n RAID Array.</li>
+		</ul>
+	</li>
+	<li><strong>RAID Group til flere diskenheder eller iSCSI LUN'er (blokniveau)</strong>:
+		<ul>
+			<li>Underst&oslash;tter oprettelse af flere diskenheder eller iSCSI LUN'er (blokniveau) p&aring; en RAID Group.</li>
+			<li>Giver bedre lagerstyringsfleksibilitet.</li>
+			<li>Tillader oprettelse af flere iSCSI LUN'er (almindelig fil) p&aring; diskenheder.</li>
+			<li>Underst&oslash;tter kombination af flere RAID Arrays under en RAID Group (ved konfiguration som RAID 5 <span class="enable-grantley">,</span> <span class="disable-grantley">eller </span>RAID 6<span class="enable-grantley"> eller RAID F1</span>).</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>RAID-type</h4>    
+<p>N&aring;r du opretter en RAID Group, skal du f&oslash;rst v&aelig;lge en RAID-type. Forskellige RAID-typer giver forskellige databeskyttelsesniveau, lagerfunktioner og ydelse. Synology NAS underst&oslash;tter aktuelt f&oslash;lgende RAID-typer:</p>
+<ul>
+	<li><strong>Basic</strong>: Bruger en harddisk til at oprette en RAID Group. Basic RAID Groups indeholder ikke dataredundans.</li>
+	<li><strong>JBOD*</strong>: Kombinerer mindst 2 harddiske til at oprette en RAID Group. JBOD RAID Groups indeholder ikke dataredundans. Den tilg&aelig;ngelige kapacitet p&aring; en JBOK RAID Group er lige med den samlede kapacitet af alle diske inkluderet i gruppen. JBOD underst&oslash;tter kombination af harddiske af forskellig st&oslash;rrelse.</li>
+	<li><strong>RAID 0*</strong>: Kombinerer mindst 2 harddiske til at oprette en RAID Group. RAID 0 indeholder ikke dataredundans. Hvis en medlemsdisk fejler, bliver data i RAID Group tabt. RAID 0-gruppens tilg&aelig;ngelig kapacitet svarer til de totale kapacitet af alle medlemsdiske. RAID 0 underst&oslash;tter kombination af harddiske af forskellige st&oslash;rrelser.</li>
+	<li><strong>RAID 1*</strong>: Kombinerer 2 - 4 harddiske til at oprette en RAID Group. Systemet skriver identiske data til hver harddisk. RAID 1 leverer databeskyttelse, n&aring;r blot &eacute;n disk fungerer normalt. RAID 1-gruppens tilg&aelig;ngelig kapacitet svarer til st&oslash;rrelsen af den mindste medlemsdisk.</li>
+	<li><strong>RAID 5*</strong>: Kombinerer mindst 3 harddiske til at skabe et RAID Group og stripper b&aring;de data og paritetsoplysninger p&aring; tv&aelig;rs af diskene. RAID 5 indeholder dataredundans. Hvis &eacute;n medlemsdisk fejler, kan systemet genopbygges ved hj&aelig;lp af paritetsoplysninger p&aring; de andre medlemsdiske. Underst&oslash;tter kombination af flere RAID Arrays, n&aring;r den er oprettet p&aring; en RAID Group til flere diskenheder eller iSCSI LUN'er (blokniveau). Den tilg&aelig;ngelige kapacitet ffor en RAID 5-gruppe = <span class="note_content"> Samlet kapacitet af de kombinerede RAID Arrays. RAID Array-kapacitet = (antal harddiske - 1) x (kapacitet af den mindste harddisk)</span></li>
+	<li><strong>RAID 6*</strong>: Kombinerer mindst 4 harddiske til at skabe et RAID Group og stripper b&aring;de data og paritetsoplysninger p&aring; tv&aelig;rs af diskene. RAID 6 indeholder dataredundans. Selv hvis to medlemsdiske fejler, kan systemet genopbygges ved hj&aelig;lp af paritetsoplysninger p&aring; de andre medlemsdiske. Underst&oslash;tter kombination af flere RAID Arrays, n&aring;r den er oprettet p&aring; en RAID Group til flere diskenheder eller iSCSI LUN'er (blokniveau). Den tilg&aelig;ngelige kapacitet ffor en RAID 6-gruppe = <span class="note_content"> Samlet kapacitet af de kombinerede RAID Arrays. RAID Array-kapacitet = (antal harddiske - 2) x (kapacitet af den mindste harddisk)</span></li>
+	<li><strong>RAID 10*</strong>: Kombinerer mindst 4 harddiske til at oprette en RAID Group. Antallet af diske skal v&aelig;re lige. RAID 10 har samme funktion som RAID 0 ud over databeskyttelse som i RAID 1. Den tilg&aelig;ngelige kapacitet af RAID 10-gruppen = <span class="note_content">(kapaciteten af den mindste harddisk) X (antallet af harddiske/2)</span></li>
+	<li class="enable-grantley"><strong>RAID F1*</strong>: Denne RAID-type er designet til solid-state diske (SSD). Den kombinerer mindst tre SSD'er til at skabe en RAID Group, og striper b&aring;de data- og paritetsoplysninger p&aring; tv&aelig;rs af alle medlems-SSD'er, og skriver flere paritetsbits til en bestemt SSD for at forhindre flere SSD'er i at fejle p&aring; samme tid. RAID F1 giver dataredundans. Hvis &eacute;n SSD fejler, kan systemet genopbygges ved hj&aelig;lp af paritetsoplysninger p&aring; de andre medlems-SSD'er. Underst&oslash;tter kombination af flere RAID Arrays, n&aring;r den er oprettet p&aring; en RAID Group til flere diskenheder eller iSCSI LUN'er (blokniveau). Den tilg&aelig;ngelige kapacitet for en RAID F1-gruppe = <span class="note_content"> Samlet kapacitet af de kombinerede RAID Arrays. RAID Array-kapacitet = (antal diske - 1) x (kapacitet af den mindste disk)</span></li>
+</ul>
+
+<div class="section"><h4>Bem&aelig;rk:</h4>
+<ul>
+	<li>RAID-typer med <strong>*</strong> er kun tilg&aelig;ngelige p&aring; NAS-modeller med tilstr&aelig;kkelige diskbays.</li>
+</ul>
+</div>
+
+<h4><a href="space.html">Diskenhedstype</a></h4>
+<p>Afh&aelig;ngigt af den underliggende RAID Group-type er der to typer diskenheder:</p>
+<ul>
+	<li><strong>Diskenhed p&aring; RAID Group til &eacute;n diskenhed eller iSCSI LUN (blokniveau)</strong>
+		<ul>
+			<li>Allokerer al lagerkapacitet p&aring; en RAID Group til &eacute;n diskenhed. Giver bedre ydelse men mindre styringsfleksibilitet.</li>
+			<li>Tillader oprettelse af flere iSCSI LUN'er (almindelig fil) p&aring; diskenheder.</li>
+		</ul>
+	</li>
+	<li><strong>Diskenhed p&aring; RAID Group til flere diskenheder eller iSCSI LUN'er (blokniveau)</strong>
+		<ul>
+			<li>Allokerer en angivet del af lagerkapaciteten p&aring; en RAID Group til at oprette en diskenhed.  Giver h&oslash;jere styringsfleksibilitet, s&aring; du kan udvide diskenhedsst&oslash;rrelsen eller oprette yderligere diskenheder efter behov.</li>
+			<li>Tillader oprettelse af flere iSCSI LUN'er (almindelig fil) p&aring; diskenheder.</li>
+		</ul>
+	</li>
+</ul>
+
+<h4 class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Diskenhedsformat</h4>
+<p class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Afh&aelig;ngigt af det brugte filsystem, er der to diskenhedsformater:</p>
+<ul class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">
+	<li><strong>Nyt diskenhedsformat</strong>: Dette format bruger <strong>Btrfs</strong>-filsystemet. Mindste allokerede st&oslash;rrelse i dette format skal v&aelig;re mindst 10 GB. Det underst&oslash;tter f&oslash;lgende nye funktioner, som du kan styre dine data lettere med:
+		<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">Billede af delt mappe</a>:</strong> Billede registrerer al status for data p&aring; tidspunktet, hvor det bliver taget. Hvis en bruger h&aelig;ndeligt &aelig;ndrer eller sletter data p&aring; en diskenhed med billeder, kan du hurtigt gendanne data til det tidligere tidspunkt, hvor billedet blev taget.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">Kvote for delt mappe</a>:</strong> Du kan angive den maksimale kapacitet for hver mappe.</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">Brugerkvote</a> baseret p&aring; delt mappe:</strong> Du kan kontrollere, hvor meget plads i en delt mappe, der kan bruges af hver bruger.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">Avanceret beskyttelse af dataintegritet</a>:</strong> Delt mappe er beskyttet med CRC32-kontrolsum og kopier-ved-skrivning-strategier.</li>
+		</ul>
+	</li>
+	<li><strong>Traditionelt diskenhedsformat</strong>: Dette format bruger <strong>ext4</strong>-filsystemet. Mindste allokerede st&oslash;rrelse i dette format skal v&aelig;re mindst 10 GB. Da ext4-filsystemet underst&oslash;ttes af de fleste Synology-produkter, kan du nemt overflytte din diskenhed i dette format til et andet Synology-produkt.</li>
+</ul>
+
+</body>
+</html>

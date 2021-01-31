@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Mudan&ccedil;a</h2>
+  
+ <p>Para garantir o desempenho cont&iacute;nuo e minimizar o tempo de inatividade de servi&ccedil;os, pode mudar os servi&ccedil;os do servidor ativo de um high-availability cluster para o servidor passivo redundante. Esta funcionalidade chama-se &quot;Mudan&ccedil;a&quot; e, em alguns casos &quot;Ativa&ccedil;&atilde;o ap&oacute;s-falha&quot;. Esta sec&ccedil;&atilde;o descreve os princ&iacute;pios b&aacute;sicos destes dois conceitos.</p>
+  
+  <h3>Mudan&ccedil;a</h3>
+  	<p>Mudan&ccedil;a refere-se a uma mudan&ccedil;a de um servidor ativo para servidor passivo redundante de um high-availability cluster. Em condi&ccedil;&otilde;es normais, o servidor ativo gere todos os servi&ccedil;os. No entanto, no caso do servidor ativo avariar, voc&ecirc; pode iniciar uma mudan&ccedil;a e transferir todos os servi&ccedil;os para o servidor passivo, desde que o servidor passivos esteja a funcionar normalmente. Neste caso, o servidor ativo assume o papel de servidor passivo e o servidor passivo assume o papel de servidor ativo.</p>
+    
+<h4>Para iniciar manualmente uma mudan&ccedil;a:</h4>
+ <ol>
+  <li>Aceda ao separador <b>Vis&atilde;o geral</b>.</li>
+  <li>Clique em <b>Gest&atilde;o</b> &gt; <b>Mudan&ccedil;a</b>.</li>
+ </ol>
+<div class="section">
+<h4>Nota:</h4>
+   <p>Quando uma mudan&ccedil;a &eacute; iniciada, o servidor ativo assume primeiro o papel de servidor passivo e depois o servidor passivo passa a ser o servidor ativo. Assim, haver&aacute; um curto per&iacute;odo de tempo no qual ambos os servidores s&atilde;o passivos e n&atilde;o poder&atilde;o providenciar os servi&ccedil;os normalmente. O tempo para concluir a mudan&ccedil;a varia em fun&ccedil;&atilde;o do n&uacute;mero e tamanho dos volumes ou iSCSI LUN (n&iacute;vel do bloco) ou o n&uacute;mero e carga total de servi&ccedil;os do high-availability cluster.</p>
+</div>
+   
+<h3>Ativa&ccedil;&atilde;o ap&oacute;s-falha</h3>
+    
+     <p>Quando ocorrerem determinados erros, o sistema pode iniciar automaticamente uma mudan&ccedil;a de servi&ccedil;os para garantir o desempenho. Este evento chama-se &quot;ativa&ccedil;&atilde;o ap&oacute;s falha&quot;. O sistema poder&aacute; iniciar uma ativa&ccedil;&atilde;o ap&oacute;s falha nas seguintes situa&ccedil;&otilde;es:</p>
+    
+     <ul>
+      <li><b>Espa&ccedil;o de armazenamento encravado:</b> Um espa&ccedil;o de armazenamento (por exemplo volume, Grupo de Discos, RAID group, cache SSD, etc.) no servidor ativo encravou, mas o espa&ccedil;o de armazenamento correspondente no servidor passivo est&aacute; a funcionar normalmente. Tome nota que o sistema n&atilde;o inicia uma ativa&ccedil;&atilde;o ap&oacute;s falha se n&atilde;o existirem volumes ou iSCSI LUN (n&iacute;vel do bloco) no espa&ccedil;o de armazenamento encravado.</li>
+      <li><b>Erro de servi&ccedil;o:</b> Ocorreu um erro num servi&ccedil;o monitorizado.</li>
+      <li><b>Falha de energia:</b> O servidor ativo &eacute; desligado ou reiniciado; ambas as unidades de energia do servidor ativo falharam ou ocorreu uma quebra de energia.</li>      
+     </ul>    
+     
+    
+<h3>Falha da Mudan&ccedil;a</h3>
+    
+		<p>A mudan&ccedil;a de servi&ccedil;os ou ativa&ccedil;&atilde;o ap&oacute;s falha poder&aacute; falhar nas seguintes situa&ccedil;&otilde;es:</p>
+  			<ul>
+   				<li><b>Duplica&ccedil;&atilde;o de dados incompleta:</b> Quando combinar primeiro dois servidores para criar um cluster high-availability, o sistema necessita de tempo para duplicar todos os dados do servidor ativo para o servidor passivo.</li>
+   				<li><b>Espa&ccedil;o de armazenamento no servidor passivo est&aacute; encravado:</b> Um espa&ccedil;o de armazenamento (por exemplo volume, Grupo de Discos, RAID group, etc.) no servidor passivo encravou.</li>
+                <li><b>Falha de energia:</b> O servidor passivo &eacute; desligado ou reiniciado; ambas as unidades de energia do servidor passivo falharam ou ocorreu uma quebra de energia.</li>
+                <li><b>Atualizar o DSM:</b> Quando instala atualiza&ccedil;&otilde;es DSM, todos os servi&ccedil;os ser&atilde;o parados e ir&atilde;o retomar ap&oacute;s a instala&ccedil;&atilde;o da atualiza&ccedil;&atilde;o DSM estar completa.</li>      
+ </ul>
+
+  <p>Se iniciar manualmente uma mudan&ccedil;a, mas n&atilde;o for poss&iacute;vel mudar os servi&ccedil;os para o servidor passivo, ent&atilde;o o sistema n&atilde;o tentar&aacute; mudar os servi&ccedil;os de novo para o servidor ativo.</p>
+ <p>No caso da ativa&ccedil;&atilde;o ap&oacute;s-falha ser iniciada mas nenhum servidor assumir o papel de servidor ativo por causa de erros, o high-availability cluster n&atilde;o poder&aacute; providenciar o servi&ccedil;o normalmente. Se o estado dos servidores n&atilde;o passar automaticamente para <b>Aut&oacute;nomo</b>, prima o bot&atilde;o <b>Repor</b> em ambos os servidores para restaurar as predefini&ccedil;&otilde;es. Quando as predefini&ccedil;&otilde;es forem restauradas, pode combinar os servidores e criar de novo um high-availability cluster.</p>
+ 
+ <h3>Fonte de alimenta&ccedil;&atilde;o ininterrupta</h3>
+  <p>Os high-availability clusters podem ser ligados a fontes de alimenta&ccedil;&atilde;o ininterruptas (UPS) para reduzir o risco de falhas de energia inesperadas. Se ocorrer falha de energia, os servidores receber&atilde;o energia auxiliar de qualquer unidade UPS ligada. Quando a unidade UPS ligada ao servidor ativo come&ccedil;ar a ficar sem energia, o sistema tentar&aacute; uma mudan&ccedil;a de servi&ccedil;os para o servidor passivo. Veja as diretrizes em baixo.</p>
+   <ul>
+
+<li>Se os servidores ativo e passivo estiverem anexados ao mesmo interruptor de rede, recomenda-se que ligue ambos os servidores &agrave; mesma fonte de alimenta&ccedil;&atilde;o que o interruptor de rede.</li>
+<li>Se os servidores ativo e passivo estiverem anexados a diferentes interruptores de rede que utilizam diferentes fontes de alimenta&ccedil;&atilde;o (por ex. eletricidade de diferentes companhias el&eacute;tricas), recomenda-se que ligue os servidores ativo e passivo &agrave;s fontes de alimenta&ccedil;&atilde;o correspondentes, iguais &agrave;s dos interruptores de rede anexos.</li>
+<li>Se os servidores ativo e passivo estiverem anexados a diferentes interruptores de rede que utilizem diferentes unidades UPS, recomenda-se que ligue ambos os servidores a uma das unidades UPS em vez de a duas unidades UPS diferentes. Quando a unidade UPS perdem pot&ecirc;ncia, o servidor ativo ser&aacute; notificado e entra em modo de seguran&ccedil;a e o servidor passivo desliga-se devidamente. Se os servidores estiverem ligados a diferentes unidades UPS de outro modo, o servidor ativo n&atilde;o poder&aacute; detetar se o UPS do servidor passivo est&aacute; a ficar sem carga e o servidor passivo pode ent&atilde;o inesperadamente desligar-se.</li>
+   </ul>
+
+   
+<div class="section">
+<h4>Nota:</h4>
+<p>Synology NAS suporta a liga&ccedil;&atilde;o a dispositivos locais e SNMP UPS. Para mais informa&ccedil;&otilde;es, consulte a ajuda em <strong>Painel de Controlo</strong> &gt; <strong>Hardware</strong> &gt; <strong>UPS</strong>.</p>
+</div>  
+ </body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" charset="utf-8">
+<title>iSCSI Manager</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_snapshot"></a>快照</h2>
+
+<h4>若要拍攝 LUN 快照：</h4>
+<p>LUN 快照為 LUN 在某一時間點的唯讀複本。</p>
+<ol>
+	<li>選擇您要拍攝快照的 LUN。</li>
+	<li>按下<strong>快照</strong>並選擇<strong>拍攝快照</strong>。</li>
+	<li>輸入此快照的描述。</li>
+	<li>根據您的需求，選擇以下任一快照類型：<ul>
+			<li><strong>應用程式一致</strong>：只有在您的 Windows 伺服器或 VMware vCenter 伺服器 (根據您用來連接 DSM 的操作環境而定) 上已安裝 Synology Storage Console 或 Synology Snapshot Manager 時可拍攝此類型快照。DSM 觸發應用程式一致性快照時，應用程式會接到通知，並將所有資料從記憶體排清到要拍攝快照的 LUN 上，以確保資料一致性。</li>
+			<li><strong>毀損一致</strong>：若您的用戶端尚未安裝 Storage Console 或 Snapshot Manager，將只能拍攝此類型的 LUN 快照。觸發毀損一致性快照時，將不會通知應用程式將記憶體的資料排清至 LUN，故無法確保資料一致性。</li>
+		</ul>
+	</li>
+	<li>按一下<strong>確定</strong>。</li>
+</ol>
+<div class="section">
+	<h4>注意：</h4>
+	<ul>
+		<li>為避免資料不一致，建議您安裝 <b>Synology Storage Console</b> 或 <b>Snapshot Manager</b>。</li>
+	</ul>
+</div>
+<div class="section">
+	<h4>名詞解釋：</h4>
+	<ul>
+	<li><b>Synology Storage Console：</b>Synology Storage Console 是適用於 VMware vSphere Client 或 Windows Server 的儲存空間管理外掛程式，方便您管理及監控多個 Synology 儲存系統，且能直接從 DSM 拍攝應用程式一致快照。<ul>
+			<li>針對 VMware 環境，此外掛程式僅與 VMware vCenter Server Appliance 6.5 U2 或以上版本相容。</li>
+			<li>您可以在<a href="https://www.synology.com/support/download" target="_blank">下載中心</a>下載外掛程式，並參閱 <a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforVMware/storageconsoleforvmware" target="_blank">Synology Storage Console for VMware</a> 與 <a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforWindows/storageconsoleforwindows" target="_blank">Synology Storage Console for Windows</a> 以了解更多資訊。</li>
+		</ul></li>
+	<li><b>Synology Snapshot Manager：</b>Synology Snapshot Manager 是一款外掛程式，讓您可直接從 DSM 拍攝應用程式一致快照。<ul>
+			<li>針對 VMware 環境，此外掛程式僅與 VMware vCenter Server 6.0 或之前版本相容。</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>若要刪除快照：</h4>
+<ol>
+	<li>選擇您已拍攝快照的 LUN。</li>
+	<li>按一下<b>快照</b> &gt; <b>快照清單</b>。</li>
+	<li>選擇您要刪除的快照，按一下<b>移除</b>。</li>
+</ol>
+<div class="section">
+	<h4>注意：</h4>
+	<ul>
+		<li>刪除快照後，須花費一段時間才能完成空間回收。</li>
+	</ul>
+</div>
+
+<h4>若要還原 LUN：</h4>
+<p>選擇某一時間點的快照，以還原 LUN 的資料。</p>
+<ol>
+	<li>選擇欲還原的 LUN。</li>
+	<li>按下<strong>快照</strong>並選擇<strong>快照清單</strong>。</li>
+	<li>選擇您要還原至哪份快照，並按下<strong>還原</strong>。</li>
+</ol>
+
+<h4>若要從快照複製 LUN：</h4>
+<p>為 LUN 或 LUN 快照建立可讀寫的複本。</p>
+<ul>
+	<li>從<strong>快照清單</strong>中選擇 LUN 快照並按一下<strong>複製</strong>。</li>
+</ul>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>只有具備儲存加速指令的 LUN 才能提供 LUN 快照、還原及複製功能。</li>
+	<li>若您在拍攝快照或建立複本後，發現其狀態為<strong>異常</strong> / <strong>已損毀</strong>，請刪除此快照 / 複本並重新建立。</li>
+	<li>當您將 LUN 還原至某快照的時間點時，在此快照建立後您對 LUN 所作的變更將會全部遺失。</li>
+	<li>儲存空間的可用空間少於 1 GB 時，將無法還原 / 複製 LUN 或拍攝/ 複製 LUN 快照。</li>
+</ul>
+</div>
+<div class="section"><h4><a id="smart_retention"></a>保留規則</h4>
+<p>此選項提供了理想的解決方案來幫助您指定快照版本數量上限，以節省儲存空間，但您可能需要保留快照更長的時間。與保留規則相關的注意事項：</p>
+<ul>
+<li>Synology 使用祖父子 (Grandfather-Father-Son，GFS) 三代輪換保留規則。您可以分別為下列的時間範圍設定保留快照版本的數量上限：<strong>小時</strong>、<strong>天</strong>、<strong>週</strong>、<strong>月</strong>、<strong>年</strong>等。</li>
+<li>單一快照可同時符合多個保留規則，例如：單一快照可符合每天、每週、每月的規則。</li>
+<li>若在一段時間內拍攝多個快照，將只保留該段時間內最先拍攝的快照。例如：若您設定的規則是 <strong>10 個每週快照</strong>，且快照排程為每天拍攝一個快照，Snapshot Replication 將保留最近 10 週裡每週最先拍攝的快照。</li>
+<li>若您在一段時間內沒有拍攝快照，系統將保留最近拍攝的快照。例如：若每天快照設定為 15 且過去 30 天沒有拍攝任何快照，系統會保留 45 至 30 天前的快照。</li>
+<li>系統預設保留最新拍攝快照時間點起一小時之內的所有快照，讓您方便尋找並從最近快照版本中還原資料。您也可以鎖定快照以避免被您的保留規則自動刪除。</li>
+</ul>
+
+<p>範例 1：<br/>若您希望保留過去 3 個月內的每天快照、過去 4 至 6 個月內的每週快照、過去 7 至 9 個月內的每月快照，您必須在每小時快照輸入 0，每天快照輸入 90，每週快照輸入 24，每月快照輸入 9，每年快照輸入 0。</p>
+
+<p>範例 2：<br/>若您希望保留過去 2 天內的每小時快照、過去一週內的每天快照、過去一個月內的每周快照、過去一年內的每月快照，您必須在每小時快照輸入 48，每天快照輸入 7，每週快照輸入 4，每月快照輸入 12，每年快照輸入 0。</p><img class="help_image" src="../../images/iSCSIManager/retention_policy.png"></div>
+</body>
+</html>

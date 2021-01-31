@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Overføre</h2>
+  
+ <p>For å sikre kontinuerlig ytelse og å minimalisere nedetid av tjenester, kan tjenestene overføres fra den aktive serveren i en high-availability-sky til den passive serveren. Denne funksjonen kalles å "Overføre", eller i noen tilfeller å "Bytte". Denne delen forklarer de grunnleggende prinsippene ved disse to konseptene.</p>
+  
+  <h3>Overføre</h3>
+  	<p>Overføring refererer til et bytte fra den aktive serveren til den passive serveren i high-availability-skyen. Under normale forhold, styrer den aktive serveren alle tjenestene. Men hvis den aktive serveren bryter sammen, kan du eller systemet overføre alle tjenestene til den passive serveren, så lenge den passive serveren fungerer som normalt. I dette tilfellet påtar den aktive serveren seg rollen som den passiv serveren, og den passive serveren påtar seg rollen som den aktive serveren.</p>
+    
+<h4>Slik overfører du tjenester manuelt:</h4>
+ <ol>
+  <li>Gå til fanen <b>Oversikt</b>.</li>
+  <li>Klikk på <b>Administrasjon</b> > <b>Overføre</b>.</li>
+ </ol>
+<div class="section">
+<h4>Merk:</h4>
+   <p>Når en overføring er igangsatt, påtar først den aktive serveren seg rollen som passiv server, og deretter blir den passive serveren den aktive serveren. Derfor vil det være en kort tidsperiode når begge serverne er passive og ikke kan styre tjenestene som normalt. Hvor lang tid det tar å fullføre en overføring er avhengig av antallet av, og størrelsen på, volum eller iSCSI LUN (blokknivå), eller antallet og den totale belastningen av tjenester i high-availability-skyen.</p>
+</div>
+   
+<h3>Bytt</h3>
+    
+     <p>Når visse feil oppstår, kan systemet automatisk igangsette en overføring av tjenester for å vedlikeholde ytelsen. Denne situasjonen kalles "bytting". Systemet kan igangsette en bytting i følgende situasjoner:</p>
+    
+     <ul>
+      <li><b>Sammenbrutt lagringsområde:</b> Et lagringsområde (f.eks. volum, diskgruppe, RAID Group, SSD-hurtigbuffer, osv.) på den aktive serveren har brutt sammen, men det korresponderende lagringsområdet på den passive serveren fungerer som normalt. Vær oppmerksom på at systemet ikke vil igangsette en bytting hvis det ikke eksisterer noe volum eller iSCSI LUN (blokknivå) på lagringsområdet som har brutt sammen.</li>
+      <li><b>Tjenestefeil:</b> Det oppsto en feil på en overvåket tjeneste.</li>
+      <li><b>Strømsvikt:</b> Den aktive serveren er avslått eller startes på nytt; begge strømenhetene på den aktive serveren har sviktet; eller strømmen er frakoblet.</li>      
+     </ul>    
+     
+    
+<h3>Overføringsfeil</h3>
+    
+		<p>Overføring eller bytting kan mislykkes i følgende situasjoner:</p>
+  			<ul>
+   				<li><b>Ufullstendig datakopiering:</b> Når du først kombinerer to servere for å opprette en high-availability-sky, trenger systemet tid til å kopiere all data fra den aktive til den passive serveren.</li>
+   				<li><b>Lagringsområde på den passive serveren har brutt sammen:</b> Et lagringsområde (f.eks. volum, diskgruppe, RAID Group, osv.) på den passive serveren har brutt sammen.</li>
+                <li><b>Strømsvikt:</b> Den passive serveren er avslått eller startes på nytt; begge strømenhetene på den passive serveren har sviktet; eller strømmen er frakoblet.</li>
+                <li><b>DSM-oppdatering:</b> Når du installerer DSM-oppdateringer, vil alle tjenester bli stanset, men vil fortsette når installeringen av DSM-oppdateringene er fullført.</li>      
+ </ul>
+
+  <p>Hvis du igangsetter en overføring manuelt, men tjenestene ikke kan overføres til den passive serveren, vil systemet prøve å overføre tjenestene tilbake til den aktive serveren.</p>
+ <p>Hvis byttingen igangsettes, men ingen av serverne kan påta seg rollen som aktiv server på grunn av en feil, kan ikke high-availability-skyen styre tjenestene som normalt. Hvis begge serverne ikke automatisk går tilbake til <b>Frittstående</b> status, trykker du på knappen <b>Reset</b> på begge serverne for å gjenopprette standardinnstillinger. Når standardinnstillingene er gjenopprettet, kan du kombinere serverne og opprette en high-availability-sky igjen.</p>
+ 
+ <h3>Avbruddssikker strømforsyning</h3>
+  <p>High-availability-skyer kan tilkobles avbruddssikre strømforsyninger (UPS) for å redusere risikoen for uventede strømsvikter. Hvis strømmen svikter, vil serverne motta reservestrøm fra enhver UPS-enhet de er koblet til. Når UPS-enheten som er tilkoblet den aktive serveren begynner å gå tom for strøm, vil systemet prøve å overføre tjenestene til den passive serveren. Se retningslinjene nedenfor.</p>
+   <ul>
+
+<li>Hvis den aktive og passive serveren er tilkoblet samme nettverksswitch, anbefaler vi å koble begge serverne til den samme strømkilden som nettverksswitchen.</li>
+<li>Hvis den aktive og passive serveren er tilkoblet forskjellige nettverksswitcher som bruker forskjellige strømkilder (f.eks. elektrisitet fra forskjellige strømselskaper), anbefaler vi å koble den aktive og den passive serveren til korresponderende strømkilder i forhold til deres tilkoblede nettverksswitcher.</li>
+<li>Hvis den aktive og den passive serveren er tilkoblet forskjellige nettverksswitcher som bruker forskjellige UPS-enheter, anbefaler vi å koble begge serverne til den ene av UPS-enhetene og ikke til ulike UPS-enheter. Når UPS-enheten mister strøm, vil den aktive serveren bli varslet og gå i sikkermodus, og den passive serveren vil bli slått av på riktig måte. Men hvis serverne er koblet til forskjellige UPS-enheter, vil ikke den aktive serveren kunne registrere om UPS-en til den passive serveren mangler strøm, og dermed kan den passive serveren bli slått av uventet.</li>
+   </ul>
+
+   
+<div class="section">
+<h4>Merk:</h4>
+<p>Synology NAS støtter tilkobling til lokale enheter og SNMP UPS-enheter. For mer informasjon, se hjelp for <strong>Kontrollpanel</strong> > <strong>Maskinvare</strong> > <strong>UPS</strong></p>
+</div>  
+ </body>
+</html>

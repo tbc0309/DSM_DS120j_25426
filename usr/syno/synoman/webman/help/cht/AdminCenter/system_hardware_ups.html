@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" charset="utf-8">
+
+<title>Power</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+
+<h2>不斷電供應系統</h2>
+
+<p>UPS (Uninterruptible Power Supply，不斷電供應系統) 是一種備援電源裝置，讓 Synology NAS 可在斷電的情況下繼續維持短時間的運作。此功能位於<strong>控制台</strong> &gt; <strong>硬體 &amp; 電源</strong> &gt; <strong>不斷電系統</strong>，可在電源用盡及系統關機前 (EDS14 為服務暫停前)，提供 Synology NAS 足夠的時間來儲存資料並卸載儲存空間以避免資料遺失。</p>
+
+<div class="section">
+<h4>安全模式</h4>
+<p>當 Synology NAS 進入安全模式時，會先停止所有服務，並卸載儲存空間以避免資料遺失，讓系統在不斷電系統裝置關機時能安全關機 (EDS14 為安全暫停服務)。依照預設，當不斷電系統裝置電量不足時，系統便會進入安全模式。您也可以設定斷電後，Synology NAS 進入安全模式的時機。但若不斷電系統裝置在設定的時機之前電量不足，系統仍會提早進入安全模式。</p>
+
+<p>若您已啟動<strong>電力故障排除後自動重新開機</strong>的選項 (位於<strong>控制台</strong> &gt; <strong>硬體 &amp; 電源</strong> &gt; <strong>一般</strong>)，在安全模式狀態下關機的 Synology NAS，會在電力恢復後自動開機。</p>
+</div>
+
+<h3>本地端不斷電系統支援</h3>
+<p>如欲取得硬體安裝的資訊，請參閱您不斷電系統裝置的使用手冊。當硬體安裝完畢，且不斷電系統裝置也外接至 Synology NAS，您就可以按照下列步驟來啟動不斷電系統支援。</p>
+<h4>若要啟動本地端的不斷電系統：</h4>
+<ol>
+<li>將不斷電系統裝置連接至 Synology NAS 的 USB 連接埠。</li>
+<li>在<b>不斷電系統</b>頁籤，勾選<b>啟動不斷電系統支援</b>核取方塊。</li>
+<li>選擇斷電後 Synology NAS 轉入安全模式的時間。</li>
+<li>選擇是否要在系統進入安全模式時，將關機訊號傳送給不斷電系統裝置。大部分不斷電系統裝置會在電力回復後自動開機。
+<ul><li>啟動此選項後，由於沒有電力來源，Synology NAS 將會立即關機。 </li>
+	<li>啟動此選項後，請確認已勾選<strong>控制台</strong> &gt; <strong>硬體 &amp; 電源</strong> &gt; <strong>一般</strong>的<strong>電力故障排除後自動重新開機</strong>的選項，以確保 Synology NAS 會在電力恢復後自動開機。</li></ul></li>
+<li>按一下<b>套用</b>。</li>
+</ol>
+
+<h3>SNMP 不斷電系統支援</h3>
+
+<p>SNMP 不斷電系統是透過 SNMP 連接至 Synology NAS 的備援電源裝置。如欲取得硬體安裝的資訊，請參閱 SNMP 不斷電系統裝置的使用手冊。當不斷電系統裝置外接至 Synology NAS 且連接至同一個網路，即可按照下列步驟來啟動不斷電系統支援。</p>
+
+<h4>若要啟動 SNMP 不斷電系統支援：</h4>
+<ol>
+<li>在<strong>不斷電系統</strong>頁籤，勾選<b>啟動不斷電系統支援</b>的核取方塊。</li>
+<li>從<strong>不斷電系統類型</strong>下拉式選單選擇 <strong>SNMP 不斷電系統</strong>。</li>
+<li>勾選 <strong>Synology NAS 進入「安全模式」之前的等待時間</strong>以自訂斷電後 Synology NAS 進入安全模式的時機。輸入一個數值，並從下拉式選單選擇<strong>秒</strong>、<strong>分</strong>、<strong>小時</strong>。若未勾選此選項，將會套用<strong>直到電量不足</strong>的選項，當不斷電系統電量不足時，Synology NAS 會自動進入安全模式。</li>
+	<p><span class="note_head">注意：</span>不論您的設定為何，Synology NAS 電量不足時會自動進入安全模式。</p>
+<li>在 <strong>SNMP 不斷電系統 IP 位址</strong>欄位，輸入 SNMP 不斷電系統裝置的 IP 位址。</li>
+<li>從下拉式選單中選擇 <strong>SNMP MIB</strong>。</li>
+<li>從下拉式選單中選擇 <strong>SNMP 版本</strong>。</li>
+<li>在 <strong>SNMP 社群</strong>欄位輸入 SNMP 不斷電系統裝置的社群字串。</li>
+<li>若 Synology NAS 已透過 SNMP 連接並將作為網路不斷電系統伺服器，請勾選<strong>啟動網路不斷電系統伺服器</strong>的選項。按一下<strong>允許的 Synology NAS 裝置</strong>，並輸入允許連接至此不斷電系統的所有 Synology NAS 裝置其 IP 位址。
+<p><span class="note_head">注意：</span>SA3200D 不支援<strong>允許的 Synology NAS 裝置</strong>選項。</p></li>
+<li>按一下<b>套用</b>。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>強烈建議在部署 Synology High Availability (SHA) 時使用 <b>SNMP 不斷電系統</b>。</li>
+<li>Synology NAS 支援 SNMPv1 及 SNMPv2 不斷電系統裝置。</li>
+</ul>
+</div>
+
+<h3>Synology 不斷電系統伺服器</h3>
+
+<p>若有多台 Synology 產品同時使用一台不斷電系統裝置，則只有其中一台能夠取得不斷電系統的狀態資訊。在此情況下，此台透過 USB 埠或網路連接至不斷電系統裝置的 Synology NAS 將作為「網路不斷電系統伺服器」，負責取得不斷電系統資訊並轉送給用戶端 Synology NAS。</p>
+
+<h4>若要啟動 Synology 不斷電系統伺服器：</h4>
+<ol>
+<li>登入已透過 USB 或網路連接至不斷電系統裝置的 Synology NAS。</li>
+<li>在<strong>不斷電系統</strong>頁籤，勾選<strong>啟動網路不斷電系統伺服器</strong>核取方塊，讓 Synology NAS 可以轉送不斷電系統資訊給用戶端 Synology NAS。</li>
+<li>按一下<strong>允許的 Synology NAS 裝置</strong>按鈕。</li>
+<li>在跳出的視窗中輸入用戶端 Synology NAS 的 IP 位址。按一下<strong>確定</strong>。</li>
+<li>按一下<strong>套用</strong>來儲存設定。</li>
+</ol>
+
+<p>現在網路不斷電系統伺服器已經可以取得不斷電系統資訊，並轉送給另一台正在使用網路不斷電系統裝置的 Synology NAS。請參閱下列說明以在用戶端 Synology NAS 上啟動不斷電系統支援。</p></strike>
+
+<h4>若要為用戶端 Synology NAS 啟動不斷電系統支援：</h4>
+<ol>
+<li>登入未透過 USB 或網路連接但正在使用不斷電系統裝置的用戶端 Synology NAS。</li>
+<li>在<strong>不斷電系統</strong>頁籤，勾選<strong>啟動不斷電系統支援</strong>的核取方塊。</li>
+<li>從<strong>不斷電系統類型</strong>下拉式選單選擇 <strong>Synology 不斷電系統伺服器</strong>。</li>
+<li>勾選 <strong>Synology NAS 進入「安全模式」之前的等待時間</strong>以自訂斷電後 Synology NAS 進入安全模式的時機。輸入一個數值，並從下拉式選單選擇<strong>秒</strong>、<strong>分</strong>、<strong>小時</strong>。若未勾選此選項，將會套用<strong>與伺服器設定相同</strong>的選項，伺服器關機後，Synology NAS 便會進入安全模式。。</li>
+	<p><span class="note_head">注意：</span>不論您的設定為何，Synology NAS 電量不足時會自動進入安全模式。</p>
+<li>在<strong>網路不斷電系統伺服器 IP 位址</strong>欄位，輸入網路不斷電系統伺服器的 IP 位址。</li>
+<li>按一下<b>套用</b>來儲存設定。</li>
+</ol>
+
+<div class="section">
+<h4>網路不斷電系統的支援需求：</h4>
+<ul>
+<li>若要轉送不斷電系統裝置資訊，每一台 Synology NAS 都必須連接至同一個網路。</li>
+<li>每一台 Synology NAS 所連接的網路裝置 (例如：交換器或集線器)，都必須連接至同一個不斷電系統裝置，否則 Synology NAS 將無法在斷電情況下轉送不斷電系統裝置資訊。</li>
+</ul>
+</div>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>iSCSI 관리자</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_lun"></a>LUN</h2>
+<p>LUN을 만들기 전에 먼저 <a href="../StorageManager/volume_create_volume.html">저장소 관리자</a>에서 볼륨을 만들어야 합니다.</p>
+<p>LUN 유형은 기능에 따라 여러 가지 색상으로 표시됩니다.</p>
+<ul>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #00adad;"></span> ext4 볼륨에서 생성된 Thin Provisioning된 LUN</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #1a9900;"></span> Btrfs 볼륨에서 생성된 Thin Provisioning된 LUN</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #0068b3;"></span> Thick Provisioning된 LUN</li>
+ </ul>
+ 
+
+<div class="section"><h4>중요:</h4>
+<ul>
+	<li>DSM 6.2 이상의 Btrfs 볼륨에서 생성된 LUN만 새 고급 기능과 즉시 스냅샷을 지원합니다. ext4 볼륨의 LUN은 레거시 고급 기능만 지원합니다.</li>
+</ul>
+</div>
+
+<h4>LUN 만들기:</h4>
+<ol>
+  <li><strong>생성</strong>을 클릭합니다.</li>
+  <li>이 LUN의 속성을 설정합니다.<ul>
+			<li>LUN 이름</li>
+			<li>위치: LUN이 생성된 후에는 위치를 수정할 수 없습니다. 하지만 이 LUN을 다른 볼륨에 복사할 수 있습니다.</li>
+			<li>용량: LUN 크기는 최소 1GB 이상이어야 합니다. 레거시 고급 기능이 있는 LUN의 경우, 크기는 최소 10GB 이상이어야 합니다.</li>
+			<li>공간 할당: Thick Provisioning은 보다 나은 안정성과 성능을 제공합니다. 반면, Thin Provisioning은 주문형 할당과 모든 고급 기능을 지원하지만 볼륨 공간이 부족하면 LUN에서 파일 시스템이 충돌할 수 있습니다.</li>
+			<li>고급 기능: Thick Provisioning된 LUN은 <strong>Hardware-Assisted Zeroing</strong>과 <strong>Hardware-Assisted Locking</strong>만 지원하며, ext4 볼륨의 LUN은 레거시 고급 기능만 지원합니다.</li></li>
+		</ul></li>
+	<li>마법사를 따라 프로세스를 완료합니다.</li>
+</ol>
+
+<div class="section"><h4>참고:</h4>
+	<ul>
+	<li>볼륨에 사용 가능한 공간이 1GB 미만이면 새로운 LUN을 만들 수 없습니다.</li>
+	<li>고급 기능을 활성화하여 해당 VMware VAAI 기능을 지원할 수 있습니다.</li>
+	<li>LUN이 동시에 Windows Offload Data Transfer(ODX)를 지원할 수 있도록 <strong>Hardware-Assisted Data Transfer</strong>를 활성화할 수 있습니다.</li>
+	<li>레거시 고급 기능을 활성화하면 I/O 성능이 영향을 받을 수 있습니다.</li>
+	<li>지원되는 LUN 수는 Synology NAS 모델에 따라 다릅니다. 자세한 제품 사양은 <a href="http://www.synology.com/" target="_blank">www.synology.com</a>을 참조하십시오.</li>
+ 	</ul>
+</div>
+<div class="section"><h4><a name="terminologies_advanced_features"></a>용어:</h4>
+	<ul>
+		<li><strong>Hardware-Assisted Zeroing:</strong> VMware ESXi 호스트를 통해 새 가상 디스크를 만들 때 효율성이 보다 우수한 가상 디스크를 초기화할 수 있습니다.</li>
+		<li><strong>Hardware-Assisted Locking:</strong> VMware ESXi 호스트가 데이터에 액세스 시 LUN의 필요한 부분만 잠급니다. 이를 통해 여러 VMware ESXi 호스트가 성능 저하 없이 같은 LUN에 동시에 액세스할 수 있습니다.</li>
+		<li><strong>Hardware-Assisted Data Transfer:</strong> VMware ESXi 및 Microsoft Hyper-V 호스트에서 데이터 복사 시 호스트 리소스를 사용하지 않고 Synology NAS에서 데이터를 빠르게 전송할 수 있습니다.</li>
+		<li><strong>스냅샷:</strong> Btrfs 파일 시스템 기능을 통해 즉시 스냅샷과 복제를 사용할 수 있습니다.</li>
+		<li><strong>공간 재사용:</strong> 초기자의 공간 재사용 명령을 지원합니다. 데이터가 삭제 또는 전송되면 사용된 공간이 해제됩니다. 하지만 I/O 성능이 영향을 받을 수 있습니다.</li>
+	</ul></div>
+
+	
+
+<h4>LUN 제거하기:</h4>
+<p>LUN을 제거하면 LUN에 있는 모든 데이터가 삭제됩니다. LUN과 매핑된 Target 간의 연결도 끊어집니다.</p>
+<ol>
+	<li>제거할 LUN을 선택합니다.</li>
+	<li><b>제거</b> 버튼을 클릭하고 마법사를 따라 프로세스를 완료합니다.</li>
+</ol>
+
+<h4>LUN 편집하기:</h4>
+<ol>
+	<li>편집할 LUN을 선택합니다.</li>
+	<li><b>동작</b> 드롭다운 메뉴에서 <b>편집</b>을 선택합니다.</li>
+	<li>원하는 속성을 편집합니다.</li>
+	<li><b>확인</b>을 클릭하여 설정을 저장합니다.</li>
+</ol>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+<li>LUN 용량 편집 시 데이터 손실을 방지하기 위해 현재 크기보다 더 큰 용량으로만 LUN 용량을 설정할 수 있습니다.</li>
+<li>LUN 상태가 <b>사용 불가</b>로 변경되는 경우 이는 LUN에 액세스하는 동안 일부 데이터 관련 오류가 발생했음을 의미합니다. 시스템에서 심각한 데이터 손실을 방지하기 위해 일시적으로 이 LUN에 액세스할 수 없습니다. Synology에 즉시 지원을 요청하십시오.</li>
+</ul>
+</div>
+
+<p>Synology NAS이(가) OpenStack Cinder의 저장소 백 엔드 역할을 수행하는 경우, Cinder 볼륨 생성 시 저장소 가속 명령이 있는 LUN이 사용됩니다. Synology NAS에서는 Cinder가 사용하는 LUN/Target의 동작 및 관리가 제한됩니다.</p>
+<ul>
+<li>Cinder LUN을 편집할 수 없습니다.</li>
+<li>Cinder Target의 이름, IQN, 매핑 및 마스킹과 같은 정보를 편집할 수 없습니다.</li>
+<li>Cinder LUN/Target을 일반 LUN/Target으로 매핑할 수 없습니다.</li>
+<li>DSM 사용자 인터페이스를 통해 Cinder LUN 스냅샷을 촬영할 수 없고, Cinder LUN 스냅샷을 편집, 삭제 또는 복원할 수 없습니다.</li>
+<li>Cinder LUN/스냅샷에서 복제된 LUN은 일반 LUN으로 변환됩니다.</li>
+</ul>
+
+<h4>LUN 복제하기:</h4>
+	<ol>
+	<li>복제할 LUN을 선택합니다.</li>
+	<li><b>동작</b> 드롭다운 메뉴에서 <b>복제</b>를 선택합니다.</li>
+	<li>복제된 LUN 이름을 편집하고 대상 볼륨을 선택합니다.</li>
+	<li><b>확인</b>을 클릭하여 복제를 시작합니다.</li>
+</ol>
+<div class="section">
+	<h4>참고:</h4>
+	<ul>
+		<li>볼륨 잔여 공간이 1GB 미만이면 LUN을 복제할 수 없습니다.</li>
+	</ul>
+</div>
+
+<h4>LUN 조각 모으기:</h4>
+<p>조각 모음을 통해 데이터 조각 또는 스냅샷으로 인해 저하된 LUN 성능을 복구할 수 있습니다. 조각 모음 중에는 LUN의 I/O 성능이 영향을 받을 수 있습니다. 하지만 언제든지 조각 모음을 중지하고 나중에 다시 시작할 수 있습니다.</p>
+<ol>
+	<li>조각 모음을 수행할 LUN을 선택합니다.</li>
+	<li><b>조각 모음</b> &gt; <b>시작</b>을 클릭합니다.</li>
+</ol>
+<h4>LUN 조각 모음 중지하기:</h4>
+<ol>
+	<li>조각 모음 중인 LUN을 선택합니다.</li>
+	<li><b>조각 모음</b> &gt; <b>중지</b>를 클릭합니다.</li>
+</ol>
+<div class="section"><h4>참고:</h4>
+<ul>
+<li>조각 모음은 Thin Provisioning된 Btrft LUN에서만 지원됩니다.</li>
+<li>조각 모음 중에는 LUN을 편집/복제하거나 스냅샷을 만들 수 없습니다. 하지만 제거할 수는 있습니다.</li>
+<li>언제든지 조각 모음을 중지할 수 있습니다. 시스템은 진행 레코드를 보존하므로, 마지막으로 중지된 지점부터 다시 시작합니다.</li>
+<li>LUN 조각 모음 후에는 기존 LUN 스냅샷이 볼륨 공간을 추가로 사용합니다.</li>
+</ul>
+</div>
+
+	
+<div class="section"><h4>추가 정보</h4>
+<ul>
+	
+	<li>스냅샷 기능 또는 레거시 고급 기능이 활성화된 LUN이 같은 볼륨 내에 빠르게 복제될 수 있습니다.</li>
+	<li>새 고급 기능이 있는 LUN은 Btrfs 볼륨으로만 복제될 수 있습니다.</li>
+	<li>레거시 고급 기능이 있는 LUN을 Btrfs 볼륨에 복제하면 이 LUN은 새 고급 기능이 있는 LUN으로 변환됩니다. 다른 ext4 볼륨에 복제하면 LUN의 레거시 고급 기능이 비활성화됩니다.</li>
+	<li>LUN 속성은 복제 후 변경되지 않습니다(레거시 고급 기능이 있는 LUN 제외).</li>
+	<li>스냅샷 또는 레거시 고급 기능이 없는 LUN을 복제하는 동안 복제 실패나 데이터 불일치를 방지하기 위해 이러한 LUN 연결을 끊는 것이 좋습니다.</li>
+</ul>
+</div>
+	
+<h4>레거시 고급 기능이 있는 LUN 변환하기:</h4>
+<ol>
+	<li>변환할 LUN을 선택합니다.</li>
+	<li><b>동작</b> 드롭다운 메뉴에서 <b>변환</b>을 선택합니다.</li>
+	<li>설정을 구성합니다.<ul>
+			<li>LUN 이름</li>
+			<li>위치: LUN이 생성된 후에는 위치를 수정할 수 없습니다. 하지만 이 LUN을 다른 Btrfs 볼륨으로 변환할 수 있습니다.</li>
+		</ul></li>
+	<li>변환 후 원본 LUN을 삭제하고 새 LUN으로 Target을 매핑하려면 확인란을 선택합니다.</li>
+	<li><strong>적용</strong>을 클릭하여 설정을 확정합니다.</li>
+</ol>
+
+<div class="section"><h4>참고:</h4>
+	<ul>
+	<li>레거시 고급 기능이 있는 LUN만 새 고급 기능이 있는 LUN으로 변환될 수 있습니다.</li>
+	<li>LUN은 여유 공간이 충분한 Btrfs 볼륨에서만 변환될 수 있습니다.</li>
+	<li>데이터 일관성을 유지하기 위해 LUN은 변환 중에 Target에서 매핑 취소됩니다.</li>
+	<li>변환된 새 고급 LUN에는 스냅샷이 없습니다.</li>
+</div>
+
+<div class="section"><h4>용어:</h4>
+<ul>
+	<li><b>Thin Provisioning</b>: Thin Provisioning은 동적 및 주문형 방식으로 저장 공간을 할당하여 저장소 활용을 최적화하는 방법입니다.</li>
+	<li><b>VMware VAAI</b>: VAAI(VMware vStorage APIs for Array Integration)는 가상 저장소 배열에서 표준 작업을 VMware vSphere 환경의 iSCSI 장치에 분담하여 저장소 성능을 최적화할 수 있습니다.</li>
+	<li><b>Windows ODX</b>: ODX(Offload Data Transfer)는 Microsoft가 개발한 Windows Server 2012 및 8에서의 새로운 데이터 전송 기술입니다. ODX는 작업의 일부를 저장소 배열에 분담하여 전송 성능을 향상시킵니다.<br />데이터 원본과 대상이 같은 볼륨에 위치한 LUN에 있는 경우, 복제는 저장소 가속 명령을 통해 처리되므로 저장소 공간 사용이 최대 99.9%까지 감소되고 동시에 복제 속도가 빨라집니다.</li>
+	<li><b>Target 매핑</b>: LUN을 대상 한 개 이상에 매핑합니다.</li>
+
+</ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+# author: ANT
+# only handle usb-bluetooth dongle
+
+ENV{SUBSYSTEM}!="usb", GOTO="bluetooth_end"
+ACTION!="add|remove", GOTO="bluetooth_end"
+ENV{SYNO_USB_DEVICE}!="BLUETOOTH", GOTO="bluetooth_end"
+ENV{SYNO_USB_DRIVER}=="", GOTO="bluetooth_end"
+ENV{INTERFACE}=="", GOTO="bluetooth_end"
+ENV{SYNO_SUPPORT_DUALHEAD}=="yes", GOTO="bluetooth_end"
+ENV{SYNO_BLOCK_OPTIONAL_USB}=="yes", GOTO="bluetooth_end"
+
+ATTRS{busnum}!="", ATTRS{devnum}!="", ENV{SYNO_ATTR_BUSNUM_DEVNUM}="$attr{busnum}.$attr{devnum}"
+
+ACTION=="add", RUN+="/lib/udev/script/usb-bluetooth-util.sh plug-in"
+ACTION=="remove", RUN+="/lib/udev/script/usb-bluetooth-util.sh plug-out"
+
+LABEL="bluetooth_end"

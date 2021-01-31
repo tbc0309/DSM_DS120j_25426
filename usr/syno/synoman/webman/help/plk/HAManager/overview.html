@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Przegląd</h2>
+	<p>Na tej stronie wyświetlane są podstawowe informacje o klastrze high-availability i należących do niego serwerach. Dostępne są na niej również narzędzia do tworzenia, usuwania lub konserwacji klastrów high-availability oraz należących do nich serwerów.</p>
+
+<h3>Stan klastra high-availability</h3>
+  <p>W tym polu przedstawiany jest ogólny stan klastra high-availability, łącznie z powiadomieniami o ewentualnych błędach. Poniżej przedstawiono tabelę możliwych stanów wyświetlanych w tym polu:</p>
+    <table>
+     <tr>
+      <th>Stan</th>
+      <th>Opis</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Autonomiczny</strong></td>
+      <td>Serwery nie są łączone w klaster high-availability.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Dobry stan</strong></td>
+      <td>Ogólny stan klastra high-availability jest dobry. Replikacja danych z serwera aktywnego do serwera pasywnego działa normalnie.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Przygotowywanie</strong></td>
+	  <td>Serwery zostały z powodzeniem połączone w klaster high-availability, ale wstępna replikacja danych nie został zakończona. W tym momencie nie można wykonać operacji przełączania. Więcej informacji można znaleźć w temacie <a href="switchover_fail.html">Przełączanie</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ładowanie</strong></td>
+	  <td>System ładuje informacje o stanie klastra. <b>Przełączanie</b> jest niemożliwe przed zakończeniem ładowania informacji o stanie.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ostrzeżenie</strong></td>
+      <td>Stan klastra HA jest nieprawidłowy, ale usługi nadal działają.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Niebezpieczeństwo</strong></td>
+	  <td>Zarówno serwery aktywny, jak i pasywny nie działają prawidłowo. Klaster high-availability nie działa normalnie. Sprawdź stan wszystkich elementów przestrzeni magazynowej (np. grup RAID Group, grup dysków, wolumenów i jednostek iSCSI LUN).</td>
+     </tr>
+    </table>
+<h3>Komunikaty z ostrzeżeniami</h3>
+   <p>W poniższej tabeli przedstawiono komunikaty z ostrzeżeniami, które mogą się pojawić w razie wystąpienia błędu systemu. Jeżeli pojawi się więcej niż jeden komunikat z ostrzeżeniem, można przechodzić między nimi, używając przycisków naprzód/wstecz. </p>
+    <table>
+     <tr>
+      <th>Ostrzeżenie/błąd</th>
+      <th>Opis</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Błąd monitorowanej usługi</strong></td>
+      <td>Wystąpił błąd w przypadku co najmniej jednej monitorowanej usługi.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Miejsce w pamięci uległo degradacji</strong></td>
+      <td>Miejsce w pamięci masowej (np. grupa RAID Group, grupa dysków, wolumen, iSCSI LUN lub pamięć podręczna SSD) na serwerze aktywnym lub pasywnym jest zdegradowane. Sprawdź, używając strony <b>Stan pamięci</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Miejsce w pamięci jest uszkodzone</strong></td>
+      <td>Miejsce w pamięci masowej (np. grupa RAID Group, grupa dysków, wolumen, iSCSI LUN lub pamięć podręczna SSD) na serwerze aktywnym lub pasywnym jest uszkodzone. Sprawdź, używając strony <b>Stan pamięci</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Nie udało się wykryć serwera pasywnego</strong></td>
+      <td>Błąd mógł wystąpić, ponieważ serwer pasywny jest wyłączony lub brak połączenia Heartbeat między serwerem aktywnym i serwerem pasywnym. W tym przypadku przełączanie będzie niedostępne.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Nie można zreplikować danych do serwera pasywnego</strong></td>
+      <td>Błąd mógł wystąpić ze względu na awarię wolumenu pamięci masowej lub dysku. W tym przypadku przełączanie będzie niedostępne. Sprawdź, używając strony <b>Stan pamięci</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Serwer pasywny nie został wybrany</strong></td>
+	  <td>Ten stan będzie wyświetlany, jeżeli usunięto powiązanie serwera pasywnego z klastrem high-availability. W tym przypadku przełączanie będzie niedostępne. Aby ponownie powiązać serwer pasywny, kliknij menu rozwijane <b>Konserwuj</b> i kliknij opcję <b>Powiąż</b>. Po ponownym powiązaniu serwera pasywnego wymagana będzie pełna replikacja danych.</td>
+     </tr>
+    </table>
+
+
+<h3>Informacje o klastrze high-availability</h3>
+	<p>To pole znajduje się poniżej stanu klastra high-availability i przedstawia podstawowe informacje na temat klastra. Jeżeli klaster high-availability nie istnieje, w tym polu będzie znajdować się tylko wyjaśnienie działania klastrów high-availability.</p>
+    <p>To pole zawiera następujące informacje:</p>
+ <ul>
+    	<li><b>Nazwa serwera klastra:</b> Nazwa serwera używana przez klaster high-availability. </li>
+   <li><b>Adres IP klastra:</b> Adres IP używany przez klaster high-availability. Bez względu na to, na którym serwerze uruchomione są usługi, użytkownicy mogą połączyć się z klastrem high-availability za pomocą tego adresu IP.</li>
+        <li><b>Czas kompilacji:</b> Daty utworzenia klastra high-availability.</li>
+ </ul>
+
+
+<h3>Przycisk obsługi klastra high-availability</h3>
+
+<p>Następujące trzy przyciski są umieszczone pod informacjami na temat klastra high-availability:</p>
+
+<ol>
+	<li><b>Utwórz klaster HA:</b> Jeżeli nie istnieje żaden klaster high-availability, można kliknąć ten przycisk, aby połączyć dwa serwery i utworzyć klaster high-availability. Więcej informacji na temat tworzenia klastra high-availability zawiera <a href="wizard.html">Kreator Synology High Availability</a>.</li>
+	<li><b>Zarządzanie:</b> Ten przycisk jest dostępny tylko wówczas, gdy klaster high-availability już istnieje. Dostępne są następujące opcje:<ul>
+	<li><b>Kreator zarządzania:</b> Uruchamia kreator zawierający instrukcje dotyczące różnych procedur zarządzania.</li>
+	<li><b>Przełącz:</b> inicjowanie przełączenia usług z serwera aktywnego na serwer pasywny. Podczas tego procesu serwer aktywny przestaje zapewniać usługi i staje się nowym serwerem pasywnym. Serwer pasywny staje się nowym serwerem aktywnym i zaczyna zapewniać wszystkie usługi klastra high-availability. Ta opcja jest niedostępna, kiedy stan serwera pasywnego to <b>błąd</b> lub gdy nie wybrano serwera pasywnego.</li>
+	<li><b>Zaktualizuj DSM:</b> otwarcie strony <strong>Panel sterowania</strong> > <strong>Aktualizacja DSM</strong>. Na niej można zaktualizować oba serwery.</li>
+	<li><b>Zamknij klaster HA:</b> zamknięcie zarówno serwera aktywnego, jak i pasywnego.</li></ul>
+	<li><b>Wyłącz sygnał dźwiękowy:</b> Ta opcja jest dostępna tylko wtedy, gdy wystąpi błąd na serwerze aktywnym lub pasywnym. Umożliwia wyłączenie sygnału dźwiękowego na serwerze w przypadku wystąpienia błędu. Serwery będą emitowały sygnał dźwiękowy, jeżeli później wystąpią kolejne błędy.</li>
+</ol>
+	
+<h3>Kreator zarządzania</h3>
+<p>Kreator zarządzania przeprowadza użytkownika przez następujące procesy zarządzania.</p>
+<ul>
+	<li><b>Zarządzaj klastrem:</b><ul>
+			<li><b>Zmiana serwera aktywnego na serwer pasywny:</b> inicjowanie przełączenia usług z serwera aktywnego na serwer pasywny. Podczas tego procesu serwer aktywny przestaje zapewniać usługi i staje się nowym serwerem pasywnym. Serwer pasywny staje się nowym serwerem aktywnym i zaczyna zapewniać wszystkie usługi klastra high-availability. Ta opcja jest niedostępna, kiedy stan serwera pasywnego to <b>błąd</b> lub gdy nie wybrano serwera pasywnego.</li>
+			<li><b>Zaktualizuj DSM na serwerze aktywnym i pasywnym:</b> otwarcie strony <strong>Panel sterowania</strong> > <strong>Aktualizacja DSM</strong>. Na niej można zaktualizować oba serwery.</li>
+			<li><b>Usuń klaster HA:</b> Usuwa powiązanie klastra. Dwa serwery będą działać niezależnie pod ponownym uruchomieniu.</li>
+			<li><b>Dodaj nowy serwer pasywny:</b> Dodaje serwer pasywny do klastra. Ta opcja jest dostępna tylko wtedy, gdy w klastrze high-availability nie ma żadnego serwera pasywnego.</li>
+			<li><b>Usuń powiązanie serwera pasywnego z klastrem high-availability:</b> Usuwa serwer pasywny z klastra. Jeżeli serwer zostanie ponownie dodany do klastra high-availability po usunięciu powiązania, wymagana będzie pełna replikacja danych. Dlatego zalecamy używanie tej opcji tylko w celu zastąpienia istniejącego serwera pasywnego nowym.</li>
+			<li><b>Przenieś oba serwery do innej lokalizacji:</b> Wybierz tę opcję, jeżeli chcesz przenieść klaster. Po tej operacji oba serwery zostaną zamknięte.</li>
+		</ul></li>
+	<li><b>Zarządzaj serwerem aktywnym:</b><ul>
+			<li>Zamknij serwer aktywny.</li>
+			<li>Uruchom ponownie serwer aktywny.</li>
+			<li>Uaktualnij/wymień uszkodzone elementy w serwerze aktywnym: Ta opcja powoduje zamknięcie serwera aktywnego.</li>
+		</ul></li>
+	<li><b>Zarządzaj serwerem pasywnym:</b><ul>
+			<li>Zamknij serwer pasywny.</li>
+			<li>Uruchom ponownie serwer pasywny.</li>
+			<li>Uaktualnij/wymień uszkodzone elementy w serwerze pasywnym: Ta opcja powoduje zamknięcie serwera pasywnego.</li>
+		</ul></li>
+</ul>
+	
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Po usunięciu klastra high-availability wymagana będzie pełna replikacja danych, aby możliwe było dodanie nowego.</li>
+<li>Po zamknięciu lub usunięciu powiązania serwera pasywnego nie będzie można przełączyć usług w przypadku błędów na serwerze aktywnym.</li>
+</ul>
+</div>
+
+<h3>Stan serwera i replikacji danych</h3>
+<p>W tej sekcji znajdują się obrazy określające stan serwera aktywnego i pasywnego, a także przepływ replikacji danych między serwerami.</p>
+<p>Obraz replikacji danych wskazuje na następujące możliwe warunki:</p>
+	<ul>
+    	<li><b>Replikacja danych działa normalnie:</b> Wskazuje na to przepływ danych z serwera aktywnego do serwera pasywnego.</li>
+    	<li><b>Brak replikacji danych:</b> Wskazuje na to brak obrazu przedstawiającego przepływ danych.</li>
+    </ul>
+
+
+<h3> Informacje o serwerze</h3>
+ <p>Ta sekcja znajduje się poniżej obrazów serwerów. W sekcji tej wyświetlane są informacje o serwerze aktywnym i pasywnym. Jeżeli nie wybrano serwera pasywnego, w sekcji widoczny będzie napis <b>Nie dotyczy</b>.</p>
+  <ul>
+   <li><b>Nazwa serwera:</b> nazwa serwera Synology.</li>
+   <li><b>Nazwa modelu:</b> model serwera Synology.</li>
+   <li><b>Numer seryjny:</b> numer seryjny serwera firmy Synology.</li>
+   <li><b>Stan wentylatora:</b> stan wentylatorów chłodzących serwer. Jeżeli jeden z wentylatorów będzie działać nieprawidłowo, wyświetli się ostrzeżenie. W takim przypadku skontaktuj się z lokalnym dystrybutorem w celu uzyskania pomocy.</li>
+   <li><b>Temperatura:</b> temperatura serwera firmy Synology. </li>
+   <li><b>Stan zasilania:</b> Wskazuje, czy zasilacze serwera działają normalnie. Jeżeli dany model serwera jest wyposażony w nadmiarowe zasilacze, pojawi się ostrzeżenie, gdy jeden z nich zacznie działać nieprawidłowo.</li>
+  </ul>
+
+ </body>
+</html>

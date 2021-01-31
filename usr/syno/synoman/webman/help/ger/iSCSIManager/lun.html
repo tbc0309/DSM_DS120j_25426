@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>iSCSI Manager</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_lun"></a>LUN</h2>
+<p>Bevor Sie eine LUN erstellen, müssen Sie erst im <a href="../StorageManager/volume_create_volume.html">Speicher-Manager</a> ein Volume erstellen.</p>
+<p>LUN-Typen mit verschiedenen Funktionen werden in unterschiedlichen Farben dargestellt:</p>
+<ul>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #00adad;"></span> Auf einem ext4-Volume erstellte Thin Provisioned LUNs.</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #1a9900;"></span> Auf einem Btrfs-Volume erstellte Thin Provisioned LUNs.</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #0068b3;"></span> Thick Provisioned LUNs.</li>
+ </ul>
+ 
+
+<div class="section"><h4>Wichtig:</h4>
+<ul>
+	<li>Nur auf einem Btrfs-Volume auf DSM 6.2 und höher erstellte LUNs unterstützen neue erweiterte Funktionen und Sofort-Schnappschüsse. LUN auf einem ext4-Volume unterstützen lediglich die alten erweiterten Funktionen.</li>
+</ul>
+</div>
+
+<h4>Eine LUN erstellen:</h4>
+<ol>
+  <li>Klicken Sie auf <strong>Erstellen</strong>.</li>
+  <li>Legen Sie die Eigenschaften dieser LUN fest.
+		<ul>
+			<li>LUN-Name</li>
+			<li>Ort: Sie können den Speicherort nach dem Erstellen der LUN nicht mehr ändern, Sie können jedoch diese LUN auf ein anderes Volume kopieren.</li>
+			<li>Kapazität: Die LUN muss mindestens 1 GB groß sein. LUNs mit alten erweiterten Funktionen müssen mindestens 10 GB groß sein.</li>
+			<li>Speicherzuweisung: Thick Provisioning bietet bessere Stabilität und Leistung. Thin Provisioning unterstützt Zuweisung bei Bedarf und alle erweiterten Funktionen, kann jedoch einen Absturz des Dateisystems auf der LUN verursachen, wenn der Speicherplatz seines Volumes ausgeht.</li>
+			<li>Erweiterte Funktionen: Thick Provisioned LUNs unterstützen nur <strong>Hardware-Assisted Zeroing</strong> und <strong>Hardware-Assisted Locking</strong>. LUNs auf ext4-Volumes unterstützen nur alte erweiterte Funktionen.</li></li>
+		</ul></li>
+	<li>Folgen Sie dem Assistenten, um den Vorgang abzuschließen.</li>
+</ol>
+
+<div class="section"><h4>Anmerkung:</h4>
+	<ul>
+	<li>Neue LUNs können nicht erstellt werden, wenn ein Volume weniger als 1 GB freien Speicher hat.</li>
+	<li>Sie können die erweiterten Funktionen aktivieren, um die entsprechenden VMware VAAI-Funktionen zu unterstützen.</li>
+	<li>Sie können <strong>Hardware-Assisted Data Transfer</strong> aktivieren, sodass die LUNs gleichzeitig Windows Offload Data Transfer (ODX) unterstützen können.</li>
+	<li>Die Aktivierung alter erweiterter Funktionen kann die E/A-Leistung beeinträchtigen.</li>
+	<li>Die Anzahl unterstützter LUNs unterscheidet sich je nach Synology NAS-Modell. Detaillierte Produktspezifikationen finden Sie unter <a href="http://www.synology.com/" target="_blank">www.synology.com</a>.</li>
+ 	</ul>
+</div>
+<div class="section"><h4><a name="terminologies_advanced_features"></a>Glossar:</h4>
+	<ul>
+		<li><strong>Hardware-Assisted Zeroing:</strong> Hilft VMware ESXi-Hosts, beim Erstellen neuer virtueller Festplatten effizientere virtuelle Festplatten zu initialisieren.</li>
+		<li><strong>Hardware-Assisted Locking:</strong> Sperrt nur benötigte Teile einer LUN, wenn ein VMware ESXi-Host auf darauf befindliche Daten zugreift, sodass mehrere VMware ESXi-Hosts gleichzeitig auf dieselbe LUN zugreifen können, ohne die Leistung zu beeinträchtigen.</li>
+		<li><strong>Hardware-Assisted Data Transfer:</strong> Die Datenübertragung kann auf Ihrem Synology NAS schnell ausgeführt werden, ohne beim Kopieren von Daten auf VMware ESXi- und Microsoft Hyper-V-Hosts die Ressourcen der Hosts zu verbrauchen.</li>
+		<li><strong>Schnappschuss:</strong> Dank der Funktionen des Btrfs-Dateisystems sind sofortige Schnappschüsse und Replikation verfügbar.</li>
+		<li><strong>Speicherplatzrückgewinnung:</strong> Unterstützt den Speicherplatzrückgewinnungsbefehl des Initiators. Wenn Daten gelöscht oder verschoben werden, wird der zuvor von ihnen belegte Speicherplatz freigegeben. Dies kann jedoch die E/A-Leistung beeinträchtigen.</li>
+	</ul></div>
+
+	
+
+<h4>Eine LUN entfernen:</h4>
+<p>Wenn Sie eine LUN entfernen, werden alle Daten auf der LUN gelöscht. Verbindungen zwischen der LUN und zugeordneten Targets gehen verloren.</p>
+<ol>
+	<li>Wählen Sie die LUN aus, die Sie entfernen möchten.</li>
+	<li>Klicken Sie auf die Schaltfläche <b>Entfernen</b> und folgen Sie dem Assistenten, um den Prozess durchzuführen.</li>
+</ol>
+
+<h4>Eine LUN bearbeiten:</h4>
+<ol>
+	<li>Wählen Sie die LUN aus, die Sie bearbeiten möchten.</li>
+	<li>Wählen Sie <b>Bearbeiten</b> im Dropdown-Menü <b>Aktion</b> aus.</li>
+	<li>Bearbeiten Sie die gewünschten Eigenschaften.</li>
+	<li>Klicken Sie auf <b>OK</b>, um die Einstellungen zu speichern.</li>
+</ol>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+<li>Um Datenverlust beim Bearbeiten der LUN-Kapazität zu vermeiden, können Sie diese nur vergrößern.</li>
+<li>Falls der Status der LUN zu <b>Nicht verfügbar</b> wechselt, bedeutet dies, dass während des LUN-Zugriffs datenbezogene Fehler aufgetreten sind. Um Datenverlust auf Ihrem System zu vermeiden, ist diese LUN vorübergehend nicht verfügbar. Kontaktieren Sie bitte so schnell wie möglich Synology, um Hilfe zu erhalten.</li>
+</ul>
+</div>
+
+<p>Wenn Ihr Synology NAS als Speicher-Back-End für OpenStack Cinder dient, werden LUNs mit Speicherbeschleunigungsbefehlen beim Erstellen von Cinder-Volumes verwendet. Betrieb und Verwaltung der von Cinder verwendeten LUNs/Targets sind auf Ihren Synology NAS eingeschränkt.</p>
+<ul>
+<li>Cinder LUNs können nicht bearbeitet werden.</li>
+<li>Daten wie Name, IQN, Zuordnung und Maskierung von Cinder-Targets können nicht bearbeitet werden.</li>
+<li>Sie können Cinder-LUNs/-Targets nicht allgemeinen LUNs/Targets zuordnen.</li>
+<li>Sie können über die DSM-Benutzeroberfläche keine Schnappschüsse von Cinder-LUNs erstellen und Schnappschüsse von Cinder-LUNS nicht bearbeiten, löschen oder wiederherstellen.</li>
+<li>Von Cinder-LUNs/Schnappschüssen geklonte LUNs werden zu allgemeinen LUNs.</li>
+</ul>
+
+<h4>Eine LUN klonen:</h4>
+	<ol>
+	<li>Wählen Sie die LUN aus, die Sie klonen möchten.</li>
+	<li>Wählen Sie <b>Klonen</b> im Dropdown-Menü <b>Aktion</b> aus.</li>
+	<li>Geben Sie den Namen der geklonten LUN ein und wählen Sie das Ziel-Volume aus.</li>
+	<li>Klicken Sie auf <b>OK</b>, um das Klonen zu starten.</li>
+</ol>
+<div class="section">
+	<h4>Anmerkung:</h4>
+	<ul>
+		<li>Eine LUN kann nicht geklont werden, wenn der verbleibende Speicherplatz ihres Volumes weniger als 1 GB beträgt.</li>
+	</ul>
+</div>
+
+<h4>Eine LUN defragmentieren:</h4>
+<p>Die Defragmentierung kann aufgrund von Fragmentierung oder Schnappschüssen beeinträchtigte LUN-Leistung wiederherstellen. Die Defragmentierung kann die I/O-Leistung der LUNs beeinträchtigen. Sie kann jedoch jederzeit gestoppt und zu einem späteren Zeitpunkt fortgesetzt werden.</p>
+<ol>
+	<li>Wählen Sie die LUN für die Defragmentierung aus.</li>
+	<li>Klicken Sie auf <b>Defragmentieren</b> > <b>Start</b>.</li>
+</ol>
+<h4>LUN-Defragmentierung stoppen:</h4>
+<ol>
+	<li>Wählen Sie die LUN aus, die gerade defragmentiert wird.</li>
+	<li>Klicken Sie auf <b>Defragmentieren</b> > <b>Stopp</b>.</li>
+</ol>
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+<li>Die Defragmentierung wird nur auf Thin Provisioned Btrfs LUNs unterstützt.</li>
+<li>Während der Defragmentierung können Sie die LUN nicht bearbeiten/klonen oder Schnappschüsse erstellen. Sie können die LUN jedoch entfernen.</li>
+<li>Die Defragmentierung kann jederzeit gestoppt werden. Das System hält den Fortschritt fest und setzt die Defragmentierung von der Position, an der sie zuletzt gestoppt wurde, fort. </li>
+<li>Vorhandene LUN-Schnappschüsse belegen nach einer LUN-Defragmentierung zusätzlichen Volume-Speicherplatz.</li>
+</ul>
+</div>
+
+	
+<div class="section"><h4>Weitere Informationen</h4>
+<ul>
+	
+	<li>LUNs mit aktivierter Schnappschussfunktion oder aktivierten alten erweiterten Funktionen können rasch innerhalb desselben Volumes geklont werden.</li>
+	<li>LUNs mit neuen erweiterten Funktionen können nur zu Btrfs-Volumes geklont werden.</li>
+	<li>Wenn LUNs mit alten erweiterten Funktionen zu einem Btrfs-Volume geklont werden, werden sie zu LUNs mit neuen erweiterten Funktionen konvertiert. Beim Klonen zu einem anderen ext4-Volume werden die alten erweiterten Funktionen der LUN deaktiviert.</li>
+	<li>LUN-Eigenschaften ändern sich nach dem Klonen nicht, ausgenommen für LUNs mit alten erweiterten Funktionen.</li>
+	<li>Während Sie LUNs ohne Schnappschuss- oder alte erweiterte Funktionen klonen, wird empfohlen, diese LUNs zu trennen, um zu verhindern, dass das Klonen fehlschlägt oder Dateninkonsistenzen auftreten.</li>
+</ul>
+</div>
+	
+<h4>Eine LUN mit alten erweiterten Funktionen konvertieren:</h4>
+<ol>
+	<li>Wählen Sie die LUN aus, die Sie konvertieren möchten.</li>
+	<li>Wählen Sie <b>Konvertieren</b> im Dropdown-Menü <b>Aktion</b> aus.</li>
+	<li>Konfigurieren Sie die Einstellungen:
+		<ul>
+			<li>LUN-Name</li>
+			<li>Ort: Sie können den Speicherort nach dem Erstellen einer LUN nicht mehr ändern, Sie können jedoch diese LUN auf ein anderes Btrfs-Volume konvertieren.</li>
+		</ul></li>
+	<li>Aktivieren Sie das Kontrollkästchen, wenn Sie die ursprüngliche LUN löschen und den Target nach der Konvertierung der neuen LUN zuordnen möchten.</li>
+	<li>Klicken Sie auf <strong>Übernehmen</strong>, um die Einstellungen zu bestätigen.</li>
+</ol>
+
+<div class="section"><h4>Anmerkung:</h4>
+	<ul>
+	<li>Nur LUNs mit alten erweiterten Funktionen können zu LUNs mit neuen erweiterten Funktionen konvertiert werden.</li>
+	<li>LUNs können nur auf Btrfs-Volumes mit genug freiem Speicherplatz konvertiert werden.</li>
+	<li>Um die Datenkonsistenz sicherzustellen, wird die Zuordnung von LUNs zu dem Target während der Konvertierung aufgehoben.</li>
+	<li>Es gibt keine Schnappschüsse auf der konvertierten neuen erweiterten LUN.</li>
+</div>
+
+<div class="section"><h4>Glossar:</h4>
+<ul>
+	<li><b>Thin Provisioning</b>: Thin Provisioning ist eine Methode für die Optimierung der Speicherauslastung durch die dynamische und bedarfsabhängige Zuweisung von Speicherplatz.</li>
+	<li><b>VMware VAAI</b>: Die VMware vStorage APIs für Array Integration (VAAI) können die Arbeit der Standardfunktionen auf den virtuellen Speicher-Arrays auf das iSCSI-Gerät in der VMware vSphere-Umgebung auslagern und die Speicherleistung optimieren.</li>
+	<li><b>Windows ODX</b>: Offload Data Transfer (ODX) ist eine neue Datenübertragungstechnologie, die von Microsoft in Windows Server 2012 und 8 entwickelt wurde. ODX verbessert die Übertragungsleistung durch Verlagerung eines Teils der Arbeitslast auf das Speicher-Array.<br />Wenn die Quell- und Zieldaten sich auf LUNs auf demselben Volume befinden, wird das Klonen von Speicherbeschleunigungsbefehlen verarbeitet, was bis zu 99,9 % des Speicherplatzbedarfs einspart und gleichzeitig das Klonen beschleunigt.</li>
+	<li><b>Target-Zuordnung</b>: Ordnet die LUN einem oder mehreren Targets zu.</li>
+
+</ul>
+</div>
+
+</body>
+</html>

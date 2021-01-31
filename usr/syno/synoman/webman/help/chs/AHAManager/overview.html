@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>总览</h2>
+	<p>本页显示 high-availability 集群和成员服务器的基本信息。另外，本页提供在 high-availability 集群和成员服务器上执行维护的工具。</p>
+
+<h3>High-Availability 集群状态</h3>
+<p>本栏显示 high-availability 集群的整体状态，提醒您任何错误的发生。下表为本栏中可能显示的状况：</p>
+    <table>
+     <tr>
+<th width="12%">状态</th>
+<th width="88%">描述</th>
+     </tr>
+     <tr>
+<td align="center"><strong>良好</strong></td>
+<td>High-availability 集群整体状况良好。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>正在加载</strong></td>
+	  <td>系统正在加载集群状态。在状态加载完成后才能执行<strong>移转</strong>。请参见<a href="switchover_fail.html">移转</a>。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>正在配置</strong></td>
+	  <td>系统正在配置。在配置完成后才能执行<b>移转</b>。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>警告</strong></td>
+<td>HA 集群的状态异常，但服务仍在运行。<strong>移转</strong>在此情况下可能无法执行。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>危险</strong></td>
+	  <td>活动和无源服务器都发生故障，或存储器损毁。High-availability 集群无法正常运作。请检查所有存储空间（例如 RAID Group、硬盘组、卷和 iSCSI LUN）的状态。<b>移转</b>在此情况下无法执行。</td>
+     </tr>
+    </table>
+<h3>警告信息</h3>
+<p>下表列示了系统出现错误时可能显示的警告信息。当出现多个警告时，您可用向前/向后按钮浏览它们。 </p>
+    <table>
+     <tr>
+<th width="21%">警告/错误</th>
+<th width="79%">描述</th>
+     </tr>
+     <tr>
+<td align="center"><strong>此 high-availability 集群中没有无源服务器</strong></td>
+	  <td>无源服务器的信息无法获得。请确认无源服务器正确连接。在这种情形下，无法使用移转。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>无法检测无源服务器</strong></td>
+<td>该错误可能是由于无源服务器离线或活动服务器与无源服务器无法通过 Heartbeat 连接进行通信。在这种情形下，无法使用移转。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>无法执行故障移转</strong></td>
+<td>在活动服务器上触发了故障移转，但移转失败。在这种情况下，活动服务器不会尝试执行另一个故障移转。请按以下步骤修复此错误：
+		<ol>
+		  <li>尝试解决 high-availability 集群中的问题。</li>
+		  <li>重启无源服务器。</li>
+		  <li>单击<strong>管理</strong> &gt; <strong>移转</strong>以执行移转。</li>
+	   </ol></td>
+     </tr>
+     <tr>
+<td align="center"><strong>监控的目标错误</strong></td>
+<td>在一个或多个监控的目标中出现错误，包括系统状态、服务或网络接口。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>在扩充设备和活动/无源服务器之间的连接中出现错误。</strong></td>
+<td>扩充设备未正确连接到活动或无源服务器。请确认其正确连接到活动服务器，并对至无源服务器的连接作相同的设置。在这种情形下，无法使用移转。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>卷处于堪用状态</strong></td>
+<td>存储空间（例如 RAID Group、硬盘组、卷、iSCSI LUN 和 SSD 缓存）已处于堪用状态。请检查<b>存储状态</b>页面。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>卷已损毁</strong></td>
+<td>存储空间（例如 RAID Group、硬盘组、卷、iSCSI LUN 和 SSD 缓存）已损毁。请检查<b>存储状态</b>页面。如果无源服务器尝试识别活动服务器无法访问的硬盘，将自动执行故障移转。否则，将无法进行切换。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>Heartbeat 连接丢失。</strong></td>
+<td>该错误可能是由于 Heartbeat 连接失败造成的。在这种情形下，无法使用移转。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>硬件故障</strong></td>
+<td>此错误可能是由于活动服务器或无源服务器上的硬件故障（例如电源设备或系统风扇）所造成的。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>不同的物理内存大小</strong></td>
+<td>此错误可能是由于活动服务器或无源服务器上的物理内存大小不匹配所造成的。在这种情形下，无法使用移转。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>未对此 high-availability 集群指定静态 IP 地址</strong></td>
+<td>此错误可能由于 high-availaility 集群缺少静态 IP 地址所造成的。在这种情形下，无法使用移转。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>监控接口上没有静态 IP 地址</strong></td>
+<td>此错误可能由于受监控接口缺少静态 IP 地址所造成的。在这种情形下，无法使用移转。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>还原无源服务器</strong></td>
+<td>无源服务器还原进行中。在这种情形下，无法使用移转。</td>
+     </tr>
+     <tr>
+<td align="center"><strong>正在升级无源服务器</strong></td>
+<td>系统正在升级无源服务器。在这种情形下，无法使用移转。</td>
+     </tr>
+
+    </table>
+
+<h3>High-Availability 集群&ldquo;管理&rdquo;按钮</h3>
+
+<p>此按钮位于 high-availability 集群信息下方。其包含以下操作：</p>
+<ul>
+<li><b>移转：</b>进行从活动服务器到无源服务器的移转。在该过程中，活动服务器将停止提供服务并成为新的无源服务器。然后，旧的无源服务器将成为新的活动服务器，并开始提供 high-availability 集群的所有服务。当无源服务器发生<b>错误</b>或未被选定时，此选项将无法使用。</li>
+<li><b>更新 DSM：</b>打开<strong>控制面板</strong>的 <strong>DSM 更新</strong>。两个服务器都可在此进行更新。</li>
+<li><b>关闭 high-availability 集群：</b>关闭活动和无源服务器。</li>
+<li><b>关闭活动服务器：</b>关闭活动服务器。如果无源服务器正常，服务将移转。</li>
+<li><b>关闭无源服务器：</b>关闭无源服务器。</li>
+<li><b>重启活动服务器：</b>重启活动服务器。如果无源服务器正常，服务将移转。</li>
+<li><b>重启无源服务器：</b>重启无源服务器。</li>
+<li><b>还原未知服务器：</b>如果无源服务器被更新或仍被识别为未知，则还原无源服务器。</li>
+<li><b>系统哔声关闭：</b>发生错误时关闭活动服务器和无源服务器的哔声。如果以后发生其它错误，系统仍会在活动服务器和无源服务器上发出哔声。</li>
+</ul>
+
+
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>如果您关闭无源服务器或没有无源服务器，一旦活动服务器发生错误，将无法移转服务。</li>
+</ul>
+</div>
+
+<h3>服务器图解和信息</h3>
+<p>服务器图解显示服务器状态。与服务器连接的模块侧面相对应的位置。将鼠标放在其上可获得更改细节。</p>
+<p>其包含以下情况：</p>
+<ul>
+<li><b>此 high-availability 集群中没有无源服务器：</b>显示空白框。</li>
+<li><b>无法检测无源服务器：</b>显示模糊的服务器图像。</li>
+<li><b>感叹号：</b>硬件可能出现故障，或服务器信息因 Heartbeat 连接失败而无法获得。</li>
+</ul>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>如果在另一个服务器上显示&ldquo;未知&rdquo;，这意味着该服务器不属于 high-availability 集群。单击<b>管理</b>然后选择<b>还原无源服务器</b>以修复此问题。</li>
+</ul>
+</div>
+
+<p>服务器信息包括下列条目。如果未检测到无源服务器，它会显示<b>无</b>。</p>
+
+  <ul>
+<li><b>序列号：</b>Synology 服务器的序列号。</li>
+<li><b>风扇状态：</b>服务器冷却风扇的状态。如果一个风扇发生故障，将出现警告。在这种情况下，请联系本地经销商获得帮助。</li>
+<li><b>温度：</b>Synology 服务器的温度。 </li>
+<li><b>电源状态：</b>指出服务器电源是否工作正常。如果该服务器配有冗余电源，则当其中一个发生故障时，将出现警告。</li>
+<li><b>物理内存：</b>Synology 服务器的物理内存大小。如果两台服务器没有相同的物理内存大小，切换无法执行。</li>
+  </ul>
+
+<h3>服务器之间的连接状态</h3>
+<p>此区域包含活动和无源服务器之间的图像。其包含以下情况：</p>
+<ul>
+<li><b>无图像：</b>表示未检测到无源服务器。</li>
+<li><b>静态图像：</b>表示 Heartbeat 连接不正确。</li>
+<li><b>感叹号：</b>表示两台服务器之间连接异常，或 Heartbeat 连接不正确。</li>
+</ul>
+
+<h3>网络接口状态</h3>
+<p>此区域包含服务器和数据网络之间的图像。其包含以下情况：</p>
+<ul>
+<li><b>无感叹号：</b>表示未检测到网络故障。</li>
+<li><b>感叹号：</b>表示在监控的网络接口中发生故障。</li>
+</ul>
+
+<h3> 共享存储器图解和信息</h3>
+<p>共享存储器图解显示了服务器和共享存储器之间的连接状态。将鼠标放在其上可获得基本信息。</p>
+<p>其包含以下情况：</p>
+<ul>
+<li><b>无感叹号：</b>表示未检测到错误。</li>
+<li><b>感叹号：</b>表示扩充设备的异常连接状态。</li>
+</ul>
+
+<p>共享存储器基本信息包括下列条目。请进入<b>存储管理器</b>来了解更多信息。</p>
+
+  <ul>
+<li><b>风扇状态：</b>显示扩充设备风扇的状态。如果发生风扇故障，将出现警告。在这种情况下，请联系本地经销商获得帮助。</li>
+<li><b>电源状态：</b>指出服务器电源是否工作正常。如果其中一个发生故障，将出现警告。</li>
+   </ul>
+ </body>
+</html>

@@ -1,0 +1,128 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Změna typu pole RAID fondu &uacute;loži&scaron;tě&nbsp;&ndash; N&aacute;pověda Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing storage pools on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+	
+</head>
+<body>
+<h2>Změna typu pole RAID fondu &uacute;loži&scaron;tě</h2>
+
+<p>Fondy &uacute;loži&scaron;tě lze přev&eacute;st z&nbsp;jednoho typu RAID na jin&yacute;, aniž by do&scaron;lo ke ztr&aacute;tě st&aacute;vaj&iacute;c&iacute;ch dat. Na sv&eacute;m zař&iacute;zen&iacute; Synology NAS můžete např&iacute;klad vytvořit fond &uacute;loži&scaron;tě typu RAID 1 a&nbsp;později, pot&eacute;, co nainstalujete v&iacute;ce disků, jej změnit na typ RAID 5. Tento čl&aacute;nek uv&aacute;d&iacute; informace o&nbsp;změně typu pole RAID st&aacute;vaj&iacute;c&iacute;ch fondů &uacute;loži&scaron;tě v&nbsp;zař&iacute;zen&iacute; Synology NAS. Než zah&aacute;j&iacute;te změnu typu RAID fondu &uacute;loži&scaron;tě, přečtěte si n&iacute;že uveden&eacute; č&aacute;sti <b>Požadavky na disky</b> a <b>Požadavky a&nbsp;omezen&iacute; typu RAID</b>, ve kter&yacute;ch jsou uvedeny podrobnosti o&nbsp;př&iacute;slu&scaron;n&yacute;ch požadavc&iacute;ch a omezen&iacute;ch.<h3>Požadavky na disky</h3>
+
+<p>Aby bylo možn&eacute; změnit typ RAID fondu &uacute;loži&scaron;tě, je třeba, abyste měli na sv&eacute;m zař&iacute;zen&iacute; Synology NAS k&nbsp;dispozici dostatečn&yacute; počet nainstalovan&yacute;ch disků. V&nbsp;n&aacute;sleduj&iacute;c&iacute; tabulce jsou uvedeny minim&aacute;ln&iacute; počty disků vyžadovan&eacute; jednotliv&yacute;mi typy RAID.</p>
+
+<table>
+  <tr>
+    <th width="50%">Typ RAID</th>
+    <th width="50%">Minim&aacute;ln&iacute; počet požadovan&yacute;ch disků</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 nebo 5 (v&nbsp;z&aacute;vislosti na konfiguraci disků syst&eacute;mu SHR-1)</td>
+  </tr>
+
+</table>
+
+</p>
+<h3>Požadavky a&nbsp;omezen&iacute; typu RAID</h3>
+
+<p>Na jin&eacute; typy RAID lze změnit pouze konkr&eacute;tn&iacute; typy RAID. Např&iacute;klad typ RAID 1 lze změnit na typ RAID 5, ale typ RAID 5 nelze změnit na typ RAID 1. Podrobn&eacute; informace se nach&aacute;zej&iacute; v&nbsp;n&iacute;že uveden&eacute; tabulce.</p>
+
+<table>
+  <tr>
+    <th width="30%">Aktu&aacute;ln&iacute; typ RAID</th>
+    <th width="30%">Možn&yacute; typ c&iacute;le pro převod</th>
+    <th width="40%">Počet dal&scaron;&iacute;ch požadovan&yacute;ch disků</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1</td>
+    <td>1</td>
+  </tr>
+ <tr>
+    <td>Basic</td>
+    <td>RAID 5</td>
+	  <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+	  <td>1</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+	  <td>1</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+	  <td>1 nebo 2 (v&nbsp;z&aacute;vislosti na konfiguraci disků syst&eacute;mu SHR)</td>
+  </tr>
+
+</table>
+
+<div class="section"><h4>Pozn&aacute;mka:</h4>
+<ul>
+<li>Dal&scaron;&iacute; informace o&nbsp;svazc&iacute;ch SHR (Synology Hybrid RAID) se nach&aacute;zej&iacute; <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_is_Synology_Hybrid_RAID_SHR" target="_blank">pod t&iacute;mto odkazem</a>.</li>
+<li>Dal&scaron;&iacute; informace o&nbsp;v&yacute;běru typu RAID pro fond &uacute;loži&scaron;tě se nach&aacute;zej&iacute; <a href="storage_pool_what_is_raid.html">pod t&iacute;mto odkazem</a>.</li>
+<li>K&nbsp;proveden&iacute; odhadu využit&iacute; prostoru můžete použ&iacute;t <a href="https://www.synology.com/support/RAID_calculator" target="_blank">Kalkulačku Synology RAID</a>.</li>
+<li>Při změně na fond &uacute;loži&scaron;tě SHR-2 může fond &uacute;loži&scaron;tě SHR-1 s&nbsp;n&aacute;sleduj&iacute;c&iacute;mi konfiguracemi disků vyžadovat dal&scaron;&iacute; dva disky:<ul>
+<li>Fond &uacute;loži&scaron;tě obsahuje pouze dva disky.</li>
+<li>V&scaron;echny disky maj&iacute; různ&eacute; kapacity.</li>
+<li>V&nbsp;poli RAID skl&aacute;daj&iacute;c&iacute;m se ze tř&iacute; nebo v&iacute;ce disků je kapacita dvou největ&scaron;&iacute;ch disků vět&scaron;&iacute; než kapacita ostatn&iacute;ch disků.</li>
+</ul>
+</li>
+<li>Určit&eacute; modely nepodporuj&iacute; změnu fondu &uacute;loži&scaron;tě RAID 5 na fond &uacute;loži&scaron;tě RAID 6.</li>
+</ul>
+</div>
+
+<h3>Změna typu pole RAID</h3>
+
+<h4>Než začnete:</h4>
+<p>Před změnou typu pole RAID je nutn&eacute; m&iacute;t na paměti toto:</p>
+<ul>
+<li>Přesvědčte se, že stav va&scaron;eho fondu &uacute;loži&scaron;tě je <b>V&nbsp;poř&aacute;dku</b>.</li>
+<li>Pokud přid&aacute;v&aacute;te do fondu &uacute;loži&scaron;tě nov&eacute; disky, mus&iacute; b&yacute;t nov&eacute; disky vět&scaron;&iacute; než nejmen&scaron;&iacute; disk ve fondu &uacute;loži&scaron;tě a v&scaron;echny disky mus&iacute; b&yacute;t stejn&eacute;ho typu.</li>
+<li>Typ RAID pol&iacute; RAID ve skupině RAID Group nelze změnit. Funkce RAID Group je dostupn&aacute; jen u&nbsp;vybran&yacute;ch modelů.<br><span class="note_head">Pozn&aacute;mka:</span>. Přejděte na <a href="https://www.synology.com/products" target="_blank">tuto webovou str&aacute;nku</a>, za&scaron;krtněte pol&iacute;čko vpravo nahoře u&nbsp;sv&eacute;ho zař&iacute;zen&iacute; Synology NAS a tak&eacute; pol&iacute;čka u libovoln&yacute;ch jin&yacute;ch modelů a pot&eacute; v&nbsp;prav&eacute;m doln&iacute;m rohu klikněte na tlač&iacute;tko <b>Porovnat</b>. Na webov&eacute; str&aacute;nce <b>V&yacute;sledky porovn&aacute;n&iacute;</b> se zobraz&iacute;, jestli v&aacute;&scaron; model skupinu RAID Group podporuje.</li>
+</ul>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+
+<ul>
+<li>Aby nedoch&aacute;zelo k&nbsp;ž&aacute;dn&yacute;m probl&eacute;mům, doporučujeme použ&iacute;vat disky uveden&eacute; v&nbsp;<a href="https://www.synology.com/compatibility" target=blank>seznamu kompatibiln&iacute;ch produktů Synology</a>. Použ&iacute;v&aacute;n&iacute; nekompatibiln&iacute;ch disků může ovlivnit v&yacute;kon syst&eacute;mu a dokonce způsobit ztr&aacute;tu dat.</li>
+</ul>
+</div>
+<h4>Změna typu RAID fondu &uacute;loži&scaron;tě:</h4>
+
+<ol>
+<li>Spusťte <strong>Spr&aacute;vce &uacute;loži&scaron;tě</strong>.</li><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/><li>Přejděte do č&aacute;sti <b>Fond &uacute;loži&scaron;tě</b>.</li>
+<li>Vyberte fond &uacute;loži&scaron;tě, u&nbsp;kter&eacute;ho chcete změnit typ RAID, a v&nbsp;rozev&iacute;rac&iacute; nab&iacute;dce <b>Akce</b> klikněte na možnost <b>Změnit typ pole RAID</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/change_raid_type.png" class="help_image"/><li>Vyberte typ svazku RAID, na kter&yacute; chcete typ změnit. Klikněte na možnost <b>Dal&scaron;&iacute;</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_raid.png" class="help_image"/><li>Vyberte disky, o&nbsp;kter&eacute; chcete fond &uacute;loži&scaron;tě roz&scaron;&iacute;řit. Klikněte na možnost <b>Dal&scaron;&iacute;</b>.<br><span class="note_head">Pozn&aacute;mka:</span> Ve&scaron;ker&aacute; data na nově přidan&yacute;ch disc&iacute;ch budou smaz&aacute;na. Nezapomeňte předem z&aacute;lohovat svoje data.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_disks.png" class="help_image"/><li>Postup dokončete podle pokynů průvodce.</li></ol>
+
+</body>
+</html>

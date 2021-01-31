@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>SSD-Cache</h2>
+<p>Durch Speichern der Daten, auf die im SSD-Cache häufig zugegriffen wird, kann die Leistung des direkten Zugriffs verbessert werden. SSD-Cache kann an ein Volume oder eine iSCSI LUN (Block-Ebene) angehängt werden.</p>
+
+<p>Ziel der Aktivierung von des SSD-Cache ist die Erhöhung der Leistung des direkten Zugriffs auf einen kleinen Datenbestand, auf den häufig im Speicher zugegriffen wird. Beispielsweise besitzen weder große sequenzielle Lese- oder Schreibvorgänge (z. B. HD-Videostreaming) noch vollkommen wahlfreie Datenlesemuster Muster für das erneute Lesen und profitieren daher nicht wesentlich vom SSD-Caching. Für allgemeine Anwendungen wird empfohlen, die Option <b>Sequenzielles I/O überspringen</b> zu aktivieren, sodass sequenzielles I/O trotzdem an die Laufwerke des Speichers weitergegeben werden kann.</p>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+	<li>SSD-Cache wird nur auf bestimmten Modellen unterstützt. Ob Ihr Modell SSD-Cache unterstützt, erfahren Sie in <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_SSD_cache" target="_blank">diesem Artikel</a>.</li>
+	<li>Wir empfehlen, kompatible Laufwerke für den SSD-Cache zu verwenden, um Probleme mit Ihrer Synology NAS zu vermeiden.</li>
+	<li>Die auf Ihrer Synology NAS maximal zulässige Größe des SSD-Cache entnehmen Sie bitte den Produktspezifikationen Ihres Modells auf der <a href="http://www.synology.com/" target=_blank>Synology-Website</a>.</li>
+</ul>
+</div>
+
+<h3>SSD-Cache-Typen</h3>
+<p>Es gibt zwei Typen von SSD-Cache, die jeweils einen LRU-Algorithmus (Least Recently Used) implementieren, um die Daten im Cache auszutauschen:</p>
+<ul>
+	<li><strong>Nur-Lese-Cache</strong> kann aus 1 bis 12 SSDs bestehen, die in einer Basic- oder RAID 0-Konfiguration angehängt werden können, um die Direktleseleistung des Speichers zu verbessern, an den sie angehängt sind.</li>
+	<li><strong>Lese/Schreib-Cache</strong> kann je nach Anzahl der SSDs (bis zu 12 SSDs) in einer RAID 1/RAID 5/RAID 6-Konfiguration angehängt werden, um die Direktlese- und -schreibleistung des Speichers zu verbessern, an den sie angehängt sind.</li>
+</ul>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+	<li>Da der SSD-Nur-Lese-Cache Daten des Volumes speichert, kommt es auch dann zu keinem Datenverlust, wenn der Nur-Lese-Cache abstürzt.</li>
+	<li>Wenn der SSD-Lese-Schreib-Cache fehlerhaft ist, wird der <b>automatische Schutzmechanismus</b> aktiviert. Dieser stoppt das Zwischenspeichern neuer Eingaben/Ausgaben und beginnt damit, im Cache vorhandene neue Daten von der SSD auf die Festplatten zu schreiben (synchronisieren). Nach Abschluss der Datensynchronisierung tritt auch dann kein Datenverlust auf, wenn der Lese/Schreib-Cache abgestürzt ist.</li>
+	<li>Unter normalen Umständen enthält der SSD-Lese-Schreib-Cache neue Daten, die noch nicht mit den Festplatten synchronisiert wurden. Entfernen Sie bitte keine SSDs von Ihrem Synology NAS (auch nicht, wenn das System heruntergefahren wurde), bevor nicht der Cache aus dem Speicher-Manager entfernt wurde. Ansonsten kann das Volume abstürzen.</li>
+</ul>
+</div>
+
+<h3>Speicheranforderungen</h3>
+<p>Die Speicheranforderungen sind von der CPU Ihrer Synology NAS abhängig. In <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">diesem Artikel</a> erfahren Sie, welche CPU in Ihrer Synology NAS verwendet wird.</p> 
+
+<h4>Für Modelle mit Alpine CPUs:</h4>
+	<p>1 GB SSD-Cache benötigt ca. 416 KB an Arbeitsspeicher (erweiterbarer Speicher kann eingerechnet werden) und die maximale Cache-Größe beträgt 930 GB. Wenn die Nur-Lese-Cache-Konfiguration 2 x 128 GB SSD ist, beträgt die gesamte Cache-Größe 256 GB und benötigt mindestens 104 MB Arbeitsspeicher. Wenn die Lese/Schreib-Cache-Konfiguration 2 x 128 GB SSD ist, beträgt die gesamte Cache-Größe 128 GB und benötigt mindestens 52 MB Arbeitsspeicher. Falls der Speicher unzureichend ist, wird die SSD-Cache-Erstellung eingeschränkt oder die Größe des SSD-Caches wird begrenzt.</p>
+
+<h4>Für alle anderen Modelle:</h4>
+	<p>Da der SSD-Cache einen von der Cache-Größe abhängigen Teil des Systemspeichers benötigt, kann das Anhängen eines größeren SSD-Cache ein Upgrade des Synology NAS-Speichers erfordern. Damit das System stabil und schnell bleibt, darf nur 1/4 des vorinstallierten Systemspeichers für SSD-Cache verwendet werden.</p>
+	
+	<p>Jedes GB SSD-Cache benötigt ca. 416 KB Arbeitsspeicher (erweiterbarer Speicher kann eingerechnet werden).<br><span class="note_head">Anmerkung: </span>Dies gilt nicht für SSD-Lese/Schreib-Caches, die in DSM 5.1 oder früheren Versionen erstellt wurden. Das bedeutet, dass jedes vor DSM 5.2 erstellte GB SSD-Cache nach wie vor 4 MB Systemspeicher benötigt, auch wenn der Cache in der DSM 5.2-Umgebung verwendet wird.</p>
+	
+	<p>Wenn die Nur-Lese-Cache-Konfiguration 2 x 128 GB SSD ist, beträgt die gesamte Cache-Größe 256 GB und benötigt mindestens 104 MB Arbeitsspeicher. Wenn die Lese/Schreib-Cache-Konfiguration 2 x 128 GB SSD ist, beträgt die gesamte Cache-Größe 128 GB und benötigt mindestens 52 MB Arbeitsspeicher. Falls der Speicher unzureichend ist, wird die SSD-Cache-Erstellung eingeschränkt oder die Größe des SSD-Caches wird begrenzt.</p>
+
+<h3>Cache-Trefferrate</h3>
+<p>Per Definition beschleunigt ein SSD-Cache nur direkte I/O-Leistung, nicht jedoch sequenziellen I/O. Die Cache-Trefferrate eines SSD-Caches kann mit der folgenden Formel berechnet werden:</p>
+<ul>
+	<li>Trefferrate eines Nur-Lese-SSD-Caches = Anzahl beschleunigter direkter Lesezugriffe / Anzahl gesamter direkter Lesezugriffe * 100%</li>
+	<li>Trefferrate eines Lese/Schreib-SSD-Caches = Anzahl beschleunigter direkter Lese- und Schreibzugriffe / Anzahl gesamter direkter Lese- und Schreibzugriffe * 100%</li>
+</ul>
+
+<h3>SSD-Cache verwalten</h3>
+<h4>SSD-Cache bereitstellen:</h4>
+	<ol>
+	  <li>Bauen Sie die SSDs in Ihre Synology NAS ein. Beachten Sie zuvor die Hinweise oben.</li>
+	  <li>Gehen Sie zu <strong>Speicher-Manager</strong> > <strong>SSD-Cache</strong>. Klicken Sie auf <b>Erstellen</b>.</li>
+	<li>Wählen Sie den Cache-Modus (nur für Modelle, die Lese/Schreib-Cache unterstützen) aus.</li>
+	<li>Wählen Sie aus dem Dropdown-Menü das Volume oder die iSCSI LUN (Block-Ebene) aus, für das bzw. die Sie den SSD-Cache bereitstellen möchten.</li>
+	<li>Wählen Sie die SSDs aus der Liste aus. Da die Daten auf den SSDs gelöscht werden, müssen Sie sich vergewissern, dass keine wichtigen Daten gelöscht werden.</li>
+	<li>Klicken Sie auf <b>Übernehmen</b>.</li>
+	</ol>
+
+<h4>Zwischenspeicherung des sequenziellen I/O stoppen: </h4>
+	<p>Wenn das Ziel-Volume oder die Ziel-iSCSI LUN (Block-Ebene) über eine exzellente sequenzielle I/O-Leistung verfügt, können Sie im SSD-Cache das sequenzielle I/O stoppen und direkt von den Laufwerken auf Daten zugreifen, um eine höhere Geschwindigkeit und eine bessere Leistung zu erreichen. </p>
+	<ol>
+	<li>Klicken Sie auf <strong>Konfigurieren</strong>, um das Konfigurationsfenster zu öffnen.</li>
+	<li>Setzen Sie ein Häkchen bei <strong>Sequenzielles I/O überspringen</strong>. </li>
+	</ol>
+
+<h4>SSD-Cache entfernen:</h4>
+	<ol>
+	<li>Klicken Sie auf <b>Entfernen</b>, um diesen SSD-Cache dauerhaft von der Synology NAS zu entfernen.</li>
+	</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+    <li>Ein Lese/Schreib-Cache muss mit diesem Verfahren entfernt werden (auch wenn Ihre Synology NAS ausgeschaltet ist), da andernfalls das Volume abstürzt, weil ein Teil der Daten nur im Cache vorhanden ist.</li>
+	<li>Wenn Sie den SSD-Cache bereitstellen oder entfernen, wird das System sämtliche damit zusammenhängenden Dienste stoppen (z. B. freigegebene Ordner, installierte Pakete, aktuelle Verbindungen usw.)</li>
+	<li>Wenn ein Lese/Schreib-Cache in einem Speicherbereich beim Hochfahren nicht erkannt wird, stellt das System diesen Speicherbereich nicht bereit. Installieren Sie die SSDs in der Synology NAS neu und fahren Sie sie wieder hoch, um den Speicherbereich bereitzustellen.</li>
+	<li>Bitte achten Sie darauf, den Lese-Schreib-Zwischenspeicher der SSD korrekt zu entfernen, ehe Sie die entsprechenden SSDs trennen. Das nicht korrekte Trennen von SSDs (d. h., wenn noch ein Zwischenspeicher verwendet wird oder das System ausgeschaltet wird) führt dazu, dass die in Ziel-Volume oder iSCSI LUN gespeicherten Daten abstürzen.
+</ul>
+</div>
+ 
+<h4>Entfernen von SSD-Cache abbrechen:</h4> 
+<ol>
+    <li>Klicken Sie auf <b>Entfernen abbrechen</b>, um das Entfernen des Cache abzubrechen.</li>
+    </ol>    
+
+<h4>SSD-Cache reparieren:</h4>
+	<ul>
+		<li><strong>Für Lese/Schreib-Cache:</strong> Wenn eine der SSDs abgestürzt ist, befolgen Sie bitte bei der Reparatur die unten aufgeführten Schritte.
+		  <ol>
+			<li>Ersetzen Sie die defekte SSD durch eine neue. (Die neue SSD muss dasselbe Modell und genauso groß sein wie die alte SSD.)</li>
+			<li>Klicken Sie auf die Schaltfläche <b>Reparieren</b>.</li>
+			<li>Wählen Sie die SSD aus der Liste aus.</li>
+			<li>Klicken Sie auf <b>Übernehmen</b>.</li>
+			</ol></li>
+		<li><strong>Für Nur Lese-Cache:</strong> Wenn eine der SSDs abgestürzt ist, entfernen Sie bitte den Cache und tauschen Sie die fehlerhafte SSD aus. Klicken Sie dann auf <strong>Erstellen</strong>, um eine neue Cache-Konfiguration zu erstellen.</li>
+	</ul>
+
+<h3>SSD-Cache-Ratgeber</h3>
+<p>Mit dieser Funktion können Anzahl und Gesamtgröße der Dateien, auf die auf einem bestimmten Volume kürzlich zugegriffen wurde, berechnet werden. Falls Sie auf dem ausgewählten Volume noch keinen SSD-Cache erstellt haben, kann anhand dieser Informationen abgeschätzt werden, wie viel SSD-Cache für das System geeignet ist. Wenn Sie bereits einen SSD-Cache auf dem ausgewählten Volume erstellt haben, wird die Analyse und Nutzung des Cache hier ebenfalls angezeigt.</p>
+
+<h4>SSD-Cache-Ratgeber verwenden:</h4>
+	<ol>
+	<li>Klicken Sie auf <b>SSD-Cache-Ratgeber</b>, um den Assistenten zu öffnen.</li>
+	<li>Wählen Sie ein Volume für die Berechnung aus und klicken Sie auf <b>Weiter</b>.</li>
+	<li>Der Assistent beginnt automatisch mit dem Zählen der Größe und Anzahl von Dateien, auf die vor kurzem auf dem ausgewählten Volume zugegriffen wurde. Die Berechnungszeit hängt von der jeweiligen Umgebung ab.</li>
+	</ol>

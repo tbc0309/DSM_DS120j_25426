@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Svazky</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the difference between volumes and disk groups, which are used to manage the storage space and capacity of Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Svazky</h2>
+
+<p>Svazky představují základní úložný prostor zařízení Synology NAS. Ve svazcích je uloženo vše, co máte – sdílené složky, dokumenty a data balíčků. Než tedy začnete do zařízení Synology NAS cokoliv ukládat, musíte vytvořit alespoň jeden svazek.</p>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<p>Pokud se svazky používají jako replikované cíle aplikace <strong>Snapshot Replication</strong>, je možné výkon replikace po vytvoření svazků zvýšit úpravou nastavení v okně <strong>Upravit</strong> v části <strong>Frekvence záznamu času přístupu k souboru</strong>:</p>
+<ul>
+	<li><strong>Denně</strong>: Čas přístupu k souboru se bude aktualizovat denně nebo v okamžiku změny souboru, podobně jako u většiny operačních systémů. Funkce některých aplikací na přesnost času přístupu k souborům spoléhají. Možnost <strong>Denně</strong> má vliv na výkon replikace, ale doporučujeme ji, pokud často používáte některou z následujících funkcí nebo aplikací:<ul>
+			<li><strong>Nejvzdálenější čas přístupu</strong> ve službě <strong>Storage Analyzer</strong></li>
+			<li><strong>Průvodce pamětí SSD</strong> v nástroji <strong>Správce úložiště</strong></li>
+			<li>Všechny aplikace jiných výrobců využívající hodnotu <strong>Čas přístupu k souboru záznamu</strong>.</li>
+		</ul>
+	<li><strong>Měsíčně</strong>: Čas přístupu k souboru se aktualizuje měsíčně nebo v okamžiku změny souboru. Tato možnost způsobí malé zlepšení výkonu replikace a aplikace používající hodnotu <strong>Čas přístupu k souboru záznamu</strong> budou i nadále fungovat, nicméně s nižší přesností.</li>
+	<li><strong>Nikdy</strong>: Doporučené nastavení, pokud požadujete nejvyšší výkon replikace a nepotřebujete při každodenní práci aplikace využívající hodnotu <strong>Čas přístupu k souboru záznamu</strong>.</li>
+</ul>
+</div>
+
+
+<h4>Formát svazku</h4>
+<p>V závislosti na používaném souborovém systému existují dva formáty svazků:</p>
+<ul>
+	<li><strong>Nový formát svazku</strong>: Tento formát používá souborový systém <strong>Btrfs</strong>. Minimální velikost svazku v tomto formátu musí být alespoň 10 GB. Podporuje následující nové funkce, pomocí kterých můžete spravovat data jednodušeji:<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">Snímek sdílené složky</a>:</strong> Snímek zaznamená celkový stav dat v době pořízení. Pokud někdo z uživatelů data na svazku obsahujícím snímky neúmyslně změní nebo smaže, je možné data rychle obnovit do předchozího okamžiku, kdy byl snímek pořízen.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">Kvóta sdílené složky</a>:</strong> Můžete nastavit maximální kapacitu jednotlivých složek.</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">Kvóta pro uživatele</a> vycházející ze sdílené složky:</strong> Můžete určovat, kolik místa ve sdílené složce mohou používat jednotliví uživatelé.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">Pokročilá ochrana integrity dat</a>:</strong> Sdílená složka je chráněna kontrolním součtem CRC32 a strategiemi copy-on-write.</li>
+		</ul>
+	</li>
+	<li><strong>Tradiční formát svazku</strong>: Tento formát používá souborový systém <strong>ext4</strong>. Minimální velikost svazku v tomto formátu musí být alespoň 10 GB. Jelikož souborový systém ext4 podporuje většina produktů Synology, je možné svazek v tomto formátu snadno migrovat do jiného produktu Synology.</li>
+</ul>
+
+<div class="section"><h4>Poznámka:</h4>
+<ul>
+	<li>Systém Btrfs je k dispozici pouze u vybraných modelů. Chcete-li zjistit, jestli váš model podporuje systém Btrfs, přečtěte si <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">tento článek</a>.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

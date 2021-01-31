@@ -1,0 +1,11 @@
+# author: Business Platform Team
+# only handel scsi_host uevent
+SUBSYSTEM!="scsi_host", GOTO="eunit_end"
+ACTION!="change", GOTO="eunit_end"
+
+ENV{SYNO_PMP_EVENT}=="CABLE_CONNECT|CABLE_DISCONNECT", RUN+="/lib/udev/script/hotplugd-util.sh prepare_eunit_hotplug_event_file"
+# if /tmp/eunitseq is not ready, eunit_info will create wrong eunit index info file
+TEST!="/tmp/eunitseq", GOTO="eunit_end"
+ENV{SYNO_PMP_EVENT}=="CABLE_CONNECT", RUN+="/usr/syno/sbin/eunit_info"
+
+LABEL="eunit_end"

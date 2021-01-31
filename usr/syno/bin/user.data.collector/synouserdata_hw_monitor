@@ -1,0 +1,80 @@
+#!/usr/bin/python
+
+from subprocess import check_output
+from os import listdir
+import json
+import sys
+import os
+
+COLLECTOR_VERSION_KEY = "collector_version"
+COLLECTOR_VERSION = 1
+
+HW_MON_PATH="/run/hwmon"
+HWMON_CPU_TEMP = "cpu_temperature"
+HWMON_THERMEL_SENSOR = "sys_thermal_sensor"
+HWMON_VOLTAGE_SENSOR = "sys_voltage_sensor"
+HWMON_FAN_SPEED_RPM = "sys_fan_speed_rpm"
+HWMON_HDD_BACKPLANE_STATUS = "hdd_backplane_status"
+HWMON_PSU_STATUS = "psu_status"
+HWMON_CURRENT_SENSOR = "sys_current_sensor"
+HW_MON_LIST=[HWMON_CPU_TEMP, HWMON_THERMEL_SENSOR, HWMON_VOLTAGE_SENSOR, HWMON_FAN_SPEED_RPM, HWMON_HDD_BACKPLANE_STATUS, HWMON_PSU_STATUS, HWMON_CURRENT_SENSOR]
+
+HWMON_CPU_TEMP_NAME = "CPU_Temperature"
+HWMON_SYS_THERMAL_NAME = "System_Thermal_Sensor"
+HWMON_SYS_VOLTAGE_NAME = "System_Voltage_Sensor"
+HWMON_SYS_FAN_RPM_NAME = "System_Fan_Speed_RPM"
+HWMON_PSU1_STATUS_NAME = "PSU_1_Status"
+HWMON_PSU2_STATUS_NAME = "PSU_2_Status"
+HWMON_HDD_BP_STATUS_NAME = "HDD_Backplane_Status"
+HWMON_SYS_CURRENT_NAME = "System_Current_Sensor"
+
+def checkHwMonitorSupport(name):
+    if os.path.isfile(HW_MON_PATH + "/" + name + ".json"):
+        return True
+    else:
+        return False
+
+def getHwMonitorJson(name):
+    try:
+        with open(HW_MON_PATH + "/" + name + ".json") as hw_mon_file:
+            return json.load(hw_mon_file)
+    except Exception as e:
+        return False
+
+def main():
+    result = {
+        COLLECTOR_VERSION_KEY: COLLECTOR_VERSION,
+        HWMON_CPU_TEMP : "",
+        HWMON_THERMEL_SENSOR : "",
+        HWMON_VOLTAGE_SENSOR : "",
+        HWMON_FAN_SPEED_RPM : "",
+        HWMON_HDD_BACKPLANE_STATUS : "",
+        HWMON_PSU_STATUS : [],
+        HWMON_CURRENT_SENSOR : "",
+    }
+    for hw_mon_item in HW_MON_LIST:
+        if checkHwMonitorSupport(hw_mon_item):
+            temp_json = getHwMonitorJson(hw_mon_item)
+            if False == temp_json:
+                continue
+            if HWMON_CPU_TEMP == hw_mon_item:
+                result[HWMON_CPU_TEMP] = temp_json[HWMON_CPU_TEMP_NAME]
+            elif HWMON_THERMEL_SENSOR == hw_mon_item:
+                result[HWMON_THERMEL_SENSOR] = temp_json[HWMON_SYS_THERMAL_NAME]
+            elif HWMON_VOLTAGE_SENSOR == hw_mon_item:
+                result[HWMON_VOLTAGE_SENSOR] = temp_json[HWMON_VOLTAGE_SENSOR_NAME]
+            elif HWMON_FAN_SPEED_RPM == hw_mon_item:
+                result[HWMON_FAN_SPEED_RPM] = temp_json[HWMON_SYS_FAN_RPM_NAME]
+            elif HWMON_HDD_BACKPLANE_STATUS == hw_mon_item:
+                result[HWMON_HDD_BACKPLANE_STATUS] = temp_json[HWMON_HDD_BP_STATUS_NAME]
+            elif HWMON_PSU_STATUS == hw_mon_item:
+                result[HWMON_PSU_STATUS].append(temp_json[HWMON_PSU1_STATUS_NAME])
+                result[HWMON_PSU_STATUS].append(temp_json[HWMON_PSU2_STATUS_NAME])
+            elif HWMON_CURRENT_SENSOR == hw_mon_item:
+                result[HWMON_CURRENT_SENSOR] = temp_json[HWMON_SYS_CURRENT_NAME]
+        else:
+                result[hw_mon_item] = "not_support"
+    sys.stdout.write(json.dumps(result))
+
+if __name__ == '__main__':
+    main()

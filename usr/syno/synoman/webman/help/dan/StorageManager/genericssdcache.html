@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>SSD-cache*</h2>
+<p>SSD-cache kan forbedre ydelsen ved vilk&aring;rlig adgang ved at lagre ofte &aring;bnede data i SSD-cachen. SSD-cache kan tilknyttes til en diskenhed eller en iSCSI LUN (blokniveau). Der er to typer SSD-cache:</p>
+<ul>
+<li><strong>Skrivebeskyttet cache</strong> kan best&aring;r af 1 til 12 SSD'er, som kan tilknyttes henholdsvis i en BASIC eller RAID 0-konfiguration for at forbedre den vilk&aring;rlige l&aelig;sehastighed p&aring; lagerpladsen, som den er knyttet til.
+<div class="section"><h4>Bem&aelig;rk:</h4>
+	<p>SSD-skrivebeskyttet cache lagrer kopier af data fra diskenheden, s&aring; der ikke opst&aring;r datatab, selv hvis den skrivebeskyttede cache er brudt sammen.</p>
+	</div>
+</li>
+<li><strong>L&aelig;se-skrive-cache</strong> kan tilknyttes i en RAID 1/RAID 5/RAID 6-konfiguration, afh&aelig;ngigt af antal SSD'er (op til 12 SSD'er) for at forbedre den vilk&aring;rlige l&aelig;se- og skriveydelse p&aring; den lagerplads, som den er knyttet til.</li>
+</ul>
+
+<p>Begge typer SSD-cache implementerer en LRU (Least Recently Used)-algoritme til at skifte data i cachen.</p>
+
+<div class="section">
+<h4>Vigtigt:</h4>
+<p>F&oslash;r installation af en SSD til brug som cache, skal du unders&oslash;ge f&oslash;lgende noter:</p>
+<ul>
+<li>Form&aring;let med at aktivere SSD-cache er at &oslash;ge ydelsen af vilk&aring;rlig adgang til en mindre del af data, der ofte &aring;bnes p&aring; lagerpladsen. F.eks. b&aring;de store sekventielle l&aelig;se- eller skriveoperationer (f.eks. HD video-streaming) og hele vilk&aring;rlige datal&aelig;sem&oslash;nstre mangler genl&aelig;sningsm&oslash;nstre og vil s&aring;ledes ikke kunne drage stor fordel af SSD-cachelagring. Ved generelle programmer anbefales det at aktivere valgmuligheden <b>Spring sekventiel I/O over</b>, s&aring; sekventiel I/stadig kan passere til diskene i lagerpladsen.</li>
+<li>Der henvises til kompatibilitetslisten p&aring; <a href="http://www.synology.com/" target=_blank>Synologys websted</a> for at v&aelig;lge, hvilken SSD der kan bruges som cache p&aring; din Synology NAS.</li>
+<li class="disable-alpine">SSD-cache kr&aelig;ver en bestemt m&aelig;ngde hukommelse, afh&aelig;ngigt af cache-st&oslash;rrelse, s&aring; tilknytning af st&oslash;rre SSD-cache kan kr&aelig;ve opgradering af hukommelsen for Synology NAS. For at holde systemet stabilt og hurtigt kan kun 1/4 af den forudinstallerede systemhukommelse bruges til SSD-cache. Hver 1 GB SSD-cache kr&aelig;ver ca. 416 KB systemhukommelse (udvidelig hukommelse kan medt&aelig;lles)**. Hvis derfor den skrivebeskyttede cache-konfiguration er 2 x 128 GB SSD, vil den samlede cache-st&oslash;rrelse v&aelig;re p&aring; 256 GB og kr&aelig;ve mindst 104 MB hukommelse, hvis l&aelig;se-skrive-cache-konfigurationen er 2 x 128 GB SSD vil den samlede cache-st&oslash;rrelse v&aelig;re 128 GB og kr&aelig;ve mindst 52 MB hukommelse. Hvis der er nok hukommelse, vil SSD-cache-oprettelse blive begr&aelig;nset eller st&oslash;rrelsen p&aring; SSD-cachen bliver begr&aelig;nset.</li>
+<li class="enable-alpine">Hver 1 GB SSD-cache kr&aelig;ver ca. 416 MB systemhukommelse (udvidelig hukommelse kan medt&aelig;lles), og den maksimale cache-st&oslash;rrelse er 930 GB. Hvis derfor den skrivebeskyttede cache-konfiguration er 2 x 128 GB SSD, vil den samlede cache-st&oslash;rrelse v&aelig;re p&aring; 256 GB og kr&aelig;ve mindst 104 MB hukommelse, hvis l&aelig;se-skrive-cache-konfigurationen er 2 x 128 GB SSD vil den samlede cache-st&oslash;rrelse v&aelig;re 128 GB og kr&aelig;ve mindst 52 MB hukommelse. Hvis der er nok hukommelse, vil SSD-cache-oprettelse blive begr&aelig;nset eller st&oslash;rrelsen p&aring; SSD-cachen bliver begr&aelig;nset.</li>
+<li>Der henvises til produktspecifikationerne for dine modeller p&aring; <a href="http://www.synology.com/" target=_blank>Synologys websted</a> for at f&aring; maks. st&oslash;rrelsen af SSD-cache, der tillades p&aring; din Synology NAS.</li>
+<li>N&aring;r en l&aelig;se-skrive-SSD-cache degraderes vil caching-funktionen blive deaktiveret, og systemet vil begynde at skrive (dvs. synkronisere) cachede data fra SSD'en til HDD'er. N&aring;r datasynkroniseringen er fuldf&oslash;rt, vil der ikke ske noget datatab, hvis l&aelig;se-skrive-cachen er brudt sammen.</li>
+<li>S&oslash;rg for at fjerne l&aelig;se-skrive-SSD-cachen korrekt, f&oslash;r du tr&aelig;kker dens tilsvarende SSD'er ud. Udtr&aelig;kning af SSD'erne forkert (f.eks. n&aring;r en cache stadig bruges, eller n&aring;r systemet er slukket) vil medf&oslash;re, at data gemt p&aring; m&aring;ldiskenheden eller iSCSI LUN'en bryder ned.
+</li>
+<li>L&aelig;se-skrive-cache kan ikke anvendes sammen med Time Backup. N&aring;r du f.eks. opretter en l&aelig;se-skrive SSD-cache, kan du ikke k&oslash;re Time Backup. Og omvendt, n&aring;r du k&oslash;rer Time Backup, kan du ikke oprette en l&aelig;se-skrive-SSD-cache.</li>
+</ul>
+</div>
+
+<h4>S&aring;dan tilknytter du SSD-cache:</h4>
+<ol>
+  <li>Installer SSD&lsaquo;erne p&aring; din Synology NAS. Se ovenst&aring;ende noter f&oslash;rst.</li>
+  <li>G&aring; til <strong>Lagerstyring</strong> &gt; <strong>SSD-cache</strong>. Klik p&aring; <b>Opret</b>.</li>
+<li>V&aelig;lg cache-tilstanden (findes kun til modeller, der underst&oslash;tter l&aelig;se-skrive-cache).</li>
+<li>Find rullemenuen, og v&aelig;lg den diskenhed eller iSCSI LUN (blokniveau), som du vil knyttet SSD-cachen til.</li>
+<li>V&aelig;lg SSD&lsaquo;erne i listen. Data p&aring; SSD'erne bliver slettet, s&aring; s&oslash;rg for, at ingen vigtige data bliver slettet.</li>
+<li>Klik p&aring; <b>Anvend</b>.</li>
+</ol>
+
+<h4>S&aring;dan standser du caching af sekventiel I/O: </h4>
+<p>Hvis din destinationsdiskenhed eller iSCSI LUN (Blokniveau) has god sekventiel I/O-ydeevne, kan du f&aring; SSD-cache til at standse caching af sekventiel I/O f&aring; adgang til data direkte fra drevene for at f&aring; h&oslash;jere hastighed og bedre ydeevne. </p>
+<ol>
+<li>Klik p&aring; <strong>Konfigurer</strong> for at &aring;bne konfigurationsvinduet.</li>
+<li>Marker <strong>Spring sekventiel I/O over</strong>. </li>
+</ol>
+
+
+<h4>S&aring;dan fjern du SSD-cache:</h4>
+<ol>
+<li>Klik p&aring; <b>Fjern</b> for permanent at fjerne SSD-cache fra Synology NAS.</li>
+<li>Ved l&aelig;se-skrive-cache skal du fjerne den med denne procedure (selv om din Synology NAS er slukket), ellers kan diskenhedsnedbrud forekomme, da delvise data kun ligger i denne cache.</li>
+</ol>
+
+<div class="section">
+<h4>Bem&aelig;rk:</h4>
+<ul>
+<li>Ved tilknytning eller fjernelse af SSD-cache vil systemet standse alle relaterede tjenester (f.eks. delte mapper, installerede pakker, aktuelle forbindelser osv.)</li>
+<li>Hvis l&aelig;se-skrive-cachen p&aring; en lagerplads ikke registreres, n&aring;r der startes, vil systemet ikke tilknytte lagerpladsen. Fin og geninstaller SSD'erne i Synology NAS, og genstart for at tilknytte lagerpladsen. Hvis du ikke kan finde SSD'erne, skal du m&aring;ske tvinge tilknytningen af lagerpladsen. Der henvises til <a href="space.html">Diskenhed</a> eller <a href="iscsilun.html">iSCSI LUN</a>.</li>
+</ul>
+</div>
+
+<h4>S&aring;dan reparerer du SSD-cache:</h4>
+<ul>
+<li><strong>Ved l&aelig;se-skrive-cache:</strong> Hvis en af SSD'erne er brudt ned, skal du f&oslash;lgende nedenst&aring;ende trin for at reparere den.
+  <ol>
+<li>Udskift den fejlramte SSD med en ny. (Den nye SSD skal v&aelig;re af samme model og st&oslash;rrelse som den gamle).</li>
+<li>Klik p&aring; knappen <b>Reparer</b>.</li>
+<li>V&aelig;lg SSD'en i listen.</li>
+<li>Klik p&aring; <b>Anvend</b>.</li>
+</ol>
+</li>
+<li><strong>Ved skrivebeskyttet cache:</strong> Hvis en af SSD'erne er brudt ned, skal du fjerne cachen og udskifte den fejlramte SSD. Klik s&aring; p&aring; <strong>Opret</strong> for at skabe en ny cache-konfiguration.</li>
+</ul>
+
+
+<h3>SSD-cache Advisor</h3>
+<p>Denne funktion s&aelig;tter dig i stand til at beregne og se den samlede st&oslash;rrelse og antallet af nyligt &aring;bnede filer p&aring; en bestemt diskenhed. Hvis du endnu ikke har oprettet nogen SSD-caches p&aring; den valgte diskenhed, kan disse oplysninger refereres, n&aring;r du ansl&aring;r, hvor meget SSD-cache der passer til dit system. Hvis du tidligere har oprettet en SSD-cache p&aring; den valgte diskenhed, vil analysen og brugen af cachen ogs&aring; blive vist her.</p>
+
+<h4>S&aring;dan bruger du SSD-cache Advisor:</h4>
+
+<ol>
+<li>Klik p&aring; <b>SSD-cache Advisor</b> for at &aring;bne guiden.</li>
+<li>V&aelig;lg en diskenhed til beregning, og klik p&aring; <b>N&aelig;ste</b>.</li>
+<li>Guiden vil automatisk starte beregningen af st&oslash;rrelsen og antal nyligt &aring;bnede filer p&aring; den valgte diskenhed. Beregningstiden varierer, afh&aelig;ngigt af dit milj&oslash;.</li>
+</ol>
+<p>_____<br> *SSD-cache er kun tilg&aelig;ngelig p&aring; visse modeller.<br><span class="disable-alpine"> ** Dette g&aelig;lder ikke for l&aelig;se-skrive-SSD-cacher, der er oprettet p&aring; DSM 5.1 eller tidligere versioner. Dvs. enhver 1 GB SSD-cache, der er oprettet f&oslash;r DSM 5.2 skal stadig bruge 4 MB systemhukommelse, selv n&aring;r den bruges i DSM 5.2-milj&oslash;et.</span>
+  </p>
+</body>
+</html>

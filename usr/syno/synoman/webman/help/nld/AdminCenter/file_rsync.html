@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Back-upservices - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>rsync</h2>
+
+<p>U kunt andere gebruikers toestaan om gegevens te back-uppen via rsync van een Synology NAS of rsync-compatibele clients naar uw Synology NAS.</p>
+
+<h3>Rsync-backup-service inschakelen</h3>
+
+<h4>Rsync-back-upservice inschakelen:</h4>
+
+<p>ga naar <strong>Configuratiescherm</strong> > <strong>Bestandsservices</strong> > <strong>rsync</strong> en selecteer <strong>Rsync-service inschakelen</strong>.</p>
+
+
+<h4>Rsync-back-upbevoegdheden toewijzen:</h4>
+
+
+<p>wijs de geschikte rsync-bevoegdheden toe aan gebruikers zodat ze gegevens van een bron-Synology NAS of een rsunc-compatibele server kunnen back-uppen naar een doel-Synology NAS.</p>
+
+<ol>
+<li>Ga naar <b>Configuratiescherm</b> > <b>Rechten</b>.</li>
+<li>Selecteer <strong>rsync (Gedeelde map synchroniseren, LUB-back-up op ondersteunde modellen)</strong> en klik op <strong>Bewerken</strong> om rechten toe te wijzen.</li>
+<li>Wijs <strong>Toestaan</strong>-bevoegdheden toe aan gewenste gebruikers (DSM-gebruiker voor gecodeerde rsync of rsync-accounts voor ongecodeerde rsync) of specificeer toegestane IP-adressen voor specifieke gebruikers.</li>
+</ol>
+
+
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>Om een rsync-back-up uit te voeren van een Synology NAS met een DSM-versie eerder dan 3.0 of een client die geen Synology NAS is, waarbij u de informatie <b>Eigenaar</b> en <b>Groep</b> van de brongegevens wilt behouden, moet u rysnc-accounts toevoegen aan de groep <b>administrators</b> en in de daemon-modus gegevens back-uppen naar de gedeelde map <b>NetBackup</b>.</p>
+</div>
+
+<h3>Rsync-accounts inschakelen</h3>
+<p>Voert u een rsync-back-up uit van een non-Synology NAS-client dan moet u rsync-accounts maken op de doel-Synology NAS zodat de rsync-gebruikers gegevens naar uw Synology NAS kunnen back-uppen.</p>
+
+<h4>Rsync-accounts inschakelen:</h4>
+<ol>
+<li>ga naar <b>Configuratiescherm</b> > <b>Bestandsservices</b> > <strong>rsync</strong> en selecteer <b>Rsync-account inschakelen</b>.</li>
+<li>Klik op <b>Rsync-account bewerken</b> om gebruikers en wachtwoorden voor verificatie in te stellen.</li>
+<li>Klik op <b>Toepassen</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>Is de rsync-service gecodeerd (ofwel een SSH-coderingspoort gespecificeerd) zal het systeem rechtstreeks de gebruikersnamen en wachtwoorden van DSM-gebruikers toepassen als rsync-accounts.</li>
+<li>Is de rysnc-service ongecodeerd dan moet u rysnc-accounts maken.</li>
+</ul>
+</div>
+
+
+<h3>Een aangepaste rsync-configuratie gebruiken</h3>
+
+<p>U kunt de aangepaste rsync-configuratie gebruiken en gebruikersrechten en back-updoel op uw Synology NAS configureren. Andere gebruikers kunnen een rsync-back-up van hun Synology NAS-apparaten of rsync-compatibele clients uitvoeren naar de gedeelde doelmappen (of "back-upmodules") op uw Synology NAS.</p>
+
+<h4>Aangepaste rsync-configuratie gebruiken:</h4>
+
+<ol>
+<li>meld u bij uw Synology NAS-apparaat via Telnet of SSH.</li>
+<li>Specificeer de back-upmodule en gemachtigde gebruikers in het rsync-configuratiebestand "<b><code>/etc/rsyncd.conf</code></b>". Voor gedetailleerde informatie raadpleeg de handleidingspagina van <b>rsyncd.conf</b> op uw rsync-client of klik <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">hier</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>wanneer de back-upmodele en gedeelde map dezelfde naam hebben, wordt de instelling van de back-upmodule gebruikt.</p>
+</div>
+
+
+<h3>Snelheidslimiet inschakelen</h3>
+<p>U kunt de maximum bruikbare bandbreedte voor rsync-back-up voor gebruikers en groepen beheren.</p>
+
+<h4>Om snelheidslimiet in te schakelen:</h4>
+<ol>
+  <li>ga naar <b>Configuratiescherm</b> > <b>Bestandsservices</b> > <strong>rsync</strong>. Selecteer een van de volgende opties:
+  <ul>
+  <li><strong>Geen snelheidslimiet</strong></li>
+  <li><strong>Snelheidslimiet inschakelen</strong></li>
+  <li><strong>Snelheidslimiet volgens schema inschakelen</strong> (klik op <strong>Schema instellen</strong> voor meer informatie.)</li>
+  </ul>
+  
+<div class="section">
+<h4>Opmerking:</h4>
+<p>Dit is een globale serverinstelling die voorrang heeft op alle instellingen van individuele gebruikers en groepen. Selecteert u bijvoorbeeld <strong>Geen snelheidslimiet</strong> dan worden de snelheidslimietinstellingen van alle gebruikers en groepen uitgeschakeld.</p>
+</div>
+  </li>
+
+  <li>Hebt u een snelheidslimiet ingeschakeld, klik op <strong>Instellingen snelheidslimiet</strong> en op de gewenste gebruiker/groep om de instellingen te wijzigen:
+    <ul>
+       <li><strong>Geen:</strong> er wordt geen snelheidslimiet toegepast wanneer groepsleden bestanden via de service overdragen.</li>
+      <li><strong>Groepinstellingen toepassen</strong>: de gebruiker deelt dezelfde snelheidslimietinstellingen van de groep.</li>
+      <li><strong>Constant</strong>: een vaste en constante snelheidslimiet wordt toegepast op de gebruikers of groepsleden. In de velden links kunt u de upload- en downloadsnelheidslimieten opgeven.</li>
+      <li><strong>Aangepast</strong>: om twee verschillende snelheidslimieten op te geven en volgens een schema toe te passen op de gebruikers of groepsleden. Klik op <strong>Aanpassen</strong> om de snelheidslimietinstellingen te wijzigen en een schema op te stellen.</li>
+    </ul>
+  </li>
+ <li>Klik op <b>Toepassen</b>.</li> 
+
+</ol>
+<div class="section">
+  <h4>Opmerking:</h4>
+    <p>Het gedeelte <strong>Resultaat (UL/DL)</strong> toont de actuele upload- en downloadlimiet van de gebruiker van de desbetreffende individuele of groepsinstellingen. Als gebruiker "Achilles" bijvoorbeeld een individuele downloadlimiet heeft van 100 KB/s, maar deel uitmaakt van een gebruikersgroep met een downloadlimiet van 500 KB/s, zal het gedeelte <strong>Resultaat (Ul/DL)</strong> "0/500" weergegeven.</p>
+</div>
+
+</body>
+</html>

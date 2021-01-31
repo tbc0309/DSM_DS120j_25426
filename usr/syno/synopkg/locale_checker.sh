@@ -1,0 +1,1 @@
+/usr/syno/locale/locale_checker.sh

@@ -1,0 +1,211 @@
+#!/usr/bin/env python
+
+import re
+import os
+import subprocess
+from subprocess import PIPE
+from argparse import ArgumentParser
+
+SQLITE_BIN = '/bin/sqlite3'
+SHARING_DB = '/usr/syno/etc/private/session/sharing.db'
+CHOWN = '/bin/chown'
+
+def main():
+    parser = ArgumentParser(description='synosharing Backup Tools')
+    parser.add_argument(
+        '--mode',
+        dest='mode',
+        required=True,
+        choices=[
+            'backup',
+            'restore'])
+    parser.add_argument(
+        '--drop',
+        dest='drop',
+        action='store_true',
+        help='drop old data before restore')
+    parser.add_argument(
+        '--file',
+        dest='file',
+        required=True,
+        help='file you wanna backup to / restore from')
+    parser.add_argument(
+        '--project_name',
+        dest='projectName',
+        help='Project you wanna backup, e.g. SYNO.Cal.Application')
+    options = parser.parse_args()
+    print(options)
+
+    if options.mode == 'backup' and (
+            options.projectName is None or options.projectName == ''):
+        parser.error("--mode backup requires --project_name.")
+
+    if options.mode == 'restore' and (
+            options.projectName is None or options.projectName == '') and options.drop:
+        parser.error("--drop requires --project_name.")
+
+    if options.mode == 'backup':
+        run_backup(options)
+    else:
+        RunRestore(options)
+
+
+def to_schema_file(file):
+    schema_str = popen([SQLITE_BIN, SHARING_DB, '.schema'])
+    new_line = []
+    for line in schema_str.splitlines():
+        if 'sqlite_sequence' not in line:
+            new_line.append("{}\n".format(line))
+    file.writelines(new_line)
+    file.flush()
+
+
+def run_backup(options):
+    # SHARING_DB is not exists
+    with open(options.file, 'w') as file:
+        if not os.path.isfile(SHARING_DB):
+            return
+        file.write('BEGIN;\n')
+        file.flush()
+        to_schema_file(file)
+        backup_sql = 'SELECT * FROM entry WHERE project_name = "' + options.projectName + '"'
+        popen_to_file([SQLITE_BIN, SHARING_DB,
+                     '.mode insert entry', backup_sql], file)
+        file.write('PRAGMA user_version = ' +
+                   str(get_db_version(SHARING_DB)) + ';\n')
+        file.write('COMMIT;\n')
+        print('backup successfully.')
+
+
+class RunRestore:
+    IMPORT_TMP = '/tmp/sharing_restore_raw.db'
+    SCHEMA_DIR = '/usr/syno/share/synosharing/db_schema/'
+
+    def __init__(self, options):
+        self.options = options
+        self.file_path = options.file
+        self.file = open(options.file, 'r')
+        if self.file_exists():
+            if self.sharing_db_exists():
+                self.import_from_source()
+                self.migration()
+                self.import_to_db()
+            else:
+                self.import_to_sharing_db()
+
+    def __del__(self):
+        self.file.close()
+        if os.path.isfile(self.IMPORT_TMP):
+            os.unlink(self.IMPORT_TMP)
+
+    def file_exists(self):
+        return os.path.isfile(
+            self.file_path) and os.stat(
+            self.file_path).st_size != 0
+
+    def sharing_db_exists(self):
+        return os.path.isfile(SHARING_DB)
+
+    def import_from_source(self):
+        popen_from_file([SQLITE_BIN, self.IMPORT_TMP], self.file)
+
+    def import_to_sharing_db(self):
+        popen_from_file([SQLITE_BIN, SHARING_DB], self.file)
+        popen([CHOWN, 'system:system', SHARING_DB])
+        os.chmod(SHARING_DB, 0660)
+
+    def migration(self):
+        curr_ver, import_ver = get_db_version(
+            SHARING_DB), get_db_version(self.IMPORT_TMP)
+
+        if curr_ver < import_ver:
+            raise Exception(
+                'current db version {} is less than restore version {}'.format(
+                    curr_ver, import_ver))
+        elif curr_ver == import_ver:
+            print('Version is same, no need to migrate')
+            return
+
+        for version in range(import_ver, curr_ver):
+            version += 1
+            schemaFile = self.SCHEMA_DIR + '{}.sql'.format(version)
+
+            print('Migrating to {}...'.format(version))
+            with open(schemaFile, 'r') as schema:
+                popen = subprocess.Popen(
+                    [SQLITE_BIN, self.IMPORT_TMP], stdin=schema, stdout=None)
+                popen.communicate()
+                if popen.returncode != 0:
+                    raise Exception('cannot execute sql')
+                else:
+                    print(
+                        'successfully mirate from {} to {}'.format(
+                            version - 1, version))
+
+    def import_to_db(self):
+        sql = self.form_insert_query()
+
+        popen = subprocess.Popen([SQLITE_BIN, SHARING_DB], stdin=PIPE)
+        popen.communicate(input=sql)
+
+        if popen.returncode != 0:
+            raise Exception('cannot execute sql')
+        else:
+            print('restore successfully.')
+
+    def form_insert_query(self):
+
+        if not self.options.drop:
+            backup_fields = 'hash, project_name, enabled, owner_uid, start_at, expire_at, expire_times, use_count, auto_gc, data'
+            insertSql = '\n' + subprocess.check_output([SQLITE_BIN,
+                                                        self.IMPORT_TMP,
+                                                        '.mode insert entry',
+                                                        'SELECT {} FROM entry'.format(backup_fields)],
+                                                       stdin=None,
+                                                       universal_newlines=True)
+            sql = re.sub(r'\nINSERT', '\nINSERT OR IGNORE', insertSql)
+            sql = re.sub(
+                r'entry',
+                'entry ({})'.format(backup_fields),
+                insertSql)
+        else:
+            insertSql = '\n' + subprocess.check_output([SQLITE_BIN,
+                                                        self.IMPORT_TMP,
+                                                        '.mode insert entry',
+                                                        'SELECT * FROM entry'],
+                                                       stdin=None,
+                                                       universal_newlines=True)
+            sql = 'DELETE FROM entry WHERE project_name = "' + self.options.projectName + '";'
+            sql += insertSql
+
+        return 'BEGIN;\n' + sql + 'COMMIT;\n'
+
+
+def popen(args):
+    p = subprocess.Popen(args, stdin=None, stdout=subprocess.PIPE)
+    return p.stdout.read()
+
+
+def popen_to_file(args, file):
+    p = subprocess.Popen(args, stdin=None, stdout=file)
+    p.communicate()
+    if p.returncode != 0:
+        raise Exception('cannot execute sql')
+
+
+def popen_from_file(args, file):
+    p = subprocess.Popen(args, stdin=file, stdout=subprocess.PIPE)
+    for line in iter(p.stdout.readline, b''):
+        print line
+    p.communicate()
+    if p.returncode != 0:
+        raise Exception('cannot execute sql')
+
+
+def get_db_version(db):
+    userVersion = subprocess.check_output(
+        [SQLITE_BIN, db, 'PRAGMA user_version'])
+    return int(userVersion)
+
+
+main()

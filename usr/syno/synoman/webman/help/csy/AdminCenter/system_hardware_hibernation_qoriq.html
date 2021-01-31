@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Napájení</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Hibernace</h2>
+<p>Můžete zadat dobu aktivní činnosti pevných disků HDD, po jejímž uplynutí disky přejdou do režimu spánku. Během spánku HDD bude zastaveno otáčení disků, čímž dojde ke snížení spotřeby energie a prodloužení životnosti pevných disků. Můžete zadat různá časová období pro interní pevné disky a externí pevné disky eSATA/USB.</p>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Režim spánku HDD je deaktivován v případě přístupu.</li>
+<li>Funkci spánku HDD podporují pouze některá externí úložná zařízení USB.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Proč dochází ke spánku zařízení Synology NAS?</h4>
+
+<p>Následující služby mohou na zařízení Synology NAS deaktivovat režim spánku. Systém navíc ukončí režim hibernace 2 minuty před jakoukoli naplánovanou úlohou.</p>
+
+<p><strong>Balíčky:</strong></p>
+<ul>
+  <li>Download Station: Na zařízení Synology NAS nelze aktivovat funkci spánku, pokud je v aplikaci Download Station naplánováno stahování eMule či RSS nebo probíhají aktivní úlohy.</li>
+  <li>Mail Station: Na zařízení Synology NAS nelze aktivovat funkci spánku, pokud v aplikaci Mail Station probíhá stahování dat ze serveru POP3.</li>
+  <li>Surveillance Station: Na zařízení Synology NAS nelze aktivovat funkci spánku, pokud aplikace Surveillance Station provádí záznam.</li>
+  <li>Media Server: Na zařízení Synology NAS nelze aktivovat funkci spánku, pokud je v aplikaci Media Server povolen protokol DMA (Přejděte do části <strong>Hlavní nabídka</strong> > <strong>Media Server</strong> > <strong>Media Server</strong> > <strong>Diagnostikovat</strong>).</li>
+  <li>LDAP Server</li>
+  <li>Webalizer</li>
+  <li>Logitech<sup>®</sup> Media Server</li>
+  <li>Plex Media Server</li>
+  <li>Software třetích stran nebo optware, jako například SABnzbd</li>
+</ul>
+<p><strong>Procesy:</strong></p>
+<ul>
+  <li>Miniatury a indexování: Na zařízení Synology NAS nelze aktivovat funkci spánku, pokud jsou vytvářeny miniatury nebo probíhá přeindexování mediálních souborů po dokončení upgradu. Během této doby bude v části „Spuštěno“ uveden proces „synoindexd“ (Přejděte do části <strong>Hlavní nabídka</strong> > <strong>Sledování zdrojů</strong> > <strong>Proces</strong>).</li>
+  <li>Prohlížeč Local Master Browser: Na zařízení Synology NAS nelze aktivovat funkci spánku, pokud je povolen prohlížeč Local Master Browser (Přejděte do části <strong>Ovládací panel</strong> > <strong>Win/Mac/NFS</strong> > <strong>Souborová služba Windows</strong> > <strong>Povolit prohlížeč Local Master Browser</strong>).</li>
+  <li>Program Windows Media Player: Na zařízení Synology NAS nelze aktivovat funkci spánku, pokud je v síti LAN povolena služba Windows Media Player Network Sharing.</li>
+  <li>Na zařízení Synology NAS nelze aktivovat funkci spánku, pokud počet současně spuštěných procesů vyžaduje přepnutí, při kterém došlo k překročení kapacity paměti RAM a pevné disky jsou dočasně využívány pro operace zápisu/čtení.</li>
+</ul>
+<p><strong>Ostatní</strong></p>
+<ul>
+  <li>Zařízení USB: Na zařízení Synology NAS nelze aktivovat funkci spánku systému, pokud jsou k jednotce připojena zařízení USB. </li>
+</ul>
+
+</div>
+
+
+<h3>Hibernace systému</h3>
+<p>U zařízení Synology NAS můžete nastavit aktivaci spánku systému jednu minutu po aktivaci spánku pevných disků. Funkce spánku systému snižuje spotřebu energie zařízení Synology NAS.  </p>
+<p>V režimu spánku systému:</p>
+
+<ol>
+  <li>Tlačítko napájení přejde do režimu pravidelných intervalů (pomalý cyklus zapnutí a vypnutí). Ostatní kontrolky LED budou vypnuty.</li>
+  <li>Napájení pevných disků bude vypnuto.</li>
+  <li>Činnost procesoru bude zastavena.</li>
+  <li>Činnost externího ventilátoru bude zastavena.</li>
+  <li>Kontrolky LED síťového portu LAN budou vypnuty.</li>
+</ol>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Funkci spánku systému může omezit jakýkoli vysílací paket SMB/CIFS, včetně souborových prohlížečů Windows v rámci sítě. Chcete-li při hibernaci systému ignorovat pakety pro vysílání CIFS, vyberte možnost <strong>Ignorovat pakety pro vysílání z prohlížeče Windows Explorer</strong>. Pokud vyberete tuto možnost, nelze pakety SMB/CIFS použít pro ukončení hibernace systému. Režim hibernace systému bude v případě serveru deaktivován také připojením jakýchkoli zařízení USB.</li>
+</ul>
+</div>
+
+<h2>Hluboký spánek</h2>
+<p>Funkci hlubokého spánku rozšiřovacích jednotek lze povolit prostřednictvím rozhraní spárovaného zařízení Synology NAS. U rozšiřovací jednotky a spárovaného zařízení Synology NAS můžete provést konfiguraci různých časových období neaktivního provozu. Na rozšiřovací jednotce lze aktivovat režim hlubokého spánku i tehdy, je-li zařízení Synology NAS stále v režimu online.</p>
+<p>V režimu hlubokého spánku:</p>
+<ul>
+  <li>Všechny kontrolky LED rozšiřovací jednotky budou vypnuty.
+</li>
+<li>Napájení pevných disků rozšiřovací jednotky nebude k dispozici.
+</li>
+<li>Ventilátor rozšiřovací jednotky bude zastaven.</li>
+</ul>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Režim hlubokého spánku je deaktivován v případě přístupu.</li>
+<li>Chcete-li při používání funkce hlubokého spánku zajistit běžný provoz, přepněte příslušný přepínač <b>Automaticky/Ručně</b> na zadním panelu do polohy <b>Automaticky</b>.</li>
+</ul>
+</div>
+
+<h2>Automatické vypnutí</h2>
+<p>Můžete zadat dobu, po kterou bude interní disk ve stavu hibernace před vypnutím zařízení Synology NAS.</p>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Nejdříve musíte povolit hibernaci pevných disků.</li>
+<li>Musíte nejdřív povolit službu WOL, abyste mohli zařízení Synology NAS vzdáleně zapnout.</li>
+</ul>
+</div>
+
+</body>
+</html>
+

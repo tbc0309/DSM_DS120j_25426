@@ -1,0 +1,101 @@
+#!/usr/bin/python2
+
+import re
+import sys
+import os
+import json
+import calendar
+import datetime
+
+VERSION = 1
+
+
+def main():
+    resultJSON = []
+    uniqDict = {}
+    for line in getAppArmorLines():
+        mapping = argParser(line)
+        if len(mapping) == 0:
+            continue
+        wantParams = "profile,name,denied_mask,comm,operation,requested_mask".split(",")
+        resultRow = {}
+        uniqDetectKey = ""
+        for param in wantParams:
+            if param in mapping:
+                resultRow[param] = mapping[param]
+                uniqDetectKey += mapping[param]
+        if uniqDetectKey not in uniqDict:
+            uniqDict[uniqDetectKey] = True
+            resultJSON.append(resultRow)
+
+    print(json.dumps({"collector_version": VERSION, "denied_logs": resultJSON}))
+
+
+def parseRFC3164(today, log):
+    return calendar.month_name[today.month][:3] == log[:3]
+
+
+def parseISO8601(today, log):
+    return today.strftime("%Y-%m") == log[:7]
+
+
+def getAppArmorLines():
+    deniedLines = []
+
+    if not os.path.exists('/var/log/apparmor.log'):
+        return []
+
+    try:
+        with open('/var/log/apparmor.log') as f:
+            allLines = reversed(f.readlines())
+    except IOError as e:
+        sys.stderr.write(str(e) + '\n')
+        return []
+
+
+    today = datetime.date.today()
+    for line in allLines:
+        line = line.strip()
+
+        if not parseISO8601(today, line) and not parseRFC3164(today, line):
+            break
+
+        matches = re.match(r'.*(apparmor="DENIED".*)', line)
+        if not matches:
+            continue
+
+        deniedLines.append(matches.group(1))
+
+    return deniedLines
+
+
+def argParser(line):
+    state = {"paringArg": True, "doubleQuoted": False, "valueCount": 0}
+    arg = ""
+    value = ""
+    mapping = {}
+    for char in line:
+        if state["paringArg"]:
+            if char != "=":
+                arg += char
+            else:
+                state["paringArg"] = False
+                state["valueCount"] = 0
+                state["doubleQuoted"] = False
+                value = ""
+        else:
+            if state["valueCount"] == 0 and char == '"':
+                state["doubleQuoted"] = True
+                continue
+            state["valueCount"] += 1
+            if state["doubleQuoted"] and char == '"' or not state["doubleQuoted"] and char == ' ':
+                state["paringArg"] = True
+                mapping[arg.strip()] = value
+                arg = ""
+            else:
+                value += char
+    return mapping
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,55 @@
+#!/bin/sh
+
+MODULE_LIST="/usr/syno/synoddsm/conf/module.list"
+
+argument_reverse() {
+	local args="$1"
+	local arg
+	local ret=""
+
+	for arg in ${args}; do
+		ret="${arg} ${ret}"
+	done
+
+	echo "${ret}"
+}
+
+LoadModules()
+{
+	## get insert module list ${InsertModules by source ${MODULE_LIST}
+	source ${MODULE_LIST}
+
+	synomoduletool --insmod ddsm ${InsertModules}
+
+	return 0
+}
+
+UnloadModules()
+{
+	## get insert module list ${InsertModules by source ${MODULE_LIST}
+	source ${MODULE_LIST}
+
+	local modules="$(argument_reverse "${InsertModules}")"
+
+	synomoduletool --rmmod ddsm ${modules}
+
+	return 0
+}
+
+Usage()
+{
+    echo "Usage: $0 {load-modules | unload-modules}"
+}
+
+case "$1" in
+	load-modules)
+		LoadModules
+	;;
+	unload-modules)
+		UnloadModules
+	;;
+	*)
+		Usage
+		exit 1
+	;;
+esac

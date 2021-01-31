@@ -1,0 +1,17 @@
+#!/bin/sh
+
+AGENT=`/usr/syno/bin/synogetkeyvalue /etc/synoinfo.conf install_agent`
+SUPPORT_WEBINSTALL=`/usr/syno/bin/synogetkeyvalue /etc.defaults/synoinfo.conf  support_webinstall`
+
+echo -n "{\"collector_version\":2,"
+	if [ "x" = "x${AGENT}" ]; then
+		echo -n "\"install_agent\":\"unknown\","
+	else
+		echo -n "\"install_agent\":\"${AGENT}\","
+	fi
+	if [ "xyes" = "x${SUPPORT_WEBINSTALL}" ]; then
+		echo -n "\"support_webinstall\":true"
+	else
+		echo -n "\"support_webinstall\":false"
+	fi
+echo -n "}"

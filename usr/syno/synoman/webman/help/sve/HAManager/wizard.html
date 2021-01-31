@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Guiden för High Availability Manager - Synology DSM hjälp</title>
+
+
+ </head>
+ <body>
+<h2>Guiden för High Availability Manager</h2>
+<p>Denna guide vägleder dig genom processen att skapa och installera ett high-availability-kluster.</p>
+<h4>För att starta guiden:</h4>
+<ol>
+<li>Öppna <b>High Availability Manager</b>.</li>
+<li>Gå till sidan <b>Översikt</b>.</li>
+<li>Klicka på <b>Skapa HA-kluster</b>.</li>
+</ol>
+   
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Vänligen avsluta guiden för installation av high-availability-kluster inom given tidsram. Om tidsgränsen överskrids, kommer du att behöva starta installationsprocessen från början igen.</li>
+<li>Om du behöver identifiera vilken av servrarna i ett high-availability-kluster som är den aktiva servern, rekommenderar vi att du laddar ner programmet Synology:s <strong>DS finder</strong> och använder pip-funktionen som kan få den aktiva servern att ge ifrån sig ett kort pipljud.</li>
+</ul>
+</div>
+
+<h4>Installera den passiva servern:</h4>
+<p>Vänligen designera en Synology-server till den passiva servern. Vid normala förhållanden tillhandahåller den passiva servern inte några tjänster. Om en funktionsstörning emellertid uppstår på den aktiva servern kan ditt system initiera en övergång och flytta alla tjänster till den passiva servern.</p>
+<ol>
+<li><b>IP-adress:</b> Vänligen ange den passiva serverns IP-adress.
+
+</li>
+<li><b>Användarnamn:</b> Ange ett användare som hör till gruppen <b>administrator</b> på målservern. </li>
+<li><b>Lösenord:</b> Ange lösenordet för kontot som hör till gruppen <b>administrator</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4> 
+<ul>
+<li>När high-availability-klustret är skapat, kommer all data på den passiva servern att tas bort. Vänligen försäkra dig om att det inte lagras någon viktig data på den passiva servern. </li>   
+</ul>
+</div>
+  
+<h4>Konfigurera Heartbeat-anslutningen:</h4>
+<p>Anslut de två servrarna till varandra. Denna anslutning kommer att utgöra Heartbeat-anslutningen mellan de två servrarna, vilket underlättar kommunikation och låter data bli replikerat från den aktiva servern till den passiva servern. För att säkerställa kvaliteten på heartbeat-anslutningen kommer systemet att kontrollera om den här anslutningen motsvarar följande kriteria när den skapar high-availability-klustret:</p>
+<ul>
+<li>Mellan de två servrarna finns det inte några andra enheter med IP-adresser som finns i samma broadcastdomän. Om den här Heartbeat-anslutningen har letts genom några switchar måste du säkerställa att switcharna har stöd för multisändning och Jumbo Frame.</li>
+<li>Har en nätverksanslutning med låg fördröjning. Svarstiden för Ping mellan de två servrarna måste vara mindre än 1 ms och överföringshastigheten måste vara minst 500 Mbps. MTU konfigureras automatiskt till 9000.</li>
+<li>Använda samma nätverksgränssnitt på båda servrarna. Till exempel om den ena änden är ansluten till LAN 1 på en server, måste den andra änden vara ansluten till LAN 1 på den andra servern.</li>
+<li>Använda det snabbaste nätverksgränssnitt på båda servrarna. Om servrarna är utrustade med 10GbE tilläggsnätverkskort måste denna anslutning använda dem.</li>
+</ul>
+ <p>Efter att det ovanstående har bekräftats, gå till avsnittet <b>Gränssnitt för HA-anslutning (Heartbeat)</b> och välj att nätverkskorten på servrarna ska tjänstgöra som Heartbeat-anslutningen.</p>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Inställningarna för Heartbeat-anslutning kommer att skapa två uppsättningar IP-adresser (te.x. 169.254.1.1 och 169.254.1.2) att användas vid datareplikering från den aktiva servern till den passiva servern. Vänligen tillse att dessa två IP-adresser inte används av någon annan utrustning i nätverket.</li>
+<li>Aktivering av VLAN-ID på Heartbeat-anslutningens portar på din Synology NAS stöds inte.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Konfigurera Link Aggregation på Heartbeat- eller dataanslutningar:</h4>
+
+<ul>
+<li>För att konfigurera Link Aggregation på Heartbeat- eller dataanslutningen, vänligen konfigurera Link Aggregation på två eller flera LAN-portar i <strong>Kontrollpanel</strong> > <strong>Nätverk</strong> > <strong>Nätverksgränssnitt</strong> innan start av guiden för att skapa high-availability. Säkerställ att inställningarna för Link Aggregation är identiska på båda servrarna (dvs. om du konfigurerat Link Aggregation på portarna 1 och 2 på den aktiva servern måste Link Aggregation konfigureras på portarna 1 och 2 även på den passiva servern).</li>
+
+
+<li>Heartbeat är utrustad med kapacitet för redundans och lastbalans men dataanslutningar beror på vilket läge för Link Aggregation du väljer.</li>
+</ul>
+
+</div>
+
+
+<h4>Konfigurera nätverkskortets inställningar på high-availability-klustret:</h4>
+<p>High-availability-klustret använder high-availability-klustrets IP-adress som anslutningsgränssnitt mot omvärlden. Du kan ansluta genom att använda IP-adressen för high-availability-klustret när du önskar använda DSM-tjänster, oavsett vilken Synology-server som är den aktiva servern. Detta gör att anslutning inte behöver ske till annan IP-adress när en övergång görs från den aktiva servern till den passiva servern.</p>
+
+<ol>
+<li><b>Klustrets servernamn:</b> High-availability-klustrets namn. Vänligen se regler för namngivning av server (i <b>DSM hjälp</b> > <b>Kontrollpanel</b> > <b>Anslutningsbarhet</b> > <b>Nätverk</b> > <b>Allmänt</b>) för information om begränsning för namn.</li>
+<li><b>Nätverksgränssnitt:</b> Nätverkskort som används av high-availability-klustret. Du måste använde använda en annan LAN-port än den som i tidigare steg designerades till datareplikering. </li>
+<li><b>IP-adress:</b> IP-adress som används av high-availability-klustret. Oavsett vilken server som aktivt tillhandahåller tjänster, kan denna IP användas för anslutning till klustret.</li>
+<li> <b>Subnätmask:</b> Subnätmask som används av high-availability-klustret.</li>
+</ol>
+
+<div class="section">
+<h4>Tilldela ett VLAN-ID till dataanslutningen:</h4>
+<ul>
+<li>För att tilldela ett VLAN-ID till dataanslutningen, vänligen gå till <strong>Kontrollpanel</strong> > <strong>Nätverk</strong> > <strong>Nätverksgränssnitt</strong> innan start av guide för att skapa high-availability. Säkerställ att inställningarna för VLAN är identiska på båda servrarna (dvs. om LAN 1 är konfigurerad med VLAN ID 1 på den aktiva servern, måste LAN 1 på den passiva servern även den konfigureras med VLAN 1).</li>
+</ul>
+</div>
+
+
+<h4>Bekräfta inställningar:</h4>
+<p>Vänligen kontrollera inställningarna som används av high-availability-klustret två gånger. Systemet börjar binda high-availability-klustret när du klickar på <b>Tillämpa</b>. </p>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Vid skapande av ett high-availability-kluster måste all data på den aktiva servern replikeras till den passiva servern. Om anslutningen till den passiva servern tappas mer än 30 minuter innan den initiala replikeringsprocessen är slutförd kommer den passiva servern att återgå till läget <strong>Fristående</strong>. I så fall måste du åter binda den och åter utföra en fullständig datareplikering.</li>
+</ul>
+</div>
+ </body>
+</html>

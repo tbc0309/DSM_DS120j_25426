@@ -1,0 +1,182 @@
+#!/bin/sh
+# Copyright (c) 2000-2016 Synology Inc. All rights reserved.
+
+version=2.0
+Level_1_Cannot_Enter_Hibernation=1
+Level_2_Which_Interrupt_Hibernation=2
+
+deubg_key='enable_hibernation_debug'
+level_key='hibernation_debug_level'
+support_hibernation='support_disk_hibernation'
+
+standby_time=$((`/bin/get_key_value /etc/synoinfo.conf standbytimer`*60))
+
+debug_mode='/tmp/hibernation.debug'
+last_date_s=`date '+%s'`
+
+hibernation_log_file_full='/var/log/hibernationFull.log'
+hibernation_log_file='/var/log/hibernation.log'
+
+disk_list=""
+SupportSAS=`/bin/get_key_value /etc.defaults/synoinfo.conf supportsas`
+if [ "x${SupportSAS}" == "xyes" ]; then
+	MaxDisk=`/bin/get_key_value /etc.defaults/synoinfo.conf maxdisks`
+	count=1
+	while [ $count -le ${MaxDisk} ]; do
+		DevName=`/usr/syno/bin/synodiskfind 0 $count --name`
+		disk_list="${disk_list} ${DevName}"
+		count=$((count+1))
+	done
+else
+	disk_list=`/usr/syno/bin/synodiskport -enum_port -internal`
+fi
+
+white_list_string='jbd2/md0- flush- md0_raid1 tmpfs kworker hiber'
+
+block_dump='/proc/sys/vm/block_dump'
+
+log()
+{
+	if [ ! $# -eq 1 ]; then
+		echo "no msg to log"
+		return
+	fi
+	echo $1 >> ${hibernation_log_file}
+	echo $1 >> ${hibernation_log_file_full}
+}
+
+filter_white_list()
+{
+	grep_string=""
+	for string in $white_list_string; do
+		grep_string="${grep_string} | grep -v ${string}"
+	done
+	local command="dmesg | tail -300 ${grep_string} >> ${hibernation_log_file}"
+	eval $command
+}
+
+disable_debug_mode()
+{
+	echo 0 > ${block_dump}
+
+	if [ -f ${debug_mode} ]; then
+		monitor_pid=`cat ${debug_mode}`
+		kill -s KILL "${monitor_pid}"
+		rm -f ${debug_mode}
+		log "End debug time: `date`"
+		log "Disable hibernation debug mode."
+		log "================================END LINE=============================="
+	fi
+	exit 0
+}
+
+keyin_value()
+{
+	Support_hibernation=`/bin/get_key_value /etc.defaults/synoinfo.conf ${support_hibernation}`
+	if [ "x${Support_hibernation}" != "xyes" ]; then
+		exit 0
+	fi
+
+	hibernation_mode=`/bin/get_key_value /etc/synoinfo.conf ${deubg_key}`
+	if [ 1 -ne $? ]; then
+		# no key found
+		hibernation_mode="no"
+	fi
+	if [ "x${hibernation_mode}" != 'xyes' ]; then
+		disable_debug_mode
+		exit 0
+	fi
+
+	hibernation_level=`/bin/get_key_value /etc/synoinfo.conf ${level_key}`
+	if [ 1 -ne $? ]; then
+		# no key found
+		hibernation_level=0
+	fi
+	if [ ${hibernation_level} -ne ${Level_1_Cannot_Enter_Hibernation} -a ${hibernation_level} -ne ${Level_2_Which_Interrupt_Hibernation} ]; then
+		disable_debug_mode
+		exit -1
+	fi
+}
+
+interrupt_time_get()
+{
+	for Disk in $disk_list; do
+		Idle_path=/sys/block/$Disk/device/syno_idle_time
+		if [ ! -f $Idle_path ]; then
+			continue
+		fi
+		IdelTime=`cat /sys/block/$Disk/device/syno_idle_time`
+		if [ $IdelTime -le 3 ]; then
+			date_s=`date '+%s'`
+			sleep_time_s=$(($date_s-$last_date_s))
+			uptime_s=`dmesg | tail -1 | cut -d'[' -f'2' | cut -d']' -f1`
+			if [ $sleep_time_s -ge $standby_time -o $hibernation_level -eq $Level_1_Cannot_Enter_Hibernation ]; then
+				log "***********Clear*********"
+				sleep .5
+				dmesg | tail -500 >> ${hibernation_log_file_full}
+				filter_white_list
+				log "uptime : [${uptime_s}]"
+				log "======Idle ${sleep_time_s} seconds======"
+			else
+				echo ***********Clear********* >> ${hibernation_log_file_full}
+				sleep .5
+				dmesg | tail -500 >> ${hibernation_log_file_full}
+				echo "uptime : [${uptime_s}"] >> ${hibernation_log_file_full}
+				echo ======Idle ${sleep_time_s} seconds====== >> ${hibernation_log_file_full}
+				# skip without enter hibernation log
+				echo "Only idle $sleep_time_s seconds, pass" >> ${hibernation_log_file}
+			fi
+			log "`date`"
+			log "#####################################################"
+			last_date_s=`date '+%s'`
+			sync
+			sleep 20
+			break
+		fi
+	done
+}
+
+monitor_idle_time()
+{
+	log "Start debug time: `date`"
+	sync
+	sleep 30
+	while [ 1 ]; do
+		interrupt_time_get
+		sleep 1
+	done
+}
+
+#main
+keyin_value
+
+if [ -f ${debug_mode} ]; then
+	monitor_pid=`cat ${debug_mode}`
+	kill -s KILL "${monitor_pid}"
+	rm -f ${debug_mode}
+fi
+
+# start hibernation debug
+
+log "------------------------------START LINE------------------------------"
+log "Hibernation debug script version:$version"
+
+if [ ${hibernation_level} -eq ${Level_2_Which_Interrupt_Hibernation} ]; then
+	log "User setting idle seconds:${standby_time}"
+	log "Hibernation Level: Wake up frequently."
+elif [ ${hibernation_level} -eq ${Level_1_Cannot_Enter_Hibernation} ]; then
+	log "Hibernation Level: Can't enter hibernation."
+else
+	log "Hibernation Level: Unknown."
+	exit -1
+fi
+
+# open block dump
+echo 1 > ${block_dump}
+
+monitor_idle_time &
+# record monitor pid
+echo $! > ${debug_mode}
+
+exit 0
+

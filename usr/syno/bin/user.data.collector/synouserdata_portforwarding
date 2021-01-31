@@ -1,0 +1,54 @@
+#!/bin/sh
+
+CDATA_VERSION=3
+
+BIN_GET_KEY_VALUE="/bin/get_key_value"
+ROUTER_CONF="/etc/portforward/router.conf"
+RULE_CONF="/etc/portforward/rule.conf"
+
+BRAND=`$BIN_GET_KEY_VALUE $ROUTER_CONF brand`
+MODEL=`$BIN_GET_KEY_VALUE $ROUTER_CONF model`
+VERSION=`$BIN_GET_KEY_VALUE $ROUTER_CONF version`
+CHANGE_PORT=`$BIN_GET_KEY_VALUE $ROUTER_CONF support_change_port`
+if [ -e $RULE_CONF ]; then
+    RULE_NUM=`cat $RULE_CONF | grep "enabled=1" | wc -l`
+else
+    RULE_NUM=0;
+fi
+
+UPNP=`/bin/get_key_value $ROUTER_CONF support_router_upnp`
+NATPMP=`/bin/get_key_value $ROUTER_CONF support_router_natpmp`
+if [ "yes" == "$UPNP" ]; then 
+  TYPE="UPNP"
+elif [ "yes" == "$NATPMP" ]; then 
+  TYPE="NATPMP"
+else
+  TYPE="MANUAL"
+fi
+
+TRACE_ROUTE_RESULT=`traceroute -n -I -m 5 8.8.8.8 2>&1 | sed '1d' | awk '{printf $2" "}' | sed 's/*/unknown/g'`
+HOP_COUNT=1
+for i in $TRACE_ROUTE_RESULT
+do
+    IP_TYPE=`echo $i | sed 's/\./ /g' | awk '{if(($1 == "unknown") || $1 == 10 || ($1==172 && $2>=16) || ($1==192 && $2==168) || ($1==169 && $2==254) || ($1==127)) printf "private"}'`
+    if [ "$IP_TYPE" == "private" ]; then
+        HOP_COUNT=$(($HOP_COUNT+1))
+    else
+        break
+    fi
+done
+
+echo -n "{"
+
+echo -n \"brand\":\"$BRAND\",
+echo -n \"model\":\"$MODEL\",
+echo -n \"version\":\"$VERSION\",
+echo -n \"type\":\"$TYPE\",
+echo -n \"support_change_port\":\"$CHANGE_PORT\",
+echo -n \"rule_num\":$RULE_NUM,
+echo -n \"hop_count\":$HOP_COUNT,
+
+# let version be the last one msg
+echo -n \"collector_version\":4
+
+echo "}"

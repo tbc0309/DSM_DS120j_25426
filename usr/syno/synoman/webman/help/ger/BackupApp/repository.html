@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Datensicherungsziel - Hilfe zu Synology DSM</title>
+
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Define local, network or cloud backup destination for backup tasks.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Datensicherungsziel</h2>
+<p>Auf der Registerkarte<b> Datensicherungsziel</b> von <b>Datensicherung &amp; Replikation</b> kann das lokale, das Netzwerk- oder das Cloud-Datensicherungsziel vor dem Erstellen einer Datensicherungsaufgabe festgelegt werden.</p>
+
+<h4><a name="local_backup"></a>Lokales Datensicherungsziel erstellen:</h4>
+<p>Wenn die Daten von Synology NAS in einem lokalen freigegebenen Ordner, einem Volume oder einem externen USB/eSATA-Laufwerk gesichert werden, ist ein lokales Datensicherungsziel erforderlich. Das Datensicherungsziel muss sich von der Quelle unterscheiden und die Kapazität des Ziels muss größer als die Gesamtgröße der Daten sein, die gesichert werden sollen.</p>
+
+<ol>
+<li>Klicken Sie auf <b>Erstellen</b>, wählen Sie <b>Lokales Datensicherungsziel</b> aus und klicken Sie anschließend auf <b>Weiter</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Benennen Sie dieses Datensicherungsziel, wählen Sie aus, wo die gesicherten Daten gespeichert werden sollen und ob Sie nur die aktuellste Sicherungskopie oder alle Datensicherungsversionen behalten möchten.</li>
+</ol>
+
+<div class="section">
+<h4>Hinweise:</h4>
+<ul>
+<li>Wenn während des Sicherungsvorgangs Daten am Ziel entfernt werden, wird bei der nächsten Ausführung der Aufgabe eine vollständige Sicherung durchgeführt.</li>
+<li>Möglicherweise müssen neue externe Laufwerke zuerst formatiert werden, bevor sie als Datensicherungsziel verwendet werden können. </li>
+<li>Bevor Sie eine Sicherungsaufgabe erstellen, müssen Sie prüfen, ob die externen Laufwerke korrekt an der Synology NAS angeschlossen wurden. Unter <b>Systemsteuerung</b> > <b>Externe Geräte</b> können Sie den Status der USB/eSATA-Laufwerke überprüfen. Externe Laufwerke können nicht als Datensicherungsziel ausgewählt werden, wenn das externe Laufwerk initialisiert oder formatiert wird oder defekt ist.</li>
+<li>Bereitgestellte Remote-Shares können nicht als Datensicherungsquelle oder -ziel ausgewählt werden.</li>
+<li>Wenn ein verschlüsselter freigegebener Ordner getrennt wird, kann er nicht als Datensicherungsziel ausgewählt werden.</li>
+<li>Miniaturansichten können nicht gesichert werden, wenn das Dateisystem am Ziel NTFS/FAT ist.</li>
+</ul>
+</div>
+
+
+<h4><a name="network_backup"></a>Netzwerk-Datensicherungsziel erstellen:</h4>
+<p>Wenn die Daten von Synology NAS auf einem anderen Synology NAS oder einem rsync-kompatiblen Server über das Netzwerk gesichert werden, ist ein Netzwerksicherungsziel erforderlich. Bei der Erstellung von Netzwerksicherungsaufgaben stehen verschiedene Optionen zur Verfügung, wie Übertragungsverschlüsselung, Komprimierung, Datensicherung in Blöcken sowie andere. Beachten Sie, dass einige Optionen, wie etwa die Übertragungsverschlüsselung, die Geschwindigkeit der Datensicherungsaufgabe verringern können.</p>
+
+<ol>
+<li>Melden Sie sich vor dem Erstellen einer Netzwerksicherungsaufgabe bei dem Zielserver an, der als Ziel dienen soll. Gehen Sie zu <strong>Datensicherung & Replikation</strong> > <strong>Sicherungsdienste</strong> und aktivieren Sie den Netzwerk-Sicherungsdienst und/oder das Netzwerk-Volume-Datensicherungsziel.</li>
+<li>Bei der Synology NAS gehen Sie zu <strong>Datensicherung &amp; Replikation</strong> &gt; <strong>Datensicherungsziel</strong>. Klicken Sie auf <strong>Erstellen</strong>, wählen Sie <strong>Netzwerksicherungsziel</strong> aus und folgen Sie dem Assistenten, um die Einstellungen abzuschließen.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Mit dem <strong>Netzwerksicherungsziel (Synology NAS-Server)</strong> können Sie Datensicherungen in einem freigegebenen Ordner speichern, um die aktuelle Datensicherungskopie aufzubewahren, oder Datensicherungen auf einem Volume speichern, um mehrere Versionen von Sicherungskopien aufzubewahren. Mit <strong>Netzwerksicherungsziel (rsync-kompatibler Server)</strong> wird nur die aktuelle Datensicherungskopie beibehalten.</li>
+
+</ol>
+
+<div class="section">
+<h4>Hinweise:</h4>
+<ul>
+<li>Die folgenden Modi sind verfügbar, wenn Sie eine Datensicherungsaufgabe mit einem rsync-kompatiblen Server als Netzwerksicherungsziel erstellen: Der <b>rsync-Daemon-Modus</b> wird verwendet, wenn Sie ein Datensicherungsmodul (freigegebener Ordner auf dem rsync-kompatiblen Server) im Dropdown-Menü neben <b>Sicherungsmodul</b> und <b>Remote-Shell-Modus</b> auswählen, der nur aktiviert ist, wenn im <b>Sicherungsmodul</b> ein absoluter Pfad (beginnend mit „/“) eingegeben wurde.</li>
+<li>Für Linux-Benutzer dürfen nur die Konten „<strong>admin</strong>“, „<strong>root</strong>“ und „<strong>rsync</strong>“ eine Netzwerksicherung durchführen.</li>
+<li>Wenn Sie über das Internet auf einen Zielserver mithilfe seines Hostnamens zugreifen möchten, muss der Hostname ein FQDN (Fully Qualified Domain Name - vollständig qualifizierter Domainname) sein, etwa <strong>abc.bcd.com</strong>.</li>
+<li>Bei der Datensicherung von einem Synology NAS-Gerät auf ein anderes werden Sie aufgefordert, den Benutzernamen und das Kennwort für ein Konto auf dem Zielgerät einzugeben. Besonders wenn Sie die Datensicherung auf ein Volume auf einem anderen Synology NAS-Gerät durchführen möchten, muss ein Konto angegeben werden, das zur Gruppe <strong>administrators</strong> gehört. Die Datensicherung in freigegebenen Ordnern auf einem anderen Synology NAS-Gerät erfolgt gemäß den Berechtigungseinstellungen für den Zugriff auf die betreffenden Ordner. Nur freigegebene Ordner, für die das angegebene Benutzerkonto Zugriffsberechtigungen besitzt, werden angezeigt. Überprüfen Sie Ihre Zugriffsberechtigungen, wenn Sie den gewünschten freigegebenen Ordner auf dem Zielgerät nicht finden.</li>
+<li>Die Verschlüsselung von Sicherungskopien wird nur unterstützt, wenn der Zielserver ebenfalls die Verschlüsselung von Netzwerksicherungskopien unterstützt. Das Authentifizierungskennwort darf nicht leer sein.</li>
+<li>Der Remote-Shell-Modus unterstützt nur verschlüsselte Sicherungskopien.</li>
+<li>Bei der Datensicherung auf einem rsync-kompatiblen Server kann der rsync-Verschlüsselungsmodus nicht geändert werden, nachdem rsync-Datensicherungsaufgaben erstellt wurden. Erstellen Sie eine neue rsync-Aufgabe, um die Konfiguration zu ändern. </li>
+<li>Wenn Sie Dateien auf einer Synology NAS über einen rsync-Client sichern, müssen die Dateinamen in UTF-8-Codierung vorliegen.</li>
+<li>Wenn Sie Dateien über einen rsync-kompatiblen Client auf der Synology NAS sichern, können Sie die Aufgaben nur über die <strong>admin</strong>-, <strong>root</strong>- und <strong>rsync</strong>-Konten von Synology NAS durchführen.</li>
+<li>Wenn Sie Dateien von einer Synology NAS auf einen rsync-kompatiblen Server sichern, müssen Sie den korrekten rsync-Kontonamen und das entsprechende Kennwort eingeben. Außerdem müssen Sie das korrekte Sicherungsmodul mit Schreibberechtigung auswählen.</li>
+</ul>
+</div>
+
+<h4><a name="cloudservice_backup"></a>Amazon S3-Datensicherungsziel erstellen:</h4>
+<p>Wenn die Daten von der Synology NAS auf einem Amazon S3-Server gesichert werden, ist ein Amazon S3-Datensicherungsziel erforderlich.</p>
+  
+<ol>
+  <li>Klicken Sie auf <b>Erstellen</b>, wählen Sie <b>Datensicherungsziel öffentliche Cloud</b>, dann <b>Amazon S3-Datensicherungsziel</b>, und klicken Sie auf <b>Weiter</b>.</li>
+  
+  <img src="about:blank" class="help_image"/>
+  
+  <li>Benennen Sie das Sicherungsziel, geben Sie die Anmeldeinformationen ein und füllen Sie alle erforderlichen Felder aus, um die Sicherungsaufgabe einzurichten.</li>
+</ol>
+
+<div class="section">
+<h4> Hinweise:</h4>
+<ul>
+  <li>Bei der Erstellung von Datensicherungsaufgaben mit dem Amazon S3-Server als Netzwerksicherungsziel stehen verschiedene Optionen zur Verfügung, wie Übertragungsverschlüsselung, Datensicherung auf Amazon S3 RRS (Reduced Redundancy Storage) usw. Beachten Sie, dass einige Optionen, wie etwa die Übertragungsverschlüsselung, die Geschwindigkeit der Datensicherungsaufgaben verringern können.</li>
+  <li>Gesicherte Dateien werden in dem <strong>Bucket</strong> gespeichert, den Sie auf dem Amazon S3-Server ausgewählt haben. Der Set KEY-Wert beginnt mit einem von Ihnen ausgewählten Verzeichnisnamen und endet mit dem kompletten Dateipfad dieser Datei.</li>
+  <li>Die Datenstruktur von Amazon S3 umfasst ein Paar Buckets und KEY ohne Ordnerstruktur. Die Datensicherung leerer Ordner wird nicht unterstützt.</li>
+  <li>Wenn eine Sicherungsdatei nicht verändert wurde, wird sie nicht wieder im selben Bucket auf dem Amazon S3-Server gesichert.</li>
+  <li>Jeder Bucket auf dem Amazon S3 muss einen eindeutigen Namen haben. Der Name muss auch Folgendes erfüllen:</li>
+<ul>
+  <li>Er muss 3 bis 63 Zeichen lang sein.</li>
+  <li>Er darf nur Kleinbuchstaben, Ziffern, Punkte (.) und Bindestriche (-) enthalten.</li><li>Er muss mit einer Ziffer oder einem Buchstaben beginnen und enden, er darf nicht mit einem Bindestrich enden (-) sowie weder zwei nebeneinander liegende Punkte noch Bindestriche neben Punkten enthalten (z. B. sind „my-.bucket.com“ und „my-.bucket“ ungültig).</li>
+</ul>
+<li>Die maximale Länge eines Amazon S3 KEYs beträgt 1024 Zeichen. Um die erfolgreiche Datensicherungsaufgabe auf Amazon S3 sicherzustellen, darf die maximale Pfadlänge 1024 abzüglich der Länge des bei der Erstellung der Aufgabe angegebenen Zielordnernamens nicht überschreiten.</li>
+<li>Wenn Sie die Unterstützung für Amazon S3 RRS (Reduced Redundancy Storage) aktivieren, werden nur die Daten im RRS-Speicher gesichert, die nach Aktivierung der Option geändert wurden. Das bedeutet, dass Daten, die bereits im Standardordner von Amazon S3 gesichert wurden, nicht erneut im RRS gesichert werden. </li>
+<li>Das Verschieben von gesicherten Dateien von Amazon S3 zu Amazon Glacier wird nicht unterstützt. Wenn Dateien von Amazon S3 über die AWS-Managementkonsole zu Amazon Glacier verschoben werden, könnten die zugehörigen Datensicherungsaufgaben scheitern.</li>
+<li>Die Datensicherung über SSL von Dateien in Buckets vom Typ „Virtueller Host“ wird nicht unterstützt.</li>
+<li>Bei der Übertragung einer Datei wird diese in Teile aufgeteilt. Die Größenbegrenzung kann in „Aufgabeneinstellungen“ mit der Option <strong>Multipart Upload-Teilgröße</strong> festgelegt werden, wobei 512 MB Standard sind. Wenn die Netzwerkumgebung nicht stabil ist, wird empfohlen, eine geringere Größe festzulegen.</li>
+
+<li>Pro Upload beträgt die maximale Anzahl von Teilen 10000. Die maximale Dateigröße ist die <strong>Multipart Upload-Teilgröße</strong> multipliziert mit 10000.</li>
+<li>Die Dateinamen dürfen keine Nicht-UTF-8- oder Steuerzeichen enthalten.</li>
+</ul>
+</div>
+<h4>Microsoft Azure-Datensicherungsziel erstellen:</h4>
+<p>Wenn die Daten von der Synology NAS auf einem Microsoft Azure-Blob-Server gesichert werden, ist ein Microsoft Azure-Datensicherungsziel erforderlich.</p>
+  
+<ol>
+<li>Klicken Sie auf <b>Erstellen</b>, wählen Sie <b>Datensicherungsziel öffentliche Cloud</b> aus, dann <b>Microsoft Azure-Datensicherungsziel</b> und klicken Sie auf <b>Weiter</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Benennen Sie Ihr Sicherungsziel, geben Sie die Anmeldeinformationen ein und füllen Sie dann alle erforderlichen Felder aus, um Ihre Sicherungsaufgabe einzurichten.</li>
+</ol>
+
+<div class="section">
+<h4> Hinweise:</h4>
+<ul>
+<li>Beim Erstellen von Datensicherungsaufgaben mit einem Microsoft Azure-Server als Netzwerksicherungsziel stehen verschiedene Optionen zur Verfügung (z. B. Übertragungsverschlüsselung). Beachten Sie, dass einige Optionen, wie etwa die Übertragungsverschlüsselung, die Geschwindigkeit der Datensicherungsaufgaben verringern können.</li>
+<li>Gesicherte Dateien werden in dem <strong>Container</strong> gespeichert, den Sie auf dem Microsoft Azure-Server ausgewählt haben. Der Blob-Name beginnt mit einem von Ihnen ausgewählten Verzeichnisnamen und endet mit dem kompletten Dateipfad dieser Datei.</li>
+<li>Die Datenstruktur von Microsoft Azure schließt die Verpaarung von Container und Blob ohne Ordnerstruktur mit ein. Die Datensicherung leerer Ordner wird nicht unterstützt.</li>
+<li>Wenn eine Sicherungsdatei nicht verändert wurde, wird sie nicht wieder im selben Container auf dem Microsoft Azure-Server gesichert.</li>
+<li>Jeder Container in Microsoft Azure muss einen eindeutigen Namen haben. Der Name muss auch Folgendes erfüllen:</li>
+<ul>
+<li>Er muss 3 bis 63 Zeichen lang sein.</li>
+<li>Er darf nur Kleinbuchstaben, Ziffern und Bindestriche (-) enthalten.</li>
+<li>Er muss mit einer Ziffer oder einem Buchstaben beginnen und enden und darf keine zwei nebeneinander liegende Bindestriche enthalten.</li>
+</ul>
+<li>Die maximale Länge eines Microsoft Azure Blob-Namens beträgt 1024 Zeichen. Um die erfolgreiche Datensicherungsaufgabe auf Microsoft Azure sicherzustellen, darf die maximale Pfadlänge 1024 abzüglich der Länge des bei der Erstellung der Aufgabe angegebenen Zielordnernamens nicht überschreiten.</li>
+
+<li>Die Dateinamen dürfen keine Nicht-UTF-8- oder Steuerzeichen enthalten.</li>
+<li>Die Warnmeldung, dass die Authentifizierung fehlgeschlagen ist, kann durch Folgendes verursacht werden: Falsche Authentifizierungsinformationen, ein Netzwerkverbindungsproblem oder die Zeit auf Ihrer Synology NAS und dem Remote-Server stimmen nicht überein. Um die Zeiteinstellung auf Ihrer Synology NAS zu überprüfen, gehen Sie zu <strong>Systemsteuerung</strong> > <strong>Regionale Optionen</strong> ><strong> Zeit</strong>, um die Zeit mit dem NTP-Server zu synchronisieren.</li>
+</ul>
+</div>
+
+<h4>hicloud S3-Datensicherungsziel erstellen:</h4>
+<p>Ein hicloud S3-Datensicherungsziel ist erforderlich, wenn die Daten der Synology NAS auf einem hicloud S3-Server gesichert werden.</p>
+  
+<ol>
+<li>Klicken Sie auf <b>Erstellen</b>, wählen Sie <b>Datensicherungsziel öffentliche Cloud</b> und dann <b>hicloud S3-Datensicherungsziel</b> aus.</li>
+<img src="about:blank" class="help_image"/>
+<li>Benennen Sie das Sicherungsziel, geben Sie die Anmeldeinformationen ein und füllen Sie alle erforderlichen Felder aus, um die Sicherungsaufgabe einzurichten.</li>
+</ol>
+
+<div class="section">
+<h4> Hinweise:</h4>
+<ul>
+<li>Beim Erstellen von Datensicherungsaufgaben mit hicloud S3-Server als Netzwerksicherungsziel stehen verschiedene Optionen zur Verfügung (z. B. Übertragungsverschlüsselung). Beachten Sie, dass einige Optionen, wie etwa die Übertragungsverschlüsselung, die Geschwindigkeit der Datensicherungsaufgaben verringern können.</li>
+<li>Gesicherte Dateien werden in dem <strong>Bucket</strong> gespeichert, den Sie auf dem hicloud S3-Server ausgewählt haben. Der Set KEY-Wert beginnt mit einem von Ihnen ausgewählten Verzeichnisnamen und endet mit dem kompletten Dateipfad dieser Datei.</li>
+<li>Die Datenstruktur von hicloud S3 schließt die Verpaarung von Bucket und KEY ohne Ordnerstruktur mit ein. Die Datensicherung leerer Ordner wird nicht unterstützt.</li>
+<li>Wenn eine Sicherungsdatei nicht verändert wurde, wird sie nicht wieder im selben Bucket auf dem hicloud S3-Server gesichert.</li>
+<li>Jeder Bucket auf dem hicloud S3 muss einen eindeutigen Namen haben. Der Name muss auch Folgendes erfüllen:</li>
+<ul>
+<li>Er muss 3 bis 63 Zeichen lang sein.</li>
+<li>Er darf nur Kleinbuchstaben, Ziffern, Punkte (.) und Bindestriche (-) enthalten.</li>
+<li>Er muss mit einer Ziffer oder einem Buchstaben beginnen und enden, er darf nicht mit einem Bindestrich enden (-) sowie weder zwei nebeneinander liegende Punkte noch Bindestriche neben Punkten enthalten (z. B. sind „my-.bucket.com“ und „my-.bucket“ ungültig).</li>
+</ul>
+<li>Die maximale Länge eines hicloud S3 KEY beträgt 255 Zeichen. Um die erfolgreiche Datensicherung auf hicloud S3 sicherzustellen, darf die maximale Pfadlänge 255 abzüglich der Länge des bei der Erstellung der Aufgabe angegebenen Zielordnernamens nicht überschreiten.</li>
+<li>Bei der Übertragung einer Datei wird diese in Teile aufgeteilt. Die Größenbegrenzung kann in „Aufgabeneinstellungen“ mit der Option <strong>Multipart Upload-Teilgröße</strong> festgelegt werden, wobei 512 MB Standard sind. Wenn die Netzwerkumgebung nicht stabil ist, wird empfohlen, eine geringere Größe festzulegen.</li>
+
+<li>Hicloud unterstützt maximal 1000 Teile pro Übertragung. Das bedeutet, dass die Gesamtdateigröße 1000 multipliziert mit der Teilgröße nicht überschreiten darf. Ist die Multipart-Upload-Teilgröße beispielsweise auf 8 MB eingestellt, wird eine Datei mit mehr als 8000 MB nicht hochgeladen. </li>
+
+<li>Die Datensicherung von verschlüsselten freigegebenen Ordnern wird nicht unterstützt.</li> 
+
+<li>Die Dateinamen dürfen keine Nicht-UTF-8- oder Steuerzeichen enthalten.</li>
+</ul>
+</div>
+
+<h4>SFR NAS BACKUP-Datensicherungsziel erstellen:</h4>
+<p>Wenn die Daten von der Synology NAS auf einem SFR NAS BACKUP-Server gesichert werden, ist ein SFR NAS BACKUP-Datensicherungsziel erforderlich.</p>
+  
+<ol>
+<li>Klicken Sie auf <b>Erstellen</b>, wählen Sie <b>Datensicherungsziel öffentliche Cloud</b> aus, dann <b>SFR NAS BACKUP-Datensicherungsziel</b> und klicken Sie auf <b>Weiter</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Benennen Sie das Sicherungsziel, geben Sie die Anmeldeinformationen ein und füllen Sie alle erforderlichen Felder aus, um die Sicherungsaufgabe einzurichten.</li>
+</ol>
+
+<div class="section">
+<h4> Hinweise:</h4>
+<ul>
+<li>Beim Erstellen von Datensicherungsaufgaben mit SFR NAS BACKUP-Server als Netzwerksicherungsziel stehen verschiedene Optionen zur Verfügung, (z. B. Transfer-Verschlüsselung). Beachten Sie, dass einige Optionen, wie etwa die Übertragungsverschlüsselung, die Geschwindigkeit der Datensicherungsaufgaben verringern können.</li>
+<li>Gesicherte Dateien werden in dem <strong>Bucket</strong> gespeichert, den Sie auf dem SFR NAS BACKUP-Server ausgewählt haben. Der Set KEY-Wert beginnt mit einem von Ihnen ausgewählten Verzeichnisnamen und endet mit dem kompletten Dateipfad dieser Datei.</li>
+<li>Die Datenstruktur von SFR NAS BACKUP schließt die Paarung von Bucket und KEY ohne Ordnerstruktur mit ein. Die Datensicherung leerer Ordner wird nicht unterstützt.</li>
+<li>Wenn eine Sicherungsdatei nicht verändert wurde, wird sie nicht wieder im selben Bucket auf dem SFR NAS BACKUP-Server gesichert.</li>
+<li>Jeder Bucket auf dem SFR NAS BACKUP muss einen eindeutigen Namen haben. Der Name muss auch Folgendes erfüllen:</li>
+<ul>
+<li>Er muss 3 bis 63 Zeichen lang sein.</li>
+<li>Er darf nur Kleinbuchstaben, Ziffern, Punkte (.) und Bindestriche (-) enthalten.</li>
+<li>Er muss mit einer Ziffer oder einem Buchstaben beginnen und enden, er darf nicht mit einem Bindestrich enden (-) sowie weder zwei nebeneinander liegende Punkte noch Bindestriche neben Punkten enthalten (z. B. sind „my-.bucket.com“ und „my-.bucket“ ungültig).</li>
+</ul>
+<li>Die maximale Länge eines SFR NAS BACKUP-KEYs beträgt 1024 Zeichen. Um die erfolgreiche Datensicherung auf SFR NAS BACKUP sicherzustellen, beträgt die maximale Pfadlänge 1024 abzüglich der Länge des Zielordnernamens, der während der Erstellung der Aufgabe angegeben wurde.</li>
+<li>Bei der Übertragung einer Datei wird diese in Teile aufgeteilt. Die Teilgröße kann in „Aufgabeneinstellungen“ mit der Option <strong>Multipart Upload-Teilgröße</strong> festgelegt werden, wobei 64 MB Standard sind. Wenn die Netzwerkumgebung nicht stabil ist, wird empfohlen, eine geringere Größe festzulegen.</li>
+
+<li>Die Dateinamen dürfen keine Nicht-UTF-8- oder Steuerzeichen enthalten.</li> 
+
+</ul>
+</div>
+<h4>Datensicherungsziel verwalten:</h4>
+<p>Wählen Sie eine vorhandene Datensicherungsaufgabe aus und klicken Sie auf eine der folgenden Schaltflächen:</p>
+<ul>
+<li><strong>Bearbeiten:</strong> Ändert die Einstellungen des ausgewählten Datensicherungsziels.</li>
+<li><strong>Löschen:</strong> Löscht das ausgewählte Datensicherungsziel.</li>
+</ul>
+
+<h3>Datensicherung im freigegebenen Ordner</h3>
+<p>Bei dieser Art Datensicherungsziel bleibt nur die aktuellste Datensicherungskopie erhalten. Standardmäßig werden nach Abschluss der ersten Datensicherung Dateien, die aus der Quelle entfernt wurden, auch aus dem Ziel entfernt, wenn die Aufgabe das nächste Mal ausgeführt wird. Falls Sie allerdings die Dateien am Zielort behalten möchten, obwohl sie aus der Quelle gelöscht wurden, müssen Sie die Option <b>Gesicherte Dateien am Zielort immer beibehalten</b> bei der Erstellung von Datensicherungsaufgaben markieren.</p>
+
+<h3>Datensicherung auf Volume</h3>
+<p>Diese Art von Datensicherungsziel muss ein lokales oder ein Netzwerk-Volume auf einem Synology NAS-Gerät sein (außer externe Speichergeräte). Es werden mehrere Versionen von Datensicherungskopien archiviert, sodass Sie Ordner eines beliebigen Zeitpunkts einfach wiederherstellen können.</p>
+
+<h4>Gespeicherte Daten einer Datensicherungsaufgabe löschen:</h4>
+<ol>
+<li>Gehen Sie zur Registerkarte <strong>Datensicherungsziel</strong> und erweitern Sie das Datensicherungsziel mit der Aufgabe, die Sie löschen möchten.</li> 
+<li>Klicken Sie in Ihrer ausgewählten <b>Datensicherungsaufgabe</b> auf das Symbol <b>Löschen</b> und dann im Dialogfeld auf <strong>Löschen</strong>.</li>
+</ol>
+<h4>Gespeicherte Daten einer Datensicherungsversion löschen:</h4>
+<ol>
+<li>Gehen Sie zur Registerkarte <strong>Datensicherungsziel</strong> und erweitern Sie das Datensicherungsziel, das die zu löschende Aufgabenversion enthält.</li> <li>Klicken Sie in Ihrer ausgewählten <strong>Datensicherungsaufgabe</strong> auf das Symbol <strong>Informationen zur Datensicherungsversion</strong>.</li>
+<li>Wählen Sie die zu löschende Sicherungsversion aus und klicken Sie auf <b>Löschen</b>.</li>
+</ol>
+
+<h4><a name="lock_version"></a>Eine Sicherungsversion sperren, um zu verhindern, dass sie während der Sicherungsrotation entfernt wird:</h4>
+<ol>
+<li>Gehen Sie zur Registerkarte <strong>Datensicherungsziel</strong> und erweitern Sie das Datensicherungsziel, das die zu sperrende Aufgabenversion enthält.</li>
+<li>Klicken Sie in Ihrer ausgewählten <strong>Datensicherungsaufgabe</strong> auf das Symbol <strong>Informationen zur Datensicherungsversion</strong>.</li>
+<li>Wählen Sie die zu sperrende Sicherungsversion aus und klicken Sie auf <strong>Sperren</strong>.</li>
+</ol>
+
+<h4>Berechtigung eines Datensicherungsziels verwalten:</h4>
+<ol>
+<li>Wählen Sie ein Sicherungsziel aus, das mit einem lokalen Volume verknüpft ist, und klicken Sie auf <b>Bearbeiten</b>.</li>
+<li> Klicken Sie auf <strong>Freigabeliste</strong> und dann auf <strong>Hinzufügen</strong>, um den Benutzer oder die Gruppe zur Liste hinzuzufügen.</li>
+</ol>
+
+<h4>Datensicherungsziel mit einem Besitzer einrichten:</h4>
+<ol>
+<li>Wählen Sie ein Datensicherungsziel aus, das mit einem lokalen Volume verknüpft ist, und klicken Sie in Ihrer ausgewählten <b>Datensicherungsaufgabe</b> auf das Symbol <b>Eigenschaft</b>.</li>
+<li>Wählen Sie unter <strong>Datensicherungsberechtigung</strong> aus dem Dropdown-Menü einen <b>Besitzer</b> aus.</li>
+</ol>
+
+<h4>Lesen und Wiederherstellen gespeicherter Daten einer Datensicherungsaufgabe durch Benutzer oder Gruppe auf der Synology NAS zulassen:</h4>
+<ol>
+<li>Wählen Sie ein Datensicherungsziel aus, das mit einem lokalen Volume verknüpft ist, und klicken Sie in Ihrer ausgewählten <b>Datensicherungsaufgabe</b> auf das Symbol <b>Eigenschaft</b>.</li>
+<li> Klicken Sie auf <strong>Freigabeliste</strong> und dann auf <strong>Hinzufügen</strong>, um den Benutzer oder die Gruppe zur Liste hinzuzufügen.</li>
+</ol>
+
+<div class="section">
+<h4> Hinweise:</h4>
+<ul>
+	<li>Der Standardbesitzer einer Datensicherungsaufgabe ist der Benutzer, der die Aufgabe erstellt hat.</li>
+	<li>Nur der Besitzer der Datensicherungsaufgabe kann die Aufgabe ausführen. Die Datensicherungsaufgaben, die vor DSM 5.1 erstellt wurden, besitzen jedoch keine solche Einschränkung, sodass jeder Benutzer der Gruppe <b>administrators</b> diese Datensicherungsaufgabe ausführen kann.</li>
+	<li>Der Aufgabenbesitzer und Benutzer der Gruppe <b>administrators</b> können die gespeicherten Daten einer Datensicherungsaufgabe löschen.</li>
+	<li>Der Aufgabenbesitzer, die Benutzer der Gruppe <b>administrators</b> und die Benutzer in der <b>Freigabeliste</b> können alle gespeicherten Daten der Datensicherungsaufgabe wiederherstellen.</li>
+	<li>Nur Benutzer der Gruppe <b>administrators</b> können ein lokales Datensicherungsziel mit Zugriffsberechtigungen und eine Datensicherungsaufgabe auf einem lokalem Datensicherungsziel mit einem Besitzer und einer Freigabeliste einrichten.</li>
+	<li>Die gespeicherten Daten einer Datensicherungsaufgabe verbrauchen das Speicherkontingent des Aufgabenbesitzers. </li>
+	<li>Wenn ein Volume kein Datensicherungsziel besitzt, können nur Benutzer der Gruppe <b>administrators</b> das erste Datensicherungsziel auf dem Volume erstellen.</li>
+	<li>Nur Benutzer der Gruppe <b>administrators</b> können die gespeicherten Daten eines vollständigen Datensicherungsziels löschen.</li>
+    
+    	<li>Jede Datensicherung enthält eine Systemkonfiguration und Datei-Metadaten.</li>
+	<li>Die Datensicherung von verschlüsselten freigegebenen Ordnern wird nicht unterstützt.</li>
+    
+	<li>In DSM 5.1 oder niedriger wird die Versionssperre nicht unterstützt.</li>
+    
+</ul>
+</div>
+</body></html>

@@ -1,0 +1,29 @@
+# ----------------------------------------------------------------------------
+#
+#    Copyright (C) 2000-2014 Synology Inc. All rights reserved.
+#
+# ----------------------------------------------------------------------------
+
+#include <abstractions/session>
+#include <abstractions/quickconnect>
+#include <abstractions/libdsm>
+capability    dac_override,
+capability    sys_nice,
+capability    sys_ptrace,
+
+/dev/console                   rw,
+/var/log/httpd/sys-error_log    w,
+/usr/syno/etc/user.data		rwk,
+/usr/syno/etc/user.data/{,*}	rwk,
+/usr/syno/etc/preference/*/bkgtask{,*}		rwk,
+#create user name folder
+/usr/syno/etc/preference/*			rwk,
+/usr/syno/etc/preference/*/usersettings		rwk,
+
+#read sn/mac in aha mode
+/usr/syno/etc/synoaha/ha.conf                            r,
+
+#change_hat need
+@{PROC}/@{pid}/attr/current w,
+
+# vim:ft=apparmor

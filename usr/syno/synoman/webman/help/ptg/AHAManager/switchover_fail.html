@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h2>Mudan&ccedil;a</h2>
+  
+ <p>Para garantir o desempenho cont&iacute;nuo e minimizar o tempo de inatividade de servi&ccedil;os, pode mudar os servi&ccedil;os do servidor ativo de um cluster high-availability para o servidor em espera, passivo. Esta funcionalidade chama-se &quot;Mudan&ccedil;a&quot; e, em alguns casos &quot;Activa&ccedil;&atilde;o ap&oacute;s-falha&quot;. Esta sec&ccedil;&atilde;o cont&eacute;m informa&ccedil;&otilde;es b&aacute;sicas destes dois conceitos.</p>
+  
+  <h3>Mudan&ccedil;a</h3>
+  	<p>Mudan&ccedil;a refere-se a uma mudan&ccedil;a de um servidor ativo para servidor passivo, em espera de um high-availability cluster. Em condi&ccedil;&otilde;es normais, o servidor ativo gere todos os servi&ccedil;os. No entanto, no caso do servidor ativo avariar, voc&ecirc; pode iniciar uma mudan&ccedil;a e transferir todos os servi&ccedil;os para o servidor passivo, desde que o servidor passivos esteja a funcionar normalmente. Neste caso o servidor activo assume o papel do servidor passivo, e vice-versa.</p>
+    
+<h4>Para iniciar manualmente uma mudan&ccedil;a:</h4>
+ <ol>
+  <li>Aceda &agrave; p&aacute;gina <b>Vis&atilde;o geral</b>.</li>
+  <li>Clique em <b>Gerir</b> &gt; <b>Mudar</b>.</li>
+ </ol>
+
+<div class="section">
+<h4>Nota:</h4>
+   <p>Antes da mudan&ccedil;a manual, recomendamos que configure um IP est&aacute;tico e inicie a sess&atilde;o na DSM com este IP est&aacute;tico, para evitar perda da p&aacute;gina DSM devido &agrave; altera&ccedil;&atilde;o e IP depois de uma mudan&ccedil;a.</p>
+</div>
+
+<div class="section">
+<h4>Nota:</h4>
+   <p>Quando uma mudan&ccedil;a &eacute; iniciada, o servidor ativo assume primeiro o papel de servidor passivo e depois o servidor passivo passa a ser o servidor ativo. Assim, haver&aacute; um curto per&iacute;odo de tempo no qual ambos os servidores s&atilde;o passivos e n&atilde;o poder&atilde;o providenciar os servi&ccedil;os normalmente. O tempo para concluir a mudan&ccedil;a varia em fun&ccedil;&atilde;o do n&uacute;mero e tamanho dos volumes ou iSCSI LUN (n&iacute;vel do bloco) ou o n&uacute;mero e carga total de servi&ccedil;os e pacotes do cluster high-availability.</p>
+</div>
+
+<h3>Ativa&ccedil;&atilde;o ap&oacute;s-falha</h3>
+    
+     <p>Quando ocorrerem determinados erros, o sistema pode iniciar automaticamente uma mudan&ccedil;a de servi&ccedil;os para minimizar o tempo sem servi&ccedil;o. Este evento chama-se &quot;ativa&ccedil;&atilde;o ap&oacute;s falha&quot;. O sistema poder&aacute; iniciar uma falha nas seguintes situa&ccedil;&otilde;es, assumindo que o servidor passivo est&aacute; a funcionar normalmente:</p>
+    
+    <ul>
+      <li><b>Falha de energia:</b> 
+        <ul>
+      	<li>O servidor activo foi encerrado ou reiniciado.</li>
+        <li>Ambas unidades de alimenta&ccedil;&atilde;o no servidor activo avariaram.</li>
+        <li>Sem fonte de alimenta&ccedil;&atilde;o.</li>
+      </ul></li>
+      <li><b>Erro na unidade:</b> N&uacute;mero de caminhos de unidade no servidor activo &eacute; inferior ao do servidor passivo.</li>
+      <li><b>Erro de servi&ccedil;o:</b> Ocorreu um erro num servi&ccedil;o monitorizado.</li>
+      <li><b>Erro na liga&ccedil;&atilde;o:</b> Ocorreu um erro de liga&ccedil;&atilde;o numa interface monitorizada.</li>
+    </ul>    
+     
+    
+<h3>Falha da Mudan&ccedil;a</h3>
+    
+		<p>A mudan&ccedil;a de servi&ccedil;os ou ativa&ccedil;&atilde;o ap&oacute;s falha poder&aacute; falhar nas seguintes situa&ccedil;&otilde;es:</p>
+  	<ul>
+  	  <li><b>Liga&ccedil;&atilde;o Heartbeat anormal:</b> Estado da liga&ccedil;&atilde;o do servidor activo-passivo n&atilde;o est&aacute; normal.</li>
+  	  <li><b>Tamanho de mem&oacute;ria diferente:</b> Os servidores activo e passivo n&atilde;o t&ecirc;m o mesmo tamanho de RAM.</li>
+  	  <li><b>Falha de energia:</b><ul>
+      	<li>O servidor passivo foi encerrado ou reiniciado.</li>
+        <li>Ambas unidades de alimenta&ccedil;&atilde;o no servidor passivo avariaram.</li>
+        <li>Sem fonte de alimenta&ccedil;&atilde;o.</li>
+      </ul></li>
+  	  <li><b>Erro na liga&ccedil;&atilde;o:</b> Ocorreu um erro de liga&ccedil;&atilde;o numa interface monitorizada no servidor passivo.</li>
+  	  <li><b>Erro de servi&ccedil;o:</b> Existem erros nos servi&ccedil;os monitorizados no servidor passivo.</li>
+  	  <li><b>Erro de liga&ccedil;&atilde;o na unidade de expans&atilde;o:</b> A liga&ccedil;&atilde;o de unidades de expans&atilde;o nos dois servidores n&atilde;o est&aacute; pela mesma ordem.</li>
+  	  <li><b>Erro na unidade:</b> N&uacute;mero de caminhos de unidade no servidor passivo &eacute; inferior ao do servidor activo.</li>
+      <li><b>Atualizar o DSM:</b> Quando instala uma atualiza&ccedil;&atilde;o DSM, todos os servi&ccedil;os ser&atilde;o parados e ir&atilde;o retomar ap&oacute;s a instala&ccedil;&atilde;o da atualiza&ccedil;&atilde;o DSM estar completa.</li>      
+ </ul>
+
+  <p>Se iniciar manualmente uma mudan&ccedil;a, mas n&atilde;o for poss&iacute;vel mudar os servi&ccedil;os para o servidor passivo, ent&atilde;o o sistema n&atilde;o tentar&aacute; mudar os servi&ccedil;os de novo para o servidor ativo.</p>
+
+ <h3>Fonte de alimenta&ccedil;&atilde;o ininterrupta</h3>
+  <p>Os high-availability clusters podem ser ligados a fontes de alimenta&ccedil;&atilde;o ininterruptas (UPS) para reduzir o risco de falhas de energia inesperadas. Se ocorrer falha de energia, os servidores receber&atilde;o energia auxiliar de qualquer unidade UPS ligada. Quando a unidade UPS ligada ao servidor activo come&ccedil;ar a ficar sem energia, o servidor passivo ir&aacute; encerrar, e o servidor activo passa ao modo de seguran&ccedil;a.  Depois de retomada a energia, o servidor activo reiniciar&aacute; e tentar&aacute; ligar o outro servidor emitindo uma mensagem Wake-on-LAN.</p>
+   <ul>
+	   <li>Recomendamos que ligue ambos servidores e unidades de expans&atilde;o &agrave; mesma UPS a que est&atilde;o ligados os switches de rede.</li>
+   </ul>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Synology NAS &eacute; compat&iacute;vel com a liga&ccedil;&atilde;o apenas a dispositivos UPS de rede. Para mais informa&ccedil;&otilde;es, consulte a ajuda em <strong>Painel de Controlo</strong> &gt; <strong>Hardware</strong> &gt; <strong>UPS</strong>.</p>
+</div>  
+ </body>
+</html>

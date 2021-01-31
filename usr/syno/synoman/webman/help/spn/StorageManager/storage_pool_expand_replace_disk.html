@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Sustituir discos para ampliar la capacidad de almacenamiento</h2>
+
+<p>Cuando se utilizan ciertos tipos de RAID, es posible ampliar la capacidad de almacenamiento de un grupo de almacenamiento mediante la sustituci&oacute;n de unidades existentes por otras de mayor tama&ntilde;o. Este art&iacute;culo proporciona informaci&oacute;n importante acerca del proceso de ampliaci&oacute;n, adem&aacute;s de un ejemplo de c&oacute;mo sustituir unidades existentes para ampliar la capacidad de almacenamiento.</p>
+
+<div class="section"><h4>Observaci&oacute;n:</h4>
+<ul>
+	<li>El procedimiento descrito en este art&iacute;culo se aplica solo a los siguientes tipos de RAID: SHR, RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</li>
+	<li>SHR (Synology Hybrid RAID) est&aacute; disponible solo en modelos espec&iacute;ficos. Para obtener m&aacute;s informaci&oacute;n, visite el <a href="https://www.synology.com/" target="_blank">sitio web de Synology</a>.</li>
+	<li>RAID F1 solo est&aacute; disponible en modelos espec&iacute;ficos. Para obtener m&aacute;s informaci&oacute;n, visite el <a href="https://www.synology.com/" target="_blank">sitio web de Synology</a>.</li>
+	<li>Si el grupo de almacenamiento es compatible con la depuraci&oacute;n de datos, le recomendamos que la ejecute para comprobar si el estado del volumen y el grupo de almacenamiento es normal antes de sustituir las unidades.</li>
+	<li>Recomendamos el uso de unidades incluidas en la <a href="https://www.synology.com/compatibility" target=blank>lista de compatibilidad de productos de Synology</a> para evitar problemas. El uso de unidades incompatibles puede reducir el rendimiento del sistema o incluso provocar la p&eacute;rdida de datos en su Synology NAS.</li>
+</ul>
+</div>
+
+<p>Si est&aacute; pensando en sustituir varias unidades, debe tener cuidado y hacerlo una por una. Despu&eacute;s de sustituir una unidad, deber&aacute; reparar el grupo de almacenamiento antes de sustituir la siguiente. Para los siguientes tipos de RAID, se ampliar&aacute; la capacidad de grupo de almacenamiento una vez que se hayan sustituido todas las unidades: RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</p>
+
+<h3 class="list_head"><a id="t1"></a>Antes de comenzar</h3>
+<p>Antes de sustituir una unidad, lea las siguientes notas:</p>
+<ul>
+	<li><strong>Copia de seguridad de los datos:</strong> aunque el proceso de expansi&oacute;n no eliminar&aacute; ning&uacute;n dato existente, recomendamos encarecidamente realizar una copia de seguridad de sus datos antes de continuar.</li>
+	<li><strong>Estado del grupo de almacenamiento:</strong> antes de comenzar, aseg&uacute;rese de que el estado del grupo de almacenamiento es <strong>En buen estado</strong>. De lo contrario, primero deber&aacute; repararlo.</li>
+	<li><strong>¿Se sigue pudiendo acceder a los datos durante la expansi&oacute;n?</strong> Los datos de su sistema seguir&aacute;n siendo accesibles durante la expansi&oacute;n grupos de almacenamiento, aunque es posible que el sistema suspenda las conexiones temporalmente al iniciar el proceso por primera vez.</li>
+	<li><strong>Con unidades de 3&nbsp;TB o m&aacute;s:</strong> para ampliar un grupo de almacenamiento con unidades de 3&nbsp;TB o m&aacute;s, aseg&uacute;rese de que su grupo de almacenamiento se ha creado utilizando DSM 3.0 o posterior.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>Los grupos de almacenamiento SHR optimizan la capacidad de almacenamiento en base al n&uacute;mero y al tama&ntilde;o de las unidades de disco instaladas, por tanto, siga las instrucciones siguientes para ampliar la capacidad correctamente:</p>
+<ul>
+	<li>Si la capacidad de todas las unidades de disco existentes es igual, deber&aacute; sustituir al menos dos de ellas por otras mayores para poder ampliar la capacidad de almacenamiento. Por ejemplo, si su grupo de almacenamiento SHR consta de tres unidades de disco de 2&nbsp;TB, debe sustituir al menos dos unidades de disco duro para ampliar la capacidad del volumen.</li>
+	<li>Si la capacidad de las unidades es diferente, las nuevas unidades de sustituci&oacute;n deber&aacute;n ser iguales o mayores que la unidad existente m&aacute;s grande. Adem&aacute;s, deber&iacute;a sustituir primero las unidades m&aacute;s peque&ntilde;as para optimizar el uso de la capacidad. Por ejemplo, si su grupo de almacenamiento SHR contiene tres unidades de 4&nbsp;TB, 3&nbsp;TB y 2&nbsp;TB respectivamente, las nuevas unidades de sustituci&oacute;n deber&aacute;n ser de al menos 4&nbsp;TB. Adem&aacute;s, deber&aacute; sustituir primero las unidades de 3&nbsp;TB o 2&nbsp;TB.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID 5/RAID 6/RAID 10/RAID F1</h4>
+<p>Cuando sustituya unidades de grupos de almacenamiento RAID 5/RAID 6/RAID 10/RAID F1, debe sustituir siempre primero la unidad m&aacute;s peque&ntilde;a con el fin de maximizar el uso de disco. La capacidad de almacenamiento de cada tipo de RAID es la siguiente:<ul>
+		<li>RAID 5: (n&uacute;mero de unidades &ndash; 1) x (unidad de menor tama&ntilde;o)</li>
+		<li>RAID 6: (n&uacute;mero de unidades &ndash; 2) x (unidad de menor tama&ntilde;o)</li>
+		<li>RAID 10: (n&uacute;mero de unidades / 2) x (unidad de menor tama&ntilde;o)</li>
+		<li>RAID F1: (n&uacute;mero de unidades &ndash; 1) x (unidad de menor tama&ntilde;o)</li>
+	</ul>
+</p>
+
+<p>Por ejemplo, si su grupo de almacenamiento RAID 5 contiene tres unidades de 4&nbsp;TB, 3&nbsp;TB y 2&nbsp;TB respectivamente, la capacidad disponible de su grupo de almacenamiento ser&aacute; de 4&nbsp;TB. Si sustituye las unidades de 4&nbsp;TB o de 3&nbsp;TB, la capacidad del grupo de almacenamiento no cambiar&aacute;. Para aumentar la capacidad de su grupo de almacenamiento, se debe sustituir primero la unidad de 2&nbsp;TB.</p>
+</div>
+
+
+<h3>Sustituir unidad para ampliar la capacidad de almacenamiento</h3>
+<p>En los siguientes pasos proporcionaremos un ejemplo de sustituci&oacute;n de unidades en un grupo de almacenamiento SHR.</p>
+<h4>Para sustituir unidades:</h4>
+<ol>
+	<li>Inicie el <strong>Administrador de almacenamiento</strong>.<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li>Vaya a <strong>Grupo de almacenamiento</strong> para ver cu&aacute;l es la unidad m&aacute;s peque&ntilde;a.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>Apague su Synology NAS. (Omita este paso si su Synology NAS admite el intercambio en caliente).</li>
+	<li>Retire la unidad m&aacute;s peque&ntilde;a de las integrantes e instale una nueva de mayor tama&ntilde;o.<br /><span class="note_head">Observaci&oacute;n: </span>Para evitar lesionarse o da&ntilde;ar su Synology NAS, siga las instrucciones de instalaci&oacute;n de la unidad disponibles en la <em>Gu&iacute;a de instalaci&oacute;n del hardware</em> de su producto de Synology.</li>
+	<li>Encienda su Synology NAS.</li>
+	<li>Vuelva a iniciar el <strong>Administrador de almacenamiento</strong>.</li>
+	<li>Vaya a <strong>HDD/SSD</strong> para asegurarse de que se reconoce la nueva unidad.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>El estado de su grupo de almacenamiento deber&iacute;a ser <strong>Degradado</strong>. Seleccione el grupo de almacenamiento y haga clic en <strong>Reparar</strong> en el men&uacute; desplegable <strong>Acci&oacute;n</strong>.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>Seleccione las unidades nuevas que va a agregar al grupo de almacenamiento. A continuaci&oacute;n siga los pasos del asistente para finalizar.</li>
+	<li>Repita el proceso anterior hasta que todas las unidades deseadas hayan sido sustituidas por otras de mayor tama&ntilde;o.</li>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>總覽</h2>
+	<p>此頁面顯示 High Availability 叢集及成員伺服器的基本資訊。此外，本頁亦可讓您維護 High Availability 叢集及其成員伺服器。</p>
+
+<h3>High Availability 叢集狀態</h3>
+  <p>此欄位顯示 High Availability 叢集的整體狀態，並在發生錯誤時提醒您。下列表格列出您可能會看到的情況：</p>
+    <table>
+     <tr>
+      <th width="12%">狀態</th>
+      <th width="88%">描述</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>良好</strong></td>
+      <td>High Availability 叢集總體狀態正常。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>載入中</strong></td>
+	  <td>系統正在載入叢集狀態。在狀態讀取結束前系統將無法執行<strong>轉移</strong>。請參閱<a href="switchover_fail.html">轉移</a>。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>設定中</strong></td>
+	  <td>系統正在設定中。在系統設定完成前將無法執行<b>轉移</b>。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>警告</strong></td>
+      <td>系統狀態異常，但服務仍可正常運作。在此情況下可能無法執行<strong>轉移</strong>。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>危險</strong></td>
+	  <td>主伺服器與副伺服器皆出現異常，或儲存空間已損毀。High Availability 叢集無法正常運作。請檢查所有儲存空間 (例如 RAID Group、磁碟群組、儲存空間及 iSCSI LUN) 的狀態。在此情況下可能無法執行<b>轉移</b>。</td>
+     </tr>
+    </table>
+<h3>警告訊息</h3>
+   <p>下列表格顯示當系統發生錯誤時可能出現的警告訊息。出現多個警告訊息時，可使用向前 / 向後按鈕來瀏覽所有訊息。</p>
+    <table>
+     <tr>
+      <th width="21%">警告 / 錯誤</th>
+      <th width="79%">描述</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>此 High Availability 叢集中沒有副伺服器</strong></td>
+	  <td>無法取得副伺服器資訊。請確定副伺服器已正確連接。此狀態下無法進行轉移。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>無法偵測到副伺服器</strong></td>
+      <td>由於副伺服器離線或主、副伺服器無法透過 Heartbeat 連線接通，而可能會出現此錯誤。此狀態下無法進行轉移。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>無法執行轉移</strong></td>
+      <td>主伺服器已觸發故障轉移，但並未成功執行。此狀態下，主伺服器將不會再次嘗試故障轉移。請依照下列步驟來排除錯誤：<ol>
+		  <li>嘗試解決 High Availability 叢集上的問題。</li>
+		  <li>將副伺服器重新開機。</li>
+		  <li>按一下<strong>管理</strong> &gt; <strong>轉移</strong>來執行轉移。</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>監控的項目異常</strong></td>
+      <td>一個或多個監控的項目 (包括系統狀態、服務或網路介面) 發生錯誤。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>主 / 副伺服器語擴充裝置間的連線發生錯誤</strong></td>
+      <td>擴充裝置沒有正確連接至主伺服器或副伺服器。請確定擴充裝置與主伺服器的連線正確，並與副伺服器建立相同的連線方式。此狀態下無法進行轉移。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>儲存空間已降級</strong></td>
+      <td>儲存空間 (例如 RAID Group、磁碟群組、儲存空間及 iSCSI LUN) 已降級。請查看<b>儲存空間狀態</b>頁面。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>儲存空間已損毀</strong></td>
+      <td>儲存空間 (例如 RAID Group、磁碟群組、儲存空間及 iSCSI LUN) 已損毀。請查看<b>儲存空間狀態</b>頁面。主伺服器無法存取硬碟時，若副伺服器可成功存取硬碟，將自動執行故障轉移。除此情況之外，將無法進行轉移。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Heartbeat 連線中斷</strong></td>
+      <td>由於 Heartbeat 連線發生異常，而可能會出現此錯誤。此狀態下無法進行轉移。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>硬體故障</strong></td>
+      <td>由於主伺服器或副伺服器的硬體 (例如：電源或風扇) 發生故障，而可能會出現此錯誤。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>實體記憶體大小不同</strong></td>
+      <td>由於主伺服器和副伺服器的實體記憶體大小不一致，而可能會出現此錯誤。此狀態下無法進行轉移。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>此 High Availability 叢集尚未配置固定 IP</strong></td>
+      <td>由於 High Availability 叢集沒有固定 IP，而可能會出現此錯誤。此狀態下無法進行轉移。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>監控中的網路介面尚未配置固定 IP</strong></td>
+      <td>由於監控中的介面沒有固定 IP，而可能會出現此錯誤。此狀態下無法進行轉移。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>修復副伺服器</strong></td>
+      <td>正在修復副伺服器。此狀態下無法進行轉移。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>副伺服器升級中</strong></td>
+      <td>系統正在升級副伺服器。此狀態下無法進行轉移。</td>
+     </tr>
+
+    </table>
+
+<h3>High Availability 叢集「管理」按鈕</h3>
+
+<p>此按鈕位於 High Availability 叢集資訊下方。此按鈕包含下列選項：</p>
+<ul>
+<li><b>轉移：</b>進行從主伺服器到副伺服器的轉移。在此過程中，主伺服器會停止提供服務，並成為新的副伺服器。原本的副伺服器會變為新的主伺服器，開始提供 High Availability 叢集的所有服務。副伺服器狀態<b>錯誤</b>或未選擇副伺服器時。無法使用此功能。</li>
+<li><b>更新 DSM：</b>開啟<strong>控制台</strong>中的<strong>系統更新</strong>頁面。您可在此處更新兩台伺服器。</li>
+<li><b>關閉 High Availability 叢集：</b>將主、副伺服器關機。</li>
+<li><b>將主伺服器關機：</b>關閉主伺服器。若副伺服器可正常運作，服務將進行轉移。</li>
+<li><b>將副伺服器關機：</b>關閉副伺服器。</li>
+<li><b>將主伺服器重新開機：</b>重新啟動主伺服器。若副伺服器可正常運作，服務將進行轉移。</li>
+<li><b>將副伺服器重新開機：</b>重新啟動副伺服器。</li>
+<li><b>修復未知伺服器：</b>若更換副伺服器，或系統讀取為未知的伺服器時，可修復副伺服器。</li>
+<li><b>關閉系統嗶聲：</b>中斷主伺服器及副伺服器在錯誤發生時發出的嗶聲。若之後又發生其他錯誤時，系統仍會發出嗶聲。</li>
+</ul>
+
+
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>如果您將副伺服器關機或沒有副伺服器，當主伺服器發生錯誤時無法轉移服務。</li>
+</ul>
+</div>
+
+<h3>伺服器圖示及資訊</h3>
+ <p>伺服器圖示會顯示伺服器的狀態。圖示位置會對應到該伺服器所連接模組的位置。移動滑鼠到圖示上方來取得更多詳細資訊。</p>
+<p>圖案說明包含下列情況：</p>
+<ul>
+  <li><b>此 High Availability 叢集中沒有副伺服器：</b>顯示空白圖框。</li>
+  <li><b>未偵測到副伺服器：</b>顯示模糊的伺服器圖案。</li>
+  <li><b>驚嘆號：</b>硬體可能故障，或 Heartbeat 連線異常導致無法取得伺服器資訊。</li>
+</ul>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>若另一台伺服器顯示為「未知的伺服器」，則表示該伺服器不在 High Availability 叢集中。按一下<b>管理</b>並選擇<b>修復未知伺服器</b>來修正此問題。</li>
+</ul>
+</div>
+
+<p>伺服器資訊包含下列項目。未偵測到副伺服器時會顯示 <b>N/A</b>。</p>
+
+  <ul>
+   <li><b>產品序號：</b>Synology 伺服器 S/N 號碼。</li>
+   <li><b>風扇狀態：</b>伺服器風扇狀態。風扇異常時會顯示警告訊息。若出現此類訊息，請連絡當地經銷商尋求協助。</li>
+   <li><b>溫度：</b>Synology 伺服器系統溫度。</li>
+   <li><b>電源狀態：</b>顯示伺服器的所有電源狀態是否正常。若伺服器產品型號具備備援電源，當其中一個電源供應器異常時會顯示警告訊息。</li>
+    <li><b>實體記憶體：</b>Synology 伺服器的實體記憶體大小。若兩台伺服器的實體記憶體大小不同將無法進行轉移。</li>
+  </ul>
+
+<h3>兩台伺服器間的連線狀態</h3>
+<p>此部分說明主伺服器和副伺服器之間的圖案。圖案說明包含下列情況：</p>
+<ul>
+  <li><b>沒有圖案：</b>表示未偵測到副伺服器。</li>
+  <li><b>靜止的圖案：</b>表示 Heartbeat 連線不正確。</li>
+  <li><b>驚嘆號：</b>表示兩台伺服器間的通訊異常，或 Heartbeat 連線不正確。</li>
+</ul>
+
+<h3>網路介面狀態</h3>
+<p>此部分說明伺服器與資訊網路之間的圖案。圖案說明包含下列情況：</p>
+<ul>
+  <li><b>沒有驚嘆號：</b>表示未偵測到網路錯誤。</li>
+  <li><b>驚嘆號：</b>表示監控中的網路介面發生錯誤。</li>
+</ul>
+
+<h3>共用儲存空間圖示及資訊</h3>
+ <p>共用儲存空間圖示會顯示共用儲存空間與伺服器之間的連接狀態。移動滑鼠到圖示上方來取得更多詳細資訊。</p>
+<p>圖案說明包含下列情況：</p>
+<ul>
+  <li><b>沒有驚嘆號：</b>表示未偵測到錯誤。</li>
+  <li><b>驚嘆號：</b>表示擴充裝置的連接狀態異常。</li>
+</ul>
+
+<p>共用儲存空間基本資訊包括以下項目。前往<b>儲存空間管理員</b>來取得更多詳細資訊。</p>
+
+  <ul>
+   <li><b>風扇狀態：</b>顯示擴充裝置的風扇狀態。風扇異常時會顯示警告訊息。若出現此類訊息，請連絡當地經銷商尋求協助。</li>
+   <li><b>電源狀態：</b>顯示伺服器的所有電源狀態是否正常。當其中一個電源供應器異常時會顯示警告訊息。</li>
+   </ul>
+ </body>
+</html>

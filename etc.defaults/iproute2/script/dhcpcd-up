@@ -1,0 +1,34 @@
+#!/bin/sh
+. /etc/iproute2/script/gateway-mgt-function
+
+hostinfo="$1"
+state="$2"
+debug="$3"
+
+. ${hostinfo}
+
+PRIMARY_DNS="NULL"
+
+if test -n "${DNS}" ; then
+	dns_array=`echo ${DNS} | sed "s/,/ /g"`
+	for dns in ${dns_array}
+	do
+		PRIMARY_DNS="${dns}"
+		break;
+	done
+fi
+
+/usr/syno/sbin/synonetdtool --add-gateway-info -4 -2 ${INTERFACE} ${GATEWAY} ${PRIMARY_DNS} ethernet
+
+set_default_gateway_interface
+
+/usr/syno/sbin/synonetdtool --refresh-gateway -4
+
+local enable_multi_gateway=`/bin/get_key_value /etc/synoinfo.conf multi_gateway`
+if [ "xyes" = "x${enable_multi_gateway}" ]; then
+	/usr/syno/sbin/synonetdtool --add-policy-route-rule -4 multi-gateway ${INTERFACE} NULL NULL ${GATEWAY}
+	/usr/syno/sbin/synonetdtool --refresh-route-table -4 ${INTERFACE} ${IPADDR}
+fi
+
+# refresh static routing rules when an IP address is obtained via DHCP
+/usr/syno/sbin/synonetdtool --refresh-static-route-rules

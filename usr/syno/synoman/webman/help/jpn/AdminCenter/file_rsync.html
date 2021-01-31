@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>バックアップ サービス - Synology DSM ヘルプ</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>rsync</h2>
+
+<p>他のユーザーに、rsync を介して Synology NAS または rsync 対応クライアントから Synology NAS にデータをバックアップさせることができます。</p>
+
+<h3>rsync Backup サービスの有効化</h3>
+
+<h4>rsync サービスの有効化方法：</h4>
+
+<p><strong>[コントロールパネル]</strong> > <strong>[ファイル サービス]</strong> > <strong>[rsync]</strong> を選択し、<strong>[rsync サービスを有効にする]</strong> を選択します。</p>
+
+
+<h4>rsync バックアップ権限の割り当て方法：</h4>
+
+
+<p>ユーザーに適切な rsync 権限を割り当て、これらのユーザーがバックアップ元の Synology NAS から、または rsync 対応サーバーからバックアップ先の Synology NAS にデータをバックアップできるようにします。</p>
+
+<ol>
+<li><b>[コントロール パネル]</b> > <b>[権限]</b> に移動します。</li>
+<li><strong>[rsync]（共有フォルダの同期、対応機種での LUN バックアップ）</strong> を選択し、<strong>[編集]</strong> をクリックして権限を割り当てます。</li>
+<li>任意のユーザー（暗号化した rsync は DSM ユーザー、暗号化していない rsync は rsync アカウント）に <strong>[許可]</strong> 権限を割り当てるか、特定のユーザーに対して許可された IP アドレスを指定します。</li>
+</ol>
+
+
+
+<div class="section">
+<h4>注意：</h4>
+<p>DSM 3.0 以前のバージョンを起動している Synology NAS、または Synology NAS ではないクライアントから rsync バックアップを行い、ソース データの <b>[所有者]</b> と <b>[グループ]</b> 情報を維持するには、<b>[administrators]</b> グループに rsync アカウントを追加して、デーモン モードでデータを <b>[NetBackup]</b> 共有フォルダにバックアップします。</p>
+</div>
+
+<h3>rsync アカウントの有効化</h3>
+<p>非 Synology NAS クライアントから rsync バックアップを実行する場合は、rsync ユーザーがデータを Synology NAS にバックアップできるように、バックアップ先の Synology NAS に rsync アカウントを作成する必要があります。</p>
+
+<h4>rsync アカウントの有効化方法：</h4>
+<ol>
+<li><b>[コントロールパネル]</b> > <b>[ファイル サービス]</b> > <strong>[rsync]</strong> に移動し、<b>[rsync アカウントを有効にする]</b> を選択します。</li>
+<li><b>[rsync アカウントの編集]</b> をクリックし、認証を行うためにユーザーおよび関連パスワードを設定しいます。</li>
+<li><b>[適用]</b> をクリックします。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>rsync サービスが暗号化されている場合は（指定の SSH 暗号化ポートがある場合）、DSM ユーザーのユーザー名とパスワードが rsync アカウントとして適用されます。</li>
+<li>rsync サービスが暗号化されていない場合は、関連の rsync アカウントを作成する必要があります。</li>
+</ul>
+</div>
+
+
+<h3>カスタマイズした rsync 設定の使用</h3>
+
+<p>カスタマイズした rsync 設定を使用し、Synology NAS 上でユーザーの権限とバックアップ先を設定することができます。他の人は、自身の Synology NAS デバイス、または rsync 対応クライアントからバックアップ先である、あなたの Synology NAS の共有フォルダ（または「バックアップ モジュール」）へ rsync バックアップを実行することができます。</p>
+
+<h4>カスタマイズした rsync 構成の使用方法：</h4>
+
+<ol>
+<li>Telnet または SSH を介して Synology NAS デバイスにログインします。</li>
+<li>バックアップ モジュールと rsync の設定ファイル<b><code>「/etc/rsyncd.conf」</code></b>で認証されたユーザーを指定します。詳しくは、rsync クライアントのマニュアルの <b>rsyncd.conf</b> のマニュアル ページ、または<a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">こちら</a>を参照してください。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<p>バックアップ モジュールと共有フォルダに同じ名前が付けられている場合は、バックアップ モジュールの設定が使用されます。</p>
+</div>
+
+
+<h3>速度制限の有効化</h3>
+<p>ユーザーとグループに対して、使用可能な rsync バックアップの最大帯域を設定することができます。</p>
+
+<h4>速度制限の有効化方法：</h4>
+<ol>
+<li><b>[コントロール パネル]</b> > <b>[ファイルサービス]</b> > <strong>[rsync]</strong> に移動します。以下のいずれかを選択します。
+  <ul>
+<li><strong>速度制限なし</strong></li>
+<li><strong>速度制限を有効にする</strong></li>
+<li><strong>予定に基づいて速度制限を有効にします</strong>（<strong>[予約の設定]</strong> をクリックします)。</li>
+  </ul>
+  
+<div class="section">
+<h4>注意：</h4>
+<p>これは、サーバー全体の設定であり、個々のユーザーやグループの設定よりも優先されます。<strong>[速度制限なし]</strong> を選択すると、全ユーザーとグループの速度制限設定は無効になります。</p>
+</div>
+  </li>
+
+<li>速度制限を有効にした場合は、<strong>[速度制限の設定]</strong> をクリックし、任意のユーザー/グループをクリックして設定を変更します。
+    <ul>
+<li><strong>なし：</strong> グループのメンバーがサービスを使用してファイルを転送しているときには、速度制限は適用されません。</li>
+<li><strong>グループ設定の適用</strong>：ユーザーは、関連グループと同じ速度制限の設定を共有します。</li>
+<li><strong>固定</strong>：ユーザーまたはグループ メンバーには、常に一定の速度制限が適用されます。アップロードとダウンロードの速度制限は、左側のフィールドで指定できます。</li>
+<li><strong>カスタマイズ</strong>：スケジュールに基づいて、ユーザーまたはグループのメンバーに 2 つの速度制限を指定して適用することができます。<strong>[カスタマイズ]</strong> をクリックし、速度制限の設定を変更し、スケジュールを設定します。</li>
+    </ul>
+  </li>
+<li><b>[適用]</b> をクリックします。</li> 
+
+</ol>
+<div class="section">
+<h4>注意：</h4>
+<p><strong>[結果 (UL/DL)]</strong> セクションには、個人およびグループの設定に基づいた、ユーザーの実際のアップロードとダウンロード制限が表示されます。たとえば、ユーザーの「Achilles」にダウンロード制限が 100 KB/s と設定されていても、このユーザーが属するグループのダウンロード制限が 500 KB/s となっている場合は、<strong>[結果 (UL/DL)]</strong> セクションに「0/500」と表示されます。</p>
+</div>
+
+</body>
+</html>

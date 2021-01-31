@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Uitschakelen en opnieuw instellen</h2>
+  <p>De onderstaande instructies begeleiden u doorheen het proces van het afsluiten, verwijderen of opnieuw instellen van een high-availability cluster.</p>
+
+  <h4> Om een high-availability cluster uit te schakelen met Synology High Availability:</h4>
+  <p>Volg de onderstaande richtlijnen als u een high-availability cluster wilt uitschakelen om de servers naar een nieuwe fysieke locatie te vervoeren of onderhoudswerkzaamheden wilt uitvoeren, maar de high-availability cluster-configuraties niet wilt verwijderen.</p>
+  <ol>
+   <li>Meld u aan bij DSM.</li>
+   <li>Open Synology High Availability.</li>
+   <li>Klik op de knop <b>Beheer</b>.</li>
+   <li>Selecteer <b>HA cluster uitschakelen</b>.</li>
+   <li>Er verschijnt een bevestigingsmelding. Klik op <b>Ja</b> om te bevestigen.</li>
+  </ol>
+
+  <h4>Om een high-availability cluster handmatig uit te schakelen:</h4>
+  <p> High-availability cluster kan ook handmatig worden uitgeschakeld via de voedingsknoppen die zich op elke server bevinden. </p>
+  <ol>
+   <li>Houd de aan/uit-knop op een server (actief of passief) ingedrukt tot een pieptoon weerklinkt.</li>
+   <li>Wacht nadat een server volledig is uitgeschakeld minstens 30 seconden (de server die nog online is, heeft tijd nodig om de instellingen op te slaan).</li>
+   <li>Houd de aan/uit-knop op de andere server ingedrukt tot een pieptoon weerklinkt.</li>
+   <li>Wacht tot de server volledig is uitgeschakeld.</li>
+  </ol>
+<div class="section">
+<h4>Servers opstarten:</h4>   
+<p>Als u de servers opnieuw wilt inschakelen, moeten de actieve en passieve servers tegelijk worden ingeschakeld (of met een interval van minder dan vijf minuten). Als u slechts een van de servers inschakelt, zal deze server met een Wake-on-LAN-melding proberen om de andere server op te starten.</p>
+<h4>Abnormale uitschakeling:</h4>
+<p>Als er een high-availability cluster is aangemaakt, wordt de optie herstarten na stroomstoring in het Configuratiescherm automatisch ingeschakeld. Als de servers door een stroomstoring worden uitgeschakeld, zullen ze automatisch bij herstel van de stroomvoorziening worden opgestart.</p>
+</div>
+
+<h4>Een high-availability cluster verwijderen:</h4>
+ <p>Volg onderstaande richtlijnen als u beide servers wilt ontkoppelen en een high-availability cluster wilt verwijderen om een andere server te koppelen.</p>
+  <ol>
+   <li>Ga naar de pagina <b>Overzicht</b>.</li>
+   <li>Klik op de knop <b>Beheer</b>.</li> 
+   <li>Selecteer <b>HA cluster verwijderen</b>.</li>
+  </ol>
+  <p>Het systeem zal na bevestiging de high-availability cluster verwijderen. Het statusveld toont de voortgang van het verwijderingsproces. Als de high-availability cluster is verwijderd, wordt u omgeleid naar het oorspronkelijke IP-adres van de actieve server. De status van beide servers zal veranderen in <b>Standalone</b>.</li>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+	<li>tijdens het verwijderen van een high-availability cluster zal het wegschrijven van gegevens mogelijk niet worden voltooid. Om de volledigheid van de gegevens te garanderen, voert u best een gegevensreplicatie uit op de actieve server omdat er mogelijk enkele gegevensupdates op de passieve server ontbreken.</li>
+</ul>
+</div>  
+ 
+ <h4>Om een slecht werkende high-availability cluster opnieuw in te stellen:</h4>
+  <p>Als u geen toegang krijgt tot DSM of Synology High Availability ten gevolge van een split-brainfout of andere defecten, kunt u proberen om de high-availability cluster te ontkoppelen door de <b>Reset</b>-knop op uw servers in te drukken.</p>
+  <ol>
+   <li>Houd de <b>Reset</b>-knop (gewoonlijk op het achterpaneel van de server) tot de server een pieptoon laat weerklinken.
+   <li>Dit systeem wordt verwijderd uit de high-availability cluster en de status van deze server wordt gewijzigd naar <b>Standalone</b>.</li>
+   <li>Door op de <b>Reset</b>-knop te drukken, worden een aantal standaardinstellingen teruggezet, zoals IP-adres, DNS en admin-wachtwoord, naast de volgende zaken:</li>
+   <ul>
+    <li>Het admin-wachtwoord zal opnieuw leeg worden gemaakt.</li>
+    <li>De guest-account zal uitgeschakeld zijn.</li>
+    <li>DHCP zal ingeschakeld zijn op IP, DNS, Gateway en andere netwerkinterfaces.</li>
+    <li>JumboFrames zal uitgeschakeld zijn, en MTU zal ingesteld zijn op 1500.</li>
+    <li>Beheerpoort zal opnieuw ingesteld worden op 5000/5001.</li>
+    <li>De standaardinstellingen van PPPoE zullen worden teruggezet.</li>
+    <li>IP automatisch blokkeren zal worden uitgeschakeld (het geblokkeerde IP-adres wordt niet gewist).</li>
+    <li>Link Aggregation zal uitgeschakeld zijn.</li>
+    <li>Firewallregels worden uitgeschakeld (de regels worden niet gewist).</li>
+   </ul>
+  </ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+	<li>door op de knop <b>Reset</b> op een server te grukken wordt alleen deze server uit de high-availability cluster verwijderd. Wilt u beide servers uit de high-availability cluster verwijderen, druk dan op de knop <b>Reset</b> op beide servers.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

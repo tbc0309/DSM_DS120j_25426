@@ -1,0 +1,111 @@
+#!/bin/sh
+#For event hook which only has post call: ipv4/6_change, if_link_up/down
+LOGGER="/usr/bin/logger"
+IPROUTE2_CONFIG="/etc/iproute2/config"
+. /etc/iproute2/script/gateway-mgt-function
+
+Is213Air()
+{
+	local unique=`/usr/syno/bin/synogetkeyvalue /etc/synoinfo.conf unique`
+
+	echo $unique | grep 213air;
+	return $?
+}
+
+log_msg()
+{
+        ${LOGGER} -s -p warn -t "Policy routing table" "$1"
+}
+
+routing_table_remove(){
+        for ifn in `synonetdtool --get-interface-by-class -4 ethernet | sed -e 's/,/\n/g'`
+        do
+                if [ "${ifn}" = "${IFNAME}" ]; then
+                        synonetdtool --del-policy-route-rule -4 ${IFNAME}_policy ${IFNAME}  #delete v4 rule
+                        synonetdtool --disable-route-table  -4 ${IFNAME}
+                fi
+        done
+
+        for ifn in `synonetdtool --get-interface-by-class -6 ethernet | sed -e 's/,/\n/g'`
+        do
+                if [ "${ifn}" = "${IFNAME}" ]; then
+                       if [ -e ${IPROUTE2_CONFIG}/${IFNAME}-table-rule-v6 ]; then   #delete v6 rule
+                               echo ${IPROUTE2_CONFIG}/${IFNAME}-table-rule-v6
+                               for rule_name in `grep policy ${IPROUTE2_CONFIG}/${IFNAME}-table-rule-v6 | cut -c2- | sed 's/.$//'`
+                               do
+                                       synonetdtool --del-policy-route-rule -6 ${rule_name} ${IFNAME}
+                                       synonetdtool --disable-route-table  -6 ${IFNAME}
+                               done
+                       fi
+                fi
+        done
+}
+routing_table_build(){
+        for ifn in `synonetdtool --get-interface-by-class -4 ethernet | sed -e 's/,/\n/g'`
+        do
+                if [ "${ifn}" = "${IFNAME}" ]; then
+                        local IFCFG_FILE="/etc/sysconfig/network-scripts/ifcfg-${IFNAME}"  #add v4 rule
+                        local BOOTPROTO=`get_key_value ${IFCFG_FILE} BOOTPROTO`
+                        local GATEWAY_DATABASE="/etc/iproute2/config/gateway_database"
+                        if [ "${BOOTPROTO}" = "static" ]; then
+                                local IPADDR=`get_key_value ${IFCFG_FILE} IPADDR`
+                                local NETMASK=`get_key_value ${IFCFG_FILE} NETMASK`
+                        elif [ "${BOOTPROTO}" = "dhcp" ]; then
+                                local DHCP_FILE="/etc/dhclient/ipv4/dhcpcd-${IFNAME}.info"
+                                local IPADDR=`get_key_value ${DHCP_FILE} IPADDR`
+                                local NETMASK=`get_key_value ${DHCP_FILE} NETMASK`
+                        elif [ "${BOOTPROTO}" = "none" ]; then
+                                continue
+                        fi
+                        if [ ! -n ${IPADDR} ] || [ ! -n ${NETMASK} ]; then
+                                log_msg "Something wrong => IP:${IPADDR}, MASK:${NETMASK}"
+                                log_msg "Stop build routing table for interfaces! Do routing table remove to clean eviroment!"
+                                exit 1
+                                break
+                        fi
+                        synonetdtool --add-policy-route-rule -4 ${IFNAME}_policy ${IFNAME} ${IPADDR} ${NETMASK} ${IPADDR}
+                        GATEWAY=`get_section_key_value ${GATEWAY_DATABASE} ${IFNAME} gateway`
+                        if [ "${GATEWAY}" != "NULL" ]; then
+                                local enable_multi_gateway=`/bin/get_key_value /etc/synoinfo.conf multi_gateway`
+                                if [ "xyes" = "x${enable_multi_gateway}" ]; then
+                                        synonetdtool --add-policy-route-rule -4 multi-gateway ${IFNAME} NULL NULL ${GATEWAY}
+                                        synonetdtool --enable-multi-gateway
+                                fi
+                        fi
+                        synonetdtool --refresh-route-table -4 ${IFNAME} ${IPADDR}
+                fi
+        done
+
+        for ifn in `synonetdtool --get-interface-by-class -6 ethernet | sed -e 's/,/\n/g'`
+        do
+                if [ "${ifn}" = "${IFNAME}" ]; then
+                        IPADDR_LIST=""
+                        NUM=`/sbin/ifconfig ${IFNAME} | grep inet6 | wc -l`
+                        for i in `seq 1 $NUM`
+                        do
+                                IPADDR_INFO=`/sbin/ip addr show ${IFNAME} | grep inet6 | sed -n ${i}p`
+                                SCOPE=`echo ${IPADDR_INFO} | awk -F" " '{print $4}'`
+                                IPADDR_MASK=`echo ${IPADDR_INFO} | awk -F" " '{print $2}'`
+                                IPADDR=`echo ${IPADDR_MASK} | awk -F"/" '{print $1}'`
+                                NETMASK=`echo ${IPADDR_MASK} | awk -F"/" '{print $2}'`
+                                echo ${SCOPE} ${IPADDR} ${NETMASK}
+                                synonetdtool --add-policy-route-rule -6 ${IFNAME}_policy_v6_${SCOPE}_${i} ${IFNAME} ${IPADDR} ${NETMASK} NULL
+                                IPADDR_LIST="${IPADDR_LIST},${IPADDR}"
+                        done
+                        IPADDR_LIST=`echo $IPADDR_LIST | cut -c2-`
+                        echo $IPADDR_LIST
+                        synonetdtool --refresh-route-table -6 ${IFNAME} ${IPADDR_LIST}
+                        if [ "${GATEWAY}" != "NULL" ]; then
+                               local enable_multi_gateway=`/bin/get_key_value /etc/synoinfo.conf multi_gateway`
+                               if [ "xyes" = "x${enable_multi_gateway}" ]; then
+                                       if [ ! -z "${IPADDR_LIST}" ]; then
+                                               synonetdtool --add-policy-route-rule -6 multi-gateway ${IFNAME} NULL NULL ${GATEWAY}
+                                               synonetdtool --enable-multi-gateway-v6
+                                               synonetdtool --refresh-route-table -6 ${IFNAME} ${IPADDR_LIST}
+                                       fi
+                               fi
+                        fi
+                fi
+        done
+        /sbin/ip route flush cache
+}

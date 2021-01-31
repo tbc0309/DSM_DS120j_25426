@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Övergång</h2>
+  
+ <p>För att se till att få kontinuerlig prestanda och minimera nedtid för service kan tjänster överföras från den aktiva servern på ett high-availability-kluster till den redundanta passiva servern. Denna funktion kallas för "Övergång" och ibland för "Redundans". Detta avsnitt förklarar grunderna om dessa två begrepp.</p>
+  
+  <h3>Övergång</h3>
+  	<p>Övergång avser en övergång från den aktiva servern till den redundanta, passiva servern på ett high-availability-kluster. Under normala förhållanden är det den aktiva servern som hanterar av alla tjänster. Du kan dock, i händelse av fel på den aktiva servern, initiera en övergång och överföra dem till den passiva servern, förutsatt att den passiva servern fungerar normalt. När så är fallet tar den aktiva servern över rollen som passiv server och den passiva servern tar över rollen som aktiv server.</p>
+    
+<h4>Manuellt initiera en övergång:</h4>
+ <ol>
+  <li>Gå till fliken <b>Översikt</b>.</li>
+  <li>Klicka på <b>Hantering</b> > <b>Övergång</b>.</li>
+ </ol>
+<div class="section">
+<h4>Obs:</h4>
+   <p>När en övergång initieras måste den aktiva servern först ta rollen som passiv server och därefter blir den passiva servern aktiv server. Därav kommer det sig att båda servrarna under en kort tidsperiod blir passiva och inte kan tillhandahålla tjänster som normalt. Tiden det tar att slutföra en övergång varierar beroende på antal och storlek på volymer eller iSCSI LUNs (blocknivå) eller antalet och total belastning av tjänster på high-availability-klustret.</p>
+</div>
+   
+<h3>Redundans</h3>
+    
+     <p>När speciella fel uppstår, kan systemet automatisk initiera en övergång av tjänster för att underhålla prestanda. Denna händelse kallas "redundans". Systemet kan initiera redundans i följande situationer:</p>
+    
+     <ul>
+      <li><b>Kraschat lagringsutrymme:</b> Ett lagringsutrymme (dvs. volym, diskgrupp, RAID Group etc.) på den aktiva servern har kraschat men motsvarande lagringsutrymme på den passiva servern fungerar normalt. Vänligen observera att systemet inte kommer att initiera redundans om det inte finns volymer eller iSCSI LUN (blocknivå) på kraschat lagringsutrymme.</li>
+      <li><b>Fel på tjänst:</b> Fel på övervakad tjänst inträffade.</li>
+      <li><b>Strömavbrott:</b> Den aktiva servern är avstängd eller startas om; det har inträffat fel på båda strömenheterna på den aktiva servern eller strömmen har gått.</li>      
+     </ul>    
+     
+    
+<h3>Övergångsfel</h3>
+    
+		<p>Det händer att övergång eller redundans inte lyckas i följande situationer:</p>
+  			<ul>
+   				<li><b>Ofullständig datareplikering:</b> När två servrar sammanförs för första gången för att skapa ett high-availability-kluster behöver systemet tid för att replikera all information från aktiv server till passiv server.</li>
+   				<li><b>Lagringsutrymme på passiv server kraschad:</b> Ett lagringsutrymme (dvs. volym, diskgrupp, RAID Group etc.) på den passiva servern har kraschat.</li>
+                <li><b>Strömavbrott:</b> Den passiva servern är avstängd eller startas om; det har inträffat fel på båda strömenheterna på den passiva servern eller strömmen har gått.</li>
+                <li><b>Uppdatering av DSM:</b> Vid installation av DSM-uppdateringar kommer att tjänster att stoppas och återupptas när installationen av DSM-uppdateringen är slutförd.</li>      
+ </ul>
+
+  <p>Om du manuellt initierar en övergång, men tjänsterna inte kan flyttas till den passiva servern kommer systemet att försöka flytta tillbaka tjänsterna till den aktiva servern.</p>
+ <p>För den händelse att redundans är initierad och ingen av servrarna kan anta rollen som aktiv server på grund av fel kan inte high-availability-klustret tillhandahålla tjänster på ett normalt sätt. Om servrarna inte automatisk återgår till status som <b>Fristående</b>, vänligen tryck på knappen <b>Reset</b> på båda servrarna för att återställa till standardinställningarna. När återställning till standardinställningarna gjorts kan du kombinera servrarna och skapa ett high-availability-kluster igen.</p>
+ 
+ <h3>Avbrottsfri strömkälla (UPS)</h3>
+  <p>High-availability-kluster kan anslutas till avbrottsfri strömkälla (UPS) för att minska risken för oväntade avbrott i strömförsörjningen. I händelse av strömavbrott kommer servrarna att få reservström från den UPS-enhet de är anslutna till. När den UPS-enhet som är ansluten till den aktiva servern börjar få ont om ström kommer systemet försöka göra en överföring av tjänster till den passiva servern. Följ instruktionerna här nedanför.</p>
+   <ul>
+
+<li>Om den aktiva och den passiva servern är ansluta till samma nätverksswitch rekommenderas det att ansluta båda servrarna till samma strömkälla som nätverksswitchen.</li>
+<li>Om den aktiva och den passiva servern är anslutna till olika nätverksswitchar som använder olika strömkällor (dvs. elektricitet från olika elbolag) rekommenderas att den aktiva och den passiva servern ansluts till motsvarande strömkällor som deras anslutna nätverksswitch.</li>
+<li>Om den aktiva och den passiva servern är ansluten till olika nätverksswitchar som använder olika UPS-enheter rekommenderas det att ansluta båda servrarna till en av UPS-enheterna, hellre än till olika UPS-enheter. När UPS-enheten tappar strömförsörjningen meddelas den aktiva servern och den går in i felsäkert läge och den passiva servern stängs av ordentligt. Om servern är ansluten till olika UPS-enheter kommer den aktiva servern inte att kunna upptäcka huruvida UPS för den passiva servern håller på att förlora strömförsörjningen och därför kan den passiva servern stängas av oväntat.</li>
+   </ul>
+
+   
+<div class="section">
+<h4>Obs:</h4>
+<p>Synology NAS har stöd för att ansluta till lokala och SNMP UPS-enheter. För mer information, vänligen se hjälpen för <strong>Kontrollpanel</strong> > <strong>Hårdvara</strong> > <strong>UPS</strong></p>
+</div>  
+ </body>
+</html>

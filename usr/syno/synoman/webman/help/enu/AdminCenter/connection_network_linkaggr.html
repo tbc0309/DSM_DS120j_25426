@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Network</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="link_aggr"></a>Link Aggregation</h2>
+<p>Synology NAS supports multi-LAN, allowing you to combine those LAN interfaces using the Link Aggregation technology. Link Aggregation increases the bandwidth of your Synology NAS by aggregating multiple network interfaces and provides traffic failover to maintain network connection in case the connection is down.</p>
+<p>After your LAN interfaces are combined, you will see a new interface named <b>Bond</b> at <b>Control Panel</b> > <b>Network</b> > <b>Network Interface</b>, which could be configured as you would with other interfaces (such as LAN or PPPoE).</p>
+
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>Link Aggregation is only available on models with at least two LAN ports.</li>
+<li>With Link Aggregation enabled, the network traffic will automatically get adjusted and balanced for each connected device.</li>
+<li>If the network interfaces are connected to multiple switches, make sure the switch ports are in the same LAN or VLAN.</li>
+</ul>
+</div>
+
+
+<h4>To combine multiple LANs with Link Aggregation:</h4>
+<ol>
+<li>Go to <strong>Control Panel</strong> > <strong>Network</strong> > <strong>Network Interface</strong>. Click <strong>Create</strong> > <strong>Create Bond</strong>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+
+<li>Select the mode you want.
+
+<div class="section">
+<h4>Mode descriptions:</h4>
+<ul>
+  <li><strong>Adaptive Load Balancing</strong>: This mode optimizes the network traffic received and sent by your Synology NAS  whether or not the switch supports Link Aggregation.
+    To avoid unexpected errors, please do not enable Link Aggregation on the switch even when it is supported.</li>
+  <li><strong>IEEE 802.3ad Dynamic Link Aggregation</strong>: This mode optimizes the  network traffic received and sent by your Synology NAS, and requires IEEE 802.3ad (Dynamic) Link Aggregation (LACP, 802.1AX) to be enabled on the switches. If multiple switches are used, these switches have to be stackable and properly configured.</li>
+<li><strong>Balance XOR</strong>: This mode balances the  network traffic received and sent by your Synology NAS, and requires Static Link Aggregation to be enabled on the switches. If multiple switches are used, these switches have to be stackable and properly configured. If Link Aggregation is not supported by the switch, the traffic sent by your Synology NAS can still be balanced. With this mode, the lost links can be detected but not the cause (e.g., when the Ethernet cables are unplugged or the switch is wrongly configured).</li>
+<li><strong>Active/Standby</strong>: This mode provides your Synology NAS with network fault tolerance. That is, when the active network interface goes down, one of the other LAN ports will take over to maintain the network connection. You can choose this mode without configuring the switch or with a switch that supports IEEE 802.3ad Link Aggregation.</li>
+</ul>
+<p>If you have enabled Open vSwitch, you can select one of the following modes:</p>
+<ul>
+ <li><b>Balance-SLB</b>: This mode balances the network traffic without requiring the support for specific network switches and enables the connection between two switches.</li>
+ <li><b>Balance-TCP</b>: This mode enables the connection with the switches configured as Dynamic Link Aggregation (IEEE 802.3ad LACP). If multiple switches are used, they must be stackable and properly configured.</li>
+ <li><b>Active/Backup Mode</b>: This mode provides your Synology NAS with network fault tolerance using two network interfaces. When the active network interface malfunctions, the other one will take over to maintain the network connectivity. You can choose this mode without configuring the switch.</li>
+</ul>
+</div>
+</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Select the interfaces to create Link Aggregation.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Configure the IP settings. You can also enable VLAN if necessary. Click <b>Apply</b> to save the changes.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Once finished, you can see the new interface <b>Bond 1</b> in the <b>Network Interface</b> list.</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+<h4>To edit the Link Aggregation settings:</h4>
+<ol>
+<li>To change the Link Aggregation mode or view the information of the physical devices, go to <b>Control Panel</b> > <b>Network</b> > <b>Network Interface</b>.</li>
+<li>Select the interface <b>Bond 1</b>, and click the <b>Edit</b> button.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Go to the corresponding tabs to edit the desired settings.</li>
+</ol>
+
+<h4>To remove Link Aggregation:</h4>
+<ol>
+<li>Go to <b>Control Panel</b> > <b>Network</b> > <b>Network Interface</b>.</li>
+<li>Select the interface <b>Bond 1</b> and click the <b>Delete</b> button.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Once finished, you will see the two separate LAN interfaces in the Network Interface list.</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+</body>
+</html>
+

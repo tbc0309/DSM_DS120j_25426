@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Configuración de enrutador</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="router"></a>Configuración de enrutador</h2>
+<p>Si su dispositivo Synology NAS se encuentra en una red de área local, otros dispositivos de Internet no podrán conectarse a él. Puede definir las reglas de reenvío de puerto en <strong>Panel de control</strong> > <strong>Acceso externo</strong> > <strong>Configuración del enrutador</strong> para que el dispositivo Synology NAS sea accesible a través de Internet.</p>
+
+
+
+<h3><a name="leaf_routerconf"></a>Configuración del enrutador</h3>
+
+<p>Antes de agregar las reglas de reenvío de puerto, debe configurar una conexión entre su dispositivo Synology NAS y el enrutador.</p>
+
+<div class="section">
+<h4>Nota:</h4>
+<ol>
+<li>Para configurar reglas de reenvío de puerto y asignar una dirección IP estática, deberá tener privilegios administrativos para el enrutador.</li>
+<li>Antes de configurar la conexión del dispositivo Synology NAS en un enrutador UPnP, asegúrese de que DSM ha recuperado correctamente la dirección IP externa de su Synology NAS (en <b>Panel de control</b> > <b>Acceso externo</b> > <strong>DDNS</strong>). En caso contrario, compruebe la configuración de red y del cortafuegos de su dispositivo Synology NAS y el enrutador UPnP.</li>
+</ol>
+</div>
+
+<p>Para configurar la conexión del dispositivo Synology NAS en su enrutador:<ol>
+  <li>Haga clic en <b>Configurar enrutador</b> para iniciar el asistente de configuración. DSM comenzará comprobando los siguientes componentes/configuraciones de red antes de continuar al paso siguiente.<ul>
+    <li>Interfaz de red</li>
+    <li>Conexión de pasarela</li>
+    <li>Conexión a Internet</li>
+    <li>Reenvío de puerto</li>
+    <li>DNS</li>
+  </ul>
+  </li>
+  <li>En función del tipo de enrutador, realice una de las siguientes acciones:</li>
+<ul>
+<li>Si su enrutador no admite UPnP, consulte el paso 3.</li>
+<li>Si ha comprobado que su enrutador UPnP es compatible con el dispositivo Synology NAS, haga clic en <b>Aplicar</b> cuando vea un resumen de la información del enrutador. La conexión de su dispositivo Synology NAS con el enrutador se configurará correctamente.</li>
+<li>Si no ha comprobado que su enrutador UPnP es compatible con el dispositivo Synology NAS, realice una de las siguientes acciones:</li>
+
+<ul>
+<li>Si desea configurar automáticamente la conexión con el enrutador, seleccione <b>Automática</b> y haga clic en <b>Siguiente</b> para que el sistema lleve a cabo una prueba de compatibilidad:</li>
+<ul>
+<li>Si ha comprobado que el enrutador es compatible con el servicio de configuración de enrutador del dispositivo Synology NAS, active la casilla de verificación para enviar el informe del test y ayudar a Synology a actualizar la base de datos de enrutadores compatibles, y luego haga clic en <b>Aplicar</b>. La conexión de su dispositivo Synology NAS con el enrutador se configurará correctamente.</li>
+<li>Si ha comprobado que el enrutador no es compatible con el servicio de configuración de enrutador del dispositivo Synology NAS, active la casilla de verificación para enviar el informe del test y ayudar a Synology a actualizar la base de datos de enrutadores compatibles, y luego haga clic en <b>Cerrar</b>.</li>
+<div class="section">
+<h4>Nota:</h4>
+<p>Si ha comprobado que el enrutador no es compatible aquí, puede configurar las reglas de reenvío de puerto en la interfaz de usuario del enrutador. Póngase en contacto con el fabricante (por ejemplo, Netgear, Cisco, TP-Link, D-Link, etc.) de su enrutador si tiene alguna pregunta relativa a su configuración.</p> 
+</div>
+</ul>
+
+<li>Si desea configurar manualmente la conexión con el enrutador, seleccione <b>Manual</b>, haga clic en <b>Siguiente</b> y consulte el paso 3.</li>
+</ul>
+
+</ul>
+
+<li>Si se le pide que configure manualmente la conexión del dispositivo Synology NAS al enrutador, haga lo siguiente:</li>
+<ol>
+<li>Elija su enrutador desde el menú desplegable <b>Enrutador</b>.</li>
+<div class="section">
+<h4>Nota:</h4>
+<p>Si no encuentra el enrutador aquí, haga clic en <b>Actualizar lista</b> para obtener de Synology la lista más reciente.</p>
+</div>
+
+<li>Configure su protocolo y el puerto de su enrutador. El protocolo y el puerto varían en función del modelo de su enrutador. Si no puede conectarse usando el <b>Protocolo</b> (HTTP) y <b>Puerto</b> (80) predeterminados, consulte la documentación incluida en el enrutador para ver la configuración correcta.</li>
+<li>Si su enrutador requiere una cuenta personalizada, marque <b>Usar cuenta personalizada</b> y rellene los campos <b>Cuenta</b> y <b>Contraseña</b>.</li>
+<li>Haga clic en <b>Aplicar</b> para terminar.</li>
+</ol>
+</ol>
+
+
+
+
+<h3>Administrar Reglas de reenvío de puerto</h3>
+<p>Las reglas de reenvío de puerto pueden especificar puertos de destino de su Synology NAS que recibirán paquetes de puertos específicos del enrutador.</p>
+<p>Si su Synology NAS se conecta a Internet a través de un enrutador, haga clic en <b>Crear</b> para abrir el asistente de configuración de reenvío de puerto.</p>
+<p>Existen dos modos para agregar reglas de reenvío de puerto:</p>
+<ul>
+<li>Si desea crear reglas de reenvío de puerto para servicios de sistema (por ejemplo, FTP, Web Station, etc), seleccione <b>Aplicación incorporada</b>.</li>
+<li>Si desea crear reglas de reenvío de puerto para otros servicios, seleccione <b>Puerto personalizado</b>.</li>
+</ul>
+<p>Puede usar la siguiente sintaxis para especificar números de puerto e intervalo:</p>
+<ul>
+<li>Utilice “-” para describir el intervalo de puertos, por ejemplo: 6881-6890.</li>
+<li>Utilice “,” para separar puertos, por ejemplo: “21,22”, “21,55536-55663”.</li>
+</ul>
+
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Cada puerto del enrutador de pasarela se puede usar únicamente para una regla de reenvío. El uso de un puerto de enrutador para dos o más reglas provocará conflictos y aparecerá en pantalla un mensaje de advertencia. Debe configurar otro puerto en la regla para evitar conflictos.</li>
+<li>Algunos enrutadores no permiten el uso de puertos personalizados para el reenvío de servicios del sistema. </li>
+</ul>
+</div>
+
+<h4>Para guardar las reglas:</h4>
+<p>Haga clic en <b>Guardar</b> después de crear las reglas. En caso contrario, no se aplicarán las reglas.</p>
+<p>Después de guardar las reglas, es posible que tenga que esperar unos minutos hasta que comiencen a funcionar las reglas, según los modelos de sus enrutadores.</p>
+<h4>Para probar si funcionan sus reglas o no:</h4>
+<p>Elija las reglas que desee probar y haga clic en <b>Probar conexión</b>. El resultado se mostrará en la columna <b>Resultado de la prueba de conexión</b>.</p>
+<h3>Para las configuraciones del enrutador inalámbrico*</h3>
+<p>Cuando el dispositivo Synology NAS actúe como enrutador inalámbrico, las reglas de reenvío de puerto serán aplicadas directamente por la unidad Synology NAS.</p>
+<h4>Para agregar reglas de reenvío de puerto:</h4>
+<ol>
+<li>Haga clic en <b>Crear</b> para abrir la ventana de configuración. </p>
+<li>Indique el nombre del <strong>Servicio</strong>, el <strong>Protocolo</strong> (TCP o UDP), la <strong>Dirección IP privada</strong>, el <strong>Puerto privado</strong> y el <strong>Puerto público</strong>. Puede usar la siguiente sintaxis para especificar números de puerto e intervalo:<ul>
+<li>Utilice “-” para describir el intervalo de puertos, por ejemplo: 6881-6890.</li>
+<li>Utilice “,” para separar puertos, por ejemplo: “21,22”, “21,55536-55663”.</li>
+</ul>
+<li>Haga clic en <strong>Crear</strong> en la parte inferior para completar la configuración.</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>La mayoría de enrutadores permiten que los puertos de los equipos locales sean distintos a los del enrutador para configurar reglas de reenvío de puerto. Si su enrutador es compatible con esta función:</p>
+<ul>
+<li>Si el puerto de un enrutador ya está en uso por una regla existente, al guardar otra regla, se asignará a un nuevo puerto del enrutador.</li>
+<li>Al añadir o editar reglas, puede especificar directamente el número de puerto del enrutador.</li>
+</ul>
+</div>
+<h3>DMZ*</h3>
+<p>Puede habilitar DMZ en su Synology NAS cuando la Configuración de mapa de red sea Enrutador inalámbrico. Un host del DMZ puede conectarse directamente a la red externa, sin la limitación ni la protección del cortafuegos. Se suele usar para configurar servidores.</p>
+<h4>Para habilitar DMZ:</h4>
+<ol>
+<li>Haga clic en <strong>Configuración de DMZ</strong> para abrir la ventana de configuración.</li>
+<li>Marque la casilla de verificación <strong>Habilitar DMZ</strong>.</li>
+<li>Introduzca la dirección IP de su DMZ Host.</li>
+<li>Haga clic en <strong>Aplicar</strong>.</li>
+</ol>
+<div class="section">
+<h4>Nota:</h4>
+<p>Desde la red externa, necesitará una dirección IP externa recuperada por Synology NAS para conectarse a un host en el DMZ.</p>
+</div>
+
+
+<p>____<br> * Solo disponible en determinados modelos o según su entorno.</p>
+
+
+</body>
+</html>

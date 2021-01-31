@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Ograniczenia i wymagania systemowe — pomoc Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>Ograniczenia i wymagania systemowe</h1>
+
+ <p>Wdrożenie rozwiązania Synology High Availability wymaga dwóch identycznych serwerów firmy Synology. Działają one jako serwer aktywny i serwer pasywny. Przed utworzeniem klastra high-availability z obu serwerów Kreator Synology High Availability przeprowadzi procedurę kontrolną ograniczeń sprzętowych i programowych, aby ustalić, czy utworzenie klastra high-availability będzie możliwe.</p>
+ 
+  
+ <h3>Wymagania systemowe</h3>
+ 
+  <p>Uwzględnić należy następujące zalecenia dotyczące oprogramowania i sprzętu:</p>
+  <ul>
+   <li><b>Serwer Synology:</b> Jako serwera aktywnego i pasywnego należy użyć identycznych modeli. Oba muszą też obsługiwać rozwiązanie Synology High Availability. Pamiętaj, że nazwa klastra high-availability musi być inna niż nazwy serwerów aktywnych i pasywnych.</li>
+   <li><b>Wersja DSM:</b> Na serwerach aktywnym i pasywnym musi być zainstalowana ta sama wersja systemu operacyjnego DSM. </li>
+   <li><b>Wersja pakietu:</b> Na obu serwerach Synology musi być zainstalowana ta sama wersja pakietu Synology High Availability.</li>
+  </ul>
+
+  
+ <h3>Wolumin i napęd</h3>
+ 
+  <p>Zapoznaj się z następującymi wskazówkami dotyczącymi zarządzaniem pamięciami masowymi (np. woluminami, grupami dysków, grupami RAID Group itp.) oraz dyskami twardymi.</p>
+  <ul>
+   <li><b>Pojemność dysku:</b> W celu pomieszczenia kopii danych pojemność dysków serwera pasywnego musi być równa lub większa od pojemności dysków serwera aktywnego. Stanowczo zaleca się montowanie na obu serwerach dysków o identycznej pojemności w celu zredukowania możliwości wystąpienia niespójności. </li>
+   <li><b>Liczba i rodzaj dysków:</b> Serwer aktywny i pasywny muszą mieć taką samą liczbę dysków twardych. Dodatkowo identyczna musi być również pozycja dysków w obu serwerach, ich typ (np. SSD/HDD, SAS/SATA) oraz specyfikacje (np. rozmiar sektora 4K lub 512 bajtów). Należy pamiętać, że urządzenia zewnętrzne takie, jak dyski twarde USB nie zostają uwzględnione podczas ustalania listy napędów.</li>
+   <li><b>Naprawa dysków Hot Spare:</b> Zdegradowane woluminy na serwerze pasywnym nie uruchomią naprawy Hot Spare. Jednak, jeśli zdegradowane woluminy znajdują się na serwerze aktywnym, naprawa Hot Spare zostanie uruchomiona, a woluminy znajdujące się na serwerze pasywnym także zostaną zdegradowane. Aby wymusić naprawę Hot Spare, system usunie jeden sprawny dysk z wolumenów RAID na serwerze pasywnym.</li>
+   <li><b>Brak obsługi formatu SHR:</b> Woluminy w formacie SHR nie są obsługiwane. Należy upewnić się, że serwer Synology, który ma posłużyć za serwer aktywny nie zawiera wolumenów w formacie SHR. </li>
+  </ul>
+
+    <div class="section">
+    <h4>Uwaga:</h4>
+    <ul>
+    <li>Prędkość dysków na serwerze pasywnym będzie miała także wpływ na wydajność zapisu klastra high-availability, ponieważ dane są synchronizowane na serwerze pasywnym przy użyciu połączenia Heartbeat. Zaleca się używanie na serwerze aktywnym i pasywnym takich samych dysków.</li>
+    <li>Nastąpiła awaria serwera pasywnego lub połączenie Heartbeat zostało zerwane, wolumeny będą tymczasowo niedostępne oraz transfer iSCSI zostanie wstrzymany na około 10 sekund.</li>
+    </ul>
+    </div>
+
+  
+  <h3>Środowisko sieciowe</h3>
+  <p>Podczas tworzenia klastra high-availability należy uwzględnić następujące zalecenia dotyczące ustawień sieci.</p>
+  <ul>
+    <li><b>Ustawienia sieci:</b> Oba serwery muszą mieć statyczne adresy IP należące do tej samej podsieci.</li>
+    <li><b>Liczba portów LAN:</b> Oba serwery muszą mieć tę samą liczbę portów LAN. Jeżeli Synology NAS wyposażono w dodatkowe karty sieciowe, te karty będą również liczone jako dodatkowe porty sieci LAN. </li>
+        <li><b>Ograniczenia środowiskowe połączeń:</b> Środowisko połączenia między dwoma serwerami musi obsługiwać multicast, nie może być ponadto żadnych reguł zapory blokujących porty używane przez klaster high-availability. Jeśli połączenie Heartbeat biegnie przez jakiekolwiek przełączniki, należy upewnić się, że obsługują one multicast i ramki Jumbo Frame.</li>
+    <li><b>Ograniczenia połączeń:</b> Serwery nie mogą być podłączone do sieci za pośrednictwem protokołu DHCP, IPv6, PPPoE ani Wi-Fi. Przed utworzeniem klastra high-availability upewnij się, że funkcje te są wyłączone.</li>
+    <li><strong>Brak usługi DHCP:</strong> Serwery nie mogą korzystać z wbudowanej opcji serwera DHCP, jeżeli zostaną połączone w klaster.</li>
+   <li><strong>Ustawienia Link Aggregation:</strong> Oba serwery muszą mieć identyczne ustawienia Link Aggregation dla sieci danych oraz połączenia Heartbeat. Po utworzeniu klastra high-availability nie można edytować ustawień Link Aggregation.</li>
+   <li><b>Ustawienia Open vSwitch:</b> Stan Open vSwitch musi być taki sam na obu serwerach (włączony lub wyłączony). Po utworzeniu klastra high-availability nie można edytować ustawień Open vSwitch.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Uwaga:</h4>
+    <ul>
+      <li>Usługa NTP na serwerze aktywnym zostanie automatycznie włączona po utworzeniu klastra high-availability.</li>
+    </ul>
+  </div>
+  <h3>Ograniczenia zarządzania przechowywaniem</h3>
+  <p>Po utworzeniu klastra high-availability opcja zmiany typu macierzy RAID przestanie być dostępna w Zarządzaniu przechowywaniem. Będą jednak dostępne następujące opcje:<ul>
+<li>Rozszerzanie pamięci masowej (np. woluminów, jednostek iSCSI LUN na poziomie bloku, grup dysków, grup RAID Group itd.).</li>
+    <li>Tworzenie, usuwanie i naprawa woluminów, jednostek iSCSI LUN oraz pamięci podręcznej do odczytu i zapisu dysków SSD.</li>
+    <li>Zmiana rozmiaru i lokacji jednostek iSCSI LUN (na poziomie pliku).</li>
+    <li>Zmiana celu jednostek iSCSI LUN.   </li>
+  </ul>
+
+  <div class="section">
+    <h4>Uwaga:</h4>
+    <ul>
+      <li>Prosimy nie zmieniać pozycji napędów po utworzeniu klastra high-availability. W przeciwnym razie zabraknie pamięci masowej.</li>
+      <li>Aby upewnić się, że Twój serwer połączony z celem Synology iSCSI nie przekracza czasu, ustaw wartość przekraczania czasu klienta iSCSI oraz inicjatora na co najmniej 120 sekund.</li>
+    </ul>
+  </div>
+
+ 
+<h3>Ograniczenia pakietów i oprogramowania</h3> 
+
+<p>Po utworzeniu klastra high-availability poniższe pakiety i funkcje nie będą obsługiwane:</p>
+	<ul>
+
+    <li>Virtual Machine Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>Funkcja uruchamiania ponownego i zamykania klastra high-availability z poziomu systemu CMS</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>Uwaga:</h4>
+    <ul>
+    <li>Aby umożliwić obsługę Docker DSM w klastrze High Availability, przed utworzeniem klastra należy włączyć opcję Open vSwitch.</li>
+    </ul>
+   </div>
+
+<h3>Dodawanie jednostek rozszerzających</h3>
+  <p>Po utworzeniu klastra high-availability można dodać do niego jednostki rozszerzające w celu zwiększenia pamięci masowej. Tak, jak w przypadku pozostałych wymagań sprzętowych, wymagane jest podłączenie identycznych jednostek rozszerzających do serwera aktywnego i pasywnego. Aby uniknąć błędów związanych z niespójnością należy dokładnie zastosować poniższe instrukcje dotyczące dodawania jednostek rozszerzających.</p>
+  
+  <h4>Aby dodać jednostki rozszerzające:</h4>
+   <ol>
+    <li>Do serwera aktywnego i pasywnego dodawaj tylko identyczne jednostki rozszerzające i dyski twarde. Jak wspomniano wcześniej sprzęt zastosowany w serwerach aktywnym i pasywnym musi być identyczny, wliczając w to model urządzenia, typ oraz rozmiar i położenie dysku.</li>
+    <li>Upewnij się, że na z dysków twardych jednostek rozszerzających usunięto wszystkie dane i woluminy.</li>
+    <li>Podłącz jednostki rozszerzające do serwera aktywnego i pasywnego, gdy oba serwery są podłączone do zasilania i włączone.</li>
+    <li>Utwórz nową pamięć masową (np. wolumen, grupę dysków, grupę RAID Group itd.) na jednostce rozszerzającej przed wyłączeniem któregokolwiek z serwerów.</li>
+   </ol>
+<div class="section">
+<h4>Uwagi:</h4>
+<p>Podstawowe informacje na temat instalacji jednostek rozszerzających można znaleźć w instrukcji obsługi jednostki rozszerzającej.</p>
+</div>
+
+
+<h3>Ograniczenia urządzenia USB</h3>
+   <p>Przełączanie/przełączanie awaryjne urządzeń USB nie jest obsługiwane. Usługi lub aplikacje dostarczone przez urządzenia USB mogą nie działać poprawnie po przełączeniu/przełączeniu awaryjnym.</p>
+
+   
+ </body>
+</html>

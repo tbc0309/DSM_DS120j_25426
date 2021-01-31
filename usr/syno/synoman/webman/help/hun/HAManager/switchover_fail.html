@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Átkapcsolás</h2>
+  
+ <p>A folyamatos teljesítmény biztosítása és a szolgáltatás-kimaradás minimalizálása érdekében a szolgáltatások átkapcsolhatók egy high-availability klaszter aktív kiszolgálójáról a redundáns, passzív kiszolgálóra. A funkció neve "átkapcsolás," illetve egyes esetekben "átterhelés." A jelen fejezet elmagyarázza ennek a két elvnek az alapjait.</p>
+  
+  <h3>Átkapcsolás</h3>
+  	<p>Az átkapcsolás kifejezés a high-availability klaszter aktív kiszolgálójáról a redundáns, passzív kiszolgálójára történő átkapcsolásra vonatkozik. Rendes körülmények között az aktív kiszolgáló kezeli az összes szolgáltatást. Amennyiben azonban az aktív kiszolgáló meghibásodik, ön kezdeményezheti az átkapcsolást, és az összes szolgáltatás passzív kiszolgálóra történő átirányítását, feltéve, hogy a passzív kiszolgáló rendesen működik. Ez esetben az aktív kiszolgáló átveszi a passzív kiszolgáló szerepét, a passzív kiszolgáló pedig átveszi az aktív kiszolgáló szerepét.</p>
+    
+<h4>Az átkapcsolás manuális kezdeményezése:</h4>
+ <ol>
+  <li>Menjen az <b>Áttekintés</b> fülre.</li>
+  <li>Kattintson a <b>Kezelés</b> > <b>Átkapcsolás</b> menüpontra.</li>
+ </ol>
+<div class="section">
+<h4>Megjegyzés:</h4>
+   <p>Átkapcsolás kezdeményezésekor az aktív kiszolgáló először átveszi a passzív kiszolgáló szerepét, majd a passzív kiszolgálóból aktív kiszolgáló lesz. Így tehát lesz egy rövid időszak, amikor mindkét kiszolgáló passzív, és nem lesz képes a szolgáltatások rendes nyújtására. Az átkapcsolás végrehajtásához szükséges idő függ a kötetek vagy iSCSI LUN-ok (zárószint) számától és méretétől, illetve a high-availability klaszteren található szolgáltatások számától és összméretétől.</p>
+</div>
+   
+<h3>Átterhelés</h3>
+    
+     <p>Bizonyos hibák előfordulásakor a rendszer a teljesítmény fenntartása érdekében automatikusan kezdeményezheti a szolgáltatások átkapcsolását. Az esemény neve "átterhelés." A rendszer a következő helyzetekben kezdeményezheti az átterhelést:</p>
+    
+     <ul>
+      <li><b>Összeomlott tárolótér:</b> Egy, az aktív kiszolgálón található tárolóterület (pl. kötet, lemezcsoport, RAID Group, SSD-gyorsítótár stb.) összeomlott, de a passzív kiszolgálón található, neki megfelelő tárolóterület normálisan működik. Ne feledje, hogy a rendszer nem kezdeményez átterhelést, ha az összeomlott tárolótéren nincs létező kötet vagy iSCSI LUN (zárószint).</li>
+      <li><b>Szolgáltatáshiba:</b> Egy felügyelt szolgáltatásban hiba történt.</li>
+      <li><b>Áramkimaradás:</b> Az aktív kiszolgálót lekapcsolták vagy újraindították, az aktív kiszolgáló mindkét tápegysége meghibásodott, vagy nincs áram.</li>      
+     </ul>    
+     
+    
+<h3>Sikertelen átkapcsolás</h3>
+    
+		<p>A következő helyzetekben az átkapcsolás vagy átterhelés esetleg sikertelen lehet:</p>
+  			<ul>
+   				<li><b>Hiányos adatreplikáció:</b> Amikor egy high-availability klaszter létrehozása érdekében először kombinál két kiszolgálót, a rendszernek időre van szüksége valamennyi adatnak az aktív kiszolgálóról a passzív kiszolgálóra történő replikiálásához.</li>
+   				<li><b>A passzív kiszolgálón található tárolótér összeomlott:</b> Egy, a passzív kiszolgálón található tárolótér (pl. kötet, lemezcsoport, RAID Group stb.) összeomlott.</li>
+                <li><b>Áramkimaradás:</b> A passzív kiszolgálót lekapcsolták vagy újraindították, a passzív kiszolgáló mindkét tápegysége meghibásodott, vagy nincs áram.</li>
+                <li><b>DSM frissítése:</b> A DSM frissítésekor valamennyi szolgáltatás leállításra kerül, majd a DSM frissítés telepítésének befejeződése után történik meg újraindításuk.</li>      
+ </ul>
+
+  <p>Ha ön manuálisan átkapcsolást kezdeményez, ám a szolgáltatásokat nem lehet átkapcsolni a passzív kiszolgálóra, akkor a rendszer megkísérli a szolgáltatásokat visszakapcsolni az aktív kiszolgálóra.</p>
+ <p>Abban az esetben, ha átterhelést kezdeményeztek, de hibák miatt egyik kiszolgáló sem képes átvenni az aktív kiszolgáló szerepét, a high-availability klaszter képtelen lesz rendes szolgáltatások nyújtására. Ha a kiszolgálók nem térnek vissza automatikusan <b>Önálló</b> állapotba, az alapértelmezett beállításokhoz történő visszatérés érdekében mindkét kiszolgálón nyomja meg a <b>Reset</b> gombot. Mihelyt visszaállításra kerülnek az alapértelmezett beállítások, a kiszolgálók kombinálhatók, és újra létrehozható egy high-availability klaszter.</p>
+ 
+ <h3>Szünetmentes tápellátás</h3>
+  <p>A high-availability klaszterek a váratlan áramkimaradások kockázatának csökkentése érdekében szünetmentes tápellátást biztosító (UPS) egységekhez csatlakoztathatók. Áramkimaradás esetén a kiszolgálók bármelyik hozzájuk csatlakoztatott UPS egységtől háttér-áramellátást kapnak. Ha az aktív kiszolgálóhoz csatlakoztatott UPS egység kezd kifogyni az áramból, a rendszer megkísérli átkapcsolni a szolgáltatásokat a passzív kiszolgálóra. Lásd az alábbi irányelveket.</p>
+   <ul>
+
+<li>Ha ugyanahhoz a hálózati kapcsolóhoz van csatlakoztatva az aktív és passzív kiszolgáló, akkor a hálózati kapcsolóéval megegyező feszültségforráshoz célszerű mindkét kiszolgálót csatlakoztatni.</li>
+<li>Ha különböző feszültségforrásokat használó hálózati kapcsolókhoz (pl. eltérő áramszolgáltatók esetén) van az aktív és passzív kiszolgáló csatlakoztatva, akkor a csatlakoztatott hálózati kapcsolóikkal megegyező feszültségforrásra célszerű az aktív és passzív kiszolgálót csatlakoztatni.</li>
+<li>Ha különböző szünetmentes tápegységet használó hálózati kapcsolókhoz van az aktív és passzív kiszolgáló csatlakoztatva, akkor célszerűbb mindkét kiszolgálót egy szünetmentes tápegységre csatlakoztatni. Ha az egyik szünetmentes tápegység feszültsége kimarad, akkor megtörténik az aktív kiszolgáló értesítése és az csökkentett módra tér át, míg a passzív kiszolgáló ennek megfelelő módon kikapcsolásra kerül. Ellenkező esetben, ha különböző szünetmentes tápegységekhez vannak a kiszolgálók csatlakoztatva, akkor az aktív kiszolgáló nem képes a passzív kiszolgáló szünetmentes tápegysége feszültség kimaradásának észlelésére, és így előfordulhat, hogy váratlanul történik a passzív kiszolgáló leállítása.</li>
+   </ul>
+
+   
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>A Synology NAS támogatja a helyi és az SNMP szünetmentes tápegységekhez történő csatlakozást. További információkért lásd a <strong>Vezérlőpult</strong> > <strong>Hardver</strong> > <strong>UPS</strong> menüpont súgóját</p>
+</div>  
+ </body>
+</html>

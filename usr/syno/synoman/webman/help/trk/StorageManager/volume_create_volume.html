@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Birim Oluştur - Synology DSM Yardımı</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to create a volume on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Birim Oluştur</h2>
+
+<p>Bir yazı Synology NAS sunucunuzda bir birimin nasıl oluşturulacağını a&ccedil;ıklar. Yeni bir birim oluştururken, aşağıdaki y&ouml;ntemlerden birisini se&ccedil;ebilirsiniz:</p>
+
+<ul>
+  <li><b>Hızlı:</b> Bu yeni başlayanlar i&ccedil;in en iyi se&ccedil;enektir. RAID seviyeleri gibi teknik unsurları d&uuml;ş&uuml;nmeden depolama kapasitesini ve performansını otomatik olarak optimize etmek istiyorsanız bu y&ouml;ntemi se&ccedil;in. </li>
+
+<li><b>&Ouml;zel:</b> RAID tipleri ve kapasite tahsisi gibi birim oluşturmanın daha hassas unsurlarını kontrol etmek isteyen ileri kullanıcılar i&ccedil;in. Bu se&ccedil;enek farklı RAID tiplerini destekleyerek tek veya &ccedil;ok sayıda birim oluşturmanızı sağlar ve her birim i&ccedil;in belirli miktarlarda kapasiteyi tahsis etmeniz i&ccedil;in se&ccedil;enekler sunar (sadece RAID &uuml;zerinde &ccedil;ok sayıda birim oluştururken).
+</li>
+</ul>
+
+<div class="section">
+<h4>RAID &uuml;zerinde Tekli ya da &Ccedil;oklu Birimler?</h4>
+<p>&Ouml;zel mod ile bir birim oluştururken, aşağıdaki se&ccedil;eneklerden bir tanesini se&ccedil;ebilirsiniz:</p>
+<ul>
+  <li><b>RAID&rsquo;de Tekli Birim</b>
+    <ul>
+      <li>Se&ccedil;ilen sabit disklerin mevcut kapasitesinin t&uuml;m&uuml;n&uuml; kullanarak tek bir birim oluşturur.</li>
+      <li>Daha iyi hız ve performans sağlar.</li>
+      <li>Farklı RAID tiplerini destekler.</li>
+    </ul>
+  </li>
+  <li><b>RAID&rsquo;de &Ccedil;oklu Birimler</b>
+    <ul>
+      <li>Bir disk grubu &uuml;zerinde &ccedil;oklu birimler oluşturmanıza olanak tanır.</li>
+      <li>Her bir birime belirli kapasite miktarları ayırmayı destekler.</li>
+      <li>Daha iyi depolama y&ouml;netimi esnekliği sağlar.</li>
+      <li>Farklı RAID tiplerini destekler.</li>
+    </ul>
+  </li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Başlamadan &Ouml;nce:</h4>
+<ul>
+<li>Başlamadan &ouml;nce, sabit disklerde &ouml;nemli veri bulunmadığından emin olun. Mevcut t&uuml;m veriler oluşturma s&uuml;reci sırasında silinecektir.</li>
+<li><b>HDD/SSD</b> sayfasına gidin ve her sabit diskin durumunun <b>Normal</b> veya <strong>İlk Kullanıma Hazırlanmadı</strong> olduğundan emin olun.</li>
+</ul>
+</div>
+
+<div class="section enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">
+<h4>Not:</h4>
+<ul>
+<li>Bir Btrfs birimi i&ccedil;in minimum boyut 10 GB'dır.</li>
+<li>Btrfs birimleri metaveri i&ccedil;in alanın %4'&uuml;n&uuml; rezerve eder.</li>
+</ul>
+</div>
+
+<h4>Bir birim oluşturmak i&ccedil;in:</h4>
+<ol>
+<li><b>Depolama Y&ouml;neticisi</b>'ni a&ccedil;ın.</li>
+<img src="about:blank" class="help_image"/>
+<li><b>Birim</b> &ouml;ğesine gidin ve <b>Oluştur</b> &uuml;zerine tıklayın.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>Birim oluşturma sihirbazını g&ouml;receksiniz. İhtiya&ccedil;larınıza g&ouml;re <strong>Hızlı</strong> veya <strong>&Ouml;zel</strong> se&ccedil;imini yapın.</li>
+<li>İstenilen ayarları değiştirin.</li>
+<li>Dosya erişim zamanının kaydedilip kaydedilmeyeceğini se&ccedil;in:</li>
+	  <ul>
+      <li><strong>Dosya Erişim Zamanını Kaydet</strong> se&ccedil;eneğinin etkinleştirilmesi Linux sistemlerinde relatime bağlantı se&ccedil;eneğinin kullanılmasına eşdeğerdir. Dosya erişim zamanı sadece, son erişim zamanı (atime) mevcut değişiklik zamanı (mtime) veya değişim zamanı (ctime) &ouml;ncesinde iken g&uuml;ncellenir. Erişim zamanı son erişim zamanının bir g&uuml;nden daha eski olması halinde de g&uuml;ncellenir.</li>
+      <li><strong>Dosya Erişim Zamanını Kaydet</strong> se&ccedil;eneğinin devre dışı bırakılması Linux sistemlerinde noatime bağlantı se&ccedil;eneğinin kullanılmasına eşdeğerdir. Dosyaların ve klas&ouml;rlerin erişim zamanı g&uuml;ncellenmez, azalan dosya sistemi kullanımına neden olur. Bazı uygulamaların uygun şekilde işlev yapmak &uuml;zere dosya erişim zamanına bağlı olabileceğine dikkat edin.</li>
+      </ul>
+   <li>Ayarları onaylamak i&ccedil;in <strong>Uygula</strong> d&uuml;ğmesine tıklayın.</li>
+
+
+<img src="about:blank" class="help_image"/>
+</ol>
+
+</body>
+</html>

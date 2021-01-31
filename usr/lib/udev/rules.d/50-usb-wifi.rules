@@ -1,0 +1,15 @@
+# author: ANT
+# only handle usb-wifi dongle
+
+ENV{SUBSYSTEM}!="usb", GOTO="wifi_end"
+ACTION!="add|remove", GOTO="wifi_end"
+ENV{SYNO_USB_DRIVER}=="", GOTO="wifi_end"
+ENV{SYNO_USB_DEVICE}!="WIFI", GOTO="wifi_end"
+ENV{INTERFACE}=="", GOTO="wifi_end"
+ENV{SYNO_SUPPORT_DUALHEAD}=="yes", GOTO="wifi_end"
+ENV{SYNO_BLOCK_OPTIONAL_USB}=="yes", GOTO="wifi_end"
+
+ACTION=="add", RUN+="/lib/udev/script/usb-wifi-util.sh plug-in"
+ACTION=="remove", RUN+="/lib/udev/script/usb-wifi-util.sh plug-out"
+
+LABEL="wifi_end"

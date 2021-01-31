@@ -1,0 +1,11 @@
+#exlude non-iscsi events
+ACTION!="add|remove", GOTO="iscsi_end"
+KERNEL!="isd*|iscsi*", GOTO="iscsi_end"
+
+#check port type
+ENV{SYNO_DEV_DISKPORTTYPE}!="ISCSI", GOTO="iscsi_end"
+
+ACTION=="add", RUN+="/lib/udev/script/iscsi-add.sh %p %k"
+ACTION=="remove", RUN+="/lib/udev/script/iscsi-remove.sh %p"
+
+LABEL="iscsi_end"

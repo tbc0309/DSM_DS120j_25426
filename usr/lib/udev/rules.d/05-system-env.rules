@@ -1,0 +1,9 @@
+# author: "System Integration Team"
+# usb device properties
+SUBSYSTEM=="usb|usbmisc", IMPORT{builtin}="usb_id"
+
+# filesystem and partition probing
+KERNEL!="mtdblock[0-9]*", SUBSYSTEM=="block", IMPORT{builtin}="blkid"
+
+# general system information
+ACTION=="add|change", SUBSYSTEM=="usb|usbmisc|block", ENV{DEVNAME}!="", PROGRAM=="/usr/syno/bin/synodiskport -portcheck %E{DEVNAME}", ENV{SYNO_DEV_DISKPORTTYPE}="%c"

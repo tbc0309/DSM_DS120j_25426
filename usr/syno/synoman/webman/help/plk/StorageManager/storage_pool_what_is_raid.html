@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Wybieranie typu RAID</h2>
+
+<p>RAID (Redundant Array of Independent Disks &mdash; nadmiarowa macierz niezależnych dysk&oacute;w) to technologia przechowywania danych, kt&oacute;ra umożliwia łączenie wielu niezależnych dysk&oacute;w w jedną przestrzeń pamięci masowej. Istnieją r&oacute;żne typy macierzy RAID zapewniające r&oacute;żne poziomy wydajności, pojemności i niezawodności.</p>
+
+<p>Niniejszy artykuł zawiera kr&oacute;tki przegląd typ&oacute;w macierzy RAID obsługiwanych przez urządzenie Synology NAS, wymagania dotyczące wdrożenia, a także ich zalety i wady.</p><!--1--><h3>Obsługiwane typy macierzy RAID</h3>
+
+<p>W tabeli przedstawiono kr&oacute;tki przegląd r&oacute;żnych typ&oacute;w macierzy RAID obsługiwanych przez urządzenie Synology NAS obejmujący pojemność pamięci, minimalną liczbę dysk&oacute;w wymaganych w danym typie macierzy RAID, a także dozwoloną liczbę uszkodzonych dysk&oacute;w, kt&oacute;ra nie powoduje jeszcze utraty danych.</p>
+
+<table>
+	<tr>
+		<th>Typ wolumenu</th>
+		<th>Liczba HDD</th>
+		<th>Dopuszczalna liczba uszkodzonych dysk&oacute;w</th>
+		<th>Opis</th>
+		<th>Pojemność wolumenu</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>Pozwala zoptymalizować wielkość wolumenu podczas łączenia dysk&oacute;w o r&oacute;żnych pojemnościach.</li>
+				<li>Zapewnia nadmiarowość danych, jeżeli wolumen składa się z co najmniej dw&oacute;ch dysk&oacute;w.</li>
+				<li>Zalecany dla początkujących użytkownik&oacute;w.</li>
+			</ul>
+		</td>
+		<td>1 x (pojemność HDD)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">Zoptymalizowane przez system</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Basic</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Składa się z jednego dysku jako niezależnej jednostki.</li>
+				<li>Nie zapewnia nadmiarowości danych.</li>
+			</ul>
+		</td>
+		<td>1 x (pojemność HDD)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Pozwala połączyć zbi&oacute;r dysk&oacute;w w jedną jednostkę pamięci masowej z pojemnością r&oacute;wną sumie pojemności wszystkich dysk&oacute;w.</li>
+				<li>Nie zapewnia nadmiarowości danych.</li>
+			</ul>
+		</td>
+		<td>Suma pojemności HDD</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Pozwala korzystać z funkcji przeplatania danych, tj. procesu podziału danych na bloki i rozkładania blok&oacute;w danych na kilku dyskach, co zwiększa wydajność.</li>
+				<li>Nie zapewnia nadmiarowości danych.</li>
+			</ul>
+	    </td>
+		<td>Suma pojemności HDD</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>Zapisuje identyczne dane jednocześnie na wszystkich dyskach.</li>
+				<li>Zapewnia nadmiarowość danych.</li>
+			</ul>
+		</td>
+		<td rowspan="3">Pojemność najmniejszego HDD</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Pozwala korzystać z rozciągania danych na poziomie bloku i rozkładania informacji o parzystości na wszystkich dyskach macierzy, co zapewnia nadmiarowość danych w spos&oacute;b bardziej wydajny niż w przypadku macierzy RAID 1.</li>
+			</ul>
+		</td>
+		<td>(N-1) x (pojemność najmniejszego dysku twardego)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>Pozwala korzystać z dw&oacute;ch warstw informacji o parzystości, aby przechowywać dane nadmiarowe r&oacute;wne pojemności dw&oacute;ch dysk&oacute;w, co umożliwia uzyskanie znacznie wyższego stopnia nadmiarowości danych niż w przypadku macierzy RAID 5.</li>
+			</ul>
+		</td>
+		<td>(N-2) x (pojemność najmniejszego dysku twardego)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br />(liczba parzysta)</td>
+		<td>Połowa łącznej liczby HDD</td>
+		<td>
+			<ul>
+				<li>Zapewnia wydajność macierzy RAID 0 i stopień ochrony danych macierzy RAID 1, łącząc dyski w grupy składające się z dw&oacute;ch dysk&oacute;w. Kopie lustrzane danych są tworzone w tych grupach.</li>
+			</ul>
+		</td>
+		<td>(N/2) x (pojemność najmniejszego HDD)</td>
+	</tr>
+	<tr>
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Pozwala korzystać z rozciągania danych na poziomie bloku i dystrybucji informacji o parzystości na wszystkich dyskach macierzy.</li>
+				<li>W przypadku niekt&oacute;rych dysk&oacute;w dostępnych będzie więcej informacji o parzystości.</li>
+				<li>Zalecane dla macierzy wykorzystujących wyłącznie pamięci flash.</li>
+			</ul>
+		</td>
+		<td>(N-1) x (pojemność najmniejszego dysku twardego)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+	<li>Poszczeg&oacute;lne typy macierzy RAID, z wyjątkiem typu podstawowego, są dostępne tylko w niekt&oacute;rych modelach, w zależności od liczby kieszeni na dyski i liczby zainstalowanych dysk&oacute;w.</li>
+	<li>Macierz RAID F1 jest dostępna tylko w niekt&oacute;rych modelach. Więcej informacji można znaleźć na <a href="https://www.synology.com/" target="_blank">stronie internetowej Synology</a>.</li>
+	<li>Wartość N reprezentuje łączną liczbę dysk&oacute;w w wolumenie.</li>
+</ul>
+</div><!--2--><h3>Synology Hybrid RAID (SHR)</h3>
+<p>Synology Hybrid RAID (SHR) to automatyczny system zarządzania macierzą RAID, kt&oacute;ry pozwala uprościć zarządzanie pamięcią masową i korzystać z zalet macierzy RAID przez początkujących użytkownik&oacute;w bez wiedzy o dostępnych typach macierzy RAID.</p>
+<p>Rozwiązanie SHR pozwala łączyć dyski o r&oacute;żnych pojemnościach w celu utworzenia wolumenu o zoptymalizowanej pojemności i wydajności, ograniczając marnowanie miejsca dysk&oacute;w i zapewniając większą elastyczność. Jeżeli macierz składa się z odpowiedniej liczby dysk&oacute;w, system SHR zapewnia nadmiarowość danych na poziomie 1 lub 2 dysk&oacute;w, co oznacza, że awaria jednego lub dw&oacute;ch dysk&oacute;w w wolumenie nie powoduje utraty danych.<br /><img src="about:blank" class="help_image"/></p><!--3--><h3>RAID 0</h3>
+<p>Macierz RAID 0 pozwala połączyć co najmniej dwa dyski w celu zwiększenia wydajności i pojemności, ale nie zapewnia ochrony danych w przypadku awarii dysk&oacute;w. Awaria jednego dysku spowoduje utratę wszystkich danych przechowywanych w macierzy. Typ RAID 0 jest przydatny dla niekrytycznych system&oacute;w, gdzie wymagany jest dobry stosunek ceny do wydajności.<br /><img src="about:blank" class="help_image"/></p><!--4--><h3>RAID 1</h3>
+<p>Macierz RAID 1 jest najczęściej stosowana z dwoma dyskami. Dane przechowywane na dyskach są kopią lustrzaną, co zapewnia ich ochronę przed awarią jednego z dysk&oacute;w. Szybkość odczytu jest znacznie większa, natomiast szybkość zapisu jest por&oacute;wnywalna do szybkości pojedynczego dysku. Awaria jednego dysku nie powoduje utraty danych. Typ macierzy RAID 1 jest często używany, gdy ważna jest ochrona danych przed awariami dysk&oacute;w, natomiast ilość miejsca i wydajność nie są aż tak istotne.<br /><img src="about:blank" class="help_image"/></p><!--5--><h3>RAID 5</h3>
+<p>RAID 5 zapewnia tolerancję na błędy i zwiększoną szybkość odczytu. Do utworzenia macierzy tego typu wymagane są co najmniej trzy dyski. Macierz RAID 5 jest odporna na awarię jednego dysku. W przypadku awarii jednego z dysk&oacute;w dane przechowane na tym dysku są odbudowywane na podstawie informacji o parzystości przeplecionych na pozostałych dyskach. Jeżeli jeden z dysk&oacute;w macierzy RAID 5 jest uszkodzony, spada zar&oacute;wno szybkość odczytu, jak i zapisu całej macierzy. Typ macierzy RAID 5 jest idealnym rozwiązaniem, gdy ilość miejsca i wysokość koszt&oacute;w są ważniejsze niż wydajność.<br /><img src="about:blank" class="help_image"/></p><!--6--><h3>RAID 6</h3>
+<p>Macierz RAID 6 jest bardzo podobna do macierzy RAID 5. R&oacute;żnicą jest dodatkowa warstwa informacji o parzystości i odporność na awarię dw&oacute;ch dysk&oacute;w twardych. Do utworzenia macierzy tego typu wymagane są co najmniej cztery dyski. Wydajność macierzy RAID 6 jest niższa niż macierzy RAID 5 ze względu na dodatkową warstwę zapewniającą ochronę przed utratą danych. Typ macierzy RAID 6 powinien być stosowany w sytuacjach, gdy ważne są ilość miejsca i wysokość koszt&oacute;w, a także odporność na awarie wielu dysk&oacute;w.<br /><img src="about:blank" class="help_image"/></p><!--7--><h3>RAID 10</h3>
+<p>RAID 10 łączy zalety macierzy RAID 1 i RAID 0. Zapewnia ona większą szybkość odczytu i zapisu, lecz można korzystać tylko z połowy łącznej ilości miejsca. Do utworzenia macierzy wymagane są co najmniej cztery dyski, co powoduje, że koszt takiego rozwiązania jest dosyć wysoki. Jednak w zamian macierz zapewnia wysoką wydajność i jednocześnie odporność na awarie dysk&oacute;w. W rzeczywistości macierz RAID 10 zapewnia ochronę danych przed awarią wielu dysk&oacute;w, o ile awarie te nie występują wewnątrz tej samej podgrupy. Typ macierzy RAID 10 jest idealny do zastosowań, w kt&oacute;rych wymagana jest wysoka wydajność operacji we/wy, takich jak serwery bazy danych.<br /><img src="about:blank" class="help_image"/></p><!--8--><h3>RAID F1</h3>
+<p>RAID F1 stosuje mechanizm macierzy RAID 5, zapewniając odporność na awarie oraz zwiększoną wydajność odczytu. Jednak dzięki RAID F1 niekt&oacute;re dyski będą posiadać większą ilość informacji o parzystości w celu przyspieszenia ich zużywania, dzięki czemu nie dochodzi do sytuacji, w kt&oacute;rej żywotność wszystkich dysk&oacute;w dobiega końca w tym samym czasie. Może to nieznacznie wpływać na wydajność w por&oacute;wnaniu do macierzy RAID 5. Do utworzenia macierzy tego typu wymagane są co najmniej trzy dyski. Macierz RAID F1 jest odporna na awarię jednego dysku. W przypadku awarii jednego z dysk&oacute;w dane przechowane na tym dysku są odbudowywane na podstawie informacji o parzystości przeplecionych na pozostałych dyskach. Jeżeli jeden z dysk&oacute;w macierzy RAID F1 jest uszkodzony, spada zar&oacute;wno szybkość odczytu, jak i zapisu całej macierzy. Typ RAID F1 jest idealnym rozwiązaniem dla macierzy wykorzystujących wyłącznie pamięci flash.<br /><img src="about:blank" class="help_image"/></p>
+
+</body>
+</html>

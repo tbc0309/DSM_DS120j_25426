@@ -1,0 +1,13 @@
+# author: System Integration Team
+
+SUBSYSTEM!="usb|usbmisc", GOTO="usb_printer_bus_end"
+ENV{DEVTYPE}!="usb_device", GOTO="usb_printer_bus_end"
+ENV{SYNO_SUPPORT_DUALHEAD}=="yes", GOTO="usb_printer_bus_end"
+ENV{SYNO_BLOCK_OPTIONAL_USB}=="yes", GOTO="usb_printer_bus_end"
+
+ACTION=="remove", RUN+="/lib/udev/script/printer-remove-check.py --devpath=%E{DEVPATH}"
+
+########################################
+# usb_printer_bus_end
+########################################
+LABEL="usb_printer_bus_end"

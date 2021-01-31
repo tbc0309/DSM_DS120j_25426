@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Domein</h2>
+
+<p>Het is mogelijk om uw Synology NAS aan een Windows-domein te koppelen. Na koppeling aan het domein, kunnen domeingebruikers zich op uw Synology NAS aanmelden met hun domeinaccounts en wachtwoorden, hebben ze toegang tot bestanden en kunnen ze DSM-toepassingen gebruiken zonder daarvoor een extra account en wachtwoord te moeten onthouden.</p>
+
+<h4>Om lid te worden van een domein:</h4>
+<ol>
+	<li>Ga naar <strong>Configuratiescherm</strong> &gt; <strong>Domein/LDAP</strong> &gt; <strong>Domein</strong>.</li>
+	<li>Schakel het selectievakje <strong>Aan domein toevoegen</strong> in.</li>
+	<li>Voer de domeinnaam in en geef de DNS-server in de geschikte velden in.</li>
+	<li>Schakel indien nodig het selectievakje <strong>Geavanceerde domeinopties</strong> in. (zie hieronder voor gedetailleerde informatie).</li>
+	<li>Klik op <strong>Toepassen</strong>.</li>
+	<li>Voer de gebruikersnaam en het wachtwoord van de systeembeheerder op het domein in het pop-upvenster in.</li>
+	<li>Klik op <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>DNS Server</h4>
+<p>We raden u aan om een DNS-server te specificeren om uw Synology NAS te helpen het domein te zoeken. Als het domein echter nog niet geregistreerd is op de DNS-server kan de procedure om zich aan te sluiten op het domein mislukken.</p>
+
+<h4>Domeinservertype</h4>
+<p>Dit veld toont het domeintype nadat uw Synology NAS lid van een domein is geworden. Het domeintype zal een "AD-domein" zijn.</p>
+
+<h4>Beheermodus</h4>
+<p>Deze optie bepaalt hoe rechten van domeingebruikers en groepen worden beheerd. </p>
+<ul>
+	<li><strong>Vertrouwd domein</strong>: U kunt gebruikers en groepen in gekoppelde en vertrouwde domeinen beheren. U kunt de lijst van gebruikers en groepen op domeinen filteren.</li>
+	<li><strong>Enkel domein met OU:</strong> Alleen gebruikers en groepen in het gekoppelde domein worden weergegeven in deze modus. Met deze modus kunt u de lijst van gebruikers en groepen filteren op organisatie-units (OUs).</li>
+</ul>
+
+<h4>Geavanceerde domeinopties</h4>
+<p>In de meeste situaties hoeft u geen van de geavanceerde domeinopties in te voeren. De geavanceerde domeinopties zijn enkel vereist voor specifieke domeinomgevingen. </p>
+<ul>
+	<li><strong>DC IP/FQDN</strong>: geef een IP-adres of FQDN voor de DC (domeincontroller) op en uw Synology NAS zal proberen om ermee te communiceren. Als er meer dan een IP-adres of FQDN is, moet u ze scheiden door middel van een komma (,). U kunt een asterisk (*) toevoegen na de laatste DC IP-adres of FQDN en uw Synology NAS zal proberen de communicatie tot stand te brengen met de andere DC als dit niet lukt met de aangegeven DC's. U moet een komma toevoegen tussen de asterisk en het laatste IP-adres of FQDN.</li>
+	<li><strong>Domein NetBIOS-naam</strong>: Geef de NetBIOS-naam van het domein op.</li>
+	<li><strong>Domein FQDN (DNS-naam)</strong>: Geef de FQDN (DNS-naam) van het domein op.</li>
+	<li><strong>DNS-interface registreren</strong>: bij het toevoegen van een domein wordt de hier gespecificeerde NIC (Network Interface Card) geregistreerd bij de DNS-server. Denk eraan dat als de hostnaam van uw Synology NAS een liggend streepje (_) bevat, zal de registratie mislukken omdat liggende streepjes (_) niet kunnen worden gebruikt bij DNS.</li>
+	<li><strong>Gebruikers-/groeplijst bijwerken</strong>: geef aan hoe vaak uw Synology NAS automatisch de domeingebruikers-/groepslijsten moet bijwerken. U kunt de tijd aanpassen om updates dagelijks, wekelijks of maandelijks uit te voeren. Daarnaast kunnen domeingebruikers-/groeplijsten handmatig worden bijgewerkt in het tabblad <strong>Domeingebruiker</strong> bij <strong>Domeingegevens bijwerken</strong>. Denk eraan dat automatische updates van invloed zijn op de systeemslaapstand.</li>
+</ul>
+
+<h4>Toevoeging aan Read-Only Domein Controller</h4>
+<p>Om uw Synology NAS toe te voegen aan een Read-Only Domein Controller (RODC) moet u de "volledige computernaam" (FQDN) van uw Read-Write Domein Controller (RWDC) invoeren in het veld <strong>DC IP/FQDN</strong>. De volledige computernaam moet de volgende indeling hebben: <strong>ComputerNaam.Domein</strong>, bijv. "ad01.synology.com".</p>
+</div>
+
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>als uw domeingebruikersnaam % of $ bevat, krijgt u mogelijk geen toegang tot uw basismap. Vraag uw domein systeembeheerder u een nieuwe gebruikersnaam te geven.</li>
+	<li>De domeingroepen <strong>Domeinadmins</strong> en <strong>Bedrijfsadmins</strong> worden automatisch aan de lokale groep <strong>administrators</strong> toegevoegd. Hiermee hebben domeingebruikers in deze groepen beheerdersrechten op uw Synology NAS, inclusief toegang tot bestandsservices zoals CIFS/FTP/AFP/WebDAV- en andere DSM-toepassingen.</li>
+	<li>U kunt ook de toegangsrechten van domeingebruikers tot gedeelde mappen op uw Synology NAS configureren. Zie <a href="file_directory_service_user_group.html">hier</a> voor meer informatie.</li>
+</ul>
+</div>
+
+<h3>Domeinopties</h3>
+
+<p>Dit gedeelte omvat de onderstaande extra domeinopties.</p>
+<ul>
+	<li><strong>DiskStation zal synchroniseren met een NTP-server telkens wanneer een domeingebruiker zich aanmeldt</strong>: Door deze optie in te schakelen wordt de tijdssynchronisatie geforceerd tussen uw Synology NAS en de NTP-server.</li>
+	<li><strong>Gebruikers-/groeplijsten ophalen met NT4-compatibele modus</strong>: Door deze optie in te schakelen, kan het systeem via de NT4 RPC-modus de gebruikers-/groepslijsten verkrijgen. U kunt deze optie inschakelen wanneer bepaalde domeingebruikers-/groeplijsten niet worden verkregen met de standaardinstellingen.</li>
+	<li><strong>Serverondertekening inschakelen</strong>: Als de client clientondertekening inschakelt, moet serverondertekening op uw Synology NAS ook worden ingeschakeld zodat gebruikers de domeinservices normaal kunnen gebruiken.</li>
+	<li><strong>Geneste groepsniveaus opsommen</strong>: geef het aantal geneste domeingroepliden op die kunnen worden opgesomd.</li>
+	<li><strong>Domeinbeheerders</strong>: geeft tot 10 groepen gebruikers op aan wie u administratormachtigingen wilt verlenen. Elke gebruiker met administratormachtigingen heeft volledige controle over uw Synology NAS en bestanden.</li>
+	<li><strong>Geïntegreerde Windows-verificatie inschakelen</strong>: Door deze optie in te schakelen kunnen gebruikers zich op hun computers via hun domeinaccounts en internetbrowser zonder gebruikersnaam en wachtwoord bij DSM aanmelden.</li>
+</ul>
+
+<div class="section"><h4>Geïntegreerde Windows-verificatie gebruiken</h4>
+<ul>
+	<li>De clientcomputer moet een Windows-besturingssysteem gebruiken en de versie moet Windows 7 of hoger zijn.</li>
+	<li>De clientcomputer moet tot hetzelfde domein van Synology NAS behoren.</li>
+	<li>Ga in Windows naar <b>Configuratiescherm</b> > <b>Internetopties</b> > <b>Geavanceerd</b> en zorg dat het selectievakje <b>Geïntegreerde Windows-verificatie inschakelen</b> in het gedeelte <b>Beveiliging</b> is ingeschakeld.</li>
+	<li>Geïntegreerde Windows-verificatie werkt op alle browsers. Bij Firefox vereist de instelling enkele stappen meer.
+		<ul>
+			<li>Open een Firefox-browser en typ <b>about:config</b> in de URL-balk.</li>
+			<li>Zoek naar <b>network.automatic-ntlm-auth.trusted-uris</b>.</li>
+			<li>Dubbelklik op het veld <b>waarde</b> en voer het IP-adres van het domein in.</li>
+		</ul>
+	</li>
+	<li>Wanneer u uw Synology NAS toevoegt aan een door Synology Directory Server gemaakt domein is een aanvullende configuratie nodig om geïntegreerde Windows Authentication te gebruiken:
+		<ol>
+			<li>Ga naar DSM <b>Configuratiescherm</b> > <b>Bestandsservices</b> > <b>SMB/AFP/NFS</b>.</li>
+			<li>Klik onder het gedeelte <b>SMB</b> op <b>Geavanceerde instellingen</b>.</li>
+			<li>Selecteer <b>SMB1</b> in het vervolgkeuzemenu <b>Minimaal SMB-protocol</b> en klik op <b>Opslaan</b>.</li>
+		</ol>
+	</li>
+
+</ul>
+</div>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>de aanmelding via Geïntegreerde Windows-verificatie is alleen beschikbaar op DSM 6.2.2 of hoger.</li>
+		</ul></li>
+</ul>
+</div>
+
+<h3>Domeinstatuscontrole</h3>
+
+<p>Klik op <strong>Domeinstatuscontrole</strong> om de status van de verbinding tussen uw DSM en de domeinserver te controleren. Voor meer informatie over oplossen van problemen raadpleeg de volgende controle-items:</p>
+<ul>
+	<li><strong>Controleer de juiste werking van de verbinding tussen Synology NAS en <font>domeincontroller</font></strong>: De communicatie van Synology NAS met de <font>domeincontroller</font> is mislukt.
+		<ul>
+			<li>Vergewis u ervan dat poorten 389, 139 en 445 op de <font>domeincontroller</font> goed werken.</li>
+			<li>Zorg dat de NTDS-service op de <font>domeincontroller</font> goed werkt.</li>
+		</ul>
+	</li>
+	<li><strong>Controleer of er conflicterende hostnamen in het subnet zijn</strong>: Uw Synology NAS heeft een hostnaam die al in het subnetwerk bestaat.
+		<ul>
+			<li>Wanneer uw Synology NAS via verschillende netwerkinterfaces is verbonden met een subnetwerk, dan zal uw DSM correct werken.</li>
+			<li>Is uw Synology NAS via een enkele netwerkinterface verbonden met een subnetwerk wijzig dan de hostnaam van uw Synology NAS en koppel hem opnieuw aan het domein.</li>
+		</ul>
+	</li>
+	<li><strong>Controleer of de verbinding tussen Synology NAS en Kerberos-server goed werkt</strong>: De communicatie van Synology NAS met de Kerberos-server is mislukt.
+		<ul>
+			<li>Vergewis u ervan dat het Kerberos DNS SRV-record en het gerelateerde A-record op de DNS-server staan.</li>
+			<li>Vergewis u ervan dat poort 88 beschikbaar is op de KDC-server.</li>
+		</ul>
+	</li>
+	<li><strong>Controleer of de verbinding tussen Synology NAS en LDAP-server goed werkt</strong>: de communicatie van Synology NAS met de LDAP-server is mislukt.
+		<ul>
+			<li>Vergewis u ervan dat het LDAP DNS SRV-record en het gerelateerde A-record op de DNS-servers staan.</li>
+			<li>Vergewis u ervan dat poort 389 correct werkt op de LDAP-server.</li>
+		</ul>
+	</li>
+	<li><strong>Controleer dat MTU correct is geconfigureerd om te garanderen dat de verbinding tussen Synology NAS en domeincontroller correct werkt</strong>: Een of meer switches hebben enkele pakketten niet overgedragen tussen de Synology NAS en de <font>domeincontroller</font> omdat de MTU-grootte van de pakketten ongeldig is.
+		<ul>
+			<li>Controleer de interface-instellingen van switches tussen het Synology NAS en de <font>domeincontroller</font>.</li>
+		</ul>
+	</li>
+	<li><strong>Controleer of de tijd is gesynchroniseerd tussen Synology NAS en het domein</strong>: De tijd op uw Synology NAS is niet gesynchroniseerd met de domeinserver.
+		<ul>
+			<li>U kunt de NTP-service instellen op de Synology NAS om de tijd te synchroniseren met de domeinserver of schakel de optie <strong>Synology NAS zal synchroniseren met een NTP-server telkens wanneer een domeingebruiker zich aanmeldt</strong> in <strong>Domeinopties</strong>.</li>
+		</ul>
+	</li>
+</ul>
+
+</body>
+</html>

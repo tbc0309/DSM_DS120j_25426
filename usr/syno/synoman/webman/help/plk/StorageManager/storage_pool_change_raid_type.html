@@ -1,0 +1,128 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Zmiana typu konfiguracji RAID puli pamięci &mdash; pomoc Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing storage pools on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+	
+</head>
+<body>
+<h2>Zmiana typu macierzy RAID puli pamięci</h2>
+
+<p>Typy macierzy RAID dla pul pamięci można zmieniać bez utraty istniejących danych. Można np. w urządzeniu Synology NAS utworzyć pulę pamięci RAID 1, a następnie w przypadku instalacji większej liczby dysk&oacute;w zmienić ją na macierz RAID 5. Niniejszy artykuł zawiera instrukcje zmiany typu macierzy RAID dla istniejących pul pamięci w urządzeniu Synology NAS. Przed rozpoczęciem zmiany typu macierzy RAID puli pamięci masowej zapoznaj się z poniższymi sekcjami <b>Wymagania dotyczące dysk&oacute;w</b> oraz <b>Wymagania i ograniczenia dotyczące typu macierzy RAID</b>, aby uzyskać szczeg&oacute;łowe informacje na temat odpowiednich wymagań i ograniczeń.<h3>Wymagania dotyczące dysk&oacute;w</h3>
+
+<p>Aby zmienić typ macierzy RAID puli pamięci, w urządzeniu Synology NAS musi być zainstalowana odpowiednia liczba dysk&oacute;w. Zapoznaj się z poniższą tabelą, aby uzyskać informacje na temat minimalnej liczby dysk&oacute;w dla każdego typu macierzy RAID.</p>
+
+<table>
+  <tr>
+    <th width="50%">Typ RAID</th>
+    <th width="50%">Minimalna wymagana liczba dysk&oacute;w</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 lub 5 (w zależności od liczby dysk&oacute;w w SHR-1)</td>
+  </tr>
+
+</table>
+
+</p>
+<h3>Wymagania i ograniczenia dotyczące typu macierzy RAID</h3>
+
+<p>Tylko niekt&oacute;re typy macierzy RAID można zmienić na inne typy macierzy RAID. Macierz RAID 1 można na przykład zmienić na RAID 5, jednakże macierzy RAID 5 nie można zmienić na RAID 1. Szczeg&oacute;łowe informacje można znaleźć w poniższej tabeli.</p>
+
+<table>
+  <tr>
+    <th width="30%">Bieżący typ macierzy RAID</th>
+    <th width="30%">Możliwy typ docelowy konwersji</th>
+    <th width="40%">Wymagana dodatkowa liczba dysk&oacute;w</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1</td>
+    <td>1</td>
+  </tr>
+ <tr>
+    <td>Basic</td>
+    <td>RAID 5</td>
+	  <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+	  <td>1</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+	  <td>1</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+	  <td>1 lub 2 (w zależności od liczby dysk&oacute;w w SHR)</td>
+  </tr>
+
+</table>
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+<li>Więcej informacji na temat SHR (Synology Hybrid RAID) można znaleźć <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_is_Synology_Hybrid_RAID_SHR" target="_blank">tutaj</a>.</li>
+<li>Więcej informacji na temat wyboru typu RAID dla puli pamięci masowej można znaleźć <a href="storage_pool_what_is_raid.html">tutaj</a>.</li>
+<li>Informacje na temat szacunkowego wykorzystania miejsca można znaleźć w <a href="https://www.synology.com/support/RAID_calculator" target="_blank">Kalkulatorze RAID firmy Synology</a>.</li>
+<li>Jeżeli pula pamięci masowej SHR-1 posiada poniższe konfiguracje dysk&oacute;w, jej zmiana na pulę pamięci masowej SHR-2 może wymagać dw&oacute;ch dodatkowych dysk&oacute;w:<ul>
+<li>Pula pamięci zawiera tylko dwa dyski.</li>
+<li>Każdy dysk ma inną pojemność.</li>
+<li>W macierzy RAID zawierającej co najmniej trzy dyski pojemność dw&oacute;ch największych dysk&oacute;w jest większa niż w przypadku pozostałych dysk&oacute;w.</li>
+</ul>
+</li>
+<li>Niekt&oacute;re modele nie obsługują zmiany puli pamięci masowej o konfiguracji RAID 5 na pulę pamięci masowej RAID 6.</li>
+</ul>
+</div>
+
+<h3>Zmiana typu macierzy RAID</h3>
+
+<h4>Przed rozpoczęciem:</h4>
+<p>Przed zmianą typu macierzy RAID należy zwr&oacute;cić uwagę na następujące kwestie:</p>
+<ul>
+<li>Upewnij się, że stan puli pamięci jest <b>Normalny</b>.</li>
+<li>Podczas dodawania nowych dysk&oacute;w do puli pamięci należy upewnić się, że nowe dyski mają większą pojemność niż najmniejszy dysk w puli pamięci, a wszystkie dyski są tego samego typu.</li>
+<li>Typu macierzy RAID w grupach RAID Group nie można zmienić. Funkcja RAID Group jest dostępna tylko w niekt&oacute;rych modelach.<br><span class="note_head">Uwaga:</span> Przejdź do <a href="https://www.synology.com/products" target="_blank">tej strony internetowej</a> i zaznacz pole wyboru w prawym g&oacute;rnym rogu urządzenia Synology NAS oraz wybranych innych modeli, a następnie kliknij przycisk <b>Por&oacute;wnaj</b> w prawym dolnym rogu. Informacje o tym, czy dany model obsługuje funkcję RAID Group zostaną wyświetlone na stronie <b>Wyniki por&oacute;wnania</b>.</li>
+</ul>
+
+<div class="section">
+<h4>Uwaga:</h4>
+
+<ul>
+<li>Zalecamy korzystanie z dysk&oacute;w wymienionych na <a href="https://www.synology.com/compatibility" target=blank>liście zgodności produkt&oacute;w firmy Synology</a>, aby uniknąć wszelkich problem&oacute;w. Stosowanie niezgodnych dysk&oacute;w może negatywnie wpłynąć na wydajność systemu, a nawet spowodować utratę danych.</li>
+</ul>
+</div>
+<h4>Aby zmienić typ RAID puli pamięci:</h4>
+
+<ol>
+<li>Uruchom aplikację <strong>Zarządzanie przechowywaniem</strong>.</li><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/><li>Przejdź do <b>Pula pamięci</b>.</li>
+<li>Wybierz pulę pamięci, dla kt&oacute;rej chcesz zmienić typ konfiguracji RAID i kliknij <b>Zmień typ macierzy RAID</b> w menu rozwijanym <b>Akcja</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/change_raid_type.png" class="help_image"/><li>Wybierz docelowy typ RAID. Kliknij <b>Dalej</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_raid.png" class="help_image"/><li>Zaznacz dyski, kt&oacute;re mają być dodane do istniejącej puli pamięci. Kliknij opcję <b>Dalej</b>.<br><span class="note_head">Uwaga:</span> Wszystkie dane na nowo dodanych dyskach zostaną usunięte. Pamiętaj o wcześniejszym utworzeniu kopii zapasowej danych.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_disks.png" class="help_image"/><li>Postępuj zgodnie z instrukcjami kreatora, aby zakończyć.</li></ol>
+
+</body>
+</html>

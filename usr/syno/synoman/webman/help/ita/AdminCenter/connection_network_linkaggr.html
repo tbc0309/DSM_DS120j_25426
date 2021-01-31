@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Rete</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="link_aggr"></a>Link Aggregation</h2>
+<p>Synology NAS supporta il multi-LAN che consente di combinare le interfacce LAN utilizzando la tecnologia Link Aggregation. Link Aggregation aumenta la larghezza di banda di Synology NAS mediante l'aggregazione di più interfacce di rete e fornisce il failover di traffico per mantenere la connessione di rete in caso di interruzione della connessione.</p>
+<p>Dopo avere combinato le interfacce LAN, sarà visualizzata una nuova interfaccia con il nome <b>Bond</b> su <b>Pannello di controllo</b> > <b>Rete</b> > <b>Interfaccia di rete</b> che può essere configurata proprio come le altre interfacce (ad esempio LAN o PPPoE).</p>
+
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Link Aggregation è disponibile solo su modelli con almeno due porte LAN.</li>
+<li>L'abilitazione di Link Aggregation consente la regolazione e il bilanciamento automatici del traffico di rete per ogni dispositivo connesso.</li>
+<li>Se le interfacce di rete sono connesse a più interruttori, verificare che le porte degli interruttori siano nella stessa LAN o VLAN.</li>
+</ul>
+</div>
+
+
+<h4>Per combinare più LAN con Link Aggregation:</h4>
+<ol>
+<li>Andare su <strong>Pannello di controllo</strong> > <strong>Rete</strong> > <strong>Interfaccia di rete</strong>. Fare clic su <strong>Crea</strong> > <strong>Crea Bond</strong>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+
+<li>Selezionare la modalità desiderata.
+
+<div class="section">
+<h4>Descrizioni delle modalità:</h4>
+<ul>
+  <li><strong>Adaptive Load Balancing</strong>: questa modalità consente di ottimizzare il traffico di rete ricevuto e inviato da Synology NAS se l'interruttore supporta o non supporta Link Aggregation. Per evitare errori imprevisti, non abilitare Link Aggregation sull'interruttore anche se è supportato.</li>
+  <li><strong>IEEE 802.3ad Dynamic Link Aggregation</strong>: questa modalità consente di ottimizzare il traffico di rete ricevuto e inviato da Synology NAS e richiede l'abilitazione di IEEE 802.3ad (Dynamic) Link Aggregation (LACP, 802.1AX) sugli switch. In caso di utilizzo di più interruttori, questi devono risultare impilabili e correttamente configurati.</li>
+<li><strong>Bilancia XOR</strong>: questa modalità consente di bilanciare il traffico di rete ricevuto e inviato da Synology NAS e richiede l'abilitazione di Link Aggregation sugli switch. In caso di utilizzo di più interruttori, questi devono risultare impilabili e correttamente configurati. Se Link Aggregation non è supportato dallo switch, il traffico inviato da Synology NAS può essere ancora bilanciato. Questa modalità consente di rilevare i collegamenti perduti ma non la causa (es., quando i cavi Ethernet sono scollegati o l'interruttore non è correttamente configurato).</li>
+<li><strong>Attivo/standby</strong>: Questa modalità fornisce a Synology NAS la network fault tolerance. Quindi, quando l'interfaccia di rete attiva si arresta, una delle altre porte LAN verrà utilizzata per mantenere la connessione di rete. È possibile scegliere questa modalità senza configurazione dell'interruttore oppure con un interruttore che supporti IEEE 802.3ad Link Aggregation.</li>
+</ul>
+<p>Se è stato abilitato Open vSwitch, sarà possibile selezionare una delle seguenti immagini:</p>
+<ul>
+ <li><b>Bilanc.-SLB</b>: questa modalità bilancia il traffico di rete senza richiedere il supporto di specifici switch di rete e abilita la connessione tra due differenti switch.</li>
+ <li><b>Bilanc.-TCP</b>: questa modalità abilita la connessione con gli switch configurati come Dynamic Link Aggregation (IEEE 802.3ad LACP). In caso di utilizzo di più switch, questi devono risultare impilabili e correttamente configurati.</li>
+ <li><b>Modalità Attiva/Backup</b>: Questa modalità fornisce a Synology NAS la tolleranza ai guasti di rete utilizzando due interfacce di rete. Quando l'interfaccia di rete non funziona correttamente, verrà utilizzata l'altra interfaccia di rete per mantenere la connessione di rete. Scegliere questa modalità senza configurare lo switch.</li>
+</ul>
+</div>
+</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Selezionare le interfacce per creare Link Aggregation.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Configurare le impostazioni IP. Inoltre, se necessario, è possibile abilitare VLAN. Per salvare le modifiche, fare clic su <b>Applica</b>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Al termine, sarà possibile vedere la nuova interfaccia <b>Bond 1</b> nell'elenco <b>Interfaccia di rete</b>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+<h4>Per modificare le impostazioni di Link Aggregation:</h4>
+<ol>
+<li>Per modificare la modalità Link Aggregation oppure per visualizzare le informazioni di dispositivi fisici, andare su <b>Pannello di controllo</b> > <b>Rete</b> > <b>Interfaccia di rete</b>.</li>
+<li>Selezionare l'interfaccia <b>Bond 1</b> e fare clic sul pulsante <b>Modifica</b>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Andare alle schede corrispondenti per modificare le impostazioni desiderate.</li>
+</ol>
+
+<h4>Per rimuovere Link Aggregation:</h4>
+<ol>
+<li>Andare su <b>Pannello di controllo</b> > <b>Rete</b> > <b>Interfaccia di rete</b>.</li>
+<li>Selezionare l'interfaccia <b>Bond 1</b> e fare clic sul pulsante <b>Elimina</b>.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Al termine, saranno visualizzate le due interfacce LAN nell'elenco Interfaccia di rete.</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+</body>
+</html>
+

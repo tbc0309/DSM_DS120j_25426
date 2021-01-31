@@ -1,0 +1,165 @@
+{{#alternativePort}}
+{{#alternativePort.http}}
+server {
+    listen {{alternativePort.http}} default_server{{#reuseport}} reuseport{{/reuseport}};
+    listen [::]:{{alternativePort.http}} default_server{{#reuseport}} reuseport{{/reuseport}};
+
+    server_name _;
+
+    gzip on;
+
+    {{#index}}
+    index {{index}};
+    {{/index}}
+    {{#root}}
+    root {{root}};
+    {{/root}}
+
+    {{> /usr/syno/share/nginx/error_page}}
+    {{#x-accel}}
+    {{> /usr/syno/share/nginx/X-Accel}}
+    {{/x-accel}}
+
+    {{#acl}}
+    {{#rules}}
+    {{#access}}allow{{/access}}{{^access}}deny{{/access}} {{address}};
+    {{/rules}}
+    {{/acl}}
+
+    include app.d/{{include}};
+}
+{{/alternativePort.http}}
+{{#alternativePort.https}}
+server {
+    listen {{alternativePort.https}} default_server ssl{{#reuseport}} reuseport{{/reuseport}};
+    listen [::]:{{alternativePort.https}} default_server ssl{{#reuseport}} reuseport{{/reuseport}};
+
+    server_name _;
+
+    {{#https_alt_port.certificate}}
+    ssl_certificate {{https_alt_port.certificate}};
+    {{/https_alt_port.certificate}}
+    {{#https_alt_port.key}}
+    ssl_certificate_key {{https_alt_port.key}};
+    {{/https_alt_port.key}}
+
+    {{#https_alt_port.profile}}
+    ssl_protocols             {{protocols}};
+    ssl_ciphers               {{ciphersuite}};
+    ssl_dhparam               {{dhparam}};
+    {{/https_alt_port.profile}}
+
+    {{#DSM.https.compression}}
+    gzip on;
+    {{/DSM.https.compression}}
+    {{#index}}
+    index {{index}};
+    {{/index}}
+    {{#root}}
+    root {{root}};
+    {{/root}}
+
+    {{> /usr/syno/share/nginx/error_page}}
+    {{#x-accel}}
+    {{> /usr/syno/share/nginx/X-Accel}}
+    {{/x-accel}}
+
+    {{#acl}}
+    {{#rules}}
+    {{#access}}allow{{/access}}{{^access}}deny{{/access}} {{address}};
+    {{/rules}}
+    {{/acl}}
+
+    include app.d/{{include}};
+}
+{{/alternativePort.https}}
+{{/alternativePort}}
+{{#fqdn}}
+server {
+    listen 80{{#reuseport}} reuseport{{/reuseport}};
+    listen [::]:80{{#reuseport}} reuseport{{/reuseport}};
+
+    server_name {{server_name}};
+    set $fqdn {{fqdn}};
+
+    {{#index}}
+    index {{index}};
+    {{/index}}
+    {{#root}}
+    root {{root}};
+    {{/root}}
+
+    {{#acl}}
+    {{#rules}}
+    {{#access}}allow{{/access}}{{^access}}deny{{/access}} {{address}};
+    {{/rules}}
+    {{/acl}}
+    {{> /usr/syno/share/nginx/error_page}}
+
+    {{> /usr/syno/share/nginx/LetsEncrypt}}
+    {{#https.hsts}}
+    location / {
+        return 301 https://$server_name$request_uri;
+    }
+    {{/https.hsts}}
+    {{^https.hsts}}
+    gzip on;
+
+    {{#x-accel}}
+    {{> /usr/syno/share/nginx/X-Accel}}
+    {{/x-accel}}
+
+    include app.d/{{include}};
+    {{/https.hsts}}
+}
+
+server {
+    listen 443 ssl{{#https.http2}} http2{{/https.http2}}{{#reuseport}} reuseport{{/reuseport}};
+    listen [::]:443 ssl{{#https.http2}} http2{{/https.http2}}{{#reuseport}} reuseport{{/reuseport}};
+
+    server_name {{server_name}};
+    set $fqdn {{fqdn}};
+
+    {{#https.certificate}}
+    ssl_certificate {{https.certificate}};
+    {{/https.certificate}}
+    {{#https.key}}
+    ssl_certificate_key {{https.key}};
+    {{/https.key}}
+
+    {{#https.profile}}
+    ssl_protocols             {{protocols}};
+    ssl_ciphers               {{ciphersuite}};
+    ssl_dhparam               {{dhparam}};
+    {{/https.profile}}
+
+    {{#DSM.https.compression}}
+    gzip on;
+    {{/DSM.https.compression}}
+    {{#index}}
+    index {{index}};
+    {{/index}}
+    {{#root}}
+    root {{root}};
+    {{/root}}
+
+    {{> /usr/syno/share/nginx/LetsEncrypt}}
+    {{> /usr/syno/share/nginx/error_page}}
+    {{#x-accel}}
+    {{> /usr/syno/share/nginx/X-Accel}}
+    {{/x-accel}}
+
+    {{#https.hsts}}
+    {{> /usr/syno/share/nginx/HSTS}}
+    {{/https.hsts}}
+
+    {{#acl}}
+    {{#rules}}
+    {{#access}}allow{{/access}}{{^access}}deny{{/access}} {{address}};
+    {{/rules}}
+    {{/acl}}
+
+    include app.d/{{include}};
+}
+{{/fqdn}}
+

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Win/Mac/NFS</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+
+<body>
+
+<h2>SMB</h2>
+<p>SMB (Server Message Block) プロトコルによって、SMB/CIFS サポートを持つ Windows、Mac、Linux のクライアントの、Synology NAS に保存されたデータへのアクセスが可能になります。Windows エクスプローラで Synology NAS のファイルを参照したり、ネットワーク ドライブとして共有フォルダをマウントしたりするには、<strong>[コントロール パネル]</strong> > <strong>[ファイル サービス]</strong> > <strong>[SMB/AFP/NFS]</strong> でこのオプションを有効にしてください。</p>
+
+<h4>SMB プロトコルを有効化する：</h4>
+  <ol>
+    <li><strong>[SMB サービスを有効にする]</strong> にチェックマークを付けます。</li>
+    <li>[<strong>適用</strong>] をクリックします。</li>
+  </ol>
+
+<div class="section"><h4>注：</h4>
+  <ul>
+    <li>SMB プロトコルを有効化した後で、SMB を介して完全にインデックス付けしたフォルダを Mac コンピュータにマウントし、Finder を使ってマウントしたフォルダ内のファイル コンテンツを検索することができます (NVR216 または VS360HD には適用されません)。</li>
+  </ul>
+</div>
+
+
+<h3>ワークグループ</h3>
+<p>このオプションは、ネットワーク管理を行うためにシステムを特定ワークグループのメンバーとして割り当てます。</p>
+
+<div class="section"><h4>注：</h4>
+  <ul>
+    <li>ワークグループの名前は 1～15 文字以内です｡名前に次の文字を使用することはできません：[ ] ; :&quot;< > * + = \ / | ?,</li>
+    <li>OS X 10.9 を起動する Mac を使用していて、Synology NAS が Windows ドメインに接続されている場合は、Synology NAS ローカル ユーザー名の前に <strong>localhost\</strong> を付け加えてログインすると、SMB プロトコルを使用して Synology NAS に保管されているファイルにアクセスすることができます。</li>
+  </ul>
+</div>
+
+
+<h3>前のバージョンへのアクセスを禁止する</h3>
+<p>Windows Explorer で、共有フォルダ内の <strong>[前のバージョン]</strong> タブをクリックすると、フォルダやファイルのスナップショットにアクセスすることができ、これによって、管理者のサポートなしにデータを復元したり、コピーしたりすることが可能になります。<strong>[前のバージョンへのアクセスを禁止する]</strong> を選択すると、「前のバージョン」ページに情報が何も表示されなくなります。</p>
+
+<div class="section"><h4>注：</h4>
+  <ul>
+    <li>この機能は VDSM および以下のパッケージ アーキテクチャのあるモデルのみでサポートされます。Apollo Lake、Avoton、Braswell、Broadwell、Bromolow、Cedarview、および Grantley。お使いのモデルがどのパッケージ アーキテクチャをサポートするかについては、<a href="https://www.synology.com/en-us/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">この記事</a>をご覧ください。</li>
+    <li>ユーザーは、前のバージョンに対応したスナップショットが撮られ、そのユーザーアカウントが作成されており、対応するスナップショットが撮られた共有フォルダを読み出す許可が与えられているときにのみ、前のバージョンにアクセスすることができます。</li>
+  </ul>
+</div>
+
+
+<h3>転送ログを有効にする </h3>
+<p><strong>転送ログを有効にする</strong>チェックボックスをマークし、CIFS/SMBプロトコルで実行されるファイル操作のロギングを有効にします。デフォルトでは、転送ログはファイルやフォルダーの削除だけを監視しますが、[<strong>ログ設定</strong>] に進んで他の操作イベント、作成、移動、名前の変更、読み取り、書き込みをシステムがログするように選択できます。ファイル操作イベントを選択すればするほど、システム性能には影響が出る可能性があります。</p>
+
+
+<h3>詳細設定</h3>
+<p>[<strong>詳細設定</strong>] ボタンをクリックすると、以下のオプションが表示されます。</p>
+  <ul>
+    <li><strong>WINS サーバー</strong>：Microsoft Windows インターネット ネーミング サービス (WINS) は、NetBIOS 名を IP アドレスとマッピングするサービスです。Windows ユーザーは、システムが WINS サーバーに登録するよう設定されている場合、TCP/IP ネットワーク上でシステムをより簡単に探し出すことができます。</li>
+    <li><strong>最大SMBプロトコル</strong>：ネットワークの構成に合わせて、お使いの Synology NAS がサポートする最新のSMBプロトコルに設定します。
+      <ul>
+        <li><strong>SMB1</strong>：SMB1（または CIFS）は、Windows NT 以降でサポートされています。</li>
+        <li><strong>SMB2</strong>：SMB2 は、Windows Vista 以来サポートされており、SMB の強化版です。SMB2 はネットワーク パケット数を低減し、性能を高めるために、複数の SMB 操作を 1 つのリクエストにまとめることができます。</li>
+        <li><strong>SMB2 と Large MTU</strong>：MTU (Maximum transmission unit) とは、通信プロトコルで通信できる最大データユニットのことです。1- または 10- ギガビット イーサネットなど、高速ネットワーク インターフェイスの特性を生かせるように、Large MTU は MTU を 1 メガバイト (MB) まで高めます。Large MTU を有効にすると、大きいファイルの転送速度と効率を高めることができますし、処理すべきパケット数も低減できます。</li>
+        <li><strong>SMB3</strong>：SMB3 は、Windows 8 および Windows Server 2012 以降に対応しています。これは SMB2 の強化版です。SMB3 は AES ベースのファイル暗号化転送に対応しており、ピア・トゥ・ピアのファイル転送時のセキュリティを強化します。</li>
+      </ul>
+
+      <div class="section"><h4>注：</h4>
+        <ul>
+          <li>SMB2 は、Windows Vista、Windows Server 2008 R2、Windows 7、およびそれ以降でサポートされます。</li>
+          <li>Large MTU は、Windows Server 2008 R2、Windows 7、それ以降でサポートされます。</li>
+          <li>Large MTU を Windows コンピュータで使用できるようにするには、コンピュータのレジストリ設定を変更する必要があります。詳細については、Microsoft テクニカルサポートをご覧ください (この<a href="http://technet.microsoft.com/en-us/library/ff625695(v=ws.10).aspx" target="_blank">記事</a>など)。</li>
+        </ul>
+      </div>
+
+      <li><strong>最小 SMB プロトコル</strong>：ネットワークの構成に合わせて、お使い Synology NAS がサポートする最新の SMB プロトコルに設定します。</li>
+      <li><strong>転送暗号化モード</strong>：SMB3 が有効になっていると、SMB プロトコルは転送暗号化を追加して転送時のセキュリティを強化します。
+        <ul>
+          <li><strong>無効</strong>：転送暗号化は適用されません。</li>
+          <li><strong>自動</strong>：転送暗号化はクライアントがこの機能に対応している場合にのみ適用されます。</li>
+          <li><strong>強制</strong>：転送暗号化が常に適用されます。この場合、転送暗号化をサポートしないクライアントは、SMB プロトコルを使用できないことになります。</li>
+        </ul>
+      </li>
+
+      <div class="section"><h4>注：</h4>
+        <ul>
+          <li>転送暗号化は、Windows 8、Windows Server 2012、およびそれ以降でサポートされます。</li>
+          <li>転送暗号化が有効になっているときには、SMB プロトコルへの匿名ログオンはサポートされません。</li>
+          <li>トランスポート暗号化が有効になっているときには、アプリケーションのタイムアウトを避けるために<strong> [Opportunistic Locking を有効化する]</strong> をチェックしたままにしてください。</li>
+        </ul>
+      </div>
+
+      <li><strong>Opportunistic Locking を有効化する</strong>：選択して CIFS の&quot;Opportunistic Locking&quot;を有効化します。すると、クライアントはファイル コンテンツの、より優れたキャッシュを行え、小規模の読み込み/書き込みオーバーヘッドを回避します。このオプションの選択が解除されると、データベース アプリケーションは、ネットワークから Synology NAS で保存されたデータベース ファイルへのアクセスに、より優れたパフォーマンスを発揮します。
+        <ul>
+          <li><strong>SMB2 リースを有効化</strong>：このオプションを有効化すると、より多くの SMB2 関連の設定が Opportunistic Locking によって提供されるクライアント キャッシング メカニズムの微調整を行えるようになります。</li>
+        </ul>
+      </li>
+      <li><strong>Local Master Browser を有効にする</strong>：1 つのサブネットに複数の Windows コンピュータがある場合、それらがネゴシエートして 1 台のコンピュータを「ローカルマスター ブラウザ」として選出します。&quot;Local Master Browser には、サブネット内の他のコンピュータおよびそれらの共有リソースのリストがあり、それらのリストを他のコンピュータと共有します。このオプションを選択すると、Synology NAS が Local Master Browser になることができます。</li>
+
+      <div class="section"><h4>注：</h4>
+        <ul>
+          <li>この機能を有効にすると、ハードディスクのハイバネーションを無効にして、パスワードを持たない guest アカウントを有効にします。</li>
+        </ul>
+      </div>
+
+      <li><strong>DirSort VFS モジュールを有効にする</strong>：フォルダ名を並べ替えて、アルファベット順にリストします。このオプションを有効にすると、システムの性能が影響を受けます。</li>
+      <li><strong>ファイルを拒否する</strong>：指定条件に基づいてファイルを隠します。条件にはワイルドカード (*) を使用でき、複数のエントリはスラッシュ (/) で区切らなければなりません。例：<i>/abc*/*.txt/*.conf/</i>。このオプションを有効にすると、システムの性能が影響を受けます。</li>
+      <li><strong>共有フォルダ内の象徴的なリンクを許可する</strong>選択すると、シンボリック リンクを同じ共有フォルダ内のファイルまたはフォルダに指定できます。シンボリック リンクは DSM 端末を使って作成できます。
+        <ul>
+          <li><strong>共有フォルダに亘る象徴的なリンクを許可する</strong>：選択すると、シンボリック リンクを別の共有フォルダ内にあるファイルやフォルダに向けます。シンボリック リンクは DSM 端末を使って作成できます。ただし、権限のないユーザーが、シンボリック リンクの対象の共有フォルダにアクセスできる可能性があります。</li>
+        </ul>
+      </li>
+      <li><strong>Mac 特殊文字を変換するために VFS モジュールを有効化する：</strong>選択すると、ファイル作成の際に、ファイル名の SMB 専用文字 (例 &lt;   &gt;  &quot; * ?) を基本ラテンに変換します。このようなファイルは、AFP から認識できます。</li>
+      <li><strong>MSDFS VFS モジュールを有効にする</strong>：シンボリック リンクを別の SMB サーバー上にあるファイルやフォルダに指定できます。Windows XP などの古い Windows バージョンを使用している場合は、このオプションを有効にする前に、クライアントおよび Synology NAS は、Windows ドメインに加入する必要があります。MSDFS リンクを作成する方法については、<a href="http://www.samba.org/samba/docs/man/Samba-HOWTO-Collection/msdfs.html" target=_blank>ここ</a>をご覧ください。クライアント デバイスのキャッシュは、このオプションを無効にした後で消去すべきです。そうしなければ、通常の正常に影響を与える場合があります。</li>
+      <li><strong>同一 IP アドレスからの複数接続を無効にする</strong>：このオプションを有効にすると、Synology NAS は、SMB プロトコルを使って、クライアントから 1 IP アドレスにつき 1 つの接続のみを許可します。同じ IP アドレスを持つ複数のクライアントが SMB プロトコルを使用している場合は、Synology NAS は、最新の接続のみを維持し、古い接続を切ります。NAT 環境では、クライアントが 1 つの IP アドレスを使用している場合があります。この場合、このオプションを有効にすると、正常に動作しなくなる場合があります。</li>
+      <li><strong>デバッグ ログを収集</strong>：このオプションが有効化されると、詳細なログがデバッグのために保存されます。このオプションを有効にすると、システムの性能が影響を受けます。</li>
+      <li><strong>デフォルトの UNIX 権限を適用する</strong>：ファイルやフォルダをアップロード、または作成する場合、デフォルトの UNIX パーミッションが適用されます。ファイルの UNIX パーミッションは 744、フォルダは 755 です。このオプションを無効にすると、ファイルとフォルダの UNIX パーミッションは 777 になります。</li>
+
+      <div class="section"><h4>注：</h4>
+        <ul>
+          <li>Windows ACL が有効になった共有フォルダ (外部ドライブの&quot;写真&quot;フォルダと共有フォルダを除くすべての共有フォルダ) の場合は、Linux または FTP クライアントで <strong>chmod</strong>コマンドを実行してフォルダやファイルのパーミッションタイプを Windows ACL から UNIX に変更してください (EDS14 には適用されません)。</li>
+          <li>このオプションを有効にすると、プロトコルによって許可が異なるという状況が発生するおそれがあります。このような状況を回避するには、このオプションを無効にしておいてください。</li>
+        </ul>
+      </div>
+
+      <li><strong>ファイルを作成するとき、ディスクスペースを予約しない</strong>：このオプションを有効にすると、Synology NAS でファイルを作成するとき、ディスクスペースを予約させません。</li>
+      <li><strong>ワイルドカード検索キャッシュを有効にする</strong>：このオプションを有効化すると、クライアントが繰り返しのワイルド カード リクエストを送信した場合に、検索パフォーマンスが向上します。</li>
+      <li><strong>SMB 永続的ハンドルを有効化 (クロスプロトコルファイルロックが無効化されます)</strong>：このオプションを有効化すると、ユーザーは一時的な切断後に、この Synology NAS に、失われた SMB2 接続を保存できるようになります。また、開いたファイルはネットワークの停止中も利用できる状態が保たれます。ただし、クロスプロトコルのファイル ロックは無効化されます。そのため、ユーザーは非 SMB2 プロトコルから、ロックされたファイルへのアクセスや、変更を行うことができます (AFP)。</li>
+      <li><strong>SMB キャッシュをクリア</strong>：このボタンをクリックすると、問題を解決するために、以下の SMB キャッシュ ファイルが削除されます。
+        <ul>
+          <li>/var/cache/samba/netsamlogon_cache.tdb</li>
+          <li>/var/lib/samba/winbindd_cache.tdb</li>
+          <li>/var/lib/samba/share_info.tdb</li>
+          <li>/var/lib/samba/registry.tdb</li>
+          <li>/run/samba/connections.tdb</li>
+          <li>/run/samba/gencacche.tdb</li>
+          <li>/run/samba/gencache_notran.tdb</li>
+        </ul>
+      </li>
+    </ul>
+
+</body>
+</html>

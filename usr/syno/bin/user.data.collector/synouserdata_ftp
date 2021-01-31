@@ -1,0 +1,69 @@
+#!/bin/sh
+
+BIN_GET_KEY_VALUE="/bin/get_key_value"
+CONFIG_PATH="/etc/synoinfo.conf"
+
+/usr/syno/sbin/synoservice --is-enabled ftpd 2>&1 > /dev/null
+if [ $? = 1 ]; then
+    FTP_ENABLE="yes"
+else
+    FTP_ENABLE="no"
+fi
+
+/usr/syno/sbin/synoservice --is-enabled ftpd-ssl 2>&1 > /dev/null
+if [ $? = 1 ]; then
+    FTPS_ENABLE="yes"
+else
+    FTPS_ENABLE="no"
+fi
+
+/usr/syno/sbin/synoservice --is-enabled sftp 2>&1 > /dev/null
+if [ $? = 1 ]; then
+    SFTP_ENABLE="yes"
+else
+    SFTP_ENABLE="no"
+fi
+
+SUPPORT_UTF8=`$BIN_GET_KEY_VALUE $CONFIG_PATH ftpsupportutf8`
+USE_UTF8=`$BIN_GET_KEY_VALUE $CONFIG_PATH ftp_use_utf8`
+if [ "$SUPPORT_UTF8" == "yes" ]; then
+    if [ "$USE_UTF8" == "yes" ]; then
+        FTP_UTF8_ENCODING_TYPE="FORCED"
+    else
+        FTP_UTF8_ENCODING_TYPE="AUTO"
+    fi
+else
+    FTP_UTF8_ENCODING_TYPE="STOP"
+fi
+
+ENABLE_UMASK=`$BIN_GET_KEY_VALUE $CONFIG_PATH ftp_enable_umask`
+if [ "$ENABLE_UMASK" == "" ]; then
+    ENABLE_UMASK="no"
+fi
+USER_CHROOT=`$BIN_GET_KEY_VALUE $CONFIG_PATH ftpUserChroot`
+if [ "$USER_CHROOT" == "" ]; then
+    USER_CHROOT="no"
+fi
+
+BANDWIDTH_RESTRICTION=`$BIN_GET_KEY_VALUE $CONFIG_PATH ftpflowcontrol`
+if [ "$BANDWIDTH_RESTRICTION" == "" ]; then
+    BANDWIDTH_RESTRICTION="no"
+fi
+
+echo -n "{"
+
+echo -n \"ftp_enable\":\"$FTP_ENABLE\",
+echo -n \"ftps_enable\":\"$FTPS_ENABLE\",
+echo -n \"sftp_enable\":\"$SFTP_ENABLE\",
+echo -n \"ftp_utf8_encoding_type\":\"$FTP_UTF8_ENCODING_TYPE\",
+echo -n \"ftp_enable_umask\":\"$ENABLE_UMASK\",
+echo -n \"ftp_enable_user_chroot\":\"$USER_CHROOT\",
+echo -n \"ftp_enable_bandwidth_restriction\":\"$BANDWIDTH_RESTRICTION\",
+
+# let version be the last one msg
+echo -n \"collector_version\":1
+
+echo "}"
+
+
+

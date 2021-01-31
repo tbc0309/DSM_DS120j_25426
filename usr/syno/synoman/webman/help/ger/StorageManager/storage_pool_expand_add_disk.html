@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>Laufwerke hinzufügen, um die Kapazität des Speicherpools zu erhöhen</h2>
+
+<p>Wenn Ihr Synology NAS leere Festplatteneinschübe hat, können Sie weitere Festplatten einbauen und zu einem vorhandenen Speicherpool hinzufügen. Dieser Artikel beschreibt, wie Sie einen vorhandenen Speicherpool durch Installation zusätzlicher Laufwerke erweitern können.</p>
+
+<p>Laufwerke können zu Speicherpools in den folgenden RAID-Konfigurationen hinzugefügt werden:</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID 5</li>
+	<li>RAID 6</li>
+	<li>RAID F1</li>
+	<li>Ein Synology Hybrid RAID (SHR) mit mindestens 2 Laufwerken</li>
+</ul>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+	<li>Der Status des neu hinzugefügten Laufwerks muss <strong>initialisiert</strong> oder <strong>Nicht initialisiert</strong> lauten.</li>
+</ul>
+</div>
+	
+<h4>Voraussetzungen:</h4>
+
+<p>Stellen Sie sicher, dass die Laufwerke, die Sie zu Ihrem Synology NAS hinzufügen wollen, folgende Voraussetzungen erfüllen:</p>
+<ul>
+	<li>RAID- oder SHR-Konfigurationen müssen mit Laufwerken desselben Typs erstellt werden. Die Verwendung von Laufwerken verschiedenen Typs beeinträchtigt die Zuverlässigkeit und Leistung des Systems. Die folgenden Kombinationen von Laufwerken werden für RAID- oder SHR-Konfigurationen nicht unterstützt:
+	<ul>
+	<li>SATA- und SAS-Laufwerke</li>
+	<li>Native und nicht native 4K-Laufwerke</li>
+	</ul>
+	</li>
+	<li><strong>Für SHR</strong>: Die Kapazität des Laufwerks, das hinzugefügt werden soll, muss mindestens so groß sein wie die des größten Laufwerks im Speicherpool, oder genau der Kapazität eines Laufwerks im Speicherpool entsprechen.</br><span class="note_head">Beispiel:</span> Wenn ein SHR-Speicherpool aus drei Laufwerken (mit 2 TB, 1,5 TB und 1 TB) besteht, sollte das neu hinzugefügte Laufwerk mindestens 2 TB groß sein, um die Kapazität optimal zu nutzen. Es können auch Laufwerke mit 1,5 TB bzw. 1 TB hinzugefügt werden, aber in diesem Fall bleibt ein Teil der Kapazität des 2-TB-Laufwerks ungenutzt.</li>
+	<li><strong>Für RAID 5, RAID 6 oder RAID F1</strong>: Die Kapazität des Laufwerks, das hinzugefügt werden soll, muss mindestens so groß sein wie die des kleinsten Laufwerks im Speicherpool.</br><span class="note_head">Beispiel:</span> Wenn ein RAID 5-, RAID 6- oder RAID F1-Speicherpool aus drei Laufwerken (mit 2 TB, 1,5 TB und 1 TB) besteht, muss die Kapazität des neuen Laufwerks mindestens 1 TB betragen.</li>
+</ul>
+
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+	<li>SHR (Synology Hybrid RAID) ist nur bei bestimmten Modellen verfügbar. <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">Hier</a> sehen Sie, ob Ihr Modell SHR nur eingeschränkt unterstützt.</li>
+	<li>RAID F1 ist nur bei bestimmten Modellen verfügbar. <a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank">Hier</a> sehen Sie, ob Ihr Modell RAID F1 unterstützt.</li>
+	<li>Wir empfehlen, Laufwerke aus der <a href="https://www.synology.com/compatibility" target="_blank">Synology-Kompatibilitätsliste</a> zu verwenden, um Probleme zu vermeiden. Die Verwendung nicht kompatibler Laufwerke kann die Systemleistung beeinträchtigen oder sogar Datenverluste verursachen.</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">Laufwerk zu einem Speicherpool hinzufügen:</a></h4>
+<p>Bevor Sie beginnen, stellen Sie sicher, dass der Status des zu erweiternden Speicherpools <strong>In Ordnung</strong> lautet. Wenn der Status anders lautet, führen Sie bitte die unter dem Status angezeigten empfohlenen Maßnahmen durch, um Laufwerksprobleme zu beheben. Gehen Sie danach wie folgt vor, um ein Laufwerk zu einem Speicherpool hinzuzufügen:</p>
+	
+<ol>
+	<li>Schalten Sie Ihr Synology NAS aus.</br> <span class="note_head">Anmerkung:</span> Lassen Sie diesen Schritt aus, wenn Ihr Synology NAS Hot-Swapping unterstützt.
+	</li>
+	<li>Setzen Sie die neue Festplatte in einen leeren Festplatteneinschub ein.</br> <span class="note_head">Anmerkung:</span> Um Verletzungen oder Schäden am Synology NAS zu vermeiden, gehen Sie bitte zum <a href="https://www.synology.com/support/download" target="_blank">Download-Zentrum</a> und wählen Sie Ihr Synology-Produkt aus. Unter <strong>Dokumente</strong> > <strong>Hardware-Installationsanleitung</strong> können Sie die Hardware-Installationsanleitung mit Anweisungen zur Installation von Laufwerken in Ihrer Sprache herunterladen.</li>
+
+	<li>Schalten Sie Ihr Synology NAS ein und starten Sie den <strong>Speicher-Manager</strong>.</li>
+	<li>Gehen Sie zur Seite <b>Speicherpool</b> und wählen Sie den Speicherpool aus, den Sie erweitern möchten. Klicken Sie im Dropdown-Menü <strong>Aktion</strong> auf <strong>Laufwerk hinzufügen</strong>.</li>
+	<li>Wählen Sie in der Liste das Laufwerk aus, das Sie hinzufügen möchten. Es werden nur Laufwerke aufgelistet, die die Anforderungen hinsichtlich Typ und Kapazität erfüllen.</li>
+	<li>Folgen Sie dem Assistenten, um den Vorgang abzuschließen.</li>
+</ol>
+
+<h4>Die Volume-Größe erweitern:</h4>
+<p>Wenn ein Speicherpool über ausreichend Kapazität verfügt, kann die Größe seines zugehörigen Volumes je nach Speicherpooltyp entweder automatisch oder manuell erweitert werden.</p>
+<ul>
+<li><b>Speicherpool mit einem Volume:</b> Bei Speicherpools, die nur ein Volume unterstützen, wird die Volume-Größe automatisch erweitert, nachdem die Kapazität des Speicherpools erhöht wurde. Für weitere Informationen siehe <a href="#t1">Laufwerk zu einem Speicherpool hinzufügen</a>.</li>
+<li><b>Speicherpool mit mehreren Volumes:</b> Bei Speicherpools, die mehrere Volumes unterstützen, kann die Volume-Größe manuell erweitert werden, sobald der Speicherpool über ausreichend Kapazität verfügt. Für weitere Informationen siehe <a href="volume_expand_volume.html" target="_blank">Volume-Größe erweitern</a>.</li>
+</ul>
+
+</body>
+</html>

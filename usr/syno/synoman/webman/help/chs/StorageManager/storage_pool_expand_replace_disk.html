@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>更换硬盘以扩充存储容量</h2>
+
+<p>在使用某些类型的 RAID 时，您可通过以较大容量的硬盘更换已有的硬盘来扩充存储池的存储容量。本文将提供有关扩充过程的重要信息，以及如何更换现有硬盘以扩充存储容量的示例。</p>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>本文描述的程序仅适用于以下 RAID 类型：SHR、RAID 1、RAID 5、RAID 6、RAID 10、RAID F1。</li>
+	<li>SHR (Synology Hybrid RAID) 仅在特定型号上可用。要了解更多信息，请访问 <a href="https://www.synology.com/" target="_blank">Synology 网站</a>。</li>
+	<li>RAID F1 仅在特定型号上可用。要了解更多信息，请访问 <a href="https://www.synology.com/" target="_blank">Synology 网站</a>。</li>
+	<li>如果您的存储池支持数据清理，建议您在更换硬盘之前执行数据清理以检查存储空间和存储池是否正常。</li>
+	<li>建议使用 <a href="https://www.synology.com/compatibility" target=blank>Synology 产品兼容性列表</a>中的硬盘，以防止出现任何问题。使用不兼容的硬盘可能会降低 Synology NAS 的系统性能，甚至会导致数据丢失。</li>
+</ul>
+</div>
+
+<p>如果打算更换多个硬盘，请小心地逐个更换硬盘。更换一个硬盘后，必须先修复存储池，才能再更换下一个硬盘。对于以下 RAID 类型，存储池容量将在更换完所有硬盘之后扩充：RAID 1、RAID 5、RAID 6、RAID 10、RAID F1。</p>
+
+<h3 class="list_head"><a id="t1"></a>开始之前的准备</h3>
+<p>更换硬盘前，请参阅下列注意事项：</p>
+<ul>
+	<li><strong>数据备份：</strong>虽然扩充过程不会删除任何现有数据，但我们强烈建议您在进行此操作之前先备份您的数据。</li>
+	<li><strong>存储池状态：</strong>开始前，请先确认存储池的状态为<strong>良好</strong>。如果不是，则必须先修复。</li>
+	<li><strong>在扩充过程中，是否仍能访问数据？</strong>扩充存储池时，尽管系统在首次启动该程序时可能会暂停连接，但系统中的数据仍可访问。</li>
+	<li><strong>使用 3 TB 或更大容量的硬盘：</strong>若要用 3 TB 或更大容量的硬盘来扩充存储池，请确认您的存储池是使用 DSM 3.0 或更高版本所创建的。</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>由于 SHR 存储池会根据所安装硬盘的数量和大小来优化存储容量，因此，请按以下指示来正确扩充容量：</p>
+<ul>
+	<li>如果现有各硬盘的容量相同，您必须用更大容量的硬盘更换至少 2 个硬盘以便扩充存储容量。例如，如果您的 SHR 存储池由三个 2 TB 硬盘构成，则必须至少更换两个硬盘才能扩充存储池的容量。</li>
+	<li>如果现有硬盘容量不相同，则用来更换的新硬盘容量必须大于或等于现有最大硬盘容量。此外，必须先更换最小的硬盘才能优化硬盘使用率。例如，如果您的 SHR 存储池由三个硬盘构成，容量分别为 4 TB、3 TB 和 2 TB，则新的更换硬盘必须至少为 4 TB。此外，您应该先更换 3 TB 或 2 TB 的硬盘。</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID 5 / RAID 6 / RAID 10 / RAID F1</h4>
+<p>在更换 RAID 5 / RAID 6 / RAID 10 / RAID F1 存储池的硬盘时，一律从最小的硬盘开始更换，以最大化硬盘使用率。各类 RAID 的存储容量如下：<ul>
+		<li>RAID 5：（硬盘数 &ndash; 1）x（最小硬盘容量）</li>
+		<li>RAID 6：（硬盘数 &ndash; 2）x（最小硬盘容量）</li>
+		<li>RAID 10：（硬盘数 / 2）x（最小硬盘容量）</li>
+		<li>RAID F1：（硬盘数 &ndash; 1）x（最小硬盘容量）</li>
+	</ul>
+</p>
+
+<p>例如，如果 RAID 5 存储池含有三个硬盘，容量分别为 4 TB、3 TB 和 2 TB，则存储池的可用容量将是 4 TB。如果更换 4 TB 或 3 TB 的硬盘，则存储池的容量不会改变。若要增加存储池的容量，必须先更换 2 TB 的硬盘。</p>
+</div>
+
+
+<h3>更换硬盘以扩充存储容量</h3>
+<p>在以下步骤中，我们将介绍更换 SHR 存储池硬盘的示例。</p>
+<h4>若要更换硬盘：</h4>
+<ol>
+	<li>启动<strong>存储空间管理员</strong>。<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li>进入<strong>存储池</strong>，查看哪个现有硬盘的容量最小。<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>关闭 Synology NAS。（如果 Synology NAS 支持热交换，可跳过此步骤。）</li>
+	<li>卸下容量最小的硬盘成员，然后安装一个容量更大的新硬盘。<br /><span class="note_head">注：</span>为了避免伤及自身或损坏 Synology NAS，请按 Synology 产品<em>硬件安装指南</em>中的硬盘安装说明进行操作。</li>
+	<li>打开 Synology NAS 的电源。</li>
+	<li>再次启动<strong>存储空间管理员</strong>。</li>
+	<li>进入 <strong>HDD/SSD</strong> 确保系统能识别新硬盘。<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>存储池状态应为<strong>降级</strong>。选择存储池，然后在<strong>操作</strong>下拉菜单中单击<strong>修复</strong>。<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>选择要添加到存储池的更换硬盘。然后按向导说明的步骤完成操作。</li>
+	<li>重复上述过程直至所有需要的硬盘均更换为更大容量的硬盘。</li>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Biztonsági mentési szolgáltatások – Synology DSM Súgó</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>rsync</h2>
+
+<p>Engedélyezheti, hogy a többi felhasználó rsync-en keresztül biztonsági mentést készítsen egy Synology NAS eszközön vagy egy rsync-kompatibilis kliensen tárolt adatairól a(z) Synology NAS eszközre.</p>
+
+<h3>Rsync biztonsági mentési szolgáltatás engedélyezése</h3>
+
+<h4>Rsync-szolgáltatás engedélyezése:</h4>
+
+<p>Lépjen a <strong>Vezérlőpult</strong> > <strong>Fájlszolgáltatások</strong> > <strong>rsync</strong> menüpontra, majd válassza az <strong>Rsync-szolgáltatás engedélyezése</strong> lehetőséget.</p>
+
+
+<h4>Rsync biztonsági mentési jogosultságok beállítása:</h4>
+
+
+<p>Rendeljen megfelelő rsync-jogosultságokat a felhasználókhoz, melyek lehetővé teszik, hogy a felhasználók biztonsági mentést készíthessenek egy forrásként használt Synology NAS eszközön vagy egy rsync-kompatibilis szerveren tárolt adataikról egy célként használt Synology NAS eszközre.</p>
+
+<ol>
+<li>Lépjen a <b>Vezérlőpult</b> > <b>Jogosultságok</b> menüpontra.</li>
+<li>Jelölje be a <strong>rsync (Megosztott mappa szinkronizálása, LUN biztonsági mentés az azt támogató típusokon)</strong> jelölőnégyzetet, majd kattintson a <strong>Szerkesztés</strong> elemre a jogosultságok hozzárendeléséhez.</li>
+<li>Rendeljen <strong>Engedélyezés</strong> jogosultságot a kívánt felhasználókhoz (DSM-felhasználók titkosított rsync esetén, vagy rsync-fiókok nem titkosított rsync esetén), vagy adja meg az egyes felhasználók esetében engedélyezett IP-címeket is.</li>
+</ol>
+
+
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>Amennyiben a DSM 3.0-s vagy korábbi verzióját futtató Synology NAS eszközzel, illetve nem-Synology NAS klienssel szeretne hálózati rsync-biztonsági mentést végezni, és szeretné megtartani a forrásadatok <b>tulajdonosi</b> és <b>csoportinformációit</b>, az rsync-fiókot hozzá kell adnia az <b>administrators</b> csoporthoz, illetve a <b>NetBackup</b> megosztott mappába kell helyeznie a biztonsági mentés adatait daemon üzemmódban.</p>
+</div>
+
+<h3>Rsync-fiókok engedélyezése</h3>
+<p>Ha nem a Synology által gyártott NAS-kliensről kíván rsync biztonsági mentést készíteni, akkor rsync-fiókokat kell létrehoznia a célként használt Synology NAS eszközön, hogy az rsync-felhasználók biztonsági mentést végezhessenek adataikról a Synology NAS eszközre.</p>
+
+<h4>Rsync-fiókok engedélyezése:</h4>
+<ol>
+<li>Lépjen a <b>Vezérlőpult</b> > <b>Fájlszolgáltatások</b> > <strong>rsync</strong> menüpontra, majd válassza az <b>Rsync-fiók engedélyezése</b> lehetőséget.</li>
+<li>A felhasználók és a hitelesítésre szolgáló jelszavak beállításához kattintson az <b>Rsync-fiók módosítása</b> elemre.</li>
+<li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Ha az rsync-szolgáltatás titkosított (azaz saját SSH-titkosítási porttal rendelkezik), a rendszer a DSM-felhasználóneveket és jelszavakat alkalmazza az rsync-fiókok esetében is.</li>
+<li>Ha az rsync-szolgáltatás nincs titkosítva, a felhasználók rsync-fiókjait Önnek kell létrehoznia.</li>
+</ul>
+</div>
+
+
+<h3>Egyéni rsync-konfiguráció használata</h3>
+
+<p>Egyéni rsync-konfigurációt is használhat, így beállíthatja a felhasználói jogosultságokat és a biztonsági mentés célhelyét Synology NAS eszközén. Ebben az esetben mások is végezhetnek rsync biztonsági mentést saját Synology NAS eszközükről vagy rsync-kompatibilis kliensükről az Ön Synology NAS eszközén célhelyként meghatározott megosztott mappákba (ún. „biztonsági mentési modulokba”).</p>
+
+<h4>Egyéni rsync-konfiguráció használata:</h4>
+
+<ol>
+<li>Jelentkezzen be Telnet vagy SSH segítségével Synology NAS eszközére.</li>
+<li>Adja meg a biztonsági mentési modult és a jogosult felhasználó(ka)t az „<b><code>/etc/rsyncd.conf</code></b>” rsync-konfigurációs fájlban. Részletes tájékoztatás érdekében lásd az rsync-kliens leírásának <b>rsyncd.conf</b>-ra vonatkozó részét, vagy kattintson <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">ide</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>Ha a biztonsági mentési modul és a megosztott mappa neve ugyanaz, a rendszer a biztonsági mentési modul beállításait fogja használni.</p>
+</div>
+
+
+<h3>Sebességhatár engedélyezése</h3>
+<p>Megadhatja, hogy az egyes felhasználók és csoportok legfeljebb mekkora sávszélességet használhassanak rsync biztonsági mentésre.</p>
+
+<h4>Sebességhatár engedélyezése:</h4>
+<ol>
+  <li>Lépjen a <b>Vezérlőpult</b> > <b>Fájlszolgáltatások</b> > <strong>rsync</strong> menüpontra. Válassza a következők valamelyikét:<ul>
+  <li><strong>Nincs sebességhatár</strong></li>
+  <li><strong>Sebességhatár engedélyezése</strong></li>
+  <li><strong>Sebességhatár engedélyezése ütemterv alapján</strong> (a további beállítások megadásához kattintson az <strong>Ütemezés beállítása</strong> elemre.)</li>
+  </ul>
+  
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>Ez a beállítás a szerver egészére vonatkozik, így az egyes felhasználók és csoportok esetleges egyéni beállításait is felülírja. A <strong>Nincs sebességhatár</strong> opció kiválasztásával például kikapcsolja az összes felhasználó és csoport sebességhatár-beállításait.</p>
+</div>
+  </li>
+
+  <li>Miután engedélyezte a sebességhatárt, kattintson a <strong>Sebességhatár-beállítások</strong> elemre, majd arra a felhasználóra/csoportra, melynek módosítani kívánja a beállításait:<ul>
+       <li><strong>Nincs:</strong> A rendszer nem alkalmaz sebességhatárt, amikor a csoport tagjai a szolgáltatás használatával továbbítanak fájlokat.</li>
+      <li><strong>Csoportbeállítások alkalmazása</strong>: A felhasználóra a csoport sebességhatár-beállításai vonatkoznak.</li>
+      <li><strong>Állandó</strong>: Fix, állandó sebességhatár kerül alkalmazásra a felhasználó, illetve csoporttagok esetében. A bal oldali mezőkben feltöltési és letöltési sebességhatárt is megadhat.</li>
+      <li><strong>Egyedi</strong>: Egy ütemterv szerint két különböző sebességhatár határozható meg és alkalmazható a felhasználókra vagy a csoporttagokra. A sebességhatár-beállítások módosításához és az ütemterv megadásához kattintson a <strong>Testreszabás</strong> elemre.</li>
+    </ul>
+  </li>
+ <li>Kattintson az <b>Alkalmaz</b> gombra.</li> 
+
+</ol>
+<div class="section">
+  <h4>Megjegyzés:</h4>
+    <p>Az <strong>Eredmény (UL/DL)</strong> szakaszban a felhasználóra az egyéni és csoportbeállítások alapján ténylegesen vonatkozó fel- és letöltési korlát látható. Ha például az „Achilles” nevű felhasználó egyedi letöltési korlátja 100 KB/s, ám felhasználói csoportjára 500 KB/s-os letöltési korlát vonatkozik, akkor az <strong>Eredmény (UL/DL)</strong> szakaszban a „0/500” szám látható.</p>
+</div>
+
+</body>
+</html>

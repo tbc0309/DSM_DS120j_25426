@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>High Availability マネージャ - Synology DSM ヘルプ</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+<h1>High Availability マネージャ</h1>
+
+<p>High Availability とは、サーバーの故障によるサービスの中断を回避するために設計されたサーバー レイアウト ソリューションです。Synology High Availability は 2 台のサーバーで 「high-availability クラスタ」を構成し、1 台のサーバーが「アクティブ サーバー」としてサービスを提供し、もう 1 台が「受動サーバー」として万一に備えスタンバイします。High-availability クラスタを導入して構築するには、2 台の対応する Synology サーバーが必要です。</p>
+<p>High-availability クラスタは次のコンポーネントとコンセプトを採用します。</p>
+
+  <ul>
+<li><b>コンセプト： </b>Synology High Availability を導入するには、2 台の Synology サーバーで high-availability クラスタを構築する必要があります。1 台が「アクティブ サーバー」、もう 1 台が「受動サーバー」となります。high-availability クラスタが作成されると、データはアクティブ サーバーから受動サーバーへ継続的に複製されていきます。アクティブ サーバー上のすべてファイルが、受動サーバーに複製されます。アクティブ サーバーが故障すると、アクティブ サーバー上のすべてのデータが完全にコピーされた状態で受動サーバーがサービスを引き継ぎます。このように、high-availability クラスタはサーバーの停止時間を最短に留めながら、サービスを正常に提供していきます。切替えについての詳細は、<a href="switchover_fail.html">切替え</a>を参照してください</li>
+<li><b>アクティブ サーバー：</b> アクティブ サーバーがすべてのサービスを管理します。アクティブ サーバーでエラーが発生すると、自動または手動で受動サーバーにバトンタッチすることができます。このとき、アクティブ サーバーが受動サーバーとなった時点で、すべてのサービスが受動サーバーに引き渡されます。</li>
+   <li><b>受動サーバー：</b>正常な状態においては、受動サーバーがスタンバイ モードとなっています。アクティブ サーバー上のデータは受動サーバーに複製され続けます。アクティブ サーバーがサービスを提供できなくなると、自動または手動で受動サーバーにバトンタッチすることができます。 </li>
+   <li><b>ハートビート接続：</b> high-availability クラスタのアクティブ サーバーと受動サーバーは、「ハートビート接続」と呼ばれる専用のプライベート ネットワーク接続で繋がっています。一旦 high-availability クラスタが構築されると、ハートビート接続を使うことで、アクティブ サーバーと受動サーバーの間でデータの同期と複製が容易になります。一定期間サーバー間の通信が途絶えると、システムは切替えが必要であると判断します。</li>
+   <li><b>High-availability クラスタの主要ストレージのボリューム：</b>アクティブ サーバーのストレージ ボリュームが high-availability クラスタの主要ストレージ ボリュームとなります。データは、ハートビート接続を介して受動サーバーのストレージ ボリュームに複製されます。</li>
+<li><b>High-availability クラスタのスペア ストレージのボリューム：</b>受動サーバーのストレージ ボリュームが、high-availability クラスタのスペア ストレージのボリュームになります。データは、ハートビート接続を介して、アクティブ サーバーのストレージ ボリュームから受動ストレージ ボリュームに複製され続けます。このようにして、切替えが行われてもファイルは一貫性を保つことができます。</li>
+<li><b>High-availability クラスタ　サーバー名：</b> High-availability クラスタのサーバーは同じ名前を共有します。ネットワークではこのサーバー名を使って接続できますので、アクティブ サーバーがサービスを提供します。</li>
+<li><b>High-availability クラスタ IP： </b> High-availability クラスタのアクティブ サーバーと受動サーバーはそれぞれ専用の IP アドレスを持っていますので、サーバーが入れ替わったときに別の IP アドレスに変わるのを防止します。High-availability クラスタはアクセスできるように一般 IP アドレスを作成します。DSM サービスにアクセスするには、どちらの Synology サーバーがアクティブ サーバーになっているかに関係なく、これらの IP アドレスを介して接続できます。</li>
+  </ul>
+
+
+
+
+ </body>
+</html>

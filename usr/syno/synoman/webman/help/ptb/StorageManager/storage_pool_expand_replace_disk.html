@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Trocar unidades para expandir a capacidade de armazenamento</h2>
+
+<p>Ao usar certos tipos de RAID, você pode expandir a capacidade de armazenamento de um volume ou grupo de discos, trocando as unidades antigas por unidades de tamanho maior. Este artigo fornece informações importantes sobre o processo de expansão, bem como um exemplo de como trocar as unidades existentes para expandir a capacidade de armazenamento.</p>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>O procedimento descrito neste artigo só funciona com SHR, RAID 1, RAID 5, <span class="disable-grantley"></span>RAID 6<span class="enable-grantley"> e RAID F1</span>. Se você estiver pensando em trocar várias unidades, você deve ter cuidado ao trocar as unidades uma a uma. Após trocar uma unidade, você deve reparar o volume ou o grupo de discos antes de trocar o próximo. Para RAID 1, RAID 5, RAID 6, <span class="disable-grantley"></span>RAID 6<span class="enable-grantley"> e RAID F1</span>, a capacidade de volume será expandida quando todas as unidades forem trocadas.</li>
+</ul>
+</div>
+
+<h3 class="list_head"><a id="t1"></a>Antes de começar</h3>
+<p>Antes de trocar a unidade, consulte as observações a seguir:</p>
+<ul>
+	<li><strong>Dados de Backup:</strong> Embora o processo de expansão não vá apagar todos os dados existentes, recomendamos fazer backup de seus dados antes de prosseguir.</li>
+	<li><strong>Status do Volume ou Grupo de Discos:</strong> Antes de começar, verifique se o status de seu volume ou grupo de discos está <strong>Normal.</strong> Se não, você deverá repará-lo primeiro.</li>
+	<li><strong>Os dados ainda estão acessíveis durante a expansão?</strong> Os dados em seu sistema estarão disponíveis ao expandir volumes ou grupos de discos, embora o sistema possa suspender as conexões temporariamente ao iniciar o processo.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>Como os volumes SHR otimizam a capacidade de armazenamento com base no número e tamanho das unidades instaladas, siga as orientações abaixo para expandir a capacidade corretamente:</p>
+<ul>
+	<li>Se as capacidades de todas as unidades existentes forem iguais, você deverá trocar pelo menos duas unidades por outras maiores para expandir a capacidade de armazenamento. Por exemplo, se o volume SHR consistir em três unidades de 2 TB, então é necessário substituir pelo menos duas unidades para expandir a capacidade do volume.</li>
+	<li>Se as capacidades das unidades existentes forem diferentes, as novas unidades trocadas deverão ser iguais ou maiores do que a maior unidade existente. Além disso, será necessário trocar a unidade menor primeiro para otimizar o uso da capacidade. Por exemplo, se seu volume SHR consistir em três unidades com 4 TB, 3 TB e 2 TB, respectivamente, a nova unidade trocada deverá ter pelo menos 4 TB. Além disso, será preciso trocar as unidades de 3 TB ou 2 TB primeiro.</li>
+</ul>
+</div>
+
+<div class="section"><h4>RAID 5<span class="enable-grantley">,</span> <span class="disable-grantley"></span>RAID 6<span class="enable-grantley"> e RAID F1</span></h4>
+<p>Ao trocar unidades de volumes RAID 5<span class="enable-grantley">,</span> <span class="disable-grantley"></span>RAID 6<span class="enable-grantley"> ou RAID F1</span> ou grupos de discos, o menor disco rígido deverá ser trocado primeiro. A capacidade de armazenamento dos volumes RAID 5 <span class="enable-grantley">e RAID F1</span> é (número de unidades - 1) x (tamanho da menor unidade) e RAID 6 é (número de unidades - 2) x (tamanho da menor unidade). Portanto, a menor unidade deverá ser sempre trocada primeiro, para maximizar o uso da unidade.</p>
+<p>Por exemplo, se o volume RAID 5 contiver três unidades com 4 TB, 3 TB e 2 TB respectivamente, a capacidade disponível de seu volume será de 4 TB. Se você trocar unidades de 4 TB ou 3 TB, a capacidade do volume não mudará. Para aumentar a capacidade de seu volume, a unidade de 2 TB deverá ser trocado primeiro.</p>
+</div>
+
+<h3>Trocar unidade para expandir a capacidade de armazenamento</h3>
+<p>Nas etapas abaixo, oferecemos um exemplo de troca de unidades de um volume SHR.</p>
+<h4>Para trocar unidades:</h4>
+<ol>
+	<li>Abra o <strong>Gerenciador de armazenamento</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Vá para o <strong>Volume</strong> para ver qual unidade existente é o menor.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Desligue seu Synology NAS. (Ignore essa etapa se o seu Synology NAS suportar a tecnologia de hot-swapping.)</li>
+	<li>Remova o menor das unidades membro e instale uma nova unidade menor.<br /><span class="note_head">Nota: </span>Para evitar ferimentos ou danos ao seu Synology NAS, siga as instruções de instalação da unidade encontradas no <em>Guia de Instalação de Hardware</em> de seu produto Synology.</li>
+	<li>Ligue seu Synology NAS.</li>
+	<li>Abra o <strong>Gerenciador de Armazenamento</strong> novamente.</li>
+	<li>Vá para <strong>HDD/SSD</strong> para verificar se a nova unidade foi reconhecida.<br /><img src="about:blank" class="help_image" /></li>
+	<li>O status de seu volume deverá ser <strong>Degradado</strong>. Selecione o volume e clique em <strong>Gerenciar</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Selecione <strong>Reparar</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Selecione a unidade de reposição para adicionar ao volume. Em seguida, siga as etapas no assistente para finalizar.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Repita o processo acima até que todas as unidades desejadas tenham sido trocados por outros maiores.</li>
+</ol>
+
+</body>
+</html>

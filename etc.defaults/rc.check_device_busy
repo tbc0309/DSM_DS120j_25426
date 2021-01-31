@@ -1,0 +1,38 @@
+#!/bin/sh
+# Copyright (c) 2000-2015 Synology Inc. All rights reserved.
+#
+# After all services down and before umount,
+# check which process does not release device(volume, lun)
+
+SZF_DEVICE_BUSY_LIST="/var/log/DeviceBusyList"
+
+PROC_OCCUPY_VOL=`find /proc/*/fd -type l \
+	| xargs ls -l 2>&1 \
+	| grep -v 'No such file or directory' \
+	| grep '/volume[0-9]*/'
+`
+
+VOL_DEV_LIST=`cat /proc/mounts \
+	| grep " /volume[0-9]* " | cut -d' ' -f1 \
+	| xargs -r ls -lL | awk '{print $5 $6}' | tr ',' ' ' | xargs -r printf "-e '%02x:%02x' "
+`
+
+if [ -n "$VOL_DEV_LIST" ]; then
+	SO_OCCUPY_VOL=`cat /proc/*/maps | sh -c "grep $VOL_DEV_LIST"`
+fi
+
+ISCSI_BLK_LUN=`cat /sys/kernel/config/target/core/iblock_*/*/udev_path 2>/dev/null`
+
+if [ -n "$PROC_OCCUPY_VOL" ] || [ -n "$SO_OCCUPY_VOL" ] || [ -n "$ISCSI_BLK_LUN" ]; then
+	rm -f $SZF_DEVICE_BUSY_LIST
+	echo "$PROC_OCCUPY_VOL" >> $SZF_DEVICE_BUSY_LIST
+	echo "$SO_OCCUPY_VOL" >> $SZF_DEVICE_BUSY_LIST
+	echo "$ISCSI_BLK_LUN" >> $SZF_DEVICE_BUSY_LIST
+	echo >> $SZF_DEVICE_BUSY_LIST
+	ps axjfw >> $SZF_DEVICE_BUSY_LIST
+	/usr/bin/logger -p err "Check device busy: error, refer: ${SZF_DEVICE_BUSY_LIST}"
+else
+	/usr/bin/logger -p err "Check device busy: passed"
+fi
+
+exit 0

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Redundans-klyvning</h2>
+
+<p>När ett high-availability-kluster fungerar normalt, skall endast en av medlemsservrarna inneha rollen som aktiv server. I detta fall upptäcker den passiva servern förekomsten av den aktiva servern både via Heartbeat-anslutningen och dataanslutningen.</p>
+
+<p>Om alla Heartbeat- och dataanslutning går förlorad kan det hända att båda servrarna försöker anta roller som aktiv server. Denna situation kallas för ”redundans-klyvning”. I det här fallet blir anslutningarna mellan de två IP-adresserna för high-availability-klustret omdirigerat till någon av de två servrarna och inkonsekventa data kan uppdateras eller skrivas till de två servrarna.</p>
+        
+<p>När någon av Heartbeat- eller dataanslutningarna återansluts känner systemet av redundans-klyvningsfelet och datainkonsekvens mellan de två servrarna och går in i high-availability-felsäkert läge.</p> 
+
+       
+<h4>Om redundans-klyvning uppstår:</h4>
+	<ol>
+    <li>Tjänsten på båda servrarna och IP-adresserna på high-availability-klustret är inte tillgängliga fram till dess redundans-klyvningsfelet har lösts.</li>
+	<li>När båda servrarna går in i high-availability-felsäkert läge visas en ny flik med namnet <strong>Redundans-klyvning</strong> i den vänstra panelen. På den här fliken finns följande information listad: skillnaden mellan filerna i de delade mapparna på de två servrarna, tiden som servrarna blev aktiva servrar samt även information om den senaste iSCSI Target-anslutningen. Alla andra flikar förblir endast läsbara.</li>
+<li>I felsäkert läge för high-availability är File Station i läget endast läsbar och du kan ladda ner och visa filerna.</li>
+       <li>På fliken <b>Översikt</b> har du bara möjlighet att antingen lösa redundans-klyvningsfel eller stänga av den aktuella inloggningsservern. För att lösa redundans-klyvningsfel, gör något av följande:
+       <ul>
+       <li>Välj en server som den aktiva servern för high-availability-klustret och den andra som den passiva servern. När båda servrarna har startats om blir alla data som skiljer sig åt och inställningar på den aktiva servern synkade till den passiva servern. Vänligen observera att de data som uppdaterats på den passiva servern under redundans-klyvningsfelet går förlorade.</li>
+       <li>Välj en server som den aktiva servern för high-availability-klustret och häv bindningen för den andra. När båda servrarna har startats om är den aktiva servern kvar i high-availability-klustret och den server som inte är bunden reserverar sina data och återgår till <b>Fristående</b> status. Vänligen observera att en fullständig replikering krävs för att i framtiden binda en ny passiv server.</li>
+       <li>Häv bindningen för båda servrarna, reservera deras individuella data och låt dem återgå till <b>Fristående</b> status.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Noteringar:</h4>
+    <ul>
+    <li>Ju fler filer det finns i dina delade mappar, ju längre tar det att lista skillnaderna.</li>
+    <li>Innan val av vilken server som ska vara aktiv/passiv server, vänligen kontrollera att båda servrarna startats.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

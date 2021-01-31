@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Basculement</h2>
+  
+ <p>Afin de garantir une performance continue et de minimiser les interruptions de service, les services peuvent &ecirc;tre bascul&eacute;s du serveur actif d&apos;un cluster high-availability au serveur redondant passif. Cette fonction est appel&eacute;e &quot;Basculement&quot;, ou dans certains cas &quot;Permutation&quot;. Cette section explique les bases de ces deux concepts.</p>
+  
+  <h3>Basculement</h3>
+  	<p>Le basculement est un passage du serveur actif vers le serveur redondant passif d&apos;un cluster high-availability. Dans des conditions normales, le serveur actif g&egrave;re tous les services. Cependant, en cas de dysfonctionnement du serveur actif, vous, ou le syst&egrave;me, pouvez initier un basculement et transf&eacute;rer tous les services vers le serveur passif, en supposant que le serveur passif fonctionne normalement. Dans ce cas, le serveur actif assume le r&ocirc;le du serveur passif, et le serveur passif assume le r&ocirc;le du serveur actif.</p>
+    
+<h4>Pour initier manuellement un basculement&nbsp;:</h4>
+ <ol>
+  <li>Allez &agrave; l&rsquo;onglet <b>Vue d&apos;ensemble</b>.</li>
+  <li>Cliquez sur <b>Gestion</b> &gt; <b>Basculer</b>.</li>
+ </ol>
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+   <p>Lorsqu&apos;un basculement est initi&eacute;, le serveur actif assume d&apos;abord le r&ocirc;le de serveur passif, puis le serveur passif devient le serveur actif. Ainsi, il y aura une courte p&eacute;riode de temps lorsque les deux serveurs deviennent passifs et ne pourront pas fournir des services normalement. Le temps pour effectuer un basculement varie selon le nombre et la taille des volumes ou iSCSI LUN (niveau bloc), ou le nombre et la charge totale de services sur le cluster high-availability.</p>
+</div>
+   
+<h3>Permutation</h3>
+    
+     <p>Lorsque certaines erreurs se produisent, le syst&egrave;me peut initier automatiquement un basculement de services afin de maintenir les performances. Cet &eacute;v&eacute;nement est appel&eacute; &quot;permutation&quot;. Le syst&egrave;me peut initier la permutation dans les situations suivantes&nbsp;:</p>
+    
+     <ul>
+      <li><b>Espace de stockage crash&eacute;&nbsp;:</b>  Un espace de stockage (par ex. volume, groupe de disques, RAID Group, cache SSD, etc.) sur le serveur actif est crash&eacute;, mais l&apos;espace de stockage correspondant sur le serveur passif fonctionne normalement. Veuillez noter que le syst&egrave;me n&apos;initiera pas une permutation s&apos;il n&apos;y a pas de volumes ou d&apos;iSCSI LUN (niveau bloc) sur l&apos;espace de stockage plant&eacute;.</li>
+      <li><b>Erreur de service :</b> Une erreur s&apos;est produite sur un service surveill&eacute;.</li>
+      <li><b>Panne d&apos;alimentation&nbsp;:</b> Le serveur actif est arr&ecirc;t&eacute; ou red&eacute;marr&eacute; ; les deux unit&eacute;s d&apos;alimentation sur le serveur actif sont en panne ; ou l&apos;alimentation est coup&eacute;e.</li>      
+     </ul>    
+     
+    
+<h3>&Eacute;chec du basculement</h3>
+    
+		<p>Le basculement peut ne pas r&eacute;ussir dans les situations suivantes&nbsp;:</p>
+  			<ul>
+   				<li><b>R&eacute;plication incompl&egrave;te des donn&eacute;es&nbsp;:</b> Lorsque vous combinez pour la premi&egrave;re fois deux serveurs pour cr&eacute;er un cluster high-availability, le syst&egrave;me n&eacute;cessite un temps pour dupliquer toutes les donn&eacute;es du serveur actif sur le serveur passif.</li>
+   				<li><b>Espace de stockage sur le serveur passif crash&eacute;&nbsp;:</b> Un espace de stockage (par ex. volume, groupe de disques, RAID Group, etc.) sur le serveur passif est crash&eacute;.</li>
+                <li><b>Panne d&apos;alimentation&nbsp;:</b> Le serveur passif est arr&ecirc;t&eacute; ou red&eacute;marr&eacute; ; les deux unit&eacute;s d&apos;alimentation sur le serveur passif sont en panne ; ou l&apos;alimentation est coup&eacute;e.</li>
+                <li><b>Mise &agrave; jour de DSM :</b> Lors de l&apos;installation des mises &agrave; jour DSM, tous les services seront arr&ecirc;t&eacute;s et reprendront apr&egrave;s la r&eacute;alisation de l&apos;installation de la mise &agrave; jour DSM. </li>      
+ </ul>
+
+  <p>Si vous initiez manuellement un basculement, mais les services ne peuvent pas &ecirc;tre bascul&eacute;s sur le serveur passif, alors le syst&egrave;me tentera de rebasculer les services sur le serveur actif.</p>
+ <p>Si un basculement est initi&eacute;, mais aucun des serveurs n&apos;est en mesure d&apos;assumer le r&ocirc;le de serveur actif en raison d&apos;erreurs, le cluster high-availability ne pourra pas fournir un service normalement. Si les serveurs ne retournent pas automatiquement &agrave; l&apos;&eacute;tat <b>Autonome</b>, veuillez appuyer le bouton <b>R&eacute;initialiser</b> sur les deux serveurs pour restaurer les param&egrave;tres par d&eacute;faut. Une fois les param&egrave;tres par d&eacute;faut restaur&eacute;s, vous pouvez combiner les serveurs et cr&eacute;er un cluster high-availability &agrave; nouveau.</p>
+ 
+ <h3>Onduleur</h3>
+  <p>Les clusters high-availability peut &ecirc;tre connect&eacute; &agrave; des onduleurs afin de r&eacute;duire le risque de perte de courant inattendue. Si l&apos;alimentation est coup&eacute;e, les serveurs recevront une alimentation de secours des onduleurs qui y sont &eacute;ventuellement connect&eacute;s. Lorsque l&apos;onduleur connect&eacute; au serveur actif commence &agrave; manquer d&apos;alimentation, le syst&egrave;me tentera de basculer les services au serveur passif. Veuillez consulter les consignes ci-dessous.</p>
+   <ul>
+
+<li>Si les serveurs actif et passif sont connect&eacute;s au m&ecirc;me commutateur r&eacute;seau, il est recommand&eacute; de connecter les deux serveurs &agrave; la m&ecirc;me source d&apos;alimentation que le commutateur r&eacute;seau. </li>
+<li>Si les serveurs actif et passif sont connect&eacute;s &agrave; diff&eacute;rents commutateurs r&eacute;seau qui utilisent diff&eacute;rentes sources d&apos;alimentation (par ex. l&apos;&eacute;lectricit&eacute; de diff&eacute;rents compagnies d&apos;alimentation), il est recommand&eacute; de connecter les serveurs actif et passif aux m&ecirc;mes sources d&apos;alimentation correspondantes que leurs commutateurs r&eacute;seau connect&eacute;s. </li>
+<li>Si les serveurs actif et passif sont connect&eacute;s &agrave; diff&eacute;rents commutateurs r&eacute;seau qui utilisent diff&eacute;rentes unit&eacute;s UPS, il est recommand&eacute; de connecter les deux serveurs &agrave; l&apos;une des unit&eacute;s UPS plut&ocirc;t qu&apos;&agrave; des unit&eacute;s UPS diff&eacute;rentes.  Lorsque l&apos;unit&eacute; UPS perd l&apos;alimentation, le serveur actif sera averti et entrera en mode de s&eacute;curit&eacute; et le serveur passif s&apos;&eacute;teindra correctement.  Si les serveurs sont connect&eacute;s &agrave; diff&eacute;rentes unit&eacute;s UPS, le serveur actif ne pourra pas d&eacute;tecter si l&apos;UPS du serveur passif en cours d&apos;ex&eacute;cution basse sur l&apos;alimentation et donc le serveur passif pourrait s&apos;&eacute;teindre de fa&ccedil;on inattendue. </li>
+   </ul>
+
+   
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<p>Le Synology NAS prend en charge la connexion &agrave; des onduleurs locaux et SNMP. Pour plus d&apos;informations, consultez l&apos;aide &agrave; <strong>Panneau de configuration</strong> &gt; <strong>Mat&eacute;riel</strong> &gt; <strong>UPS</strong></p>
+</div>  
+ </body>
+</html>

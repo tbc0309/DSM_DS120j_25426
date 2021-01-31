@@ -1,0 +1,72 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import sys, os, errno, traceback
+import sqlite3
+import argparse
+from datetime import datetime
+
+def get_real_time(time, logtime):
+	if logtime < time:
+		return datetime.fromtimestamp(logtime).strftime('%Y/%m/%d %H:%M:%S')
+	else:
+		return datetime.fromtimestamp(time).strftime('%Y/%m/%d %H:%M:%S')
+
+def get_logs(cursor, output=None, before=None, after=None, keywords=None, limit=None):
+	query = 'SELECT * FROM logs WHERE 1=1'
+
+	if before:
+		query += ' AND time <= {}'.format(int((datetime.strptime(before, '%Y/%m/%d %H:%M:%S') - datetime.fromtimestamp(0)).total_seconds()))
+	if after:
+		query += ' AND time >= {}'.format(int((datetime.strptime(after, '%Y/%m/%d %H:%M:%S') - datetime.fromtimestamp(0)).total_seconds()))
+	if keywords:
+		query += ' AND (1=2{})'.format(''.join(' OR msg GLOB "*{}*"'.format(k.strip().replace("'", "''")) for k in keywords.split(',')))
+	query += ' ORDER BY LOGTIME DESC, TIME DESC LIMIT {}'.format(limit if limit else 10000)
+
+	with open(output, 'w') if output else sys.stdout as out:
+		log_text = u'<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8;"></head><body><table border=1 width=95%>\n'
+		log_text += u'<tr><th>level</th><th>time</th><th>path</th><th>model</th><th>serial</th><th>container</th><th>slot</th><th>msg</th><th>errtype</th><th>raw</th><th>info</th><th>eunit</th><th>note</th></tr>\n'
+		out.write(log_text.encode('utf8'))
+		for row in cursor.execute(query):
+			try:
+				log_text = u'<tr><td>{level}</td><td>{time}</td><td>{path}</td><td>{model}</td><td>{serial}</td><td>{container}</td><td>{slot}</td><td>{msg}</td><td>{errtype}</td><td>{raw}</td><td>{info}</td><td>{eunit}</td><td>{note}</td></tr>\n'.format(
+					level		= row[2],
+					time		= get_real_time(int(row[1]), int(row[15])),
+					path		= row[3],
+					model		= row[4],
+					serial		= row[5],
+					container	= row[6],
+					slot		= row[7],
+					msg			= row[8],
+					errtype		= row[10],
+					raw			= row[11],
+					info		= row[12],
+					eunit		= row[13],
+					note		= row[14])
+				out.write(log_text.encode('utf8'))
+			except:
+				traceback.print_exc()
+				sys.stderr.write('row = {}\n'.format(row))
+		log_text = u'</table></body></html>\n'
+		out.write(log_text.encode('utf8'))
+
+def main():
+	parser = argparse.ArgumentParser(description='Convert synolog to human readable format.')
+	parser.add_argument('database', help='Log database path')
+	parser.add_argument('-o', '--output', help='Save converted log to specified file.')
+	parser.add_argument('--after', help='Filter logs that after specified time only. Ex: YY/mm/dd HH:MM/SS')
+	parser.add_argument('--before', help='Filter logs that before specified time only. Ex: YY/mm/dd HH:MM/SS')
+	parser.add_argument('-k', '--keywords', help='Filter logs that included specified keywords only. '\
+		+ 'keywords can be splited by comma. Ex: "Log, FTP"')
+	parser.add_argument('--limit', help='Limit the number of logs. Default: 10000')
+
+	args = parser.parse_args()
+
+	if not os.path.exists(args.database):
+		raise OSError(errno.ENOENT, os.strerror(errno.ENOENT), args.database)
+
+	with sqlite3.connect(args.database) as conn:
+		get_logs(conn.cursor(), output=args.output, before=args.before, after=args.after, keywords=args.keywords, limit=args.limit)
+
+
+if __name__ == '__main__':
+	main()

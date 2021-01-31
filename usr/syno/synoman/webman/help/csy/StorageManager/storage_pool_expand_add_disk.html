@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>Přid&aacute;n&iacute; disků za &uacute;čelem roz&scaron;&iacute;řen&iacute; kapacity fondu &uacute;loži&scaron;tě</h2>
+
+<p>Pokud v&nbsp;zař&iacute;zen&iacute; Synology NAS existuj&iacute; pr&aacute;zdn&eacute; sloty na disky, můžete nainstalovat dal&scaron;&iacute; disky a přidat je do st&aacute;vaj&iacute;c&iacute;ho fondu &uacute;loži&scaron;tě. Tento čl&aacute;nek v&aacute;s provede postupem roz&scaron;&iacute;řen&iacute; st&aacute;vaj&iacute;c&iacute;ho fondu &uacute;loži&scaron;tě instalac&iacute; dodatečn&yacute;ch disků.</p>
+
+<p>Disky je možn&eacute; přid&aacute;vat do fondů &uacute;loži&scaron;tě v&nbsp;n&aacute;sleduj&iacute;c&iacute;ch konfigurac&iacute;ch RAID:</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID 5</li>
+	<li>RAID 6</li>
+	<li>RAID F1</li>
+	<li>Synology Hybrid RAID (SHR) skl&aacute;daj&iacute;c&iacute; se z&nbsp;alespoň 2 disků</li>
+</ul>
+
+<div class="section"><h4>Pozn&aacute;mka:</h4>
+<ul>
+	<li>Nově přidan&eacute; disky mus&iacute; b&yacute;t ve stavu <strong>Inicializov&aacute;no</strong> nebo <strong>Nen&iacute; inicializov&aacute;no</strong>.</li>
+</ul>
+</div>
+	
+<h4>Požadavky na disky:</h4>
+
+<p>Disky, kter&eacute; chcete přidat do zař&iacute;zen&iacute; Synology NAS mus&iacute; splňovat n&aacute;sleduj&iacute;c&iacute; požadavky:</p>
+<ul>
+	<li>Konfiguraci RAID nebo SHR je nutn&eacute; vytvořit pomoc&iacute; disků stejn&eacute;ho typu. Použit&iacute; disků různ&yacute;ch typů bude m&iacute;t vliv na spolehlivost a v&yacute;kon syst&eacute;mu. N&iacute;že uveden&eacute; kombinace typů disků nejsou v&nbsp;konfigurac&iacute;ch RAID nebo SHR podporov&aacute;ny:<ul>
+	<li>Disky SATA a disky SAS</li>
+	<li>Nativn&iacute; disky 4K a nenativn&iacute; disky 4K</li>
+	</ul>
+	</li>
+	<li><strong>Pro SHR</strong>: Kapacita disku, kter&yacute; zam&yacute;&scaron;l&iacute;te přidat, se mus&iacute; rovnat kapacitě největ&scaron;&iacute;ho disku ve fondu &uacute;loži&scaron;tě nebo b&yacute;t vět&scaron;&iacute;, nebo se mus&iacute; rovnat libovoln&eacute;mu z&nbsp;disků ve fondu &uacute;loži&scaron;tě.</br><span class="note_head">Př&iacute;klad:</span> Pokud se fond &uacute;loži&scaron;tě SHR skl&aacute;d&aacute; ze tř&iacute; disků (2&nbsp;TB, 1,5&nbsp;TB a 1&nbsp;TB), tak z&nbsp;důvodu zlep&scaron;en&iacute; využit&iacute; kapacity doporučujeme, aby měl nově přidan&yacute; disk velikost alespoň 2&nbsp;TB. Můžete přidat disky o&nbsp;velikosti 1,5&nbsp;TB a 1&nbsp;TB, ale č&aacute;st kapacity disku o&nbsp;velikosti 2&nbsp;TB zůstane nevyužit&aacute;.</li>
+	<li><strong>RAID 5, RAID 6 nebo RAID F1</strong>: Kapacita disku, kter&yacute; m&aacute;te v&nbsp;&uacute;myslu přidat, se mus&iacute; rovnat nebo b&yacute;t vy&scaron;&scaron;&iacute; než kapacita nejmen&scaron;&iacute;ho disku ve fondu &uacute;loži&scaron;tě.</br><span class="note_head">Př&iacute;klad:</span> Pokud se např&iacute;klad svazek &uacute;loži&scaron;tě RAID 5, RAID 6 nebo RAID F1 skl&aacute;d&aacute; ze tř&iacute; disků (2&nbsp;TB, 1,5&nbsp;TB a 1&nbsp;TB), mus&iacute; b&yacute;t kapacita nov&eacute;ho disku alespoň 1&nbsp;TB.</li>
+</ul>
+
+
+<div class="section"><h4>Pozn&aacute;mka:</h4>
+<ul>
+	<li>Funkce SHR (Synology Hybrid RAID) je k&nbsp;dispozici pouze u&nbsp;vybran&yacute;ch modelů. Informace o&nbsp;tom, jestli m&aacute; v&aacute;&scaron; model omezenou podporu SHR, se nach&aacute;zej&iacute; pod <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">t&iacute;mto odkazem</a>.</li>
+	<li>Typ RAID F1 je k&nbsp;dispozici pouze u&nbsp;vybran&yacute;ch modelů. Informace o&nbsp;tom, jestli v&aacute;&scaron; model syst&eacute;m RAID F1 podporuje, se nach&aacute;zej&iacute; pod <a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank">t&iacute;mto odkazem</a>.</li>
+	<li>Aby nedoch&aacute;zelo k&nbsp;ž&aacute;dn&yacute;m probl&eacute;mům, doporučujeme použ&iacute;vat disky uveden&eacute; v&nbsp;<a href="https://www.synology.com/compatibility" target="_blank">seznamu kompatibiln&iacute;ch produktů Synology</a>. Použ&iacute;v&aacute;n&iacute; nekompatibiln&iacute;ch disků může sn&iacute;žit v&yacute;kon syst&eacute;mu a dokonce způsobit ztr&aacute;tu dat.</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">Přid&aacute;n&iacute; disku do fondu &uacute;loži&scaron;tě:</a></h4>
+<p>Před zah&aacute;jen&iacute;m se přesvědčte, že je fond &uacute;loži&scaron;tě, kter&yacute; chcete roz&scaron;&iacute;řit, ve stavu <strong>V&nbsp;poř&aacute;dku</strong>. Pokud nen&iacute; stav fondu &uacute;loži&scaron;tě V&nbsp;poř&aacute;dku, opravte probl&eacute;my s&nbsp;diskem podle pokynů uveden&yacute;ch pod stavem. Pot&eacute; podle n&aacute;sleduj&iacute;c&iacute;ch pokynů přidejte do fondu &uacute;loži&scaron;tě disk:</p>
+	
+<ol>
+	<li>Vypněte zař&iacute;zen&iacute; Synology NAS.</br> <span class="note_head">Pozn&aacute;mka:</span> Pokud va&scaron;e zař&iacute;zen&iacute; Synology NAS podporuje v&yacute;měnu disků za chodu, tento krok přeskočte.</li>
+	<li>Do pr&aacute;zdn&eacute;ho slotu na disk vložte nov&yacute; disk.</br> <span class="note_head">Pozn&aacute;mka:</span> Abyste si neubl&iacute;žili nebo nepo&scaron;kodili zař&iacute;zen&iacute; Synology NAS, přejděte do <a href="https://www.synology.com/support/download" target="_blank">Centra pro stahov&aacute;n&iacute;</a> a vyberte svůj produkt Synology. V&nbsp;č&aacute;sti <strong>Dokumenty</strong> &gt; <strong>Instalačn&iacute; př&iacute;ručka hardwaru</strong> si můžete st&aacute;hnout instalačn&iacute; př&iacute;ručku hardwaru v&nbsp;požadovan&eacute;m jazyce a podle pokynů v&nbsp;n&iacute; uveden&yacute;ch disk nainstalovat.</li>
+
+	<li>Zapněte zař&iacute;zen&iacute; Synology NAS a spusťte n&aacute;stroj <strong>Spr&aacute;vce &uacute;loži&scaron;tě</strong>.</li>
+	<li>Přejděte na str&aacute;nku <b>Fond &uacute;loži&scaron;tě</b> a vyberte fond &uacute;loži&scaron;tě, kter&yacute; chcete roz&scaron;&iacute;řit. V&nbsp;rozev&iacute;rac&iacute; nab&iacute;dce <strong>Akce</strong> klikněte na možnost <strong>Přidat disk</strong>.</li>
+	<li>V&nbsp;seznamu vyberte disk, kter&yacute; chcete přidat. V&nbsp;seznamu budou uvedeny pouze disky, kter&eacute; splňuj&iacute; požadavky na typ a kapacitu.</li>
+	<li>Pomoc&iacute; průvodce proces dokončete.</li>
+</ol>
+
+<h4>Roz&scaron;&iacute;řen&iacute; velikosti svazku:</h4>
+<p>Jakmile m&aacute; fond &uacute;loži&scaron;tě dostatečnou kapacitu, lze velikost odpov&iacute;daj&iacute;c&iacute;ho svazku v&nbsp;z&aacute;vislosti na typu fondu &uacute;loži&scaron;tě roz&scaron;&iacute;řit buď automaticky nebo ručně.</p>
+<ul>
+<li><b>Jednosvazkov&yacute; fond &uacute;loži&scaron;tě:</b> V&nbsp;př&iacute;padě fondu &uacute;loži&scaron;tě, kter&yacute; podporuje jedin&yacute; svazek, dojde k&nbsp;roz&scaron;&iacute;řen&iacute; velikosti svazku automaticky ihned po roz&scaron;&iacute;řen&iacute; kapacity fondu &uacute;loži&scaron;tě. Podrobnosti jsou uvedeny v&nbsp;č&aacute;sti <a href="#t1">Přid&aacute;n&iacute; disku do fondu &uacute;loži&scaron;tě</a>.</li>
+<li><b>V&iacute;cesvazkov&yacute; fond &uacute;loži&scaron;tě:</b> V&nbsp;př&iacute;padě fondu &uacute;loži&scaron;tě, kter&yacute; podporuje v&iacute;ce svazků, lze velikost svazku roz&scaron;&iacute;řit ručně ihned pot&eacute;, co kapacita fondu &uacute;loži&scaron;tě dos&aacute;hne odpov&iacute;daj&iacute;c&iacute; hodnoty. Podrobnosti jsou uvedeny v&nbsp;č&aacute;sti <a href="volume_expand_volume.html" target="_blank">Roz&scaron;&iacute;řen&iacute; velikosti svazku</a>.</li>
+</ul>
+
+</body>
+</html>

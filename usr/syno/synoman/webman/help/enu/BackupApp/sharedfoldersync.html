@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Backup & Replication</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Shared Folder Sync</h2>
+<p>Shared Folder Sync service allows users to sync shared folders from one Synology product (the source) to another Synology product (the destination) in LAN or over the Internet. It works on the basis of shared folders. When syncing, if there is already a folder with the same name (e.g. SharedFolder) at the destination Synology product, the folder at the destination will be renamed as &quot;SharedFolder_1.&quot; If such folder does not exist, it will be created in the corresponding or the first available. The privilege for accessing this folder at the destination Synology NAS will be set as default, which means none privileges will be specified for this folder.</p>
+<p>Shared Folder Sync will perform a full sync of the selected shared folder(s) for the first time. Afterwards, only changed files will be synced. Files that have been removed from the source will also be removed at the destination.</p>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>
+Shared Folder Sync is a one way sync solution, meaning that  the files at the source will be synced to the destination, but not the other way around. If you are looking for a 2-way sync solution, please use <strong>Cloud Station</strong>.</li></ul></div>
+
+<h3>Enabling the Service</h3>
+<h4>To enable Shared Folder Sync:</h4>
+<p>You have to enable the service on the destination Synology NAS. To do so, please go to <b>Backup & Replication</b> > <b>Shared Folder Sync</b>. In the <b>Server</b> tab, tick <b>Enable Shared Folder Sync service</b> to enable it.</p>
+<h4>To connect shared folders from source to destination Synology product:</h4> 
+<p>You can sync shared folders from a source to many different destination servers. In addition, starting from DSM 4.1, Shared Folder Sync provides Multiple-Source Shared Folder Sync feature, which allows multiple clients to sync their shared folders to one Synology NAS. If different clients sync an identical shared folder to one Synology NAS at the same time, there will be a conflict and you will need to unlink the shared folder before another client can sync this folder to the destination. If you want to unlink the shared folder, go to <b>Shared Folder Sync</b> > <b>Server</b>, click <b>Connection List</b>, select a connection, and click <b>Unlink</b></b> on the destination side. </li>
+</ul>
+<p>Now you can start to sync shared folders from source to destination Synology NAS. Please follow the sections below to continue.</p>
+
+<h3>Managing Sync Tasks</h3>
+<p>With Shared Folder Sync Wizard, you can easily create a sync task.</p>
+<h4>To create a sync task:</h4>
+<ol>
+<li>Go to <b>Backup & Replication</b> > <b>Shared Folder Sync</b> > <strong>Client</strong>.</li>
+<li>Click <b>Create</b>.</li>
+<li>Enter a name for the task.</li>
+<li>Select the shared folder you want to sync to the destination. Check the checkbox below to confirm and click <b>Next</b> to continue.</li>
+<li>Set up the destination and the following sync options:</li>
+<ul>
+<li><b>Enable transfer encryption:</b> Encrypt data during transfer. This provides better security, while non-encrypted transfer provides better performance. You can choose according to your needs.
+</li> 
+<li><b>Enable transfer compression:</b> Compress data during transfer. It will save network bandwidth but increase CPU loading.</li>
+<li><b>Enable block-level synchronization:</b> Transfer only differential data instead of whole files. It will save network bandwidth but increase CPU loading.</li>
+</ul>
+<li>Set up schedule for the task:</li>
+<ul>
+<li><b>Run sync every [number] hours</b> or <b>Run sync every [number] minutes</b>: Run sync task by a specific interval of minutes or hours. The time starts counting from midnight. And the interval cannot exceed 24 hours.</li>
+<li><b>Run sync automatically every day at (hh:mm)</b>: Run sync task daily at specific time.</li>
+<li><b>Run sync manually</b>: Only run sync when manually performed.</li>
+<li><b>Run sync on modification</b>: Run sync task immediately once any change occurs at the source shared folder.</li>
+</ul>
+<li>Click <b>Apply</b>. Now you can see the sync task on the task list, which will be performed according to the specified schedule.</li></ol>
+<h4>To manage a sync task:</h4>
+<ol>
+<li>
+Select the task on the task list.
+</li>
+<li>
+Do any of the following:
+</li>
+<ul>
+<li>
+Click <b>Edit</b> to edit the task.
+</li>
+<li>
+Click <b>Delete</b> to delete the task.
+</li> 
+<li>
+If the sync task is not in progress, click <b>Sync Now</b> to perform the task right away.
+</li>
+<li>
+If the sync task is in progress, click <b>Cancel</b> to stop the ongoing task.
+</li>
+
+<div class="section">
+<h4>Note:</h4>
+<p>
+If the schedule for a sync task is set as <b>Run sync on modification</b>, clicking <b>Cancel</b> would stop the ongoing sync task. However, if any changes are made to the contents of any shared folder(s) monitored by the sync task, Shared Folder Sync would resume the task again.
+</p>
+</div>
+
+<li>
+Click <b>Full Sync</b> to sync all data. Shared Folder Sync will run a full sync for the first time, and only sync the modified parts after the first sync. Clicking this button can help you manually sync all data again.
+</li>
+</ul>
+</ol>
+
+<div class="section disable-eds14">
+<h4>More Information</h4>
+<ol>
+<li>Task name must be of 1 to 32 Unicode characters and must not contain the following characters:<br>
+<span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>If you sync shared folders from ext4 to ext3 file system, you may encounter errors when the task contains over 32,000 folders.</li>
+<li>If the shared folders in the destination Synology NAS have been synced with other Synology NAS before, Shared Folder Sync will perform a full sync for the task.</li>
+<li>To perform Shared Folder Sync tasks, you need the admin privilege of the destination Synology NAS. Either you have its admin account's password, or you are in the administrative group of it.</li>
+<li>When syncing to Synology NAS over the Internet, you can enter the server name by its external IP address or its hostname. However, if you choose to enter its hostname, the name must be in FQDN(Fully Qualified Domain Name) format, like &quot;www.synology.com&quot;.</li>
+<li>For port-forwarding, Shared Folder Sync uses port 22 for encrypted transfer and port 873 for unencrypted transfer.</li>
+<li>External storage devices are not supported by Shared Folder Sync.</li>
+<li>Encrypted shared folders needed to be mount manually with encryption key at destination.</li>
+<li>Scheduled Shared Folder Sync will not run at the specified time if no changes have been made to the selected shared folder.</li>
+<li>For best performance, we suggest each sync task includes less than 200 shared folders.</li>
+<li>The <strong>User Home</strong> function will be disabled on the destination Synology NAS if the <strong>homes</strong> shared folder is synced from the source Synology NAS to the destination Synology NAS.</li>
+
+<li>For models with non-Intel CPUs, you can sync up to 100,000 shared folders (including subfolders) using Shared Folder Sync.</li>
+ <li>Shared Folder Sync can back up Windows ACL settings when the destination file system  is ext4.</li>
+ 
+ <li>Shared Folder Sync will fail if you are syncing to a destination server which shares the same name as your Synology NAS.</li>
+ 
+<li>Advanced Shared Folder Permissions at the source will not be syncronized to the destination. Furthermore, a  read-only rule for administrators group users  will be created at the destination. </li> 
+
+  </ol>
+</div>
+<div class="section enable-eds14">
+<h4>More Information</h4>
+<ol>
+<li>Task name must be of 1 to 32 Unicode characters and must not contain the following characters:<br>
+<span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>If you sync shared folders from ext4 to ext3 file system, you may encounter errors when the task contains over 32,000 folders.</li>
+<li>If the shared folders in the destination Synology NAS have been synced with other Synology NAS before, Shared Folder Sync will perform a full sync for the task.</li>
+<li>To perform Shared Folder Sync tasks, you need the admin privilege of the destination Synology NAS. Either you have its admin account's password, or you are in the administrative group of it.</li>
+<li>When syncing to Synology NAS over the Internet, you can enter the server name by its external IP address or its hostname. However, if you choose to enter its hostname, the name must be in FQDN(Fully Qualified Domain Name) format, like &quot;www.synology.com&quot;.</li>
+<li>For port-forwarding, Shared Folder Sync uses port 22 for encrypted transfer and port 873 for unencrypted transfer.</li>
+<li>External storage devices are not supported by Shared Folder Sync.</li>
+<li>Encrypted shared folders needed to be mount manually with encryption key at destination.</li>
+<li>Scheduled Shared Folder Sync will not run at the specified time if no changes have been made to the selected shared folder.</li>
+<li>For best performance, we suggest each sync task includes less than 200 shared folders.</li>
+<li>The <strong>User Home</strong> function will be disabled on the destination Synology NAS if the <strong>homes</strong> shared folder is synced from the source Synology NAS to the destination Synology NAS.</li>
+<li>For models with non-Intel CPUs, you can sync up to 100,000 shared folders (including subfolders) using Shared Folder Sync.</li>
+ 
+ <li>Shared Folder Sync will fail if you are syncing to a destination server which shares the same name as your Synology NAS.</li>
+ 
+<li>Advanced Shared Folder Permissions at the source will not be syncronized to the destination. Furthermore, a  read-only rule for administrators group users  will be created at the destination. </li> 
+ 
+ </ol>
+</div>
+</body></html>

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>„Tudathasadásos” hiba (split-brain)</h2>
+
+<p>Ha egy high-availability klaszter megfelelően működik, csak az egyik tagszerver láthatja el az aktív szerver szerepét. Ebben az esetben a passzív szerver a Heartbeat-kapcsolaton és az adatkapcsolaton keresztül egyaránt észleli az aktív szerver jelenlétét.</p>
+
+<p>Ha elveszik a Heartbeat- és az adatkapcsolat, előfordulhat, hogy mindkét szerver megpróbálja felvenni az aktív szerver szerepkörét. Ezt nevezzük „split-brain” (tudathasadásos) hibának. Ebben az esetben a high-availability klaszterben található IP-címekre irányuló kapcsolatok átirányításra kerülnek a két szerver valamelyikére, így az adatok inkonzisztens módon módosulhatnak, vagy íródhatnak a két szerverre.</p>
+        
+<p>Amikor ismét létrejön a Heartbeat-kapcsolat vagy az adatkapcsolat, a rendszer észleli a split-brain (tudathasadásos) hibát és a két szerver közötti adatinkonzisztenciát, és belép high-availability biztonsági üzemmódba.</p> 
+
+       
+<h4>Split-brain (tudathasadásos) hiba előfordulása esetén:</h4>
+	<ol>
+    <li>A két szerveren futó szolgáltatások, valamint a high-availability klaszterben lévő IP-címek a split-brain (tudathasadásos) hiba megoldásáig nem érhetők el.</li>
+	<li>Ha mindkét szerver belépett a high-availability biztonsági üzemmódba, a bal oldali panelen megjelenik egy új, <strong>Tudathasadás</strong> nevű lap. Ezen a lapon a következő információk tekinthetők meg: a két szerver megosztott mappáiban lévő fájlok közötti eltérések, az időpont, amikor a szerverek aktív szerverré váltak, valamint az utolsó csatlakozási információ valamilyen iSCSI-tárolóhoz. A többi lap csak olvasható.</li>
+<li>High-availability biztonsági üzemmódban a File Station csak olvasható, azaz kizárólag a fájlok letöltését vagy megtekintését teszi lehetővé.</li>
+       <li>Az <b>Áttekintés</b> lapon kizárólag a split-brain (tudathasadásos) hibákat megoldására, illetve az aktuális szerver leállítására van lehetőség. A split-brain (tudathasadásos) hibák elhárítása érdekében tegye a következők bármelyikét:<ul>
+       <li>Határozza meg, hogy melyik legyen az aktív, és melyik legyen a passzív szerver a high-availability klaszterben. A két szerver újraindítását követően az aktív szerveren lévő összes eltérő adat és beállítás szinkronizálásra kerül a passzív szerverre. Vegye figyelembe, hogy a passzív szerveren a split-brain (tudathasadásos) hiba fennállása alatt módosított adatok elvesznek.</li>
+       <li>Határozza meg, hogy melyik legyen az aktív szerver a high-availability klaszterben, majd válassza le a másikat. Miután a két szerver újraindult, az aktív szerver továbbra is a high-availability klaszterben marad, a leválasztott szerver pedig fenntartja adatait, és visszalép <b>Önálló</b> állapotba. Ne feledje, hogy az új passzív szerver csatlakoztatásához teljes replikációra lesz szükség.</li>
+       <li>Válassza le mindkét szervert, foglalja le azok adatait, majd hagyja, hogy visszaálljanak <b>Önálló</b> módba.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Megjegyzések:</h4>
+    <ul>
+    <li>Minél több fájl van a megosztott mappákban, annál hosszabb ideig tart a rendszernek kilistázni a különbségeket.</li>
+    <li>Mielőtt megadja, hogy melyik szerver legyen az aktív/passzív szerver, ellenőrizze, hogy a két szerver be van-e kapcsolva.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

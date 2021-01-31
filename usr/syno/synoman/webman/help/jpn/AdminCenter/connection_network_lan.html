@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>LAN / ワイヤレス LAN</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="lan"></a>LAN/インターネット</h2>
+<p>Synology NAS のモデルとネットワーク設定に応じて、LAN やインターネットに接続するために DHCP の設定を行ってください。<strong>[コントロール パネル]</strong> &gt; <strong>[ネットワーク]</strong> &gt; <strong>[ネットワーク インターフェイス]</strong> の順に選択してください。DHCP とは自動 IP 割当てを行うネットワークプロトコルです。DHCP でシステム IP を割り当てるには、<strong>[編集]</strong> をクリックした後、<strong>[IPv4]</strong> タブで <b>[DHCP サーバーのネットワーク設定を自動的に取得する]</b> を選択します。</p>
+<p>ネットワークサービスプロバイダの指定する IP アドレスを使用している場合は、<b>[手動で設定する]</b> を選択して、IP アドレスとサブネットマスクを入力します。DNS サーバーまたはデフォルトゲートウェイを利用しない場合は、未指定のままにしておいてください。</p>
+
+<div class="section">
+<h4>注：</h4>
+<ol>
+<li>E メール通知用に適切な SMTP サーバー、有効な DNS サーバー IP が入力されているか確認してください。</li>
+<li>Jumbo Frames は、最大転送単位 (MTU) の標準 1500 バイトを超える Ethernet フレームで、サイズの大きいファイルの Ethernet 転送を効率よく行います。この機能は、ギガバイトのネットワーク環境でのみ有効です。Jumbo Frame が正しく機能するためには、ネットワーク経由で Synology NAS にアクセスするすべてのコンピュータおよびデバイスが Jumbo Frame をサポートし、同じ MTU 値を使用していることを確認します。</li>
+</ol>
+</div>
+
+<h3><a name="vlan"></a>VLAN</h3>
+<p>ネットワーク環境が VLAN 設定を必要とする場合は、「編集」画面の <strong>IPv4</strong> タブで、VLAN オプションを有効にしてネットワーク環境の VLAN ID を入力します。</p>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>ネットワーク スイッチが正しく構成されているかどうかを確認してください。そうしなければ、Synology NAS のサービスにアクセスできなくなる場合があります。</li>
+<li>上記の設定を修正した後も Synology NAS に接続できない場合は、Synology NAS の [RESET] ボタンを押してデフォルト設定を読み込んでください。</li>
+</ul>
+</div>
+
+
+<h3><a name="ipv6"></a>IPv6 設定</h3>
+<p>Synology NAS は IPv4/IPv6 デュアルスタックテーマをサポートしています。つまり、IPv4 および IPv6 の両方が Synology NAS で同時に機能します。IPv6 のデフォルト設定は<b>自動</b>です。既存のネットワーク インターフェイスを選択し、<b>[編集]</b> ボタンをクリックして <b>IPv6</b> タブを開き、設定を変更できます。</p>
+
+<h4>IPv6 の設定を行う：</h4>
+<ol>
+<li><strong>[コントロール パネル]</strong> &gt; <strong>[ネットワーク]</strong> &gt; <strong>[ネットワーク インターフェイス]</strong> の順に選択します。</li>
+<li>既存のネットワーク インターフェイスを選択し、<strong>[編集]</strong> をクリックします。</li>
+<li><strong>IPv6</strong> タブの <strong>IPv6 セットアップ</strong>からセットアップ タイプを選択する：
+  <ul>
+<li><b>自動</b>：LAN Router Advertisement (RA) に応じて、Synology NAS が自動的に IPv6 アドレスを生成します。</li>
+	<ul>
+	  <li><strong>ステートレス モード</strong>：ルーターに接続されたデバイスが、IPv6 DNS サーバーを設定せずに IPv6 アドレスを自動設定できるようにします。</li>
+      <li><strong>ステートレス DHCPv6 モード</strong>：ルーターに接続されたデバイスが、DHCPv6 から IPv6 アドレスを自動設定し、DNS 情報を取得できるようにします。</li>
+      <li><strong>ステートフル モード</strong>：ルーターに接続されたデバイスが、DHCPv6 から IPv6 アドレスと DNS 情報を取得できるようにします。このモードでは、DHCPv6 サーバーを有効にして、 DHCPv6 の <strong>IP アドレスの先頭</strong>と<strong>IP アドレスの終了</strong>を設定する必要があります。</li>
+	</ul>
+<li><b>手動</b>：<b>IPv6 アドレス</b>、<b>Prefix の長さ</b>、および<b>デフォルトゲートウェイ</b>を入力して IPv6 を手動で設定します。</li>
+<li><b>オフ</b>：IPv6 サポートを無効にします。</li>
+  </ul>
+</ol>
+<p>IPv6 が完全に IPv4 に引き継がれるまで、IPv4 アドレスを持つホストが IPv6 サービスにアクセスできるように、IPv6 トランジション メカニズムが必要となります。異なる IPv6 トランジション メカニズムから選ぶ：</p>
+<ul>
+  <li><b>6in4</b>: トンネル ブローカーから IPv6 ネットワークに接続します。<b>IPv6 アドレス</b>、<b>Prefix の長さ</b>、<b>Prefix</b>、<b>トンネル ブローカーの IPv4 アドレス</b>を入力する必要があります。これにはパブリック IPv4 アドレスが必要です。</li>
+<li><b>6to4</b>: エニーキャストを使って、トンネル ブローカーから IPv6 ネットワークに接続します。これにはパブリック IPv4 アドレスが必要です。</li>
+<li><b>DHCP-PD</b>: LAN 内の prefix delegation を介して、DHCP サーバーから IPv6 prefix を取得します。これには ISP サポートが必要であり、ルーター モードでのみ作動します。</li>
+<li><strong>IPv6 トンネリング (TSP)</strong>：<strong>[コントロール パネル]</strong> &gt; <strong>[ネットワーク]</strong> &gt; <strong>[全般]</strong> の順に選択してこのオプションを設定します。</li>
+</ul>
+
+<h3>802.1X</h3>
+<p>802.1X は、ユーザーが接続するネットワーク用に IEEE が開発した認証規格です。802.1X はクライアントを認証するためにネットワークで使用され、認証されなかったクライアントが保護されたネットワークにアクセスするのを阻止します。</p>
+<p>Synology NAS を 802.1X 認証で保護されたネットワークに接続させることができます。</p>
+
+<h4>802.1X 認証を有効にする：</h4>
+<ol>
+<li><strong>[コントロールパネル]</strong> &gt; <strong>[ネットワーク]</strong> &gt; <strong>[ネットワーク インターフェイス]</strong> を選択します。</li>
+<li>有線ネットワーク インターフェイス（LAN など）を選択し、<strong>[編集]</strong> をクリックします。</li>
+<li><strong>[802.1X]</strong> タブを開き、<strong>[802.1X 認証を有効にする]</strong> にチェックマークを付けます。</li>
+<li><strong>認証</strong>ドロップダウン メニューで次のいずれかのプロトコルを選択します。最も適したプロトコルがわからない場合は、<strong>[自動]</strong> を選択してください。&Acirc;&nbsp;&Acirc;&nbsp;&Acirc;&nbsp;&Acirc;&nbsp;<ul>
+<li><strong>PEAP</strong>:セキュア接続を確立するには、CA 認証（任意）を選択します。このセキュア接続は、内部認証で使用されます。</li>
+<li><strong>TTLS</strong>:セキュア接続を確立するには、CA 認証（任意）を選択します。このセキュア接続は、内部認証で使用されます。</li>
+<li><strong>TLS</strong>: TLS (Transport Layer Security) を使って認証します。</li> </ul> </li>
+<li><strong>TTLS</strong> または <strong>PEAP</strong> を選択する場合は、ドロップダウン メニューから内部認証プロトコルの1つを選択してください。
+<ul>
+<li><strong>MS CHAP v2</strong>:認証情報は、Microsoft CHAP v2 で暗号化されます。</li>
+<li><strong>GTC</strong>:認証情報は GTC (Generic Token Card) を使って暗号化されます。</li>
+</ul></li>
+<li>ユーザー名とパスワードを入力します。</li>
+<li>必要であれば、<strong>[インポート]</strong> をクリックした後で <strong>[参照]</strong> をクリックし、Radius Server からエクスポートされた証明書を探してインポートしてください（例：ca.crt）。</li>
+<li><strong>[OK] </strong>をクリックして、設定を保存します。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>ワイヤレス ネットワーク用に 802.1X 認証を構成するには、<strong>[コントロールパネル]</strong> &gt; <strong>[ワイヤレス]</strong> &gt; <strong>[Wi-Fi]</strong> を選択します。</li>
+<li>認証設定は、Radius Server で設定したものと同じでなければなりません。詳しくは、Radius Server の管理者にお尋ねください。</li>
+</ul>
+</div>
+
+<h2>ワイヤレス LAN*</h2>
+<p>Synology NAS をワイヤレス ルーターとして機能させる場合、ワイヤレス LAN の次の設定を行うことができます。<strong>[コントロール パネル]</strong> &gt; <strong>[ネットワーク]</strong> &gt; <strong>[ネットワーク インターフェイス]</strong> を選択してください。</p>
+<h3>IPv4 設定</h3>
+
+<h4>IP アドレスとサブネット マスク</h4> 
+<p>ここでは、Synology NAS の IP アドレスとサブネット マスクを設定できます。</p>
+<h4>DHCP Server</h4>
+<p><strong>DHCP Server を有効にする</strong>オプションを有効にすると、Synology NAS に Synology NAS が提供するローカル ネットワークに接続するクライアント デバイスの IP アドレスを割り当てさせます。</p>
+<h4>PPPoE リレー</h4>
+<p><strong>PPPoE リレー</strong>を有効にすると、Synology NAS に接続されたデバイスに PPPoE 接続を介してインターネットにアクセスさせます。</p>
+
+<h4>UPnP インスタント ゲートウェイとして設定</h4>
+<p><strong>UPnP</strong> 機能を有効にすると、Synology NAS を UPnP インターネット ゲートウェイ デバイスとして機能させ、UPnP で Synology NAS のローカル ネットワークに接続しているデバイスがポート転送設定を行えるようにします。</p>
+
+<h3>IPv6 設定</h3>
+<p>6in4、6to4、DHCP-PD で IPv6 アドレスと prefix を <strong>LAN/インターネット</strong>から取得できます。この情報があると、ここで Synology NAS の IPv6 ルーティング オプションの設定を行うことができます。</p>
+<ul>
+<li><strong>IPv6 アドレス</strong>：<strong>LAN/インターネット</strong>から取得した IPv6 アドレスを入力します。</li>
+<li><strong>Prefix の長さ</strong>：<strong>LAN/インターネット</strong>から取得した IPv6 アドレスの prefix の長さを入力します。通常は 64 です。</li>
+<li><strong>プライマリ DNS</strong>：ルーターに接続したデバイスのプライマリ DNS サーバーです。これは<strong>ステートレス モード</strong>で設定する必要はありません。</li>
+<li><strong>セカンダリ DNS</strong>：ルーターに接続したデバイスのセカンダリ DNS サーバーです。これは<strong>ステートレス モード</strong>で設定する必要はありません。</li>
+</ul>
+<p>3つの Router Advertisement (RA) モードがあります。</p>
+<ul>
+<li><strong>ステートレス モード</strong>：ルーターに接続されたデバイスが、IPv6 DNS サーバーを設定せずに IPv6 アドレスを自動設定できるようにします。</li>
+<li><strong>ステートレス DHCPv6 モード</strong>：ルーターに接続されたデバイスが、DHCPv6 から IPv6 アドレスを自動設定し、DNS 情報を取得できるようにします。</li>
+<li><strong>ステートフル モード</strong>：ルーターに接続されたデバイスが、DHCPv6 から IPv6 アドレスと DNS 情報を取得できるようにします。このモードでは、DHCPv6 サーバーを有効にして、 DHCPv6 の<strong>IP アドレスの先頭</strong>と<strong>IP アドレスの終了</strong>を設定する必要があります。</li>
+</ul>
+
+<h3>DHCP クライアント</h3>
+<p>ここでは、DHCP クライアントの一覧とネットワーク設定を見ることができます（MAC アドレス、IP アドレス、ホスト名、DHCP の有効期間の残り時間）。</p>
+<p>IPv4/IPv6 クライアントをフィルターにかけて、それぞれ IPv4 と IPv6 を使用しているクライアントを見分けることができます。クライアントを選択し、<strong>アドレス予約に追加</strong>をクリックしてアドレス予約リストにクライアントを追加します。</p>
+
+<h3>DHCP 予約</h3>
+<p>DHCP リースの更新中にも、クライアントがいつも同じ IP アドレスを使用できるようにしたい場合は、そのクライアントをアドレス予約リストに追加することができます。</p>
+<p>IPv4/IPv6 アドレス予約リストをフィルターにかけることができます。IPv4 アドレスは MAC アドレスによって認識され、IPv6 アドレスは DUID によって認識されます。</p>
+<h4>アドレス予約リストにクライアントを追加する：</h4>
+<ul>
+<li>クライアントを選択し、<b>追加</b>をクリックします。</li>
+<li>クライアントの MAC アドレス、DUID、クライアントに割り当てたい IPv4/IPv6 アドレス、クライアントのホスト名を指定します。</li>
+<li><b>OK</b>をクリックして、設定を保存します。</li>
+</ul>
+<p>
+<b>_____</b> <br> * 特定モデル、または特定環境でしか使用できません。
+</p>
+</body>
+</html>

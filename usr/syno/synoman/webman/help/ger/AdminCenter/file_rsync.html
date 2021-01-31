@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Sicherungsdienste - Hilfe zu Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>rsync</h2>
+
+<p>Sie können es anderen Benutzern erlauben, über rsync von einem Synology NAS oder von rsync-kompatiblen Clients Daten auf Ihrem Synology NAS zu sichern.</p>
+
+<h3>rsync-Sicherungsdienst aktivieren</h3>
+
+<h4>rsync-Sicherungsdienst aktivieren:</h4>
+
+<p>Gehen Sie zu <strong>Systemsteuerung</strong> > <strong>Dateidienste</strong> > <strong>rsync</strong> und wählen Sie <strong>rsync-Dienst aktivieren</strong>.</p>
+
+
+<h4>rsync-Sicherungsberechtigungen zuweisen:</h4>
+
+
+<p>Weisen Sie Benutzern die richtigen rsync-Berechtigungen zu, damit sie Daten von einem Quell-Synology NAS oder von einem rsync-kompatiblen Server auf dem Ziel-Synology NAS sichern können.</p>
+
+<ol>
+<li>Gehen Sie zu <b>Systemsteuerung</b> > <b>Berechtigungen</b>.</li>
+<li>Wählen Sie <strong>rsync (Synchronisierung freigegebener Ordner, LUN-Sicherung auf unterstützten Modellen)</strong> und klicken Sie auf <strong>Bearbeiten</strong>, um Berechtigungen zuzuweisen.</li>
+<li>Weisen Sie den gewünschten Benutzern (DSM-Benutzer für verschlüsseltes rsync oder rsync-Konten für unverschlüsseltes rsync) Berechtigungen des Typs <strong>Zulassen</strong> zu oder oder geben Sie die zugelassenen IP-Adressen für bestimmte Benutzer an.</li>
+</ol>
+
+
+
+<div class="section">
+<h4>Hinweis:</h4>
+<p>Um die rsync-Sicherung von einem Synology NAS mit einer DSM-Version vor 3.0 aus durchzuführen oder von einem Client aus, der nicht ein Synology NAS ist, und um die Informationen des <b>Besitzers</b> und der <b>Gruppe</b> als Quelldaten beizubehalten, müssen Sie die rsync-Konten zur Gruppe <b>administrators</b> hinzufügen und die Daten im freigegebenen Ordner <b>NetBackup</b> im Daemon-Modus sichern.</p>
+</div>
+
+<h3>rsync-Konten aktivieren</h3>
+<p>Wenn Sie eine rsync-Sicherung von einem Nicht-Synology NAS-Client durchführen, müssen Sie auf dem Ziel-Synology NAS rsync-Konten erstellen, damit die rsync-Benutzer Daten auf Ihrem Synology NAS sichern können.</p>
+
+<h4>rsync-Konten aktivieren:</h4>
+<ol>
+<li>Gehen Sie zu <b>Systemsteuerung</b> > <b>Dateidienste</b> > <strong>rsync</strong> und wählen Sie <b>rsync-Konto aktivieren</b>.</li>
+<li>Klicken Sie auf <b>rsync-Konto bearbeiten</b>, um Benutzer und entsprechende Kennwörter für die Authentifizierung einzustellen.</li>
+<li>Klicken Sie auf <b>Übernehmen</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Hinweis:</h4>
+<ul>
+<li>Wenn der rsync-Dienst verschlüsselt ist (d. h. wenn ein SSH-Verschlüsselungsport angegeben ist), setzt das System direkt die Benutzernamen und Kennwörter von DSM-Benutzern als deren rsync-Konten ein.</li>
+<li>Wenn der rsync-Dienst nicht verschlüsselt ist, müssen Sie die entsprechenden rsync-Konten für sie erstellen.</li>
+</ul>
+</div>
+
+
+<h3>Verwenden der benutzerdefinierten rsync-Konfiguration</h3>
+
+<p>Sie können eine benutzerdefinierte rsync-Konfiguration verwenden und Benutzerberechtigungen sowie das Datensicherungsziel auf Ihrem Synology NAS konfigurieren. Daher können andere Personen eine rsync-Sicherung von einem Synology NAS oder einem rsync-kompatiblen Client in freigegebene Zielordner (oder „Datensicherungsmodule“) auf dem Synology NAS durchführen.</p>
+
+<h4>Benutzerdefinierte rsync-Konfiguration verwenden:</h4>
+
+<ol>
+<li>Melden Sie sich beim Synology NAS über Telnet oder SSH an.</li>
+<li>Geben Sie das Datensicherungsmodul und die autorisierten Benutzer in der rsync-Konfigurationsdatei "<b><code>/etc/rsyncd.conf"</code></b> an. Detaillierte Informationen finden Sie in der Anleitung von <b>rsyncd.conf </b>auf Ihrem rsync-Client oder <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">hier</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Hinweis:</h4>
+<p>Wenn das Datensicherungsmodul und der freigegebene Ordner denselben Namen haben, wird die Einstellung des Datensicherungsmoduls verwendet.</p>
+</div>
+
+
+<h3>Geschwindigkeitseinschränkung aktivieren</h3>
+<p>Sie können die maximal verwendbare Bandbreite für die rsync-Sicherung für Benutzer und Gruppen überwachen.</p>
+
+<h4>Geschwindigkeitseinschränkung aktivieren:</h4>
+<ol>
+  <li>Gehen Sie zu <b>Systemsteuerung</b> ><b> Dateidienste</b> > <strong>rsync</strong>. Wählen Sie eine der folgenden Optionen aus:
+  <ul>
+  <li><strong>Keine Geschwindigkeitseinschränkung</strong></li>
+  <li><strong>Geschwindigkeitseinschränkung aktivieren</strong></li>
+  <li><strong>Geschwindigkeitseinschränkung nach einem Zeitplan aktivieren</strong> (Klicken Sie auf <strong>Zeitplan einstellen</strong>, um weitere Änderungen vorzunehmen.)</li>
+  </ul>
+  
+<div class="section">
+<h4>Hinweis:</h4>
+<p>Dies ist eine serverweite Einstellung, die die Einstellungen der einzelnen Benutzer und Gruppen überschreibt. Beispielsweise deaktiviert die Auswahl von Keine <strong>Geschwindigkeitseinschränkung </strong>die Einstellungen für die Geschwindigkeitseinschränkung aller Benutzer und Gruppen.</p>
+</div>
+  </li>
+
+  <li>Klicken Sie, wenn Sie die <strong>Geschwindigkeitseinschränkung</strong> aktiviert haben, auf Geschwindigkeitseinschränkungseinstellungen und anschließend auf den gewünschten Benutzer bzw. die gewünschte Gruppe, um die Einstellungen zu ändern:
+    <ul>
+       <li><strong>Keine:</strong> Es wird keine Geschwindigkeitseinschränkung angewendet, wenn Gruppenmitglieder Dateien mit dem Dienst übertragen.</li>
+      <li><strong>Gruppeneinstellungen übernehmen</strong>: Für den Benutzer gelten dieselben Geschwindigkeitseinschränkungseinstellungen wie für die zugehörige Gruppe.</li>
+      <li><strong>Konstant</strong>: Für alle Benutzer und Gruppenmitglieder gilt eine feste, konstante Geschwindigkeitseinschränkung. Die Upload- und Download-Geschwindigkeitseinschränkungen können in den Feldern links angegeben werden.</li>
+      <li><strong>Angepasst</strong>: Für Benutzer oder Gruppenmitglieder können zwei unterschiedliche Geschwindigkeitseinschränkungen gemäß einem Zeitplan festgelegt werden. Klicken Sie auf <strong>Anpassen</strong>, um die Geschwindigkeitseinschränkungseinstellungen zu ändern und einen Zeitplan festzulegen.</li>
+    </ul>
+  </li>
+ <li>Klicken Sie auf <b>Übernehmen</b>.</li> 
+
+</ol>
+<div class="section">
+  <h4>Hinweis:</h4>
+    <p>Im Abschnitt <strong>Ergebnis (UL/DL)</strong> wird das tatsächliche Upload- und Download-Limit gemäß seinen eigenen und gemäß den Gruppeneinstellungen angezeigt. Falls beispielsweise ein Benutzer „Achilles“ ein individuelles Download-Limit von 100 KB/s hat, aber zu einer Benutzergruppe mit einem Download-Limit von 500 KB/s gehört, wird im Bereich <strong>Ergebnis (UL/DL)</strong> „0/500“ angezeigt.</p>
+</div>
+
+</body>
+</html>

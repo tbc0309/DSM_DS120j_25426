@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Estado do armazenamento</h2>
+	<p>Esta página apresenta detalhes sobre o estado dos volumes de armazenamento e dos iSCSI LUNs (nível do bloco) nos servidores ativo e passivo do cluster de high-availability.</p>
+    <p>Porque a capacidade e configurações nos volumes e iSCSI LUNs (nível de bloco) correspondentes nos servidores ativo e passivo devem ser idênticas, os volumes e iSCSI LUN (nível de bloco) nos dois servidores são apresentados em conjunto como unidades individuais. Assim, se pretender visualizar o estado dos volumes e iSCSI LUNs (nível do bloco) de ambos os servidores ativo e passivo, deve ir para a página <b>Estado de Armazenamento</b> [quando aceder a um cluster de high-availability, só os volumes e iSCSI LUNs (nível de bloco) no servidor ativo são visíveis em <b>Espaço de Armazenamento</b>].</p>
+
+    <p>Esta página contém as seguintes informações:</p>
+		<ul>
+			<li><b>Nome:</b> Apresenta os nomes dos volumes e iSCSI LUNs (nível do bloco).</li>
+			<li><b>Utilizado:</b> Apresenta a percentagem da capacidade utilizada dos volumes e iSCSI LUNs (nível do bloco).</li>
+			<li><b>Tamanho Utilizado/Total:</b> Apresenta a capacidade total e utilizada dos volumes e iSCSI LUNs (nível do bloco).</li>
+            <li><b>Estado:</b> Apresenta o estado dos volumes e iSCSI LUNs (nível do bloco) e caches SSD.</li>
+            <li><b>Descrição:</b> Apresenta descrições dos erros ou outra informação relativa ao volume e iSCSI LUN (nível de bloco) e cache SSD.</li>
+		</ul>
+<h4>Para reparar um volume ou iSCSI LUN (Nível do Bloco) com avaria:</h4>
+	<ul>
+		<li>Se um disco rígido num dos servidores sofreu uma falha fatal, pode ir para a página <a href="disk.html">Estado do Disco</a> para determinar que disco rígido sofreu a falha fatal e que precisa de ser substituído. Neste caso, faça o seguinte:
+        	<ol>
+            	<li>Substitua o disco rígido com a falha fatal (para saber os passos para instalação do disco rígido, consulte o <i>Guia de Instalação Rápida</i> do seu produto Synology).</li>
+                <li>Vá para a página <b>Estado do Armazenamento</b> e clique em <b>Reparar</b>.</li>
+            </ol>
+        </li>
+        <li>Se o servidor passivo estiver off-line, o estado status dos volumes e iSCSI LUNs (nível do bloco) indicará que ocorreu um erro e nenhum dos discos no servidor passivo será apresentado na página Estado do Disco. Neste caso, pode tentar resolver o problema fazendo o seguinte:
+        	<ol>
+            	<li>Certifique-se de que o servidor passivo está ligado.</li>
+                <li>Verifique todas as fontes de alimentação.</li>
+                <li>Examine todas as ligações.</li>
+            </ol>
+        </li>
+        <li>Se um erro do sistema de ficheiros ocorrer num volume ou iSCSI LUN (nível de bloco) de um dos servidores, faça o seguinte:
+        	<ul>
+            	<li>Vá para a página <b>Estado do Armazenamento</b>.</li>
+                <li>Clique em <b>Reparar</b>.</li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">Nota:</span> O limite dos volumes e iSCSI LUNs (nível de bloco) num cluster de high-availability é 64.</p>
+
+
+
+<h3>Servidor Quorum</h3>
+<p>Servidores Quorum podem ajudar a reduzir a possibilidade de erros split-brain. Nas definições split-brain, pode atribuir outro servidor como servidor quorum, desde que se ligue de forma constante aos servidores ativo e passivo. Por exemplo, um servidor gateway ou servidor DNS é uma escolha adequada para servidor quorum, porque pode ligar-se aos servidores ativo e passivo. Tenha em conta que o servidor quorum serve apenas para proporcionar serviços Ping, e não é necessária a instalação de qualquer aplicação. Abaixo apresentamos as circunstâncias que sucedem quando um servidor quorum é ativado:</p>
+
+<ul>
+<li>Se o servidor passivo não se conseguir ligar a ambos servidores quorum ativos, o failover não será realizado de modo a evitar erros split-brain.</li>
+<li>Caso o servidor ativo não se consiga ligar ao servidor quorum mas o servidor passivo consiga, será acionado o switchover para garantir melhor disponibilidade.</li>
+</ul>
+
+ </body>
+</html>

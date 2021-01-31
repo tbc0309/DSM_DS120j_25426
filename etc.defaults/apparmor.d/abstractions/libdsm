@@ -1,0 +1,84 @@
+# ----------------------------------------------------------------------------
+#
+#    Copyright (C) 2000-2015 Synology Inc. All rights reserved.
+#
+# ----------------------------------------------------------------------------
+#include <abstractions/libsynosdk>
+#include <abstractions/libsynocore>
+#include <abstractions/libsynowireless>
+#include <abstractions/libsynocgi>
+#include <abstractions/libsynofileop>
+#include <abstractions/libsynoserviceconf>
+#include <abstractions/libsynosysnotify>
+#include <abstractions/libsynoacl>
+#include <abstractions/libsynowins>
+#include <abstractions/taskmanager>
+
+#add Content Security Policy header
+/usr/syno/share/csp/rule*   rwk,
+/usr/syno/share/csp/rule-default    rk,
+/usr/syno/share/csp/standalone{,/*} rwk,
+/usr/syno/etc/csp{,/*}      rwk,
+/usr/local/etc/csp{,/*}     rwk,
+
+#ThemeHelper
+/usr/syno/theme/theme.json     rk,
+/usr/syno/synoman/scripts/ext-3.4/ux/*.css r,
+/usr/syno/synoman/scripts/ext-3.4/ux/*.css.gz r,
+/usr/syno/synoman/scripts/ext-3.4/ux/ux-all.css w,
+/usr/syno/synoman/scripts/ext-3.4/ux/ux-all.css.gz w,
+/usr/syno/synoman/webman/resources/css/*.css  r,
+/usr/syno/synoman/webman/resources/css/*.css.gz  r,
+/usr/syno/synoman/webman/resources/css/desktop.css w,
+/usr/syno/synoman/webman/resources/css/desktop.css.gz w,
+/usr/syno/synoman/synoSDSjslib/*.css  r,
+/usr/syno/synoman/synoSDSjslib/*.css.gz  r,
+/usr/syno/synoman/synoSDSjslib/sds.css w,
+/usr/syno/synoman/synoSDSjslib/sds.css.gz w,
+
+#StringParser
+/etc/synoinfo.conf      r,
+
+#LocalizedStringParser refers to StringParser
+#stringbundle
+/usr/syno/synoman/webman/texts/*/strings   r,
+/usr/syno/synoman/scripts/texts/*/strings  r,
+/usr/syno/synoman/webfm/texts/*/strings    r,
+
+#conf refer to abstractions/libsynocgi
+
+#JSConfigParser refers to LocalizedStringParser
+/volume*/@appstore/**/config.debug                 r,
+/volume*/@appstore/**/config                       r,
+/volume*/@appstore/**/application.cfg              r,
+/volume*/@appstore/**/desktop.cfg                  r,
+/volume*/@appstore/**/style.css                    r,
+/usr/local/packages/@appstore/**/config.debug      r,
+/usr/local/packages/@appstore/**/config            r,
+/usr/local/packages/@appstore/**/application.cfg   r,
+/usr/local/packages/@appstore/**/desktop.cfg       r,
+/usr/local/packages/@appstore/**/style.css         r,
+/usr/syno/synoman/webman/3rdparty/                 r,
+/usr/syno/synoman/webman/modules/                  r,
+/usr/syno/synoman/webman/modules/*/config.debug    r,
+/usr/syno/synoman/webman/modules/*/config          r,
+/usr/syno/synoman/webman/modules/*/style.css       r,
+
+#conf refers to libsynocgi
+
+#file_share (include libsynoacl)
+
+#image_selector_utils
+/usr/bin/convert                          rix,
+/bin/cp                                   rix,
+/usr/syno/etc/preference/*/usersettings   rwk,
+
+#webman (include taskmanager)
+/usr/syno/etc/preference/*/usersettings   rwk,
+/usr/syno/etc/preference/*/groupsettings  rwk,
+/usr/syno/etc/preference/*/bkgtask        rwk,
+
+#webutils
+/etc.defaults/VERSION                     r,
+/etc.defaults/synoinfo.conf               r,
+/etc/synoinfo.conf                        r,

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Spr&aacute;vce iSCSI</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_lun"></a>LUN</h2>
+<p>Před vytvořen&iacute;m jednotky LUN je nutn&eacute; v&nbsp;n&aacute;stroji <a href="../StorageManager/volume_create_volume.html">Spr&aacute;vce &uacute;loži&scaron;tě</a> nejprve vytvořit svazek.</p>
+<p>Typy jednotek LUN s&nbsp;různ&yacute;mi funkcemi se zobraz&iacute; různ&yacute;mi barvami:</p>
+<ul>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #00adad;"></span> Jednotky LUN s&nbsp;funkc&iacute; Thin Provisioning vytvořen&eacute; na svazku ext4.</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #1a9900;"></span> Jednotky LUN s&nbsp;funkc&iacute; Thin Provisioning vytvořen&eacute; na svazku Btrfs.</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #0068b3;"></span> Jednotky LUN s&nbsp;funkc&iacute; Thin Provisioning.</li>
+ </ul>
+ 
+
+<div class="section"><h4>Důležit&eacute; upozorněn&iacute;:</h4>
+<ul>
+	<li>Nov&eacute; roz&scaron;&iacute;řen&eacute; funkce a okamžit&eacute; sn&iacute;mky podporuj&iacute; pouze jednotky LUN vytvořen&eacute; na svazku Btrfs v&nbsp;syst&eacute;mu DSM 6.2 a nověj&scaron;&iacute;ch verz&iacute;ch. Jednotky LUN na svazku ext4 podporuj&iacute; pouze star&scaron;&iacute; roz&scaron;&iacute;řen&eacute; funkce.</li>
+</ul>
+</div>
+
+<h4>Vytvořen&iacute; jednotky LUN:</h4>
+<ol>
+  <li>Klikněte na možnost <strong>Vytvořit</strong>.</li>
+  <li>Nastavte vlastnosti t&eacute;to jednotky LUN.<ul>
+			<li>N&aacute;zev jednotky LUN</li>
+			<li>Poloha: Um&iacute;stěn&iacute; nelze po vytvořen&iacute; jednotky LUN změnit, jednotku LUN lze ale zkop&iacute;rovat do jin&eacute;ho svazku.</li>
+			<li>Kapacita: Velikost jednotky LUN mus&iacute; b&yacute;t alespoň 1&nbsp;GB. U&nbsp;jednotek LUN se star&scaron;&iacute;mi roz&scaron;&iacute;řen&yacute;mi funkcemi mus&iacute; b&yacute;t tato velikost alespoň 10&nbsp;GB.</li>
+			<li>Přidělen&iacute; prostoru: Funkce Thick Provisioning zaji&scaron;ťuje lep&scaron;&iacute; stabilitu a v&yacute;kon a funkce Thin Provisioning podporuje přidělov&aacute;n&iacute; na vyž&aacute;d&aacute;n&iacute; a v&scaron;echny pokročil&eacute; funkce, ale v&nbsp;př&iacute;padě, že na jednotce LUN dojde m&iacute;sto, může způsobit zhroucen&iacute; souborov&eacute;ho syst&eacute;mu.</li>
+			<li>Pokročil&eacute; funkce: Jednotky LUN s&nbsp;funkc&iacute; Thick Provisioning podporuj&iacute; pouze funkce <strong>Hardware-Assisted Zeroing</strong> a <strong>Hardware-Assisted Locking</strong>, zat&iacute;mco jednotky LUN na svazc&iacute;ch ext4 podporuj&iacute; pouze star&scaron;&iacute; roz&scaron;&iacute;řen&eacute; funkce.</li></li>
+		</ul></li>
+	<li>Pomoc&iacute; průvodce proces dokončete.</li>
+</ol>
+
+<div class="section"><h4>Pozn&aacute;mka:</h4>
+	<ul>
+	<li>Pokud je ve svazku m&eacute;ně než 1&nbsp;GB voln&eacute;ho m&iacute;sta, nelze vytv&aacute;řet nov&eacute; jednotky LUN.</li>
+	<li>Požadujete-li podporu odpov&iacute;daj&iacute;c&iacute;ch funkc&iacute; VMware VAAI, povolte roz&scaron;&iacute;řen&eacute; funkce.</li>
+	<li>Povolen&iacute;m funkce <strong>Hardware-Assisted Data Transfer</strong> umožn&iacute;te jednotk&aacute;m LUN současně podporovat funkci Windows Offload Data Transfer (ODX).</li>
+	<li>Povolen&iacute; star&scaron;&iacute;ch roz&scaron;&iacute;řen&yacute;ch funkc&iacute; může ovlivnit v&yacute;kon vstupu/v&yacute;stupu.</li>
+	<li>Počet podporovan&yacute;ch jednotek LUN se u&nbsp;jednotliv&yacute;ch modelů Synology NAS li&scaron;&iacute;. Dal&scaron;&iacute; podrobnosti o&nbsp;parametrech produktů se nach&aacute;zej&iacute; na str&aacute;nk&aacute;ch <a href="http://www.synology.com/" target="_blank">www.synology.com</a>.</li>
+ 	</ul>
+</div>
+<div class="section"><h4><a name="terminologies_advanced_features"></a>Vysvětlen&iacute; pojmů:</h4>
+	<ul>
+		<li><strong>Funkce Hardware-Assisted Zeroing:</strong> Při vytv&aacute;řen&iacute; nov&yacute;ch virtu&aacute;ln&iacute;ch disků pom&aacute;h&aacute; hostitelům VMware ESXi efektivněji inicializovat virtu&aacute;ln&iacute; disky.</li>
+		<li><strong>Funkce Hardware-Assisted Locking:</strong> Když se hostitel VMware ESXi pokou&scaron;&iacute; o&nbsp;př&iacute;stup k&nbsp;datům jednotky LUN, tak uzamkne požadovan&eacute; č&aacute;sti t&eacute;to jednotky a umožn&iacute; současn&yacute; př&iacute;stup v&iacute;ce hostitelů VMware ESXi ke stejn&yacute;m jednotk&aacute;m LUN bez omezen&iacute; v&yacute;konu.</li>
+		<li><strong>Funkce Hardware-Assisted Data Transfer:</strong> Při kop&iacute;rov&aacute;n&iacute; dat na hostitel&iacute;ch VMware ESXi a Microsoft Hyper-V lze na zař&iacute;zen&iacute; Synology NAS prov&aacute;dět rychl&yacute; přenos dat, aniž by do&scaron;lo k&nbsp;obsazen&iacute; zdroje hostitelů.</li>
+		<li><strong>Sn&iacute;mek:</strong> D&iacute;ky funkc&iacute;m souborov&eacute;ho syst&eacute;mu Btrfs jsou k&nbsp;dispozici okamžit&eacute; sn&iacute;mky a replikace.</li>
+		<li><strong>Recyklace m&iacute;sta:</strong> Podporuje př&iacute;kaz inici&aacute;toru pro recyklaci m&iacute;sta. V&nbsp;př&iacute;padě odstraněn&iacute; nebo přenosu dat dojde k&nbsp;uvolněn&iacute; jimi zab&iacute;ran&eacute;ho m&iacute;sta. Může to ale ovlivnit v&yacute;kon vstupu/v&yacute;stupu.</li>
+	</ul></div>
+
+	
+
+<h4>Odebr&aacute;n&iacute; jednotky LUN:</h4>
+<p>Pokud odeberete jednotku LUN, odstran&iacute; se z&nbsp;jednotky LUN v&scaron;echna data. Současně budou ztracena spojen&iacute; mezi jednotkou LUN a namapovan&yacute;mi c&iacute;li Target.</p>
+<ol>
+	<li>Vyberte jednotku LUN, kterou chcete odebrat.</li>
+	<li>Klikněte na tlač&iacute;tko <b>Odebrat</b> a&nbsp;postup dokončete pomoc&iacute; průvodce.</li>
+</ol>
+
+<h4>&Uacute;pravy jednotky LUN:</h4>
+<ol>
+	<li>Vyberte jednotku LUN, kterou chcete upravit.</li>
+	<li>V&nbsp;rozev&iacute;rac&iacute; nab&iacute;dce <b>Akce</b> vyberte možnost <b>Upravit</b>.</li>
+	<li>Upravte požadovan&eacute; vlastnosti.</li>
+	<li>Nastaven&iacute; ulož&iacute;te kliknut&iacute;m na možnost <b>OK</b>.</li>
+</ol>
+
+<div class="section"><h4>Pozn&aacute;mka:</h4>
+<ul>
+<li>Aby nedo&scaron;lo ke ztr&aacute;tě dat, lze při změně kapacity jednotky LUN kapacitu pouze zvět&scaron;it.</li>
+<li>Pokud se stav jednotky LUN změn&iacute; na hodnotu <b>Nen&iacute; k&nbsp;dispozici</b>, znamen&aacute; to, že při př&iacute;stupu k&nbsp;jednotce LUN do&scaron;lo k&nbsp;určit&yacute;m chyb&aacute;m dat. Aby nedo&scaron;lo k&nbsp;z&aacute;važn&yacute;m ztr&aacute;t&aacute;m dat v&nbsp;syst&eacute;mu, bude jednotka LUN dočasně nedostupn&aacute;. Co nejdř&iacute;ve se obraťte na podporu společnosti Synology.</li>
+</ul>
+</div>
+
+<p>Pokud zař&iacute;zen&iacute; Synology NAS slouž&iacute; jako &uacute;loži&scaron;tě backend svazku OpenStack Cinder, použij&iacute; se při vytv&aacute;řen&iacute; svazků Cinder jednotky LUN s&nbsp;př&iacute;kazy akcelerace &uacute;loži&scaron;tě. Operace a spr&aacute;va jednotek LUN a c&iacute;lů použ&iacute;van&yacute;ch svazkem Cinder budou na zař&iacute;zen&iacute; Synology NAS omezeny.</p>
+<ul>
+<li>Jednotky LUN Cinder nelze upravovat.</li>
+<li>Informace, jako jsou n&aacute;zev, IQN, mapov&aacute;n&iacute; a maskov&aacute;n&iacute; c&iacute;lů Cinder nelze upravovat.</li>
+<li>Jednotky LUN nebo c&iacute;le Cinder nelze mapovat do obecn&yacute;ch jednotek LUN nebo c&iacute;lů.</li>
+<li>Sn&iacute;mky jednotek LUN Cinder nelze pořizovat pomoc&iacute; uživatelsk&eacute;ho rozhran&iacute; syst&eacute;mu DSM a sn&iacute;mky jednotek LUN Cinder nelze upravit, odstranit ani obnovit.</li>
+<li>Jednotky LUN naklonovan&eacute; z&nbsp;jednotek LUN nebo sn&iacute;mků Cinder se stanou obecn&yacute;mi jednotkami LUN.</li>
+</ul>
+
+<h4>Klonov&aacute;n&iacute; jednotky LUN:</h4>
+	<ol>
+	<li>Vyberte jednotku LUN, kterou chcete klonovat.</li>
+	<li>V&nbsp;rozev&iacute;rac&iacute; nab&iacute;dce <b>Akce</b> vyberte možnost <b>Klonovat</b>.</li>
+	<li>Upravte n&aacute;zev klonovan&eacute; jednotky LUN a vyberte c&iacute;lov&yacute; svazek.</li>
+	<li>Kliknut&iacute;m na možnost <b>OK</b> zah&aacute;j&iacute;te klonov&aacute;n&iacute;.</li>
+</ol>
+<div class="section">
+	<h4>Pozn&aacute;mka:</h4>
+	<ul>
+		<li>Jednotku LUN nelze klonovat, když zb&yacute;vaj&iacute;c&iacute; m&iacute;sto jej&iacute;ho svazku poklesne pod 1&nbsp;GB.</li>
+	</ul>
+</div>
+
+<h4>Defragmentace jednotky LUN:</h4>
+<p>Defragmentace může obnovit sn&iacute;žen&yacute; v&yacute;kon jednotky LUN způsoben&yacute; fragmentac&iacute; dat nebo sn&iacute;mky. V&nbsp;průběhu defragmentace může doj&iacute;t k&nbsp;ovlivněn&iacute; v&yacute;konu vstupu/v&yacute;stupu, defragmentaci v&scaron;ak můžete kdykoliv zastavit a později znovu obnovit.</p>
+<ol>
+	<li>Vyberte jednotku LUN, kterou chcete defragmentovat.</li>
+	<li>Klikněte na možnost <b>Defragmentovat</b> &gt; <b>Spustit</b>.</li>
+</ol>
+<h4>Zastaven&iacute; defragmentace jednotky LUN:</h4>
+<ol>
+	<li>Vyberte jednotku LUN, na kter&eacute; prob&iacute;h&aacute; defragmentace.</li>
+	<li>Klikněte na možnost <b>Defragmentovat</b> &gt; <b>Zastavit</b>.</li>
+</ol>
+<div class="section"><h4>Pozn&aacute;mka:</h4>
+<ul>
+<li>Defragmentace je podporov&aacute;na pouze na jednotk&aacute;ch LUN se syst&eacute;mem Btrfs s&nbsp;funkc&iacute; Thin Provisioning.</li>
+<li>V&nbsp;průběhu defragmentace nemůžete jednotku LUN upravit ani klonovat a nemůžete pořizovat jej&iacute; sn&iacute;mky, můžete ji ale odebrat.</li>
+<li>Defragmentaci lze kdykoliv zastavit. Syst&eacute;m uchov&aacute;v&aacute; z&aacute;znam o&nbsp;jej&iacute;m průběhu a obnov&iacute; ji od m&iacute;sta, kde byla naposledy zastavena.</li>
+<li>Po defragmentaci jednotky LUN budou st&aacute;vaj&iacute;c&iacute; sn&iacute;mky LUN zab&iacute;rat v&iacute;ce m&iacute;sta ve svazku.</li>
+</ul>
+</div>
+
+	
+<div class="section"><h4>Dal&scaron;&iacute; informace</h4>
+<ul>
+	
+	<li>Jednotky LUN s&nbsp;funkc&iacute; sn&iacute;mku nebo s&nbsp;povolen&yacute;mi star&scaron;&iacute;mi roz&scaron;&iacute;řen&yacute;mi funkcemi lze rychle klonovat v&nbsp;r&aacute;mci stejn&eacute;ho svazku.</li>
+	<li>Jednotky LUN s&nbsp;nov&yacute;mi roz&scaron;&iacute;řen&yacute;mi funkcemi lze klonovat pouze do svazků Btrfs.</li>
+	<li>Jednotky LUN se star&scaron;&iacute;mi roz&scaron;&iacute;řen&yacute;mi funkcemi klonovan&eacute; do svazku Btrfs se převedou na jednotky LUN s&nbsp;nov&yacute;mi roz&scaron;&iacute;řen&yacute;mi funkcemi. V&nbsp;př&iacute;padě klonov&aacute;n&iacute; do dal&scaron;&iacute;ho svazku ext4 budou star&scaron;&iacute; funkce roz&scaron;&iacute;řen&eacute; jednotky LUN zak&aacute;z&aacute;ny.</li>
+	<li>Vlastnosti jednotky LUN se po klonov&aacute;n&iacute; nezměn&iacute;, s&nbsp;v&yacute;jimkou vlastnost&iacute; jednotek LUN se star&scaron;&iacute;mi roz&scaron;&iacute;řen&yacute;mi funkcemi.</li>
+	<li>Při klonov&aacute;n&iacute; jednotek LUN bez sn&iacute;mku nebo star&scaron;&iacute;ch roz&scaron;&iacute;řen&yacute;ch funkc&iacute; doporučujeme tyto jednotky LUN odpojit, aby nedo&scaron;lo k&nbsp;chybě při klonov&aacute;n&iacute; nebo k&nbsp;nekonzistenci dat.</li>
+</ul>
+</div>
+	
+<h4>Převeden&iacute; jednotky LUN se star&scaron;&iacute;mi roz&scaron;&iacute;řen&yacute;mi funkcemi:</h4>
+<ol>
+	<li>Vyberte jednotku LUN, kterou chcete přev&eacute;st.</li>
+	<li>V&nbsp;rozev&iacute;rac&iacute; nab&iacute;dce <b>Akce</b> vyberte možnost <b>Přev&eacute;st</b>.</li>
+	<li>Nakonfigurujte n&aacute;sleduj&iacute;c&iacute; nastaven&iacute;:<ul>
+			<li>N&aacute;zev jednotky LUN</li>
+			<li>Poloha: Um&iacute;stěn&iacute; nelze po vytvořen&iacute; jednotky LUN změnit, jednotku LUN lze ale přev&eacute;st do jin&eacute;ho svazku Btrfs.</li>
+		</ul></li>
+	<li>Za&scaron;krtněte pol&iacute;čko, jestliže chcete původn&iacute; jednotku LUN po převodu odstranit a namapovat c&iacute;l do nov&eacute; jednotky LUN.</li>
+	<li>Nastaven&iacute; potvrďte kliknut&iacute;m na možnost <strong>Použ&iacute;t</strong>.</li>
+</ol>
+
+<div class="section"><h4>Pozn&aacute;mka:</h4>
+	<ul>
+	<li>Na jednotky LUN s&nbsp;nov&yacute;mi roz&scaron;&iacute;řen&yacute;mi funkcemi lze přev&eacute;st pouze jednotky LUN se star&scaron;&iacute;mi roz&scaron;&iacute;řen&yacute;mi funkcemi.</li>
+	<li>Jednotky LUN lze přev&eacute;st pouze do svazků Btrfs s&nbsp;dostatkem voln&eacute;ho m&iacute;sta.</li>
+	<li>Z&nbsp;důvodu zaji&scaron;těn&iacute; konzistence dat bude po dobu převodu zru&scaron;eno mapov&aacute;n&iacute; jednotek LUN do c&iacute;le.</li>
+	<li>V&nbsp;převeden&eacute; nov&eacute; roz&scaron;&iacute;řen&eacute; jednotce LUN nebudou ž&aacute;dn&eacute; sn&iacute;mky.</li>
+</div>
+
+<div class="section"><h4>Vysvětlen&iacute; pojmů:</h4>
+<ul>
+	<li><b>Thin Provisioning</b>: Thin Provisioning je způsob optimalizace využit&iacute; &uacute;ložn&eacute;ho prostoru, při kter&eacute;m se m&iacute;sto na disku přiděluje dynamicky a&nbsp;podle aktu&aacute;ln&iacute;ch potřeb.</li>
+	<li><b>VMware&nbsp;VAAI</b>: Funkce VMware vStorage APIs for Array Integration (VAAI) dok&aacute;že sn&iacute;žit zat&iacute;žen&iacute; běžn&yacute;ch operac&iacute; v&nbsp;pol&iacute;ch virtu&aacute;ln&iacute;ch &uacute;loži&scaron;ť, přesunout toto zat&iacute;žen&iacute; na zař&iacute;zen&iacute; iSCSI v&nbsp;prostřed&iacute; VMware vSphere a&nbsp;optimalizovat tak v&yacute;kon &uacute;loži&scaron;tě.</li>
+	<li><b>Windows&nbsp;ODX</b>: Offload Data Transfer (ODX) je nov&aacute; technologie přenosu dat vyvinut&aacute; společnost&iacute; Microsoft v&nbsp;r&aacute;mci syst&eacute;mů Windows Server 2012 a 8. Technologie ODX zvy&scaron;uje v&yacute;kon přenosu sn&iacute;žen&iacute;m zat&iacute;žen&iacute; pole &uacute;loži&scaron;tě.<br />Pokud jsou zdroj a&nbsp;c&iacute;l dat uloženy na jednotk&aacute;ch&nbsp;LUN, kter&eacute; se nach&aacute;zej&iacute; na stejn&eacute;m svazku, bude klonov&aacute;n&iacute; zpracov&aacute;no př&iacute;kazy akcelerace &uacute;loži&scaron;tě, kter&eacute; &scaron;etř&iacute; až 99,9&nbsp;% n&aacute;roků na kapacitu &uacute;loži&scaron;tě a&nbsp;z&aacute;roveň nab&iacute;z&iacute; vy&scaron;&scaron;&iacute; rychlost klonov&aacute;n&iacute;.</li>
+	<li><b>Mapov&aacute;n&iacute; c&iacute;le Target</b>: Namapov&aacute;n&iacute; jednotky LUN na jeden nebo v&iacute;ce c&iacute;lů.</li>
+
+</ul>
+</div>
+
+</body>
+</html>

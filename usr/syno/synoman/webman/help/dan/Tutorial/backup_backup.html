@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Backup dine data på Synology NAS for at sikre datasikkerheden</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>Backup din Synology NAS</h1>
+<div class="tutorials_content">
+<img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" />
+<h2>Oversigt</h2>
+<p>Uventet datatab fra harddiskfejl eller naturlige katastrofer udgør potentielle trusler mod dine vigtige data, især når pålidelige backupløsninger er tilgængelige. <strong>Hyper Backup</strong> indeholder en intuitiv og integreret backup/gendannelsesløsning, som hjælper dig med at beholde/bevare kopier af dine dyrebare data og gendanne programmer og systemkonfigurationer fra et tidligere tidspunkt. Følgende lagerdestinationer understøttes:</p>
+
+<ul>
+<li><strong>Lokale delte mapper (herunder eksterne lagerenheder tilsluttet til din Synology NAS</strong>)</li>
+<li><strong>Fjern-Synology NAS</strong></li>
+<li><strong>Fjern-rsync-servere</strong></li>
+<li><strong>Fjern-OpenStack Swift-server</strong></li>
+<li><strong>Offentlige skyer (Amazon S3, Microsoft Azure, og OpenStack Swift osv.)</strong></li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<p>Hyper Backup udfører kun backup på bestemte systemkonfigurationer og programmer. Yderligere oplysninger findes ved at se i hjælpedokumentationen til Hyper Backup.</p>
+</div>
+
+
+<h3 class="list_head">1. Opret lokale backupopgaver til en lokal delt mappe/ekstern lagerenhed</h3>
+<p><strong>Hyper Backup</strong> tilbyder lignende backup- og gendannelsesprocedures på tværs af forskellige destinationstyper. Nedenfor viser vi, hvordan du udfører backup og gendan af data lokalt til reference for andre opgavetyper.</p>
+
+<ol>
+<li>Log ind på DSM, og find pakken <strong>Hyper Backup</strong>.</li>
+<li>Klik på <strong>+</strong> nederst til venstre, og vælg <strong>Databackupopgave</strong>.</li>
+<li>Hvis du vil konfigurere en lokal backupopgave, skal du vælge <strong>Lokal delt mappe</strong>.</li>
+<img src="../../images/Backup/1x/Backup/1.png" width="600" alt=""/>
+<li>Vælg <strong>Opret backupopgave</strong>, og vælg en lokal delt mappe eller en ekstern lagerenhed, der er tilsluttet din Synology NAS.</li>
+<img src="../../images/Backup/1x/Backup/2.png" width="600" alt=""/>
+<li>Vælg kildemappen for backup af de indeholdte data Krypterede delte mapper skal, hvis de vælges, forblive tilsluttet under backupprocessen. Hvis kilden og destinationen er på samme diskenhed, vil systemet markere disse kildemapper med orange udråbstegn.</li>
+<img src="../../images/Backup/1x/Backup/3.png" width="600" alt=""/>
+<li>Vælg de programmer, der skal udføres backup på.</li>
+<img src="../../images/Backup/1x/Backup/4.png" width="600" alt=""/>
+<li>Angiv nedenstående backupindstillinger, så de passer til dig:
+  <ul>
+  <li><strong>Opgave</strong>: Navn på backupopgaven.</li>
+  <li><strong>Aktiver opgaveunderretning</strong>: Vælg at få oplysninger om opgavestatus via e-mail, SMS eller push-tjeneste.</li>
+  <li><strong>Aktiver backup af konfiguration</strong>: Backup af systemkonfigurationer (f.eks. brugerlegitimationsoplysninger). Denne indstilling er som standard tvungen for alle backupopgaver.</li>
+  <li><strong>Komprimer backupdata</strong>: Komprimer backupdata for at reducere brugen af destinationslager. Der kræves mere backuptid, hvis denne valgmulighed vælges.</li>
+  <li><strong>Aktiver overførelseskryptering</strong> (kun for fjernbackup): Vælg at kryptere backupdata under overførslen til en fjerndestination (f.eks. en rsync-server eller offentlig sky).</li>
+  <li><strong>Multipart Upload partstørrelse</strong> (kun for S3-kompatible servere): Opdel backupdata efter den angivne segmentstørrelse.</li>
+  <li><strong>Aktiver kryptering på klientsiden</strong>: Vælg at beskytte backupdata med adgangskode mod uønsket adgang på destinationssiden.</li>
+    
+  <li><strong>Aktiver sikkerhedskopieringsplan</strong>: Vælg at planlægge, hvornår backupopgaven udføres automatisk.</li>
+  </ul>
+  </li>
+  
+<img src="../../images/Backup/1x/Backup/5.png" width="600" alt=""/>
+<li>Vælg <strong>Aktiver backuprotation</strong> for at konfigurere rotationsskemaet:
+  
+  <ul>
+  <li><strong>Fra de tidligste versioner</strong>: Slet de tidligste backupversioner, når det angivne <strong>Antal versioner</strong> er overskredet.</li>
+  <li><strong>Smart Recycle</strong>: Systemet vil bevare alle backupversioner, indtil det angivne antal versioner er overskredet. Når rotation udløses, vil systemet først rotere de versioner, som ikke opfylder betingelserne. Hvis alle de eksisterende versioner opfylder nedenstående betingelser, vil systemet rotere den tidligste version:
+  <ul>
+  <li><strong>Hver time-versioner fra de seneste 24 timer</strong>: Systemet bevarer den tidligste version, der oprettes hver time.</li>
+  <li><strong>Daglige versioner fra 1 dag til 1 måned</strong>: Systemet bevarer den tidligste version, der oprettes hver dag.</li>
+  <li><strong>Ugentlig versioner, der er ældre end 1 måned</strong>: Systemet bevarer den tidligste version, der oprettes hver uge.</li>
+  </ul>
+  
+  </li>
+  <li><strong>Antal versioner</strong>: Angiv den øvre grænse for muligt bevarede backupversioner.</li>
+  <li>Tidslinje: Vis det mulige resultat af backupbevaring i overensstemmelse med din backupplan og rotationsskema.</li>
+  </ul>
+</li>
+
+<img src="../../images/Backup/1x/Backup/6.png" width="600" alt=""/>
+<li>Klik på <strong>Anvend</strong> for af fuldføre konfiguration.</li>
+<li>Udfør backupopgaver med det samme ved at følge backupguidens vejledning, og klik på klikke <strong>Ja</strong>.</li>
+</ol>
+
+
+<h3 class="list_head">2. Gendan enkelte filer fra en lokal delt mappe/ekstern lagerenhed</h3>
+
+
+<ol>
+<li>Gå til <strong>Hyper Backup</strong>, vælg den ønskede backupopgave i venstre panel, og klik på <strong>Backup-stifinder</strong> (forstørrelsesglasset). Indtast adgangskoden, hvis opgaven er beskyttet med kryptering på klientsiden.</li>
+<img src="../../images/Backup/1x/Backup/Single_1.png" width="600" alt=""/>
+<li>Søg og vælg den fil, du ønsker at gendanne. Du kan også vælge den ønskede version, der skal gendannes på tidslinjen.</li>
+<img src="../../images/Backup/1x/Backup/Single_2.png" width="600" alt=""/>
+<li>Klik på <strong>Gendan</strong> for at gendanne den valgte fil/mappe.</li>
+
+</ol>
+
+
+
+<h3 class="list_head">3. Gendan fulde opgaver til de ønskede tidspunkter</h3>
+
+<ol>
+<li>Klik på <strong>Gendan</strong> nederst til venstre, og klik på <strong>Data</strong>. Indtast adgangskoden, hvis opgaven er beskyttet med kryptering på klientsiden.</li>
+
+<img src="../../images/Backup/1x/Backup/Restore_1.png" width="600" alt=""/>
+<li>Vælg en opgave, der skal gendannes. Du gendanner data fra andre informationsbaser ved at vælge <strong>Gendan fra andre informationsbaser</strong> og finder den opgave, der skal gendannes.</li>
+<img src="../../images/Backup/1x/Backup/Restore_2.png" width="600" alt=""/>
+<li>Vælg, om du vil gendanne systemkonfigurationer. Hvis du vælger <strong>Gendan systemkonfiguration</strong>, skal du vælge bestemte konfigurationer i nedenstående liste, der skal gendannes.</li>
+<img src="../../images/Backup/1x/Backup/Restore_3.png" width="600" alt=""/>
+
+<li>Søg og vælg de(n) målfil(er), der skal gendannes. Du kan også vælge den ønskede version, der skal gendannes på tidslinjen.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.png" width="600" alt=""/>
+<li>Vælg programmer, der skal gendannes.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.5.png" width="600" alt=""/>
+<li>Grundlæggende gendannelsesoplysningerne bliver vist.</li>
+<img src="../../images/Backup/1x/Backup/Restore_5.png" width="600" alt=""/>
+<li>Klik på <strong>Anvend</strong> for af starte gendannelsen.</li>
+</ol>
+
+
+
+
+
+
+<div class="page-info">
+  <ul>
+    <li>Tidligere i dette emne: <a href="backup_from_computer.html">Backup af data på din PC/Mac med Cloud Station</a> </li>
+  </ul>
+</div>
+</body>
+
+</html>

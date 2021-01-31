@@ -1,0 +1,11 @@
+#author: System Integration Team
+#only handle SATA/SAS/EUNIT port type
+ENV{SYNO_DEV_DISKPORTTYPE}!="SATA|SAS|EUNIT|CACHE|SYS", GOTO="disk_end"
+
+#ignore partition
+ENV{DEVTYPE}=="partition", GOTO="disk_end"
+
+ACTION=="add", SUBSYSTEM=="block",  ENV{DEVNAME}!="", RUN+="/usr/syno/sbin/synostorage --add-disk %E{DEVNAME}"
+ACTION=="remove", SUBSYSTEM=="block",  ENV{DEVNAME}!="", RUN+="/usr/syno/sbin/synostorage --remove-disk %E{DEVNAME}"
+
+LABEL="disk_end"

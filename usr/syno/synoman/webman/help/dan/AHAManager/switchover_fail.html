@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h2>Switchover</h2>
+  
+ <p>Sørg for fortsat ydelse, og minimer tjenestenedetid ved at skifte tjenester fra den aktive server på en high-availability-klynge til den passive server på standby. Denne funktion kaldes "Switchover" eller i nogle tilfælde "Failover". Dette afsnit indeholder grundlæggende oplysninger om disse to begreber.</p>
+  
+  <h3>Switchover</h3>
+  	<p>Switchover refererer til et skift fra den aktive til den passive server på standby i en high-availability-klynge. Under normale forhold styrer den aktive server alle tjenester. I tilfælde af at den aktive server fejler, kan du starte en switchover og overføre alle tjenester til den passive server under forudsætning af, at den passive server fungerer normalt. I det tilfælde påtager den aktive server sig rollen som passiv server og vice versa.</p>
+    
+<h4>Sådan starter du switchover manuelt:</h4>
+ <ol>
+  <li>Gå til siden <b>Oversigt</b>.</li>
+  <li>Klik på <b>Administrer</b> > <b>Switchover</b>.</li>
+ </ol>
+
+<div class="section">
+<h4>Bemærk:</h4>
+   <p>Før manuel switchover anbefales det, at du konfigurerer en statisk IP og logger ind på DSM med denne statiske IP for at undgå DSM-sidetab pga. IP-skifte efter switchover.</p>
+</div>
+
+<div class="section">
+<h4>Bemærk:</h4>
+   <p>Når du udfører en switchover, påtager den aktive server sig først rollen som den passive server, hvorefter den passive server bliver den aktive. Derfor vil der gå en kort tidsperiode, hvor begge servere bliver passive og ikke kan yde tjenester normalt. Switchover'ens fuldførelsestid varierer, afhængigt af antallet og størrelsen på diskenheder eller iSCSI LUN'er (blokniveau) eller antallet og den samlede belastning af tjenester og pakker i high-availability-klyngen.</p>
+</div>
+
+<h3>Failover</h3>
+    
+     <p>Når visse fejl opstår, kan systemet automatisk påbegynde en switchover af tjenesterne for at minimere tjenestens nedetid. Denne begivenhed kaldes "failover". Systemet kan påbegynde en failover i følgende situationer, hvis den passive server fungerer normalt:</p>
+    
+    <ul>
+      <li><b>Strømnedbrud:</b> 
+        <ul>
+      	<li>Den aktive server er lukket eller genstartet.</li>
+        <li>Begge strømenheder på den aktive server fejlede.</li>
+        <li>Ingen strømforsyning.</li>
+      </ul></li>
+      <li><b>Diskfejl:</b> Antal diskstier på den aktive server er mindre end på den aktive server.</li>
+      <li><b>Tjenestefejl:</b> Der opstod en fejl på den overvågede tjeneste.</li>
+      <li><b>Forbindelsesfejl:</b> Der opstod en forbindelsesfejl på et overvåget interface.</li>
+    </ul>    
+     
+    
+<h3>Switchover-fejl</h3>
+    
+		<p>Switchover eller failover fungerer måske ikke i følgende situationer:</p>
+  	<ul>
+  	  <li><b>Unormal Heartbeat-forbindelse:</b> Status for aktiv-passiv serverforbindelse er ikke normal.</li>
+  	  <li><b>Hukommelsesstørrelser matcher ikke:</b> Den aktive og passive server har ikke identisk RAM-størrelse.</li>
+  	  <li><b>Strømnedbrud:</b><ul>
+      	<li>Den passive server er lukket eller genstartet.</li>
+        <li>Begge strømenheder på den passive server fejlede.</li>
+        <li>Ingen strømforsyning.</li>
+      </ul></li>
+  	  <li><b>Forbindelsesfejl:</b> Der opstod en forbindelsesfejl på et overvåget interface på den passive server.</li>
+  	  <li><b>Tjenestefejl:</b> Der findes fejl på overvågede tjenester på den passive server.</li>
+  	  <li><b>Forbindelsesfejl på udvidelsesenhed:</b> Forbindelsen for udvidelsesenheder på de to servere er ikke i samme rækkefølge.</li>
+  	  <li><b>Diskfejl:</b> Antal diskstier på den passive server er mindre end på den aktive server.</li>
+      <li><b>DSM-opdatering:</b> Ved installation af DSM-opdatering standses alle tjenester, og de genoptages, når installationen af DSM-opdateringen er fuldført.</li>      
+ </ul>
+
+  <p>Hvis du manuelt påbegynder en switchover, men tjenesterne kan ikke skiftes til den passive server, vil systemet forsøge at skifte tjenester tilbage til den aktive server.</p>
+
+ <h3>Uafbrudt strømforsyning</h3>
+  <p>High-availability-klynger kan tilsluttes til netværks-UPS (uninterruptible power supply)-enheder for at reducere risikoen for uventet strømtab. Hvis strømmen går, vil serverne få backup-strøm fra den UPS-enhed, der er tilsluttet til dem. Når den UPS-enhed, der er tilsluttet til den aktive server ikke har så meget strøm tilbage, vil den passive server lukke, og den aktive server vil gå i sikret tilstand. Når strømmen kommer tilbage, vil den aktive server genstarte og forsøge at tænde for den anden server ved at sende en Væk på LAN-meddelelse.</p>
+   <ul>
+	   <li>Det anbefales at tilslutte begge servere og udvidelsesenheder til den samme UPS som de netværksomskiftere, der er tilsluttet.</li>
+   </ul>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<p>Synology NAS understøtter kun tilslutning til netværks-USP-enheder. Yderligere oplysninger findes i hjælpen til <strong>Kontrolpanel</strong> > <strong>Hardware</strong> > <strong>UPS</strong>.</p>
+</div>  
+ </body>
+</html>

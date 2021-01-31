@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Sieć</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="link_aggr"></a>Link Aggregation</h2>
+<p>Synology NAS obsługuje wiele sieci LAN, co pozwala na łączenie interfejs&oacute;w LAN przy użyciu funkcji Link Aggregation. Funkcja Link Aggregation pozwala zwiększyć przepustowość serwera Synology NAS przez połączenie wielu interfejs&oacute;w sieciowych w jeden. Zapewnia r&oacute;wnież mechanizm przełączania awaryjnego ruchu w&nbsp;celu utrzymania połączenia sieciowego w&nbsp;razie awarii jednego z&nbsp;połączeń.</p>
+<p>Po połączeniu interfejs&oacute;w LAN pojawi się nowy interfejs o nazwie <b>Bond</b> na liście <b>Panel sterowania</b> &gt; <b>Sieć</b> &gt; <b>Interfejs sieciowy</b>, kt&oacute;ry można konfigurować tak jak inne interfejsy (na przykład LAN lub PPPoE).</p>
+
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Funkcja Link Aggregation jest dostępna tylko w modelach z co najmniej dwoma portami LAN.</li>
+<li>Po włączeniu funkcji Link Aggregation ruch sieciowy będzie automatycznie regulowany i&nbsp;r&oacute;wnoważony między połączonymi urządzeniami.</li>
+<li>Jeżeli interfejsy sieciowe są połączone z wieloma przełącznikami, sprawdź, czy porty przełącznik&oacute;w są w tej samej sieci LAN lub VLAN.</li>
+</ul>
+</div>
+
+
+<h4>Aby połączyć wiele sieci LAN przy użyciu funkcji Link Aggregation:</h4>
+<ol>
+<li>Przejdź do pozycji <strong>Panel sterowania</strong> &gt; <strong>Sieć</strong> &gt; <strong>Interfejs sieciowy</strong>. Kliknij <strong>Utw&oacute;rz</strong> &gt; <strong>Utw&oacute;rz Bond</strong>.</li><img src="about:blank" class="help_image"/><li>Wybierz żądany tryb.<div class="section">
+<h4>Opisy trybu:</h4>
+<ul>
+  <li><strong>Adaptive Load Balancing</strong>: w&nbsp;tym trybie optymalizowany jest ruch sieciowy odbierany i wysyłany przez urządzenie Synology NAS bez względu na to, czy przełącznik obsługuje funkcję Link Aggregation. Aby uniknąć nieoczekiwanych błęd&oacute;w, nie włączaj funkcji Link Aggregation na przełączniku, nawet jeżeli tę funkcję obsługuje.</li>
+  <li><strong>IEEE 802.3ad Dynamic Link Aggregation</strong>: w&nbsp;tym trybie optymalizowany jest ruch sieciowy odbierany i wysyłany przez serwer Synology NAS. Wymagane jest przy tym włączenie na przełącznikach funkcji IEEE 802.3ad (Dynamic) Link Aggregation (LACP, 802.1AX). Jeśli używanych jest wiele przełącznik&oacute;w, muszą być przystosowane do pracy w&nbsp;stosie i&nbsp;prawidłowo skonfigurowane.</li>
+<li><strong>R&oacute;wnoważenie XOR</strong>: w&nbsp;tym trybie r&oacute;wnoważony jest ruch sieciowy odbierany i wysyłany przez serwer Synology NAS. Wymagane jest przy tym włączenie na przełącznikach funkcji Static Link Aggregation. Jeśli używanych jest wiele przełącznik&oacute;w, muszą być przystosowane do pracy w&nbsp;stosie i&nbsp;prawidłowo skonfigurowane. Ruch wysyłany przez serwer Synology NAS można r&oacute;wnoważyć, nawet jeśli funkcja Link Aggregation nie jest obsługiwana przez przełącznik. W&nbsp;tym trybie można wykrywać utracone połączenia, ale nie przyczynę ich utraty (np. kable Ethernet są odłączone lub przełącznik jest błędnie skonfigurowany).</li>
+<li><strong>Aktywność/gotowość</strong>: w&nbsp;tym trybie serwer Synology NAS może wykorzystywać funkcję network fault tolerance. Oznacza to, że w&nbsp;razie awarii aktywnego interfejsu sieciowego, jeden z&nbsp;pozostałych port&oacute;w LAN przejmie jego rolę, aby zapewnić ciągłość połączenia sieciowego. Ten tryb można wybrać bez potrzeby konfigurowania przełącznika lub w&nbsp;przypadku przełącznika obsługującego funkcję IEEE 802.3ad Link Aggregation.</li>
+</ul>
+<p>Jeśli włączono funkcję Open vSwitch, można wybrać jeden z następujących tryb&oacute;w:</p>
+<ul>
+ <li><b>Balans-SLB</b>: w tym trybie ruch sieciowy jest r&oacute;wnoważony bez konieczności stosowania konkretnego przełącznika sieciowego i możliwe jest podłączenie dw&oacute;ch przełącznik&oacute;w.</li>
+ <li><b>Balans-TCP</b>: ten tryb umożliwia łączenie przełącznik&oacute;w skonfigurowanych jako Dynamic Link Aggregation (IEEE 802.3ad LACP). Jeśli używanych jest wiele przełącznik&oacute;w, muszą być przystosowane do pracy w&nbsp;stosie i&nbsp;prawidłowo skonfigurowane.</li>
+ <li><b>Tryb aktywny/kopii zapasowej</b>: ten tryb zapewnia serwerowi Synology NAS tolerancję na awarie sieciowe (network fault tolerance) z dwoma interfejsami sieciowymi. W&nbsp;razie awarii aktywnego interfejsu sieciowego, pozostały interfejs sieciowy przejmie jego rolę, aby zapewnić ciągłość połączenia sieciowego. Tryb ten można wybrać bez konfigurowania przełącznika.</li>
+</ul>
+</div>
+</li><img src="about:blank" class="help_image"/><li>Wybierz interfejsy, aby utworzyć Link Aggregation.</li><img src="about:blank" class="help_image"/><li>Skonfiguruj ustawienia IP. W razie potrzeby można także włączyć opcję VLAN. Kliknij <b>Zastosuj</b>, aby zapisać zmiany.</li><img src="about:blank" class="help_image"/><li>Po zakończeniu na liście <b>Interfejs sieciowy</b> zostanie wyświetlony nowy interfejs o nazwie <b>Bond 1</b>.</li><img src="about:blank" class="help_image"/></ol>
+
+<h4>Aby edytować ustawienia Link Aggregation:</h4>
+<ol>
+<li>Aby zmienić tryb Link Aggregation lub wyświetlić informacje o urządzeniach fizycznych, wybierz <b>Panel sterowania</b> &gt; <b>Sieć</b> &gt; <b>Interfejs sieciowy</b>.</li>
+<li>Wybierz interfejs <b>Bond 1</b>, a następnie kliknij przycisk <b>Edytuj</b>.</li><img src="about:blank" class="help_image"/><li>Przejdź do odpowiednich kart, aby edytować żądane ustawienia.</li>
+</ol>
+
+<h4>Aby usunąć Link Aggregation:</h4>
+<ol>
+<li>Przejdź do pozycji <b>Panel sterowania</b> &gt; <b>Sieć</b> &gt; <b>Interfejs sieciowy</b>.</li>
+<li>Wybierz interfejs <b>Bond 1</b>, a następnie kliknij przycisk <b>Usuń</b>.</li><img src="about:blank" class="help_image"/><li>Po zakończeniu na liście Interfejs sieciowy zostaną wyświetlone dwa oddzielne interfejsy LAN.</li><img src="about:blank" class="help_image"/></ol>
+
+</body>
+</html>
+

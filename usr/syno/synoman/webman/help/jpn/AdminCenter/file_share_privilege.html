@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>共有フォルダに権限を割り当てる - Synology DSM ヘルプ</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="You can specify which users or groups can access, view, or modify a shared folder and its contents. This article shows you how to assign and customize shared folder permissions in DSM.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>共有フォルダに権限を割り当てる</h2>
+
+<p>共有フォルダとそのコンテンツにアクセスして、見たり、変更したりすることができるユーザーやグループを指定できます。共有フォルダ、各ファイルやサブフォルダへのアクセス権は、各ユーザーまたはグループ毎にカスタマイズできます。</p>
+
+<div class="section disable-eds14">
+<h4>Windows ACL：</h4>
+
+<p>DSM 5.0 以上のバージョンでは、デフォルトにより共有フォルダのアクセス権は Windows ACL に従います。新しく作成した共有フォルダには、各ファイルやサブフォルダの権限もカスタマイズできる Windows ACL の権限設定が組み込まれます。さらに、権限は File Station または Windows エクスプローラーでもカスタマイズできます。</p>
+<p>次の共有フォルダは、Windows ACL 権限管理システムを使用できません：<strong>photo</strong>、<strong>satashare</strong>、<strong>sdshare</strong>、<strong>surveillance</strong>、<strong>usbshare</strong></p>
+</div>
+<div class="section disable-eds14">
+<h4>注：</h4>  
+<p>ユーザー個人の <strong>home</strong> フォルダは、<strong>homes</strong> フォルダの中にあります。ACL は権限の継承をもとに機能しますので、<strong>homes</strong> にユーザー/グループの NA 権限を設定した場合は、ユーザーは個人の <strong>home</strong> フォルダにアクセスできなくなります。 </p>
+</div>
+<h4>共有フォルダの権限を編集する：</h4>
+
+<ol>
+
+<li><strong>[コントロール パネル]</strong> ><strong> [共有フォルダを]</strong> 選択します。</li>
+<img src="about:blank" class="help_image"/>
+<li>編集したい権限が割り当てられた共有フォルダを選択します。<b>[編集]</b>をクリックします。</li>
+<img src="about:blank" class="help_image"/>
+<li> <strong>[権限]</strong> タブを選択します。</li>
+<img src="about:blank" class="help_image"/>
+<li>次のドロップダウン メニューで以下のいずれかを選択します。
+
+<ul>
+<li><b>システム内部ユーザー：</b>Anonymous FTP/WebDAV ユーザーなど、デフォルトのシステム ユーザーに権限を割り当てます。匿名の FTP ユーザーの共有フォルダへのアクセスを許可する前に、このユーザーにアクセス権を割り当てる必要があります。</li>
+<li><b>ローカルユーザー：</b>ローカル ユーザー（<b>guest</b> を含む）に権限を割り当てます。</li>
+<li><b>ローカルグループ：</b>ローカル グループに権限を割り当てます。</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>ユーザー個人またはグループの共有フォルダに対するアクセス権をカスタマイズするには、相当するボックスにチェックマークを付ける、またはチェックマークを外してください。
+
+  <ul>
+<li><b>読み込み/書き込み</b>：ユーザーまたはグループは、共有フォルダのファイルやサブフォルダにアクセスして変更を加えることができます。</li>
+<li><b>読み取り専用</b>：ユーザーまたはグループは、共有フォルダのファイルとサブフォルダにアクセスできます。</li>
+<li><b>アクセス不可</b>：ユーザーまたはグループは、共有フォルダのファイルとサブフォルダにアクセスできません。</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li><b>[OK]</b> をクリックして終了します。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+
+<ul>
+<li>権限が一致しない場合の優先順位は以下のとおりです。アクセスなし > 読み取り/書き込み > 読み取り専用です。</li>
+<li>新しい共有フォルダを作成するとき、<strong>administrators</strong> グループに属するユーザーの権限が<b>「アクセスなし」</b>に設定されている場合は、これらのユーザーは <strong>[コントロール パネル]</strong> > <strong>[共有フォルダ] </strong>でしか共有フォルダを見れません。</li>
+</ul>
+</div>
+
+<h3 class="disable-eds14">Windows ACL 権限のカスタマイズ</h3>
+
+<p class="disable-eds14">上記の設定に加え、次の手順で権限をより詳しくカスタマイズすることができます。 </p>
+
+<div class="section disable-eds14">
+<h4>注：</h4>
+<p>以下の設定は、次の共有フォルダでは使用できません：<strong>photo</strong>、<strong>satashare</strong>、<strong>sdshare</strong>、<strong>surveillance</strong>、<strong>usbshare</strong></p>
+</div>
+
+<h4 class="disable-eds14">権限をカスタマイズする：</h4>
+<ol class="disable-eds14">
+<li><strong>[権限]</strong> タブで、権限をカスタマイズしたいユーザーを選択します。<strong>[カスタム]</strong> 欄をどこでもクリックしてください。</li>
+  <img src="about:blank" class="help_image"/>
+<li><b>権限エディタ</b>で次のいずれかを行うと、ファイルやフォルダの ACL 権限を管理できます。
+      <ol>
+<li><b>ユーザーまたはグループ：</b>カスタマイズしたい権限を持つユーザーまたはグループを指定します。</li>
+        <img src="about:blank" class="help_image"/>
+        
+        <div class="section disable-eds14">
+<h4>注：</h4>  
+<p><strong>[ユーザーまたはグループ]</strong>のドロップダウン メニューの<strong>[Authenticated Users]</strong>と<strong>[SYSTEM]</strong>のオプションは、Windows ACL の権限設定にマッチさせるために作成されました。この権限の範囲は下記のとおりです。</p>
+<ul>
+	<li><strong>[Authenticated Users]</strong>は<strong>[https]</strong>と<strong>[guest]</strong>から除外されたアカウントを含みます。</li>
+	<li><strong>[SYSTEM]</strong>は <strong>[https]</strong>と<strong>[anonymous]</strong>のアカウントを含みます。</li>
+</ul>
+</div>
+        
+        
+        
+        
+<li><b>ここから継承：</b>見るだけ。ここには情報が表示されますので、許可が（親フォルダから）継承されたものであるのか、明示的なものであるのか（<b>「なし」</b>と表示されます）を確認できます。 </li>
+        <img src="about:blank" class="help_image"/>
+<li><b>タイプ：</b><b>[許可]</b>または<b>[拒否]</b> を選択して、ユーザーまたはグループに許可を与えるのか、拒否するのかを決定します。</li>
+        <img src="about:blank" class="help_image"/>
+<li><b>適用先：</b>フォルダの権限エントリを作成する場合は、エントリをこのフォルダ、またはこのフォルダ内のフォルダ（または<b>チャイルド フォルダ</b>）またはファイル（または<b>チャイルド ファイル</b>）、あるいはこのフォルダに含まれるすべてのファイルとフォルダ（または<b>すべての後続</b>）に適用するようにチェックマークを付けてください。 </li>
+        <img src="about:blank" class="help_image"/>
+<li><b>管理者：</b><b>[読み取り権限]</b>、<b>[権限の変更]</b>、または<b>[所有権の取得]</b>のいずれかにチェックマークを付けて、ユーザーまたはグループのエントリへのアクセス権を設定します。 </li>
+<li><b>読み取り</b>または<b>書き込み</b>：これらのセクションのチェックボックスにチェックマークを付けて、ファイルまたはフォルダについてのユーザーまたはグループの権限設定を編集します。 </li>
+      </ol>    
+<li> <b>[OK]</b> をクリックします。</li>
+</ol>
+<div class="section disable-eds14">
+<h4>ACL 権限は次のように分類することができます。</h4>
+  <ul>
+<li><b>管理者：</b>
+    <ul>
+<li><b>権限の変更</b>：あるユーザーがファイルまたはフォルダの権限を変更できるかどうかを指定します。</li>
+<li><b>所有権の取得</b>：あるユーザーがファイルまたはフォルダの所有権を持っているかどうかを指定します。</li>
+    </ul></li>
+<li><b>読み取り：</b>
+    <ul>
+<li><b>フォルダ間の移動/ファイルの実行</b>：ユーザーがプログラム ファイルを実行できるかどうかを指定します。</li>
+<li><b>フォルダの一覧表示/データの読取り</b>：ユーザーがファイルのデータを読み取れるかどうかを指定します。</li>
+<li><b>属性の読取り</b>：ユーザーがファイルの属性を見られるかどうかを指定します。</li>
+<li><b>拡張属性の読み取り</b>：ユーザーがファイルの拡張属性を見られるかどうかを指定します。</li>
+<li><b>読み取り権限</b>：あるユーザーがファイルまたはフォルダの権限を読み取れるかどうかを指定します。</li>
+    </ul></li>
+<li><b>書き込み：</b>
+    <ul>
+<li><b>ファイルの作成/データの書き込み</b>：ユーザーがファイルの内容を変更できるかどうかを指定します。</li>
+<li><b>フォルダの作成/データの追加</b>：ユーザーがファイルの末尾にデータを追加できるかどうかを指定します。</li>
+<li><b>属性の書き込み</b>：ユーザーがファイルの属性を変更できるかどうかを指定します。</li>
+<li><b>拡張属性の書き込み</b>：ユーザーがファイルの拡張属性を変更できるかどうかを指定します。</li>
+<li><b>サブフォルダとファイルの削除</b>：ユーザーがフォルダを削除できるかどうかを指定します。</li>
+<li><b>削除</b>：ユーザーがファイルを削除できるかどうかを指定します。</li>
+    </ul></li>
+  </ul>
+<h4>権限の継承性について：</h4>
+<p> ACL 権限は親オブジェクトから子オブジェクトへ継承されます。例えば、[sales] フォルダの ACL エントリがユーザー [Ａmy] に [読取り] 許可が提供されている場合は、ACL エントリは [sales] フォルダ（annual report.xls など）内のすべてのファイルに適用され、ユーザーがファイルを開けられるようになります。継承した権限は、グレイ表示されます。オブジェクトの所有権（または「明示的」権限）は黒で表示されます。 </p>
+</div>
+<div class="section disable-eds14">
+<h4>注：</h4>
+  <ul>
+<li>1 つのファイルまたはフォルダには、最大で 200 個の ACL の明示的許可エントリしか追加できません。</li>
+<li>Windows ACL は ext3 ファイル システムをサポートしていません。ext3 ファイル システムを使用するユーザーの場合は、Windows ACL 権限を使用するには、少なくとも1つの ext4 または Bｔｒｆs ボリュームを構築する必要があります。つまり、ひとつ以上のドライブをフォーマットしてボリュームを作り直す必要があります。Synology NAS をフォーマットすると、保存したすべてのデータや設定も消去します。処理を行う前にすべてのデータをバックアップしてください。</li>
+<li>ドメインユーザーに新しい権限を指定するには、DSM と Windows クライアントが同じドメインにあることを確認してください。</li>
+<li>Windows エクスプローラーで許可を変更するときには、<strong>Domain Admins</strong> グループに適用された<strong>拒否</strong>規則は無視されます。</li>
+  </ul>
+</div>
+
+
+</body>
+</html>

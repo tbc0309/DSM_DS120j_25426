@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>更換硬碟來擴充儲存容量</h2>
+
+<p>使用特定 RAID 類型時，您可以將舊有硬碟更換為較大的硬碟，藉此擴充儲存集區的儲存容量。本文章將提供與擴充流程相關的重要資訊，以及以一則例子說明如何更換現有硬碟來擴充儲存容量。</p>
+
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>本文章所描述的流程僅適用於下列 RAID 類型：SHR、RAID 1、RAID 5、RAID 6、RAID 10、RAID F1。</li>
+	<li>SHR (Synology Hybrid RAID) 僅適用於特定機種。請前往 <a href="https://www.synology.com/" target="_blank">Synology 網站</a>來瞭解更多資訊。</li>
+	<li>RAID F1 僅適用於特定機種。請前往 <a href="https://www.synology.com/" target="_blank">Synology 網站</a>來瞭解更多資訊。</li>
+	<li>若您的儲存集區支援 Data Scrubbing，建議您在操作之前執行 Data Scrubbing 確認儲存空間與儲存集區正常後再進行硬碟更換。</li>
+	<li>建議您使用 <a href="https://www.synology.com/compatibility" target=blank>Synology 產品相容性清單</a>內所列的硬碟以避免產生問題。使用不相容的硬碟恐降低系統效能甚至造成您的 Synology NAS 資料遺失。</li>
+</ul>
+</div>
+
+<p>若您計畫更換多顆硬碟，請務必小心地逐顆更換硬碟。更換一顆硬碟後，您必須先修復該儲存集區，而後才能更換下一顆硬碟。下列 RAID 類型的儲存集區容量會在所有硬碟更換完畢後一次完成擴充：RAID 1、RAID 5、RAID 6、RAID 10、RAID F1。</p>
+
+<h3 class="list_head"><a id="t1"></a>事前須知</h3>
+<p>在更換硬碟前，請參閱下列注意事項：</p>
+<ul>
+	<li><strong>備份資料：</strong>儘管擴充過程不會刪除任何資料，仍強烈建議您先備份資料再開始進行。</li>
+	<li><strong>儲存集區狀態：</strong>在您開始之前，請確認儲存集區狀態為<strong>良好</strong>。若出現不正常狀態，請先進行修復。</li>
+	<li><strong>在擴充過程中是否仍可存取資料？</strong>擴充儲存集區時，仍可使用系統上的資料；但請注意，剛開始進行擴充時，系統可能會暫時中斷連線。</li>
+	<li><strong>使用 3 TB 或更大容量的硬碟：</strong>若要使用 3 TB 或更大容量的硬碟來擴充儲存集區，請確認使用的 DSM 為 DSM 3.0 或以上版本。</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>由於 SHR 儲存集區可根據所安裝的硬碟數量及大小最佳化儲存容量，因此請跟隨下列指示來正確擴充容量：</p>
+<ul>
+	<li>若現有硬碟容量均相同，您必須將至少兩顆硬碟更換為較大的硬碟，才能擴充儲存容量。例如，若您的 SHR 儲存空間包含三顆 2 TB 硬碟，則您必須更換至少兩顆硬碟，才能擴充儲存空間容量。</li>
+	<li>若現有硬碟容量不同，則用來更換的新硬碟必須等於或大於現有的最大硬碟。此外，您必須從最小的硬碟開始更換，以最佳化儲存空間使用率。例如，若您的 SHR 儲存空間包含三顆硬碟，分別為 4 TB、3 TB 及 2 TB，則用來更換的新硬碟必須至少為 4 TB。此外，您應先行更換 3 TB 或 2 TB 硬碟。</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID 5 / RAID 6 / RAID 10 / RAID F1</h4>
+<p>為 RAID 5 / RAID 6 / RAID 10 / RAID F1 儲存集區更換硬碟時，請務必從最小的硬碟開始更換， 以將硬碟使用率最大化。各 RAID 類型的儲存空間容量如下：
+	<ul>
+		<li>RAID 5：(硬碟數量 – 1) x (最小硬碟容量)</li>
+		<li>RAID 6：(硬碟數量 – 2) x (最小硬碟容量)</li>
+		<li>RAID 10：(硬碟數量 / 2) x (最小硬碟容量)</li>
+		<li>RAID F1：(硬碟數量 – 1) x (最小硬碟容量)</li>
+	</ul>
+</p>
+
+<p>例如，若您的 RAID 5 儲存集區包含三顆硬碟，分別為 4 TB、3 TB 及 2 TB，則此儲存集區的可用容量為 4 TB。如果您更換 4 TB 或 3 TB 硬碟，將不會變更儲存集區的容量。若要增加儲存集區容量，您必須先更換 2 TB 硬碟。</p>
+</div>
+
+
+<h3>更換硬碟來擴充儲存容量</h3>
+<p>在下列步驟中，我們將更換 SHR 儲存集區的硬碟作為例子。</p>
+<h4>若要更換硬碟：</h4>
+<ol>
+	<li>開啟<strong>儲存空間管理員</strong>。<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li>前往<strong>儲存集區</strong>來查看哪些現有硬碟的容量最小。<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>關閉 Synology NAS。(若您的 Synology NAS 支援硬碟熱抽換，可略過此步驟。)</li>
+	<li>移除組成硬碟中最小的硬碟，並安裝較大的新硬碟。<br /><span class="note_head">注意：</span>為避免傷及自身或毀損 Synology NAS，請跟隨 Synology 產品之<em>硬體安裝指南</em>中的硬碟安裝指示。</li>
+	<li>開啟 Synology NAS。</li>
+	<li>再次開啟<strong>儲存空間管理員</strong>。</li>
+	<li>前往 <strong>HDD/SSD</strong> 來確認新硬碟可被辨識。<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>儲存空間狀態應為<strong>降級</strong>。
+	選擇儲存集區，按一下<strong>動作</strong>下拉式選單中的<strong>修復</strong>。<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>選擇要新增至儲存集區的替換硬碟。然後依照精靈的步驟來完成操作。</li>
+	<li>重複上述流程，直到所有選定的硬碟都已更換為較大的硬碟。</li>
+</ol>
+	
+</body>
+</html>

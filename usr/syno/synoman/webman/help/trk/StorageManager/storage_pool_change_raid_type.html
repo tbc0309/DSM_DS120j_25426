@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Bir Birimin veya Disk Grubunun RAID Tipini Değiştir - Synology DSM Yardım</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing volumes and disk groups on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Bir Birimin veya Disk Grubunun RAID Tipini Değiştir</h2>
+
+<p>Birimler ve disk grupları bir RAID tipinden başkasına mevcut veriler kaybolmadan değiştirilebilir. &Ouml;rneğin, Synology NAS sunucunuza bir RAID 1 birimi oluşturabilir ve daha fazla sabit disk takarsanız ileride RAID 5'e değiştirebilirsiniz. Bu yazı Synology NAS sunucunuzda mevcut birimlerin ve disk gruplarının RAID tipini değiştirmeye dair talimatları sunar.</p>
+<h3>RAID Tipi Sınırlamaları</h3>
+
+<p>Sadece bazı RAID tipleri belirli diğer RAID tiplerine değiştirilebilir. Ayrıntılar i&ccedil;in aşağıdaki tabloya bakın.</p>
+
+<table>
+  <tr>
+    <th width="50%">RAID tipi</th>
+    <th width="50%">Değiştirilebilecek hedef tip...</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1<br /> RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>&Ouml;rnek:</h4>
+<p>RAID 1, RAID 5'e değiştirilebilir ancak RAID 5, RAID 1'e değiştirilemez.</p>
+</div>
+
+
+<h3>Sabit Disk Gereksinimleri</h3>
+
+<p>Bir birim ya da disk grubunun RAID tipini değiştirmek i&ccedil;in, Synology NAS sunucunuzda kurulu yeterli sayıda kullanılabilir sabit disk olmalıdır. Her bir RAID tipi i&ccedil;in gereken minimum sabit disk sayısı i&ccedil;in l&uuml;tfen aşağıya bakın.</p>
+
+<table>
+  <tr>
+    <th width="50%">İstenen RAID tipi</th>
+    <th width="50%">Gerekli sabit diskler</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2 ya da 4</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 veya 5 (SHR-1 disk yapısına bağlı olarak)</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>&Ouml;rnek:</h4>
+<p>Bir RAID 1 birimini RAID 5'e değiştirmek istiyorsanız, toplam olarak en az &uuml;&ccedil; sabit diske ihtiyacınız vardır (&ouml;r. RAID 1 birimine ait iki sabit disk, artı birime eklemek i&ccedil;in bir boş sabit disk).</p>
+</div>
+
+<div class="section">
+<h4>Not:</h4>
+
+<p>SHR-1 aşağıdaki disk yapılandırmaları ile birlikte SHR-2'ye değişim sırasında iki ilave disk gerektirebilir:</p>
+<ul>
+<li>Sadece iki disk vardır.</li>
+<li>T&uuml;m diskler farklı kapasitelere sahiptir.</li>
+<li>RAID Dizisi i&ccedil;indeki &uuml;&ccedil; veya daha fazla disk RAID Dizisindeki diğer disklerle kıyaslandığında bir &ccedil;ift daha y&uuml;ksek kapasitede disk i&ccedil;erir.</li>
+</ul>
+</div>
+
+<h3>RAID Tipini Değiştirin</h3>
+
+<p>Aşağıdaki &ouml;rnekte, bir <strong>Basic</strong> birimi bir <strong>RAID 1</strong> birimine değiştireceğiz.</p>
+
+<div class="section">
+<h4>Başlamadan &Ouml;nce:</h4>
+<ul>
+<li>Biriminizin veya disk grubunuzun durumu <b>Normal</b> olmalıdır.</li>
+<li>Bir birime veya disk grubuna yeni sabit diskleri eklerken, yeni sabit diskler birim veya disk grubu i&ccedil;indeki en k&uuml;&ccedil;&uuml;k sabit diskten daha b&uuml;y&uuml;k olmalıdır.</li>
+<li>Yeni sabit disklerin durumu <b>İlk Kullanıma Hazırlandı</b> veya <b>İlk Kullanıma Hazırlanmadı</b> olmalıdır.</li></ul>
+</div>
+
+<h4>Bir birimin RAID tipini değiştirmek i&ccedil;in:</h4>
+
+<ol>
+<li><strong>Depolama Y&ouml;neticisi</strong>'ni a&ccedil;ın.</li>
+<img src="about:blank" class="help_image"/>
+<li><b>Birim</b> &ouml;ğesine gidin.  (Bir disk grubunun RAID tipini değiştirmek istiyorsanız, <b>Disk Grubu</b> sekmesine gidin.)</li>
+<li>Değiştirmek istediğiniz birimi se&ccedil;in ve <b>Y&ouml;net</b>'e tıklayın.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Kurulum sihirbazı belirdiğinde, <b>RAID tipini değiştir</b> &ouml;ğesini se&ccedil;in. Ardından <b>İleri</b>'ye tıklayın.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>Birimi değiştirmek istediğiniz RAID tipini se&ccedil;in. <b>İleri</b>'ye tıklayın.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>Mevcut birime hangi sabit disklerin ekleneceğini se&ccedil;in. Ardından <b>İleri</b>'ye tıklayın.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>Tamamlamak i&ccedil;in kurulum sihirbazının talimatlarını izleyin. Eklenen sabit diskteki mevcut verilerin silineceğine l&uuml;tfen dikkat edin.</li></ol>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+{{#DSM}}
+server {
+    listen {{port}} default_server{{#reuseport}} reuseport{{/reuseport}};
+    listen [::]:{{port}} default_server{{#reuseport}} reuseport{{/reuseport}};
+
+    server_name _;
+
+    gzip on;
+
+    include app.d/alias.*.conf;
+    {{> /usr/syno/share/nginx/DSM_Main}}
+    {{> /usr/syno/share/nginx/optimization}}
+}
+{{#DSM.fqdn}}
+
+server {
+    listen 80{{#reuseport}} reuseport{{/reuseport}};
+    listen [::]:80{{#reuseport}} reuseport{{/reuseport}};
+
+    server_name {{DSM.server_name}};
+    set $fqdn {{DSM.fqdn}};
+
+    {{> /usr/syno/share/nginx/LetsEncrypt}}
+    {{#DSM.https.hsts}}
+    location / {
+        return 301 https://$server_name$request_uri;
+    }
+    {{/DSM.https.hsts}}
+    {{^DSM.https.hsts}}
+    gzip on;
+
+    include app.d/alias.*.conf;
+    {{> /usr/syno/share/nginx/DSM_Main}}
+    include app.d/www.*.conf;
+    include /usr/syno/share/nginx/conf.d/www.*.conf;
+    include conf.d/www.*.conf;
+    {{> /usr/syno/share/nginx/optimization}}
+    {{/DSM.https.hsts}}
+}
+
+server {
+    listen {{port}}{{#reuseport}} reuseport{{/reuseport}};
+    listen [::]:{{port}}{{#reuseport}} reuseport{{/reuseport}};
+
+    server_name {{DSM.server_name}};
+
+    location / {
+        return 404;
+    }
+
+    {{> /usr/syno/share/nginx/error_page}}
+}
+{{/DSM.fqdn}}
+{{#ssl}}
+
+server {
+    listen {{port}} default_server ssl{{#spdy}} http2{{/spdy}}{{#reuseport}} reuseport{{/reuseport}};
+    listen [::]:{{port}} default_server ssl{{#spdy}} http2{{/spdy}}{{#reuseport}} reuseport{{/reuseport}};
+
+    server_name _;
+
+    {{#DSM.https.compression}}
+    gzip on;
+    {{/DSM.https.compression}}
+
+    {{#DSM.https.hsts}}
+    {{> /usr/syno/share/nginx/HSTS}}
+    {{/DSM.https.hsts}}
+
+    include app.d/alias.*.conf;
+    {{> /usr/syno/share/nginx/DSM_Main}}
+    {{> /usr/syno/share/nginx/optimization}}
+}
+{{#DSM.fqdn}}
+
+server {
+    listen 443 ssl{{#spdy}} http2{{/spdy}}{{#reuseport}} reuseport{{/reuseport}};
+    listen [::]:443 ssl{{#spdy}} http2{{/spdy}}{{#reuseport}} reuseport{{/reuseport}};
+
+    server_name {{DSM.server_name}};
+    set $fqdn {{DSM.fqdn}};
+
+    {{> /usr/syno/share/nginx/LetsEncrypt}}
+    {{#https.certificate}}
+    ssl_certificate {{https.certificate}};
+    {{/https.certificate}}
+    {{#https.key}}
+    ssl_certificate_key {{https.key}};
+    {{/https.key}}
+
+    {{#DSM.https.compression}}
+    gzip on;
+    {{/DSM.https.compression}}
+
+    {{#DSM.https.hsts}}
+    {{> /usr/syno/share/nginx/HSTS}}
+    {{/DSM.https.hsts}}
+
+    include app.d/alias.*.conf;
+    {{> /usr/syno/share/nginx/DSM_Main}}
+    include app.d/www.*.conf;
+    include /usr/syno/share/nginx/conf.d/www.*.conf;
+    include conf.d/www.*.conf;
+    {{> /usr/syno/share/nginx/optimization}}
+}
+
+server {
+    listen {{port}} ssl{{#spdy}} http2{{/spdy}}{{#reuseport}} reuseport{{/reuseport}};
+    listen [::]:{{port}} ssl{{#spdy}} http2{{/spdy}}{{#reuseport}} reuseport{{/reuseport}};
+
+    server_name {{DSM.server_name}};
+
+    location / {
+        return 404;
+    }
+
+    {{> /usr/syno/share/nginx/error_page}}
+}
+{{/DSM.fqdn}}
+{{/ssl}}
+{{/DSM}}

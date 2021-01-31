@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Översikt</h2>
+	<p>Denna sida visar grundläggande information om high-availability-klustret och medlemsservrar. Därutöver tillhandahåller sidan verktyg för att skapa, ta bort eller utföra underhåll på high-availability-klustret och medlemsservrar.</p>
+
+<h3>Status för High Availability-kluster</h3>
+  <p>Detta fält visar status för ditt high-availability-kluster och meddelar dig om eventuella fel. Följande är en tabell över möjliga tillstånd som visas i detta fält:</p>
+    <table>
+     <tr>
+      <th>Status</th>
+      <th>Beskrivning</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fristående</strong></td>
+      <td>Servern ingår inte i ett high-availability-kluster.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Felfri</strong></td>
+      <td>Tillståndet är i allmänhet bra på ditt high-availability-kluster. Datareplikering från den aktiva servern till den passiva servern fungerar normalt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Förbereder</strong></td>
+	  <td>En lyckad kombinering av servrar till ett high-availability-kluster har genomförts men den initiala datareplikeringen är inte slutförd. Övergång kan inte ske för närvarande. För mer information, se <a href="switchover_fail.html">Övergång</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Laddar</strong></td>
+	  <td>Systemet laddar status för kluster. <b>Övergång</b> kan inte utföras förrän statushämtningen är slutförd.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Varning</strong></td>
+      <td>Statusen för HA-kluster är onormal, men tjänsterna fungerar fortfarande.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fara</strong></td>
+	  <td>Det inträffade fel på både den aktiva och den passiva servern. High-availability-klustret kan inte fungera normalt. Vänligen kontrollera status för alla lagringsutrymmen (dvs. RAID Groups, diskgrupper, volymer och iSCSI LUNs).</td>
+     </tr>
+    </table>
+<h3>Varningsmeddelanden</h3>
+   <p>Följande tabell visar varningsmeddelanden som kan visas när ett fel inträffar på systemet. När mer än ett varningsmeddelande visas kan du navigera mellan dem med knapparna framåt/bakåt. </p>
+    <table>
+     <tr>
+      <th>Varning/Fel</th>
+      <th>Beskrivning</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fel på övervakad tjänst</strong></td>
+      <td>Fel på en eller flera övervakade tjänster inträffade.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Lagringsutrymme trasigt</strong></td>
+      <td>Ett lagringsutrymme (dvs. RAID Group, diskgrupp, volym och iSCSI LUN) på den aktiva eller den passiva servern är trasig. Vänligen kontrollera sidan <b>Lagringsstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Lagringsutrymme kraschat</strong></td>
+      <td>Ett lagringsutrymme (dvs. RAID Group, diskgrupp, volym och iSCSI LUN) på den aktiva eller den passiva servern är kraschad. Vänligen kontrollera sidan <b>Lagringsstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Det gick inte att hitta passiv server</strong></td>
+      <td>Detta fel kan uppstå när den passiva servern är offline eller när den aktiva och den passiva servern inte kan ansluta via Heartbeat-anslutningen. I detta fall är inte övergång tillgängligt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Data kan inte replikeras till passiv server</strong></td>
+      <td>Att detta fel uppstår kan bero på lagringsvolym eller diskfel. I detta fall är inte övergång tillgängligt. Vänligen kontrollera sidan <b>Lagringsstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Passiv server har inte valts</strong></td>
+	  <td>Denna status visas om den passiva servern har frigjorts från high-availability-klustret. I detta fall är inte övergång tillgängligt. Om du åter vill binda den passiva servern, klicka på rullgardinsmenyn <b>Underhåll</b> och sedan på <b>Bind</b>. När du åter binder den passiva servern kommer en fullständig datareplikering att behövas.</td>
+     </tr>
+    </table>
+
+
+<h3>Information om High Availability-kluster</h3>
+	<p>Detta fält återfinns under status för high-availability-kluster och visar grundläggande information om klustret. Om high-availability-klustret inte finns visar fältet endast en förklaring av funktionerna för high-availability-kluster.</p>
+    <p>Detta fält innehåller följande information:</p>
+ <ul>
+    	<li><b>Klustrets servernamn:</b> Servernamn som används av high-availability-klustret. </li>
+   <li><b>Klustrets IP-adress:</b> IP-adress som används av high-availability-klustret. Oavsett vilken server som kör tjänsterna kan användare ansluta till high-availability-klustret genom att använda denna IP-adress.</li>
+        <li><b>Skapat den:</b> Datumet som high-availability-klustret skapades.</li>
+ </ul>
+
+
+<h3>Knappar för High Availability Kluster</h3>
+
+<p>Följande två knappar återfinns under informationen om high-availability-kluster:</p>
+
+<ol>
+<li><b>Skapa HA-kluster:</b> När det inte finns något high-availability-kluster kan du klicka på denna knapp för att kombinera två servrar och skapa ett high-availability-kluster. För mer information om att skapa high-availability-kluster, vänligen se <a href="wizard.html">Guiden Synology High Availability Manager</a>.</li>
+<li><b>Hantering:</b> Denna knapp är bara tillgänglig när high-availability-klustret redan finns. Innehåller följande alternativ:
+<ul>
+<li><b>Hanteringsguide:</b> Startar en guide som innehåller instruktioner för olika hanteringsförfaranden.</li>
+<li><b>Övergång:</b> Initierar en övergång från den aktiva servern till den passiva servern. Under denna process slutar den aktiva servern att tillhandahålla tjänster och blir den nya passiva servern. Då blir den gamla passiva servern den nya aktiva servern och börjar att tillhandahålla alla tjänster för high-availability-klustret. Detta alternativ är inte tillgängligt när det är status <b>fel</b> på den passiva servern eller om den passiva servern inte är vald.</li>
+<li><b>Uppdatera DSM:</b> Öppnar sidan <strong>DSM-uppdatering</strong> i <strong>Kontrollpanel</strong>. Härifrån kan båda servrarna uppdateras.</li>
+<li><b>Ta bort HA-kluster:</b> Tar bort high-availability-klustret.</li>
+<li><b>Häv bindning av passiv server:</b> Tar bort den passiva servern från klustret. När servern åter läggs till i high-availability-klustret efter att bindning hävts, krävs en fullständig datareplikering. Därför rekommenderar vi att detta alternativ endast används när du önskar byta ut den passiva servern mot en ny.</li>
+<li><b>Bind passiv server:</b> Lägger till en passiv server till klustret. Detta alternativ är endast tillgängligt när det inte finns någon passiv server i high-availability-klustret.</li>
+<li><b>Stäng av HA-kluster:</b> Stänger av både den aktiva och den passiva servern.</li>
+<li><b>Stäng av aktiv server:</b> Stänger av den aktiva servern.</li>
+<li><b>Stäng av passiv server:</b> Stänger av den passiva servern.</li>
+<li><b>Starta om aktiv server:</b> Startar om den aktiva servern.</li>
+<li><b>Starta om passiv server:</b> Startar om den passiva servern.</li>
+<li><b>Avaktivera pipljud på passiv server:</b> Stoppar pipljudet på den passiva servern ger ifrån sig när ett fel inträffar. Den passiva servern kommer fortfarande att ge ifrån sig ett pipljud om ett fel inträffar senare.</li>
+</ul>
+</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>När ett high-availability-kluster är borttaget krävs en fullständig datareplikering om du vill skapa ett nytt.</li>
+<li>Om du stänger av eller häver bindning till den passiva servern kan tjänster inte flyttas över till den aktiva servern, om fel uppstår.</li>
+</ul>
+</div>
+
+<h3>Status för Server och Datareplikering</h3>
+<p>Detta avsnitt innehåller bilder som visar status för den aktiva och den passiva servern samt dataflödet för replikering mellan servrarna.</p>
+<p>Bild över datareplikering visar följande möjliga förhållanden:</p>
+	<ul>
+    	<li><b>Datareplikering fungerar normalt:</b> Visas genom dataflöde från den aktiva servern mot den passiva servern.</li>
+    	<li><b>Ingen datareplikering:</b> Visas genom frånvaro av bild på dataflöde.</li>
+    </ul>
+
+
+<h3> Serverinformation</h3>
+ <p>Detta avsnitt är beläget under bilderna på servrarna. Information om den aktiva och den passiva servern visas i detta avsnitt. Om ingen passiv server valts visas <b>N/A</b> i detta avsnitt.</p>
+  <ul>
+   <li><b>Servernamn:</b> Synology-servernamn.</li>
+   <li><b>Modellnamn:</b> Synology modellbeteckning för server.</li>
+   <li><b>Serienummer:</b> Serienummer för Synology-server.</li>
+   <li><b>Fläktstatus:</b> Status för en servers kylfläktar. Om det är fel på en fläkt visas en varning. Om så sker, kontakta din lokala återförsäljare för hjälp.</li>
+   <li><b>Temperatur:</b> Temperatur för Synology-server. </li>
+   <li><b>Energistatus:</b> Indikerar huruvida strömkällan till en server fungerar normalt i full utsträckning. Om servermodellen är utrustad med reservströmkälla, visas en varning om någon av dem uppvisar en funktionsstörning.</li>
+  </ul>
+
+ </body>
+</html>

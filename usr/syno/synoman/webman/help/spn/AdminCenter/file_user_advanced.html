@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Configuración de usuario avanzado</h2>
+
+<p>Para modificar la configuración de usuario avanzado, puede ir a <strong>Panel de control</strong> > <strong>Usuario</strong> > <strong>Avanzado</strong>. Las opciones disponibles son las siguientes. </p>
+
+<h3>Configuración de contraseña</h3>
+<p>Puede configurar los ajustes relacionados con la seguridad y las reglas de fortaleza de las contraseñas para los usuarios en Synology NAS.</p>
+
+<h4>Para permitir a los usuarios que restablezcan contraseñas olvidadas por correo electrónico:</h4>
+<ol>
+	<li>Marque la casilla <strong>Permitir que usuarios no administradores restablezcan contraseñas olvidadas por correo electrónico</strong>.</li>
+	<li>Haga clic en <strong>Aplicar</strong> para guardar la configuración.</li>
+	<li>Aparecerá un enlace marcado como "¿Ha olvidado la contraseña?" en la pantalla de inicio de sesión de DSM. Cuando un usuario olvide la contraseña, podrá hacer clic en este enlace e introducir el nombre de usuario. En este caso, el sistema enviará un correo electrónico al usuario con un enlace para restablecer la contraseña olvidada.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Antes de habilitar esta opción, asegúrese de haber habilitado primero las notificaciones por correo electrónico de SMTP. Para hacer esto, vaya a <strong>Panel de control</strong> > <strong>Notificación</strong>.</li>
+	<li>Para recibir mensajes del sistema, los usuarios deben proporcionar una dirección de correo electrónico en la sección de información de usuario de sus cuentas.</li>
+	<li>Los usuarios que pertenezcan al grupo <strong>administrators</strong> no pueden restablecer sus contraseñas con esta opción.</li>
+	<li>Los usuarios de dominio no pueden restablecer contraseñas con esta opción.</li>
+	<li>Los usuarios de LDAP pueden restablecer contraseñas con esta opción, siempre que Synology NAS funcione como servidor del directorio de LDAP y cumpla las siguientes condiciones:<ul>
+			<li>La versión de paquete de Synology <strong>LDAP Server</strong> debe ser 2457 o superior.</li>
+			<li>El usuario de LDAP no puede ser un miembro de: administrators, Directory Operators, Directory Consumers ni Directory Clients.</li>
+			<li>Si el Synology LDAP Server es un <strong>Consumer</strong>, su <strong>Provider</strong> debe cumplir las condiciones mencionadas anteriormente.</li>
+			<li>El Provider final debe ser accesible con el navegador web del usuario y sus notificaciones por correo electrónico deben estar habilitadas.</li>
+			<li>Para evitar que otra persona utilice el enlace de restablecimiento de contraseña olvidada, debe hacer clic en el enlace desde la misma dirección IP con la que se haya realizado la solicitud de contraseña olvidada.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>Para forzar a los usuarios a cambiar la contraseña tras restablecer la contraseña:</h4>
+<ol>
+	<li>Marque la casilla <strong>Obligar a los usuarios a cambiar la contraseña después de que el administrador restablezca la contraseña</strong>.</li>
+	<li>Haga clic en <strong>Aplicar</strong> para guardar la configuración.</li>
+	<li>Cuando el administrador cambie la contraseña para un usuario, se solicitará al usuario que cambie su contraseña en el próximo inicio de sesión.</li>
+</ol>
+
+<h4>Para habilitar las reglas de fortaleza de contraseña:</h4>
+<ol>
+	<li>Marque la casilla <strong>Aplicar reglas de fortaleza de contraseña</strong>.</li>
+	<li>Marque o desmarque las siguientes opciones en función de sus necesidades:<ul>
+			<li><strong>Excluir de la contraseña el nombre y descripción del usuario</strong>: La contraseña no debe contener el nombre del usuario o la descripción del usuario. Pero se excluyen los caracteres codificados UTF-8.</li>
+			<li><strong>Incluir mayúsculas y minúsculas mezcladas</strong>: La contraseña debe contener letras mayúsculas y minúsculas.</li>
+			<li><strong>Incluir caracteres numéricos</strong>: la contraseña debe contener al menos un carácter numérico (0~9).</li>
+			<li><strong>Incluir caracteres especiales</strong>: la contraseña debe contener al menos un carácter especial ASCII (es decir, <span class="note_content">~ ` ! @ # $ % ^ & * ( ) - _ = + [ { ] } \ | ; : ' " < > / ? , .</span> y el carácter de espacio).</li>
+			<li><strong>Excluir contraseña común</strong>: evite que los usuarios elijan contraseñas comunes como, por ejemplo, <em>123456</em>, <em>contraseña</em>, <em>qwerty</em>, etc.</li>
+			<li><strong>Longitud mínima de la contraseña</strong>: La contraseña debe tener al menos el valor especificado en el campo de texto. La longitud deberá ser un número situado entre el 6 y el 127.</li>
+			<li><strong>Historial de contraseñas</strong>: la contraseña debe ser diferente a las establecidas anteriormente. Aquí se especificará el número de contraseñas.</li>
+		</ul>
+	</li>
+	<li>Haga clic en <strong>Aplicar</strong> para guardar la configuración.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Las reglas de fortaleza de contraseña solo serán aplicables a las contraseñas nuevas. Por ejemplo, las reglas de fortaleza de contraseñas solo se aplican al crear nuevas cuentas de usuario o cuando un usuario existente cambia su contraseña. Las contraseñas existentes y aquellas pertenecientes a cuentas de usuario importadas, están excluidas de las nuevas reglas de contraseñas.</li>
+</ul>
+</div>
+
+<h3>Caducidad de la contraseña</h3>
+<p>Puede mejorar la seguridad de las cuentas de usuario con la función de caducidad de contraseña, con la que obligará a los usuarios a cambiar de contraseña después de un periodo de tiempo determinado.</p>
+
+<h4>Para programar la caducidad de la contraseña:</h4>
+<ol>
+	<li>Marque la casilla de verificación <strong>Habilitar caducidad de la contraseña</strong>.</li>
+	<li>Las opciones configurables son las siguientes:<ul>
+			<li><strong>Periodo de validez máximo de la contraseña</strong>: especifique el número de días transcurridos para que la contraseña caduque.</li>
+			<li><strong>Periodo de validez mínimo de la contraseña</strong>: marque la casilla de verificación para habilitar esta función y especifique el número de días transcurridos antes de que los usuarios puedan cambiar sus contraseñas.</li>
+			<li><strong>Solicitar a los usuarios que cambien la contraseña al iniciar sesión antes de que caduque</strong>: marque la casilla para activar esta función y especifique el número de días antes de que caduque la contraseña en los que se les recordará a los usuarios que cambien sus contraseñas tras el inicio de sesión.</li>
+			<li><strong>Permitir que los usuarios cambien la contraseña una vez que caduque</strong>: marque la casilla de verificación para permitir a los usuarios iniciar sesión con una contraseña caducada y poder cambiarla.</li>
+			<li><strong>Enviar correos electrónicos de notificación de caducidad</strong>: Marque la casilla para notificar a los usuarios por correo electrónico de que su contraseña ha caducado.</li>
+		</ul>
+	</li>
+	<li>Haga clic en <strong>Aplicar</strong> para guardar la configuración.</li>
+</ol>
+
+<h3>Verificación en 2 pasos</h3>
+<p>La verificación en 2 pasos ofrece una seguridad mejorada para las cuentas de usuario de DSM. Puede forzar a los administradores de DSM o a todos los usuarios de DSM a habilitar la verificación en 2 pasos para proteger mejor sus cuentas.</p>
+
+<h4>Para habilitar la verificación en 2 pasos usuarios de DSM:</h4>
+<ol>
+	<li>Marque la casilla <strong>Aplicar la verificación de 2 pasos para los siguientes usuarios</strong> y seleccione los usuarios a los que desea aplicar esto.</li>
+	<li>Haga clic en <strong>Aplicar</strong> para guardar la configuración.</li>
+	<li>Cuando se aplique esta restricción, a los usuarios que no hayan habilitado la verificación de 2 pasos se les pedirá que completen la configuración antes de iniciar sesión en DSM.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Si todavía no ha configurado la verificación de 2 pasos en <strong>Personal</strong> > <strong>Cuenta</strong>, se abrirá el asistente de configuración de la misma para ayudarle a completar los ajustes necesarios antes de que pueda aplicar esta restricción.</li>
+	<li>Si se deshabilita la aplicación de la verificación de 2 pasos aquí, no tendrá ningún efecto ni deshabilitará la configuración de verificación de 2 pasos para cada usuario. Los usuarios pueden mantener su configuración de verificación de 2 pasos o ir a <strong>Personal</strong> > <strong>Cuenta</strong> para deshabilitar dicha configuración.</li>
+	<li style="display: none;">La verificación en 2 pasos también se aplica a todos los servicios relacionados con SSH, como el terminal SSH, SFTP y rsync con cifrado de transferencia SSH. Sin embargo, como Hyper Backup y la sincronización de carpetas compartidas a través de rsync con el cifrado de transferencia SSH no admiten la verificación en 2 pasos, estos dos servicios no funcionarán con normalidad tras habilitar la verificación en 2 pasos.</li>
+</ul>
+</div>
+
+
+<h3>Inicio de usuario</h3>
+
+<p>Habilite inicios de usuario para crear una carpeta de <strong>home</strong> personal para cada usuario, salvo para <strong>guest</strong>. Cada usuario puede acceder exclusivamente a su propia carpeta home mediante CIFS, AFP, FTP o File Station.</p>
+
+<p>Los usuarios que pertenezcan al grupo <strong>administrators</strong> pueden acceder a todas las carpetas personales ubicadas en la carpeta compartida por defecto <strong>homes</strong>. El nombre de la carpeta home es el mismo que el de la cuenta de usuario.</p>
+
+<h4>Para habilitar el servicio de inicio de usuario:</h4>
+<ol>
+	<li>Active <strong>Habilitar servicio de inicio de usuario</strong>.</li>
+	<li>Si hay varios volúmenes, seleccione dónde desea almacenar la carpeta <strong>homes</strong>.</li>
+	<li>Haga clic en <strong>Aplicar</strong>.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Una vez que el servicio inicio de usuario local se deshabilite, el servicio home de usuario de dominio también se deshabilitará simultáneamente.</li>
+</ul>
+</div>
+
+<h4>Para deshabilitar el servicio de inicio de usuario:</h4>
+<ol>
+	<li>Desactive <strong>Habilitar servicio de inicio de usuario</strong>.</li>
+	<li>Haga clic en <strong>Aplicar</strong> para guardar la configuración.</li>
+</ol>
+
+<p>Una vez deshabilitado el servicio inicio de usuario, la carpeta compartida <strong>homes</strong> se conservará para el acceso del administrador. Los usuarios podrán acceder de nuevo a sus carpetas home cuando el servicio de inicio de usuario vuelva a habilitarse.</p>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Para eliminar la carpeta compartida <strong>homes</strong>, primero es necesario deshabilitar el servicio de inicio de usuario.</li>
+	<li>El servicio de inicio de usuario de dominio deberá deshabilitarse si el servicio de inicio de usuario local está deshabilitado.</li> 
+</ul> 
+</div>
+
+</body>	
+</html> 

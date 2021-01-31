@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="certificate"></a>Tanúsítvány</h2>
+
+<p>A tanúsítványok segítségével biztonságossá tehetők Synology NAS eszköze SSL-szolgáltatásai, például az internet (minden HTTPS-szolgáltatás), a levelezés vagy az FTP. Ha a felhasználók rendelkeznek tanúsítvánnyal, ez lehetővé teszi számukra, hogy bármely bizalmas adat elküldése előtt ellenőrizzék a szerver és a rendszergazda identitását.</p>
+
+<p>A <strong>Vezérlőpult</strong> > <strong>Biztonság</strong> > <strong>Tanúsítvány</strong> menüpontban a következőkre van lehetőség:</p>
+
+<ul>
+<li>Tanúsítványok kérése a Let's Encrypt szolgáltatótól.</li>
+<li>Saját aláírású tanúsítványok létrehozása.</li>
+<li>Tanúsítvány-aláírási igénylések létrehozása más hitelesítésszolgáltatók (CA) számára.</li>
+<li>Más igénylőktől érkező tanúsítvány-aláírási igénylések aláírása</li>
+<li>A(z) Synology NAS eszközön található tanúsítványok kezelése.</li>
+</ul>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>A DSM 6.0 verziójától kezdve egyszerre több tanúsítványt is létrehozhat, illetve importálhat a(z) Synology NAS eszközre.</li>
+<li>A <strong>Beállítás alapértelmezett tanúsítványként</strong> gombra kattintva a feldolgozás alatt lévő tanúsítvány válik az alapértelmezett tanúsítvánnyá. Az eredeti alapértelmezett tanúsítvány elveszti az alapértelmezett státuszát.</li>
+</ul>
+</div>
+
+
+<h3>A Let's Encrypt szolgáltatótól származó tanúsítványok</h3>
+
+<h4>Tanúsítványok kérése a Let's Encrypt szolgáltatótól:</h4>
+<p>A <a href="https://letsencrypt.org/" target="_blank">Let's Encrypt</a> szolgáltatótól ingyenes és biztonságos SSL/TLS tanúsítványokat szerezhet be automatikusan. A Let's Encrypt egy nyílt és megbízható hitelesítésszolgáltató.</p>
+
+<ol>
+<li>Kattintson a <strong>Hozzáadás</strong> gombra.</li>
+<li>Válassza az <strong>Új tanúsítvány hozzáadása</strong> lehetőséget, majd kattintson a <strong>Tovább</strong> gombra.</li>
+<li>Válassza a <strong>Tanúsítvány kérése a Let's Encrypt szolgáltatótól</strong> lehetőséget.</li>
+<li>Adja meg az alábbi adatokat:<ul>
+<li><strong>Tartománynév</strong>: Adja meg a tartományszolgáltatónál regisztrált tartományt.</li>
+<li><strong>E-mail</strong>: Adja meg a tanúsítvány regisztrálásához használni kívánt e-mail címet.</li>
+<li><strong>Tulajdonos alternatív neve</strong>: Amennyiben egy tanúsítvánnyal több tartományt is szeretne lefedni, itt írhatja be az egyéb tartományok nevét.</li>
+</ul>
+</li>
+<li>A beállítások mentéséhez kattintson az <strong>Alkalmaz</strong> gombra. A megerősítést követően a rendszer automatikusan importálja a tanúsítványt a(z) Synology NAS eszközre.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>A Let's Encrypt szolgáltatótól származó tanúsítványokra csak korlátozott számú e-mail fiókkal regisztrálhat. A limit túllépése esetén további tanúsítványok kéréséhez használjon egy korábban regisztrált e-mail fiókot.</li>
+<li>A Let's Encrypt szolgáltatónál tartományonként csak korlátozott számú tanúsítványra regisztrálhat. A limit túllépése esetén írja be az aktuális tartomány nevét a Tulajdonos alternatív neve (SAN) mezőbe, majd használjon egy másik tartománynevet a tanúsítvány igényléséhez.</li>
+<li>A tartományhoz tartozó tanúsítvány kiadása előtt a Let's Encrypt elvégző a tartomány ellenőrzését. Biztosítsa, hogy a(z) Synology NAS eszköz és a router 80-as portja nyitva áll az internetes tartomány-ellenőrzéshez. A Let's Encrypt szolgáltatóval való további kommunikáció HTTPS-en keresztül zajlik, így Synology NAS eszköze biztonságban van.</li>
+<li>A Let's Encrypt által kiadott tanúsítványok 90 napig érvényesek. A tanúsítványok lejárata előtt a DSM a tartomány sikeres ellenőrzését követően automatikusan elvégzi a tanúsítványok megújítását. Biztosítsa, hogy a(z) Synology NAS eszköz és a router 80-as portja nyitva áll a tanúsítvány megújításához.</li>
+</ul>
+</div>
+
+<h3>Saját aláírású tanúsítványok</h3>
+
+<p>A saját aláírású tanúsítványok olyan tanúsítványok, amelyet ugyanaz az entitás hozott létre és írt alá, amelynek személyazonosságát az tanúsítja (jelen esetben a(z) Synology NAS). A saját aláírású tanúsítványok aláírása a(z) Synology NAS által generált titkos kulccsal történik. Mivel a saját aláírású tanúsítványokat nem harmadik félként tevékenykedő hitelesítésszolgáltatók bocsátják ki, kevésbé bizonyítják a szerver személyazonosságát, és rendszerint csak a szerver és ismert felhasználók egy csoportja közti csatornák biztosítására használatosak.</p>
+
+
+<h4>Saját aláírású tanúsítványok létrehozása:</h4>
+<ol>
+	<li>Kattintson a <strong>Hozzáadás</strong> gombra.</li>
+<li>Válassza az <strong>Új tanúsítvány hozzáadása</strong> lehetőséget, majd kattintson a <strong>Tovább</strong> gombra.</li>
+<li>Válassza a <strong>Saját aláírású tanúsítvány létrehozása</strong> lehetőséget.</li>
+	<li>Kövesse a telepítés varázsló utasításait.</li>
+</ol>
+
+
+<h3>Tanúsítvány-aláírási igénylések (CSR)</h3>
+
+<p>A Let's Encrypt szolgáltató által kiállított és a saját aláírású tanúsítványokon felül egyéb kereskedelmi vagy harmadik félként tevékenykedő hitelesítésszolgáltatók tanúsítványait is alkalmazhatja. A tanúsítvány megszerzéséhez az alábbi két dolgot kell elvégeznie:</p>
+
+<ul>
+<li>Tanúsítvány-aláírási igénylés (CSR) létrehozása: A tanúsítvány-aláírási igénylés egy, a(z) Synology NAS által generált olyan titkosított szöveg, amely a tanúsítványba foglalandó információkat, például a tartománynevet, a szervezet nevét, a címet és az e-mail címet tartalmazza.</li>
+<li>Adja meg személyes adatait vagy a vállalat azonosító adatait a hitelesítésszolgáltató számára, majd igazolja, hogy Ön a tanúsítvány-aláírási igénylés általános név mezőjében megadott tartománynév tulajdonosa.</li>
+</ul>
+
+
+<h4>Tanúsítvány-aláírási igénylés létrehozása:</h4>
+
+<ol>
+	<li>Kattintson a <strong>CSR</strong> gombra.</li>
+    <li>Válassza a <strong>Tanúsítvány-aláírási igénylés (CSR) létrehozása</strong> lehetőséget.</li>
+	<li>A tanúsítvány-aláírási igénylés létrehozásához és letöltéséhez kövesse a telepítés varázsló utasításait.</li>
+    <li>Küldje el a CSR igénylést és a szükséges információkat a hitelesítésszolgáltatónak megerősítésre.</li>
+</ol>
+
+<p>A hitelesítésszolgáltató által kiállított tanúsítvány kézhezvételét követően azt a titkos kulccsal együtt importálhatja.</p>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>A tanúsítvány-aláírási igénylés mellé egy titkos kulcs is készül. A hitelesítésszolgáltatóknak nincs szükségük erre a titkos kulcsra. Tartsa biztonságban és titokban a(z) Synology NAS eszközhöz tartozó titkos kulcsot.</p>
+</div>
+
+<h4>Tanúsítvány-aláírási igénylések aláírása:</h4>
+
+<p>Más eszközök felhasználói tanúsítvány-aláírási igényléseket küldhetnek Önnek, melynek segítségével hitelesített hozzáférést kaphatnak a(z) Synology NAS eszközhöz. Az igényléseket a(z) Synology NAS eszköz gyökértanúsítványa segítségével írhatja alá, majd az így generált tanúsítványokat kell kiküldenie az igénylőknek.</p>
+
+<ol>
+	<li>Kattintson a <b>CSR</b> lehetőségre.</li>
+	<li>Kattintson a <b>Tanúsítvány-aláírási igénylés (CSR) aláírása</b> lehetőségre.</li>
+	<li>Töltse fel a tanúsítvány-aláírási igénylést, adja meg a szükséges információkat. </li>
+	<li>Kattintson a <b>Tovább</b> lehetőségre. A rendszer aláírja a tanúsítványigénylést és létrehoz egy annak megfelelő tanúsítványt.</li>
+</ol>
+
+
+
+<h3>Tanúsítványkezelés</h3>
+
+
+<h4>Tanúsítványok importálása:</h4>
+<p>Importálhatja a korábban exportált tanúsítványt vagy a kereskedelmi vagy harmadik félként tevékenykedő hitelesítésszolgáltatótól származó tanúsítványt, illetve a titkos kulcsot, hogy a többi eszköz megbízzon a(z) Ön Synology NAS eszközében.</p>
+
+<ol>
+<li>Kattintson a <strong>Hozzáadás</strong> gombra.</li>
+<li>Válassza az <strong>Új tanúsítvány hozzáadása</strong>, majd a <strong>Tanúsítvány importálása</strong> lehetőséget.</li>
+<li>A tanúsítvány importálásának elvégzéséhez kövesse a varázslóban megjelenő utasításokat.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Egyes tanúsítványhatóság által kibocsátott tanúsítványokhoz közbenső tanúsítványok kérhetők.</li>
+<li>A tanúsítványok formátuma X.509 PEM legyen.</li>
+<li>A titkos kulcsoknak RSA formátummal kell rendelkezniük, nem lehetnek jelszóval védettek.</li>
+</ul>
+</div>
+
+
+<h4>Tanúsítványok exportálása:</h4>
+
+<p>A meglévő tanúsítványok kezelési vagy archiválási célból bármikor letölthetőek, továbbá más felhasználók eszközeire is importálhatók, így Synology NAS eszköze és a másik felhasználó eszköze meg fognak bízni egymásban. Az exportált fájl tartalmazza a tanúsítványt, a titkos kulcsot, valamint a(z) Synology NAS saját aláírású gyökértanúsítványát. </p>
+
+<ol>
+<li>Válassza ki a kívánt tanúsítványt.</li>
+<li>Kattintson a <strong>Tanúsítvány exportálása</strong> lehetőségre.</li>
+</ol>
+
+<h4>Tanúsítványok megújítása:</h4>
+
+<p>Ha a tanúsítványa hamarosan lejár, ezen lehetőség segítségével újíthatja meg azt.</p>
+
+<ol>
+	<li>Kattintson a <b>CSR</b> gombra.</li>
+	<li>Válassza a <b>Tanúsítvány megújítása</b> lehetőséget, majd kattintson a <b>Tovább</b> gombra.</li>
+	<li>Töltse le a létrehozott titkos kulcsot és a tanúsítvány-aláírási igénylést.</li>
+    <li>Küldje meg a CSR igénylést a kívánt hitelesítésszolgáltatónak a tanúsítvány megújítása érdekében.</li>
+</ol>
+
+
+<h4>Tanúsítványok cseréje:</h4>
+<p>A meglévő tanúsítványokat bármikor lecserélheti más tanúsítványokra.</p>
+
+<ol>
+<li>Kattintson a <strong>Hozzáadás</strong> gombra.</li>
+<li>Kattintson a <strong>Létező tanúsítvány cseréje</strong> lehetőségre, majd a legördülő menüből válassza ki a lecserélni kívánt tanúsítványt.</li>
+<li>A tanúsítvány cseréjének elvégzéséhez kövesse a varázslóban megjelenő utasításokat.</li>
+</ol>
+
+
+<h4>Tanúsítványok szerkesztése:</h4>
+<p>Bármikor szerkesztheti a tanúsítvány leírását, vagy akár az alapértelmezett tanúsítványt is módosíthatja.</p>
+
+<ol>
+<li>Válassza ki a kívánt tanúsítványt.</li>
+<li>Kattintson a <strong>Szerkesztés</strong> lehetőségre, ekkor a következő műveleteket végezheti el:<ul>
+<li>Módosítsa a tanúsítvány leírását, majd kattintson az <strong>OK</strong> gombra.</li>
+<li>Az alapértelmezett státusz hozzárendeléséhez kattintson a <strong>Beállítás alapértelmezett tanúsítványként</strong>, majd az <strong>Alkalmaz</strong> gombra.</li>
+</ul>
+</ol>
+
+
+
+<h4>Tanúsítványok konfigurálása:</h4>
+<p>Igényeinek megfelelően bármikor módosíthatja az adott szolgáltatásokhoz tartozó tanúsítványokat.</p>
+
+<ol>
+<li>Az összes szolgáltatás és a hozzájuk tartozó tanúsítványok megjelenítése érdekében kattintson a <strong>Konfigurálás</strong> gombra.</li>
+<li>Kattintson a kívánt szolgáltatás aktuális tanúsítványára.</li>
+<li>Válassza ki a megfelelő tanúsítványt a legördülő menüből.</li>
+<li>Kattintson az <strong>OK</strong> gombra.</li>
+</ol>
+
+<h4>Tanúsítványok törlése:</h4>
+
+<ol>
+<li>Válassza ki a törölni kívánt tanúsítványt.</li>
+<li>A tanúsítvány törléséhez kattintson a <strong>Törlés</strong> gombra.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Az alapértelmezett tanúsítvány nem törölhető.</li>
+<li>Nem alapértelmezett tanúsítvány törlésekor az alapértelmezett tanúsítvány veszi át a megfelelő szolgáltatásokat. Ne feledje, előfordulhat, hogy az alapértelmezett tanúsítvány nem teljes mértékben támogatja ezen szolgáltatásokat.</li>
+</ul>
+
+<p></p>
+</div>
+
+</body>
+</html>
+

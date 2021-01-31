@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Split-brain</h2>
+
+<p>Når en high-availability-klynge fungerer som normalt, skal kun én av medlemsserverne påta seg rollen som aktiv server. I dette tilfellet oppdager den passive serveren tilstedeværelsen av den aktive serveren gjennom både Heartbeat-tilkoblingen og datatilkoblingen.</p>
+
+<p>Hvis alle Heartbeat- og datatilkoblinger blir brutt, kan begge serverne prøve å ta rollen som aktiv server. Denne situasjonen kalles en "split-brain"-feil. I dette tilfellet blir tilkoblinger til IP-adressene i high-availability-klyngen videresendt til en av de to serverne, og inkonsistent data kan oppdateres eller skrives på de to serverne.</p>
+        
+<p>Når Heartbeat- eller datatilkoblingen blir tilkoblet på nytt, vil systemet oppdage split-brain-feilen og datainkonsekvensen mellom de to serverne og gå i high-availability-sikkermodus.</p> 
+
+       
+<h4>Hvis en split-brain-feil oppstår:</h4>
+	<ol>
+    <li>Tjenestene på begge serverne og IP-adressene i high-availability-klyngen er utilgjengelige så lenge split-brain-feilen ikke blir utbedret.</li>
+	<li>Når begge serverne går i high-availability-sikkermodus, åpnes det en ny fane kalt <strong>Split-brain</strong> i panelet til venstre. I denne fanen finner du følgende informasjon: forskjellen mellom filene i de delte mappene på de to serverne, tidspunktet serverne ble aktiv server og den siste iSCSI Target-tilkoblingsinformasjonen. Alle andre faner forblir skrivebeskyttet. </li>
+<li>I high-availability-sikkermodus vil File Station være i skrivebeskyttet modus, men du vil kunne laste ned og åpne filene.</li>
+       <li>I <b>Oversikt</b>-fanen kan du kun løse split-brain-feil eller slå av gjeldende innloggingsserver. For å løse split-brain-feil, gjør du ett av følgende:
+       <ul>
+       <li>Velg en server som aktiv server i high-availability-klyngen og den andre som passiv server. Når begge serverne er startet på nytt, vil alle forskjeller i data og innstillinger på den aktive serveren bli synkronisert til den passive serveren. Vær oppmerksom på at data som er oppdatert på den passive serveren under split-brain-feilen vil gå tapt.</li>
+       <li>Velg en server som aktiv server i high-availability-klyngen og koble fra den andre. Når begge serverne er startet på nytt, blir den aktive serveren værende i high-availability-klyngen mens den frakoblede serveren reserver dataene sine og går i <b>Frittstående</b>-modus. Vær oppmerksom på at en full replikering er nødvendig for å koble til en ny passiv server i fremtiden.</li>
+       <li>Koble fra begge serverne, reserver dataene på dem individuelt og la dem gå tilbake i <b>Frittstående</b>-modus.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Merknader:</h4>
+    <ul>
+    <li>Tiden det tar å liste opp forskjellene på de to serverne vil være avhengig av hvor mange filer som ligger i de delte mappene.</li>
+    <li>Før du velger hvilken server som skal være aktiv/passiv server, må du kontrollere at begge serverne er slått på.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

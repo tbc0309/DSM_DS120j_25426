@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Og&oacute;lne</h2>
+
+<p>Funkcja Zarządzanie przechowywaniem umożliwia użytkownikom zarządzanie pamięcią masową w urządzeniach Synology. Aby uprościć zarządzanie pamięcią masową i utworzyć elastyczną przestrzeń z ochroną danych, Synology DSM obsługuje wiele typ&oacute;w pul pamięci.</p>
+
+<h4><a href="storage_pool.html">Pula pamięci</a></h4>
+<p>Synology NAS pozwala połączyć wiele dysk&oacute;w w jedną jednostkę pamięci masowej zwaną pulą pamięci. Synology NAS obsługuje następujące rodzaje pul pamięci:</p>
+<ul>
+	<li><strong>Pula pamięci zapewniająca lepszą wydajność</strong>:<ul>
+			<li>Przypisuje całą dostępną pojemność do pojedynczego wolumenu.</li>
+			<li>Zapewnia lepszą wydajność, ale zmniejsza elastyczność zarządzania pamięcią masową.</li>
+			<li>Umożliwia utworzenie wielu jednostek iSCSI LUN (zwykłe pliki) w wolumenach.</li>
+			<li>Obsługa maksymalnie jednej macierzy RAID.</li>
+		</ul>
+	</li>
+	<li><strong>Pula pamięci zapewniająca większą elastyczność</strong>:<ul>
+			<li>Obsługuje tworzenie wielu wolumen&oacute;w w puli pamięci.</li>
+			<li>Zapewnia większą elastyczność zarządzania pamięcią masową.</li>
+			<li>Umożliwia utworzenie wielu jednostek iSCSI LUN (zwykłe pliki) w wolumenach.</li>
+			<li>Obsługuje łączenie wielu macierzy RAID w puli pamięci (w przypadku konfiguracji jako RAID 5, RAID 6 lub RAID F1).</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>Typ RAID</h4>    
+<p>Podczas tworzenia puli pamięci należy najpierw wybrać typ RAID. R&oacute;żne typy RAID zapewniają r&oacute;żne poziomy ochrony danych, funkcje pamięci masowej i wydajności. Synology NAS obsługuje obecnie następujące typy RAID:</p>
+<ul>
+	<li><strong>Podstawowy</strong>: Używa jednego dysku do stworzenia puli pamięci. Podstawowe pule pamięci nie zapewniają nadmiarowości danych.</li>
+	<li><strong>JBOD*</strong>: Łączy co najmniej dwa dyski, aby utworzyć pulę pamięci. Pule pamięci JBOD nie zapewniają nadmiarowości danych. Pojemność puli pamięci JBOD jest r&oacute;wna całkowitej łącznej pojemności wszystkich dysk&oacute;w wchodzących w skład puli pamięci. JBOD obsługuje łączenie dysk&oacute;w o r&oacute;żnych rozmiarach.</li>
+	<li><strong>RAID 0*</strong>: Łączy co najmniej dwa dyski, aby utworzyć pulę pamięci. Grupy RAID 0&nbsp;nie zapewniają nadmiarowości danych. Jeśli zawiedzie jeden dysk w grupie, dane w puli pamięci zostaną utracone. Dostępna pojemność puli pamięci RAID 0 r&oacute;wna jest całkowitej pojemności wszystkich dysk&oacute;w. Grupy RAID 0 obsługują łączenie dysk&oacute;w o r&oacute;żnych rozmiarach.</li>
+	<li><strong>RAID 1*</strong>: Łączy 2-4 dysk&oacute;w twardych, aby utworzyć pulę pamięci. System zapisze identyczne dane na każdym z dysk&oacute;w. Grupa RAID 1 zapewnia ochronę danych tak długo, jak działa co najmniej jeden dysk. Dostępna pojemność puli pamięci RAID 1 r&oacute;wna jest pojemności najmniejszego dysku tworzącego grupę.</li>
+	<li><strong>RAID 5*</strong>: Łączy co najmniej trzy dyski, aby utworzyć pulę pamięci i rozciąga zar&oacute;wno dane jak i informacje o parzystości na wszystkie dyski. RAID 5 zapewnia nadmiarowość danych. Jeśli jeden z dysk&oacute;w przestanie działać, system można odbudować, używając informacji o parzystości na innych dyskach w grupie. Obsługuje łączenie wielu macierzy RAID po ich utworzeniu w puli pamięci dla wielu wolumen&oacute;w. Dostępna pojemność puli pamięci RAID 5 r&oacute;wna jest <span class="note_content">całkowitej pojemności połączonych macierzy RAID. Pojemność macierzy RAID&nbsp;= (liczba dysk&oacute;w - 1) x (pojemność najmniejszego z dysk&oacute;w)</span></li>
+	<li><strong>RAID 6*</strong>: Łączy co najmniej cztery dyski, aby utworzyć pulę pamięci i rozciąga zar&oacute;wno dane jak i informacje o parzystości na wszystkie dyski. RAID 6 zapewnia nadmiarowość danych. Nawet jeśli jeden z dysk&oacute;w przestanie działać, system można odbudować używając informacji o parzystości na innych dyskach w grupie. Obsługuje łączenie wielu macierzy RAID po ich utworzeniu w puli pamięci dla wielu wolumen&oacute;w. Dostępna pojemność puli pamięci RAID 6 r&oacute;wna jest <span class="note_content">całkowitej pojemności połączonych macierzy RAID. Pojemność macierzy RAID&nbsp;= (liczba dysk&oacute;w - 2) x (pojemność najmniejszego z dysk&oacute;w)</span></li>
+	<li><strong>RAID 10*</strong>: Łączy co najmniej cztery dyski, aby utworzyć pulę pamięci. Liczba dysk&oacute;w musi być parzysta. Wydajność RAID 10 jest taka sama jak RAID 0, a poziom ochrony danych jest taki sam jak w przypadku RAID 1. Dostępna pojemność puli pamięci RAID 10 = <span class="note_content">(pojemność najmniejszego dysku) X (liczba dysk&oacute;w / 2)</span></li>
+	<li><strong>RAID F1*</strong>: Ten rodzaj RAID jest przeznaczony dla dysk&oacute;w SSD (solid-state drive). Łączy co najmniej trzy dyski SSD, aby utworzyć pulę pamięci, rozciągając na wszystkich dyskach SSD zar&oacute;wno dane, jak i informacje o parzystości. Jednocześnie zapisuje więcej bit&oacute;w parzystości na określonym dysku SSD w celu uniknięcia awarii kilku dysk&oacute;w SSD w tym samym czasie. RAID F1 zapewnia nadmiarowość danych. Jeśli jeden z dysk&oacute;w SSD przestanie działać, system można odbudować, używając informacji o parzystości na innych dyskach SSD w grupie. Obsługuje łączenie wielu macierzy RAID po ich utworzeniu w puli pamięci dla wielu wolumen&oacute;w. Dostępna pojemność puli pamięci RAID F1 r&oacute;wna jest <span class="note_content">całkowitej pojemności połączonych macierzy RAID. Pojemność macierzy RAID&nbsp;= (liczba dysk&oacute;w - 1) x (pojemność najmniejszego z dysk&oacute;w)</span></li>
+</ul>
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+	<li>Typy RAID zaznaczone gwiazdką <strong>*</strong> są dostępne tylko w modelach NAS z wystarczającą liczbą przedział&oacute;w dla dysk&oacute;w. Aby dowiedzieć się, jakie typy RAID są obsługiwane przez Tw&oacute;j model, odwiedź stronę internetową <a href="https://www.synology.com" target="_blank">www.synology.com</a> w celu sprawdzenia specyfikacji.</li>
+</ul>
+</div>
+
+</body>
+</html>

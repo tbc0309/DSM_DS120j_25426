@@ -1,0 +1,11 @@
+# author: Business Platform Team
+# only handel SCSI uevent
+ENV{SUBSYSTEM}!="scsi", GOTO="scsi_end"
+ENV{SYNO_SUPPORT_SAS}!="yes", GOTO="scsi_end"
+ENV{MODALIAS}!="scsi:t-0x0d", GOTO="scsi_end"
+
+RUN+="/usr/syno/bin/syno_scemd_connector --signal 57"
+RUN+="/lib/udev/script/sas-bs-pwrctl.sh"
+ENV{ACTION}=="add|remove", RUN+="/lib/udev/script/hotplugd-util.sh prepare_eunit_hotplug_event_file"
+
+LABEL="scsi_end"

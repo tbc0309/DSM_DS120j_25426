@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Switchover</h2>
+  
+ <p>Sørg for fortsat ydelse, og minimer tjenestenedetid ved at skifte tjenester fra den aktive server på en high-availability-klynge til den redundante, passive server. Denne funktion kaldes "Switchover" eller i nogle tilfælde "Failover". Dette afsnit forklarer det grundlæggende i disse to begreber.</p>
+  
+  <h3>Switchover</h3>
+  	<p>Switchover refererer til et skift fra den aktive til den redundante, passive server i en high-availability-klynge. Under normale forhold styrer den aktive server alle tjenester. I tilfælde af at den aktive server fejler, kan du starte en switchover og overføre alle tjenester til den passive server under forudsætning af, at den passive server fungerer normalt. I det tilfælde påtager den aktive server sig rollen som passiv server, og den passive server påtager sig rollen som aktiv.</p>
+    
+<h4>Sådan starter du switchover manuelt:</h4>
+ <ol>
+  <li>Gå til fanen <b>Oversigt</b>.</li>
+  <li>Klik på <b>Administration</b> > <b>Switchover</b>.</li>
+ </ol>
+<div class="section">
+<h4>Bemærk:</h4>
+   <p>Når du udfører en switchover, påtager den aktive server sig først rollen som den passive server, hvorefter den passive server bliver den aktive. Derfor vil der gå en kort tidsperiode, hvor begge servere bliver passive og ikke kan yde tjenester normalt. Switchover'ens fuldførelsestid varierer, afhængigt af antallet og størrelsen på diskenheder eller iSCSI LUN'er (blokniveau) eller antallet og den samlede belastning af tjenester i high-availability-klyngen.</p>
+</div>
+   
+<h3>Failover</h3>
+    
+     <p>Når visse fejl opstår, kan systemet automatisk påbegynde en switchover af tjenesterne for at bevare ydelsen. Denne begivenhed kaldes "failover". Systemet kan påbegynde en failover i følgende situationer:</p>
+    
+     <ul>
+      <li><b>Nedbrudt lagerplads:</b>  En lagerplads (f.eks. diskenhed, diskgruppe, RAID Group, SSD-cache osv.) på den aktive server er brudt ned, men den tilsvarende lagerplads på den passive server fungerer normalt. Bemærk, at systemet vil ikke starte en failover, hvis ingen diskenhed eller iSCSI LUN (Blokniveau) findes på den nedbrudte lagerplads.</li>
+      <li><b>Tjenestefejl:</b> Der opstod en fejl på den overvågede tjeneste.</li>
+      <li><b>Strømnedbrud:</b> Den aktive server lukkes eller genstartes. Begge strømenheder på den aktive server har fejl. Eller strømmen er gået.</li>      
+     </ul>    
+     
+    
+<h3>Switchover-fejl</h3>
+    
+		<p>Switchover eller failover fungerer måske ikke i følgende situationer:</p>
+  			<ul>
+   				<li><b>Ufuldstændig datakopiering:</b> Når du første gang kombinerer to servere og opretter en high-availability-klynge, kræver systemet til at kopiere alle data fra den aktive til den passive server.</li>
+   				<li><b>Lagerplads på passiv server brudt sammen:</b>  En lagerplads (f.eks. diskenhed, diskgruppe, RAID Group osv.) på den passive server er brudt sammen.</li>
+                <li><b>Strømnedbrud:</b> Den passive server lukkes eller genstartes. Begge strømenheder på den passive server har fejl. Eller strømmen er gået.</li>
+                <li><b>DSM-opdatering:</b> Ved installation af DSM-opdateringer standses alle tjenester, og de genoptages, når installationen af DSM-opdateringen er fuldført.</li>      
+ </ul>
+
+  <p>Hvis du manuelt påbegynder en switchover, men tjenesterne kan ikke skiftes til den passive server, vil systemet forsøge at skifte tjenester tilbage til den aktive server.</p>
+ <p>I tilfælde af failover påbegyndes, men ingen af serverne kan påtage sig aktiv status på grund af fejl, vil high-availability-klyngen ikke kunne yde tjenester normalt. Hvis serverne ikke automatisk returnerer til <b>Standalone</b>-status, skal du trykke på knappen <b>Reset</b> på begge servere for at gendanne standardindstillinger. Når standardindstillingerne er gendannet, kan du kombinere serverne og oprette en high-availability-klynge igen.</p>
+ 
+ <h3>Uafbrudt strømforsyning</h3>
+  <p>High-availability-klynger kan kun tilsluttes til uafbrudt strømforsyning (UPS)-enheder for at reducere risikoen for uventet strømtab. Hvis strømmen går, vil serverne få backup-strøm fra den UPS-enhed, der er tilsluttet til dem. Når den UPS-enhed, der er tilsluttet til den aktive server ikke har så meget strøm tilbage, vil systemet forsøge at sende tjenesterne over til den passive server. Se retningslinjerne nedenfor.</p>
+   <ul>
+
+<li>Hvis den aktive og passive server er tilsluttet samme netværksomskifter, anbefales det, at du tilslutter begge servere til samme strømkilde som netværksomskifteren.</li>
+<li>Hvis den aktive og passive server er tilsluttet forskellige netværksomskiftere, der bruger forskellige strømkilder (f.eks. elektricitet fra forskellige leverandører), anbefales det, at du tilslutter den aktive og passive server til samme strømkilder som deres tilsluttede netværksomskiftere.</li>
+<li>Hvis den aktive og passive server er tilsluttet forskellige netværksomskiftere, der bruger forskellige UPS-enheder, anbefales det, at du tilslutter begge servere til én af UPS-enhederne i stedet for forskellige UPS-enheder. Når UPS-enheden mister strøm, bliver den aktive server underrettet, og den går i sikret tilstand, og den passive server bliver slukket korrekt. Hvis serverne ellers er tilsluttet forskellige UPS-enheder, vil den aktive server ikke kunne registrere, om UPS'en på den passive server ikke har så meget strøm tilbage, og derfor vil den passive server måske lukke uventet.</li>
+   </ul>
+
+   
+<div class="section">
+<h4>Bemærk:</h4>
+<p>Synology NAS understøtter tilslutning til lokale og SNMP UPS-enheder. Yderligere oplysninger findes i hjælpen til <strong>Kontrolpanel</strong> > <strong>Hardware</strong> > <strong>UPS</strong></p>
+</div>  
+ </body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language"  charset="utf-8"/>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>데이터 보안을 위해 Synology NAS의 데이터 백업</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>Synology NAS 백업</h1>
+<div class="tutorials_content"><img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" /><p>하드 드라이브 오류, 자연 재해 및 랜섬웨어 공격으로 인한 예기치 못한 데이터 손실은 가장 중요한 데이터에 대한 잠재적인 위협을 제기합니다. 이러한 불행한 상황으로 인한 데이터 손실을 방지하기 위해 3-2-1 데이터 보호 전략이 광범위하게 채택되어 백업 데이터를 여러 버전으로 유지합니다. 이를 통해 현재 버전 충돌이나 랜섬웨어 감염과 같은 경우에 데이터가 추가 보호됩니다.</p>
+<p>3-2-1 데이터 보호 전략은 데이터 복사본을 최소 3개 이상 보유하는 것으로, 복사본 한 개는 로컬에 저장되고 나머지는 다른 두 장치에 저장됩니다. 개인 사용자의 경우, 이 전략을 채택하여 사진, 가족 비디오 및 사용자 지정된 앨범과 같은 이전 추억에 대한 데이터를 엔터프라이즈 수준으로 보호하거나 데이터 가용성을 보장하기 위해 데이터 복사본을 최소 2개 이상 유지하도록 선택할 수 있습니다. 기업 사용자의 경우, 모든 핵심 기업 데이터와 중요 정보가 항상 보호되도록 3-2-1 전략을 따르는 것이 좋습니다.</p>
+<p>이 문서는 자신만의 3-2-1 데이터 보호 솔루션을 구축하는데 유용한 Synology의 DSM <strong>패키지 센터</strong>에서 무료로 사용 가능한 여러 도구(<strong>Hyper Backup</strong>, <strong>Snapshot Replication</strong>, <strong>USB Copy</strong> 및 <strong>Cloud Sync</strong> 포함)를 자세히 설명합니다.</p>
+
+</div>
+
+<h2>목차</h2>
+<ol>
+<li><a href="#t1">로컬 복사본이 여러 버전으로 생성되도록 같은 Synology NAS에 백업</a></li>
+<li><a href="#t2">서로 다른 대상에 백업</a></li>
+<ul>
+<li>2.1 <a href="#t2.1">외부 장치(USB)로</a></li>
+<li>2.2 <a href="#t2.2">다른 Synology NAS로</a></li>
+<li>2.3 <a href="#t2.3">파일 서버로</a></li>
+<li>2.4 <a href="#t2.4">클라우드 서비스로</a></li>
+</ul>
+<li><a href="#t3">이 문서에 소개된 백업 솔루션 비교</a></li>
+</ol>
+<hr size="1" /><!--1--><h3 class="list_head"><a name="t1" id="t1"></a>1. 로컬 복사본이 여러 버전으로 생성되도록 같은 Synology NAS에 백업</h3>
+<p>데이터 복사본을 Synology NAS에서 직접 검색할 수 있으면 데이터 손상이나 우발적인 파일 삭제와 같은 경우에 여러 버전 로컬 복사본을 통해 데이터를 빠르게 복구할 수 있습니다. 하지만 이러한 조치를 취하더라도 RAID 충돌과 하드 드라이브 오류로 인해 데이터가 손실될 수 있습니다. 따라서 더욱 우수하게 데이터를 보호하기 위해 다른 대상에 백업하면서 효율적으로 복원할 수 있도록 로컬 복사본을 여러 버전으로 생성하는 것이 좋습니다.</p>
+<p>이 섹션의 아래 내용에서는 <strong>Hyper Backup</strong>과 <strong>Snapshot Replication</strong>을 간략하게 설명합니다. 해당 기능과 필요에 맞게 패키지 중 하나를 선택할 수 있습니다.</p>
+<p><strong>Hyper Backup</strong>을 사용하여 응용 프로그램과 시스템 구성을 백업하고 데이터 일관성을 보장해야 하는 경우에 복원할 수 있습니다. 또한 이 패키지에는 블록 수준 증분 백업 기능이 있어 초기 버전과 비교 시 변경된 파일만 백업합니다. 반면 단순히 이름이 변경되거나 복제된 파일은 불필요한 저장소 소비를 방지하기 위해 파일 간 중복 제거를 통해 삭제됩니다.</p>
+<p>사용 중인 NAS 모델이 Btrfs<sup>1</sup> 파일 시스템을 지원하는 경우 <strong>Snapshot Replication</strong>을 사용하여 로컬 복사본을 생성할 수 있습니다.&nbsp;스냅샷 프로세스는 수 초 내에 진행되므로 시스템 성능에 최소한의 영향만 미칩니다. Hyper Backup과 비교 시 Snapshot Replication의 백업 속도/복구 시간이 더 빠르고, 공유 폴더와 iSCSI LUN에도 Snapshot Replication을 적용할 수 있습니다.</p>
+
+<div class="section">
+<h4>참고:</h4>
+<p>Hyper Backup과 Snapshot Replication을 사용하여 백업 작업을 생성하는 방법의 단계별 데모에 대해서는 다음 자습서를 참조하십시오.</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div>
+
+<h3 class="list_head"><a name="t2" id="t2"></a>2. 서로 다른 대상에 백업</h3>
+<p>RAID 충돌 또는 하드웨어 손상으로 인한 데이터 손실을 방지하기 위해 다양한 대상에서 오프사이트 복사본이 생성되도록 결정할 수 있습니다. 다음 섹션은 해당 백업 작업을 완료하기 위해 사용할 수 있는 일부 도구의 개요를 설명합니다.</p><!--2.1--><h4 class="list_head"><a name="t2.1" id="t2.1"></a>2.1 외부 장치(USB)로</h4>
+<p>USB는 가장 널리 사용되는 장치이므로, USB로의 백업은 간편하고 편리합니다. 이 백업 방식은 중요 정보를 RDX에 백업과 같이 다양한 파일 시스템과 외부 장치를 지원합니다.</p>
+<p><strong>Hyper Backup</strong>을 사용하여 응용 프로그램과 시스템 구성을 백업하고 필요한 경우 정확하게 같은 데이터를 복원할 수 있습니다. 또한 이 패키지에는 블록 수준 증분 백업 기능이 있어 초기 버전과 비교 시 변경된 파일만 백업합니다. 반면 단순히 이름이 변경되거나 복제된 파일은 불필요한 저장소 소비를 방지하기 위해 파일 간 중복 제거를 통해 삭제됩니다.</p>
+<p>Hyper Backup과 비교 시 <strong>USB Copy</strong>는 응용 프로그램 또는 시스템 구성을 백업할 수 없고 파일 간 중복 제거 기능이 없으므로, 저장소 효율성이 낮습니다. 하지만 이 패키지는 외부 장치를 꽂으면 데이터 백업을 시작하고 백업 프로세스가 완료되면 장치를 꺼낼 수 있습니다. 또한 USB Copy를 통해 백업된 데이터 형식을 읽을 수 있지만 Hyper Backup 해당 항목을 읽을 수 없습니다.</p>
+
+<div class="section">
+<h4>참고:</h4>
+<p>Hyper Backup과 USB Copy를 사용하여 외부 장치로 데이터를 백업하는 방법의 단계별 데모에 대해서는 다음 자습서를 참조하십시오.</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/USBCopy/usbcopy_general" target="_blank">USB Copy</a></li>
+</ul>
+</div><!--2.2--><h4 class="list_head"><a name="t2.2" id="t2.2"></a>2.2 다른 Synology NAS로</h4>
+<p>다른 Synology NAS에 백업하면 데이터는 Synology의 NAS 프로토콜을 통해 전송됩니다.</p>
+<p>저장소 효율성을 보장하면서 응용 프로그램과 구성을 백업할 수 있는 <strong>Hyper Backup</strong>을 사용하면 대상에 <strong>Hyper Backup Vault</strong>를 설치하여 간편하게 데이터를 원격 NAS 장치에 백업할 수 있으며, 패키지를 사용하여 수신 장치에서 수신한 백업 작업과 작업 관련 로그를 확인할 수 있습니다. Hyper Backup은 EXT4와 Btrfs 파일 시스템 모두 지원하지만 백업 데이터 형식을 읽을 수 없습니다.</p>
+<p><strong>Snapshot Replication</strong>은 편리하게 스냅샷을 여러 원격 Synology NAS에 복제하고 변경된 데이터 블록만 복제하여 대역폭과 시간 소비를 줄입니다. 보다 유연하게 관리할 수 있도록 복제 한 개는 최대 3개의 원격 사이트로 확장될 수 있습니다. 다시 한 번 말하지만, Btrfs<sup>1</sup> 파일 시스템을 지원하는 모델에만 Snapshot Replication을 적용할 수 있습니다.</p>
+
+<div class="section">
+<h4>참고:</h4>
+<p>Hyper Backup과 Snapshot Replication을 사용하여 다른 Synology NAS에 데이터를 백업하는 방법의 단계별 데모에 대해서는 다음 자습서를 참조하십시오.</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div><!--2.3--><h4 class="list_head"><a name="t2.3" id="t2.3"></a>2.3 파일 서버로</h4>
+<p>이 백업 방식은 rsync, HTTP, WebDAV, OpenStack 및 S3 프로토콜을 지원하지만 다른 Synology NAS에 백업 시 차지하는 볼륨에 비해 캐시 클라이언트 측의 저장소를 보다 많이 소비합니다.</p>
+<p><strong>Hyper Backup</strong>을 사용하면 rsync 및 HTTP(WebDAV 및 OpenStack) 프로토콜을 통해 데이터를 파일 서버에 백업할 수 있으며, 여러 버전이 지원되므로 데이터 보호가 강화되며, 버전 간 중복 제거를 통해 여러 버전을 저장하기 위해 필요한 볼륨이 감소됩니다. 또한 응용 프로그램과 시스템 구성 백업을 지원하므로, 간편하게 원래 설정으로 복원할 수 있습니다.</p>
+
+<div class="section">
+<h4>참고:</h4>
+<p>Hyper Backup을 사용하여 데이터를 파일 서버에 백업하는 방법의 단계별 데모에 대해서는 <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">이 자습서</a>를 참조하십시오.</p>
+</div><!--2.4--><h4 class="list_head"><a name="t2.4" id="t2.4"></a>2.4 클라우드 서비스로</h4>
+<p>클라우드 서비스로 데이터를 백업하면 매우 유연하게 오프사이트를 선택할 수 있으며, 특히 저장소 장치의 공간 사용량, 초기 구매 및 유지보수에 대해 유연하게 선택할 수 있습니다. 기업은 IT 배포 또는 하드웨어 조정에 추가 비용을 들이지 않고 변경 필요에 맞게 확장하거나 축소할 수 있습니다.</p>
+<p><strong>Hyper Backup</strong>을 사용하여 Synology NAS 사용자를 위해 클라우드에서의 데이터 가용성을 보장하는 원활한 솔루션인 Synology의 클라우드 서비스 <a href="https://c2.synology.com" target="_blank">Synology C2</a>에 데이터를 백업할 수 있습니다. 여러 가지 요금제를 선택하여 모든 브라우저에서 파일을 액세스 및 복원하고, 암호화 기술로 보장된 데이터 보안을 사용할 수 있습니다.</p>
+<p>Synology의 클라우드 서비스 이외에도 데이터를 다른 공용 클라우드에 백업하려 할 수 있습니다. Hyper Backup을 사용하면 응용 프로그램과 시스템 구성을 백업하여 백업을 여러 버전으로 공용 클라우드에 만들 뿐만 아니라 백업 데이터 일관성을 유지할 수 있습니다.</p>
+<p>단방향 업로드 기능이 활성화되면 Synology NAS 데이터를 공용 클라우드에 동기화하는 실시간 솔루션으로 <strong>Cloud Sync</strong>를 사용할 수도 있습니다.&nbsp;하지만 이 패키지는 Synology NAS에 있는 모든 파일의 현재 버전만 보존합니다. 그러나 사용 중인 클라우드 서비스가 버전 관리를 지원하는 경우 여러 버전 백업 작업을 계속 생성할 수 있습니다. 또한 대상에 동기화된 파일은 소스 데이터와 동일한 형식으로 보존됩니다.</p>
+
+<div class="section">
+<h4>참고:</h4>
+<p>Hyper Backup과 Cloud Sync를 사용하여 데이터를 클라우드 서비스에 백업하는 방법의 단계별 데모에 대해서는 다음 자습서를 참조하십시오.</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_cloud_services_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/CloudSync/cloudsync" target="_blank">Cloud Sync</a></li>
+</ul>
+</div><!--3--><h3 class="list_head"><a name="t3" id="t3"></a>3. 이 문서에 소개된 백업 솔루션 비교</h3>
+<p>하드 드라이브 오류, 자연 재해 및 랜섬웨어 공격으로 인한 데이터 손실을 방지하기 위해 오프사이트 백업 솔루션을 사용하는 것이 좋습니다. 그 중에서도 기존 장비가 없는 사용자라면 클라우드에 백업하는 것이 가장 좋습니다. 그 이유는 클라우드 서비스를 통해 하드웨어, 유지보수 및 전기 비용뿐만 아니라 감가상각비를 절약할 수 있기 때문입니다. 또한 일부 클라우드 서비스 제공업체는 유연한 요금제를 제공하므로, 사용자는 필요에 가장 적합한 솔루션을 선택할 수 있습니다. 하지만 이미 USB 드라이브, 기타 Synology NAS 또는 파일 서버와 같은 기존 장치가 있는 경우 계속 공간을 활용하여 NAS 데이터를 백업할 수 있습니다. 그러나 데이터 손실 가능성을 방지하기 위해 대상 장치를 소스 NAS로부터 멀리 떨어뜨려 놓아야 합니다.</p>
+
+<p>데이터의 오프사이트 복사본은 확실하게 보호 수준을 높일 수 있지만 빠르게 복구하려면 로컬 복사본도 있어야 합니다. 따라서 Hyper Backup 또는 Snapshot Replication의 기능을 활용하여 같은 Synology NAS나 다른 장치에 NAS 데이터 복사본을 만드는 것이 좋으며, NAS 데이터 복사본은 우수한 복원 성능을 위해 소스 데이터와 가깝게 위치해야 합니다.</p>
+
+<p>3-2-1 전략을 숙지하고 데이터 복사본을 최소 2개 이상 가지고 있다면 데이터를 손쉽게 사용할 수 있고 데이터가 잘 보호된다는 확신을 가질 수 있습니다.</p>
+
+<p>아래는 이 문서에서 소개된 모든 백업 도구에 대한 요약과 각각의 기능 비교입니다. 이 표를 참조하여 목표를 달성하는데 가장 적합한 패키지를 찾을 수 있습니다.</p>
+
+<table id="faqtable" cellspacing="5" cellpadding="5" width="100%"><tbody>
+    <tr>
+      <th width="8%">백업 대상</th>
+      <th width="8%">Hyper Backup</th>
+      <th width="8%">Snapshot Replication<sup>1</sup></th>
+      <th width="8%">USB Copy</th>
+      <th width="8%">Cloud Sync</th>
+    </tr>
+
+    <tr>
+      <td>로컬 공유 폴더</td>
+      <td>사용 가능</td>
+      <td>사용 가능</td>
+      <td>사용 불가</td>
+      <td>사용 불가</td>
+    </tr>
+
+    <tr>
+      <td>외부 장치(USB)</td>
+      <td>사용 가능</td>
+      <td>사용 불가</td>
+      <td>사용 가능</td>
+      <td>사용 불가</td>
+    </tr>
+    
+    <tr>
+      <td>다른 Synology NAS</td>
+      <td>사용 가능</td>
+      <td>사용 가능</td>
+      <td>사용 불가</td>
+      <td>사용 불가</td>
+    </tr>
+
+    <tr>
+      <td>파일 서버</td>
+      <td>사용 가능</td>
+      <td>사용 불가</td>
+      <td>사용 불가</td>
+      <td>WebDAV 및 OpenStack 데이터 동기화 전용</td>
+    </tr>
+    
+<tr>
+      <td>공용 클라우드</td>
+      <td>사용 가능</td>
+      <td>사용 불가</td>
+      <td>사용 불가</td>
+      <td>사용 가능</td>
+    </tr>
+
+<tr>
+	<td colspan="5"><strong>기능 요약</strong></td>
+</tr>
+
+<tr>
+      <td>응용 프로그램<sup>2</sup> 및 시스템 구성 백업</td>
+      <td>사용 가능</td>
+      <td>사용 불가</td>
+      <td>사용 불가</td>
+      <td>사용 불가</td>
+    </tr>
+    
+    <tr>
+      <td>백업 및 복원 성능</td>
+      <td>낮음</td>
+      <td>높음</td>
+      <td>보통</td>
+      <td>보통</td>
+    </tr>
+    
+    <tr>
+      <td>저장소 효율성</td>
+      <td>보통</td>
+      <td>높음</td>
+      <td>낮음</td>
+      <td>낮음</td>
+    </tr>
+    
+    <tr>
+      <td>백업 빈도</td>
+      <td>매일</td>
+		<td>5분(공유 폴더)</br> 15분(iSCSI LUN)</td>
+      <td>Hotplug 지원</td>
+      <td>변경 사항 발생 시 동기화</td>
+    </tr>
+
+</tbody></table>
+
+<div class="section">
+<h4>참고:</h4>
+<ol>
+	<li>Snapshot Replication은 Btrfs 파일 시스템만 지원하며 EXT4 파일 시스템을 지원하지 않습니다. Snapshot Replication을 적용할 수 있는 모델 목록에 대해서는 <a href="https://www.synology.com/dsm/packages/SnapshotReplication" target="_blank">이 페이지</a>를 참조하십시오.</li>
+	<li>일부 응용 프로그램 목록만 백업을 지원합니다. 백업 마법사의 응용 프로그램 페이지를 참조하여 자세한 내용을 확인할 수 있습니다.</li>
+</ol>
+</div>
+</body>
+</html>

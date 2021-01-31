@@ -1,0 +1,69 @@
+#!/bin/sh
+
+echo 2 > /proc/sys/net/ipv6/conf/${IFNAME}/accept_ra
+
+. /etc/ppp/ip-function
+SYNONETD_TOOL="/usr/syno/sbin/synonetdtool"
+
+gen_lease_file ()
+{
+	if [ -z $1 ]; then
+		return 1
+	fi
+
+	echo default-duid \"`/usr/syno/sbin/synonetdtool --gen-DUID`\"\; > /etc/dhclient/ipv6/dhcpv6.lease.$1
+}
+
+set_gateway_info()
+{
+	local priority=$1
+	local class=$2
+	local gateway="NULL"
+	local ip="${IPLOCAL}"
+
+	logger -p user.err -t "/etc/ppp/ipv6-up" "${class} ${IFNAME} is up"
+
+	if [ -n "${LLREMOTE}" ]; then
+		gateway="${LLREMOTE}"
+	fi
+
+	${SYNONETD_TOOL} --add-gateway-info -6 ${priority} ${IFNAME} ${gateway} NULL ${class}
+	${SYNONETD_TOOL} --refresh-gateway -6
+
+	local ipv6="${LLLOCAL}"
+	local enable_multi_gateway=`/bin/get_key_value /etc/synoinfo.conf multi_gateway`
+	if [ "xyes" = "x${enable_multi_gateway}" ]; then
+		${SYNONETD_TOOL} --add-policy-route-rule -6 multi-gateway ${IFNAME} NULL NULL ${gateway}
+		${SYNONETD_TOOL} --refresh-route-table -6 ${IFNAME} ${ipv6}
+	fi
+
+}
+
+TC_SCRIPT="/usr/syno/bin/synotc_common"
+RELAYDAEMON="/usr/syno/sbin/synorelayd"
+PPPOE_CONF="/etc/ppp/pppoe.conf"
+
+if [ -n "${IFNAME}" ]; then
+	check_is_pppoe ${PPPD_PID}
+	if [ 0 -eq $? ]; then
+		default_route=`/usr/syno/bin/synogetkeyvalue ${PPPOE_CONF} DEFAULTROUTE`
+		priority="-1"
+		class="pppoe"
+
+		if [ "xyes" = "x${default_route}" ]; then
+			priority="0"
+		fi
+
+		set_gateway_info ${priority} ${class}
+
+		/sbin/start dhcp-client6 IFACE=${IFNAME} ACTION=info
+	fi
+fi
+
+if [ -x "${TC_SCRIPT}" ]; then
+	${TC_SCRIPT} restart /etc/tc
+fi
+
+${SYNONETD_TOOL} --refresh-static-route-rules -6
+
+${RELAYDAEMON} -U

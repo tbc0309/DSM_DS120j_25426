@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>Schijven toevoegen om de opslagpoolcapaciteit uit te breiden</h2>
+
+<p>Zijn er lege schijfladen op uw Synology NAS, dan kunt u extra schijven installeren en toevoegen aan een bestaande opslagpool. Dit artikel beschrijft de uitbreiding van een bestaande opslagpool door de installatie van extra schijven.</p>
+
+<p>Aan de opslagpools met de volgende RAID-configuraties kunnen schijven worden toegevoegd:</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID 5</li>
+	<li>RAID 6</li>
+	<li>RAID F1</li>
+	<li>Een Synology Hybrid RAID (SHR) bestaat minstens uit 2 schijven</li>
+</ul>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>De status van de nieuwe schijf moet <strong>Geïnitialiseerd</strong> of <strong>Niet geïnitialiseerd</strong> zijn.</li>
+</ul>
+</div>
+	
+<h4>Schijfvereisten:</h4>
+
+<p>Zorg dat de schijven die u aan uw Synology NAS wilt toevoegen aan de volgende vereisten voldoen:</p>
+<ul>
+	<li>De RAID- of SHR-configuratie moet op schijven van hetzelfde type worden gemaakt. Het gebruik van schijven van verschillende types kan invloed hebben op de betrouwbaarheid en prestaties van het systeem. De volgende combinaties van verschillende schijftypes worden niet ondersteund voor RAID- of SHR-configuratie:
+	<ul>
+	<li>SATA-schijven en SAS-schijven</li>
+	<li>4K native schijven en non-4K native schijven</li>
+	</ul>
+	</li>
+	<li><strong>Voor SHR</strong>: De capaciteit van de schijf die u wilt toevoegen moet groter zijn dan of gelijk aan de grootste schijf op de opslagpool, of gelijk zijn aan de grootte van één van de schijven in de opslagpool.</br><span class="note_head">Voorbeeld:</span> wanneer een SHR-opslagpool uit drie schijven (2 TB, 1,5 TB en 1 TB) bestaat, moet de nieuwe toe te voegen schijf minstens 2 TB hebben voor een beter capaciteitsgebruik. U kunt schijven van 1,5 TB en 1 TB toevoegen, maar denk eraan dat een bepaalde capaciteit van de schijf met 2 TB niet zal worden gebruikt.</li>
+	<li><strong>Voor RAID 5, RAID 6 of RAID F1</strong>: De capaciteit van de schijf die u wilt toevoegen moet gelijk zijn aan of groter dan de kleinste schijf van de opslagpool.</br><span class="note_head">Voorbeeld:</span> wanneer een RAID 5-, RAID 6- of RAID F1-opslagpool uit drie schijven bestaat (2 TB, 1,5 TB en 1 TB), moet de capaciteit van de nieuwe schijf minstens 1 TB zijn.</li>
+</ul>
+
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>SHR (Synology Hybrid RAID) is alleen beschikbaar op specifieke modellen. Kijk <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">hier</a> om te controleren of SHR door uw model wordt ondersteund.</li>
+	<li>RAID F1 is uitsluitend beschikbaar op specifieke modellen. Kijk <a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank">hier</a> om te controleren of RAID F1 door uw model wordt ondersteund.</li>
+	<li>We raden het gebruik van schijven aan die in de <a href="https://www.synology.com/compatibility" target="_blank">Compatibiliteitslijst voor Synology-producten</a> staan om problemen te voorkomen. Het gebruik van incompatibele schijven kan de systeemprestaties verlagen en zelfs gegevensverlies veroorzaken.</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">Een schijf toevoegen aan een opslagpool:</a></h4>
+<p>Controleer alvorens aan de slag te gaan of de status van de opslagpool die u wilt uitbreiden op <strong>Gezond</strong> staat. Wanneer de status van de opslagpool op ongezond staat, volg de onderstaande aanbevolen acties onder status om de schijfproblemen op te lossen. Volg vervolgens onderstaande stappen om een schijf toe te voegen aan een opslagpool:</p>
+	
+<ol>
+	<li>Schakel uw Synology NAS uit.</br> <span class="note_head">Opmerking:</span> sla deze stap over als uw Synology NAS hot-swapping ondersteunt.
+	</li>
+	<li>Plaats een nieuwe schijf in een lege lade voor schijven.</br> <span class="note_head">Opmerking:</span> om uzelf niet te verwonden of uw Synology NAS te beschadigen, gaat u naar <a href="https://www.synology.com/support/download" target="_blank">Download Center</a> en selecteert u uw Synology-product. U kunt de hardware-installatiehandleiding onder <strong>Documenten</strong> > <strong>Hardware-installatiehandleiding</strong> in desgewenste taal dowloaden en de installatie-instructies van de schijf volgen.</li>
+
+	<li>Schakel uw Synology NAS in en start <strong>Storage Manager</strong>.</li>
+	<li>Ga naar de pagina <b>Opslagpool</b> en selecteer de opslagpool die u wilt uitbreiden. Klik op <strong>Schijf toevoegen</strong> in het vervolgkeuzemenu <strong>Actie</strong>.</li>
+	<li>Selecteer de schijf die u uit de lijst wilt toevoegen. Alleen schijven van hetzelfde type en capaciteitsvereisten worden weergegeven.</li>
+	<li>Volg de wizard om het proces te voltooien.</li>
+</ol>
+
+<h4>De volumegrootte uitbreiden:</h4>
+<p>Wanneer een opslagpool onvoldoende capaciteit bevat, kan de grootte van het desbetreffende volume automatisch of handmatig worden uitgebreid, al naargelang het opslagpooltype.</p>
+<ul>
+<li><b>Enkel volume-opslagpool:</b> Bij een opslagpool die enkel volume ondersteunt, wordt de volumegrootte automatisch uitgebreid na een uitbreiding van de capaciteit van de opslagpool. Raadpleeg <a href="#t1">Een schijf toevoegen aan een opslagpool</a> voor details.</li>
+<li><b>Meerdere volumes-opslagpool:</b> Bij een opslagpool die meerdere volumes ondersteunt, kan de volumegrootte handmatig worden uitgebreid zodra de opslagpool voldoende capaciteit heeft. Raadpleeg <a href="volume_expand_volume.html" target="_blank">De volumegrootte uitbreiden</a> voor details.</li>
+</ul>
+
+</body>
+</html>

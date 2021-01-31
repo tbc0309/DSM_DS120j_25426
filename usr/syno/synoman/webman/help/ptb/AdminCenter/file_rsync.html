@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Serviços de Backup - Ajuda do Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>rsync</h2>
+
+<p>Você pode permitir outros usuários façam backup de dados através do rsync de um Synology NAS ou clientes compatíveis com rsync com seu Synology NAS.</p>
+
+<h3>Habilitação do serviço Time Backup rsync</h3>
+
+<h4>Para habilitar o serviço rsync:</h4>
+
+<p>Vá para <strong>Painel de controle</strong> > <strong>Serviços de arquivos</strong> > <strong>rsync</strong>e selecione <strong>Habilitar serviços rsync</strong>.</p>
+
+
+<h4>Para atribuir privilégios de backup rsync:</h4>
+
+
+<p>Atribua os privilégios de backup rsync adequados aos usuários para que esses usuários possam fazer backup dos dados de um Synology NAS ou um rsync compatível com o servidor com o Synology NAS de destino.</p>
+
+<ol>
+<li>Vá até <b>Painel de controle</b> > <b>﻿Privilégios</b>.</li>
+<li>Selecione <strong>rsync (Sincronização da pasta compartilhada, Backup LUN em modelos suportados)</strong> e clique em <strong>Editar</strong> para atribuir privilégios.</li>
+<li>Atribuir privilégios <strong>Permitir</strong> para os usuários desejados (usuários do DSM para rsync criptografado ou contas rsync para rsync não criptografado) ou especifique ainda os endereços IP permitidos para usuários específicos.</li>
+</ol>
+
+
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Para realizar o backup do rsync de um Synology NAS que executa uma versão do DSM anterior à 3.0 ou um cliente que não é um Synology NAS e manter as informações de <b>proprietário</b> e <b>grupo</b> dos dados de origem, você precisará adicionar as contas do rsync ao grupo <b>administrators</b> e fazer backup dos dados na pasta compartilhada <b>NetBackup</b> no modo de daemon.</p>
+</div>
+
+<h3>Habilitação das contas rsync</h3>
+<p>Se você realizar o backup rsync de um cliente não Synology NAS, é necessário criar contas rsync no Synology NAS de destino para que os usuários rsync possam fazer o backup dos dados em seu Synology NAS.</p>
+
+<h4>Para habilitar contas rsync:</h4>
+<ol>
+<li>Vá para <b>Painel de controle</b> > <b>Serviços de arquivos</b> > <strong>rsync</strong> e selecione <b>Habilitar conta rsync</b>.</li>
+<li>Clique em <b>Editar conta rsync</b> para definir os usuários e as senhas correspondentes para autenticação.</li>
+<li>Clique em <b>Aplicar</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Se o serviço rsync for criptografado (isto é, se tiver uma porta de criptografia SSH especificada), o sistema aplicará diretamente os nomes de usuário e senhas do usuário do DSM como suas contas rsync.</li>
+<li>Se o serviço rsync for criptografado, você precisará criar contas rsync correspondentes para eles.</li>
+</ul>
+</div>
+
+
+<h3>Uso da configuração rsync personalizada</h3>
+
+<p>É possível personalizar a configuração do rsync e configurar privilégios do usuário e o destino do backup em seu Synology NAS. Outras pessoas podem então realizar o backup rsync a partir de seus dispositivos Synology NAS ou clientes compatíveis com rsync para pastas compartilhadas de destino (ou “módulos de backup”) em seu Synology NAS.</p>
+
+<h4>Para usar configuração rsync personalizada:</h4>
+
+<ol>
+<li>Faça login no seu dispositivo Synology NAS através de Telnet ou SSH.</li>
+<li>Especifique o módulo de backup e os usuários autorizados no arquivo de configuração do rsync “<b><code>/etc/rsyncd.conf</code></b>”. Para obter informações detalhadas, consulte a página do manual de <b>rsyncd.conf</b> no seu cliente rsync ou <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">aqui</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Se o módulo de backup e a pasta compartilhada compartilharem o mesmo nome, a configuração do módulo de backup será usada.</p>
+</div>
+
+
+<h3>Ativar o limite de velocidade</h3>
+<p>Você pode controlar a largura de banda máxima utilizável ou o backup rsync para usuários e grupos.</p>
+
+<h4>Para ativar o limite de velocidade:</h4>
+<ol>
+  <li>Vá até <b>Painel de controle</b> > <b>Serviços de arquivo</b> > <strong>rsync</strong>. Selecione uma das opções a seguir:
+  <ul>
+  <li><strong>Não há limite de velocidade</strong></li>
+  <li><strong>Habilitar limite de velocidade</strong></li>
+  <li><strong>Habilitar o limite de velocidade de acordo com uma programação</strong> (Clique em <strong>Definir programação</strong> para realizar outras modificações.)</li>
+  </ul>
+  
+<div class="section">
+<h4>Nota:</h4>
+<p>Esta é uma configuração para todo o servidor e anulará as configurações de usuários e grupos individuais. Por exemplo, escolher <strong>Nenhum limite de velocidade</strong> desabilita as configurações de limite de velocidade de todos os usuários e grupos.</p>
+</div>
+  </li>
+
+  <li>Se você habilitou o limite de velocidade, clique em <strong>Configurações do limite de velocidade</strong> e clique no usuário/grupo desejado para modificar as configurações:
+    <ul>
+       <li><strong>Nenhum:</strong> Nenhum limite de velocidade será aplicado quando os membros do grupo transferirem arquivos com o serviço.</li>
+      <li><strong>Aplicar configurações de grupo</strong>: O usuários compartilhará as mesmas configurações de limite de velocidade com o grupo afiliado.</li>
+      <li><strong>Constante</strong>: Um limite de velocidade fixo e constante será aplicado ao usuário ou membros do grupo. Os limites de velocidade de upload e download podem ser especificados nos campos à esquerda.</li>
+      <li><strong>Personalizado</strong>: Dois limites de velocidade diferentes podem ser especificados e aplicados ao usuário ou aos membros de grupo, de acordo com uma programação. Clique em <strong>Personalizar</strong> para modificar as configurações de limite de velocidade e definir uma programação.</li>
+    </ul>
+  </li>
+ <li>Clique em <b>Aplicar</b>.</li> 
+
+</ol>
+<div class="section">
+  <h4>Nota:</h4>
+    <p>A seção <strong>Resultado (UL/DL)</strong> exibe os limites de carregamento e download atuais do usuário de acordo com suas configurações individuais e de grupo. Por exemplo, se o usuário "Achilles" tiver um limite de download individual de 100 KB/s, mas pertence a um grupo com um limite de 500 KB/s, a seção <strong>Resultado (UL/DL)</strong> mostrará "0/500".</p>
+</div>
+
+</body>
+</html>

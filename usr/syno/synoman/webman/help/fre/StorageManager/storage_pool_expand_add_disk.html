@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>Ajouter des disques pour &eacute;tendre la capacit&eacute; du groupe de stockage</h2>
+
+<p>S&apos;il existe des emplacements de disque vides sur votre Synology NAS, vous pouvez installer des disques suppl&eacute;mentaires et les ajouter &agrave; un groupe de stockage existant. Cet article vous explique comment &eacute;tendre un groupe de stockage existant en installant des disques suppl&eacute;mentaires.</p>
+
+<p>Il est possible d&apos;ajouter des disques aux groupes de stockage dans les configurations&nbsp;RAID suivantes&nbsp;:</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID&nbsp;5</li>
+	<li>RAID&nbsp;6</li>
+	<li>RAID&nbsp;F1</li>
+	<li>Un Synology&nbsp;Hybrid&nbsp;RAID (SHR) compos&eacute; d&apos;au moins 2&nbsp;disques</li>
+</ul>
+
+<div class="section"><h4>Remarque&nbsp;:</h4>
+<ul>
+	<li>L&apos;&eacute;tat du nouveau disque ajout&eacute; doit afficher <strong>Initialis&eacute;</strong> ou <strong>Non initialis&eacute;</strong>.</li>
+</ul>
+</div>
+	
+<h4>Conditions requises pour le disque&nbsp;:</h4>
+
+<p>Assurez-vous que les disques que vous souhaitez ajouter &agrave; votre Synology NAS r&eacute;pondent aux exigences suivantes&nbsp;:</p>
+<ul>
+	<li>La configuration RAID ou SHR doit &ecirc;tre cr&eacute;&eacute;e par des disques de m&ecirc;me type. L&apos;utilisation de disques de types diff&eacute;rents affecte la fiabilit&eacute; et les performances du syst&egrave;me. Les types de disques mixtes cit&eacute;s ci-dessous ne sont pas pris en charge pour la configuration RAID ou SHR&nbsp;:<ul>
+	<li>Disques&nbsp;SATA et disques&nbsp;SAS&nbsp;;</li>
+	<li>Disques natifs 4K et disques natifs non 4K.</li>
+	</ul>
+	</li>
+	<li><strong>Pour SHR</strong>&nbsp;: la capacit&eacute; du disque que vous souhaitez ajouter doit &ecirc;tre &eacute;gale ou sup&eacute;rieure au disque le plus volumineux du groupe de stockage, ou &eacute;gale &agrave; l&apos;un des disques du groupe de stockage.</br><span class="note_head">Exemple&nbsp;:</span> si un groupe de stockage&nbsp;SHR est compos&eacute; de trois disques (2&nbsp;To, 1,5&nbsp;To et 1&nbsp;To), il est recommand&eacute; d&apos;ajouter un nouveau disque d&apos;au moins 2&nbsp;To afin de garantir une utilisation optimale de la capacit&eacute;. Vous pouvez envisager d&apos;ajouter des disques de 1,5&nbsp;To et 1&nbsp;To, mais notez que certaines capacit&eacute;s du disque de 2&nbsp;To resteront inutilis&eacute;es.</li>
+	<li><strong>Pour RAID&nbsp;5, RAID&nbsp;6 et RAID&nbsp;F1</strong>&nbsp;: la capacit&eacute; du disque que vous souhaitez ajouter doit &ecirc;tre &eacute;gale ou sup&eacute;rieure &agrave; celle du plus petit disque du groupe de stockage.</br><span class="note_head">Exemple&nbsp;:</span> si un groupe de stockage RAID&nbsp;5, RAID&nbsp;6 ou RAID&nbsp;F1 est compos&eacute; de trois disques (2&nbsp;To, 1,5&nbsp;To et 1&nbsp;To), alors la capacit&eacute; du nouveau disque doit &ecirc;tre d&apos;au moins 1&nbsp;To.</li>
+</ul>
+
+
+<div class="section"><h4>Remarque&nbsp;:</h4>
+<ul>
+	<li>SHR (Synology Hybrid RAID) n&apos;est disponible que sur certains mod&egrave;les. Cliquez <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">ici</a> pour v&eacute;rifier si votre mod&egrave;le b&eacute;n&eacute;ficie d&apos;une prise en charge limit&eacute;e de SHR.</li>
+	<li>RAID&nbsp;F1 n&apos;est disponible que sur certains mod&egrave;les. Cliquez <a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank">ici</a> pour v&eacute;rifier si votre mod&egrave;le prend en charge RAID&nbsp;F1.</li>
+	<li>Nous vous recommandons d&apos;utiliser des disques figurant dans la <a href="https://www.synology.com/compatibility" target="_blank">Liste de compatibilit&eacute; des produits Synology</a> pour &eacute;viter tout probl&egrave;me. L&apos;utilisation de disques non compatibles pourrait r&eacute;duire les performances syst&egrave;me, voire provoquer une perte de donn&eacute;es.</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">Pour ajouter un disque &agrave; un groupe de stockage&nbsp;:</a></h4>
+<p>Avant de commencer, assurez-vous que le groupe de stockage que vous souhaitez &eacute;tendre est &agrave; l&apos;&eacute;tat <strong>Sain</strong>. Si l&apos;&eacute;tat du groupe de stockage n&apos;est pas sain, veuillez suivre les actions recommand&eacute;es indiqu&eacute;es sous l&apos;&eacute;tat pour r&eacute;soudre les probl&egrave;mes de disque. Suivez ensuite les &eacute;tapes ci-dessous pour ajouter un disque &agrave; un groupe de stockage&nbsp;:</p>
+	
+<ol>
+	<li>&Eacute;teignez votre Synology NAS.</br> <span class="note_head">Remarque&nbsp;:</span> Vous pouvez ignorer cette &eacute;tape si votre Synology NAS prend en charge le remplacement &agrave; chaud.</li>
+	<li>Installez un nouveau disque dans un emplacement de disque vide.</br> <span class="note_head">Remarque&nbsp;:</span> Afin d&apos;&eacute;viter de vous blesser ou d&apos;endommager votre Synology NAS, veuillez consulter le <a href="https://www.synology.com/support/download" target="_blank">Centre de t&eacute;l&eacute;chargements</a> et s&eacute;lectionner votre produit Synology. Dans <strong>Documents</strong>&nbsp;&gt; <strong>Guide d&apos;installation mat&eacute;rielle</strong>, vous pouvez t&eacute;l&eacute;charger le guide d&apos;installation mat&eacute;rielle dans la langue de votre choix afin de suivre les instructions d&apos;installation du disque.</li>
+
+	<li>Mettez sous tension votre Synology NAS et lancez le <strong>Gestionnaire de stockage</strong>.</li>
+	<li>Acc&eacute;dez &agrave; la page <b>Groupe de stockage</b> et s&eacute;lectionnez le groupe de stockage que vous souhaitez &eacute;tendre. Cliquez sur <strong>Ajouter un disque</strong> dans le menu d&eacute;roulant <strong>Action</strong>.</li>
+	<li>S&eacute;lectionnez le disque que vous souhaitez ajouter dans la liste. Seuls les disques qui r&eacute;pondent aux exigences en mati&egrave;re de type et de capacit&eacute; sont r&eacute;pertori&eacute;s.</li>
+	<li>Suivez les instructions de l&apos;assistant pour finaliser le processus.</li>
+</ol>
+
+<h4>Pour augmenter la taille du volume&nbsp;:</h4>
+<p>Une fois qu&apos;un groupe de stockage contient une capacit&eacute; suffisante, la taille du volume correspondant peut &ecirc;tre &eacute;tendue automatiquement ou manuellement, selon le type de groupe de stockage.</p>
+<ul>
+<li><b>Groupe de stockage &agrave; volume unique&nbsp;:</b> Dans le cas d&apos;un groupe de stockage prenant en charge un seul volume, la taille de ce dernier est automatiquement &eacute;tendue une fois la capacit&eacute; du groupe de stockage &eacute;tendue. Pour plus d&apos;informations, reportez-vous &agrave; la rubrique <a href="#t1">Pour ajouter un disque &agrave; un groupe de stockage</a>.</li>
+<li><b>Groupe de stockage &agrave; plusieurs volumes&nbsp;:</b> Dans le cas d&apos;un groupe de stockage prenant en charge plusieurs volumes, la taille du volume peut &ecirc;tre &eacute;tendue manuellement une fois que le groupe de stockage contient une capacit&eacute; suffisante. Pour plus de d&eacute;tails, veuillez consulter la rubrique <a href="volume_expand_volume.html" target="_blank">Augmenter la taille du volume</a>.</li>
+</ul>
+
+</body>
+</html>

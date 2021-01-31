@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Opret forbindelse to VPN - Synology DSM - Hjælp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Turn your Synology NAS into a VPN client and create profiles to connect your Synology NAS to a VPN server.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h1>Opret forbindelse to VPN</h1>
+<p>Du kan nemt gøre din Synology NAS til en VPN-klient og oprette forbindelse til en eksisterende VPN (Virtual Private Network)-server via protokollerne PPTP, OpenVPN eller L2TP/IPSec. Hvis du har flere VPN-servere, kan du også oprette specifikke VPN-profiler til hver server, så du hurtigt kan skifte og oprette forbindelse til forskellige VPN-servere med ét klik.</p>
+
+
+<div class="section">
+<h4>Hvad er VPN?</h4>
+<p>Et VPN, eller virtuelt privat netværk, er en løsning til opfyldelse af behovet for sikker adgang til ressourcer på dit private netværk fra internettet. Omkostningen ved dette fysiske netværkssystem og den tekniske support vil stige eksponentielt for virksomheder og visse enkeltpersoner, når deres behov for udvidelse af netværksmuligheder stiger. Ved at overveje omkostningseffektiviteten og langsigtet vedligeholdelse er VPN en smart og mere og mere attraktiv løsning. Med kryptering og andre sikkerhedsmekanismer sætter VPN-teknologi forretningsmedlemmer i stand til at få nem adgang til firmaets centrale netværk og udnytte ressourcerne, som var det bare et LAN. Enkeltpersoner kan også åbne ressourcer på deres hjemme-LAN, når de ikke er hjemme.</p>
+</div>
+
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li> Synology NAS kan kun oprette forbindelse til OpenVPN-servere, der understøtter tunneller i tun-style på Layer3.</li>
+<li>Før du installerer VPN-pakken, skal du sikre dig, at du har en VPN-server, du kan oprette forbindelse til. Det foreslås, at du opretter forbindelse til VPN-tjenester, der styres på Synology NAS, der kører <strong>VPN Server</strong>-pakken. Konfigurer endnu en Synology NAS som VPN-server ved at se <b>DSM - Hjælp</b> > <b>VPN Server:</b> > <b>Konfiguration af VPN Server</b> for yderligere vejledning.</li>
+</ul>
+</div>
+
+
+<h4>Sådan opretter du VPN-profiler:</h4>
+<ol>
+<li>Gå til <b>Kontrolpanel</b> > <b>Netværk</b>.</li>
+
+  <img src="about:blank" class="help_image"/>
+  
+<li>På fanen <b>Netværksinterface</b> klikker du på <b>Opret</b> og <b>Opret VPN-profil</b>.</li>
+
+  <img src="about:blank" class="help_image"/>
+  
+<li>Når du opretter en VPN-profil, kan du vælge en af følgende forbindelsestyper:
+	<ul>
+		<li><b>PPTP</b>: PPTP (Point-to-Point Tunneling Protocol) er en almindeligt brugt VPN-løsning, der understøttes af de fleste klienter (herunder Windows, Mac, Linux og mobilenheder).</li>
+		<li><b>OpenVPN</b>: OpenVPN er en åben kilde til implementering af VPN-tjenesten. Den beskytter VPN-forbindelsen med SSL/TLS-kryptering.</li>
+		<li><b>L2TP/IPSec</b>: L2TP (Layer 2 Tunneling Protocol) over IPSec giver virtuelt private netværk øget sikkerhed og understøttes af de fleste klienter (f.eks. Windows, Mac, Linux og mobilenheder).</li>
+	</ul>
+</li>
+
+  <img src="about:blank" class="help_image"/>
+
+<li>Der henvises til nedenstående afsnit, hvor der er oplysninger om konfiguration af tre typer VPN-forbindelser.</li>
+</ul>
+</ol>
+
+<h4>Sådan opretter du en PPTP-profil:</h4>
+
+  <ol>
+  <li>Når du promptes om at vælge en VPN-forbindelsesmetode, vælger du <b>PPTP</b>, og klik så på <b>Næste</b>.</li>
+  <li>Vælg et navn på profilen, angiv adresse på den VPN-server, du vil oprette forbindelse med, og indtast dit brugernavn og din adgangskode til serveren. Klik på <b>Næste</b> for at fortsætte.</li>
+
+<div class="section">
+<h4>Bemærk:</h4>
+
+<ul>
+<li>Brugernavnet, adgangskoden og adressen på VPN-serveren skal angives af administratoren af VPN-serveren.</li>
+</ul>
+</div>
+
+  <li>Vælg en af følgende godkendelsesprotokoller fra menuen <b>Godkendelse</b> for at beskytte VPN-klientens adgangskode under godkendelse:
+	<ul>
+		<li><b>PAP</b>: Adgangskoden bliver ikke krypteret under godkendelsen.</li>
+		<li><b>CHAP</b>: Adgangskoden bliver krypteret med CHAP (Challenge-Handshake Authentication Protocol).</li>
+		<li><b>MS CHAP</b>: Adgangskoden bliver krypteret med Microsoft CHAP version 1.</li>
+		<li><b>MS CHAP v2</b>: Adgangskoden bliver krypteret med Microsoft CHAP version 2.</li>
+	</ul>
+  </li>
+  <li>Hvis du valgte <b>MS CHAP</b> eller <b>MS CHAP v2</b>, skal du vælge en af de følgende fra menuen <b>Kryptering</b> til at kryptere VPN-forbindelsen:
+	<ul>
+		<li><b>Ingen MPPE</b>: VPN-forbindelsen bliver ikke beskyttet med Microsoft Point to Point-kryptering.</li>
+		<li><b>Kræv MPPE (40/128 bit)</b>: VPN-forbindelsen bliver beskyttet med 40-bit eller 128-bit Microsoft Point to Point-kryptering.</li>
+		<li><b>Maksimum MPPE (128 bit)</b>: VPN-forbindelsen bliver beskyttet med 128-bit Microsoft Point to Point-kryptering, hvilket yder det højeste sikkerhedsniveau.</li>
+	</ul>
+  </li>
+    <div class="section">
+    <h4>Bemærk:</h4>
+  
+    <ul>
+    <li>Godkendelses- og krypteringsindstillingerne skal være de samme som de indstillinger, der er specificeret på VPN-serveren. Kontakt administratoren af VPN-serveren for at få flere oplysninger.</li>
+    </ul>
+    </div>
+   
+<li>Marker et af følgende afkrydsningsfelter, afhængigt af dine behov:
+	<ul>
+		<li><b>Brug standard-gateway på fjernnetværk</b>: Aktiver denne mulighed for at rute Synology NAS's netværkstrafik til den angivne VPN-server.</li>
+		<li><b>Sæt andre netværksenheder i stand til at oprette forbindelse via denne Synology-servers internetforbindelse</b>: Aktiver denne mulighed for at sætte netværksenheder, der er inden for samme LAN som din Synology NAS, i stand til at oprette forbindelse til den samme VPN-server.</li>
+		<li><b>Genopret forbindelsen, når VPN-forbindelse mistes</b>: Hvis VPN-forbindelsen mistes uventet, vil systemet forsøge at genoprette forbindelsen fem gange med et forsøg hvert 30. sekund.</li>
+	</ul>
+</li>
+
+<li>Klik på <b>Anvend</b>.</li>
+</ol>
+<h4>Sådan opretter du en OpenVPN-profil:</h4>
+<ol>
+<li>Når du promptes om at vælge en VPN-forbindelsesmetode, vælger du <b>OpenVPN</b>, og klik så på <b>Næste</b>.</li>
+<li>Vælg et navn på profilen, angiv adresse på den VPN-server, du vil oprette forbindelse med, og indtast dit brugernavn og din adgangskode til serveren.</li>
+<li>
+I feltet <b>Certifikat</b> klikker du på knappen <strong>Gennemse</strong> for at søge efter og importere certifikatfilen (f.eks. <b>ca.crt</b>), som blev eksporteret fra VPN-serveren. Klik på <b>Næste</b> for at fortsætte.</li>
+
+<div class="section">
+<h4>Bemærk:</h4>
+
+<ul>
+<li>Brugernavnet, adgangskoden, adressen og certifikatet til VPN-serveren skal angives af administratoren af VPN-serveren.</li>
+</ul>
+</div>
+
+<li>Marker et af følgende afkrydsningsfelter, afhængigt af dine behov:
+	<ul>
+		<li><b>Aktiver komprimering på VPN-linket</b>: Aktiver denne mulighed for at udføre datakomprimering, før du overfører data via VPN. Denne mulighed kan øge overførselshastigheden, men kan forbruge flere systemressourcer.</li>
+		<li><b>Brug standard-gateway på fjernnetværk</b>: Aktiver denne mulighed for at rute Synology NAS's netværkstrafik til den angivne VPN-server.</li>
+		<li><b>Sæt andre netværksenheder i stand til at oprette forbindelse via denne Synology-servers internetforbindelse</b>: Aktiver denne mulighed for at sætte netværksenheder, der er inden for samme LAN som din Synology NAS, i stand til at oprette forbindelse til den samme VPN-server.</li>
+		<li><b>Genopret forbindelsen, når VPN-forbindelse mistes</b>: Hvis VPN-forbindelsen mistes uventet, vil systemet forsøge at genoprette forbindelsen fem gange med et forsøg hvert 30. sekund.</li>
+	</ul>
+</li>
+<li>Klik på <b>Anvend</b>.</li>
+</ol>
+
+
+
+<h4>Sådan opretter du en OpenVPN-profil (via .ovpn):</h4>
+<ol>
+<li>Når du promptes om at vælge en VPN-forbindelsesmetode, vælger du <b>OpenVPN (via import af en .ovpn-fil)</b>, og klik så på <b>Næste</b>.</li>
+<li>Vælg et navn på den nye ny profil, og i feltet <strong>Importer .ovpn-fil</strong> klikker du på <strong>Gennemse</strong> for at vælge og importere en .ovpn-fil, der er eksporteret fra VPN Server .</li>
+<li>Indtast følgende oplysninger fra din VPN Server-administrator: Dit <strong>brugernavn</strong>, din <strong>adgangskode</strong>, og importer <b>CA-certifikat</b>-filen (f.eks. ca.crt).</li>
+<li>Hvis VPN Server-udbyderen også gav dig en <b>TLS-auth-nøgle</b>, <b>klientnøgle</b>, <b>klientcertifikat</b> eller <b>tilbagekaldsliste for certifikat</b>, skal du klikke på <strong>Avancerede valgmuligheder</strong> og importere dem i deres respektive felter.</li>
+<li>Klik på <b>Næste</b> for at fortsætte. </li>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Brugernavnet, adgangskoden, adressen og eventuelle andre filer, f.eks. certifikater elleræ nøgler skal angives af administratoren af VPN-serveren.</li>
+</ul>
+</div>
+
+<li>Marker et af følgende afkrydsningsfelter, afhængigt af dine behov:</li>
+<ul>
+<li><b>Aktiver komprimering på VPN-linket</b>: Aktiver denne mulighed for at udføre datakomprimering, før du overfører data via VPN. Denne mulighed kan øge overførselshastigheden, men kan forbruge flere systemressourcer.</li>
+<li><b>Brug standard-gateway på fjernnetværk</b>: Aktiver denne mulighed for at rute Synology NAS's netværkstrafik til den angivne VPN-server.</li>
+<li><b>Sæt andre netværksenheder i stand til at oprette forbindelse via denne Synology-servers internetforbindelse</b>: Aktiver denne mulighed for at sætte netværksenheder, der er inden for samme LAN som din Synology NAS, i stand til at oprette forbindelse til den samme VPN-server.</li>
+<li><b>Genopret forbindelsen, når VPN-forbindelse mistes</b>: Hvis VPN-forbindelsen mistes uventet, vil systemet forsøge at genoprette forbindelsen fem gange med et forsøg hvert 30. sekund.</li>
+</ul>
+<li>Klik på <b>Anvend</b>.</li>
+</ol>
+
+
+
+
+
+<h4> Sådan opretter du en L2TP/IPSec-profil:</h4>
+<ol>
+<li>Når du promptes om at vælge en VPN-forbindelsesmetode, vælger du <b>L2TP/IPSec</b>, og klik så på <b>Næste</b>.</li>
+<li>Vælg et navn på profilen, angiv adresse på den VPN-server, du vil oprette forbindelse med, og indtast dit brugernavn og din adgangskode til serveren. Du skal også indtaste den foruddelte nøgle til VPN-serveren. Klik derefter på <strong>Næste</strong>.</li>
+
+<div class="section">
+<h4>Bemærk:</h4>
+
+<ul>
+<li>Brugernavnet, adgangskoden, adressen og den foruddelte nøgle til VPN-serveren skal angives af administratoren af VPN-serveren.</li>
+</ul>
+</div>
+
+<li>Vælg en af følgende godkendelsesprotokoller fra menuen <b>Godkendelse</b> for at beskytte VPN-klientens adgangskode under godkendelse:
+	<ul>
+		<li><b>PAP</b>: Adgangskoden bliver ikke krypteret.</li>
+		<li><b>CHAP</b>: Adgangskoden bliver krypteret med CHAP (Challenge-Handshake Authentication Protocol).</li>
+		<li><b>MS CHAP</b>: Adgangskoden bliver krypteret med Microsoft CHAP version 1.</li>
+		<li><b>MS CHAP v2</b>: Adgangskoden bliver krypteret med Microsoft CHAP version 2.</li>
+	</ul>
+</li>
+
+<div class="section"><h4>Bemærk:</h4>
+<ul>
+	<li>Godkendelses- og krypteringsindstillingerne skal være de samme som de indstillinger, der er specificeret på VPN-serveren. Kontakt administratoren af VPN-serveren for at få flere oplysninger.</li>
+</ul>
+</div>
+
+<li>Marker et af følgende afkrydsningsfelter, afhængigt af dine behov:
+	<ul>
+		<li><b>Brug standard-gateway på fjernnetværk</b>: Aktiver denne mulighed for at rute Synology NAS's netværkstrafik til den angivne VPN-server.</li>
+		<li><b>Sæt andre netværksenheder i stand til at oprette forbindelse via denne Synology-servers internetforbindelse</b>: Aktiver denne mulighed for at sætte netværksenheder, der er inden for samme LAN som din Synology NAS, i stand til at oprette forbindelse til den samme VPN-server.</li>
+		<li><strong>Server ligger bag en NAT-enhed</strong>: Som standard tillader L2TP/IPSec-protokollen ikke oprettelse af forbindelse til en VPN-server bag en NAT-enhed. Aktiver denne mulighed for at spring denne begrænsning over, så Synology NAS kan oprette forbindelse til en L2TP/IPSec VPN-server bag en NAT-enhed.</li>
+		<li><b>Genopret forbindelsen, når VPN-forbindelse mistes</b>: Hvis VPN-forbindelsen mistes uventet, vil systemet forsøge at genoprette forbindelsen fem gange med et forsøg hvert 30. sekund.</li>
+	</ul>
+</li>
+<li>
+  Klik på <b>Anvend</b>.
+</li>
+</ol>
+
+
+<h4>Sådan opretter du forbindelse til eller afbryder en forbindelse fra en VPN-server:</h4>
+
+<ol>
+<li>Vælg en VPN-profil.</li>
+<li>Klik på <b>Opret forbindelse</b> eller <b>Afbryd</b>.</li>
+
+  <img src="about:blank" class="help_image"/>
+  
+</ol>
+
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Kun en profil kan få forbindelse ad gangen.</li>
+</ul>
+</div>
+
+<h4>Sådan retter du en VPN-profil:</h4>
+
+<ol>
+<li>Vælg en VPN-profil.</li>
+<li>Klik på <strong>Rediger</strong>.</li>
+
+</ol>
+
+
+</body>
+</html>

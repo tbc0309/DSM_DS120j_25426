@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+import json
+import re
+import sys
+
+COLLECTOR_VERSION_KEY = "collector_version"
+COLLECTOR_VERSION = 1
+
+
+def get_value_from_synoinfo(key):
+	info_file = '/etc/synoinfo.conf'
+
+	pattern = '^%s="(.*)"$' % (key)
+	regex = re.compile(pattern)
+
+	for line in open(info_file, 'rb'):
+		m = regex.search(line)
+		if not m:
+			continue
+
+		return m.group(1)
+	
+	return None
+
+def get_string_from_synoinfo(key, default):
+	value = get_value_from_synoinfo(key)
+	if not value:
+		return default
+	return value
+
+def get_boolean_from_synoinfo(key, default):
+	value = get_value_from_synoinfo(key)
+	if not value:
+		return default
+	
+	if value == 'yes' or value == 'true':
+		return True
+
+	if value == 'no' or value == 'false':
+		return False
+
+	return default
+
+def main():
+	''' Result output
+	{
+		COLLECTOR_VERSION_KEY: COLLECTOR_VERSION
+		enable_mobile_video: Boolean
+		thumbnail_convert_quality: String
+	}
+	'''
+	result = {
+		COLLECTOR_VERSION_KEY: COLLECTOR_VERSION,
+		'enable_mobile_video': False,
+		'thumbnail_convert_quality': ''
+	}
+
+	result['enable_mobile_video'] = get_boolean_from_synoinfo('enable_mobile_video', False)
+	result['thumbnail_convert_quality'] = get_string_from_synoinfo('thumb_conv_quality', '')
+
+	print(json.dumps(result))
+
+if __name__ == '__main__':
+	main()

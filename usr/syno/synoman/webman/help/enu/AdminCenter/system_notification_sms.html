@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>SMS</h2>
+
+<p>You can enable SMS notifications in order for Synology NAS to send you  notification messages via SMS when status changes or errors occur to the system, such as connection loss, fan behavior change, power failure, storage volume running out of space, or back/restoration failure, etc.</p>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>The event of fan behavior change is not available on a fan-less model, such as EDS14. For more information, please visit <a href="https://www.synology.com/" target="_blank">Synology website</a>.</li>
+</ul>
+</div>
+
+<h4>To enable SMS notifications:</h4>
+<p>Tick <b>Enable SMS notifications</b> and complete the following settings:</p>
+<ol>
+  <li>Select a SMS provider from the <strong>SMS service provider</strong> drop-down list. The default service providers are "clickatell", "clickatell-2017" and "SendinBlue-v3".</li>
+  <li>Click <b>Add SMS service provider</b> to create a new SMS service provider configuration or click <b>Delete</b> to delete the selected SMS provider configuration.</li>
+	<li>If your SMS service provider use <b>Username</b> and <b>Password</b> for authentication, please select the corresponding categories for the parameters. In the <b>Username</b> field, enter the username of your SMS service account. In <b>Password</b> and <b>Confirm password</b> field, enter and confirm the password of your SMS service account.</li>
+	<li>If your SMS service provider use <b>API key</b> for authentication, please select the category, <b>API key</b> for the corresponding parameter. In the <b>API key</b> field, enter the API key which is provided by your SMS service provider.</li>
+	<li>If your SMS service provider gives you a parameter to modify sender's name, please select category <b>Sender</b> for the corresponding parameter. In the <b>Sender</b> field, enter the sender's name, the name must follow SMS service provider's rule.</li>
+	<li>Enter your <b>Primary phone number</b> or <b>Secondary phone number</b>. If both numbers are entered, SMS notification messages will  be sent to both numbers.</li>
+	<li>If you do not wish to receive too many messages, tick <b>Enable SMS interval limit</b> and limit the number of notification messages to one message per the time interval you specified.</li>
+	<li>Click <b>Send a test SMS message</b> to send a test SMS message to the phone number you specified. If no message is received, it means the configuration is incorrect.</li>
+	<li>Click <b>Apply</b> to save the configuration, or click <b>Reset</b> to cancel the setup.</li>
+</ol>
+
+<div class="section">
+  <h4>Note:</h4>
+	<ul>
+		<li>The language of SMS notification is set at <strong>Notification Language</strong>. To change your SMS notification language, go to <strong>Main Menu</strong> &gt; <strong>Control Panel</strong> &gt; <strong>Regional Options</strong>,  click the <strong>Language</strong> tab, and choose your preferred language from the <br>drop-down menu in the <strong>Notification Language</strong> section.</li>
+	
+		<li>All the SMS service providers will send notification messages in <b>English</b> except default SMS service providers: "clickatell" and "clickatell-2017".</li>
+		
+	</ul>
+
+	<h4>Limitations:</h4>
+	<ul>
+		<li>Username: case sensitive and must be between 1 and 32 Unicode characters.</li>
+		<li>Password: case sensitive and must be between 0 and 128 displayable characters, including letters, numbers, signs, and space.</li>
+		<li>API Key: case sensitive and must be between 1 and 256 Unicode characters.</li>
+		<li>Sender: case sensitive and must be between 1 and 64 Unicode characters.</li>
+		<li>The SMS interval limit  must be between 1 and 10000 minutes.</li>
+	</ul>
+</div>
+<h4>To create a SMS provider configuration:</h4>
+<ol>
+	<li>Click <b>Add SMS service provider</b>.</li>
+	<li>In the <b>Provider name</b> field, enter the name of your SMS service provider.</li>
+	<li>In the <b>SMS URL</b> field, enter the SMS URL. You can obtain the SMS URL from your SMS service provider.</li>
+	<li>Choose GET or POST in <b>HTTP Method</b>. You can obtain this information from your SMS service provider's API documents.</li>
+	<li>Click <b>Next</b>.</li>
+
+	<li>In <b>Edit HTTP request header</b>, you have to add parameters that are listed on your SMS service provider's API documents.</li>
+	<li>Click <b>Next</b>.</li>
+	<li>In <b>Edit HTTP request body</b>, if you chose <b>POST</b> in <b>HTTP method</b>, you have to add parameters that are listed on your SMS service provider's API documents.</li>
+	<li>Click <b>Next</b>.</li>
+	<li>The system will break down the SMS URL, HTTP request header and HTTP request body into several parameters. Define each parameter by selecting the corresponding category. Each parameter category can be used only once except <b>Other</b>.</li>
+</ol>
+<div class="section"><h4>Limitations:</h4> 
+<ol>
+<li>Provider name: case sensitive and must be between 1 and 32 Unicode characters.</li>
+<li>SMS URL: case sensitive and must be between 1 and 500 Unicode characters.This SMS URL is only for setup purpose. No SMS message will be sent after setup is completed. The format of this URL is provided by the SMS service provider. Using Clickatell as an example, a possible URL is: <br><span class="note_content">https://api.clickatell.com/http/sendmsg?user=TestUser&amp;password=TestPassword&amp;api_id=3148203&amp;to=886123456789&amp;text=Hello+world</span></li>
+<li>Parameter: case sensitive and must be between 1 and 32 Unicode characters.</li>
+<li>Value: case sensitive and must be between 1 and 256 Unicode characters.</li>
+<li>You can add 10 parameters at most.</li>
+<li>Please note that in "message content" parameter, the space between "Hello" and "world" will be replaced by a particular character defined by the service provider. Using Clickatell as an example, the value of "message content" parameter will be "Hello+world", character "+" is being used as space character in Clickatell.</li>	
+</ol>
+
+</div>
+</body>
+</html>

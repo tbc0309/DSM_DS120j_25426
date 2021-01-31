@@ -1,0 +1,121 @@
+#!/bin/bash
+system_dump_script=syno_system_dump
+log_file=/var/log/syno_sys_status.log
+skip_log_file=/var/log/syno_sys_status_skip.log
+dump_running=/var/run/lock/syno_system_dump.lock
+tehuti_low_mem_counter=/proc/driver/syno_tehuti_low_mem_counter
+
+get_gateway()
+{
+        #    route -n |
+        while IFS=$'\n' read line
+        do
+                echo $line | awk '{print $4}' |grep G > /dev/null
+                if [ 0 -eq $? ]; then
+                        gateway=`echo $line | awk '{print $2}'`
+                        break
+                fi
+        done < <(route -n)
+}
+
+run_dump()
+{
+        echo "[date] $(date)"
+        echo [ps result]
+        ps axwf
+        echo ""
+
+        echo [vmstat result]
+        cat /proc/vmstat
+        echo ""
+
+        echo [interrupts result]
+        cat /proc/interrupts
+        echo ""
+
+        echo [slabinfo result]
+        cat /proc/slabinfo
+        echo ""
+
+        echo [memoryinfo result]
+        cat /proc/meminfo
+        echo ""
+
+        echo [zoneinfo result]
+        cat /proc/zoneinfo
+        echo ""
+
+        echo [df result]
+        df -x fuse.gvfsd-fuse -x cifs -x nfs4 -x nfs
+        echo ""
+
+        echo [top result]
+        /usr/bin/top -b -n 2 -w 1024
+        echo ""
+
+        echo [route result]
+        route -n
+        echo ""
+
+        echo [ping gateway]
+        get_gateway
+        if [ ! -z $gateway ]; then
+                ping -c 3 $gateway
+                echo ""
+        fi
+
+        echo [ifconfig result]
+        ifconfig -a
+        echo ""
+
+        echo [/tmp big files]
+        find /tmp -printf '%s %p\n' | sort -nr | head
+
+        if [ -e $tehuti_low_mem_counter ]; then
+            echo [tehuti packet loss counter]
+            cat $tehuti_low_mem_counter
+            echo ""
+        fi
+
+        echo [HW monitor]
+        cat /run/hwmon/*
+        echo ""
+
+        echo ""
+        echo ""
+}
+
+skip()
+{
+        echo [date] `date` >> $skip_log_file
+        echo [ps result] >> $skip_log_file
+        ps axwf >> $skip_log_file
+        echo >> $skip_log_file
+}
+
+add_crontab()
+{
+        echo */3$'\t'*$'\t'*$'\t'*$'\t'*$'\t'root$'\t'/usr/syno/sbin/$system_dump_script >> /etc/crontab
+        synoservice --reload crond
+}
+
+remove_crontab()
+{
+        sed -i /$system_dump_script/d /etc/crontab
+        synoservice --reload crond
+}
+
+if [ "$1" == "enable" ]; then
+        add_crontab
+elif [ "$1" == "disable" ]; then
+        remove_crontab
+else
+        (
+                if flock -n -x 9
+                then
+                        run_dump >> $log_file
+                else
+                        skip
+                fi
+        ) 9>$dump_running
+fi

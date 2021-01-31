@@ -1,0 +1,20 @@
+{{#alias}}
+location = /{{alias}} {
+    {{#acl.rules}}
+    {{#access}}allow{{/access}}{{^access}}deny{{/access}} {{address}};
+    {{/acl.rules}}
+    rewrite ^/(.*)$ $1/ permanent;
+}
+location ^~ /{{alias}}/ {
+    {{#acl.rules}}
+    {{#access}}allow{{/access}}{{^access}}deny{{/access}} {{address}};
+    {{/acl.rules}}
+    rewrite ^/{{alias}}/(.+)$ /$1 break;
+    root {{root}}{{^root}}/usr/syno/synoman{{/root}};
+    index {{index}}{{^index}}index.html{{/index}};
+    location = /{{alias}}/ {
+        try_files $uri /{{alias}}/{{index}}{{^index}}index.html{{/index}}$is_args$query_string;
+    }
+    include app.d/{{include}};
+}
+{{/alias}}

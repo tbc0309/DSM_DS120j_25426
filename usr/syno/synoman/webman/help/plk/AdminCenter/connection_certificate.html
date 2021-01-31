@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="certificate"></a>Certyfikat</h2>
+
+<p>Przy użyciu certyfikatu można zabezpieczyć usługi SSL serwera Synology NAS, takie jak WWW (wszystkie usługi HTTPS), e-mail czy FTP. Certyfikat umożliwia użytkownikom sprawdzanie tożsamości serwera i administratora przed wysłaniem jakichkolwiek poufnych informacji.</p>
+
+<p>W sekcji <strong>Panel sterowania</strong> > <strong>Bezpieczeństwo</strong> > <strong>Certyfikat</strong> można wykonać poniższe czynności:</p>
+
+<ul>
+<li>Uzyskać certyfikaty od Let's Encrypt.</li>
+<li>Utworzyć certyfikaty z podpisem własnym.</li>
+<li>Utworzyć żądania podpisania certyfikatu do innych urzędów certyfikacji (CA).</li>
+<li>Podpisać żądania podpisania certyfikatów od innych aplikantów</li>
+<li>Zarządzać certyfikatami na serwerze Synology NAS.</li>
+</ul>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>W systemie DSM 6.0 można tworzyć i importować certyfikaty do serwera Synology NAS.</li>
+<li>Po kliknięciu opcji <strong>Ustaw jako certyfikat domyślny</strong> obecnie przetwarzany certyfikat zostanie użyty jako certyfikat domyślny. Poprzedni certyfikat domyślny utraci status certyfikatu domyślnego.</li>
+</ul>
+</div>
+
+
+<h3>Certyfikaty od Let's Encrypt</h3>
+
+<h4>Aby uzyskać certyfikaty od Let&apos;s Encrypt:</h4>
+<p>Darmowe i bezpieczne certyfikaty SSL/TLS można uzyskać automatycznie od <a href="https://letsencrypt.org/" target="_blank">Let&apos;s Encrypt</a> – otwartego i zaufanego urzędu certyfikacji.</p>
+
+<ol>
+<li>Kliknij <strong>Dodaj</strong>.</li>
+<li>Wybierz opcję <strong>Dodaj nowy certyfikat</strong>, a następnie kliknij przycisk <strong>Dalej</strong>.</li>
+<li>Wybierz opcję <strong>Uzyskaj certyfikat od Let&apos;s Encrypt</strong>.</li>
+<li>Określ następujące informacje: <ul><li><strong>Nazwa domeny</strong>: Wprowadź domenę zarejestrowaną u dostawcy domen.</li>
+<li><strong>E-mail</strong>: Wprowadź adres e-mail użyty podczas rejestracji certyfikatu.</li>
+<li><strong>Alternatywna nazwa podmiotu</strong>: Aby umożliwić objęcie wielu domen jednym certyfikatem, wprowadź w tym polu inne nazwy domen. Możesz także ubiegać się o certyfikat symbolu wieloznacznego, wprowadzając nazwy domen Synology DDNS w następującym formacie:<div class="code_div"><code>*.NAZWA_DOMENY_SYNOLOGY_DDNS</code></div></li></ul></li>
+<li>Kliknij przycisk <strong>Zastosuj</strong>, aby zapisać ustawienia. Po potwierdzeniu, certyfikat zostanie natychmiast zaimportowany do serwera Synology NAS.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4><ul><li>Certyfikaty od Let&apos;s Encrypt można uzyskać za pomocą ograniczonej liczby kont e-mail. W przypadku przekroczenia limitu, aby uzyskać więcej certyfikatów, należy skorzystać z wcześniej zarejestrowanego adresu e-mail.</li>
+<li>Liczba certyfikatów dla pojedynczej domeny jaką można uzyskać od Let&apos;s Encrypt jest ograniczona. Jeśli limit zostanie przekroczony, wykonaj jedną z następujących czynności: <ul><li>Wprowadź nazwę bieżącej domeny jako Alternatywną nazwa podmiotu (SAN) i skorzystaj z innej nazwy domeny dla żądania certyfikatu.</li> 
+		<li>Wprowadź <code>*.NAZWA_DOMENY_SYNOLOGY_DDNS</code> jako SAN, aby ubiegać się o certyfikat symbolu wieloznacznego.</li></ul><li>Let&apos;s Encrypt przed wydaniem certyfikatu dla domen przeprowadzi ich weryfikację. Upewnij się, że serwer Synology NAS i router mają otwarty port 80 w celu weryfikacji domeny przez Internet. Cała pozostała komunikacja z Let&apos;s Encrypt wykorzystuje protokół HTTPS zapewniający bezpieczeństwo serwerowi Synology NAS.</li>
+<li>Certyfikaty wydane przez Let&apos;s Encrypt są ważne przez 90 dni. Przed wygaśnięciem certyfikatu DSM automatycznie przedłuży ich ważność po pomyślnej weryfikacji domeny. Upewnij się, że serwer Synology NAS i router mają otwarty port 80 w celu przedłużenia ważności certyfikatu.</li>
+<li>Certyfikaty symboli wieloznacznych są obsługiwane tylko przez usługę Synology DDNS.</li></ul></div>
+
+<h3>Certyfikaty z podpisem własnym</h3>
+
+<p>Certyfikat z podpisem własnym to certyfikat utworzony i podpisany przez ten sam podmiot, którego tożsamość poświadcza (w tym przypadku jest to serwer Synology NAS). Certyfikaty z podpisem własnym są podpisywane przy użyciu klucza prywatnego wygenerowanego przez serwer Synology NAS. Certyfikaty z podpisem własnym nie są wydawane przez zewnętrzne urzędy certyfikacji, dlatego w mniejszym stopniu dowodzą tożsamości serwera i służą zazwyczaj do zabezpieczenia kanałów między serwerem a grupą znanych użytkowników.</p>
+
+
+<h4>Aby utworzyć certyfikaty z podpisem własnym:</h4>
+<ol>
+	<li>Kliknij <strong>Dodaj</strong>.</li>
+<li>Wybierz opcję <strong>Dodaj nowy certyfikat</strong>, a następnie kliknij przycisk <strong>Dalej</strong>.</li>
+<li>Wybierz opcję <strong>Utwórz certyfikat z podpisem własnym</strong>.</li>
+	<li>Postępuj zgodnie z instrukcjami wyświetlanymi przez kreatora konfiguracji.</li>
+</ol>
+
+
+<h3>Żądania podpisania certyfikatów (CSR)</h3>
+
+<p>Oprócz certyfikatów wydanych przez Let's Encrypt oraz samodzielnie podpisanych certyfikatów można również uzyskać certyfikaty od innych komercyjnych, zewnętrznych urzędów certyfikacji. Aby uzyskać certyfikat konieczne może być wykonanie dwóch poniższych czynności:</p>
+
+<ul>
+<li>Utwórz żądanie podpisania certyfikatu (CSR): Zaszyfrowany tekst wygenerowany przez serwer Synology NAS, zawierający informacje, które zostaną dodane do certyfikatu, takie jak nazwa domeny, nazwa organizacji, ogólna lokalizacja i adres e-mail.</li>
+<li>Podaj osobiste lub firmowe dane identyfikacyjne urzędowi certyfikacyjnemu i potwierdź prawa właściciela domeny wprowadzone w polu „Nazwa pospolita” w żądaniu podpisania certyfikatu.</li>
+</ul>
+
+
+<h4>Aby utworzyć żądania podpisania certyfikatu:</h4>
+
+<ol>
+	<li>Kliknij <strong>CSR</strong>.</li>
+    <li>Wybierz opcję <strong>Utwórz żądanie podpisania certyfikatu (CSR)</strong>.</li>
+	<li>Postępuj zgodnie z instrukcjami wyświetlanymi przez kreator konfiguracji, aby utworzyć i pobrać żądanie podpisania certyfikatu.</li>
+    <li>Wyślij żądanie CSR i wymagane informacje do urzędu certyfikacji w celu potwierdzenia.</li>
+</ol>
+
+<p>Po otrzymaniu żądanego certyfikatu wydanego przez urząd certyfikacyjny możesz zaimportować go wraz z kluczem prywatnym.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Wraz z żądaniem podpisania certyfikatu zostanie także wygenerowany klucz prywatny. Urzędy certyfikacji nie potrzebują tego klucza prywatnego. Zachowaj klucz prywatny serwera Synology NAS w miejscu bezpiecznym i poufnym.</p>
+</div>
+
+<h4>Aby podpisać żądania podpisania certyfikatu:</h4>
+
+<p>Użytkownicy innych urządzeń mogą wysyłać żądania podpisania certyfikatu, aby uzyskać certyfikowany dostęp do serwera Synology NAS. Możesz podpisać ich żądania, korzystając z certyfikatu głównego serwera Synology NAS i wysłać wygenerowane certyfikaty do aplikantów.</p>
+
+<ol>
+	<li>Kliknij <b>CSR</b>.</li>
+	<li>Kliknij przycisk <b>Podpisz żądanie podpisania certyfikatu (CSR)</b>.</li>
+	<li>Prześlij żądanie podpisania certyfikatu i wprowadź odpowiednie informacje. </li>
+	<li>Kliknij przycisk <b>Dalej</b>, aby podpisać żądanie podpisania certyfikatu i utworzyć odpowiedni certyfikat.</li>
+</ol>
+
+
+
+<h3>Zarządzanie certyfikatami</h3>
+
+
+<h4>Aby zaimportować certyfikaty:</h4>
+<p>Możesz zaimportować wcześniej wyeksportowane certyfikaty lub certyfikaty uzyskane od komercyjnego lub zewnętrznego urzędu certyfikacji wraz ze swoim kluczem prywatnym, aby potwierdzić tożsamość serwera Synology NAS dla innych urządzeń.</p>
+
+<ol>
+<li>Kliknij <strong>Dodaj</strong>.</li>
+<li>Wybierz opcję <strong>Dodaj nowy certyfikat</strong>, a następnie kliknij przycisk <strong>Importuj certyfikat</strong>.</li>
+<li>Aby zakończyć importowanie certyfikatu, postępuj zgodnie z instrukcjami wyświetlanymi w oknie kreatora.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Certyfikaty pośrednie są opcjonalne w przypadku niektórych certyfikatów wystawianych przez urzędy certyfikacji.</li>
+<li>Certyfikaty muszą być w formacie X.509 PEM.</li>
+<li>Klucze prywatne muszą być w formacie RSA i nie mogą być chronione hasłem.</li>
+</ul>
+</div>
+
+
+<h4>Aby wyeksportować certyfikaty:</h4>
+
+<p>Istniejące certyfikaty można pobrać w celach zarządzania lub archiwizacji. Mogą one zostać również zaimportowane przez urządzenia innych użytkowników w celu zabezpieczenia komunikacji między nimi a serwerem Synology NAS. Wyeksportowany plik zawiera certyfikat, klucz prywatny i certyfikat główny z podpisem własnym serwera Synology NAS. </p>
+
+<ol>
+<li>Wybierz żądany certyfikat.</li>
+<li>Kliknij przycisk <strong>Eksportuj certyfikat</strong>.</li>
+</ol>
+
+<h4>Aby przedłużyć ważność certyfikatów:</h4>
+
+<p>Przed wygaśnięciem certyfikatu można przedłużyć jego ważność, używając tej opcji.</p>
+
+<ol>
+	<li>Kliknij <b>CSR</b>.</li>
+	<li>Zaznacz opcję <b>Przedłuż certyfikat</b> i kliknij przycisk <b>Dalej</b>.</li>
+	<li>Pobierz wygenerowany klucz prywatny oraz żądanie podpisania certyfikatu.</li>
+    <li>Wyślij żądanie CSR do wybranego urzędy certyfikacji, aby uzyskać certyfikat o przedłużonej ważności.</li>
+</ol>
+
+
+<h4>Aby zastąpić certyfikaty:</h4>
+<p>Jeśli nie chcesz już korzystać z istniejących certyfikatów , możesz je zastąpić innymi certyfikatami.</p>
+
+<ol>
+<li>Kliknij <strong>Dodaj</strong>.</li>
+<li>Wybierz opcję <strong>Zamień istniejący certyfikat</strong> oraz niechciany certyfikat z rozwijanego menu.</li>
+<li>Aby zakończyć zastępowanie certyfikatu, postępuj zgodnie z instrukcjami wyświetlanymi w oknie kreatora.</li>
+</ol>
+
+
+<h4>Aby edytować certyfikaty:</h4>
+<p>Możesz edytować opis certyfikatu lub ustawić inny certyfikat jako certyfikat domyślny.</p>
+
+<ol>
+<li>Wybierz żądany certyfikat.</li>
+<li>Kliknij przycisk <strong>Edytuj</strong>, aby wykonać poniższe czynności:<ul>
+<li>Zmienić opis certyfikatu, a następnie kliknąć przycisk <strong>OK</strong>.</li>
+<li>Wybrać opcję <strong>Ustaw jako certyfikat domyślny</strong>, aby przypisać certyfikatowi status status certyfikatu domyślnego, a następnie kliknąć przycisk <strong>Zastosuj</strong>.</li>
+</ul>
+</ol>
+
+
+
+<h4>Aby skonfigurować certyfikaty:</h4>
+<p>Możesz zmienić certyfikat dla usługi na inny tak, aby pasował do potrzeb.</p>
+
+<ol>
+<li>Kliknij przycisk <strong>Konfiguruj</strong>, aby wyświetlić wszystkie usługi i odpowiadające im certyfikaty.</li>
+<li>Kliknij bieżący certyfikat docelowej usługi.</li>
+<li>Z listy rozwijanej wybierz odpowiedni certyfikat.</li>
+<li>Kliknij przycisk <strong>OK</strong>.</li>
+</ol>
+
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Do połączenia, które nie znajduje się na liście usług, zostanie zastosowany certyfikat <strong>Domyślny systemu</strong>.</li>
+</ul>
+</div>
+
+
+
+
+<h4>Aby usunąć certyfikaty:</h4>
+
+<ol>
+<li>Wybierz niechciany certyfikat.</li>
+<li>Kliknij przycisk <strong>Usuń</strong>, aby zakończyć usuwanie certyfikatu.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Nie można usunąć certyfikatu domyślnego.</li>
+<li>Po usunięciu certyfikatu, który nie jest certyfikatem domyślnym, certyfikat domyślny przejmie używające go usługi. Należy uważać, ponieważ certyfikat domyślny może nie być w pełni zgodny z danymi usługami.</li>
+</ul>
+
+<p></p>
+</div>
+
+</body>
+</html>
+

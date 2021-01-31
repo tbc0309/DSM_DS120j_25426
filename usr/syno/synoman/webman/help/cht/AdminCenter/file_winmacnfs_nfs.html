@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>NFS 服務</h2>
+<p>NFS 服務可讓 Linux 用戶端存取 Synology NAS 裝置上的資料。</p>
+<h4>若要啟動 NFS 服務：</h4>
+<ol>
+<li>前往<strong>控制台</strong> &gt; <strong>檔案服務</strong> &gt;  <strong>SMB/AFP/NFS</strong> 並勾選<b>啟動 NFS</b>。</li>
+<li>按一下<b>套用</b>。</li>
+</ol>
+
+
+<div class="section">
+  <h4>注意：</h4>
+<ul>
+<li>Synology NAS 目前支援 NFSv2、NFSv3 及 NFSv4。</li>
+<li>在掛載的指令中，可加入參數 <strong>-o vers=2</strong>、<strong>-o vers=3</strong> 或 <strong>-o vers=4</strong>，即可指定想要使用的 NFS 版本。</li>
+<li>下列共用資料夾無法透過 NFS 進行存取：<ul>
+    <li>加密共用資料夾</li>
+    <li>PetaSpace 共用資料夾</li>
+    <li>使用 HFS、HFS Plus 及 exFAT 檔案系統的共用資料夾</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>若要設定 Linux 用戶端對共用資料夾的存取權限：</h4>
+<p>請前往<b>控制台</b> &gt; <b>共用資料夾</b>。選擇共用資料夾，並按一下<strong>編輯</strong>來管理 NFS 規則及管制 Linux 用戶端對於此共用資料夾的存取權限。</p>
+
+
+<h3>設定 NFSv4 及 NFSv4.1 支援</h3>
+<p>Synology NAS 預設支援 NFSv2 及 NFSv3。您可以決定是否要啟動 NFSv4 或 NFSv4.1。</p>
+
+<h4>若要啟動 NFSv4 或 NFSv4.1 支援：</h4>
+<ol>
+<li>勾選<b>啟動 NFSv4 支援</b>或<b>啟動 NFSv4.1 支援</b>。</li>
+<li>在 <b>NFSv4 網域</b>欄位中輸入您欲使用的 NFSv4 網域名稱。此欄位為選擇性且可留空。</li>
+<li>按一下<b>套用</b>。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<p>使用 NFSv4 掛載共用資料夾時，請注意下列資訊。否則，與使用者名稱相關的檔案操作會發生問題。</p>
+<ul>
+<li>NFS 用戶端必須啟動 idmapd。</li>
+<li>NFS 用戶端上 idmapd.conf 的 NFSv4 網域設定必須與 Synology NAS 上的 <b>NFSv4 網域</b>欄位設定一致。</li>
+</ul>
+</div>
+
+<p>啟動 NFSv4.1 支援後將自動支援 NFSv4。</p>
+
+<h4>多重路徑</h4>
+<p>NFSv4.1 提供多重路徑功能，可讓用戶端同時使用多個網路連線存取 NFS 伺服器。多重路徑可增加頻寬，並能在連線中斷時提供流量容錯移轉來維持網路連線。
+目前僅有 VMware ESXi 6.0 及以上版本的 NFSv4.1 用戶端支援多重路徑功能。若要瞭解更多關於 VMware 對 NFSv4.1 的支援，請參考此篇 <a target="_blank" href="https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.storage.doc/GUID-8A929FE4-1207-4CC5-A086-7016D73C328F.html">VMware 文件</a>。</p>
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>僅有支援 NFSv4.1 的機種支援多重路徑功能。</li>
+</ul>
+</div>
+
+
+<h3>進階設定</h3>
+
+<h4>套用 UNIX 預設權限</h4>
+<p>勾選<strong>套用 UNIX 預設權限</strong>後，上傳或建立檔案及資料夾時，便會套用 Linux 用戶端設定的 UNIX 預設權限，而不會套用 Windows ACL 權限。所套用的權限和透過 UNIX 指令 <strong>umask</strong> 設定的權限完全相同。預設的 umask 值為 022。</p><div class="section">
+<h4>注意：</h4>
+<ul>
+  <li>針對已啟動 Windows ACL 的共用資料夾 (所有共用資料夾，但不包含「photo」及外接硬碟上的共用資料夾)，請在您的 Linux 或 FTP 用戶端執行 <strong>chmod</strong> 指令來將資料夾及檔案權限類型從 Windows ACL 改為 UNIX。</li>
+  <li>啟動此選項可能會導致不同通訊協定間出現權限不一致的情況。若要避免不一致的情況，建議您停用此選項。</li>
+</ul>
+</div>
+
+<h4>自訂連接埠</h4>
+<p>您可以爲 statd 及 nlockmgr 服務自訂連接埠號碼。</p>
+
+<ol>
+<li>選取<strong>自訂連接埠</strong>。</li>
+<li>在 <strong>statd 埠 </strong>及 <strong>nlockmgr 埠</strong>中輸入連接埠號碼。</li>
+<li>按一下<b>套用</b>。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>如果希望使用 NFSv3 服務，前往<strong>控制台</strong> &gt; <strong>安全性</strong> &gt; <strong>防火牆</strong>，並且新增一項防火牆規則，從內建服務的清單中選擇並啟動「Mac/Linux file server」。</li>
+</ul>
+</div>
+<h4>設定讀取 / 寫入的封包大小</h4>
+<p>倘若讀取 / 寫入的封包大小無法透過 NFS 用戶端設定，您可以在此欄位指定預設數值。</p>
+
+<ol>
+<li>從<strong>讀取封包大小</strong>及<strong>寫入封包大小</strong>欄位選擇想要的封包大小。</li>
+<li>按一下<b>套用</b>。</li>
+<li>重新掛載共用資料夾。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>變更讀取 / 寫入的封包大小之後，您必須重新掛載共用資料夾才能使新的設定生效。</li>
+<li>這些設定只會影響透過 UDP (User Datagram Protocol，「使用者資料包通訊協定」) 連線的 NFS 用戶端。</li>
+</ul>
+</div>
+
+<h3>Kerberos 設定</h3>
+<p>Kerberos 為一網路認證通訊協定。可讓經由非安全網路溝通的用戶端及伺服器，以安全的方式相互認證並證實彼此身分。Synology NAS 提供了匯入現有 Kerberos 金鑰的選項。金鑰成功匯入之後，NFS 用戶端可以使用 Kerberos 認證通訊協定連線至 Synology NAS。</p>
+
+<h4>若要匯入 Kerberos 金鑰：</h4>
+<ol>
+<li>按一下 <strong>Kerberos 設定</strong>。</li>
+<li>按一下<b>匯入</b>按鈕。</li>
+<li>選擇您要匯入的 Kerberos 金鑰。</li>
+<li>按一下<b>確定</b>。</li>
+</ol>
+
+<h3><a name="idmap"></a>Kerberos 識別碼對應</h3>
+<p>您可以將個別的 Kerberos 原則對應至本地的 DSM 使用者帳號。</p>
+<h4>若要將 Kerberos 原則對應至本地使用者帳號：</h4>
+<ol>
+<li>按一下 <strong>Kerberos 設定</strong>。</li>
+<li>前往<strong>識別碼對應</strong>頁籤。</li>
+<li>按一下<b>新增</b>按鈕。選擇下列其中一個項目。</li>
+<ul>
+<li><strong>識別碼對應</strong>：輸入 Kerberos 原則以及與其對應的本地使用者帳號。</li>
+<li><strong>建議的對應清單</strong>：此選項顯示由系統產生的 Kerberos 原則及本地使用者對應選項清單。</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4>注意：</h4>
+<ul>
+	<li>Kerberos 僅適用於具備內部硬碟的機種。</li>
+	<li>如果您想將透過 Kerberos 連線的 NFS 用戶端對應至現有的網域 / LDAP 使用者帳號，請確認您已加入目錄服務。此外，目錄伺服器必須具有包含相對應 Kerberos 原則的屬性。
+		<ul>
+		<li><strong>網域使用者</strong>：對應屬性的格式應為 <strong>userPrincipalName</strong>。</li>
+		<li><strong>LDAP 使用者</strong>：對應屬性的格式應為 <strong>GSSAuthName</strong>。</li>
+		</ul></li>
+	<li>如果使用者無法成功對應至本地使用者或網域 / LDAP 使用者，則該使用者應對應至「guest」。<li>對應優先順序為：本地使用者 &gt; 網域 / LDAP 使用者 &gt; guest。</li>
+	<li>如果您想修改 NFS 用戶端的存取權限，請使用 Windows 存取控制清單 (Access Control List，ACL)。<strong>控制台</strong> &gt; <strong>使用者帳號</strong>提供的權限選項不適用於 NFS 用戶端。</li>
+</ul>
+</div>
+
+</body>
+</html>

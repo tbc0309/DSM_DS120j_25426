@@ -1,0 +1,118 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>ストレージ プールを修理 - Synology DSM ヘルプ</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to repair a storage pool on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>ストレージ プールの修復</h2>
+
+<p>ストレージ プール エラーは、ドライブのクラッシュなど、さまざまな理由で発生します。場合によっては、次の手順でエラーを診断して問題を修正することができます。</p>
+	
+<p>ここに記載されている<strong>修復</strong>機能は、データ冗長性のある RAID タイプ (少なくとも 2 台のドライブを含む SHR、RAID 1、RAID 5、RAID 6、RAID F1、RAID 10) でのみ使用できます。この機能はストレージ プールを修復できますが、不具合のあるドライブは修復できないのでご注意ください。</p>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>当社は、<a href="https://www.synology.com/compatibility" target=blank>Synology 製品互換性リスト</a>のドライブを使用して問題を防止することを推奨しています。互換性のないドライブを使用すると、システムのパフォーマンスに悪影響を及ぼしたり、データを損失したりする可能性があります。</li>
+<li>SHR (Synology Hybrid RAID) は特定のモデルでのみ利用可能です。SHR の詳細は、<a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">こちら</a>を参照してください。</li>
+</ul>
+</div>
+	
+<h3>障害が発生したシステム パーティションとストレージ プールを修復する</h3>
+
+<p>システムパーティションでエラーが発生すると、システムパーティションにアクセスできないことを知らせるメッセージが表示されます。以下の手順で問題のトラブルシューティングを行ってください。</p>
+
+<ol>
+<li>[<strong>ストレージ マネージャ</strong>] を起動します。</li>
+<img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/>
+
+<li>[<strong>概要</strong>] ページを開き、[<strong>修理</strong>] リンクをクリックします。システムがシステム パーティションの修復を開始します。</li>
+
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/fail_system_partitions.png" class="help_image"/>
+</ol>
+
+<h3>劣化したストレージ プールの修復</h4>
+
+<p>ドライブのデータにアクセスできないがデータ損失はまだ発生していない場合、ストレージ プールは<strong>劣化</strong>します。このようなエラーは、データの冗長性を持つ RAID タイプ (少なくとも2台のドライブを含む SHR、RAID 1、RAID 5、RAID 6、RAID F1、RAID 10) でしか発生しません。劣化したストレージ プールの修理を開始する前に、不良ドライブを正常なドライブに交換してから、欠陥のあるドライブを取り外すか、正常なドライブに交換してください。</p>
+
+<h4>ドライブの要件：</h4>
+<p>不良ドライブは、次の基準に一致ドライブ正常なドライブと交換してください。</p>
+	
+<ul>
+<li><b>RAID 1、RAID 5、RAID 6、RAID F1、RAID 10 ストレージ プールの場合</b>：交換用ドライブのサイズは、必ずストレージ プールの最小ドライブと同じまたはそれ以上のサイズにします。</li>
+<li><b>SHR-1 ストレージ プールの場合</b>：交換用ドライブは、以下の基準のいずれかを満たしている必要があります。
+<ul>
+<li>交換用ドライブのサイズは、必ず不良ドライブのサイズと同じまたはそれ以上のサイズにします。</li>
+<li>ストレージ プール内の最大ドライブを除外した場合、交換用ドライブのサイズは、残りのドライブの最大サイズと同じかそれ以上である必要があります。<br><span class="note_head">例：</span>
+<ul>
+<li>例1：SHR-1 が 3TB、2TB、2TB、1TB のドライブで構成されている。3TB のドライブが不良の場合、2TB かそれ以上のサイズのドライブで修復できます。</li>
+<li>例2：SHR-1 が 4TB、4TB、2TB、2TB のドライブで構成されている。4TB のドライブが不良の場合、4TB かそれ以上のサイズのドライブで修復できます。</li>
+<li>例3：SHR-1 が 4TB、4TB、2TB、2TB のドライブで構成されている。2TB のドライブが不良の場合、2TB かそれ以上のサイズのドライブで修復できます。</li>
+</ul>	
+</li>
+			
+</ul>
+</li>
+<li><b>SHR-2 ストレージ プールの場合</b>：交換用ドライブは、以下の基準のいずれかを満たしている必要があります。
+<ul>
+<li>交換用ドライブのサイズは、必ず不良ドライブのサイズと同じまたはそれ以上のサイズにします。</li>
+<li>ストレージ プール内の 2 個の最大ドライブを除外した場合、交換用ドライブのサイズは、残りのドライブの最大サイズと同じかそれ以上である必要があります。</li>
+</ul>	
+</li>
+</ul>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>使用可能なドライブが 1 つ以上のストレージ プールを保護するための Hot Spare ドライブに割り当てられている場合、Hot Spare ドライブは劣化したストレージ プールを自動的に修復します。詳しくは、<a href="hotspare.html" target="_blank">Hot Spare</a> を参照してください。</li>
+</ul>
+</div>
+
+
+<h4>劣化したストレージ プールを修復する：</h4>
+
+<p>以下の手順で、劣化したストレージ プールを修復してください。</p>	
+<ol>
+<li>[<strong>Storage Manager</strong>] > [<strong>ストレージ プール</strong>] に移動し、[<strong>劣化</strong>] 状態のストレージ プールを選択します。</li> 
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/volume_degraded.png" class="help_image"/>
+<li>ストレージ プール情報を表示し、ドライブの状態を確認します。</li>
+<li>その後、<strong>[HDD/SSD]</strong> ページに移動して、不良ドライブがどれか確認してください。</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/hdd_ssd.png" class="help_image"/>
+
+<li>故障したドライブを Synology NAS から取り外して、新しいものと交換してください。Synology NAS がホットスワップに対応していない場合は、ドライブを取り出したり、装着したりする前に必ず電源をお切りください。<br><span class="note_head">注：</span>交換用のドライブに保管されているデータはすべて消去されます。</li>
+<li>交換用ドライブを取り付けた後、<strong>[ストレージプール]</strong> ページに戻り、劣化したストレージ プールを選択します。</li>
+<li><b>[アクション] </b>ドロップダウン メニューから<b> [修理]</b> をクリックします。</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/manage_repair.png" class="help_image"/>
+<li>ボリュームに追加する交換用ドライブを選択し、ウィザードに従い完了させます。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>ストレージ プールの修復に時間がかかっている場合は、<a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Why_does_it_take_a_long_time_to_repair_a_storage_pool" target="_blank">こちら</a>に記載されている理由が関係している場合があります。</li>
+</ul>
+</div>
+
+
+<h3>クラッシュしたストレージ プールのトラブルシューティング</h3>
+
+<p>ストレージ プールの状態が <strong>[クラッシュ]</strong> になった場合は、お客様がご自身で復元することはできません。ボリューム クラッシュの一般的な理由とトラブルシューティング手法に関する詳細は、次の説明をご覧ください。
+	<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_are_the_reasons_of_volume_crash" target="_blank">ボリュームがクラッシュする要因</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_do_I_do_when_a_volume_crashes" target="_blank">ボリュームがクラッシュした場合、どうしたらいいですか？</a></li>
+	</ul>
+</p>
+
+
+</body>
+</html>

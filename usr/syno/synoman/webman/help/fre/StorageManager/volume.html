@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Volumes</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the difference between volumes and disk groups, which are used to manage the storage space and capacity of Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Volumes</h2>
+
+<p>Les volumes fournissent l'espace de stockage basic de votre Synology NAS. Toutes vos affaires --telles que les dossiers partagés, les documents et les données de paquet -- sont stockées sur les volumes. De plus, avant de commencer à stocker ou servir des données sur votre Synology NAS, vous devez créer au moins un volume.</p>
+
+<div class="section">
+<h4>Remarque :</h4>
+<p>Si les volumes sont utilisés comme des cibles répliquées de <strong>Snapshot Replication</strong>, il est possible d'améliorer les performances de réplication en réglant les paramètres de <strong>Fréquence d'enregistrement de l'heure d'accès aux fichiers</strong> dans la fenêtre <strong>Modifier</strong> après la création des volumes :</p>
+<ul>
+	<li><strong>Quotidienne </strong>: L'heure d'accès au fichier est mise à jour quotidiennement ou lorsque le fichier est modifié, tout comme sur la plupart des systèmes d'exploitation. Les fonctionnalités de certaines applications reposent sur la précision de l'heure d'accès aux fichiers. Le fait de sélectionner <strong>Quotidienne</strong> aura une incidence sur les performances de réplication si vous utilisez fréquemment l'une des fonctions ou des applications suivantes :
+		<ul>
+			<li><strong>Heure d'accès la moins récente</strong> dans <strong>Analyseur de stockage</strong></li>
+			<li><strong>Conseiller du cache SSD</strong> dans <strong>Gestionnaire de stockage</strong></li>
+			<li>Des applications tierces qui reposent sur <strong>Enregistrer l'heure d'accès aux fichiers</strong>.</li>
+		</ul>
+	<li><strong>Mensuelle</strong> : L'heure d'accès au fichier est mise à jour mensuellement ou lorsque le fichier est modifié. Cette option apporte une petite amélioration au niveau des performances de réplication alors que les applications qui reposent sur <strong>Enregistrer l'heure d'accès aux fichiers</strong> peuvent fonctionner avec une précision plus faible.
+	</li>
+	<li><strong>Jamais</strong> : Recommandé si vous recherchez les meilleures performances de réplication et que vous n'avez pas besoin d'applications qui reposent sur <strong>Enregistrer l'heure d'accès aux fichiers</strong> dans le cadre de votre utilisation quotidienne.</li>
+</ul>
+</div>
+
+
+<h4>Format du volume</h4>
+<p>Selon le système de fichiers utilisé, il existe deux formats de volume :</p>
+<ul>
+	<li><strong>Nouveau format de volume</strong> : Ce format utilise le système de fichiers <strong>Btrfs</strong>. La taille minimale d'un volume dans ce format doit être de 10 Go. Il prend en charge les nouvelles fonctionnalités suivantes grâce auxquelles vous pouvez gérer plus facilement vos données :
+		<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">Instantané de dossier partagé</a> :</strong> L'instantané enregistre l'intégralité de l'état des données au moment où il est pris. Si un utilisateur modifie ou supprime accidentellement des données sur un volume comportant des instantanés, vous êtes en mesure de restaurer rapidement les données telles qu'elles étaient lors de la prise de l'instantané précédent.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">Quota de dossier partagé</a> :</strong> Vous pouvez définir la capacité maximale de chaque dossier.</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">Quota utilisateur</a> basé sur un dossier partagé :</strong> Vous pouvez contrôler la quantité d'espace d'un dossier partagé utilisable par chaque utilisateur.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">Protection avancée de l'intégrité des données</a> :</strong> Un dossier partagé est protégé grâce à des stratégies de somme de contrôle CRC32 et de copie lors de l'écriture.</li>
+		</ul>
+	</li>
+	<li><strong>Format de volume traditionnel</strong> : Ce format utilise le système de fichiers <strong>ext4</strong>. La taille minimale d'un volume dans ce format doit être de 10 Go. Comme le système de fichiers ext4 est pris en charge par la plupart des produits Synology, vous pouvez facilement migrer votre volume dans ce format sur un autre produit Synology.</li>
+</ul>
+
+<div class="section"><h4>Remarque :</h4>
+<ul>
+	<li>Btrfs n'est disponible que sur certains modèles spécifique. Pour savoir si votre modèle prend en charge Btrfs, reportez-vous à <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">cet article</a>.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

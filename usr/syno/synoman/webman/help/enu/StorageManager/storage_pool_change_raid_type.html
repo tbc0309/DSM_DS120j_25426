@@ -1,0 +1,143 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Change the RAID Type of a Storage Pool - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing storage pools on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+	
+</head>
+<body>
+<h2>Change the RAID Type of a Storage Pool</h2>
+
+<p>Storage pools can be changed from one RAID type to another without losing existing data. For example, you can create a RAID 1 storage pool on your Synology NAS and later change it to RAID 5 if you install more drives. This article provides instructions on changing the RAID type of existing storage pools on your Synology NAS. Before you start changing the RAID type of a storage pool, please refer to the <b>Drive Requirements</b> and <b>RAID Type Requirements and Limitations</b> sections below for details on the relevant requirements and limitations.
+
+<h3>Drive Requirements</h3>
+
+<p>To change the RAID type of a storage pool, you must have a sufficient number of available drives installed in your Synology NAS. Please refer to the table below for the minimum number of drives required for each RAID type.</p>
+
+<table>
+  <tr>
+    <th width="50%">RAID Type</th>
+    <th width="50%">Minimum Number of Drives Required</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 or 5 (depending on the drive configuration of SHR-1)</td>
+  </tr>
+
+</table>
+
+</p>
+<h3>RAID Type Requirements and Limitations</h3>
+
+<p>Only certain RAID types can be changed to other RAID types. For example, RAID 1 can be changed to RAID 5, but RAID 5 cannot be changed to RAID 1. Please refer to the table below for details.</p>
+
+<table>
+  <tr>
+    <th width="30%">Current RAID Type</th>
+    <th width="30%">Possible Conversion Target Type</th>
+    <th width="40%">Additional Number of Drives Required</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1</td>
+    <td>1</td>
+  </tr>
+ <tr>
+    <td>Basic</td>
+    <td>RAID 5</td>
+	  <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+	  <td>1</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+	  <td>1</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+	  <td>1 or 2 (depending on the drive configuration of SHR)</td>
+  </tr>
+
+</table>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+<li>For more information on SHR (Synology Hybrid RAID), please refer to <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_is_Synology_Hybrid_RAID_SHR" target="_blank">here</a>.</li>
+<li>For more information on choosing the RAID type for a storage pool, please refer to <a href="storage_pool_what_is_raid.html">here</a>.</li>
+<li>For an estimate of space utilization, please refer to <a href="https://www.synology.com/support/RAID_calculator" target="_blank">Synology RAID Calculator</a>.</li>
+<li>A SHR-1 storage pool with the following drive configurations may require two additional drives when changed to a SHR-2 storage pool:
+<ul>
+<li>The storage pool contains only two drives.</li>
+<li>All drives have different capacities.</li>
+<li>In a RAID Array comprising three or more drives, the capacity of the two largest drives are larger than that of the other drives.</li>
+</ul>
+</li>
+<li>Certain models do not support changing a RAID 5 storage pool to a RAID 6 storage pool.</li>
+</ul>
+</div>
+
+<h3>Change the RAID Type</h3>
+
+<h4>Before you start:</h4>
+<p>Before changing the RAID type, please note the following:</p>
+<ul>
+<li>Make sure the status of your storage pool is <b>Healthy</b>.</li>
+<li>When adding new drives to a storage pool, the new drives must be larger than the smallest drive in the storage pool and all drives must be of the same drive type.</li>
+<li>The RAID type of RAID Arrays in a RAID Group cannot be changed. The RAID Group feature is available on specific models only.<br><span class="note_head">Note:</span> Please go to <a href="https://www.synology.com/products" target="_blank">this web page</a> and tick the upper-right checkbox of your Synology NAS and also that of any other models, and then click the <b>Compare</b> button on the bottom-right corner. Whether your model supports RAID Group will be shown in the <b>Comparison results</b> web page.</li>
+</ul>
+
+<div class="section">
+<h4>Note:</h4>
+
+<ul>
+<li>We recommend using drives in the <a href="https://www.synology.com/compatibility" target=blank>Synology Products Compatibility List</a> to prevent any issues. Using incompatible drives may affect the system performance and even result in data loss.</li>
+</ul>
+</div>
+<h4>To change the RAID type of a storage pool:</h4>
+
+<ol>
+<li>Launch <strong>Storage Manager</strong>.</li>
+<img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/>
+<li>Go to <b>Storage Pool</b>.</li>
+<li>Select the storage pool that you want to change its RAID type, and click <b>Change RAID Type</b> from the <b>Action</b> drop-down menu.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/change_raid_type.png" class="help_image"/>
+
+<li>Select the RAID type that you want to change to. Click <b>Next</b>.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_raid.png" class="help_image"/>
+
+<li>Select the drives to add to the existing storage pool. Click <b>Next</b>.<br><span class="note_head">Note:</span> All data on the newly added drives will be erased. Please make sure to back up your data in advance.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_disks.png" class="help_image"/>
+
+
+<li>Follow the wizard to finish.</li></ol>
+
+</body>
+</html>

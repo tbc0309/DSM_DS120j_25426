@@ -1,0 +1,27 @@
+root /usr/syno/synoman;
+index index.cgi;
+
+ignore_invalid_headers off;
+
+include app.d/dsm.*.conf;
+include /usr/syno/share/nginx/conf.d/dsm.*.conf;
+include conf.d/dsm.*.conf;
+
+location = / {
+    try_files $uri /index.cgi$is_args$query_string;
+}
+
+{{> /usr/syno/share/nginx/X-Accel}}
+
+location ~ /webman/modules/(PersonalSettings|ExternalDevices|FileBrowser)/index_ds.php$ {
+    alias /usr/syno/share/OAuth/index_ds.php;
+    default_type text/html;
+}
+
+location ~ \.cgi {
+    {{> /usr/syno/share/nginx/cgi.pass}}
+    scgi_read_timeout   3600s;
+}
+
+{{> /usr/syno/share/nginx/error_page}}
+{{> /usr/syno/share/nginx/deny.synoman}}

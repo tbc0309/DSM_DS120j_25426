@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Umschaltung (&quot;Switchover&quot;)</h2>
+  
+ <p>Um den fortlaufenden Betrieb zu gew&auml;hrleisten und die Ausfallzeit zu minimieren, k&ouml;nnen Dienste vom aktiven Server eines High Availability-Clusters an den redundanten, passiven Server &uuml;bergeben werden. Die Funktion nennt sich &quot;&Uuml;bergabe&quot; oder in einigen F&auml;llen &quot;Failover&quot;. Dieser Abschnitt beschreibt die Grundlagen dieser beiden Konzepte.</p>
+  
+  <h3>Umschaltung (&quot;Switchover&quot;)</h3>
+  	<p>&Uuml;bergabe bezieht sich auf eine &Uuml;bergabe vom aktiven Server auf den redundanten, passiven Server eines High Availability-Clusters. Unter normalen Umst&auml;nden verwaltet der aktive Server s&auml;mtliche Dienste. Wenn der aktive Server allerdings ausf&auml;llt, k&ouml;nnen Sie oder das System eine &Uuml;bergabe an den passiven Server einleiten und s&auml;mtliche Dienste &uuml;bertragen, vorausgesetzt, dass der passive normal funktioniert. In diesem Fall wird der aktive Server die Rolle des passiven Servers und der passive Server die Rolle des aktiven Servers einnehmen.</p>
+    
+<h4>Manuelle Einleitung einer &Uuml;bergabe:</h4>
+ <ol>
+  <li>Gehen Sie zur Registerkarte <b>&Uuml;berblick</b>.</li>
+  <li>Klicken Sie auf <b>Verwaltung</b> &gt; <b>&Uuml;bergabe</b>.</li>
+ </ol>
+<div class="section">
+<h4>Hinweis:</h4>
+   <p>Wenn Sie eine &Uuml;bergabe einleiten, wird der aktive Server die Rolle des passiven Servers und der passive Server die Rolle des aktiven Servers einnehmen. Es wird daher ein kurzes Zeitintervall geben, in dem beide Server passiv sind und keine Dienste anbieten k&ouml;nnen. Die Zeit f&uuml;r eine vollst&auml;ndige &Uuml;bergabe h&auml;ngt von der Anzahl und Gr&ouml;&szlig;e der Volumes oder iSCSI LUNs (Block-Ebene) oder der Gesamtanzahl der Dienste auf dem High Availability-Cluster ab.</p>
+</div>
+   
+<h3>Failover</h3>
+    
+     <p>Wenn bestimmte Fehler auftreten, kann das System automatisch eine &Uuml;bergabe von Diensten einleiten, um die Leistung zu gew&auml;hrleisten. Dieses Ereignis wird als &quot;Failover&quot; bezeichnet. Das System kann in den folgenden Situationen einen Failover einleiten:</p>
+    
+     <ul>
+      <li><b>Abgest&uuml;rzter Speicherplatz:</b> Ein Speicherplatz (z.&nbsp;B. Volume, Diskgruppe, RAID Group, SSD Cache usw.) auf dem aktiven Server ist abgest&uuml;rzt, aber der entsprechende Speicherplatz auf dem passiven Server funktioniert normal. Bitte beachten Sie, dass das System keinen Failover einleiten wird, wenn sich keine Volumes oder iSCSI LUNs (Block-Ebene) im abgest&uuml;rzten Speicherplatz befinden.</li>
+      <li><b>Service-Fehler:</b> Ein Fehler ist bei einem &uuml;berwachten Dienst aufgetreten.</li>
+      <li><b>Stromausfall:</b> Der aktive Server wird heruntergefahren oder neu gestartet; beide Netzteile auf dem aktiven Server sind ausgefallen oder der Strom ist ausgefallen.</li>      
+     </ul>    
+     
+    
+<h3>&Uuml;bergabefehler</h3>
+    
+		<p>Die &Uuml;bergabe oder das Failover von Diensten k&ouml;nnte in den folgenden Situationen fehlschlagen:</p>
+  			<ul>
+   				<li><b>Unvollst&auml;ndige Datenreplikation:</b> Wenn Sie zwei Server zum ersten Mal zu einem High Availability-Cluster kombinieren, ben&ouml;tigt das System etwas Zeit, um alle Daten vom aktiven Server auf den passiven zu replizieren.</li>
+   				<li><b>Speicherplatz auf dem passiven Server ist abgest&uuml;rzt:</b> Ein Speicherplatz (z.&nbsp;B. Volume, Diskgruppe, RAID Group usw.) auf dem passiven Server ist abgest&uuml;rzt.</li>
+                <li><b>Stromausfall:</b> Der passive Server wird heruntergefahren oder neu gestartet; beide Netzteile auf dem passiven Server sind ausgefallen oder der Strom ist ausgefallen.</li>
+                <li><b>DSM Aktualisierung:</b> Bei der Installation von DSM Aktualisierungen, werden alle Dienste gestoppt und erst fortgesetzt, nachdem die DSM Aktualisierungsinstallation abgeschlossen ist.</li>      
+ </ul>
+
+  <p>Wenn Sie eine &Uuml;bergabe manuell einleiten, aber Dienste nicht an den passiven Server &uuml;bergeben werden k&ouml;nnen, wird das System versuchen, die Dienste wieder zur&uuml;ck an den aktiven Server zu &uuml;bergeben.</p>
+ <p>Wenn ein Failover eingeleitet wird, aber keiner der beiden Server aufgrund von Fehlern die Rolle des aktiven Servers einnimmt, wird der High Availability-Cluster die Dienste nicht normal anbieten k&ouml;nnen. Wenn die Server nicht automatisch zum Status <b>Einzeln</b> zur&uuml;ckkehren, dr&uuml;cken Sie bitte auf die Taste <b>Reset</b> an beiden Servern, um die Standardeinstellungen wiederherzustellen. Nach der Wiederherstellung der Standardeinstellungen k&ouml;nnen Sie die Server kombinieren und wieder einen High Availability-Cluster erstellen.</p>
+ 
+ <h3>Unterbrechungsfreie Stromversorgung</h3>
+  <p>High Availability-Cluster k&ouml;nnen an eine unterbrechungsfreie Stromversorgung (USV) angeschlossen werden, um das Risiko eines unvorhergesehenen Stromausfalls zu verringern. Bei einem Stromausfall werden die Server Reservestrom von den jeweils angeschlossenen USV-Ger&auml;ten erhalten. Wenn das an den aktiven Server angeschlossene USV-Ger&auml;t nicht mehr ausreichend Strom zur Verf&uuml;gung stellen kann, wird das System eine &Uuml;bergabe auf den passiven Server versuchen. Bitte lesen Sie die unten stehenden Hinweise.</p>
+   <ul>
+
+<li>Wenn die aktiven und passiven Server an den selben Netzwerk-Switch angeschlossen sind, wird empfohlen, beide Server an die gleiche Stromquelle wie den Netzwerk-Switch anzuschlie&szlig;en.</li>
+<li>Wenn die aktiven und passiven Server an verschiedene Netzwerk-Switches, die verschiedene Stromquellen (z.&nbsp;B. Strom aus verschiedenen Energieversorgungsunternehmen) nutzen, angeschlossen sind, wird empfohlen, die aktiven und passiven Server an die entsprechenden Stromquellen wie ihre angeschlossenen Netzwerk-Switches anzuschlie&szlig;en.</li>
+<li>Wenn die aktiven und passiven Server an verschiedenen Netzwerk-Switches, die verschiedene USV-Ger&auml;te verwenden, angeschlossen sind, wird empfohlen, beide Server an eines der USV-Ger&auml;te, statt an zwei verschiedene USV-Ger&auml;te, anzuschlie&szlig;en. Wenn das USV-Ger&auml;t Leistung verliert, wird der aktive Server benachrichtigt und geht in den abgesicherten Modus, und der passive Server wird sicher ausgeschaltet. Wenn die Server an verschiedene USV-Ger&auml;te angeschlossen sind, ist der aktive Server nicht in der Lage zu erkennen, ob die USV des passiven Servers an Leistung verliert, und daher k&ouml;nnte der passive Server unerwartet heruntergefahren werden.</li>
+   </ul>
+
+   
+<div class="section">
+<h4>Hinweis:</h4>
+<p>Synology NAS unterst&uuml;tzt die Verbindung mit lokalen und SNMP USV-Ger&auml;ten. Weitere Informationen finden Sie in der Hilfe f&uuml;r <strong>Systemsteuerung</strong> &gt; <strong>Hardware</strong> &gt; <strong>USV</strong>.</p>
+</div>  
+ </body>
+</html>

@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>備份您儲存於 Synology NAS 的資料，以確保資料安全</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>備份您的 Synology NAS</h1>
+<div class="tutorials_content">
+<img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" />
+
+<p>硬碟故障、天然災害和勒索軟體攻擊都可能造成無預警的資料遺失，對您的重要資料來說是潛在的威脅，為了避免資料在前述的不幸狀況下遺失，您可以採取現今廣受使用的 3-2-1 資料防護策略，維護多重版本的備份資料，在資料當前的版本毀損或遭到勒索軟體感染時，享有多一層的保護。</p>
+
+<p>所謂 3-2-1 資料防護策略，意即使用者應留存至少三份的資料複本，一份儲存在本地位置，另外兩份則分別儲存於不同裝置。一般使用者可以採取此策略，為充滿珍貴回憶的相片、家庭影片和自訂相簿提供企業級的保護，或者保存至少兩份資料複本，以確保資料可用性；至於企業用戶，我們則推薦您遵循 3-2-1 策略，藉此維護企業核心資料與關鍵資訊的安全。</p>
+
+<p>本篇文章針對能夠幫助您打造 3-2-1 資料保護解決方案的工具，為您介紹 Synology DSM <strong>套件中心</strong>內的數種免費套件，包括 <strong>Hyper Backup</strong>、<strong>Snapshot Replication</strong>、<strong>USB Copy</strong> 以及 <strong>Cloud Sync</strong>。</p>
+
+</div>
+
+<h2>內容</h2>
+<ol>
+<li><a href="#t1">備份至同一台 Synology NAS 以建立多版本的本地資料複本</a></li>
+<li><a href="#t2">備份至其他目的地</a></li>
+<ul>
+<li>2.1 <a href="#t2.1">備份至外接裝置 (USB)</a></li>
+<li>2.2 <a href="#t2.2">備份至他台 Synology NAS</a></li>
+<li>2.3 <a href="#t2.3">備份至檔案伺服器</a></li>
+<li>2.4 <a href="#t2.4">備份至雲端服務</a></li>
+</ul>
+<li><a href="#t3">比較本篇文章介紹的備份解決方案</a></li>
+</ol>
+<hr size="1" />
+<!--1-->
+
+<h3 class="list_head"><a name="t1" id="t1"></a>1. 備份至同一台 Synology NAS 以建立多版本的本地資料複本</h3>
+<p>在本地建立多版本資料複本後，若發生資料毀損或檔案意外刪除的狀況，系統可以直接從您的 Synology NAS 取回資料複本，迅速還原您的資料，但即便已採取此項防護措施，RAID 或硬碟故障仍可能造成嚴重資料遺失，因此我們強烈建議您在本地裝置上建立多版本資料複本，以確保還原效率，同時也將資料備份至其他目的地，以賦予資料額外的防護。</p>
+
+<p>本段落的內容將扼要地為您介紹 <strong>Hyper Backup</strong> 及 <strong>Snapshot Replication</strong>，您可以根據套件功能及您的需求選擇使用。</p>
+
+<p><strong>Hyper Backup</strong> 讓您能夠備份應用程式及系統設定，並在需要時加以還原，以確保資料的一致性；另外，此套件支援區塊層級增量備份，換句話說，系統會以最初的版本為根據，只備份比較之下有變更的檔案，並透過重複資料刪除技術，刪除僅重新命名或與先前版本重複的檔案，以避免浪費儲存空間。</p>
+
+<p>若您的 NAS 機種支援 Btrfs<sup>1</sup> 檔案系統，您可以考慮使用 <strong>Snapshot Replication</strong> 建立本地資料複本。此套件執行快照流程僅需數秒，對系統效能的影響極小，在備份及還原速度方面也比 Hyper Backup 來得快，更適用於共用資料夾及 iSCSI LUN。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<p>如欲了解如何透過 Hyper Backup 及 Snapshot Replication 逐步建立備份任務，請參閱以下的應用教學：</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div>
+
+<h3 class="list_head"><a name="t2" id="t2"></a>2. 備份至其他目的地</h3>
+<p>在各種不同的目的地建立異地資料複本，能讓您在 RAID 故障或硬碟損壞時不致遭受資料遺失。以下段落將扼要地介紹數種可以幫助您建立異地備份任務的工具。</p>
+
+<!--2.1-->
+
+<h4 class="list_head"><a name="t2.1" id="t2.1"></a>2.1 備份至外接裝置 (USB)</h4>
+<p>將資料備份至廣受使用的 USB 不但簡易又相當方便，此備份方式支援多種檔案系統及外接裝置，譬如重要資料可以備份至 RDX。</p>
+
+<p><strong>Hyper Backup</strong> 讓您能夠備份應用程式及系統設定，並在需要時加以還原，以確保資料的一致性；另外，此套件支援區塊層級增量備份，換句話說，系統會以最初的版本為根據，只備份比較之下有變更的檔案，並透過跨檔案重複資料刪除技術，刪除僅重新命名或和先前版本重複的檔案，以避免浪費儲存空間。</p>
+
+<p>與 Hyper Backup 相比，<strong>USB Copy</strong> 不支援備份應用程式/系統設定以及跨檔案重複資料刪除技術，因此儲存空間的使用效率較低，但可以在外接裝置插入後立即開始備份資料，並在備份完成後將裝置退出；此外，透過 USB Copy 備份的資料為可讀取的格式，透過 Hyper Backup 備份的則不可讀取。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<p>如欲了解如何透過 Hyper Backup 及 USB Copy 逐步將資料備份至外接裝置，請參閱以下的應用教學：</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/USBCopy/usbcopy_general" target="_blank">USB Copy</a></li>
+</ul>
+</div>
+
+<!--2.2-->
+
+<h4 class="list_head"><a name="t2.2" id="t2.2"></a>2.2 備份至他台 Synology NAS</h4>
+<p>資料備份至他台 Synology NAS 時，使用的是 Synology 的 NAS 傳輸協定。</p>
+<p>前述的 <strong>Hyper Backup</strong> 內建先進技術，可提升儲存空間使用效率，亦支援應用程式及系統設定備份，您只要在欲當作目的地的遠端 NAS 裝置上安裝 <strong>Hyper Backup Vault</strong> 套件，便能將資料備份至他台 Synology NAS，而 <strong>Hyper Backup Vault</strong> 則能讓接收端的使用者在裝置上檢視備份任務以及任務相關的日誌。Hyper Backup 支援 EXT4 及 Btrfs 檔案系統，但備份資料的格式不可讀取。</p>
+
+<p><strong>Snapshot Replication</strong> 讓您能方便地將快照複寫到多台遠端的 Synology NAS，而且只複製有變更的區塊，以減少頻寬及時間的消耗，且一項複寫任務可延伸至三台遠端目標，提升管理彈性。請注意，Snapshot Replication 僅適用於支援 Btrfs<sup>1</sup> 檔案系統的機種。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<p>如欲了解如何透過 Hyper Backup 及 Snapshot Replication 逐步將資料備份至他台 Synology NAS，請參閱以下的應用教學：</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div>
+
+<!--2.3-->
+
+<h4 class="list_head"><a name="t2.3" id="t2.3"></a>2.3 備份至檔案伺服器</h4>
+<p>此備份方式支援 rsync、HTTP、WebDAV、OpenStack 及 S3 等協定，和備份至他台 Synology NAS 相比，目的地為檔案伺服器時，備份任務會在接收端佔據較多的儲存空間作為快取之用。</p>
+<p><strong>Hyper Backup</strong> 能讓您經由 rsync 及 HTTP (WebDAV 和 OpenStack) 協定將資料備份至檔案伺服器，並透過多版本支援為資料增添額外防護，另外，跨檔案重複資料刪除技術可減少儲存多重版本所需的空間，而應用程式及系統設定備份支援更能協助您輕鬆還原至先前時間點的設定。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<p>如欲了解如何透過 Hyper Backup 逐步將資料備份至檔案伺服器，請參閱此篇<a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">應用教學</a>。</p>
+</div>
+
+<!--2.4-->
+
+<h4 class="list_head"><a name="t2.4" id="t2.4"></a>2.4 備份至雲端服務</h4>
+<p>就儲存設備的初始購置及後續維護來說，將資料備份至雲端是最彈性的方式，企業可根據需求擴充或縮小資料備份的規模，而無需在 IT 布署和硬體調整方面投入額外的成本。</p>
+<p><strong>Hyper Backup</strong> 能協助 Synology NAS 的用戶將資料備份至 Synology 的 <a href="https://c2.synology.com" target="_blank">Synology C2</a> 雲端服務，透過無縫的解決方案確保資料在雲端的可用性；Synology C2 亦提供不同的定價方案，讓您在任何伺服器上都能存取、還原檔案，同時也可以享受加密技術帶來的資料安全。</p>
+<p>除了 Synology 的雲端服務以外，您可能也會想將資料備份至其他公有雲。透過 Hyper Backup，您不僅能以多版本的方式將資料備份至公有雲，也可以備份應用程式及系統設定，藉此確保備份資料的一致性。</p>
+<p><strong>Cloud Sync</strong> 在單向上傳功能啟動時，亦可作為將 Synology NAS 資料即時備份至公有雲的解決方案，但是此套件僅會針對儲存於 NAS 上的檔案保留當前版本，不過若您使用的雲端服務支援版本控管，您仍舊可以建立多版本備份任務，而且同步至目的地的檔案會維持和來源資料相同的格式。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<p>如欲了解如何透過 Hyper Backup 及 Cloud Sync 逐步將資料備份至雲端服務，請參閱以下的應用教學：</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_cloud_services_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/CloudSync/cloudsync" target="_blank">Cloud Sync</a></li>
+</ul>
+</div>
+
+<!--3-->
+<h3 class="list_head"><a name="t3" id="t3"></a>3. 比較本篇文章介紹的備份解決方案</h3>
+<p>若您想預防硬碟故障、天然災害或勒索軟體攻擊所造成的資料遺失，我們強烈建議您採取異地備份解決方案，其中雲端備份能減少硬體、維護、及電力等方面的成本以及折舊費用，對沒有現存設備的使用者來說是最佳選擇，再加上現今有許多雲端服務供應商都提供彈性的收費方式，使用者可以根據自身需求挑選出最適合的方案。若您已有現存的儲存裝置如 USB 硬碟、他台 Synology NAS 或檔案伺服器，仍可用來備份 NAS 資料，但務必記得將目的地裝置和來源端 NAS 分開擺放，以避免潛在的資料遺失風險。</p>
+
+<p>異地複本能加強您對資料的保護，但您同時也需要本地複本，才能快速還原資料，因此，我們建議您利用 Hyper Backup 或 Snapshot Replication 的功能，在同一台 Synology NAS 上建立資料複本，也可以備份到其他裝置，但必須將裝置與來源端 NAS 靠近擺放，才能提升還原效能。</p>
+
+<p>了解 3-2-1 策略，並建立至少兩份的資料複本後，您便能確保資料受到高度防護且隨時可用。</p>
+
+<p>下方的表格總結本篇文章所介紹的備份工具，並比較各工具的功能，您可以據此挑選最符合您需求的套件，達成資料備份的目標。</p>
+
+<table id="faqtable" cellspacing="5" cellpadding="5" width="100%"><tbody>
+    <tr>
+      <th width="8%">備份目的地</th>
+      <th width="8%">Hyper Backup</th>
+      <th width="8%">Snapshot Replication<sup>1</sup></th>
+      <th width="8%">USB Copy</th>
+      <th width="8%">Cloud Sync</th>
+    </tr>
+
+    <tr>
+      <td>Local Shared Folders</td>
+      <td>可以</td>
+      <td>可以</td>
+      <td>不可</td>
+      <td>不可</td>
+    </tr>
+
+    <tr>
+      <td>外接裝置 (USB)</td>
+      <td>可以</td>
+      <td>不可</td>
+      <td>可以</td>
+      <td>不可</td>
+    </tr>
+    
+    <tr>
+      <td>他台 Synology NAS</td>
+      <td>可以</td>
+      <td>可以</td>
+      <td>不可</td>
+      <td>不可</td>
+    </tr>
+
+    <tr>
+      <td>檔案伺服器</td>
+      <td>可以</td>
+      <td>不可</td>
+      <td>不可</td>
+      <td>僅支援 WebDAV 及 OpenStack 資料同步</td>
+    </tr>
+    
+<tr>
+      <td>公有雲</td>
+      <td>可以</td>
+      <td>不可</td>
+      <td>不可</td>
+      <td>可以</td>
+    </tr>
+
+<tr>
+	<td colspan="5"><strong>功能總覽</strong></td>
+</tr>
+
+<tr>
+      <td>應用程式<sup>2</sup>及系統設定備份</td>
+      <td>可以</td>
+      <td>不可</td>
+      <td>不可</td>
+      <td>不可</td>
+    </tr>
+    
+    <tr>
+      <td>備份及還原效能</td>
+      <td>低</td>
+      <td>高</td>
+      <td>中</td>
+      <td>中</td>
+    </tr>
+    
+    <tr>
+      <td>儲存空間利用效率</td>
+      <td>中</td>
+      <td>高</td>
+      <td>低</td>
+      <td>低</td>
+    </tr>
+    
+    <tr>
+      <td>備份頻率</td>
+      <td>每天</td>
+		<td>每 5 分鐘 (共用資料夾)</br>
+      	每 15 分鐘 (iSCSI LUN)
+      </td>
+      <td>熱插拔備份</td>
+      <td>於資料變更時同步</td>
+    </tr>
+
+</tbody></table>
+
+<div class="section">
+<h4>注意：</h4>
+<ol>
+	<li>Snapshot Replication 僅支援 Btrfs 檔案系統，不支援 EXT4。如需 Snapshot Replication 適用的機種清單，請參閱<a href="https://www.synology.com/dsm/packages/SnapshotReplication" target="_blank">此頁</a>。</li>
+	<li>系統僅支援備份特定的應用程式，如需詳細資訊，請參考備份精靈的應用程式頁面。</li>
+</ol>
+</div>
+</body>
+</html>

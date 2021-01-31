@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>電源</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>休眠</h2>
+<p>您可以指定硬碟在進入休眠模式前閒置的時間長短。 硬碟休眠期間，硬碟會停止運轉、降低電源消耗功率，並且延長硬碟的使用壽命。 您可以指定內部硬碟及外接 eSATA/USB 硬碟的閒置時間。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>硬碟休眠會在存取狀態出現時停止。</li>
+<li>只有特定 USB 外接儲存裝置支援硬碟休眠。</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>為什麼我的 Synology NAS 無法進入休眠模式？</h4>
+
+<p>請注意，以下服務執行的情況下，Synology NAS 將無法進入休眠模式。 另外，Synology NAS 會在任何任務排程前 2 分鐘脫離休眠模式。</p>
+
+<p><strong>套件：</strong></p>
+<ul>
+  <li>Download Station：Synology NAS 無法在 Download Station 執行 eMule、RSS 排程下載，或其他下載任務時進入休眠模式。</li>
+  <li>Mail Station：Synology NAS 無法在 Mail Station 從 POP3 擷取電子郵件的情況下進入休眠模式。</li>
+  <li>Surveillance Station：Synology NAS 無法在 Surveillance Station 錄影時進入休眠模式。</li>
+  <li>Media Server：Synology NAS 無法在 [媒體伺服器] DMA 日誌啟動的狀態下進入休眠模式 (請前往<strong>主選單</strong> &gt; <strong>媒體伺服器</strong> &gt; <strong>媒體伺服器</strong> &gt; <strong>診斷</strong>)。</li>
+  <li>LDAP Server</li>
+  <li>Webalizer</li>
+  <li>Logitech<sup>&reg;</sup> Media Server</li>
+  <li>Plex Media Server</li>
+  <li>其他第三方套件，或者像 SABnzbd 的 Optware</li>
+</ul>
+<p><strong>背景程序：</strong></p>
+<ul>
+  <li>當 Synology NAS 正在建立縮圖及索引時：Synology NAS 無法在建立縮圖，或是 DSM 完成升級程序後重新索引多媒體檔案的狀態下進入休眠模式。 這個時候，「synoindexd」的狀態會顯示為「執行中」(請前往<strong>主選單</strong> &gt; <strong>資源監控</strong> &gt; <strong>程序</strong>)。</li>
+  <li>當 Local Master Browser 啟動時：Synology NAS 無法在 Local Master Browser 啟動的情況下進入休眠模式 (請前往<strong>控制台</strong> &gt; <strong>Win/Mac/NFS</strong> &gt; <strong>Windows 檔案服務</strong> &gt; <strong>啟動 Local Master Browser</strong>)。</li>
+  <li>當 Windows Media Player 網路分享服務啟動時：Synology NAS 無法在 Windows Media Player 網路分享服務於區域網路啟動的情況下進入休眠模式。</li>
+  <li>如果同時有數個背景程序需要交換執行順序，Synology NAS 將無法進入休眠模式。此情況出現時即表示，記憶體容量已超過上限，且硬碟將暫時用來作為讀寫之用。</li>
+</ul>
+<p><strong>其他設定</strong></p>
+<ul>
+  <li>USB 裝置：連結任何 USB 裝置皆會造成 Synology NAS 無法進入系統休眠模式。 </li>
+</ul>
+
+</div>
+
+
+<h3>系統休眠</h3>
+<p>您可以設定 Synology NAS 在硬碟休眠一分鐘後進入系統休眠模式。 系統休眠可降低 Synology NAS 的電源消耗功率。  </p>
+<p>進入系統休眠模式會出現以下情況：</p>
+
+<ol>
+  <li>電源按鈕進入呼吸模式 (燈號緩慢閃爍)。 其他 LED 燈號關閉。</li>
+  <li>硬碟電源被切斷。</li>
+  <li>CPU 停止運轉。</li>
+  <li>外接風扇停止運轉。</li>
+  <li>網路埠的 LED 燈號關閉。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>任何 SMB/CIFS 廣播封包都有可能對伺服器進入系統休眠造成阻礙，其中也包括網路上運行的 Windows 檔案總管。 如果您想要在伺服器進入系統休眠狀態時忽略 CIFS 廣播封包，請選擇<strong>忽略來自 Windows 檔案總管的廣播封包</strong>。 請注意此選項啟動之後，您將無法使用 SMB/CIFS 封包來離開系統休眠狀態。 此外，連接任何 USB 裝置也會造成伺服器無法進入系統休眠狀態。</li>
+</ul>
+</div>
+
+<h2>深度睡眠</h2>
+<p>您可以透過和擴充裝置搭配使用的 Synology NAS 介面啟動擴充裝置的深度睡眠功能。 您還可以為擴充裝置及與其搭配的 Synology NAS 設定不同的閒置時間長度。 如此一來，只要 Synology NAS 連接上網路，您就可以設定擴充裝置進入深度睡眠狀態。</p>
+<p>進入深度睡眠模式會出現以下情況：</p>
+<ul>
+  <li>擴充裝置所有 LED 燈號關閉。</li>
+<li>擴充裝置硬碟的電源被切斷。</li>
+<li>擴充裝置的風扇停止運轉。</li>
+</ul>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>深度睡眠會在存取狀態出現時停止。</li>
+<li>為了確保擴充裝置的深度睡眠功能可以正常運作，請將後方面板的 <b>Auto/Manual</b> 開關切換至 <b>Auto</b>。</li>
+</ul>
+</div>
+
+<h2>自動關機</h2>
+<p>您可以指定 Synology NAS 自動關機前的內部硬碟休眠時間長度。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>您必須先啟動內部硬碟休眠。</li>
+<li>您必須先啟動網路喚醒服務才能遠端開啟 Synology NAS。</li>
+</ul>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,157 @@
+﻿
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Monitor de recursos</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h1><a name="leaf_update"></a>Monitor de recursos</h1>
+<p class="disable-dockerx64">El Monitor de recursos le permite supervisar el uso de la CPU, el uso de la memoria, la utilización del disco y el flujo de red. Puede elegir entre supervisar en tiempo real o visualizar los datos anteriores.</p>
+<p class="enable-dockerx64">El Monitor de recursos le permite supervisar el uso de la CPU, el uso de la memoria y el flujo de red. Puede elegir entre supervisar en tiempo real o visualizar los datos anteriores.</p>
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Los datos anteriores solo se muestran si se marca <strong>Habilitar historial de uso</strong> en la pestaña <strong>Configuración</strong>.</li>
+<li class="enable-dockerx64">En Docker DSM, <strong>CPU y memoria</strong> muestra la información de uso de <strong>Docker Host</strong>.</li>
+</ul>
+</div>
+<h2>Rendimiento</h2>
+<p>Haga clic en la pestaña <strong>Rendimiento</strong> para ver los datos de utilización de recursos. La fecha, la hora y la información del gráfico se mostrarán al pasar el ratón por encima.</p>
+
+<h3>CPU</h3>
+<p>Puede ver el uso general de la CPU del <strong>Usuario</strong>, del <strong>Sistema</strong> y de <strong>Espera de E/S</strong>. La carga de CPU puede ser alta la primera vez que se inicie el Monitor de recursos, pues el sistema debe recopilar sus datos de recursos y cargar la página de IU al mismo tiempo.</p>
+<p><strong>Usuario</strong> muestra el porcentaje de CPU que se utiliza para ejecutar aplicaciones del usuario. <strong>Sistema</strong> muestra el porcentaje de CPU que se usa para el sistema y los IRQ de hardware/software. <strong>Espera de E/S</strong> muestra el porcentaje de CPU invertido en la Espera de E/S.</p>
+<p><strong>Utilización</strong> es la suma del uso de la CPU del <strong>Usuario</strong> y del <strong>Sistema</strong>.</p>
+<p>Se muestra la Media de carga en 1, 5 y 15 minutos, indicando la longitud de la cola de ejecución (es decir, la suma del número de procesos que se están ejecutando actualmente más el número que están esperando para ejecutarse). </p>
+<div class="section">
+<h4>Explicación de los términos</h4>
+<ul>
+<li><b>Espera de E/S</b>: la Espera de E/S indica que la CPU está en reposo y no está siendo utilizada por ningún programa. </li>
+<p>La Espera de E/S es un comportamiento normal. Dado que la velocidad de la CPU es mucho más rápida que la de la E/S, es normal que la CPU tenga que esperar a la transmisión de discos o red. Sin embargo, si el porcentaje de Espera de E/S es extremadamente grande, significa que la CPU invertirá la mayor parte del tiempo en la Espera de E/S y es posible que no se utilice bien. Puede usar configuraciones de grupo de discos (por ejemplo, SHR o RAID 5) o configuraciones de red (por ejemplo, Bonding) más eficientes para conseguir un mejor rendimiento del sistema.</p> 
+</ul>
+</div>
+<h3>Memoria</h3>
+<p>Se mostrará el uso de la memoria física y el espacio de intercambio. El uso de memoria sigue siendo elevado porque el sistema almacena en caché los datos de más frecuente acceso, por lo que los datos se pueden obtener rápidamente sin acceder al disco duro. La memoria en caché se liberará si la memoria total es insuficiente.</p>
+<p>Un uso alto del espacio de intercambio indica una memoria del sistema insuficiente y también afectará al rendimiento del sistema. Puede ver la velocidad de intercambio hacia dentro y hacia fuera seleccionando <strong>Intercambio</strong> en el menú desplegable de la parte superior. </p>
+
+<h3>Red</h3>
+<p>El gráfico de flujo de red muestra los datos enviados y recibidos en KB por segundo. Si PPPoE está conectado, su velocidad de transferencia también se mostrará en el gráfico.</p>
+
+<h3 class="disable-dockerx64">Disco</h3>
+<p class="disable-dockerx64">Puede elegir ver el uso del disco general, la tasa de transferencia o el IOPS haciendo clic en el menú desplegable de la parte superior del gráfico. Puede hacer clic en <strong>Ver todo</strong> en la parte inferior para seleccionar más discos marcando las casillas de verificación para añadir sus datos al gráfico.</p>
+
+
+<h3 class="disable-eds14 disable-dockerx64">Volumen</h3>
+<p class="disable-eds14 disable-dockerx64">Esta página muestra el estado de transferencia general de los volúmenes. Haga clic en el menú desplegable de encima del gráfico para ver el uso, la tasa de transferencia o el IOPS. Haga clic en el botón <strong>Ver todo</strong> para seleccionar volúmenes individuales y añadirlos al gráfico.</p>
+
+<h3 class="disable-eds14 disable-dockerx64">iSCSI</h3>
+<p class="disable-eds14 dixable-dockerx64">Esta página muestra el estado general de los iSCSI LUN que están en ejecución. Haga clic en el menú desplegable que aparece sobre el gráfico para seleccionar un LUN y ver su estado. Se muestran los siguientes tres gráficos por defecto: <strong>Rendimiento</strong>, <strong>IOPS</strong> y <strong>Latencia</strong>. Para obtener más información, pulse el botón <strong>Seleccionar gráficos</strong> para elegir los gráficos que desee ver.</p>
+
+
+<h2>Proceso</h2>
+<p>Haga clic en la pestaña <strong>Proceso</strong> para ver el uso de la CPU y de la memoria de cada proceso con el fin de reducir la carga de la CPU.</p>
+<p>El <strong>Estado</strong> del proceso puede ser <strong>En ejecución</strong>, <strong>En suspensión</strong> y <strong>Detenido</strong>. Los equivalentes de Linux del estado del proceso son <strong>en ejecución</strong>, <strong>detenido/rastreando</strong> y <strong>en suspensión</strong>. </p>
+<p>El estado <strong>En suspensión</strong> puede ir seguido de una letra con más información: por ejemplo, 'D' para suspensión del disco, 'Z' para zombi, 'X' para muerto.</p>
+
+<h2>Usuarios conectados</h2>
+<p> En esta pestaña puede visualizar y administrar los clientes que están conectados al sistema y están accediendo a los recursos en estos momentos. Esta sección muestra los clientes conectados a través de HTTP, TELNET, SSH, SMB/CIFS, AFP, FTP y NFS.</p>
+<h4>Para administrar las conexiones actuales, deberá realizar una de las siguientes opciones:</h4>
+<ul>
+<li>Haga clic en <b>Guardar</b> para exportar la lista actual a un archivo HTML.</li>
+<li>Haga clic en <b>Actualizar</b> para actualizar la lista.</li>
+<li>Haga clic en <b>Desconectar conexión</b> para no permitir que el usuario acceda al recurso. El usuario desconectado no vuelve a ser autorizado para tener acceso al recurso.</li>
+<li>Haga clic en <b>Deshabilitar usuario</b> para deshabilitar el usuario. Para volver a habilitarlo, vaya a <b>Menú principal</b> > <b>Panel de control</b> > <b>Usuario</b>.</li>
+</ul>
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>La opción <strong>Desconectar conexión</strong> no funciona con clientes NFS.</li>
+<li>Si los clientes NFS no desmontan carpetas compartidas correctamente, es posible que todavía aparezcan en la lista de usuarios conectados.</li>
+<li>Si Synology NAS se reinicia, los clientes NFS que estaban conectados previamente no aparecerán en la lista de usuarios conectados.</li>
+</ul>
+</div>
+
+
+<h2>Límite de velocidad</h2>
+<p>En la pestaña <strong>Límite de velocidad</strong>, puede ver y gestionar la lista de procesos de transferencia de archivos que aplicaban el límite de velocidad en Synology NAS.</p>
+<h4>Para actualizar la lista:</h4>
+<p>Haga clic en <strong>Actualizar</strong> para volver a cargar la página y obtener los registros más actualizados.</p>
+<h4>Para detener el proceso de transferencia de archivos:</h4>
+<p>Haga clic en <b>Desconectar conexión</b> para detener la transferencia de archivos. Tendrá que volver a iniciar la transferencia de archivos para completar el proceso correctamente.</p>
+
+
+<h2>Configuración</h2>
+<p>Haga clic en <strong>Configuración</strong> para configurar las siguientes opciones:</p>
+<ul>
+<li>Elija la <strong>Duración en tiempo real</strong> en minutos desde el menú desplegable.</li>
+<li>Marque <strong>Habilitar historial de usuario</strong> si desea ver los datos anteriores. Cuando esta opción esté conectada, puede alternar entre <strong>Tiempo real</strong>, <strong>1 día</strong>, <strong>1 semana</strong>, <strong>1 mes</strong> y <strong>1 año</strong> en el menú desplegable de la esquina superior derecha cuando visualice gráficos de rendimiento.</li> 
+<li>Marque <strong>Habilitar evento de rendimiento</strong> si desea supervisar el rendimiento del sistema.</li>
+</ul>
+
+<p>Haga clic en <strong>Aplicar</strong> para guardar la configuración.</p>
+
+<h2>Alarmas de rendimiento</h2>
+<h4>Para crear una alarma de rendimiento:</h4>
+<ol>
+<li>Vaya a <strong>Configuración</strong> > <strong>Regla de alarma de rendimiento</strong>.</li>
+<li>Haga clic en el botón <b>Crear</b>.</li>
+<li>Las configuraciones de reglas disponibles son las siguientes:</li>
+<ul>
+<li><strong>Recurso</strong>: Seleccione el recurso al que desea aplicar la regla.</li>
+<li><strong>Tipo</strong>: Elija el tipo de regla que desea crear.</li>
+<li><strong>Nivel</strong>: Elija el nivel de alarma.</li>
+<li><strong>Mayor que</strong>: Establezca el porcentaje máximo de su tipo de regla donde el sistema le notificará si se supera.</li>
+</ul>
+<li>Marque <strong>Habilitado</strong> si desea habilitar esta regla inmediatamente.</li>
+<li>Haga clic en <strong>OK</strong> para añadir la regla.</li>
+</ol>
+
+
+<div class="section">
+<h4>Mecanismo para las alarmas de rendimiento:</h4>
+<p>Las alarmas de rendimiento emplean el siguiente mecanismo para minimizar las falsas alarmas y evitar que se consuman excesivos recursos de los sistemas en un breve periodo.</p>
+<ol>
+	<li>El servicio de alarmas de rendimiento comprobará todas las reglas cada cinco minutos. No se activará ninguna acción si los valores supervisados se encuentran por debajo de los umbrales establecidos.</li>
+	<li>Cuando un valor supervisado supere su umbral, la alarma no se activará inmediatamente. En su lugar, el sistema comprobará la regla cinco veces más con un intervalo de 30 segundos.</li>
+	<li>Una vez haya modificado la duración del intervalo, si el valor supervisado supera el umbral cinco veces consecutivas, la alarma se activará. Sin embargo, si el valor supervisado se encuentra por debajo del umbral durante cualquiera de estas cinco comprobaciones, la duración del intervalo volverá a cambiarse a cinco minutos.</li>
+</ol>
+<p>Por lo tanto, para un único evento, la alarma se activará, como máximo, a los 450 segundos de haberse detectado el evento por primera vez.</p>
+
+<h4>Niveles de alarma:</h4>
+<p>Las alarmas de rendimiento activarán distintas acciones en función de los niveles de la alarma.</p>
+<ul>
+	<li><strong>Advertencia</strong>: genera un mensaje de advertencia en el registro del sistema pero no activa ninguna notificación del sistema.</li>
+	<li><strong>Crítico</strong>: no solo genera un mensaje en el registro del sistema, sino que también activa las notificaciones del sistema.</li>
+</ul>
+<p>Los registros de las alarmas de rendimiento pueden visualizarse desde la pestaña <strong>Alarma de rendimiento</strong> o el <strong>Centro de registros</strong> de DSM.</p>
+</div>
+
+
+<h4>Para ver alarmas de rendimiento:</h4>
+<ul>
+<li>Haga clic en la pestaña <strong>Alarma de rendimiento</strong> para ver todas las alarmas de rendimiento activadas.</li> 
+<li>Haga clic en <strong>Actualizar</strong> para obtener las alarmas más actualizadas.</li>
+</ul>
+
+<h4>Para exportar alarmas de rendimiento:</h4>
+<ol>
+<li>Haga clic en la flecha junto al botón <strong>Exportar</strong>.</li>
+<li>Puede elegir si desea exportar las alarmas en <strong>HTML</strong> o <strong>CSV</strong>.</li>
+</ol>
+<div class="section"><h4>Nota:</h4>
+<ul>
+<li>La compatibilidad con <strong>Alarmas de rendimiento</strong> varía entre modelos de Synology NAS. Para obtener más información, consulte <a href="http://www.synology.com/" target="_b
++lank">www.synology.com</a>.</li>
+</ul>
+</div>
+</body>
+</html>

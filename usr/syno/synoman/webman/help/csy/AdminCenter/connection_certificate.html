@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="certificate"></a>Certifikát</h2>
+
+<p>Certifikát slouží k zabezpečení služeb SSL zařízení Synology NAS, například web (všechny služby HTTPS), e-mail nebo FTP. Certifikát umožňuje uživatelům ověřit totožnost serveru a správce ještě před zahájením odesílání důvěrných informací.</p>
+
+<p>V části <strong>Ovládací panel</strong> > <strong>Zabezpečení</strong> > <strong>Certifikát</strong> je možné provádět tyto úkony:</p>
+
+<ul>
+<li>Získat certifikáty ze služby Let's Encrypt.</li>
+<li>Vytvářet certifikáty podepsané držitelem.</li>
+<li>Vytvářet žádosti o podpis certifikátu jiným certifikačním autoritám (CA).</li>
+<li>Podepisovat žádosti o podpis certifikátu od jiných žadatelů</li>
+<li>Spravovat certifikáty na zařízení Synology NAS.</li>
+</ul>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Od verze DSM 6.0 je možné na zařízení Synology NAS vytvořit a importovat více certifikátů.</li>
+<li>Jestliže kliknete na možnost <strong>Nastavit jako výchozí certifikát</strong>, bude se zpracovávaný certifikát používat jako výchozí certifikát. Původní výchozí certifikát přijde o svůj výchozí status.</li>
+</ul>
+</div>
+
+
+<h3>Certifikáty ze služby Let's Encrypt</h3>
+
+<h4>Získání certifikátů ze služby Let&apos;s Encrypt:</h4>
+<p>Certifikáty SSL/TLS je možné bezplatně a bezpečně získávat od služby <a href="https://letsencrypt.org/" target="_blank">Let&apos;s Encrypt</a>, otevřené a důvěryhodné certifikační autority.</p>
+
+<ol>
+<li>Klikněte na možnost <strong>Přidat</strong>.</li>
+<li>Vyberte možnost <strong>Přidat nový certifikát</strong> a klikněte na možnost <strong>Další</strong></li>
+<li>Vyberte možnost <strong>Získat certifikát ze služby Let&apos;s Encrypt</strong>.</li>
+<li>Zadejte následující informace: <ul><li><strong>Název domény</strong>: Zadejte doménu, kterou jste zaregistrovali u poskytovatele domén.</li>
+<li><strong>E-mail</strong>: Zadejte e-mailovou adresu použitou při registraci certifikátu.</li>
+<li><strong>Alternativní název předmětu</strong>: Aby bylo možné pokrýt jedním certifikátem více domén, zadejte zde názvy ostatních domén. Zadáním názvů domén služby Synology DDNS v následujícím formátu můžete také požádat o univerzální certifikát:<div class="code_div"><code>*.NÁZEV_DOMÉNY_SYNOLOGY_DDNS</code></div></li></ul></li>
+<li>Nastavení uložíte kliknutím na možnost <strong>Použít</strong>. Po potvrzení se certifikát okamžitě importuje do zařízení Synology NAS.</li>
+</ol>
+
+<div class="section">
+<h4>Poznámka:</h4><ul><li>Certifikáty ze služby Let&apos;s Encrypt je možné zaregistrovat pouze s omezeným počtem e-mailových účtů. Jestliže se tento limit překročí, použijte k získání dalších certifikátů dříve zaregistrovaný e-mailový účet.</li>
+<li>Ve službě Let&apos;s Encrypt je možné pro jednu doménu zaregistrovat pouze omezený počet certifikátů. Jestliže je tento limit překročen, proveďte jeden z následujících kroků: <ul><li>Zadejte současný název domény jako Alternativní název předmětu (SAN) a pro žádost o certifikát použijte jiný název domény.</li> 
+		<li>Chcete-li požádat o univerzální certifikát, zadejte do pole SAN <code>*.NÁZEV_DOMÉNY_SYNOLOGY_DDNS</code>.</li></ul><li>Služba Let&apos;s Encrypt provede před vydáním certifikátů pro vaše domény ověření domény. Ověřte, zda mají zařízení Synology NAS a směrovač otevřený port 80, určený k ověření domény z internetu. Veškerá ostatní komunikace se službou Let&apos;s Encrypt probíhá přes protokol HTTPS a zařízení Synology NAS je tak v bezpečí.</li>
+<li>Certifikáty vydané službou Let&apos;s Encrypt jsou platné po dobu 90 dní. Před vypršením platnosti certifikátů systém DSM tyto certifikáty po úspěšném ověření domény automaticky obnoví. Ověřte, zda mají zařízení Synology NAS a směrovač otevřený port 80, určený k obnovování certifikátů.</li>
+<li>Univerzální certifikáty jsou podporovány pouze pro službu Synology DDNS.</li></ul></div>
+
+<h3>Certifikáty podepsané držitelem</h3>
+
+<p>Pojem „certifikát podepsaný držitelem“ označuje certifikát, který byl vytvořen a podepsán stejným subjektem, jehož totožnost se v rámci certifikátu ověřuje (v tomto případě se jedná o zařízení Synology NAS). Certifikáty podepsané držitelem jsou podepsány soukromým klíčem, který byl vygenerován zařízením Synology NAS. Vzhledem k tomu, že certifikáty podepsané držitelem nebyly vydány certifikačními autoritami třetích stran, nepředstavují dostatečný důkaz totožnosti serveru a používají se obvykle pro zabezpečení spojení mezi serverem a skupinou známých uživatelů.</p>
+
+
+<h4>Vytvoření certifikátu podepsaného držitelem:</h4>
+<ol>
+	<li>Klikněte na možnost <strong>Přidat</strong>.</li>
+<li>Vyberte možnost <strong>Přidat nový certifikát</strong> a klikněte na možnost <strong>Další</strong></li>
+<li>Vyberte možnost <strong>Vytvořit certifikát podepsaný držitelem</strong>.</li>
+	<li>Postupujte podle pokynů průvodce nastavením.</li>
+</ol>
+
+
+<h3>Žádosti o podpis certifikátu (CSR)</h3>
+
+<p>Kromě certifikátů vydaných službou Let's Encrypt a certifikátů podepsaných držitelem je možné požádat také o certifikáty od dalších komerčních nebo jiných certifikačních autorit. Při získání certifikátu může být potřeba udělat dvě níže uvedené věci:</p>
+
+<ul>
+<li>Vytvoření žádosti o podpis certifikátu (CSR): Šifrovaný text vygenerovaný zařízením Synology NAS, který obsahuje informace, jež budou součástí certifikátu. Mezi tyto informace patří název domény, název organizace, obecný popis oblasti a e-mailová adresa.</li>
+<li>Sdělte certifikační autoritě údaje o totožnosti své osoby či organizace a dokažte, že jste majiteli názvu domény, která byla zadaná do pole společného názvu žádost o podpis certifikátu.</li>
+</ul>
+
+
+<h4>Vytvoření žádostí o podpis certifikátu:</h4>
+
+<ol>
+	<li>Klikněte na možnost <strong>CSR</strong>.</li>
+    <li>Vyberte možnost <strong>Vytvořit žádost o podpis certifikátu (CSR)</strong>.</li>
+	<li>Žádost o podpis certifikátu vytvořte a stáhněte podle pokynů průvodce nastavením.</li>
+    <li>Odešlete žádost CSR a požadované informace certifikační autoritě, aby je potvrdila.</li>
+</ol>
+
+<p>Po obdržení požadovaného certifikátu vydaného certifikační autoritou je možné ho společně se soukromým klíčem naimportovat.</p>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<p>Společně s žádostí o podpis certifikátu se vygeneruje také soukromý klíč. Certifikační autority tento soukromý klíč nepotřebují. Tento soukromý klíč pro zařízení Synology NAS uschovejte na bezpečném místě.</p>
+</div>
+
+<h4>Podepsání žádosti o podpis certifikátu:</h4>
+
+<p>Uživatelé jiných zařízení posílat mohou žádosti o podpis certifikátu, aby získali přístup k vašemu zařízení Synology NAS. Tyto žádosti je možné podepsat pomocí kořenového certifikátu zařízení Synology NAS a vygenerované certifikáty odeslat žadatelům.</p>
+
+<ol>
+	<li>Klikněte na možnost <b>CSR</b>.</li>
+	<li>Klikněte na možnost <b>Podepsat žádost o podpis certifikátu (CSR)</b>.</li>
+	<li>Odešlete žádost o podpis certifikátu a zadejte příslušné údaje. </li>
+	<li>Klikněte na možnost <b>Další</b>. Systém podepíše žádost o certifikát a vytvoří příslušný certifikát.</li>
+</ol>
+
+
+
+<h3>Správa certifikátů</h3>
+
+
+<h4>Import certifikátů:</h4>
+<p>Aby bylo zařízení Synology NAS pro jiná zařízení důvěryhodné, je možné importovat dříve exportovaný certifikát nebo certifikát od komerční nebo jiné certifikační autority spolu se soukromým klíčem.</p>
+
+<ol>
+<li>Klikněte na možnost <strong>Přidat</strong>.</li>
+<li>Vyberte možnost <strong>Přidat nový certifikát</strong> a klikněte na možnost <strong>Importovat certifikát</strong></li>
+<li>Podle pokynů průvodce dokončete import certifikátu.</li>
+</ol>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Některé certifikáty vydané certifikační autoritou vyžadují zprostředkující certifikáty.</li>
+<li>Certifikáty musí mít formát X.509 PEM.</li>
+<li>Soukromé klíče musí mít formát RSA a nesmí být chráněny přístupovým heslem.</li>
+</ul>
+</div>
+
+
+<h4>Export certifikátů:</h4>
+
+<p>Stávající certifikáty je možné za účelem správy či archivace stáhnout a importovat do zařízení jiných uživatelů, aby se tak vytvořila důvěryhodnost mezi vaším zařízením Synology NAS a jejich zařízeními. Exportovaný soubor obsahuje certifikát, soukromý klíč a kořenový certifikát zařízení Synology NAS podepsaný svým držitelem. </p>
+
+<ol>
+<li>Vyberte požadovaný certifikát.</li>
+<li>Klikněte na možnost <strong>Exportovat certifikát</strong>.</li>
+</ol>
+
+<h4>Obnovení certifikátů:</h4>
+
+<p>Pokud se blíží datum skončení platnosti certifikátu, lze certifikát pomocí této možnosti obnovit.</p>
+
+<ol>
+	<li>Klikněte na možnost <b>CSR</b>.</li>
+	<li>Vyberte možnost <b>Obnovit certifikát</b> a klikněte na možnost <b>Další</b></li>
+	<li>Stáhněte vygenerovaný soukromý klíč a žádost o podpis certifikátu.</li>
+    <li>Odešlete žádost CSR o obnovený certifikát požadované certifikační autoritě.</li>
+</ol>
+
+
+<h4>Náhrada certifikátů:</h4>
+<p>Pokud nechcete používat stávající certifikáty, můžete je vyměnit za náhradní certifikáty.</p>
+
+<ol>
+<li>Klikněte na možnost <strong>Přidat</strong>.</li>
+<li>Vyberte možnost <strong>Nahradit stávající certifikát</strong> a v rozevírací nabídce vyberte nežádoucí certifikát.</li>
+<li>Dokončete náhradu certifikátu podle pokynů průvodce.</li>
+</ol>
+
+
+<h4>Úprava certifikátů:</h4>
+<p>Je možné upravovat popis certifikátu nebo nastavit jako výchozí jiný certifikát.</p>
+
+<ol>
+<li>Vyberte požadovaný certifikát.</li>
+<li>Po kliknutí na možnost <strong>Edit</strong> budete moci provést některý z uvedených úkonů:<ul>
+<li>Změnit popis certifikátu a kliknout na možnost <strong>OK</strong>.</li>
+<li>Volbou <strong>Nastavit jako výchozí certifikát</strong> mu přiřadíte výchozí status. Klikněte na možnost <strong>Použít</strong>.</li>
+</ul>
+</ol>
+
+
+
+<h4>Konfigurace certifikátů:</h4>
+<p>Certifikát pro službu je možné vyměnit za jiný certifikát, který vyhovuje vašim potřebám.</p>
+
+<ol>
+<li>Kliknutím na možnost <strong>Konfigurovat</strong> zobrazíte všechny služby a odpovídající certifikáty.</li>
+<li>Klikněte na současný certifikát cílové služby.</li>
+<li>V rozevírací nabídce vyberte příslušný certifikát.</li>
+<li>Klikněte na možnost <strong>OK</strong>.</li>
+</ol>
+
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Pro připojení, které není uvedeno v seznamu služby, bude platit <strong>výchozí certifikát systému</strong>.</li>
+</ul>
+</div>
+
+
+
+
+<h4>Odstranění certifikátů:</h4>
+
+<ol>
+<li>Vyberte nežádoucí certifikát.</li>
+<li>Odstranění certifikátu dokončete kliknutím na možnost <strong>Odstranit</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Výchozí certifikát není možné odstranit.</li>
+<li>Jestliže odstraníte jiný než výchozí certifikát, převezme odpovídající služby výchozí certifikát. Dávejte pozor, protože výchozí certifikát nemusí být s těmito službami zcela kompatibilní.</li>
+</ul>
+
+<p></p>
+</div>
+
+</body>
+</html>
+

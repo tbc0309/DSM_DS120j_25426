@@ -1,0 +1,43 @@
+[sssd]
+config_file_version=2
+reconnection_retries=3
+sbus_timeout=30
+services=nss, pam
+domains=example.com
+
+[nss]
+filter_groups=root
+filter_users=root
+reconnection_retries=2
+memcache_timeout=300
+syno_memcache_elements = 10000
+entry_cache_nowait_percentage=50
+
+[pam]
+reconnection_retries=3
+offline_credentials_expiration=2
+offline_failed_login_attempts=2
+offline_failed_login_delay=50
+
+# Example LDAP domain
+[domain/example.com]
+entry_cache_timeout=5400
+ldap_search_base=dc=example,dc=com
+ldap_default_bind_dn=uid=root,cn=users,dc=example,dc=com
+id_provider=ldap
+auth_provider=ldap
+ldap_pwd_policy=shadow
+ldap_schema=rfc2307bis
+ldap_group_nesting_level=2
+ldap_uri=ldap://127.0.0.1
+ldap_id_use_start_tls=false
+ldap_auth_disable_tls_never_use_in_production=false
+ldap_tls_reqcert=never
+case_sensitive=preserving
+ldap_tls_cacertdir=/etc/ssl/certs
+uidmap_min=0
+uidmap_max=0
+gidmap_min=0
+gidmap_max=0
+# ldap_tls_key=/var/lib/ldap/ldapclient.key
+# ldap_tls_cert=/var/lib/ldap/ldapclient.crt

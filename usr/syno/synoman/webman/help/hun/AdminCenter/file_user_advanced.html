@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Speciális felhasználói beállítások</h2>
+
+<p>A speciális felhasználói beállítások módosításához lépjen a <strong>Vezérlőpult</strong> > <strong>Felhasználó</strong> > <strong>Speciális</strong> menüpontra. Itt az alábbi lehetőségek érhetők el. </p>
+
+<h3>Jelszóbeállítások</h3>
+<p>Beállíthatja, hogy milyen jelszóbiztonsági és jelszóerősségi szabályok vonatkozzanak a(z) Synology NAS eszköz felhasználóira.</p>
+
+<h4>Elfelejtett jelszavak e-mailen keresztül történő visszaállításának engedélyezése a felhasználók számára:</h4>
+<ol>
+	<li>Jelölje be az <strong>Nem rendszergazdai felhasználók e-mailen keresztül történő jelszó-visszaállításának engedélyezése</strong> jelölőnégyzetet.</li>
+	<li>A beállítások mentéséhez kattintson az <strong>Alkalmaz</strong> gombra.</li>
+	<li>A DSM bejelentkezési oldalán megjelenik az „Elfelejtette a jelszavát?” szövegű hivatkozás. Elfelejtett jelszó esetén a felhasználó rákattinthat erre a hivatkozásra, és megadhatja felhasználónevét. Ekkor a rendszer e-mailt küld a felhasználónak, amelyben szerepelni fog egy hivatkozás, amellyel a felhasználó visszaállíthatja jelszavát.</li>
+</ol>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>A funkció engedélyezése előtt győződjön meg róla, hogy engedélyezve van-e az SMTP e-mail-értesítési szolgáltatás. Ehhez lépjen a <strong>Vezérlőpult</strong> > <strong>Értesítés</strong> menüpontra.</li>
+	<li>Ahhoz, hogy üzeneteket fogadhassanak a rendszertől, a felhasználóknak meg kell adniuk egy e-mail-címet a fiókjuk felhasználói adatokat tartalmazó részében.</li>
+	<li>Az <strong>administrators</strong> csoporthoz tartozó felhasználók nem használhatják a funkciót jelszavuk visszaállítására.</li>
+	<li>A tartományfelhasználók nem használhatják ezt a lehetőséget jelszavuk visszaállítására.</li>
+	<li>Az LDAP-felhasználók ezzel a lehetőséggel visszaállíthatják jelszavukat, ha a(z) Synology NAS eszköz az LDAP-címtárszerver, és megfelel az alábbi követelményeknek:<ul>
+			<li>Telepítve van a Synology <strong>Directory Server</strong> csomag 2457-es vagy újabb verziója.</li>
+			<li>Az LDAP-felhasználó nem lehet az administrators, a Directory Operators, a Directory Consumers és a Directory Clients csoportok tagja.</li>
+			<li>Ha a Synology Directory Server <strong>Consumer</strong>, a hozzá tartozó <strong>Provider</strong> is köteles teljesíteni a fenti feltételeket.</li>
+			<li>A végső Providernek elérhetőnek kell lennie a felhasználó böngészőjéből, illetve be kell kapcsolni rajta az e-mail-értesítéseket.</li>
+			<li>Annak érdekében, hogy az elfelejtett jelszó visszaállítására szolgáló hivatkozást más ne vehesse igénybe, a hivatkozás csak arról az IP-címről használható, amelyről a jelszó-visszaállítási kérést elküldték.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>A visszaállítást követően a felhasználó köteles a jelszót módosítani:</h4>
+<ol>
+	<li>Jelölje be <strong>A felhasználó köteles módosítani jelszavát, ha azt a rendszergazda visszaállítja</strong> jelölőnégyzetet.</li>
+	<li>A beállítások mentéséhez kattintson az <strong>Alkalmaz</strong> gombra.</li>
+	<li>Ha a rendszergazda a felhasználó nevében módosítja a jelszót, akkor azt a jelszót a felhasználónak a következő bejelentkezéskor módosítania kell.</li>
+</ol>
+
+<h4>Jelszóerősségi szabályok engedélyezése:</h4>
+<ol>
+	<li>Jelölje be a <strong>Jelszóerősségi szabályok alkalmazása</strong> jelölőnégyzetet.</li>
+	<li>Igény szerint jelölje be a következő lehetőségek jelölőnégyzetét, vagy törölje azok bejelölését:<ul>
+			<li><strong>A jelszó ne tartalmazza a felhasználó nevét és leírását</strong>: A jelszó nem tartalmazhatja a felhasználónevet és a felhasználóhoz tartozó leírást. Az UTF-8 kódolású karaktereket a készülék kihagyja.</li>
+			<li><strong>Tartalmazzon kis- és nagybetűket is</strong>: A jelszónak kis- és nagybetűket egyaránt kell tartalmaznia.</li>
+			<li><strong>Számkaraktert tartalmazzon</strong>: A jelszónak legalább egy számjegyet (0~9) kell tartalmaznia.</li>
+			<li><strong>Speciális karaktert tartalmazzon</strong>: A jelszónak legalább egy különleges ASCII-karaktert kell tartalmaznia (például <span class="note_content">&#126; &#96; &#33; &#64; &#35; &#36; &#37; &#94; &amp; &#42; &#40; &#41; &#45; &#95; &#61; &#43; &#91; &#123; &#93; &#125; &#92; &#124; &#59; &#58; &#39; &#34; &lt; &gt; &#47; &#63;</span>).</li>
+			<li><strong>Gyakran használt jelszavak kizárása</strong>: Megakadályozza, hogy a felhasználók gyakran használt jelszót állítsanak be, például: <em>123456</em>, <em>password</em>, <em>qwerty</em> stb.</li>
+			<li><strong>Jelszó minimális hossza</strong>: A jelszónak legalább a szövegmezőben megadott karaktert tartalmaznia kell. 6 és 127 karakter közötti hosszúságot adjon meg.</li>
+			<li><strong>Jelszóelőzmények</strong>: A jelszónak különböznie kell a korábban beállított jelszavaktól, amelyeknek száma itt állítható be.</li>
+		</ul>
+	</li>
+	<li>A beállítások mentéséhez kattintson az <strong>Alkalmaz</strong> gombra.</li>
+</ol>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>A jelszóerősségi korlátozás csak új jelszó esetén alkalmazhatók. Például az újonnan beállított jelszóerősségi szabályok csak egy új felhasználói fiók létrehozásakor vagy egy felhasználó általi jelszómódosításkor kerülnek alkalmazásra. A meglévő jelszavakra és az importált felhasználói fiókokhoz tartozó jelszavakra nem vonatkoznak a jelszóerősségi szabályok.</li>
+</ul>
+</div>
+
+<h3>Jelszó lejárata</h3>
+<p>A jelszólejárati funkció segítségével növelheti a felhasználói fiókok biztonságát, mivel ez a jelszavak meghatározott időközönkénti módosítására kötelezi a felhasználókat.</p>
+
+<h4>Jelszólejárat ütemezésének beállítása:</h4>
+<ol>
+	<li>Jelölje be a <strong>Jelszólejárat engedélyezése</strong> jelölőnégyzetet.</li>
+	<li>A következő lehetőségek konfigurálhatók:<ul>
+			<li><strong>Jelszó maximális érvényességi időtartama</strong>: A napok számát határozza meg, amelyek elteltével a jelszó lejár.</li>
+			<li><strong>Jelszó minimális érvényességi időtartama</strong>: A funkció engedélyezéséhez jelölje be a jelölőnégyzetet, és határozza meg a napok számát, amelyeknek el kell telniük, hogy a felhasználó ismét módosíthassa jelszavát.</li>
+			<li><strong>A rendszer bejelentkezést követően szólítsa fel a felhasználót a lejárat előtti jelszómódosításra</strong>: A funkció engedélyezéséhez jelölje be a jelölőnégyzetet, és határozza meg, hogy a jelszó lejárta előtt hány nappal kapjanak a felhasználók bejelentkezéskor emlékeztetőt jelszavuk módosítására vonatkozóan.</li>
+			<li><strong>A felhasználók módosíthassák a jelszót annak lejárta után</strong>: Jelölje be a jelölőnégyzetet, ha szeretné engedélyezni, hogy a felhasználók jelenlegi, de már lejárt jelszavukkal beléphessenek, és módosíthassák azt.</li>
+			<li><strong>Lejárásról tájékoztató e-mailek küldése</strong>: Jelölje be ezt a jelölőnégyzetet, ha szeretné, hogy a rendszer e-mailben emlékeztesse a felhasználókat a jelszómódosításra.</li>
+		</ul>
+	</li>
+	<li>A beállítások mentéséhez kattintson az <strong>Alkalmaz</strong> gombra.</li>
+</ol>
+
+<h3>Kétlépéses ellenőrzés</h3>
+<p>A kétlépéses ellenőrzés nagyobb biztonságot nyújt a DSM felhasználói fiókjai számára. A DSM rendszergazdáktól (administrators csoport), illetve valamennyi DSM-felhasználótól megkövetelheti a kétlépéses ellenőrzés használatát, további védelmet nyújtva ezzel fiókjaik számára.</p>
+
+<h4>Kétlépéses ellenőrzés megkövetelése DSM-felhasználók számára:</h4>
+<ol>
+	<li>Jelölje be a <strong>Kétlépéses ellenőrzés végrehajtása a következő felhasználók esetén</strong> jelölőnégyzetet, és válassza ki, hogy mely felhasználók esetében kívánja alkalmazni ezt a beállítást.</li>
+	<li>A beállítások mentéséhez kattintson az <strong>Alkalmaz</strong> gombra.</li>
+	<li>Ha alkalmazza az ellenőrzés megkövetelését, a DSM rendszerbe történő bejelentkezés előtt a rendszer felkéri azokat a felhasználókat, akik még nem engedélyezték a kétlépéses ellenőrzést, hogy végezzék el a beállításokat.</li>
+</ol>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>Amennyiben még nem állította be a kétlépéses ellenőrzést a <strong>Személyes</strong> > <strong>Fiók</strong> menüpontban, a kétlépéses ellenőrzés beállítási varázslója jelenik meg, amely segít megadni a szükséges beállításokat.</li>
+	<li>Ha itt tiltja le a kétlépéses ellenőrzés megkövetelését, az nincs hatással az egyes felhasználók kétlépéses ellenőrzésére vonatkozó beállításokra, illetve nem tiltja le azokat. A felhasználók megtarthatják a kétlépéses ellenőrzés beállításait, de a <strong>Személyes</strong> > <strong>Fiók</strong> menüpontban akár le is tilthatják azokat.</li>
+	<li style="display: none;">A kétlépéses ellenőrzés az SSH-val kapcsolatos összes szolgáltatásra (például az SSH-terminálra, az SFTP-re vagy az SSH átviteli titkosítást használó rsyncre) érvényes lesz. Mivel azonban a Hyper Backup és az rsync-en keresztül megvalósított, SSH átviteli titkosítást használó Megosztott mappa szinkronizálása szolgáltatások nem támogatják a kétlépéses ellenőrzést, ezek nem fognak megfelelően működni.</li>
+</ul>
+</div>
+
+
+<h3>Felhasználói home mappa</h3>
+
+<p>Ha a <strong>guest</strong> fiókot kivéve minden felhasználó számára szeretne személyes <strong>home</strong> mappát létrehozni, engedélyezze a felhasználói home mappák funkciót. A felhasználók CIFS, AFP, FTP vagy a File Station segítségével érhetik el home mappájukat.</p>
+
+<p>Az <strong>administrators</strong> csoportba tartozó felhasználók a <strong>homes</strong> alapértelmezett megosztott mappa alatti összes személyes mappához hozzáférnek. A home mappa neve megegyezik a felhasználói fiók nevével.</p>
+
+<h4>A felhasználói home szolgáltatás engedélyezése:</h4>
+<ol>
+	<li>Jelölje be a <strong>Felhasználói kezdőlap szolgáltatás engedélyezése</strong> lehetőséget.</li>
+	<li>Ha egynél több kötetet használ, válassza ki, hogy hol kívánja tárolni a <strong>homes</strong> mappát.</li>
+	<li>Kattintson az <strong>Alkalmaz</strong> gombra.</li>
+</ol>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>Ha a helyi felhasználói home szolgáltatás le van tiltva, a rendszer a tartományfelhasználói home szolgáltatást is letiltja.</li>
+</ul>
+</div>
+
+<h4>A felhasználói home szolgáltatás letiltása:</h4>
+<ol>
+	<li>Törölje a <strong>Felhasználói kezdőlap szolgáltatás engedélyezése</strong> jelölőnégyzet bejelölését.</li>
+	<li>A beállítások mentéséhez kattintson az <strong>Alkalmaz</strong> gombra.</li>
+</ol>
+
+<p>A felhasználói home szolgáltatás letiltása után a <strong>homes</strong> megosztott mappához csak a rendszergazda fér hozzá. A felhasználók akkor fogják ismét elérni home mappáikat, ha ismét engedélyezi a felhasználói home szolgáltatást.</p>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>A <strong>homes</strong> megosztott mappa törléséhez először le kell tiltani a felhasználók home mappáját biztosító szolgáltatást.</li>
+	<li>A tartományfelhasználói home szolgáltatást letiltja a rendszer, ha a helyi felhasználói home szolgáltatást letiltják.</li> 
+</ul> 
+</div>
+
+</body>	
+</html> 

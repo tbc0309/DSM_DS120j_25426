@@ -1,0 +1,136 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Alterar o Tipo de RAID de um Volume ou Grupo de Discos - Ajuda do Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing volumes and disk groups on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Alterar o Tipo de RAID de um Volume ou Grupo de Discos</h2>
+
+<p>Os volumes e grupos de discos podem ser alterados de um tipo de RAID para outro, sem perda dos dados existentes. Por exemplo, pode criar um volume RAID 1 no seu Synology NAS e mais tarde mudar para RAID 5 se instalar mais discos rígidos. Este artigo fornece instruções para alterar o tipo de RAID de volumes e grupos de discos existentes no seu Synology NAS.</p>
+<h3>Limitações do Tipo de RAID</h3>
+
+<p>Apenas alguns tipos de RAID podem ser alterados para alguns outros tipos de RAID. Consulte a tabela seguinte para obter detalhes.</p>
+
+<table>
+  <tr>
+    <th width="50%">Tipo de RAID</th>
+    <th width="50%">Pode ser alterado para...</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1<br /> RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>Exemplo:</h4>
+<p>RAID 1 pode ser alterado para RAID 5, mas RAID 5 não pode ser alterado para RAID 1.</p>
+</div>
+
+
+<h3>Requisitos de Disco Rígido</h3>
+
+<p>Para alterar o tipo de RAID de um volume ou grupo de discos, deverá haver um número suficiente de discos rígidos instalados no seu Synology NAS. Consulte abaixo o número mínimo de discos rígidos necessário para cada tipo de RAID.</p>
+
+<table>
+  <tr>
+    <th width="50%">Tipo de RAID pretendido</th>
+    <th width="50%">Discos rígidos necessários</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2 ou 4</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 ou 5 (consoante a constituição do disco de SHR-1)</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>Exemplo:</h4>
+<p>Se pretender alterar um volume RAID 1 para RAID 5, serão necessários, pelo menos, três discos rígidos no total (ou seja, os dois discos rígidos pertencentes ao volume RAID 1, mais um disco rígido livre para adicionar ao volume).</p>
+</div>
+
+<div class="section">
+<h4>Nota:</h4>
+
+<p>SHR-1 com as seguintes configurações de disco poderá requerer dois discos adicionais ao mudar para SHR-2:</p>
+<ul>
+<li>Existem apenas dois discos.</li>
+<li>Todos os discos têm diferentes capacidades.</li>
+<li>Três ou mais discos na Matriz RAID contêm um par de discos de maior capacidade quando comparado com outros discos na Matriz RAID.</li>
+</ul>
+</div>
+
+<h3>Alterar tipo de RAID</h3>
+
+<p>No exemplo seguinte, vamos alterar um volume <strong>Basic</strong> para um volume <strong>RAID 1</strong>.</p>
+
+<div class="section">
+<h4>Antes de Começar:</h4>
+<ul>
+<li>Certifique-se de que o estado do seu volume ou grupo de discos é <b>Normal</b>.</li>
+<li>Ao adicionar novos discos rígidos a um volume ou grupo de discos, esses discos rígidos devem ser maiores que o disco rígido mais pequeno no volume ou grupo de discos.</li>
+<li>O estado de novos discos rígidos deve ser <b>Inicializado</b> ou <b>Não inicializado</b>.</li></ul>
+</div>
+
+<h4>Para alterar o tipo de RAID de um volume:</h4>
+
+<ol>
+<li>Abra o <strong>Gestor de armazenamento</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Aceda a <b>Volume</b>.  (Se pretender alterar o tipo de RAID de um grupo de discos, então aceda ao separador <b>Grupo de discos</b>.)</li>
+<li>Selecione o volume que pretende alterar e clique em <b>Gerir</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Quando for exibido o assistente de configuração, selecione <b>Alterar o tipo de RAID</b>. Em seguida, clique em <b>Seguinte</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>Selecione o tipo de RAID para o qual pretende alterar o volume. Clique em <b>Seguinte</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>Selecione o(s) disco(s) rígido(s) para adicionar ao volume existente. Em seguida, clique em <b>Seguinte</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>Siga as instruções do assistente para concluir. Note que os dados existentes no disco rígido adicionado devem ser eliminados.</li></ol>
+
+</body>
+</html>

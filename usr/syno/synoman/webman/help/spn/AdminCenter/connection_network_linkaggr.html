@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Red</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="link_aggr"></a>Link Aggregation</h2>
+<p>Synology NAS admite m&uacute;ltiples LAN, permitiendo que combine esas interfaces LAN con ayuda de la tecnolog&iacute;a Link Aggregation. Link Aggregation aumenta el ancho de banda del Synology NAS mediante la adici&oacute;n de varias interfaces de red y proporciona la funci&oacute;n de conmutaci&oacute;n por error para el tr&aacute;fico de manera que la conexi&oacute;n a la red se mantenga en casos de fallo de conexi&oacute;n.</p>
+<p>Despu&eacute;s de que las interfaces LAN se combinen, ver&aacute; una nueva interfaz llamada <b>Bond</b> en <b>Panel de control</b> &gt; <b>Red</b> &gt; <b>Interfaz de red</b>, que puede configurarse de la misma forma que lo har&iacute;a con otras interfaces (como LAN o PPPoE).</p>
+
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+<li>Link Aggregation solo est&aacute; disponible en modelos con al menos dos puertos LAN.</li>
+<li>Al habilitar Link Aggregation, el tr&aacute;fico de red se ajustar&aacute; y equilibrar&aacute; autom&aacute;ticamente para cada dispositivo conectado.</li>
+<li>Si las interfaces de red est&aacute;n conectadas a varios conmutadores, aseg&uacute;rese de que los puertos de los conmutadores est&aacute;n en el mismo LAN o VLAN.</li>
+</ul>
+</div>
+
+
+<h4>Para combinar m&uacute;ltiples interfaces LAN con Link Aggregation:</h4>
+<ol>
+<li>Vaya al <strong>Panel de control</strong> &gt; <strong>Red</strong> &gt; <strong>Interfaz de red</strong>. Haga clic en <strong>Crear</strong> &gt; <strong>Crear Bond</strong>.</li><img src="about:blank" class="help_image"/><li>Seleccione el modo que desee.<div class="section">
+<h4>Descripciones de los modos:</h4>
+<ul>
+  <li><strong>Adaptive Load Balancing</strong>: Este modo optimiza el tr&aacute;fico de red recibido y enviado por Synology NAS sin importar que el conmutador sea compatible con Link Aggregation o no. Para evitar errores inesperados no habilite Link Aggregation en el conmutador incluso si es compatible.</li>
+  <li><strong>IEEE 802.3ad Din&aacute;mico Link Aggregation</strong>: Este modo optimiza el tr&aacute;fico de red recibido y enviado por el Synology NAS y requiere que se habilite IEEE 802.3ad (Dynamic) Link Aggregation (LACP, 802.1AX) en los conmutadores. Si se utilizan varios conmutadores, estos deben ser apilables y se deben configurar correctamente.</li>
+<li><strong>Balance XOR</strong>: Este modo equilibra el tr&aacute;fico de red recibido y enviado por el Synology NAS y requiere que se habilite Static Link Aggregation en los conmutadores. Si se utilizan varios conmutadores, estos deben ser apilables y se deben configurar correctamente. Aunque el conmutador no sea compatible con Link Aggregation tambi&eacute;n es posible equilibrar el Synology NAS. Con este modo se pueden detectar los enlaces perdidos, pero no la causa (por ejemplo, cuando los cables de Ethernet se desenchufan o el conmutador no est&aacute; configurado correctamente).</li>
+<li><strong>Activo/En reposo</strong>: Este modo proporciona la caracter&iacute;stica de network fault tolerance al Synology NAS. O sea, cuando la interfaz de la red activa se desconecta, uno de los otros puertos LAN tomar&aacute; el control para mantener la conexi&oacute;n de red. Puede elegir este modo sin configurar el interruptor o con un interruptor compatible con IEEE 802.3ad Link Aggregation.</li>
+</ul>
+<p>Si ha habilitado Open vSwitch, puede seleccionar uno de los siguientes modos:</p>
+<ul>
+ <li><b>Equilibrio SLB</b>: este modo equilibra el tr&aacute;fico de red sin necesidad de compatibilidad con conmutadores de red espec&iacute;ficos y habilita la conexi&oacute;n entre dos conmutadores.</li>
+ <li><b>Equilibrio TCP</b>: este modo habilita la conexi&oacute;n con los conmutadores configurados como Din&aacute;mico Link Aggregation (IEEE 802.3ad LACP). Si se utilizan varios conmutadores, deben ser apilables y se deben configurar correctamente.</li>
+ <li><b>Modo Activo/Copia de seguridad</b>: este modo proporciona a su Synology NAS network fault tolerance mediante dos interfaces de red. Cuando la interfaz de la red activa presenta un funcionamiento incorrecto, la otra tomar&aacute; el control para mantener la conectividad de red. Puede elegir este modo sin configurar el interruptor.</li>
+</ul>
+</div>
+</li><img src="about:blank" class="help_image"/><li>Seleccione las interfaces para crear Link Aggregation.</li><img src="about:blank" class="help_image"/><li>Configure los ajustes de IP. Tambi&eacute;n puede habilitar VLAN en caso necesario. Haga clic en <b>Aplicar</b> para guardar los cambios.</li><img src="about:blank" class="help_image"/><li>Cuando acabe, podr&aacute; ver la nueva interfaz <b>Bond 1</b> en la lista <b>Interfaz de red</b>.</li><img src="about:blank" class="help_image"/></ol>
+
+<h4>Para editar la configuraci&oacute;n de Link Aggregation:</h4>
+<ol>
+<li>Para cambiar el modo de Link Aggregation o ver la informaci&oacute;n de los dispositivos f&iacute;sicos, vaya a <b>Panel de control</b> &gt; <b>Red</b> &gt; <b>Interfaz de red</b>.</li>
+<li>Seleccione la interfaz <b>Bond 1</b> y, a continuaci&oacute;n, haga clic en el bot&oacute;n <b>Editar</b>.</li><img src="about:blank" class="help_image"/><li>Vaya a las pesta&ntilde;as correspondientes para editar la configuraci&oacute;n deseada.</li>
+</ol>
+
+<h4>Para eliminar Link Aggregation:</h4>
+<ol>
+<li>Vaya al <b>Panel de control</b> &gt; <b>Red</b> &gt; <b>Interfaz de red</b>.</li>
+<li>Seleccione la interfaz <b>Bond 1</b> y, a continuaci&oacute;n, haga clic en el bot&oacute;n <b>Eliminar</b>.</li><img src="about:blank" class="help_image"/><li>Una vez que haya terminado, ver&aacute; las dos interfaces LAN independientes en la lista Interfaz de red.</li><img src="about:blank" class="help_image"/></ol>
+
+</body>
+</html>
+

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Web Hizmetleri</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Web Uygulamaları</h2>
+
+<p>Yerleşik Web Station özelliği ve PHP desteği ile Synology NAS ürününüzde kolayca bir web sitesi barındırabilir ve işletmeniz için ya da hobi olarak dinamik web siteleri oluşturabilirsiniz. Buna ek olarak Paket Merkezi, İçerik Yönetimi, Müşteri İlişkileri Yönetimi ve e-Ticaret sistemi gibi çeşitli 3. taraf paketleri de sunar. Web sitenizin dosyalarını depolamak üzere <b>web</b> adı verilen varsayılan bir paylaşımlı klasör oluşturulacaktır.</p>
+<h4>Web Station'ı etkinleştirmek için:</h4>
+<ol>
+<li><strong>Denetim Masası</strong> > <strong>Web Hizmetleri</strong> öğesine gidin.</li>
+<li><b>Web Station'ı etkinleştir</b> seçeneğini işaretleyin.
+</li>
+<li><b>Uygula</b>'ya tıklayın.</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Daha iyi esneklik ve güvenlik için, görevleri yürütmek için Web Station <strong>http</strong> kullanıcı grubunu kullanır. Bu yüzden, web sayfalarınız için erişim izinlerini kontrol etmek için, lütfen <strong>http</strong> grubunun erişim izinlerini her bir ilgili klasör ve dosya için değiştirin. Örneğin, <strong>web</strong> paylaşımlı klasöründeki <strong>sample.htm</strong> dosyasının Web Station yoluyla erişilebilir olmasını istiyorsanız, <strong>http</strong> grubunun <strong>web</strong> paylaşımlı klasörü ile birlikte <strong>sample.htm</strong> dosyası için okuma/yazma izinlerine sahip olduğundan emin olmanız gerekir.</li>
+
+<li>Ana sayfa dosyası <strong>index.htm</strong>, <strong>index.html</strong> veya <strong>index.php</strong> olarak adlandırılmalıdır.</li>
+
+<li>PHP posta() işlevini kullandığınızda, sistem otomatik olarak <strong>Bildirim</strong> sayfasındaki SMTP sunucu bilgisini alacak ve kullanacaktır. E-posta bildirimlerini etkinleştirdiğinizden ve doğru SMTP sunucusu bilgilerini girdiğinizden emin olun.</li>
+
+<li><b>web</b> paylaşımlı klasörünün gerçek yolu <b>/volume1/web</b>'dir. Bazı uygulamalar kullanıcının yapılandırma dosyasında yolu ayarlamasını gerektirir.</li>
+
+
+<li><strong>blog</strong>, <strong>photo</strong>, <strong>photosrc</strong> ve <strong>webdefault</strong> adları ayrılmış klasör adlarıdır. Bu adlar Web Station tarafından kullanılamaz, dolayısıyla lütfen <b>web</b> paylaşımlı klasörü altında bu adlar bulunan klasörleri oluşturmayın.</li>
+
+<li>Bir <b>missing.html</b>, <b>missing.htm</b> veya <b>missing.php</b> dosyası oluşturarak hata sayfasını özelleştirebilirsiniz. İlk önce Web Station'ı etkinleştirin. Ardından <b>missing.html</b>, <b>missing.htm</b> veya <b>missing.php</b> dosyasını sunucuda <b>web</b> paylaşımlı klasörü altına yerleştirin. Kullanıcılar bulunmayan bir sayfaya link verdiklerinde, bu özelleştirilmiş hata sayfasını inceleyeceklerdir.</li>
+
+<li>En fazla etkin HTTP bağlantısı sayısı: 256</li>
+
+<li>En fazla sanal ana bilgisayar sayısı: 30</li>
+</ul>
+</div>
+
+<h3>Web Sitelerini Barındırmak için Sanal Ana Makine'yi Etkinleştirin</h3>
+<p>Sanal ana bilgisayar özelliğiyle, tek bir sunucu üzerinde birden fazla web sitesi barındırabilirsiniz. Başlamak için birkaç etki alanı adı kaydetmeniz ve aşağıdaki adımları takip ederek sanal barındırmayı yapılandırmanız gerekir.</p>
+<h4>Sanal Ana Makineyi etkinleştirmek için:</h4>
+<ol>
+<li><b>Sanal Ana Makine</b>'ye tıklayın.</li>
+<li><b>Oluştur</b>'a tıklayın.</li>
+<li>Web sitesi dosyalarını saklayacak olan <b>web</b> paylaşımlı klasörünün alt klasörü için bir ad girin.</li>
+<li>Web sitesi için bir ana sistem adı girin.</li>
+<li>Web sitesi için bir port girin.</li>
+<li>
+<b>Tamam</b>'a tıklayın.
+</li>
+</ol>
+<h3>Kişisel Web Sitesini Etkinleştir</h3>
+<P>Kişisel web sitesi işlevi, yerel kullanıcıların, etki alanı kullanıcılarının ve LDAP kullanıcılarının kendi kişisel web sitelerini oluşturmalarına olanak sağlayan güvenilir bir yoldur.</p>
+<h4>Yerel kullanıcılar için</h4><p>Her yerel kullanıcının özgün bir web sitesi adresi olacaktır <strong>sunucu-IP/~kullanıcıadı</strong> veya <strong>sunucu-adı/~kullanıcıadı</strong>. Örnek:</p>
+<ol>
+<li>192.168.1.1/~ken</li>
+<li>SynologyNAS/~ken</li>
+</ol>
+<h4 class="disable-eds14">Etki alanı kullanıcıları için</h4>
+<p class="disable-eds14">Her etki alanı kullanıcısının özgün bir web sitesi adresi olacaktır <strong>sunucu-IP/~etkialanıadı%5ckullanıcıadı</strong> veya <strong>sunucu-adı/~etkialanıadı%5ckullanıcıadı</strong>. Örnek:</p>
+<ol class="disable-eds14">
+<li>192.168.1.1/~testetkialanı<b>%5c</b>ken</li>
+<li>SynologyNAS/~testetkialanı<b>%5c</b>ken</li>
+</ol>
+
+<h4 class="disable-eds14">LDAP kullanıcıları için</h4>
+<p class="disable-eds14">Her LDAP kullanıcısının özgün bir web sitesi adresi olacaktır <strong>sunucu-IP/~kullanıcıadı@etkialanıadı</strong> veya <strong>sunucu-adı/~kullanıcıadı@etkialanıadı</strong>. Örnek:</P>
+<ol class="disable-eds14">
+<li>192.168.1.1/~ken<b>@</b>testetkialanı</li>
+<li>SynologyNAS/~ken<b>@</b>testetkialanı</li>
+</ol>
+
+<div class="section disable-eds14">
+<h4>Not:</h4>
+<p>Bu özelliği etkinleştirmeden önce lütfen <strong>kullanıcı ana sayfaları</strong>'nın etkinleştirildiğinden emin olun. Yerel kullanıcılar için <b>Denetim Masası</b> > <b>Kullanıcı</b> > <b>Gelişmiş</b> öğesine; etki alanı kullanıcıları için <b>Denetim Masası</b> > <b>Dizin Hizmeti</b> > <b>Etki Alanı Kullanıcıları</b> > <b>Kullanıcı Ana Sayfası</b> öğesine; LDAP kullanıcıları için <b>Denetim Masası</b> > <b>Dizin Hizmeti</b> > <b>LDAP Kullanıcıları</b> > <b>Kullanıcı Ana Sayfası</b> öğesine gidin.</p>
+</div>
+
+<div class="section enable-eds14">
+<h4>Not:</h4>
+<p>Bu özelliği etkinleştirmeden önce lütfen <strong>kullanıcı ana sayfaları</strong>'nın etkinleştirildiğinden emin olun. Yerel kullanıcılar için, <b>Denetim Masası</b> > <b>Kullanıcı</b> > <b>Gelişmiş</b> öğesine gidin.</p>
+</div>
+
+
+<h4>Kişisel bir web sitesi oluşturmak için:</h4>
+<ol>
+<li><strong>Kişisel web sitesini etkinleştir</strong> seçeneğini işaretlediyseniz <strong>www</strong> kullanıcının ana dizininde otomatik olarak oluşturulur.</li>
+<li>Kullanıcı artık web siteyle ilgili dosyaları (örn. web sayfaları ve ses dosyaları gibi) <strong>www</strong> klasörüne yükleyebilir.</li>
+<li>Kullanıcının dosya yüklemek için uygun erişim izinlerine sahip olduğundan emin olun.</li>
+</ol>
+
+
+<h4>Hata sayfasını özelleştirmek için:</h4>
+<ol>
+<li>Hata sayfasını <b>missing.html</b>, <b>missing.htm</b> veya <b>missing.php</b> olarak kaydedin.</li>
+<li>Dosyayı <strong>www</strong> klasörüne yükleyin.</li>
+</ol>
+<p>Kullanıcılar yerel kullanıcı web sitesinde bulunmayan bir sayfaya link verirlerse, özelleştirilen hata sayfası gösterilecektir.<strong></strong></p>
+<h4>Destek ve sınırlamalar:</h4>
+<p>Yerel kullanıcıların sadece şu durumlardaki verilere erişim sağlamasına izin verilmiştir:</p>
+<ul>
+<li>Kendi ana sayfaları</li>
+<li>/var/tmp</li>
+<li>/tmp</li>
+<li>/volumeX/@tmp</li>
+</ul>
+
+<h2>HTTP Hizmeti</h2>
+
+<p>80 (HTTP için) veya 443 (HTTPS için) varsayılan bağlantı noktası numaralarına ek olarak Photo Station ve Web Station'a erişmek için ilave bağlantı noktası numaraları eklenebilir. HTTP veya HTTPS için 1'den 65535'e kadar ilave bağlantı noktası numarası ekleyebilirsiniz.</p>
+<h4>HTTP veya HTTPS erişimi için ilave bağlantı noktası numarası eklemek için:</h4>
+<ol>
+<li><b>İlave HTTP bağlantı noktası ekle</b> veya <b>İlave HTTPS bağlantı noktası ekle</b>'yi işaretleyin (HTTPS için bir bağlantı noktası eklemeden önce <strong>Web hizmetleri için HTTPS bağlantısını etkinleştirin</strong> seçeneğinin etkinleştirilmesi gerekir).</li>
+<li>
+Alana istenen bağlantı noktası numarasını girin. </li>
+</ol>
+
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Aşağıdaki bağlantı noktaları hariç tutulmalıdır: 20, 21, 22, 23, 25, 110, 137, 138, 139, 143, 199, 443, 445, 515, 543, 548, 587, 873, 993, 995, 3306, 3689, 5000, 5001, 5005, 5006, 5335, 5432, 6881, 8080, 7000, 7001, 8081, 9997, 9998, 9999, 50001, 50002, eMule varsayılan bağlantı noktaları: 4662 (TCP), 4672(UDP) ve FTP varsayılan bağlantı noktası aralığı: gerçek aralık farklı modellere bağlı olarak değişiklik gösterebilir.</li>
+</ul>
+</div>
+</body>
+</html>

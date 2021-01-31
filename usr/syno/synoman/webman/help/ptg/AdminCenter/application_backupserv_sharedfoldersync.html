@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Cópia de segurança e Duplicação</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Sincronização de Pasta Partilhada</h2>
+<p>O serviço de Sincronização de Pasta Partilhada permite ao utilizador sincronizar pastas de um dispositivo Synology NAS (origem) para outros dispositivos Synology NAS (destino) numa LAN ou através da Internet.</p>
+<p>A Sincronização de Pasta Partilhada fará uma sincronização completa da(s) pasta(s) partilhada(s) na primeira vez. Posteriormente, apenas os ficheiros alterados serão sincronizados. Os ficheiros removidos da origem serão também removidos do destino.</p>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Sincronização de Pasta Partilhada é uma solução de sincronização de uma só via da origem para o destino. Para uma solução de 2 vias, use <strong>Cloud Station ShareSync</strong>.</li>
+<li>Se no destino existir uma pasta partilhada com o mesmo nome (por ex., SharedFolder) com a pasta partilhada de origem, a pasta de destino terá como nome &quot;SharedFolder_1&quot;.</li>
+<li>Se no destino não existir qualquer pasta partilhada com o mesmo nome que a pasta partilhada de origem, será criada uma pasta usando o nome no volume correspondente, ou no primeiro volume disponível. </li>
+<li>Por predefinição, nenhum utilizador terá privilégios para aceder à pasta partilhada no destino.  Contacte o <strong>admin</strong> de destino quanto aos privilégios.</li>
+</ul>
+</p>
+</div>
+
+<h3>Ativação do Serviço</h3>
+<h4>Para ativar a Sincronização de Pasta Partilhada:</h4>
+<p>Terá primeiro de ativar o serviço na Synology NAS de destino.</p>
+<ol>
+<li>Ir para <strong>Painel de Controlo</strong> > <strong>Serviço de Ficheiros</strong> > <strong>rsync</strong>.</li>
+<li>Selecionar <strong>Activar o serviço rsync</strong> para ativar o serviço Sincronização de Pasta Partilhada.</li>
+<li>Clique em <strong>Aplicar</strong>.</li>
+</ol>
+
+
+<h4>Para dissociar pastas partilhadas do Synology NAS de destino:</h4>
+
+<p>Se fontes diferentes sincronizarem em simultâneo uma pasta partilhada idêntica para um Synology NAS, de destino, ocorrerá um conflito. Terá de dissociar a pasta partilhada no lado de origem antes que outra fonte possa sincronizar a sua pasta com o destino.  
+
+<ol>
+<li>Inicie a sessão no Synology NAS e aceda a <strong>Painel de Controlo</strong> > <strong>Sincronização de Pasta Partilhada</strong> > <strong>Lista de Ligações</strong>.</li>
+<li>Selecione a ligação de conflito de um Synology NAS de origem e clique em <strong>Dissociar</strong> para a remover.</li>
+</ol>
+
+<p>Agora outra fonte pode sincronizar a pasta partilhada com o destino Synology NAS.</p>
+
+<h3>Gestão de Tarefas de Sincronização</h3>
+
+<h4>Para criar uma tarefa de sincronização:</h4>
+<ol>
+<li>Inicie a sessão no Synology NAS de origem e aceda a <b>Painel de controlo</b> > <b>Sincronização de Pasta Partilhada</b> > <strong>Lista de Tarefas</strong>.</li>
+<li>Clique em <b>Criar</b>.</li>
+<li>Introduza um nome para esta tarefa.</li>
+<li>Selecione a pasta partilhada que pretende sincronizar para o destino.</li>
+<li>Especifique o Synology NAS de destino e as seguintes opções de sincronização:</li>
+<ul>
+<li><strong>Personalizar porta de encriptação de SSH para sincronizar pasta partilhada encriptada</strong>: Especifique a porta de encriptação desejada para encriptação de transferência SSH.</li>
+<li><strong>Ativar a encriptação de transferência SSH</strong>: Encriptar dados durante a transferência. O modo encriptado permite melhor segurança, enquanto o modo não encriptado proporciona melhor desempenho. Pode escolher de acordo com as suas necessidades.
+</li> 
+<li><strong>Ativar a compressão de transferência</strong>: Comprime dados durante a transferência. Poupa largura de rede mas aumenta a utilização da CPU.</li>
+<li><strong>Ativar nível de bloqueio da sincronização</strong>: Transfere apenas dados diferentes em vez dos ficheiros completos. Poupa largura de rede mas aumenta a utilização da CPU.</li>
+</ul>
+<li>Quando solicitado, selecione qualquer das opções seguintes para decidir quando sincronizar da origem para o destino:</li>
+<ul>
+<li><strong>Executar sincronização quando ocorrerem modificações</strong>: Executa tarefas de sincronização imediatamente após a ocorrência de uma alteração na pasta partilhada de origem.</li>
+<li><strong>Executar sincronização manualmente</strong>: Execute a tarefa de sincronização manualmente a partir da pasta partilhada de origem.</li>
+<li><strong>Agendamento avançado</strong>: Clique <strong>Plano de Agendamento</strong> para especificar quando realizar a tarefa de sincronização.</li>
+
+</ul>
+<li>Clique em <strong>Aplicar</strong>. Poderá agora ver a tarefa de sincronização na lista de tarefas, a qual será executada de acordo com o agendamento especificado.</li></ol>
+<h4>Para gerir uma tarefa de sincronização:</h4>
+<ol>
+<li>No Synology NAS de origem, aceda a <strong>Painel de Controlo</strong> > <strong>Sincronização de Pasta Partilhada</strong>, clique em <strong>Lista de Tarefas</strong>, e selecione a tarefa desejada.</li>
+<li>Execute qualquer dos seguintes procedimentos:</li>
+<ul>
+<li>
+Clique em <b>Editar</b> para editar a tarefa.
+</li>
+<li>
+Clique em <b>Eliminar</b> para eliminar a tarefa.
+</li> 
+<li>
+Se a tarefa de sincronização não estiver a decorrer, clique em <b>Sincronizar Agora</b> para executar imediatamente a tarefa.
+</li>
+<li>
+Caso a tarefa de sincronização esteja a decorrer, clique em <b>Cancelar</b> para interromper a tarefa em execução.
+</li>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>
+Se o agendamento de uma tarefa de sincronização estiver definido como <b>Executar sincronização aquando de modificações</b>, ao clicar em <b>Cancelar</b> interromperá a tarefa de sincronização a decorrer. Contudo, caso sejam efectuadas alterações ao conteúdo de qualquer pasta partilhada monitorizada pela tarefa de sincronização, a Sincronização de Pasta Partilhada retomará a tarefa.</p>
+</div>
+
+<li>
+Clique em <b>Sincronização Completa</b> para sincronizar todos os dados. A sincronização de pasta partilhada executará uma sincronização completa na primeira vez e apenas das partes modificadas após a primeira sincronização. Clicar neste botão poderá ajudar a sincronizar mais uma vez manualmente todos os dados.
+</li>
+</ul>
+</ol>
+
+<div class="section disable-eds14">
+<h4>Mais Informação</h4>
+<ol>
+<li>O nome da tarefa deve ser formada por caracteres Unicode de 1 a 32 e não deverá ter os seguintes caracteres:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Caso sincronize pastas partilhadas do sistema de ficheiros ext4 a ext3, poderá encontrar erros quando uma pasta tiver mais de 32.000 ficheiros.</li>
+<li>Se as pastas partilhadas no Synology NAS de destino tiverem sido sincronizadas antes com outro Synology NAS, a Sincronização de Pasta Partilhada realizará uma sincronização completa.</li>
+<li>Para realizar tarefas de Sincronização de Pasta Partilhada, necessita de privilégios de administrador do Synology NAS de destino. Deverá ter a palavra-passe de administrador ou pertencer ao grupo de administração.</li>
+<li>Ao sincronizar com o Synology NAS de destino através da Internet, pode introduzir o nome do servidor com o endereço IP externo ou o nome de anfitrião. No entanto, se introduzir o nome de anfitrião, o nome deve estar no formato FQDN (Nome de Domínio Totalmente Qualificado), por exemplo, &quot;www.synology.com&quot;.</li>
+<li>Para reencaminhamento de porta, a Sincronização de Pasta Partilhada utiliza a porta 22 para transferências encriptadas e a porta 873 para transferências não encriptadas.</li>
+<li>Dispositivos de armazenamento externos não são suportados pela Sincronização de Pasta Partilhada.</li>
+<li>Quando a tarefa Sincronização de Pasta Partilhada é executada, a(s) pasta(s) partilhada(s) encriptada(s) no destino é(são) automaticamente montada(s); no entanto, para aceder aos dados lá contidos, tem de montar primeiro a(s) pasta(s) partilhada(s) encriptada(s) no destino.</li>
+<li>A Sincronização de Pasta Partilhada agendada não será executada na hora especificada se não forem feitas alterações à pasta partilhada selecionada.</li>
+<li>Para o melhor desempenho, sugerimos que cada tarefa de sincronização inclua menos de 200 pastas partilhadas.</li>
+<li>A função <strong>Home do Utilizador</strong> será desativada no Synology NAS de destino se a pasta partilhada <strong>homes</strong> for sincronizada a partir do Synology NAS de origem para o Synology NAS de destino.</li>
+
+<li>Para modelos com CPUs não Intel, pode sincronizar até 100.000 pastas partilhadas (incluindo subpastas) utilizando a Sincronização de Pasta Partilhada.</li>
+ <li>A Sincronização de Pasta Partilhada pode efectuar a cópia de segurança das definições ACL do Windows quando o sistema de ficheiros do destino for ext4/Btrfs.</li>
+ 
+ <li>A Sincronização de Pasta Partilhada não será bem sucedida se a sincronização for efetuada para um servidor de destino que partilhe o mesmo nome com o seu Synology NAS.</li>
+ 
+<li>Permissões Avançadas de Pasta Partilhada na fonte não serão sincronizadas com o destino. Mais, uma regra apenas de leitura para o grupo administrators será criada no destino. </li> 
+
+  </ol>
+</div>
+<div class="section enable-eds14">
+<h4>Mais Informação</h4>
+<ol>
+<li>O nome da tarefa deve ser formada por caracteres Unicode de 1 a 32 e não deverá ter os seguintes caracteres:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Caso sincronize pastas partilhadas do sistema de ficheiros ext4 a ext3, poderá encontrar erros quando uma pasta tiver mais de 32.000 ficheiros.</li>
+<li>Se as pastas partilhadas no Synology NAS de destino tiverem sido sincronizadas antes com outro Synology NAS, a Sincronização de Pasta Partilhada realizará uma sincronização completa.</li>
+<li>Para realizar tarefas de Sincronização de Pasta Partilhada, necessita de privilégios de administrador do Synology NAS de destino. Deverá ter a palavra-passe de administrador ou pertencer ao grupo de administração.</li>
+<li>Ao sincronizar com o Synology NAS de destino através da Internet, pode introduzir o nome do servidor com o endereço IP externo ou o nome de anfitrião. No entanto, se introduzir o nome de anfitrião, o nome deve estar no formato FQDN (Nome de Domínio Totalmente Qualificado), por exemplo, &quot;www.synology.com&quot;.</li>
+<li>Para reencaminhamento de porta, a Sincronização de Pasta Partilhada utiliza a porta 22 para transferências encriptadas e a porta 873 para transferências não encriptadas.</li>
+<li>Dispositivos de armazenamento externos não são suportados pela Sincronização de Pasta Partilhada.</li>
+<li>Quando a tarefa Sincronização de Pasta Partilhada é executada, a(s) pasta(s) partilhada(s) encriptada(s) no destino é(são) automaticamente montada(s); no entanto, para aceder aos dados lá contidos, tem de montar primeiro a(s) pasta(s) partilhada(s) encriptada(s) no destino.</li>
+<li>A Sincronização de Pasta Partilhada agendada não será executada na hora especificada se não forem feitas alterações à pasta partilhada selecionada.</li>
+<li>Para o melhor desempenho, sugerimos que cada tarefa de sincronização inclua menos de 200 pastas partilhadas.</li>
+<li>A função <strong>Home do Utilizador</strong> será desativada no Synology NAS de destino se a pasta partilhada <strong>homes</strong> for sincronizada a partir do Synology NAS de origem para o Synology NAS de destino.</li>
+<li>Para modelos com CPUs não Intel, pode sincronizar até 100.000 pastas partilhadas (incluindo subpastas) utilizando a Sincronização de Pasta Partilhada.</li>
+ 
+ <li>A Sincronização de Pasta Partilhada não será bem sucedida se a sincronização for efetuada para um servidor de destino que partilhe o mesmo nome com o seu Synology NAS.</li>
+ 
+<li>Permissões Avançadas de Pasta Partilhada na fonte não serão sincronizadas com o destino. Mais, uma regra apenas de leitura para utilizadores do grupo de administrators será criada no destino. </li> 
+ 
+ </ol>
+</div>
+</body></html>

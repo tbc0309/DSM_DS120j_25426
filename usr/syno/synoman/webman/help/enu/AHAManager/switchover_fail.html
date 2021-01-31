@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h2>Switchover</h2>
+  
+ <p>In order to ensure continuous performance and minimize service downtime, services can be switched from the active server of a high-availability cluster to the standby, passive server. This feature is called "Switchover," or in some cases "Failover." This section contains basic information of these two concepts.</p>
+  
+  <h3>Switchover</h3>
+  	<p>Switchover refers to a switch from the active server to the standby, passive server of a high-availability cluster. Under normal conditions, the active server manages all services. However, in the event the active server malfunctions, you can initiate a switchover and transfer all services to the passive server, assuming the passive server is functioning normally. In this case, the active server assumes the role of the passive server, and vice versa.</p>
+    
+<h4>To manually initiate a switchover:</h4>
+ <ol>
+  <li>Go to <b>Overview</b> page.</li>
+  <li>Click <b>Manage</b> > <b>Switchover</b>.</li>
+ </ol>
+
+<div class="section">
+<h4>Note:</h4>
+   <p>Before manual switchover, you are recommended to setup a static IP and login to DSM with this static IP, in order to avoid DSM page loss due to an IP shift after switchover.</p>
+</div>
+
+<div class="section">
+<h4>Note:</h4>
+   <p>When a switchover is initiated, the active server first assumes the role of passive server, and then the passive server becomes the active server. Thus, there will be a short period of time when both servers become passive and will not be able to provide services normally. The time to complete a switchover varies depending on the number and size of volumes or iSCSI LUNs (Block-Level), or the number and total load of services and packages on the high-availability cluster.</p>
+</div>
+
+<h3>Failover</h3>
+    
+     <p>When certain errors occur, the system can automatically initiate a switchover of services in order to minimize service downtime. This event is called "failover." The system might initiate failover in the following situations, assuming the passive server is functioning normally:</p>
+    
+    <ul>
+      <li><b>Power failure:</b> 
+        <ul>
+      	<li>The active server has been shut down or rebooted.</li>
+        <li>Both power units on the active server failed.</li>
+        <li>No power supply.</li>
+      </ul></li>
+      <li><b>Drive error:</b> Number of drive paths on the active server is less than on the passive server.</li>
+      <li><b>Service error:</b> An error occurred in a monitored service.</li>
+      <li><b>Connection error:</b> A connection error occurred in a monitored interface.</li>
+    </ul>    
+     
+    
+<h3>Switchover Failure</h3>
+    
+		<p>Switchover or failover might not succeed in the following situations:</p>
+  	<ul>
+  	  <li><b>Abnormal Heartbeat connection:</b> Status of active-passive server connection is not normal.</li>
+  	  <li><b>Mismatched memory size:</b> The active and passive servers do not have identical RAM size.</li>
+  	  <li><b>Power failure:</b><ul>
+      	<li>The passive server has been shut down or rebooted.</li>
+        <li>Both power units on the passive server failed.</li>
+        <li>No power supply.</li>
+      </ul></li>
+  	  <li><b>Connection error:</b> A connection error occurred in a monitored interface on the passive server.</li>
+  	  <li><b>Service error:</b> Errors exist in monitored services on the passive server.</li>
+  	  <li><b>Expansion unit connection error:</b> The connection of expansion units on the two servers is not in the same order.</li>
+  	  <li><b>Drive error:</b> Number of drive paths on the passive server is less than on the active server.</li>
+      <li><b>DSM update:</b> When installing DSM update, all services will be stopped, and will resume after DSM update installation is completed.</li>      
+ </ul>
+
+  <p>If you manually initiate a switchover, but services cannot be switched to the passive server, then the system will attempt to switch services back to the active server.</p>
+
+ <h3>Uninterruptible Power Supply</h3>
+  <p>High-availability clusters can be connected to network uninterruptible power supply (UPS) units in order to reduce the risk of unexpected power loss. If power is lost, servers will receive backup power from any UPS units connected to them. When the UPS unit connected to the active server begins running low on power, the passive server will shut down, and the active server will get into safe mode. After power resumes, the active server will reboot and attempt to power on the other server by broadcasting a Wake-on-LAN message.</p>
+   <ul>
+	   <li>It is recommended to connect both servers and expansion units to the same UPS as the network switches they are connected to.</li>
+   </ul>
+
+<div class="section">
+<h4>Note:</h4>
+<p>Synology NAS supports connecting to network UPS devices only. For more information, please see the help for <strong>Control Panel</strong> > <strong>Hardware</strong> > <strong>UPS</strong>.</p>
+</div>  
+ </body>
+</html>

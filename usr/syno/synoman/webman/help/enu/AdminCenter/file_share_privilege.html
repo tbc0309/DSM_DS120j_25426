@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Assign Shared Folder Permissions - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="You can specify which users or groups can access, view, or modify a shared folder and its contents. This article shows you how to assign and customize shared folder permissions in DSM.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Assign Shared Folder Permissions</h2>
+
+<p>You can specify which users or groups can access, view, or modify a shared folder and its contents. The access permissions of shared folders, as well as individual files and subfolders, can be customized for each user or group.</p>
+
+<div class="section disable-eds14">
+<h4>Windows ACL:</h4>
+
+<p>In DSM 5.0 or later version, the access permissions of shared folders are based on Windows ACL by default. Newly created shared folders implement the permissions settings of Windows ACL, which also allows for customizing the permissions of individual files and subfolders. In addition, permissions can be customized via File Station or File Explorer in Windows.</p>
+<p>The following shared folders cannot use the Windows ACL permissions management system: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+<div class="section disable-eds14">
+<h4>Note:</h4>  
+<p>Users' personal <strong>home</strong> folders are located under the <strong>homes</strong> folder. Because ACL works on a basis of permission inheritance, if you set  NA permission for a user/group on <strong>homes</strong>,  users will have no access to their personal <strong>home</strong> folder. </p>
+</div>
+<h4>To edit permissions of a shared folder:</h4>
+
+<ol>
+
+<li>Go to <strong>Control Panel</strong> > <strong>Shared Folder</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Select the shared folder whose permissions you wish to edit. Click <b>Edit</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li> Go to the <strong>Permissions</strong> tab.</li>
+<img src="about:blank" class="help_image"/>
+<li>Select one of the following from the drop-down menu:
+
+<ul>
+<li><b>System internal user:</b> Assign permissions for default system users, such as the Anonymous FTP/WebDAV user. Before allowing anonymous FTP users to connect to a shared folder, you need to assign access permissions for this user.</li>
+<li><b>Local users:</b> Assign permissions for local users (including <b>guest</b>).</li>
+<li><b>Local groups:</b> Assign permissions for local groups.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Check or uncheck the appropriate boxes for each user or group to customize their access permissions for the shared folder:
+
+  <ul>
+<li><b>Read/Write</b>: The user or group can access and make changes to the files and subfolders in the shared folder.</li>
+<li><b>Read only</b>: The user or group can access the files and subfolders in the shared folder.</li>
+<li><b>No access</b>: The user or group cannot access the files or subfolders in the shared folder.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Click <b>OK</b> to finish.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+
+<ul>
+<li>When you encounter permissions conflicts, the permissions priority is as follow: No access > Read/Write > Read only.</li>
+<li>When creating a new shared folder, if the permissions for the users belonging to <strong>administrators</strong> group are set to <b>No access</b>, these user will only be able to see the shared folder at <strong>Control Panel</strong> > <strong>Shared Folder</strong>.</li>
+</ul>
+</div>
+
+<h3 class="disable-eds14">Customizing Windows ACL permissions</h3>
+
+<p class="disable-eds14">In addition to the settings described above, you can customize permissions further by following the steps below. </p>
+
+<div class="section disable-eds14">
+<h4>Note:</h4>
+<p>The below settings cannot be used with the following shared folders: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+
+<h4 class="disable-eds14">To customize permissions:</h4>
+<ol class="disable-eds14">
+  <li>On the <strong>Permissions</strong> tab, select the user whose permissions you want to customize. Click anywhere in the <strong>Custom</strong> column.</li>
+  <img src="about:blank" class="help_image"/>
+  <li>Do any of the following  in the <b>Permission Editor</b> window to manage ACL permissions for the file or folder:
+      <ol>
+        <li><b>User or group:</b> Specify the user or group whose permissions you wish customize.</li>
+        <img src="about:blank" class="help_image"/>
+        
+        <div class="section disable-eds14">
+<h4>Note:</h4>  
+<p>The options of <strong>Authenticated Users</strong> and <strong>SYSTEM</strong> in the <strong>User or group</strong> drop-down menu are created in order to match the privilege settings of Windows ACL. Their privilege scopes are as follows:</p>
+<ul>
+	<li><strong>Authenticated Users</strong> includes accounts excluded from <strong>https</strong> and <strong>guest</strong>.</li>
+	<li><strong>SYSTEM</strong> includes accounts in <strong>https</strong> and <strong>anonymous</strong>.</li>
+</ul>
+</div>
+        
+        
+        
+        
+        <li><b>Inherit from:</b> For view only. View the information here to see if the permission is inherited (from a parent folder) or explicit (shown as <b>None</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Type:</b> Choose <b>Allow</b> or <b>Deny</b> to grant or deny the permission to the user or group.</li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Apply to:</b> If you are creating a permission entry for a folder, tick the checkboxes to apply the entry to this folder, the folders (or <b>Child folders</b>) or files (or <b>Child files</b>) in this folder, or all files and folders contained in this folder (or <b>All descendants</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Administration:</b> Tick <b>Read permissions</b>, <b>Change permissions</b>, or <b>Take ownership</b> to specify the user or group's access permission settings for the entry. </li>
+        <li><b>Read</b> or <b>Write:</b> Tick the checkboxes in these sections to modify the user or group's permission settings for the file or folder. </li>
+      </ol>    
+  <li> Click <b>OK</b>.</li>
+</ol>
+<div class="section disable-eds14">
+  <h4>ACL permissions could be categorized as follows:</h4>
+  <ul>
+    <li><b>Administration:</b>
+    <ul>
+      <li><b>Change permissions</b>: This controls whether a user can change the permission of the file or folder.</li>
+      <li><b>Take ownership</b>: This controls whether a user has ownership of the file or folder.</li>
+    </ul></li>
+    <li><b>Read:</b>
+    <ul>
+      <li><b>Traverse folders/Execute files</b>: This controls whether a user can run a program file.</li>
+      <li><b>List folders/Read data</b>: This controls whether a user can read data in a file.</li>
+      <li><b>Read attributes</b>: This controls whether a user can view the attributes of a file.</li>
+      <li><b>Read extended attributes</b>: This controls whether a user can view the extended attributes of a file.</li>
+      <li><b>Read permissions</b>: This controls whether a user can read the permissions of the file or folder.</li>
+    </ul></li>
+    <li><b>Write:</b>
+    <ul>
+      <li><b>Create files/Write data</b>: This controls whether a user can change the contents of a file.</li>
+      <li><b>Create folders/Append data</b>: This controls whether a user can add data to the end of a file.</li>
+      <li><b>Write attributes</b>: This controls whether a user can change the attributes of a file.</li>
+      <li><b>Write extended attributes</b>:  This controls whether a user can change the extended attributes of a file.</li>
+      <li><b>Delete subfolders and files</b>: This controls whether a user can delete a folder.</li>
+      <li><b>Delete</b>: This controls whether a user can delete a file.</li>
+    </ul></li>
+  </ul>
+  <h4>About permission inheritance:</h4>
+  <p> ACL permissions are inherited from parent objects to child objects. For instance, if an ACL entry of the "sales" folder grants the "Read" permission to the user "Amy", then the ACL entry will be applied to all files within the "sales" folder (such as "annual report.xls"), allowing the user to open the files. Inherited permissions will be displayed in gray, whereas the object's own permissions (or "explicit" permissions) will be displayed in black. </p>
+</div>
+<div class="section disable-eds14">
+  <h4>Note:</h4>
+  <ul>
+    <li>You can only add up to 200 ACL explicit permission entries for a file or folder.</li>
+    <li>Windows ACL does not support ext3 file system. For users using ext3 file system, you need to create at least one ext4 or Btrfs volume to use Windows ACL permissions. This means that you have to format at least one drive and re-create a volume. Formatting Synology NAS will result in erasing all stored data and settings. Please make sure all your data is backed up before processing.</li>
+    <li>To define new permissions for domain users, make sure DSM and Windows clients are in the same domain.</li>
+    <li>When modifying permissions with Windows File Explorer, <strong>Deny</strong> rules applied to the <strong>Domain Admins</strong> group will be ignored.</li>
+  </ul>
+</div>
+
+
+</body>
+</html>

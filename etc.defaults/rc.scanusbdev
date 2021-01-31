@@ -1,0 +1,172 @@
+#!/bin/sh
+
+SEQNUM=1
+
+Mesg ()
+{
+	# echo $@
+	return
+}
+
+SeqNumInc () 
+{
+	SEQNUM=`expr $SEQNUM + 1`
+}
+
+# USB disks
+ProbeDisks ()
+{
+	local USB_DISKS DISK DEVNAME COMMAND
+	SupportSAS=`/bin/get_key_value /etc.defaults/synoinfo.conf supportsas`
+	SupportPORTMAPV2=`/bin/get_key_value /etc.defaults/synoinfo.conf supportportmappingv2`
+	if [ "$SupportSAS" = "yes" -o "$SupportPORTMAPV2" = "yes" ]; then
+		USB_DISKS=`/bin/ls -d /sys/block/usb* 2>/dev/null`;
+	else
+		USB_DISKS=`/bin/ls -d /sys/block/sd[k-z] 2>/dev/null`;
+	fi
+	for DISK in $USB_DISKS; do
+		DEVNAME=`basename $DISK`
+		eval `grep "^PHYSDEVPATH=" $DISK/uevent`
+		COMMAND="env ACTION=$ACTION DEVNAME=$DEVNAME PHYSDEVPATH=$PHYSDEVPATH SEQNUM=$SEQNUM /sbin/hotplug block"
+		Mesg "COMMAND='$COMMAND'"
+		eval $COMMAND
+		SeqNumInc
+	done
+}
+
+# Wireless dongles
+ProbeWlan ()
+{
+	local each_interface interfaces parent_device PRODUCT INTERFACE COMMAND
+	# Enumerate device interfaces
+	interfaces=`/bin/ls /sys/bus/usb/devices/*:* 2>/dev/null`
+	for each_interface in $interfaces; do
+		# Find its parent device
+		parent_device=`echo $each_interface | cut -d ':' -f 1`
+		if [ ! -x $parent_device ]; then
+			continue;
+		fi
+		PRODUCT="`cat $parent_device/idVendor`/`cat $parent_device/idProduct`/`cat $parent_device/bcdDevice`"
+		INTERFACE="`cat $each_interface/bInterfaceClass`/`cat $each_interface/bInterfaceSubClass`/`cat $each_interface/bInterfaceProtocol`"
+		COMMAND="env ACTION=$ACTION PRODUCT=$PRODUCT INTERFACE=$INTERFACE SEQNUM=$SEQNUM /sbin/hotplug usb"
+		Mesg "COMMAND='$COMMAND'"
+		# Probe!
+		eval $COMMAND
+		SeqNumInc
+	done
+}
+
+# usb devices: printers, hiddev, etc.
+ProbeUSBDev ()
+{
+	local devices devpath DEVPATH devnum DEVICE DEVNAME COMMAND ifname ifpath SUB PHYSDEVPATH busnumber
+	# Enumerate lp, hiddev
+	devices=`/bin/ls -d /sys/bus/usb/devices/*-*|grep -v : 2>/dev/null`
+	#logger -p err "usb_devices: $devices"
+
+	for devpath in $devices; do
+		# parsing ../../../devices/platform/orion-ehci.0/usb1/1-1/1-1.2/1-1.2:1.0
+		DEVNAME=`basename $devpath`
+		
+		devnum=`cat $devpath/devnum`
+		busnumber=`cat $devpath/busnum`
+		DEVICE=`printf "/proc/bus/usb/%03d/%03d" $busnumber $devnum`
+
+		# probe main device
+		# prepare info for wireless dungle
+		PRODUCT="`cat $devpath/idVendor`/`cat $devpath/idProduct`/`cat $devpath/bcdDevice`"
+
+		COMMAND="env ACTION=$ACTION DEVICE=$DEVICE DEVPATH=$DEVNAME SUBSYSTEM=usb SEQNUM=$SEQNUM /sbin/hotplug usb"
+		#logger -p err "COMMAND='$COMMAND'"
+		eval $COMMAND
+		SeqNumInc
+
+		# probe interfaces & drivers
+		for ifpath in `ls -d /sys/bus/usb/devices/*-*:*| grep $DEVNAME:`; do
+			eval `grep ^INTERFACE $ifpath/uevent`
+			ifname=`basename $ifpath`
+			COMMAND="env ACTION=$ACTION DEVICE=$DEVICE DEVPATH=$ifname PRODUCT=$PRODUCT INTERFACE=$INTERFACE SUBSYSTEM=usb SEQNUM=$SEQNUM MAJOR=$MAJOR MINOR=$MINOR FORCE=$FORCE /sbin/hotplug usb"
+			#logger -p err "COMMAND='$COMMAND'"
+			eval $COMMAND
+			SeqNumInc
+
+			# Probe driver event
+			DEVNAME=`ls -d $ifpath/*:* 2>/dev/null`
+			PHYSDEVPATH=`readlink $ifpath`
+			PHYSDEVPATH=${PHYSDEVPATH/*../}
+			SUB=usb
+			if [ -z "$DEVNAME" ]; then
+				SupportSAS=`/bin/get_key_value /etc.defaults/synoinfo.conf supportsas`
+				SupportPORTMAPV2=`/bin/get_key_value /etc.defaults/synoinfo.conf supportportmappingv2`
+				if [ "$SupportSAS" = "yes" -o "$SupportPORTMAPV2" = "yes" ]; then
+					USB_DISKS=`/bin/ls -d /sys/block/usb* 2>/dev/null`;
+				else
+					USB_DISKS=`/bin/ls -d /sys/block/sd[k-z] 2>/dev/null`;
+				fi
+				for disk in $USB_DISKS; do
+					if readlink $disk/device| grep -q $ifname; then
+						SUB=block
+						DEVNAME=`basename $disk`
+						MAJOR=`cat $disk/dev | awk -F ":" '{print $1}'`
+						MINOR=`cat $disk/dev | awk -F ":" '{print $2}'`
+						eval `grep ^PHYSDEVPATH $disk/uevent`
+						break
+					fi
+				done
+				if [ -z "$DEVNAME" ]; then
+					continue
+				fi
+			else
+				DEVNAME=`basename $DEVNAME| cut -d':' -f2`
+			fi
+			COMMAND="env ACTION=$ACTION DEVNAME=$DEVNAME DEVICE=$DEVICE MAJOR=$MAJOR MINOR=$MINOR DEVPATH=$DEVNAME SUBSYSTEM=$SUB PHYSDEVPATH=$PHYSDEVPATH SEQNUM=$SEQNUM /sbin/hotplug $SUB"
+			#logger -p err "COMMAND='$COMMAND'"
+			eval $COMMAND
+			SeqNumInc
+		done
+	done
+}
+
+ProbeDsp ()
+{
+	local COMMAND
+	# Probe DSP
+	if [ -d /sys/class/sound/dsp ]; then
+		COMMAND="env ACTION=$ACTION DEVNAME=dsp SEQNUM=$SEQNUM /sbin/hotplug usb"
+		Mesg "COMMAND='$COMMAND'"
+		# Probe!
+		eval $COMMAND
+		SeqNumInc
+	fi
+}
+
+LTEModeSwitch ()
+{
+	local COMMAND=""
+
+	for DEVPATH in `ls -Al /sys/bus/usb/devices/ | awk -F"->" '{print $2}' | sed 's/\.\.\///g'`; do
+		local basename="`basename $DEVPATH`"
+		[ ! -n "`echo $basename | grep -v :`" ] && continue
+		[ ! -n "`echo $basename | grep -v : | grep -`" ] && continue
+
+		PRODUCT="`cat /sys/$DEVPATH/idVendor`/`cat /sys/$DEVPATH/idProduct`/`cat /sys/$DEVPATH/bcdDevice`"
+		COMMAND="env ACTION=$ACTION DEVPATH=$DEVPATH PRODUCT=$PRODUCT /sbin/hotplug usb"
+		eval $COMMAND
+	done
+}
+
+ACTION=add
+#FORCE for wlan
+FORCE=
+#MAJOR/MINOR for dvb
+MAJOR="0"
+MINOR="0"
+if [ "remove" = "$1" ]; then
+	ACTION="remove"
+	FORCE="true"
+fi
+
+ProbeUSBDev
+ProbeDsp
+LTEModeSwitch &
+

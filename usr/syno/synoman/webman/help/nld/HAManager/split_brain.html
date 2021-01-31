@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Split-brain</h2>
+
+<p>Wanneer een high-availability cluster normaal functioneert, moet slechts een van de deel uitmakende servers de rol van actieve server op zich nemen. In dit geval detecteert de passieve server de aanwezigheid van de actieve server via de Heartbeat- en gegevensverbinding.</p>
+
+<p>Worden alle Heartbeat- en dataverbindingen onderbroken dan kan het gebeuren dat beide servers proberen om de rol van actieve server over te nemen. Deze situatie wordt omschreven als een "split-brain"-fout. In dit geval worden verbindingen met de IP-adressen van de high-availability-cluster omgeleid naar één van de twee servers, waardoor inconsistente gegevens op de twee servers kunnen worden geüpdatet of overschreven.</p>
+        
+<p>Wanneer één van de Heartbeat- of gegevensverbindingen opnieuw worden verbonden, detecteert het systeem een split-brain-fout en de gegevensinconsistentie tussen de twee servers en wordt de veilige modus van high-availability geactiveerd.</p> 
+
+       
+<h4>In geval van een split-brain-fout:</h4>
+	<ol>
+    <li>de services op beide servers en de IP-adressen van de high-availability-cluster blijven onbeschikbaar totdat de split-brain-fout is opgelost.</li>
+	<li>Beide servers gaan in de high-availability veilige modus, een nieuw tabblad met de naam <strong>Split-brain</strong> verschijnt in het linkerpaneel. In dit tabblad verschijnt de volgende informatie: het verschil tussen de bestanden in de gedeelde mappen op de twee servers, het tijdstip waarop de servers actieve servers werden en de informatie over de laatste iSCSI Target-verbinding. Alle andere tabbladen blijven alleen-lezen.</li>
+<li>In high-availability veilige modus staat File Station in de alleen-lezenmodus en kunt u bestanden downloaden of bekijken.</li>
+       <li>In het tabblad <b>Overzicht</b> kunt u alleen split-brain-fouten oplossen of de huidige aanmeldingsserver uitschakelen. Ga als volgt te werk om split-brain-fouten op te lossen:
+       <ul>
+       <li>Selecteer één server als actieve server van de high-availability-cluster en de andere als passieve server. Na het opnieuw opstarten van beide servers worden alle verschillende gegevens en instellingen op de actieve server gesynchroniseerd met de passieve server. Denk eraan dat geüpdatete gegevens op de passieve server gedurende een split-brain-fout verloren gaan.</li>
+       <li>Selecteer één server als actieve server van de high-availability-cluster en de ontkoppel de andere. Na het opnieuw starten van beide servers, blijft de actieve server in de high-availability-cluster en zal de onkoppelde server de gegevens reserveren en teruggaan naar de status <b>Standalone</b>. Denk eraan dat een volledige replicatie nodig is om een nieuwe passieve server in te toekomst te koppelen.</li>
+       <li>Ontkoppel beide servers, reserveer hun individuele gegevens en laat ze teruggaan naar de status <b>Standalone</b>.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Opmerkingen:</h4>
+    <ul>
+    <li>hoe meer bestanden in uw gedeelde mappen, hoe langer het duurt om de verschillen in de lijst weer te geven.</li>
+    <li>Voordat u kiest welke server u als actieve/passieve server wilt gebruiken, vergewis u ervan dat beide server ingeschakeld zijn.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>LDAP</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>LDAP</h2>
+<p>Synology NAS은(는) LDAP를 통해 LDAP 클라이언트로 기존 디렉토리 서비스에 가입한 후 LDAP 서버(또는 &quot;디렉토리 서버&quot;)에서 사용자 또는 그룹 정보를 검색할 수 있습니다. 로컬 DSM 사용자 또는 그룹에서와 같이 DSM 응용 프로그램 및 공유 폴더에 대한 LDAP 사용자 또는 그룹의 액세스 권한을 관리할 수 있습니다. LDAP에 대한 자세한 정보는 <a href="http://en.wikipedia.org/wiki/LDAP" target="_blank">여기</a>를 참조하십시오.</p>
+
+<p>지원되는 LDAP 표준은 LDAP 버전 3(RFC 2251)입니다.</p>
+<h4>Synology NAS을(를) 디렉토리 서비스에 가입하기:</h4>
+<ol>
+	<li><strong>제어판</strong> &gt; <strong>도메인/LDAP</strong>로 이동합니다.</li><img src="about:blank" class="help_image" /><li><strong>LDAP</strong> 탭으로 이동하고 <strong>LDAP 클라이언트 활성화</strong>를 선택합니다.</li><img src="about:blank" class="help_image" /><li><strong>LDAP 서버 주소</strong> 필드에 LDAP 서버의 IP 주소나 도메인 이름을 입력합니다.</li><img src="about:blank" class="help_image" /><li><strong>암호화</strong> 드롭다운 메뉴에서 암호화 유형을 선택하여 LDAP 연결을 LDAP 서버로 암호화합니다.</li><img src="about:blank" class="help_image" /><li><strong>Base DN</strong> 필드에 LDAP 서버의 Base DN을 입력합니다.</li><img src="about:blank" class="help_image" /><li>사용자 LDAP 서버에 맞는 적절한 <strong>프로필</strong>을 선택합니다. 예를 들어, Synology LDAP Server 또는 Mac Open Directory를 사용하는 경우 <strong>표준</strong>을 선택합니다.</li><img src="about:blank" class="help_image" /><li>Samba 스키마를 지원하지 않는 LDAP 서버 사용자가 CIFS를 통해 Synology NAS 파일에 액세스할 수 있도록 <strong>CIFS 일반 텍스트 패스워드 인증 활성화</strong>를 선택합니다. LDAP 사용자가 자신의 컴퓨터를 사용하여 CIFS를 통해 성공적으로 Synology NAS 파일에 액세스할 수 있도록 아래 섹션을 참조하십시오.</li><img src="about:blank" class="help_image" /><li><strong>적용</strong>을 클릭합니다.</li>
+	<li>필드에 Bind DN(또는 LDAP 관리자 계정) 및 패스워드를 입력한 후 <strong>확인</strong>을 클릭합니다.</li><img src="about:blank" class="help_image" /></ol>
+
+<div class="section">
+
+<h4>CIFS 지원 및 클라이언트 컴퓨터 설정 정보</h4>
+<p>CIFS 일반 텍스트 패스워드 인증이 활성화된 후 LDAP 사용자는 CIFS를 통해 Synology NAS 파일에 액세스할 수 있도록 자신의 컴퓨터 설정을 수정해야 합니다.</p>
+<ul>
+	<li>Synology NAS이(가) Synology LDAP 서버(또는 <strong>LDAP Server</strong> 패키지를 설치하고 실행하는 다른 Synology NAS) 또는 Samba 스키마를 지원하는 LDAP 서버가 제공하는 디렉토리 서비스에 가입하고 모든 LDAP 사용자가 올바른 sambaNTPassword 속성을 가진 경우, LDAP 사용자는 <strong>CIFS 일반 텍스트 패스워드 인증 활성화</strong>를 선택하거나 컴퓨터 설정을 수정하지 않고 CIFS를 통해 Synology NAS 파일에 액세스할 수 있습니다. 그렇지 않으면 LDAP 사용자는 컴퓨터의 <a href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" target="_blank">PAM</a> 지원을 활성화해야 CIFS를 통해 Synology NAS 파일에 액세스할 수 있습니다. 하지만 이렇게 하면 LDAP 사용자의 패스워드가 암호화되지 않은 일반 텍스트로 Synology NAS에 전송되므로, 보안 수준이 낮아집니다.</li>
+</ul>
+
+<h4>Windows 설정 수정하기:</h4>
+<ol>
+	<li><strong>시작</strong> &gt; <strong>실행</strong>으로 이동하고 필드에 <strong>regedit</strong>를 입력한 후 <strong>확인</strong>을 클릭하여 레지스트리 편집기를 엽니다.</li>
+	<li>Windows 버전에 따라 다음 레지스트리를 찾거나 생성합니다.<ul>
+			<li><strong>Windows 2000, XP, Vista 및 Windows 7:</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkStation\Parameters]</li>
+			<li><strong>Windows NT:</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Rdr\Parameters]</li>
+			<li><strong>Windows 95(SP1), 98 및 Me:</strong><br />[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\VxD\VNETSUP]</li>
+		</ul>
+	</li>
+	<li>DWORD 값 <strong>EnablePlainTextPassword</strong>를 생성 또는 수정하고 해당 값 데이터를 <strong>0</strong>에서 <strong>1</strong>로 변경합니다.</li>
+	<li>Windows를 다시 시작하여 변경 사항을 적용합니다.</li>
+</ol>
+
+<h4>Mac OS X 설정 수정하기:</h4>
+<ol>
+	<li><strong>응용 프로그램</strong> &gt; <strong>유틸리티</strong>로 이동하여 <strong>터미널</strong>을 엽니다.</li>
+	<li>빈 파일 <strong>/etc/nsmb.conf</strong>를 생성합니다.<pre>sudo touch /etc/nsmb.conf</pre></li>
+	<li>vi를 사용하여 <strong>/etc/nsmb.conf</strong>를 엽니다.<pre>sudo vi /etc/nsmb.conf</pre></li>
+	<li>&quot;<strong>i</strong>&quot;를 입력하여 텍스트를 삽입하고 다음을 붙여 넣습니다.<pre>[default]<br />&gt;minauth=none</pre></li>
+	<li>Esc 키를 누른 후 &quot;<strong>ZZ</strong>&quot;을 입력하여 변경 사항을 저장하고 vi를 종료합니다.</li>
+</ol>
+
+<h4>Linux 설정 수정하기:</h4>
+<p><strong>smbclient</strong>를 사용하는 경우, <strong>smb.conf</strong>의 <strong>[global]</strong> 섹션에서 다음 키를 추가하십시오.<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">encrypt passwords = no <br /> client plaintext auth = yes <br /> client lanman auth = yes <br /> client ntlmv2 auth = no</p>
+	<p><strong>mount.cifs</strong>를 사용하는 경우, 다음 명령을 실행합니다.</strong>
+	<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">echo 0x30030 &gt; /proc/fs/cifs/SecurityFlags</p>
+	<p>보다 자세한 정보는 <a href="https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README" target=_blank>https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README</a>를 참조하십시오.</p>
+</p>
+</div>
+
+<div class="section"><h4>프로필 정보</h4>
+<p>각 LDAP 서버는 서로 다른 계정 이름, 그룹 이름 속성을 사용하거나 계정과 그룹을 구별할 수 있습니다. <strong>프로필</strong> 옵션을 사용하여 사용자 및 그룹 정보를 LDAP 속성에 매핑하는 방법을 지정하거나 사용자 지정할 수 있습니다. LDAP 서버에 따라 다음 프로필 중 하나를 선택할 수 있습니다.</p>
+<ul>
+	<li><strong>표준:</strong> Synology LDAP Server 또는 Mac Open Directory를 실행하는 서버용입니다.</li>
+	<li><strong>IBM Lotus Domino:</strong> IBM Lotus Domino 8.5를 실행하는 서버용입니다.</li>
+	<li><strong>사용자 지정:</strong> 매핑을 사용자 지정할 수 있습니다. 상세 내용은 아래 섹션을 참조하십시오.</li>
+</ul>
+
+<p>LDAP 속성 매핑을 사용자 지정하기 전에 몇 가지 배경 지식이 필요합니다. Synology DSM과 <strong>프로필</strong> 편집기 모두 RFC 2307을 준수합니다. 예를 들어, <strong>filter</strong> &gt; <strong>passwd</strong>를 <strong>userFilter</strong>로 지정할 수 있습니다. 이 경우 Synology NAS은(는) LDAP 서버에서 <strong>objectClass=userFilter</strong>가 있는 레코드를 LDAP 계정으로 해석합니다. <strong>passwd</strong> &gt; <strong>uid</strong>를 <strong>username</strong>으로 지정하는 경우, Synology NAS은(는) LDAP 서버의 <strong>username</strong>을 계정 이름으로 해석합니다. 매핑을 비워두면 RFC 2307 규칙이 적용됩니다.</p>
+<p>Synology NAS에는 LDAP 계정 식별자(<strong>uidNumber</strong>) 또는 그룹 식별자(<strong>gidNumber</strong>) 역할을 수행하는 고정된 정수가 있어야 합니다. 하지만 모든 LDAP 서버가 정수를 사용하여 해당 속성을 표현하는 것은 아닙니다. 따라서 해당 속성을 정수로 변환하기 위해 키워드 <strong>HASH()</strong>가 제공됩니다. 예를 들어, LDAP 서버가 십육진수 값을 가진 <strong>userid</strong> 속성을 LDAP 계정의 고유한 식별자로 사용할 수 있습니다. 이 경우, <strong>passwd</strong> &gt; <strong>uidNumber</strong>를 <strong>HASH(userid)</strong>로 설정하면 Synology NAS이(가) 이를 정수로 변환합니다.</p>
+<p>다음은 사용자 지정 가능한 속성에 대한 요약입니다.</p>
+<ul>
+	<li><strong>filter</strong><ul>
+			<li><strong>group</strong>: 그룹에 대한 필수 objectClass입니다.</li>
+			<li><strong>passwd</strong>: 사용자에 대한 필수 objectClass입니다.</li>
+			<li><strong>shadow</strong>: 사용자 패스워드에 대한 필수 objectClass입니다.</li>
+		</ul>
+	</li>
+	<li><strong>group</strong><ul>
+			<li><strong>cn</strong>: 그룹 이름입니다.</li>
+			<li><strong>gidNumber</strong>: 이 그룹의 GID 수입니다.</li>
+			<li><strong>memberUid</strong>: 이 그룹의 구성원입니다.</li>
+		</ul>
+	</li>
+	<li><strong>passwd</strong><ul>
+			<li><strong>uidNumber</strong>: 이 사용자의 UID 수입니다.</li>
+			<li><strong>uid</strong>: 사용자 이름입니다.</li>
+			<li><strong>gidNumber</strong>: 이 사용자의 기본 GID 수입니다.</li>
+		</ul>
+	</li>
+	<li><strong>shadow</strong><ul>
+			<li><strong>uid</strong>: 사용자 이름입니다.</li>
+			<li><strong>userPassword</strong>: 사용자 패스워드입니다.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<div class="section"><h4>UID/GID 전환 정보</h4>
+<p>LDAP 사용자/그룹과 로컬 사용자/그룹 간에 UID/GID 충돌을 방지하기 위해 UID/GID 전환을 활성화하여 1000000을 통해 LDAP 사용자/그룹의 UID/GID를 전환할 수 있습니다. 이 옵션은 Synology LDAP 서버가 아닌 LDAP 서버 전용이며 각 사용자/그룹의 고유한 번호 ID 속성을 가집니다.</p>
+</div>
+
+<div class="section"><h4>중첩된 그룹 확장 정보</h4>
+<p>중첩된 그룹에서 LDAP 그룹 구성원은 조직의 계층 구조가 표시되는 다른 LDAP 그룹에 속합니다. 사용자가 특정 구성원이 속한 그룹이나 특정 그룹의 이름 목록을 조회하는 경우, Synology NAS이(가) LDAP 그룹의 <strong>member</strong> 속성에 따라 중첩된 그룹을 확장합니다. 여기에서 속성은 하위 그룹의 DN(구별되는 이름)을 참조합니다. 중첩된 그룹 확장은 다양한 상황에 따라 시간이 많이 걸릴 수 있습니다(예: 서버가 <strong>member</strong> 속성을 인덱싱하지 않거나 그룹이 깊게 중첩된 경우). 이런 상황을 방지하기 위해 중첩된 그룹을 확장하지 않도록 선택할 수 있습니다.</p>
+</div>
+
+
+<div class="section" ><h4>클라이언트 인증서 정보</h4>
+<p>Synology는 클라이언트 인증서 사용을 지원합니다. 일부 특정 LDAP 서버(예: Google LDAP)는 인증서를 사용하여 클라이언트를 인증합니다. <strong>클라이언트 인증서 활성화</strong> 옵션을 선택하면 클라이언트 인증서를 업로드할 수 있습니다.</p>
+<h4>참고:</h4>
+<p>이 기능은 DSM 6.2.2 이상에서 지원됩니다.</p>
+</div>
+
+
+</body>
+</html>

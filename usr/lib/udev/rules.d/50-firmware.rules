@@ -1,0 +1,9 @@
+#author: Consumer Platform Team
+
+#Skip some useless events
+SUBSYSTEM!="firmware|compat_firmware", GOTO="firmware_end"
+ACTION!="add", GOTO="firmware_end"
+
+ACTION=="add", RUN+="/lib/udev/script/firmware.sh %p %E{FIRMWARE}"
+
+LABEL="firmware_end"

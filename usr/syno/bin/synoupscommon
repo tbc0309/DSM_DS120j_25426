@@ -1,0 +1,173 @@
+#!/bin/sh
+# Copyright (c) 2000-2012 Synology Inc. All rights reserved.
+UPS_STATE="/var/state/ups"
+UPS_ROOT="/tmp/ups"
+UPS_LOCK=$UPS_ROOT"/ups.lock"
+UPSSCHED_CONF="/usr/syno/etc/ups/upssched.conf"
+SYNOINFO_CONF="/etc/synoinfo.conf"
+SYNOINFO=$SYNOINFO_CONF
+SYNOINFO_CONF_DEFAULT="/etc.defaults/synoinfo.conf"
+UPSMON_CONF="/usr/syno/etc/ups/upsmon.conf"
+UPSMON_CONF_BACKUP="/usr/syno/etc.defaults/ups/upsmon.conf"
+UPS_CONF="/usr/syno/etc/ups/ups.conf"
+UPS_CONF_BACKUP="/usr/syno/etc.defaults/ups/ups.conf"
+NUTSCAN_USB_H="/usr/syno/etc/ups/nutscan-usb.h"
+
+if [ ! -d $UPS_ROOT ]; then
+	mkdir -p $UPS_ROOT
+fi
+
+SupportUPS=`/bin/get_key_value $SYNOINFO_CONF_DEFAULT supportups`
+case "$SupportUPS" in
+[Yy][Ee][Ss])
+	;;
+*)
+	echo "UPS is not support here."
+	exit
+	;;
+esac
+
+EnableUPS=`/bin/get_key_value $SYNOINFO_CONF ups_enabled`
+case "$EnableUPS" in
+[Yy][Ee][Ss])
+	MasterEnabled=1;;
+*)
+	MasterEnabled=0;;
+esac
+
+EnableSlave=`/bin/get_key_value $SYNOINFO_CONF upsslave_enabled`
+case "$EnableSlave" in
+[Yy][Ee][Ss])
+	SlaveEnabled=1;;
+*)
+	SlaveEnabled=0;;
+esac
+
+UpsMode=`/bin/get_key_value $SYNOINFO_CONF ups_mode`
+# ups_mode will be empty when upgrade to 4.2
+if [ "x" = "x${UpsMode}" ]; then
+	UpsMode="usb"
+fi
+
+StatClient=`ps -aux |grep '/usr/sbin/upsmon'|grep -cv grep`
+
+SafeMV() {
+	mv $1 $2.$$
+	mv $2.$$ $2
+}
+
+UpdateUpsdConf() {
+	local RAD_F_LISTEN="/usr/syno/etc/ups/upsd.conf"
+	local RAD_V_IF_HEAD="Link encap"
+	local RAD_V_WL_HEAD="wlan"
+	local RAD_V_V6IP="inet6"
+	local RAD_V_V4IP="inet"
+	local IS_WLAN=0
+
+	echo "" > $RAD_F_LISTEN
+	ifconfig | while read LINE; do
+		if echo "$LINE"|grep -q "$RAD_V_IF_HEAD" && echo "$LINE"|grep -q "$RAD_V_WL_HEAD"; then
+			IS_WLAN=1
+		elif [ "x" == "x$LINE" ]; then
+			IS_WLAN=0
+		fi
+
+		if echo "$LINE"|grep -q "$RAD_V_V6IP"; then
+			# work around wifi ipv6 bind fail
+			if [ 0 == $IS_WLAN ];then
+				echo -e "LISTEN `echo $LINE|/usr/bin/awk '/inet6 /{print$3}'|/usr/bin/cut -d '/' -f 1`" >> $RAD_F_LISTEN
+			fi
+		elif echo "$LINE"|grep -q "$RAD_V_V4IP"; then
+			echo -e "LISTEN `echo $LINE|/usr/bin/awk '/inet /{print$2}'|/usr/bin/cut -d ':' -f 2`" >> $RAD_F_LISTEN
+		fi
+	done
+}
+
+StartServer() {
+	UpdateUpsdConf
+
+	local cntDaemon=`ps -aux |grep '/usr/sbin/upsd'|grep -cv grep`
+	if [ $cntDaemon -gt 0 ]; then
+		kill -HUP `cat /var/state/ups/upsd.pid`
+	else
+		/usr/sbin/upsd
+	fi
+}
+
+StartClient() {
+	local cntMon=`ps -aux |grep '/usr/sbin/upsmon'|grep -cv grep`
+	if [ $cntMon -gt 0 ]; then
+		kill -HUP `cat /var/run/upsmon.pid`
+	fi
+	/usr/sbin/upsmon $1
+}
+
+StopUps() {
+	ShowLog "Stop UPS Daemon"
+
+	killall upsmon > /dev/null 2>&1
+	killall upssched > /dev/null 2>&1
+	killall upsd > /dev/null 2>&1
+	/usr/bin/upsdrvctl stop
+
+	#we need to check the process stopped, in some low level DS, it sometimes costs much time
+	WaitStop	
+
+	return 0
+}
+
+ForceStopUps() {
+	ShowLog "Stop UPS timeout, Force stop UPS"
+
+	killall -9 upsmon > /dev/null 2>&1
+	killall -9 upssched > /dev/null 2>&1
+	killall -9 upsd > /dev/null 2>&1
+	/usr/bin/upsdrvctl stop
+	sleep 3
+}
+
+WaitStop() {
+	for i in `seq 1 1 3`; do
+		sleep 3
+		local P_COUNT=`ps -aux |grep -E "(upsd|upsmon|a ups)"|grep -cv grep`
+		if [ 0 -eq $P_COUNT ]; then
+			return 0
+		fi
+	done
+	ForceStopUps
+	return 255
+}
+
+CheckUpsmonConf() {
+	local conf_size=`stat $UPSMON_CONF |grep Size|cut -d" " -f 4`
+	# mode: local/remote
+	local mode=$1
+	local server_ip="0.0.0.0"
+
+	if [ 0 -eq $conf_size ]; then
+		if [ -f $UPSMON_CONF_BACKUP ]; then
+			/bin/cp $UPSMON_CONF_BACKUP $UPSMON_CONF
+		else
+			ShowLog "synoupscommon: cannot rescue $UPSMON_CONF"
+		fi
+	fi
+
+	if [ "$mode" == "local" ]; then
+		/bin/sed -i "/^MONITOR/c\\MONITOR ups@localhost 1 monuser secret master" $UPSMON_CONF
+	elif [ "$mode" == "remote" ]; then
+		if [ $# -ne 2 ]; then
+			ShowLog "synoupscommon: CheckUpsmonConf(): remote mode need set server_ip"
+			return 1
+		fi
+		server_ip=$2
+		/bin/sed -i "/^MONITOR/c\\MONITOR ups@${server_ip} 1 monuser secret slave" $UPSMON_CONF
+	fi
+
+	return 0
+}
+
+ShowLog() {
+	echo $1
+	logger -p err -- $1
+}
+

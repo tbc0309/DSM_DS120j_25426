@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Cambio</h2>
+  
+ <p>Para garantizar un rendimiento continuo y minimizar el tiempo de inactividad, los servicios se pueden cambiar del servidor activo de un cl&uacute;ster high-availability al servidor pasivo redundante. Esta funci&oacute;n se llama &quot;Cambio&quot; o, en algunos casos, &quot;Conmutaci&oacute;n por error&quot;. En esta secci&oacute;n se explican los fundamentos de estos dos conceptos.</p>
+  
+  <h3>Cambio</h3>
+  	<p>La funci&oacute;n Cambio se refiere al paso del servidor activo al servidor pasivo redundante de un cl&uacute;ster high-availability. En condiciones normales, el servidor activo administra todos los servicios. Sin embargo, en caso de que el servidor activo falle, puede iniciar un cambio y transferir todos los servicios al servidor pasivo, suponiendo siempre que el servidor pasivo funcione normalmente. En este caso, el servidor activo asume el papel del servidor pasivo, y el servidor pasivo asume el papel del servidor activo.</p>
+    
+<h4>Para iniciar manualmente un cambio:</h4>
+ <ol>
+  <li>Vaya a la pesta&ntilde;a <b>Visi&oacute;n general</b>.</li>
+  <li>Haga clic en <b>Administraci&oacute;n</b> &gt; <b>Cambio</b>.</li>
+ </ol>
+<div class="section">
+<h4>Nota:</h4>
+   <p>Al iniciar un cambio, el servidor activo asume primero el papel del servidor pasivo y luego el servidor pasivo se convierte en servidor activo. Por tanto, habr&aacute; un breve periodo de tiempo en el que ambos servidores sean pasivos y no puedan prestar los servicios normalmente. El tiempo de cambio var&iacute;a dependiendo del n&uacute;mero y el tama&ntilde;o de los vol&uacute;menes o iSCSI LUN (nivel de bloques) o del n&uacute;mero y la carga total de servicios del cl&uacute;ster high-availability.</p>
+</div>
+   
+<h3>Conmutaci&oacute;n por error</h3>
+    
+     <p>Cuando se producen determinados errores, el sistema puede iniciar autom&aacute;ticamente un cambio de servicios para mantener el rendimiento. Este evento se denomina &quot;conmutaci&oacute;n por error&quot;. El sistema podr&iacute;a iniciar una conmutaci&oacute;n por error en las siguientes situaciones:</p>
+    
+     <ul>
+      <li><b>Espacio de almacenamiento averiado:</b> un espacio de almacenamiento (p. ej., volumen, Grupo de discos, RAID Group, cach&eacute; de SSD, etc.) del servidor activo se ha averiado, pero el espacio de almacenamiento correspondiente en el servidor pasivo sigue funcionando normalmente. Tenga en cuenta que el sistema no iniciar&aacute; una conmutaci&oacute;n por error si no hay vol&uacute;menes o iSCSI LUN (nivel de bloques) en el espacio de almacenamiento averiado.</li>
+      <li><b>Error de servicio:</b> se ha producido un error en un servicio supervisado.</li>
+      <li><b>Corte de electricidad:</b> el servidor activo est&aacute; apagado o se ha reiniciado; las dos unidades de alimentaci&oacute;n del servidor activo han fallado; o se ha producido un corte de electricidad.</li>      
+     </ul>    
+     
+    
+<h3>Fallo de cambio</h3>
+    
+		<p>El cambio o la conmutaci&oacute;n por error podr&iacute;a fallar en las siguientes situaciones:</p>
+  			<ul>
+   				<li><b>Replicaci&oacute;n de datos incompleta:</b> la primera vez que combine dos servidores para crear un cl&uacute;ster high-availability, el sistema necesitar&aacute; tiempo para replicar todos los datos del servidor activo en el servidor pasivo.</li>
+   				<li><b>Espacio de almacenamiento en servidor pasivo averiado:</b> un espacio de almacenamiento (p. ej., volumen, Grupo de discos, RAID Group, etc.) del servidor pasivo se ha averiado.</li>
+                <li><b>Corte de electricidad:</b> el servidor pasivo est&aacute; apagado o se ha reiniciado; las dos unidades de alimentaci&oacute;n del servidor pasivo han fallado; o se ha producido un corte de electricidad.</li>
+                <li><b>Actualizaci&oacute;n de DSM:</b> cuando se instalen actualizaciones de DSM todos los servicios se detendr&aacute;n y continuar&aacute;n cuando finalice la instalaci&oacute;n de la actualizaci&oacute;n.</li>      
+ </ul>
+
+  <p>Si inicia manualmente un cambio, pero los servicios no se pueden pasar al servidor pasivo, el sistema intentar&aacute; pasar los servicios de nuevo al servidor activo.</p>
+ <p>En caso de que se inicie una conmutaci&oacute;n por error y ning&uacute;n servidor pueda asumir el papel de servidor activo debido a errores, el cl&uacute;ster high-availability no podr&aacute; prestar los servicios normalmente. Si los servidores no vuelven autom&aacute;ticamente al estado <b>Independiente</b>, pulse el bot&oacute;n <b>Reiniciar</b> en ambos servidores para restaurar la configuraci&oacute;n predeterminada. Una vez que se haya restaurado la configuraci&oacute;n predeterminada, podr&aacute; combinar los servidores y volver a crear un cl&uacute;ster high-availability.</p>
+ 
+ <h3>Sistema de alimentaci&oacute;n ininterrumpida</h3>
+  <p>Los cl&uacute;ster high-availability se pueden conectar a sistemas de alimentaci&oacute;n ininterrumpida (SAI) para reducir el riesgo de que se produzca un corte el&eacute;ctrico inesperado. Si se produce un corte el&eacute;ctrico, los servidores recibir&aacute;n alimentaci&oacute;n de reserva del sistema SAI al que est&eacute;n conectados. Cuando el sistema SAI conectado al servidor activo empiece a quedarse sin alimentaci&oacute;n, el sistema intentar&aacute; cambiar los servicios al servidor pasivo. Consulte las directrices a continuaci&oacute;n.</p>
+   <ul>
+
+<li> Si el servidor activo y el servidor pasivo est&aacute;n conectados al mismo interruptor de red, se recomienda conectar ambos servidores a la misma fuente de alimentaci&oacute;n que dicho interruptor de red.</li>
+<li>Si el servidor activo y el servidor pasivo est&aacute;n conectados a distintos interruptores de red (p. ej. electricidad de diferentes empresas proveedoras), se recomienda conectar cada uno de ellos a las fuentes de alimentaci&oacute;n correspondientes a sus interruptores de alimentaci&oacute;n correspondientes.</li>
+<li>Si el servidor activo y el servidor pasivo est&aacute;n conectados a distintos interruptores de red que utilizan unidades SAI diferentes, se recomienda conectar ambos servidores a una de las unidades SAI en lugar de hacerlo a diferentes unidades. Cuando la unidad SAI sufre un corte de suministro, el servidor activo recibir&aacute; una notificaci&oacute;n y entrar&aacute; en el modo seguro; el servidor pasivo de apagar&aacute; correctamente. Si los servidores est&aacute;n conectados a diferentes unidades SAI, el servidor activo no podr&aacute; detectar si la SAI del servidor pasivo se est&aacute; quedando sin suministro y por tanto es posible que el servidor pasivo se apague inesperadamente.</li>
+   </ul>
+
+   
+<div class="section">
+<h4>Nota:</h4>
+<p>Synology NAS es compatible con la conexi&oacute;n a dispositivos SAI locales y SNMP. Para m&aacute;s informaci&oacute;n, consulte la ayuda de <strong>Panel de control</strong> &gt; <strong>Hardware</strong> &gt; <strong>UPS</strong></p>
+</div>  
+ </body>
+</html>

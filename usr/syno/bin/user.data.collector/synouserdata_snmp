@@ -1,0 +1,37 @@
+#!/bin/sh
+
+CONFIG="/etc/snmp/snmpd.conf"
+
+RESULT=`cat $CONFIG | grep rocommunity | wc -l`
+if [ "$RESULT" -gt 1 ]; then
+    SNMP_V1V2_ENABLE="yes"
+else 
+    SNMP_V1V2_ENABLE="no"
+fi
+
+RESULT=`cat $CONFIG | grep rouser`
+if [ $? -eq 0 ]; then
+    SNMP_V3_ENABLE="yes"
+else
+    SNMP_V3_ENABLE="no"
+fi
+
+if [ "$SNMP_V1V2_ENABLE" == "yes" -o "$SNMP_V3_ENABLE" == "yes" ];then 
+    SNMP_ENABLE="yes"
+else
+    SNMP_ENABLE="no"
+fi
+
+echo -n "{"
+
+echo -n \"snmp_enable\":\"$SNMP_ENABLE\",
+echo -n \"snmp_v1v2_enable\":\"$SNMP_V1V2_ENABLE\",
+echo -n \"snmp_v3_enable\":\"$SNMP_V3_ENABLE\",
+
+# let version be the last one msg
+echo -n \"collector_version\":1
+
+echo "}"
+
+
+

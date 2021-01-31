@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Zasilanie</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Hibernacja</h2>
+<p>Można określić czas bezczynności dysków twardych, zanim przejdą do trybu hibernacji HDD. W stanie hibernacji HDD dyski twarde przestają się obracać, co zmniejsza zużycie energii i wydłuża okres eksploatacji dysków twardych. W przypadku wewnętrznych dysków twardych oraz zewnętrznych dysków twardych eSATA lub USB można ustawić inne okresy.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Działanie funkcji Hibernacja HDD zostanie przerwane przy próbie uzyskania dostępu.</li>
+<li>Hibernację HDD obsługują tylko niektóre zewnętrzne dyski twarde USB.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Dlaczego serwer Synology NAS nie przechodzi do trybu hibernacji?</h4>
+
+<p>Przechodzenie do trybu hibernacji uniemożliwiają serwerowi Synology NAS następujące usługi. System wychodzi ponadto z trybu hibernacji na dwie minuty przed każdym zaplanowanym zadaniem.</p>
+
+<p><strong>Pakiety:</strong></p>
+<ul>
+  <li>Download Station: Synology NAS nie może przejść do trybu hibernacji, jeżeli w aplikacji Download Station jest zaplanowane pobieranie eMule lub RSS albo są aktywne zadania.</li>
+  <li>Mail Station: Synology NAS nie może przejść do trybu hibernacji, jeżeli aplikacja Mail Station pobiera pocztę z serwera POP3.</li>
+  <li>Surveillance Station: Synology NAS nie może przejść do trybu hibernacji, jeżeli aplikacja Surveillance Station nagrywa.</li>
+  <li>Serwer multimediów: Synology NAS nie może przejść do trybu hibernacji, jeżeli Serwer multimediów ma włączoną funkcję logu DMA (przejdź do pozycji <strong>Menu główne</strong> > <strong>Serwer multimediów</strong> > <strong>Serwer multimediów</strong> > <strong>Diagnoza</strong>).</li>
+  <li>LDAP Server</li>
+  <li>Webalizer</li>
+  <li>Logitech<sup>®</sup> Media Server</li>
+  <li>Plex Media Server</li>
+  <li>Inne oprogramowanie producentów zewnętrznych lub optware, na przykład SABnzbd</li>
+</ul>
+<p><strong>Procesy:</strong></p>
+<ul>
+  <li>Generowanie miniatur i indeksowanie: Synology NAS nie może przejść do trybu hibernacji podczas generowania miniatur lub ponownego indeksowania plików multimedialnych po aktualizacji. Proces „synoindexd” jest wtedy umieszczony na liście „Działa” (przejdź do pozycji <strong>Menu główne</strong> > <strong>Monitor zasobów</strong> > <strong>Proces</strong>).</li>
+  <li>Local Master Browser: Synology NAS nie może przejść do trybu hibernacji, jeżeli jest włączona funkcja Local Master Browser (przejdź do pozycji <strong>Panel sterowania</strong> > <strong>Win/Mac/NFS</strong> > <strong>Usługa plików systemu Windows</strong> > <strong>Włącz Local Master Browser</strong>).</li>
+  <li>Windows Media Player: Synology NAS nie może przejść do trybu hibernacji, jeżeli w sieci LAN jest włączona usługa Udostępnianie w sieci programu Windows Media Player.</li>
+  <li>Synology NAS nie może przejść do trybu hibernacji, jeżeli pewna liczba jednoczesnych procesów wymaga pliku wymiany po przekroczeniu pojemności pamięci RAM, a dyski twarde są używane tymczasowo do operacji odczytu i zapisu.</li>
+</ul>
+<p><strong>Inne</strong></p>
+<ul>
+  <li>Urządzenia USB: Synology NAS nie może przejść do trybu Hibernacja systemu, jeżeli są do niego podłączone urządzenia USB. </li>
+</ul>
+
+</div>
+
+
+<h3>Hibernacja systemu</h3>
+<p>Serwer Synology NAS można ustawić tak, by przechodził do trybu Hibernacja systemu w minutę po rozpoczęciu hibernacji dysków twardych. Hibernacja systemu zmniejsza zużycie energii przez serwer Synology NAS.  </p>
+<p>W trybie Hibernacja systemu:</p>
+
+<ol>
+  <li>Wskaźnik świetlny przycisku zasilania powoli miga (powolny cykl włączania i wyłączania). Pozostałe diody LED zostają wyłączone.</li>
+  <li>Zasilanie dysków twardych zostaje odcięte.</li>
+  <li>Działanie procesora zostaje zatrzymane.</li>
+  <li>Działanie zewnętrznego wentylatora zostaje zatrzymane.</li>
+  <li>Diody LED gniazd LAN zostają wyłączone.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Przejście do trybu Hibernacja systemu może uniemożliwić każdy pakiet SMB/CIFS, w tym działanie przeglądarek plików systemu Windows działających w sieci. Aby ignorować pakiety transmisji CIFS podczas przechodzenia serwera do trybu Hibernacja systemu, zaznacz pole wyboru <strong>Ignoruj pakiety transmisji z Eksploratora Windows</strong>. Po wybraniu tej opcji nie można wybudzić serwera z trybu Hibernacja systemu przy użyciu pakietów SMB/CIFS. Przejściu serwera do trybu Hibernacja systemu zapobiega także podłączenie dowolnych urządzeń USB.</li>
+</ul>
+</div>
+
+<h2>Głębokie uśpienie</h2>
+<p>Funkcję Głębokie uśpienie jednostek rozszerzających można włączyć za pośrednictwem interfejsu powiązanego z nimi serwera Synology NAS. Jednostkę rozszerzającą i powiązany serwer Synology NAS można skonfigurować tak, by ich okresy bezczynności były różne. W związku z tym jednostki rozszerzające mogą przejść do trybu Głębokie uśpienie, gdy powiązany serwer Synology NAS jest nadal aktywny.</p>
+<p>W trybie Głębokie uśpienie:</p>
+<ul>
+  <li>Wszystkie diody w jednostce rozszerzającej zostają wyłączone.
+</li>
+<li>Zasilanie dysków twardych w jednostce rozszerzającej zostaje odcięte.
+</li>
+<li>Wentylator w jednostce rozszerzającej zostaje zatrzymany.</li>
+</ul>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Działanie funkcji Głębokie uśpienie zostanie przerwane przy próbie uzyskania dostępu.</li>
+<li>W celu zapewnienia normalnego działania podczas korzystania z funkcji Głębokie uśpienie w jednostce rozszerzającej przestaw przełącznik <b>Auto/Manual</b> na tylnym panelu do pozycji <b>Auto</b>.</li>
+</ul>
+</div>
+
+<h2>Automatyczne wyłączanie zasilania</h2>
+<p>Można określić długość czasu, przez jaki dysk wewnętrzny pozostaje w hibernacji, zanim serwer Synology NAS wyłączy się automatycznie.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Musisz najpierw włączyć funkcję Hibernacja wewnętrznego HDD.</li>
+<li>Aby można było zdalnie włączyć zasilanie serwera Synology NAS, należy najpierw włączyć usługę WOL.</li>
+</ul>
+</div>
+
+</body>
+</html>
+

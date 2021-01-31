@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>iSCSI マネージャー</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_lun"></a>LUN</h2>
+<p>LUN を作成する前に、まず<a href="../StorageManager/volume_create_volume.html">Storage Manager</a>でボリュームを作成する必要があります。</p>
+<p>さまざまな機能を持つ LUN タイプがさまざまな色で表示されます。</p>
+<ul>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #00adad;"></span> ext4 ボリュームに作成された Thin Provisioned LUN。</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #1a9900;"></span> Btrfs ボリュームに作成された Thin Provisioned LUN。</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #0068b3;"></span> Thick Provisioned LUN。</li>
+ </ul>
+ 
+
+<div class="section"><h4>重要：</h4>
+<ul>
+	<li>DSM 6.2 以降の Btrfs ボリュームに作成された LUN だけが、新しい高度な機能と即時スナップショットをサポートします。ext4 ボリューム上の LUN はレガシーの高度な機能のみをサポートします。</li>
+</ul>
+</div>
+
+<h4>LUN を作成する：</h4>
+<ol>
+  <li>[<strong>作成</strong>] をクリックします。</li>
+  <li>この LUN のプロパティを設定します。
+		<ul>
+			<li>LUN名</li>
+			<li>場所：LUN の作成後は場所を修正できませんが、この LUN を別のボリュームにコピーできます。</li>
+			<li>容量：LUN のサイズは少なくとも 1GB でなければなりません。レガシーの高度な機能がある LUN の場合、サイズは少なくとも10GBのサイズでなければなりません。</li>
+			<li>スペース割当：Thick Provisioning はよりよい安定性とパフォーマンスを提供します。一方、Thin Provisioning はオンデマンドの割当およびすべての高度な機能をサポートしますが、そのボリュームのスペースが使い果たされると、LUN 上のファイル システムがクラッシュすることがあります。</li>
+			<li>高度な機能：Thick Provisioned LUN は <strong>[Hardware-Assisted Zeroing]</strong> および <strong>[Hardware-Assisted Locking]</strong> のみをサポートしますが、ext4 ボリューム上の LUN はレガシーの高度な機能のみをサポートします。</li></li>
+		</ul></li>
+	<li>ウィザードに従ってプロセスを完了します。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+	<ul>
+	<li>新しい LUN は、ボリュームの空き容量が 1 GB 未満のときには作成できません。</li>
+	<li>高度な機能を有効化して対応する VMware VAAI の機能をサポートできます。</li>
+	<li><strong>[Hardware-Assisted Data Transfer]</strong> を有効化して LUN に Windows オフロード データ転送 (ODX) を同時にサポートさせることができます。</li>
+	<li>レガシーの高度な機能を有効化すると、I/O パフォーマンスに影響が出ることがあります。</li>
+	<li>サポートされる LUN の数は、Synology NAS のモデルの数によって異なります。製品の仕様については、<a href="http://www.synology.com/" target="_blank">www.synology.com</a>をご覧ください。</li>
+ 	</ul>
+</div>
+<div class="section"><h4><a name="terminologies_advanced_features"></a>用語集：</h4>
+	<ul>
+		<li><strong>Hardware-Assisted Zeroing：</strong>新しい仮想ディスクを作成する時に、VMware ESXi ホストがよりよい効率性で仮想ディスクを初期化するのを助けます。</li>
+		<li><strong>Hardware-Assisted Locking：</strong>VMware ESXi のホストが LUN のデータにアクセスする時、その必要な部分のみをロックします。これにより、パフォーマンスを下げることなく、複数の VMware ESXi ホストが同じ LUN に同時にアクセスすることができます。</li>
+		<li><strong>Hardware-Assisted Data Transfer：</strong>VMware ESXi および Microsoft Hyper-V のホストでデータをコピーすると、ホストのリソースを消費することなくデータ転送が Synology NAS で速く行われます。</li>
+		<li><strong>スナップショット：</strong>Btrfs ファイル システム機能のサポートがあると、即時スナップショットと複製が利用可能になります。</li>
+		<li><strong>スペース再利用：</strong>イニシエータのスペース再利用コマンドをサポートします。データが削除されるか転送されると、そのデータが使用していたスペースがリリースされます。しかし、これは I/O パフォーマンスに影響することがあります。</li>
+	</ul></div>
+
+	
+
+<h4>LUN を削除する：</h4>
+<p>LUN を削除すると、LUNに関するすべてのデータが削除されます。LUN とマップされている Target 間との接続も失われます。</p>
+<ol>
+	<li>削除するボLUN を選択します。</li>
+	<li><b>[削除]</b> ボタンをクリックし、ウィザードに従って作業を完了します。</li>
+</ol>
+
+<h4>LUN を編集する：</h4>
+<ol>
+	<li>編集する LUN を選択します。</li>
+	<li><b>[操作]</b> ドロップダウンメニューから <b>[編集]</b> を選択します。</li>
+	<li>必要なプロパティを編集します。</li>
+	<li><b>[OK]</b> をクリックして、設定を保存します。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+<li>LUN の能力を編集しているときにデータ喪失を回避するには、それを現在のサイズより大きくすることのみが可能です。</li>
+<li>LUN の状態が <b>[利用不可]</b> になった場合は、LUN にアクセス中にデータ関連のエラーが発生したことを意味しています。システムでの重大なデータ喪失を避けるために、この LUN は、一時的に利用できなくなります。可能な限り早急に、サポートのために、Synology にご連絡ください。</li>
+</ul>
+</div>
+
+<p>お使いの Synology NAS が OpenStack Cinder のストレージ バックエンドとしている場合には、ストレージ アクセラレーション コマンドを持つ LUN がCinder ボリュームを作成する際に使用されます。Cinder によって使用される LUN/Target の操作や管理は、お使いの Synology NAS で制限されます。</p>
+<ul>
+<li>Cinder LUN は編集できません。</li>
+<li>Cinder Target の名前、IQN、マッピングといった情報は編集できません。</li>
+<li>一般的な LUN/Target に対して Cinder LUN/Target のマッピングを行うことはできません。</li>
+<li>DSM ユーザー インターフェイスから Cinder LUN のスナップショットを撮ることや、Cinder LUN のスナップショットの編集、削除、または保存を行うことはできません。</li>
+<li>Cinder LUN/スナップショットからクローンされた LUN は、一般的な LUN となります。</li>
+</ul>
+
+<h4>LUN をクローンする：</h4>
+	<ol>
+	<li>クローンするLUN を選択します。</li>
+	<li><b>[操作]</b> ドロップダウンメニューから <b>[クローン]</b> を選択します。</li>
+	<li>クローンされた LUN の名前を編集し、ディスティネーション ボリュームを選択してください。</li>
+	<li><b>[OK]</b> をクリックして開始します。</li>
+</ol>
+<div class="section">
+	<h4>注：</h4>
+	<ul>
+		<li>そのボリュームの残りスペースが1 GB未満の場合は、LUNはクローンすることはできません。</li>
+	</ul>
+</div>
+
+<h4>LUN をデフラグする：</h4>
+<p>デフラグにより、データのフラグメント化またはスナップショットによって引き起こされた、劣化した LUN のパフォーマンスを回復することができます。デフラグ中、LUN の I/O パフォーマンスが影響を受けることがあります。しかし、それはいつでも止めることができます。そして、プロセスを後で再開できます。</p>
+<ol>
+	<li>デフラグする LUN を選択します。</li>
+	<li><b>[デフラグ]</b> > <b>[開始]</b> をクリックします。</li>
+</ol>
+<h4>LUN のデフラグを停止する：</h4>
+<ol>
+	<li>デフラグ中の LUN を選択します。</li>
+	<li><b>[デフラグ]</b> > <b>[停止]</b> をクリックします。</li>
+</ol>
+<div class="section"><h4>注：</h4>
+<ul>
+<li>デフラグは Thin Provisioned Btrfs LUN でのみサポートされます。</li>
+<li>デフラグのプロセスでは、LUN の編集/クローンをすること、あるいはスナップショットを撮ることはできません。しかし、LUN を削除することは可能です。</li>
+<li>デフラグはいつでも停止できます。システムは進捗状況の記録を取り続けていて、それが前回停止したところから再開します。 </li>
+<li>LUN デフラグ後、既存の LUN スナップショットは追加のボリューム スペースを取ります。</li>
+</ul>
+</div>
+
+	
+<div class="section"><h4>追加情報</h4>
+<ul>
+	
+	<li>スナップショット機能またはレガシーの高度な機能が有効化された LUN は、同じボリューム内で速くクローン化できます。</li>
+	<li>新しい高度な機能がある LUN は、Btrfs ボリュームにのみクローンを作ることができます。</li>
+	<li>レガシーの高度な機能を持つ LUN が Btrfs ボリュームにクローンされると、それは新しい高度な機能を持つ LUN に変換されます。別の ext4 ボリュームにクローンされると、LUN のレガシーの高度な 機能は無効化されます。</li>
+	<li>LUN のプロパティは、レガシーの高度な機能を持つ LUN を除き、クローン後も変化しません。</li>
+	<li>スナップショットまたはレガシーの高度な機能なしで LUN のクローンを作成する場合、クローンの失敗やデータの不一致を防ぐために LUN を切断することをお勧めします。</li>
+</ul>
+</div>
+	
+<h4>レガシーの高度な機能のある LUN を変換する：</h4>
+<ol>
+	<li>変換する LUN を選択します。</li>
+	<li><b>[操作]</b> ドロップダウンメニューから <b>[変換]</b> を選択します。</li>
+	<li>設定を構成：
+		<ul>
+			<li>LUN名</li>
+			<li>場所：LUN の作成後は場所を修正できませんが、この LUN を別の Btrfs ボリュームに変換できます。</li>
+		</ul></li>
+	<li>変換後、オリジナルの LUN を削除して、ターゲットを新しい LUN にマップしたい場合はこのチェックボックスにチェックを入れます。</li>
+	<li><strong>[適用]</strong> をクリックして設定を確定します。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+	<ul>
+	<li>レガシーの高度な機能を備えた LUN だけを新しい高度な機能を備えた LUN に変換できます。</li>
+	<li>LUN は十分な空き容量のある Btrfs ボリュームにのみ変換できます。</li>
+	<li>データの一貫性を確保するため、変換中、LUN はターゲットからマップ解除されます。</li>
+	<li>変換された Advanced LUN にはスナップショットはありません。</li>
+</div>
+
+<div class="section"><h4>用語集：</h4>
+<ul>
+	<li><b>Thin Provisioning</b>：Thin Provisioning は、ストレージスペースを必要なときに必要なだけ割り当ててストレージを最適化する方法です。</li>
+	<li><b>VMware VAAI</b>：Array Integration (VAAI) の VMware vStorage API は、仮想ストレージ アレイでの標準作業を VMware vSphere 環境の iSCSI デバイスに渡すことで、ストレージの性能を高めます。</li>
+	<li><b>Windows ODX</b>：オフロード データ転送 (ODX) は Microsoft の Windows Server 2012 と 8 で開発された新しいデータ転送テクノロジーです。ODX は、ストレージ アレイへの一部の負荷をオフロードすることで、転送率を高めます。<br />データ ソースとクローン先が同一ボリュームの LUN にある場合は、ストレージ スペースの消費量を 99.9% まで節約し、同時にクローン処理も加速できるストレージ アクセラレーション コマンドでクローンが行われます。</li>
+	<li><b>ターゲット マッピング</b>：LUN をひとつ、または複数のターゲットにマッピングします。</li>
+
+</ul>
+</div>
+
+</body>
+</html>

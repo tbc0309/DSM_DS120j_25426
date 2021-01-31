@@ -1,0 +1,30 @@
+# ----------------------------------------------------------------------------
+#
+#    Copyright (C) 2000-2015 Synology Inc. All rights reserved.
+#
+# ----------------------------------------------------------------------------
+#include <abstractions/libsynocore>
+#include <abstractions/libsynosdk>
+#include <abstractions/libsynoacl>
+
+capability chown,
+capability fowner,
+
+# Any file operation in volume* (ea, filecopy)
+/volume*/* rwlk,
+
+# File index
+/var/run/synotifyd.sock                      rwk,
+
+# Backup
+/tmp/do_recover.chk                          rwk,
+/tmp/do_recover_status.chk                   rwk,
+
+# Media index (synoindex)
+/var/run/synoindexd.pid                      r,
+/var/spool/syno_indexing_queue               rwk,
+/var/spool/syno_indexing_queue.tmp           rwk,
+/var/packages/PhotoStation/etc/settings.conf r,
+/var/packages/AudioStation/etc/audio.conf    r,
+/etc.defaults/synoinfo.conf                  r,
+/tmp/synoindex.timestamp                     rwk,

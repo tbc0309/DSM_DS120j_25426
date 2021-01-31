@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>iSCSI Manager</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="leaf_setting"></a>Settings</h2>
+
+<h3>iSNS</h3>
+<p>iSNS (Internet Storage Name Service) provides the mechanism for centralized management. You can register all the iSCSI Targets with an iSNS server.</p>
+<h4>To register iSCSI targets with an iSNS server:</h4><ol>
+<li>Click <b>iSNS</b> and tick <b>Enable iSNS</b>.</li>
+<li>Enter the IP address of the iSNS server. Click <b>OK</b> to apply the setting.</li>
+</ol>
+
+<h3>I/O Queue Depth</h3>
+<p>The default setting is 16, but you can modify the I/O queue depth of all targets as needed.</p>
+
+<h3>Low-Capacity Write</h3>
+<p>When there is less than 1 GB of available space on a volume, the LUNs on the volume will become protected by the system to prevent filesystem crash, and users cannot write data to them. Low-Capacity Write will allow users to continue writing data to LUNs when the volume is running out of free space. However, you are advised to disable this option once you resolve the insufficient space issue.</p>
+<div class="section">
+	<h4>Note:</h4>
+	<ul>
+		<li>Even with this feature enabled, please avoid continuing writing data into the LUN. </li>
+	</ul></div>	
+
+<h3>Space Reclamation Mode</h3>
+<p>The following is three modes of space reclamation. By adjusting the speed, you can control the impact of space reclamation on LUN performance.</p>
+<ul>
+	<li><strong>Prioritize I/O Consistency</strong>: Prioritizing I/O consistency minimizes the impact on performance while the system reclaims used space of a legacy Advanced LUN. The speed is reduced if there is continuously incoming I/O. When receiving consecutive space reclamation commands, the reclamation process will be delayed until there is no other space reclamation commands.</li>
+	<li><strong>Balanced</strong>: The default reclamation mode. This mode keeps a balance between I/O speed and reclamation speed. </li>
+	<li><strong>Prioritize Reclamation</strong>: Prioritizing reclamation means that incoming I/O will have little influence on reclamation speed. The reclamation will be performed at its full speed without sacrificing I/O consistency.</li>
+</ul>
+</body>
+</html>

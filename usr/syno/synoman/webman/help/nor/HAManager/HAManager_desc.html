@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>High Availability-administrasjon - Synology DSM Hjelp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>High Availability-administrasjon</h1>
+
+  <p>High Availability refererer til en serverlayoutløsning som er utviklet for å redusere avbrytelser i tjenester på grunn av serversammenbrudd. Synology High Availability bruker to servere til å danne en "high-availability-sky" hvor én server tar rollen som "aktiv server" og en annen server fungerer som en "passiv server" i reserve. For å bruke og opprette en high-availability-sky, trenger du to kompatible Synology-servere.</p>
+  <p>En high-availability-sky bruker f&oslash;lgende komponenter og konsepter:</p>
+
+  <ul>
+   <li><b>Konsept: </b>Bruk av Synology High Availability krever to Synology-servere for &aring; opprette en high-availability-sky. &Eacute;n server fungerer som &quot;aktiv server&quot; og den andre som &quot;passiv server&quot;. N&aring;r high-availability-skyen er opprettet, kopieres data kontinuerlig fra den aktive serveren til den passive serveren. Alle filer p&aring; den aktive serveren vil finnes som kopi p&aring; den passive serveren. Hvis den aktive serveren bryter sammen, vil den passive serveren v&aelig;re klar til &aring; ta over alle tjenestene med en fullstendig speilet kopi av dataene p&aring; den aktive serveren. High-availability-skyen vil derfor fortsette &aring; yte tjenestene som normalt, og minimaliserer nedetiden. For flere detaljer om overf&oslash;ring av tjenestene, se <a href="switchover_fail.html">Overf&oslash;re</a></li>
+   <li><b>Aktiv server:</b> Den aktive serveren styrer alle tjenestene. Hvis det oppst&aring;r en feil p&aring; den aktive serveren, kan du eller systemet overf&oslash;re tjenestene til den passive serveren. I dette tilfellet blir styringen av tjenestene overf&oslash;rt til den passive serveren, og da blir den aktive serveren den passive serveren.</li>
+   <li><b>Passiv server:</b> Under normale forhold, forblir den passive serveren i beredskapsmodus. Data p&aring; den aktive serveren blir kontinuerlig kopiert til den passive serveren. Hvis den aktive serveren ikke kan yte tjenester, kan du eller systemet overf&oslash;re tjenestene til den passive serveren. </li>
+   <li><b>Hjerteslag-tilkobling:</b> Den aktive og den passive serveren i en high-availability-sky er koblet sammen gjennom en dedikert, privat nettverkstilkobling som kalles &quot;Hjerteslag-tilkobling&quot;. N&aring;r high-availability-skyen er opprettet, legger Hjerteslag-tilkoblingen til rette for datasynkronisering og -kopiering mellom den aktive og den passive serveren. Hvis kontakten mellom serverne brytes for en viss varighet, vil systemet bestemme at en overf&oslash;ring av tjenester er n&oslash;dvendig.</li>
+   <li><b>Hovedlagringsvolum for high-availability-sky:</b> Lagringsvolumet p&aring; den aktive serveren vil v&aelig;re hovedlagringsvolumet i high-availability-skyen. Data blir kopiert til den passive serverens lagringsvolum gjennom Hjerteslag-tilkoblingen.</li>
+   <li><b>Reservelagringsvolum for high-availability-sky: </b>Lagringsvolumet til den passive serveren vil v&aelig;re reservelagringsvolumet til high-availability-skyen. Data blir kontinuerlig kopiert fra den aktive serverens lagringsvolum til den passive serverens lagringsvolum gjennom Hjerteslag-tilkoblingen. Dette s&oslash;rger for kontinuitet i filinnhold n&aring;r overf&oslash;ringen blir utf&oslash;rt.</li>
+   <li><b>Servernavn for high-availability-sky:</b> Servere i high-availability-skyen vil dele ett servernavn. I nettverket kan du koble til med servernavnet, og tjenestene vil ytes av den aktive serveren. </li>
+   <li><b>IP for high-availability-sky: </b>Siden de aktive og passive serverne i high-availability-skyen har sine egne IP-adresser, vil high-availability-skyen generere en felles IP-adresse for tilgang, slik at man ikke trenger &aring; skifte IP-adresse n&aring;r overf&oslash;ringen utf&oslash;res. For &aring; f&aring; tilgang til DSM-tjenester, uansett hvilken Synology-server som fungerer som aktiv server, kan du koble til gjennom disse IP-adressene. </li>
+  </ul>
+
+
+
+
+ </body>
+</html>

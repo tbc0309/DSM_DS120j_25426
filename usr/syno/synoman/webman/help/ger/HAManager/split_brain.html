@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Split Brain</h2>
+
+<p>Wenn ein High Availability-Cluster normal funktioniert, sollte nur einer der Mitgliedsserver die Rolle des aktiven Servers übernehmen. In diesem Fall erkennt der passive Server die Anwesenheit des aktiven Servers sowohl über die Heartbeat- als auch über die Datenverbindung.</p>
+
+<p>Wenn alle Heartbeat- und Datenverbindungen getrennt werden, könnten beide Server versuchen, die Rolle des aktiven Servers zu übernehmen. Diese Situation wird als „Split-Brain“-Fehler bezeichnet. In diesem Fall werden Verbindungen an die IP-Adressen des High Availability-Clusters zu einem der beiden Server umgeleitet, und auf den beiden Servern aktualisierte oder geschriebene Dateien können uneinheitlich sein.</p>
+        
+<p>Wenn eine der Heartbeat- oder Datenverbindungen wiederhergestellt wird, erkennt das System den Split-Brain-Fehler und Dateninkonsistenz zwischen den beiden Servern und wechselt in den sicheren high-availability-Modus.</p> 
+
+       
+<h4>Falls ein Split-Brain-Fehler auftritt:</h4>
+	<ol>
+    <li>Die Dienste auf beiden Servern und die IP-Adressen des High Availability-Clusters sind nicht verfügbar, bis der Split-Brain-Fehler behoben wurde.</li>
+	<li>Nachdem beide Server in den sicheren high-availability-Modus gewechselt sind, erscheint im linken Fenster eine neue Registerkarte namens <strong>Split Brain</strong>. Diese Registerkarte enthält die folgenden Informationen: Abweichungen zwischen den Dateien in den gemeinsamen Ordnern auf beiden Servern, den Zeitpunkt, zu dem die Server zu den aktiven Servern wurden, sowie die aktuellesten Informationen zur iSCSI Target-Verbindung. Alle anderen Registerkarten bleiben schreibgeschützt.</li>
+<li>Im sicheren high-availability-Modus befindet sich File Station im schreibgeschützten Modus, sodass Sie die Dateien herunterladen oder anzeigen können.</li>
+       <li>Auf der Registerkarte <b>Überblick</b> dürfen Sie nur entweder Split-Brain-Fehler lösen oder den aktuellen Anmeldungsserver herunterfahren. Führen Sie einen der nachstehenden Schritte durch, um Split-Brain-Fehler zu lösen:
+       <ul>
+       <li>Wählen Sie einen Server als den aktiven Server des High-availability-Clusters und den anderen als den passiven Server aus. Nachdem beide Server neu gestartet wurden, werden alle Daten und Einstellungen auf dem aktiven Server, die sich von jenen auf dem passiven Server unterscheiden, mit diesem synchronisiert. Bitte beachten Sie, dass während des Split-Brain-Fehler auf dem passiven Server aktualisierte Daten verloren gehen.</li>
+       <li>Wählen Sie einen Server als den aktiven Server des High-availability-Clusters und entfernen Sie den anderen. Nachdem sowohl Server neu gestartet wurden, bleibt der aktive Server im High Availability-Cluster. Der entfernte Server behält seine Daten bei und wechselt in den Status <b>Einzeln</b> zurück.  Bitte beachten Sie, dass bei einer künftigen Einbindung eines neuen passiven Servers eine vollständige Replikation erforderlich ist.</li>
+       <li>Entfernen Sie beide Server, behalten Sie die Daten auf beiden Servern bei und lassen Sie sin den Status <b>Einzeln</b> zurückwechseln.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Hinweise:</h4>
+    <ul>
+    <li>Je mehr Dateien sich in Ihren freigegebenen Ordnern befinden, umso länger dauert die Auflistung der Unterschiede.</li>
+    <li>Vergewissern Sie sich, dass beide Server eingeschaltet sind, bevor Sie festlegen, welcher der aktive bzw. der passive Server ist.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

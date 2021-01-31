@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Serviço NFS</h2>
+<p>O serviço NFS permite que os clientes Linux acedam aos dados neste dispositivo Synology NAS.</p>
+<h4>Para ativar o serviço NFS:</h4>
+<ol>
+<li>Aceda a <strong>Painel de controlo</strong> > <strong>Serviços de ficheiros</strong> > <strong>SMB/AFP/NFS</strong> e assinale <b>Ativar NFS</b>.</li>
+<li>Clique em <b>Aplicar</b>.</li>
+</ol>
+
+
+<div class="section">
+  <h4>Nota:</h4>
+<ul>
+<li> O Synology NAS suporta atualmente NFSv2, NFSv3 e NFSv4.</li>
+<li>Durante a montagem, o parâmetro <strong>-o vers=2</strong>, <strong>-o vers=3</strong> ou <strong>-o vers=4</strong> pode ser adicionado ao comando de montagem para especificar qual a versão NFS que deve ser utilizada.</li>
+<li>As seguintes pastas partilhadas não permitem acesso via NFS:
+	<ul>
+    <li>Pastas partilhadas encriptadas</li>
+    <li>Pastas partilhadas PetaSpace</li>
+    <li>Pastas partilhadas que usam sistemas de ficheiros HFS, HFS Plus e exFAT</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>Para configurar os privilégios de acesso de clientes Linux a pastas partilhadas:</h4>
+<p>Aceda a <b>Painel de controlo </b> > <b>Pasta partilhada</b>. Selecione uma pasta partilhada e clique em <strong>Editar</strong> para gerir as regras de NFS e regular o direito de acesso a esta pasta partilhada para clientes Linux.</p>
+
+
+<h3>Definição do Suporte NFSv4</h3>
+<p>É possível determinar se o servidor NFS suporta NFSv4. Quando esta opção está ativada, o servidor NFS suporta NFSv2, NFSv3 e NFSv4; caso contrário, apenas o NFSv2 e NFSv3 serão suportados.</p>
+
+<h4>Para ativar o suporte NFSv4:</h4>
+<ol>
+<li>Assinale <b>Ativar o suporte NFSv4</b>.
+</li>
+<li>
+No campo <b>Domínio NFSv4</b>, introduza o nome do domínio NFSv4 que pretende utilizar. Este campo é opcional e pode ser deixado em branco.</li>
+<li>
+Clique em <b>Aplicar</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Quando utiliza o NFSv4 para montar a pasta partilhada, tenha em atenção o seguinte. Caso contrário, ocorrerá uma falha nas operações de ficheiros associadas ao nome de utilizador.</p>
+<ul>
+<li>O cliente NFS tem de ativar o idmapd.</li>
+<li>As definições de domínio do NFSv4 no ficheiro idmapd.conf no cliente NFS têm de ser consistentes com o campo <b>Domínio NFSv4</b> no Synology NAS.</li>
+</ul>
+
+</div>
+
+
+<h3>Definições avançadas</h3>
+
+<h4>Aplicar permissões UNIX predefinidas</h4>
+<p> Quando <strong>Aplicar permissões de UNIX predefinidas</strong> está marcado, as permissões UNIX predefinidas definidas no cliente Linux são aplicadas em vez das permissões ACL do Windows quando carrega ou cria ficheiros e pastas. As permissões aplicadas são as mesmas permissões aplicadas pelo comando UNIX <strong>umask</strong>.  O valor umask predefinido é 022.</p><div class="section">
+<h4>Nota:</h4>
+<ul>
+  <li>Para pastas partilhadas com ativação ACL do Windows (todas as partilhas, excluindo "photo" e partilhas em discos externos) execute o comando <strong>chmod</strong> no seu Linux ou cliente FTP para alterar os tipos de permissão de pasta e ficheiro do ACL do Windows para UNIX.</li>
+  <li>Ativar esta opção pode provocar questões de inconsistência de permissões entre diferentes protocolos. Para evitar inconsistências, sugerimos que deixe esta opção desativada.</li>
+</ul>
+</div>
+
+<h4>Personalizar porta</h4>
+<p>Pode personalizar números da porta para serviços statd e nlockmgr.</p>
+
+<ol>
+<li>Selecione <strong>Portas personalizadas</strong>.</li>
+<li>Introduza números de porta em <strong>statd port </strong>e<strong> nlockmgr port</strong>.</li>
+<li>
+Clique em <b>Aplicar</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Se pretender utilizar os serviços NFSv3, aceda a <strong>Painel de controlo</strong> > <strong>Segurança</strong> > <strong>Firewall</strong> e crie uma regra de firewall que ative o "Servidor de ficheiros Mac/Linux" da lista de aplicações integradas.</li>
+</ul>
+</div>
+<h4>Definição do tamanho do pacote de leitura/escrita</h4>
+<p>Quando o tamanho do pacote de leitura/escrita não pode ser definido no cliente NFS, pode especificar o valor predefinido neste campo.</p>
+
+<ol>
+<li>Selecione o tamanho do pacote pretendido a partir dos campos <strong>Tamanho do pacote de leitura</strong> e <strong>Tamanho do pacote de escrita</strong>.</li>
+<li>
+Clique em <b>Aplicar</b>.
+</li>
+<li>
+Voltar a montar a partilha.
+</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Depois de alterar o tamanho do pacote de leitura/escrita, tem de voltar a montar a pasta partilhada antes de as novas definições entrarem em vigor.</li>
+<li>Estas definições só afetam os clientes NFS que estabelecem ligação através de UDP (User Datagram Protocol).</li>
+</ul>
+</div>
+
+
+
+
+<h3>Definições Kerberos*</h3>
+<p>Kerberos é um protocolo de autenticação de rede. Permite que os clientes e servidores que comunicam numa rede não protegida autentiquem e provem as respetivas identidades entre si de uma forma segura. O Synology NAS fornece opções para importar uma chave Kerberos existente. Depois de uma importação efetuada com êxito, os clientes NFS podem utilizar o protocolo de autenticação Kerberos para estabelecer ligação a Synology NAS.</p>
+
+<h4> Para importar uma chave Kerberos: </h4>
+<ol>
+<li>Clique em <strong>Definições Kerberos</strong>.</li>
+<li>Clique no botão <b>Importar</b>.</li>
+<li>Escolha a chave Kerberos que pretende importar.</li>
+<li>Clique em <b>OK</b>.</li>
+</ol>
+
+<h3><a name="idmap"></a>Mapeamento de ID de Kerberos</h3>
+<p>Pode mapear principais Kerberos individuais para contas de utilizador DSM locais.</p>
+<h4> Para mapear principais Kerberos e contas de utilizador locais: </h4>
+<ol>
+<li>Clique em <strong>Definições Kerberos</strong>.</li>
+<li>Aceda ao separador <strong>Mapeamento de ID</strong>.</li>
+<li> Clique no botão <b>Adicionar</b>. Selecione um dos seguintes.</li>
+<ul>
+<li><strong>Mapeamento de ID:</strong> Introduza o principal Kerberos e a conta de utilizador local para a qual deve ser mapeado.</li>
+<li><strong>Lista de Mapeamento Sugerida:</strong> Esta opção apresenta uma lista de opções sugeridas de mapeamento de principal Kerberos/utilizador local geradas pelo sistema.</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> Nota: </h4>
+<ul>
+<li>Se pretende mapear um cliente NFS que estabelece ligação através de Kerberos a uma conta de utilizador de Domínio/LDAP existente, certifique-se de que aderiu ao serviço de diretório. Além disso, o directory server (servidor de diretório) tem de ter um atributo que inclua o principal Kerberos correspondente.</li>
+<ul>
+<li><strong>Utilizador do Domínio:</strong> O formato do atributo correspondente deve ser <strong>userPrincipalName</strong>.</li>
+<li><strong>Utilizador LDAP:</strong> O formato do atributo correspondente deve ser <strong>GSSAuthName</strong>.</li>
+</ul>
+<li>Se não for possível mapear o utilizador com êxito para um utilizador local ou utilizador de domínio/LDAP, o utilizador deve ser mapeado para “guest”.
+<li>A prioridade de mapeamento é a seguinte: Utilizador local > Utilizador de domínio/LDAP > Guest. </li>
+<li>Se pretender modificar as permissões de acesso dos clientes NFS, utilize a Lista de Controlo de Acesso (ACL) do Windows. As opções de privilégios localizadas em <strong>Painel de controlo</strong> > <strong>Utilizador</strong> não são aplicáveis a clientes NFS.</li>
+</ul>
+</div>
+<p>
+<br>____<br> * Apenas disponível em alguns modelos.
+
+</p>
+
+
+
+</body>
+</html>

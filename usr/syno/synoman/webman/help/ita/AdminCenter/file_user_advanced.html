@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Impostazioni utente avanzate</h2>
+
+<p>Per modificare le impostazioni utente avanzate, andare su <strong>Pannello di controllo</strong> > <strong>Utente</strong> > <strong>Avanzate</strong>. Sono disponibili le seguenti opzioni. </p>
+
+<h3>Impostazioni password</h3>
+<p>È possibile configurare le impostazioni associate alla sicurezza e la forza della password per gli utenti su Synology NAS.</p>
+
+<h4>Per consentire agli utenti di ripristinare le password dimenticate via e-mail:</h4>
+<ol>
+	<li>Spuntare la casella di controllo <strong>Consentire agli utenti non amministratore di ripristinare le password dimenticate via e-mail</strong>.</li>
+	<li>Fare clic su <strong>Applica</strong> per salvare le impostazioni.</li>
+	<li>Quindi verrà visualizzato un collegamento che indica "Password dimenticata?" sulla pagina di accesso di DSM. Se dimentica la password, l'utente può fare clic sul collegamento e inserire il nome utente. In questo caso, il sistema invierà all'utente un messaggio contenente un collegamento per ripristinare la password dimenticata.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>prima di abilitare questa opzione, assicurarsi di avere già abilitato le notifiche e-mail SMTP. A tal fine, andare su <strong>Pannello di controllo</strong> > <strong>Notifica</strong>.</li>
+	<li>Per ricevere i messaggi dal sistema, gli utenti devono fornire un indirizzo e-mail nella sezione informazioni utente dei loro account.</li>
+	<li>Gli utenti che appartengono al gruppo <strong>administrators</strong> non possono ripristinare le password con questa opzione.</li>
+	<li>Gli utenti del dominio non possono ripristinare le password con questa opzione.</li>
+	<li>Gli utenti LDAP possono ripristinare le password con questa funzione, finché Synology NAS funge da directory server LDAP e soddisfa le condizioni seguenti:
+		<ul>
+			<li>La versione pacchetto di Synology <strong>LDAP Server</strong> deve essere 2457 o superiore.</li>
+			<li>L'utente LDAP non deve essere membro di administrators, Directory Operators, Directory Consumers o Directory Clients.</li>
+			<li>Se Synology LDAP Server è un <strong>Cliente</strong>, il <strong>Provider</strong> dovrà soddisfare le condizioni indicate in precedenza.</li>
+			<li>Il Provider finale deve essere accessibile con il browser Web dell'utente, mentre le notifiche e-mail devono essere abilitate.</li>
+			<li>Per evitare che il link per la reimpostazione della password dimenticata sia usato da qualcun altro, il link dovrà essere selezionato dall'indirizzo IP identico dal quale è stata eseguita la richiesta per password dimenticata.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>Per forzare gli utenti a modificare la password al ripristino:</h4>
+<ol>
+	<li>Spuntare la casella di controllo <strong>Forza gli utenti a cambiare la password dopo che l'amministratore l'ha reimpostata</strong>.</li>
+	<li>Fare clic su <strong>Applica</strong> per salvare le impostazioni.</li>
+	<li>Quando l'amministratore modifica la password per un utente, a questo verrà richiesto di modificare la password al prossimo accesso.</li>
+</ol>
+
+<h4>Abilitare le regole di forza della password:</h4>
+<ol>
+	<li>Selezionare la casella di controllo <strong>Applicare le regole di robustezza della password</strong>.</li>
+	<li>Spuntare o deselezionare le opzioni seguenti in base alle proprie esigenze:
+		<ul>
+			<li><strong>Escludi nome e descrizione dell'utente dalla password</strong>: la password non deve contenere il nome utente o la descrizione dell'utente. Sono esclusi i caratteri codificati UTF-8.</li>
+			<li><strong>Includi maiuscole e minuscole</strong>: la password deve contenere maiuscole e minuscole.</li>
+			<li><strong>Carattere numerico incluso</strong>: la password deve contenere almeno un carattere numerico (0~9).</li>
+			<li><strong>Carattere speciale incluso</strong>: La password deve contenere almeno un carattere speciale ASCII (i.e., <span class="note_content">~ ` ! @ # $ % ^ & * ( ) - _ = + [ { ] } \ | ; : ' " < > / ? , .</span> e lo spazio).</li>
+			<li><strong>Escludi password comune</strong>: impedire agli utenti di impostare password comuni, come <em>123456</em>, <em>password</em>, <em>qwerty</em>, etc.</li>
+			<li><strong>Lunghezza minima della password</strong>: è necessario specificare almeno un valore per la password nel campo di testo. La lunghezza deve essere un numero compreso tra 6 e 127.</li>
+			<li><strong>Cronologia password</strong>: la password deve essere diversa da quelle impostate in precedenza, il cui numero deve essere specificato qui.</li>
+		</ul>
+	</li>
+	<li>Fare clic su <strong>Applica</strong> per salvare le impostazioni.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>le regole di resistenza della password si applicano solo a nuove password. Ad esempio, le regole di forza della nuova password si applicano solo quando si crea un nuovo account utente o quando un utente esistente modifica la sua password. Le password esistenti e quelle relative ad account utenti importati sono escluse dalle regole della nuova password.</li>
+</ul>
+</div>
+
+<h3>Scadenza password</h3>
+<p>È possibile migliorare la sicurezza degli account utente con la funzione di scadenza della password, per costringere gli utenti di modificare la password dopo il periodo di tempo specificato.</p>
+
+<h4>Per configurare la pianificazione della scadenza della password:</h4>
+<ol>
+	<li>Spuntare la casella di controllo <strong>Abilita scadenza password</strong>.</li>
+	<li>Per la configurazione, sono disponibili le seguenti opzioni:
+		<ul>
+			<li><strong>Durata massima validità password</strong>: specificare il numero di giorni dopo il quale la password scade.</li>
+			<li><strong>Durata minima validità password</strong>: spuntare la casella di controllo per abilitare questa funzione e specificare il numero di giorni prima del quale gli utenti non potranno modificare le proprie password.</li>
+			<li><strong>Richiedere agli utenti di modificare la password all'accesso prima della scadenza</strong>: spuntare la casella di controllo per abilitare questa funzione e specificare il numero di giorni prima della scadenza in cui agli utenti sarà ricordato di modificare le proprie password all'accesso.</li>
+			<li><strong>Consenti a utenti di modificare la password dopo la scadenza</strong>: spuntare la casella di controllo per consentire agli utenti di accedere con le password correnti in scadenza e di modificarle.</li>
+			<li><strong>Invia e-mail di notifica password</strong>: spuntare la casella di controllo per notificare agli utenti la scadenza della password tramite e-mail.</li>
+		</ul>
+	</li>
+	<li>Fare clic su <strong>Applica</strong> per salvare le impostazioni.</li>
+</ol>
+
+<h3>Verifica in due passaggi</h3>
+<p>La verifica in due passaggi offre una maggiore sicurezza per gli account DSM. È possibile richiedere agli amministratori DSM e a tutti gli utenti DSM di abilitare la verifica in due passaggi per poter ulteriormente proteggere i propri account.</p>
+
+<h4>Per abilitare la verifica in due passaggi per gli utenti DSM:</h4>
+<ol>
+	<li>Mettere il segno di spunta sulla casella <strong>Abilita verifica in due passaggi per i seguenti utenti</strong> e scegliere gli utenti su cui si vuole abilitare la funzione.</li>
+	<li>Fare clic su <strong>Applica</strong> per salvare le impostazioni.</li>
+	<li>Con l'applicazione di questa funzione, se non si è abilitata la verifica a due passaggi, verrà richiesto di terminare di regolare le impostazioni prima di accedere a DSM.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>se la verifica in due passaggi non è ancora stata configurata in <strong>Personale</strong> > <strong>Account</strong>, verrà avviata la procedura guidata di configurazione a due passaggi per supportare il completamento delle impostazioni richieste prima di poter applicare questa funzione.</li>
+	<li>disabilitando la funzione della verifica a due passaggi qui, non verranno disabilitate anche le impostazioni con verifica a due passaggi di ciascun utente. È possibile mantenere le impostazioni a due passaggi o andare su <strong>Personale</strong> > <strong>Account</strong> per disabilitare queste impostazioni.</li>
+	<li style="display: none;">La verifica in due passaggi si applica anche a tutti i servizi correlati a SSH, come terminale SSH, SFTP e rsync con crittografia di trasferimento SSH. Tuttavia, dal momento che Hyper Backup e Shared Folder Sync tramite rsync con crittografia di trasferimento SSH non supporta la verifica in due passaggi, questi due servizi non saranno in grado di funzionare normalmente dopo l'abilitazione di tale verifica.</li>
+</ul>
+</div>
+
+
+<h3>Sede utente</h3>
+
+<p>Abilitare le home utente per creare una cartella personale <strong>home</strong> per ogni utente, tranne per <strong>guest</strong>. Tutti gli utenti possono accedere alla propria cartella principale via CIFS, AFP, FTP o File Station.</p>
+
+<p>Gli utenti che appartengono al gruppo <strong>administrators</strong> possono accedere a tutte le cartelle personali archiviate nella cartella condivisa predefinita <strong>homes</strong>. Il nome della cartella principale è lo stesso dell'account utente.</p>
+
+<h4>Per abilitare il servizio home utente:</h4>
+<ol>
+	<li>Selezionare <strong>Abilitare il servizio sede utente</strong>.</li>
+	<li>Se sono presenti più volumi, selezionare la posizione in cui archiviare la cartella <strong>homes</strong>.</li>
+	<li>Fare clic su <strong>Applica</strong>.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>se si disattiva il servizio sede utente locale, verrà disattivato anche il servizio sede cliente di dominio.</li>
+</ul>
+</div>
+
+<h4>Per disabilitare il servizio home utente:</h4>
+<ol>
+	<li>Deselezionare <strong>Abilitare il servizio sede utente</strong>.</li>
+	<li>Fare clic su <strong>Applica</strong> per salvare le impostazioni.</li>
+</ol>
+
+<p>Dopo avere disabilitato il servizio home utente, solo l'amministratore potrà accedere alla cartella condivisa <strong>homes</strong>.  Gli utenti saranno nuovamente in grado di accedere alle loro cartelle principali quando verrà riabilitato il servizio home utente.</p>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>per eliminare la cartella condivisa <strong>homes</strong>, il servizio home utente deve prima essere disabilitato.</li>
+	<li>Il servizio sede utente di dominio sarà disattivato se il servizio sede locale è disattivato.</li> 
+</ul> 
+</div>
+
+</body>	
+</html> 

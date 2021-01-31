@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>High Availability-hanteraren - Synology DSM Hjälp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>High Availability-hanteraren</h1>
+
+  <p>High Availability avser en layout-lösning för servrar, avsedd att minska driftsavbrott som beror på bristande eller felaktig serverfunktion. Synology High Availability använder två servrar för att skapa ett high-availability-kluster där den ena servern fungerar som "aktiv server" och den andra som "passiv server". För att implementera och skapa ett high-availability-kluster behöver du två kompatibla Synology-servrar.</p>
+  <p>Ett high-availability-kluster anv&auml;nder sig av f&ouml;ljande komponenter och begrepp:</p>
+
+  <ul>
+   <li><b>Begrepp: </b>Implementering av Synology High Availability kr&auml;ver tv&aring; Synology-servrar f&ouml;r att skapa ett high-availability-kluster. En server agerar som &quot;aktiv server&quot; och den andra som &quot;passiv server&quot;. N&auml;r high-availability-klustret har skapats replikeras data kontinuerligt fr&aring;n den aktiva servern till den passiva servern. Alla filer p&aring; den aktiva servern finns som kopior p&aring; den passiva servern. Vid bristande eller felaktig serverfunktion hos den aktiva servern &auml;r den passiva servern redo att ta &ouml;ver alla tj&auml;nster med en komplett speglad upps&auml;ttning data fr&aring;n den aktiva servern. P&aring; detta s&auml;tt kommer high-availability-klustret att forts&auml;tta tillhandah&aring;ller tj&auml;nster normalt, vilket reducerar serverns nedtid. F&ouml;r mer detaljerad information om &ouml;verg&aring;ng, se <a href="switchover_fail.html">&Ouml;verg&aring;ng</a></li>
+   <li><b>Aktiv server:</b> Den aktiva servern hanterar tillhandah&aring;llandet av alla tj&auml;nster. F&ouml;r den h&auml;ndelse att ett fel uppst&aring;r p&aring; den aktiva servern kan ditt system initiera en &ouml;verg&aring;ng till den passiva servern. N&auml;r s&aring; &auml;r fallet flyttas utf&ouml;rande av tj&auml;nster till den passiva servern och den aktiva servern blir i och med detta passiv server.</li>
+   <li><b>Passiv server:</b> Vid normala f&ouml;rh&aring;llanden &auml;r den passiva servern i stand-by-l&auml;ge. Data p&aring; den aktiva servern replikeras kontinuerligt till den passiva servern. F&ouml;r den h&auml;ndelse att ett fel uppst&aring;r p&aring; den aktiva servern kan ditt system initiera en &ouml;verg&aring;ng till den passiva servern.</li>
+   <li><b>Heartbeat-anslutning:</b> Den aktiva och den passiva servern i high-availability-klustret &auml;r l&auml;nkade genom en dedikerad, privat n&auml;tverksanslutning som kallas &quot;Heartbeat-anslutning&quot;. N&auml;r high-availability-klustret skapats underl&auml;ttar Heartbeat-anslutningen datasynkronisering och -replikering mellan den aktiva och den passiva servern. Om kontakten g&aring;r f&ouml;rlorad mellan servrarna under ett f&ouml;rutbest&auml;mt tidsintervall kommer systemet att avg&ouml;ra att en &ouml;verg&aring;ng &auml;r n&ouml;dv&auml;ndig.</li>
+   <li><b>Huvudsaklig lagringsvolym f&ouml;r high-availability-klustret:</b> Lagringsvolymen p&aring; den aktiva servern blir huvudsaklig lagringsvolym f&ouml;r high-availability-klustret. Data replikeras till lagringsvolymen p&aring; den passiva servern genom Heartbeat-anslutningen.</li>
+   <li><b>Reserv-lagringsvolym f&ouml;r high-availability-klustret: </b>Lagringsvolymen p&aring; den passiva servern blir reserv-lagringsvolym f&ouml;r high-availability-klustret. Data replikeras kontinuerligt fr&aring;n lagringsvolymen p&aring; den aktiva servern till lagringsvolymen p&aring; den passiva servern via Heartbeat-anslutningen. Detta s&auml;kerst&auml;ller &ouml;verensst&auml;mmelse f&ouml;r filinneh&aring;ll n&auml;r en &ouml;verg&aring;ng sker.</li>
+   <li><b>High-availability-klustrets servernamn:</b> Servrar i ett high-availability-kluster delar ett servernamn. I n&auml;tverket ansluter du med detta servernamn, tj&auml;nster tillhandah&aring;lls av den aktiva servern. </li>
+   <li><b>High-availability-klustrets IP: </b>Eftersom den aktiva och den passiva servern i ett high-availability-kluster har var sin IP-adress, genererar high-availability-klustret en gemensam IP-adress f&ouml;r &aring;tkomst, f&ouml;r att undvika behovet av att &auml;ndra till en annan IP-adress n&auml;r en &ouml;verg&aring;ng utf&ouml;rs. F&ouml;r &aring;tkomst till valfri DSM-tj&auml;nst, oavsett vilken Synology-server som agerar som aktiv server, kan anslutning ske genom dessa IP-adresser. </li>
+  </ul>
+
+
+
+
+ </body>
+</html>

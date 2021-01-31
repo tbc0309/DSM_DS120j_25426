@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>共有フォルダ</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>暗号化した共有フォルダのキー管理</h2>
+<p>キー マネージャを使用すると、共有フォルダのキーを管理することや、複数の暗号化した共有フォルダの暗号化を解除することができます。</p>
+
+<div class="section"><h4>用語説明：</h4>
+<ul>
+<li><strong>キーストア</strong>： キーストアとは、Synology NAS によってサポートされている外部デバイスまたはシステム パーティションで、共有フォルダの暗号化解除を行うための物理キーとして使用されます。</li>
+<li><strong>暗号</strong>： 暗号は、共有フォルダのキーの暗号化の方法です。 キー マネージャは、2 種類の暗号を提供しています。
+	<ul>
+	<li><strong>パスフレーズ</strong>： パスフレーズで暗号化されたキーは、パスフレーズを知る人物であれば誰でも暗号化を解除できます。</li>
+	<li><strong>マシン キー</strong>： マシン キーで暗号化されたキーは、バインドされた Synology NAS によってのみ暗号化解除できます。</li>
+	</ul>
+</li>
+</ul>
+</div>
+
+<h4>キー ストアを初期化する：</h4>
+<ol>
+<li><strong>[コントロール パネル]</strong> > <strong>[共有フォルダ]</strong> > <strong>[作成]</strong> > <strong>[キー マネージャ]</strong> に移動します。</li>
+<li><strong>[キー ストア場所]</strong> からキー ストアとして外部デバイスまたはシステム パーティションを選択します。</li>
+<li>このキー ストアの <strong>[パスフレーズ]</strong> フィールドにパスフレーズを入力します。</li>
+</ol>
+
+<div class="section">
+	<h4>セキュリティの提案：</h4>
+	<ul><li>安全と管理上の目的で、暗号化ファイルとそれに対応するキーは別々のデバイスに保管する方が安全です。 <li>外付けデバイスを<strong>[キー ストア場所]</strong>として選択してデータのセキュリティを向上させることをお勧めします。</li></li></ul>
+</div>
+
+<h4>新しいキーをキー ストアに追加する：</h4>
+<ol>
+<li>キー ストアを初期化したことを確認してください。</li>
+<li><strong>[コントロール パネル]</strong> > <strong>[共有フォルダ]</strong> > <strong>[作成]</strong> > <strong>[キー マネージャ]</strong> に移動します。</li>
+<li><strong>[追加]</strong> をクリックします。</li>
+<li>暗号化された共有フォルダを選択します。</li>
+<li>暗号化キーの暗号を選択します。 <strong>[パスフレーズ]</strong> または <strong>[マシン キー]</strong> を選択することができます。</li>
+<li>暗号化キーを入力するか、インポートします。</li>
+<li><strong>[OK]</strong>をクリックして、設定を保存します。</li>
+</ol>
+
+<h4>複数の暗号化された共有フォルダの暗号化を手動で解除する：</h4>
+<ol>
+<li>キー ストアにキーを追加したことを確認してください。</li>
+<li><strong>[コントロール パネル]</strong> > <strong>[共有フォルダ]</strong> > <strong>[作成]</strong> > <strong>[キー マネージャ]</strong> に移動します。</li>
+<li>暗号化の解除を行う暗号化された共有フォルダを選択します。</li>
+<li><strong>[マウント]</strong> をクリックします。</li>
+</ol>
+
+<h4>複数の暗号化された共有フォルダを起動の際に受動的に暗号化解除する：</h4>
+<ol>
+<li>キー ストアにキーを追加したことを確認してください。</li>
+<li><strong>[コントロール パネル]</strong> > <strong>[共有フォルダ]</strong> > <strong>[作成]</strong> > <strong>[キー マネージャ]</strong> に移動します。</li>
+<li>起動の際に暗号化を解除する暗号化された共有フォルダに対して <strong>[起動の際に暗号化を解除]</strong> のチェックを入れます。</li>
+<li><strong>[OK]</strong>をクリックして、設定を保存します。</li>
+</ol>
+
+<h4>起動後に、キー ストアを取り出す：</h4>
+<ol>
+<li><strong>[コントロール パネル]</strong> > <strong>[共有フォルダ]</strong> > <strong>[作成]</strong> > <strong>[キー マネージャ]</strong> に移動します。</li>
+<li><strong>[構成]</strong> をクリックしてください。</li>
+<li><strong>[起動後にデバイスを取り出す]</strong> のチェックを入れます。</li>
+<li><strong>[OK]</strong>をクリックして、設定を保存します。</li>
+</ol>
+
+<h4>自動的にマウントされる共有フォルダについては、既存の暗号化キーをキー ストアに移行する：</h4>
+
+<p><strong>キー ストア初期化の際にキーを移行する：</strong></p>
+<ol>
+<li>キー ストアを初期化するときに、 <strong>既存の共有フォルダを自動的にマウントされるようにするには、このキー ストアに暗号化キーを移行します（推奨）</strong>にチェックを入れます。</li>
+</ol>
+
+<p><strong>キーを手動で移行する：</strong></p>
+<ol>
+<li><strong>[コントロール パネル]</strong> > <strong>[共有フォルダ]</strong> > <strong>[作成]</strong> > <strong>[キー マネージャ]</strong> に移動します。</li>
+<li><strong>[構成]</strong> をクリックしてください。</li>
+<li><strong>[今すぐ移行する]</strong> をクリックします。</li>
+<li>重複したキーが存在する場合には、<strong>[重複キーを上書きする]</strong> を選択します。</li>
+<li><strong>[OK]</strong>をクリックして、設定を保存します。</li>
+</ol>
+
+
+<h4>High Availability モードでキー ストアをクローンする方法：</h4>
+<ol>
+	<li><strong>[コントロール パネル]</strong> > <strong>[共有フォルダ]</strong> > <strong>[作成]</strong> > <strong>[キー マネージャ]</strong> に移動します。</li>
+	<li><strong>[クローン]</strong> をクリックします。</li>
+	<li><strong>[ソース キー ストア]</strong>からアクティブ サーバー上でソース キー ストアを選択します。.</li>
+	<li><strong>[ディスティネーション キー ストア]</strong>からパッシブ サーバー上でディスティネーション キー ストアを選択します。.</li>
+	<li><strong>[適用]</strong> をクリックして設定を保存します。</li>
+</ol>
+
+</body>
+</html>

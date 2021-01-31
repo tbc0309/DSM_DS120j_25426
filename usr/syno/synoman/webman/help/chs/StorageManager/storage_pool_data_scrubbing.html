@@ -1,0 +1,133 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+<title>数据清理</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Data scrubbing is a data maintenance feature that inspects volumes or disk groups and repairs any detected data inconsistencies.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>数据清理</h2>
+
+<h3>执行数据清理</h3>
+<p>数据清理是一项数据维护功能，用于检查存储池。系统将依次执行以下两种数据清理功能：</p>
+
+<ul>
+<li><strong>文件系统清理</strong>：此功能用于检查 Btrfs 文件系统中的存储空间。如果检测到任何数据与总和检查码不一致，系统将尝试使用备份修复数据，并将文件路径记录在日志中心中。</li>
+<li><strong>RAID 清理</strong>：此功能可用于执行 SHR（由三个或以上硬盘构成）、RAID 5 或 RAID 6 的存储池。并可修复检测到的所有不一致数据。</li>
+</ul>
+
+<p>我们建议定期执行数据清理以确保数据一致性并避免在硬盘故障时丢失数据。</p>
+
+<div class="section">
+<h4>注：</h4>
+	<ul>
+	<li>本文中所述的数据清理及相关功能仅在特定型号上可用。</li>
+	<li>当存储池的状态为<strong>损毁</strong>或<b>降级</b>时，无法执行数据清理。</li>
+	<li>如果共享文件夹未启用<b>数据总和检查码以实现高级数据完整性</b>，则文件系统清理无法检查文件夹中的数据是否缺少总和检查码并进行修复。</li>
+	</ul>
+</div>
+
+<h3>设置数据清理计划</h3>
+<p>您可以设置数据清理计划。系统会根据您的设置运行数据清理。</p>
+<h4>若要设置数据清理计划：</h4>
+<ol>
+<li>启动<strong>存储管理器</strong>。</li>
+<li>进入<strong>存储池</strong> &gt; <strong>数据清理</strong>。</li>
+<li>单击<strong>设置计划</strong>。</li>
+<li>勾选<strong>启用数据清理计划</strong>。</li>
+	<li>指定<strong>频率</strong>、<strong>开始日期</strong>和<strong>时间段</strong>。</li>
+<li>进入<strong>选择目标</strong>选项卡。<li>选择您要执行数据清理的存储池。</li>
+<li>单击<strong>确定</strong>。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>若要添加到计划，存储池必须处于<b>正常</b>状态并支持数据清理。</li>	
+<li>如果系统是从版本 6.1 升级的，则具有运行数据清理功能的存储池在默认情况下会添加到计划。</li>
+<li>如果您在版本 6.1 中设置了计划，则我们会根据您以前的设置自动启用计划。</li>	
+</ul></div>
+
+<h4>若要添加存储池到计划或从计划中删除存储池：</h4>
+
+<ol>
+<li>单击<strong>设置计划</strong></li>
+<li>进入<strong>选择目标</strong>选项卡。</li>	
+<li>勾选或取消勾选存储池对应的复选框，以决定是要将它添加到计划还是从计划中删除。</li>
+<li>单击<strong>确定</strong>。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>在对存储池手动运行数据清理时，无法将该存储池添加到计划或从计划中删除该存储池。</li>
+<li>若要删除正在运行计划数据清理的存储池，该存储池的进度将取消。</li>
+</ul></div>
+
+<h4>若要修改计划设置：</h4>
+
+<ol>
+<li>单击<strong>设置计划</strong>。</li>
+<li>根据需要修改频率、开始日期和时间段。</li>
+<li>单击<strong>确定</strong>。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+  <li>修改<strong>开始日期</strong>会重置计划的进度，并且数据清理会根据新的开始日期重新开始。</li>
+</ul>
+</div>	
+
+<h4>若要暂停计划：</h4>
+
+<ol>
+<li>选择正在运行数据清理计划的存储池。</li>
+<li>在<strong>操作</strong>下拉列表中单击<b>暂停计划</b>。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>您需要在<b>操作</b>下拉菜单中单击<strong>恢复计划</strong>以恢复数据清理计划。否则，计划将保持暂停状态。</li>	
+</ul></div>
+	
+<h3>手动运行数据清理：</h3>
+
+<p>系统检测到存储空间中存在异常时，您可以尝试通过手动运行数据清理来修复数据。</p>	
+	
+<h4>若要手动运行数据清理：</h4>
+
+<ol>
+	<li>打开<strong>存储管理器</strong>。</li>
+	<li>进入<strong>存储池</strong> &gt; <strong>数据清理</strong>。</li>
+	<li>选择您要执行数据清理的存储池。</li>
+	<li>在<strong>操作</strong>下拉菜单中单击<strong>手动运行</strong>。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+
+<li>如果系统在数据清理完成之前关机，某些进程可能会丢失，您需要手动重新开始数据清理。</li>
+<li>如果手动运行数据清理的时间与计划数据清理重叠，则在手动运行数据清理完成之前，不会完成此轮计划。</li>
+<li>运行数据清理可能会影响您的系统性能，我们建议除非有必要，否则不要对多个存储池运行数据清理。</li>	
+</ul></div>	
+
+<h4>若要对正在手动运行数据清理的存储池暂停计划：</h4>	
+<ol>
+<li>选择要暂停的存储池。</li>
+<li>在<b>操作</b>下拉菜单中单击<b>暂停</b>。</li>	
+	</ol>	
+</body>
+</html>

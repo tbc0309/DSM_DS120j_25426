@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Spegnimento e ripristino</h2>
+  <p>Le istruzioni di seguito illustrano la procedura di spegnimento, rimozione o ripristino del cluster high-availability.</p>
+
+  <h4> Per disattivare il cluster high-availability utilizzando Synology High Availability:</h4>
+  <p>Quando si desidera spegnere un cluster high-availability per spostare i server in una nuova posizione fisica o eseguire la manutenzione senza rimuovere le configurazioni del cluster high-availability, procedere come segue.</p>
+  <ol>
+   <li>Accedere al DSM.</li>
+   <li>Aprire Synology High Availability.</li>
+   <li>Fare clic sul pulsante <b>Gestione</b>.</li>
+   <li>Selezionare <b>Spegnimento cluster HA</b>.</li>
+   <li>Viene visualizzato un messaggio di conferma. Fare clic su <b>Sì</b> per confermare.</li>
+  </ol>
+
+  <h4>Per spegnere manualmente un cluster high-availability:</h4>
+  <p> Il cluster high-availability può anche essere spento manualmente utilizzando i pulsanti di accensione su ciascun server. </p>
+  <ol>
+   <li>Tenere premuto il pulsante di accensione su uno dei server (attivo o passivo) fino a quando viene emesso un bip.</li>
+   <li>Una volta spento completamente uno dei server, attendere almeno 30 secondi (il server ancora online richiede del tempo per salvare le impostazioni).</li>
+   <li>Tenere premuto il pulsante di accensione sull'altro server fino a quando viene emesso un bip.</li>
+   <li>Attendere che il server si spenga completamente.</li>
+  </ol>
+<div class="section">
+<h4>Accendere i server:</h4>   
+<p>Per attivare nuovamente i server, sia il server attivo che il server passivo devono essere accesi contemporaneamente (o entro cinque minuti uno dall'altro). Se si accende solo uno dei server, questo tenterà di alimentare l'altro server trasmettendo un messaggio Wake on LAN.</p>
+<h4>Spegnimento anomalo:</h4>
+<p>Quando viene creato un cluster high-availability, nel Pannello di controllo, viene abilitata automaticamente l'opzione di riavvio dopo l'interruzione dell'alimentazione. Se i server si spengono a causa di una interruzione dell'alimentazione, si riavvieranno automaticamente una volta ripristinata l'alimentazione.</p>
+</div>
+
+<h4>Per rimuovere un cluster high-availability:</h4>
+ <p>Per eseguire l'unbinding di entrambi i server e rimuovere il cluster high-availability per combinare un server diverso, procedere come segue.</p>
+  <ol>
+   <li>Passare alla pagina <b>Panoramica</b>.</li>
+   <li>Fare clic sul pulsante <b>Gestione</b>.</li> 
+   <li>Selezionare <b>Rimuovi cluster HA</b>.</li>
+  </ol>
+  <p>Una volta confermato, il sistema rimuoverà il cluster high-availability. Il campo stato visualizza l'avanzamento del processo di rimozione. Una volta rimosso il cluster high-availability, l'utente sarà indirizzato all'indirizzo IP originale del server attivo. Lo stato di entrambi i server cambia in <b>Standalone</b>.</li>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+	<li>durante la procedura di rimozione di un cluster high-availability, alcune operazioni di scrittura dei dati potrebbero non essere completate. Per garantire la completezza dei dati, eseguire la replica dei dati in base al server attivo perché il server passivo potrebbe non avere alcuni dati aggiornati.</li>
+</ul>
+</div>  
+ 
+ <h4>Per ripristinare un cluster high-availability non funzionante:</h4>
+  <p>Nel caso non sia possibile accedere al DSM o Synology High Availability, a causa di un errore split-brain o altri malfunzionamenti, è possibile tentare di forzare il cluster high-availability per eseguire l'unbinding premendo il pulsante <b>Reimposta</b> che si trova sui due server.</p>
+  <ol>
+   <li>Tenere premuto il pulsante <b>Reimposta</b> (in genere si trova sul pannello posteriore del server) fino a quando viene emesso un bip.
+   <li>Il sistema rimuove il cluster high-availability e lo stato di entrambi i server passa su <b>Standalone</b></li>
+   <li>Premendo il pulsante <b>Reimposta</b> vengono ripristinare anche le impostazioni predefinite come l'indirizzo IP, DNS e password admin, oltre a quanto segue:</li>
+   <ul>
+    <li>La password amministratore sarà vuota.</li>
+    <li>L'account guest sarà disabilitato.</li>
+    <li>DHCP sarà abilitato su IP, DNS, gateway e altre interfacce di rete.</li>
+    <li>JumboFrames sarà disabilitato, mentre MTU sarà impostato su 1500.</li>
+    <li>La porta di gestione sarà ripristinata su 5000/5001.</li>
+    <li>PPPoE sarà ripristinato alle impostazioni predefinite.</li>
+    <li>Il blocco IP automatico sarà disabilitato (l'indirizzo IP bloccato non sarà cancellato).</li>
+    <li>Link Aggregation sarà disabilitato.</li>
+    <li>Le regole di firewall saranno disabilitate (le regole non saranno cancellate).</li>
+   </ul>
+  </ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+	<li>premendo il pulsante <b>Reimposta</b> in un server, verrà rimosso solo quest'ultimo dal cluster high-availability. Per rimuovere entrambi i server dal cluster high-availability, premere il pulsante <b>Reimposta</b> su entrambi i server.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Datasäkerhetskopiering</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Säkerhetskopiering</h2>
+
+<p><strong>Säkerhetskopiera & Återställ</strong> låter dig säkerhetskopiera olika sorts data (systemkonfigurationer, delade mappar och applikationer/filpaket) på din Synology NAS, manuellt eller efter schema. Du kan lagra säkerhetskopierat data i lokala delade mappar, fjärrservrar och gemensamma moln (Amazon S3, Microsoft Azure, hicloud S3 och SFR NAS BACKUP). Med <strong>Säkerhetskopiera & Återställ</strong> kan varje säkerhetskopieringsuppgift bibehålla flera versioner av säkerhetskopia och rotera dem med policyer för Smart Recycle.</p>
+
+
+<h3>Datasäkerhetskopiering</h3>
+<p><strong>Säkerhetskopiera & Återställ</strong> erbjuder ett antal olika alternativ för säkerhetskopieringsmål och sätt att iordningställa en datasäkerhetskopieringsuppgift.</p>
+
+<h4>Att skapa en datasäkerhetskopieringsuppgift:</h4>
+
+<ol>
+<li>Klicka på <strong>+</strong> i det nedre vänstra hörnet och välj <strong>Datasäkerhetskopieringsuppgift</strong> för att starta Guiden Säkerhetskopiering.</li>
+<li>Välj den önskade typen av säkerhetskopieringsmål:
+<ul>
+<li>Delade lokala/fjärrmappar eller externa lagringseneheter</li>
+<li>Fjärranslutna rsync-servrar</li>
+<li>Gemensamma moln (t.ex. Amazon S3 och Microsoft Azure)</li>
+</ul>
+</li>
+<li>Ställ in den önskade typen för din säkerhetskopieringsuppgift:
+  <ul>
+<li>För att skapa en helt ny uppgift, välj <strong>Skapa säkerhetskopieringsuppgift</strong>.</li>
+<li>För att återanvända befintligt säkerhetskopierat data på något mål, välj <strong>Omlänka till befintlig uppgift</strong>. Omlänkning hjälper dig att direkt dra nytta av säkerhetskopierat data från en annan uppgift.</li>
+</ul>
+</li>
+
+<li>Följ guidens instruktioner för att avsluta inställningarna. Välj <strong>Aktivera kryptering på klientsidan</strong> för att kryptera data innan överföring för att säkerställa datasäkerhet på säkerhetskopieringsmålet.</li>
+</ol>
+
+
+<div class="section">
+<h4>Noteringar:</h4>
+<ul>
+<li>Namn på uppgifter kan innehålla 1 till 32 unicode-tecken men kan inte innehålla följande tecken:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; < = > ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>Maximal längd för hela mappens sökväg för säkerhetskopiering är 2048 tecken.</li>
+<li>Om mer än 32000 filer eller mappar laddas upp till en EXT3 delad mapp via AFP kommer alla säkerhetskopieringsuppgifter inklusive den delade mappen att misslyckas.</li>
+<li>En krypterad delad mapp kan säkerhetskopieras när den är monterad och den kan återställas till en krypterad/okrypterad mapp. Den blir dock alltid återställd som okrypterad /////////och monteras inte automatiskt vid start. Du kommer att behöva ange eller importera krypteringsnyckeln till den delade mappen för att montera den.</li>
+<li>Det finns inte stöd för att säkerhetskopiera en krypterad mapp till en annan krypterad mapp.</li>
+<li>Det finns inte stöd för att använda fjärrmappar som källa eller mål för säkerhetskopieringen.</li>
+<li>Säkerhetskopiering för vissa applikationer har stöd. För att se huruvida ett specifikt filpaket har stöd för säkerhetskopiering och säkerhetskopieringens innehåll samt dess begränsningar, vänligen se hjälpen för vardera applikation.</li>
+<li class="enable-eds14">Synology NAS har inte stöd för säkerhetskopiering av applikationer utan en skrivbar extern enhet med EXT3/EXT4.</li>
+<li class="enable-eds14">Synology NAS kan bara säkerhetskopiera delade mappar som skapats på externa enheter med EXT3/EXT4.</li>
+</ul>
+</div>
+
+
+<div class="section disable-eds14">
+<h4>Säkerhetskopiera inställningar för Windows ACL:</h4>
+<p>Inställningar för Windows ACL för filerna på Synology NAS kan också säkerhetskopieras, beroende på filsystemet på målet:</p>
+
+<ul>
+<li>Alla säkerhetskopieringsmål kan säkerhetskopiera Windows ACL-inställningar oavsett filsystem på målet</li>
+</ul>
+</div>
+
+<h4>Att exportera säkerhetskopierat data till gemensamma moln eller fjärransluten Synology NAS:</h4>
+<p>Vid säkerhetskopiering av stora mängder data till ett gemensamt moln rekommenderas det att du exporterar den initiala versionen till en extern lagringsenhet (t.ex. en USB-enhet) och levererar enheten till leverantören av molntjänsten. Där kan enheten anslutas och ladda upp data direkt till molnet. På det här sättet kan du signifikant minska tiden för den första säkerhetskopieringen.</p>
+<ol>
+<li>Klicka på <strong>+</strong> i det nedre vänstra hörnet och välj <strong>Fjärransluten Synology NAS</strong> eller den önskade leverantören av molntjänst.</li>
+<li>Välj <strong>Exportera till en lokal delad mapp (inklusive en extern lagringsenhet)</strong> och slutför inställningarna. Vid uppmaning, välj <strong>Aktivera kryptering på klientsidan</strong> för skyddad säkerhetskopiering a data.</li>
+<li>Leverera den externa lagringsenheten till fjärransluten Synology NAS eller leverantör av molntjänst. Importera exporterat data från den externa lagringsenheten.</li>
+<li>När det bekräftats, återgå till <strong>Säkerhetskopiera & Återställ</strong> och klicka på <strong>Omlänka nu</strong>.</li>
+<li>Följ instruktionerna i Guiden Omlänkning för att länka din Synology NAS till dokumentsamlingen. Ett lösenord/krypteringsnyckel behövs om data exporterades krypterat.</li>
+</ol>
+
+<div class="section">
+	<h4>Obs:</h4>
+	<ul>
+		<li>Kryptering på klientsidan kan inte avaktiveras när uppgiften väl har gjorts klar, inte heller kan lösenordet ändras.</li>
+		<li>En dokumentsamling för säkerhetskopiering kan bara länkas till en säkerhetskopieringsuppgift.</li>
+		<li>Om mappen i säkerhetskopieringskällan är en krypterad delad mapp eller en sådans undermapp kan källmappen vara monterad eller omonterad när du skapar säkerhetskopieringsuppgiften.</li>
+		<li>Krypterade delade mappar kan inte vara säkerhetskopieringsmål.</li>
+		<li>Om du väljer <strong>Aktivera kryptering på klientsidan</strong> krävs ditt lösenord/krypteringsnyckel för att återställa data i den här uppgiften. <strong>Förlust av lösenord/krypteringsnyckel orsakar permanent dataförlust</strong>.</li>
+	</ul>
+</div>
+
+<h4>Så här gör du för att hantera säkerhetskopieringsuppgifter:</h4>
+<p>Välj en önskad säkerhetskopieringsuppgift i den vänstra panelen och klicka på knapparna här nedanför för motsvarande hantering:</p>
+<ul>
+<li><strong>Säkerhetskopiera nu</strong>: Säkerhetskopiera omedelbart data för den valda uppgiften.</li>
+<li><strong>Säkerhetskopieringsutforskare</strong> (ikonen med ett förstoringsglas): Visar alla tillgängliga versioner av säkerhetskopior och kopierar/återställer/laddar ner de filer de innehåller.</li>
+<li><strong>Versionslista</strong>: Visar tiden den skapades och status för alla versioner av säkerhetskopior, raderar specifika versioner av säkerhetskopior eller låser upp specifika för framtvingad reservering.</li>
+<li><strong>Redigera</strong>: Ändra säkerhetskopieringskälla, -mål, -schema och andra inställningar.</li>
+<li><strong>Radera</strong>: Radera den valda säkerhetskopieringsuppgiften.</li>
+<li><strong>Avbryt</strong>: Stoppar den säkerhetskopieringsuppgift som för närvarande körs.</li>
+</ul>
+
+
+<h4>Rotera versioner:</h4>
+<p>Rotation av säkerhetskopior är en mekanism för versionshantering. Den hjälper till att hantera versioner av säkerhetskopiering genom att automatiskt radera äldre, onödiga versioner och potentiellt frigöra lagringsutrymme. Du kan aktivera den här funktionen i <strong>Inställningar för uppgifter</strong> eller konfigurera den när du skapar en säkerhetskopieringsuppgift.</p>
+<ol>
+<li>Välj den önskade säkerhetskopieringsuppgiften i den vänstra panelen och klicka på <strong>Redigera</strong> eller <strong>Inställningar</strong> > <strong>Inställningar för uppgifter</strong>.</li>
+<li>Välj <strong>Aktivera rotation av säkerhetskopior</strong> och välj det önskade rotationsläget:
+<ul>
+<li><strong>Från de tidigaste versionerna</strong>: Radera de tidigaste versionerna av säkerhetskopior när tillgängliga versioner överskrider det fastställda antalet.</li>
+<li><strong>Smart Recycle</strong>: Behåller versioner av säkerhetskopior enligt dessa policyer:
+  <ul>
+<li><strong>Versioner som gjorts varje timme från de senaste i 24 timmarna</strong>: Behåll den tidigaste version som skapats varje timme.</li>
+<li><strong>Dagliga versioner från senaste 1 dag till 1 månad</strong>: Behåll den tidigaste version som skapats varje dag.</li>
+<li><strong>Versioner som gjorts varje vecka och är äldre än 1 månad</strong>: Behåll den tidigaste version som skapats varje vecka.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Specificera det maximala <strong>antalet versioner</strong>. När antalet versioner överskrider det antalet roteras den äldsta versionen.</li>
+<li>Om du har konfigurerat ett repeterande schema för säkerhetskopiering i <strong>Planerat</strong> kan du förhandsgranska hur dina versioner av säkerhetskopior kommer att bibehållas och den tidigaste återställningspunkten på tidslinjen.</li>
+<li>Klicka på <strong>OK</strong> för att spara inställningarna.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Låsta versioner tas aldrig bort.</li>
+<li>Endast säkerhetskopieringsuppgifter i flera versioner tillhandahåller rotation av versioner.</li>
+<li>Rotation av versioner har inte stöd i DSM 5.1 eller lägre.</li>
+<li>Rotation kommer att bli utlöst direkt efter att inställningarna ändras eller säkerhetskopieringsuppgiften är slutförd.</li>
+<li>Låsta versioner är exkluderade vid beräkning av maximalt antal versioner.</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Anteckningar om datasäkerhetskopieringsuppgifter</h3>
+<p>För varje typ av säkerhetskopieringsuppgift, vänligen läs följande anteckningar för viktig konfigurationsinformation och tips för felsökning.</p>
+
+<h4>Lokala säkerhetskopieringsuppgifter:</h4>
+<ul>
+<li>Om data på målet flyttas under tiden säkerhetskopieringsuppgiften utförs, kommer en fullständig säkerhetskopiering att utföras nästa gång uppgiften utförs.</li>
+<li>Nya externa enheter kan behöva formateras innan de kan tas i bruk som säkerhetskopieringsmål. </li>
+<li>Innan du skapar en säkerhetskopieringsuppgift, säkerställ att du redan har ordentligt har anslutit de externa diskarna till din Synology NAS. Du kan gå till <b>Kontrollpanel</b> > <b>Externa enheter</b> för att kontrollera status för USB/eSATA-diskar. Externa diskar kan inte väljas som säkerhetskopieringsmål om den externa disken håller på att initialiseras, formateras eller är felaktig.</li>
+<li>Fjärrmonterade delade mappar kan inte väljas som källa eller mål för säkerhetskopieringen.</li>
+<li>Om en krypterad delad mapp avmonteras kan den inte väljas som mål vid en säkerhetskopiering.</li>
+<li>Miniatyrbilder kan inte säkerhetskopieras när filsystemet på målet är NTFS/FAT.</li>
+</ul>
+
+
+
+
+
+<h4>Fjärrmonterade rsync-säkerhetskopieringsuppgifter:</h4>
+<ul>
+<li>Följande lägen finns tillgängliga vid skapande av en säkerhetskopieringsuppgift med rsync-kompatibla servrar som nätverksmål för säkerhetskopiering: <b>Läget rsync daemon</b> som används när du väljer en modul för säkerhetskopiering (delade mappar på den rsync-kompatibla servern) från rullgardinsmenyn bredvid <b>Säkerhetskopieringsmodul</b>; och <b>fjärrstyrt skalläge,</b> vilket endast är aktiverat när du anger en absolut sökväg (startar med "/") i <b>Säkerhetskopieringsmodul</b>.</li>
+<li>För Linux-användare är endast kontona <strong>admin</strong>, <strong>root</strong> och <strong>rsync</strong> tillåtna att utföra säkerhetskopieringsuppgifter.</li>
+<li>Om du vill ha åtkomst till målservern över Internet genom att använda dess värdnamn måste värdnamnet vara en FQDN (Fully Qualified Domain Name, på svenska fullt kvalificerat domännamn), till exempel <strong>abc.bcd.com</strong>.</li>
+<li>Vid säkerhetskopiering från en Synology NAS-enhet till en annan blir du uppmanad att ange användarnamnet och lösenordet för ett konto på målservern. Vid säkerhetskopiering till delade mappar på en annan Synology NAS kan du göra så i enlighet med mappens åtkomsträttigheter. Endast delade mappar till vilka den specifika användaren har åtkomstprivilegier kommer att synas. Om du inte kan hitta de önskade delade mapparna på målet, vänligen kontrollera dina åtkomstprivilegier.</li>
+<li>Överföringskryptering har endast stöd när den server som är mål stöder krypterad nätverkssäkerhetskopiering och lösenordet för autentisering inte är tomt.</li>
+<li>Fjärrstyrt skalläge stöder endast krypterad överföring.</li>
+<li>Om du säkerhetskopierar filer till en Synology NAS-enhet via en rsync-klient måste filnamnen vara i teckentabell UTF-8.</li>
+<li>Om du säkerhetskopierar filer till en Synology NAS-enhet via en rsync-kompatibel klient kan du endast utföra uppgiften med kontona <strong>admin</strong>, <strong>root</strong> och <strong>rsync</strong> på Synology NAS.</li>
+<li>Om du säkerhetskopierar filer till din Synology NAS TILL en rsync-kompatibel server, måste du också mata in korrekt kontonamn och lösenord för rsync backup-konto. Du måste också välja rätt kopieringsmodul med skrivprivilegier.</li>
+</ul>
+
+
+
+<h4>Amazon S3-säkerhetskopieringuppgifter:</h4>
+<ul>
+  <li>När uppgifter för säkerhetskopiering med Amazon S3-server som nätverksmål för säkerhetskopiering skapas finns flertalet alternativ tillgängliga, såsom överföringskryptering, säkerhetskopiering till Amazon S3 RRS (Reduced Redundancy Storage) och andra. Vänligen observera att en del alternativ, såsom överföringskryptering kan minska hastigheten för säkerhetskopieringsuppgiften.</li>
+  <li>Säkerhetskopieringsfiler sparas i den <strong>Bucket</strong> du valde på Amazon S3-servern och Set KEY-värdet börjar med ett katalognamn som du väljer och slutar med den kompletta filsökvägen för filen.</li>
+  <li>Datastrukturen på Amazon S3 inkluderar ett par Bucket och KEY utan någon mappstruktur. Säkerhetskopiering av tomma mappar stöds inte.</li>
+  <li>Om en säkerhetskopierad fil inte har ändrats kommer den inte att säkerhetskopieras till samma Bucket på Amazon S3-server igen.</li>
+  <li>Varje Bucket på Amazon S3 måste ha ett unikt namn. Dessutom ska varje namn:</li>
+<ul>
+  <li>vara mellan 3 och 63 tecken långt.</li>
+  <li>endast innehålla gemena bokstäver, siffror, punkter (.) och streck (-).</li><li>börja och sluta med en siffra eller en bokstav och inte ha ett (-) i slutet, innehålla två på varandra följande punkter eller innehålla streck bredvid punkter (t.ex. är "my-.bucket.com" och "my.-bucket" ogiltiga).</li>
+</ul>
+<li>En Amazon S3 KEY får inte överskrida 1024 tecken. För att säkerställa att det går att säkerhetskopiera till Amazon S3 är den längsta sökvägen 1024 minus namnet för målmappen som specificerades när uppgiften skapades.</li>
+<li>Om du aktiverar stöd för Amazon S3 RRS (Reduced Redundancy Storage) kommer endast data som ändrats efter att detta alternativ har valts att säkerhetskopieras till RRS-lagring. Det innebär att data som redan säkerhetskopierats till Amazon S3:s standardlagring inte kommer att säkerhetskopieras igen. </li>
+<li>Det finns inte stöd för att flytta säkerhetskopierade filer från Amazon S3 till Amazon Glacier. Om filer flyttas från Amazon S3 till Amazon Glacier via AWS hanteringskonsol, riskerar tillhörande säkerhetskopieringsuppgifter att misslyckas.</li>
+<li>Säkerhetskopiering med SSL av filer till buckets med virtuell värd-stil stöds inte.</li>
+<li>Vid överföring av en fil kommer filen att delas upp i delar. Storleken för delarna kan ställas in med alternativet <strong>Multipart Upload delstorlek</strong> i uppgiftens inställning, vilket som standard är 512MB. Om nätverksmiljön inte är stabil rekommenderas att inställningen ställs in lägre.</li>
+
+<li>Max antal samtidiga delar vid uppladdning är 10000. Den största filstorleken för en fil är <strong>Multipart Upload delstorlek</strong> gånger 10000.</li>
+<li>Filnamnet får inte innehåll något tecken som inte är UTF-8 eller något kontrolltecken.</li>
+</ul>
+
+
+
+<h4>Microsoft Azure-säkerhetskopieringsuppgifter:</h4>
+<ul>
+<li>När säkerhetskopieringsuppgifter skapas med en Microsoft Azure-server som nätverksmål för säkerhetskopiering finns olika alternativ tillgängliga (t.ex. krypterad överföring). Vänligen observera att en del alternativ, såsom överföringskryptering kan minska hastigheten för säkerhetskopieringsuppgiften.</li>
+<li>Säkerhetskopieringsfiler sparas i den <strong>Container</strong> du valde på Microsoft Azure-servern och att det inställda Blob-värdet börjar med ett katalognamn som du väljer och slutar med den kompletta filsökvägen för filen.</li>
+<li>Datastrukturen på Microsoft Azure inkluderar ett par Container och Blob utan någon mappstruktur. Säkerhetskopiering av tomma mappar stöds inte.</li>
+<li>Om en säkerhetskopierad fil inte har ändrats kommer den inte att säkerhetskopieras till samma Container på Microsoft Azure-server igen.</li>
+<li>Varje Container på Microsoft Azure måste ha ett unikt namn. Dessutom ska varje namn:</li>
+<ul>
+<li>vara mellan 3 och 63 tecken långt.</li>
+<li>endast innehålla gemena bokstäver, siffror och streck (-).</li>
+<li>börja och sluta med en siffra eller en bokstav och det kan inte ha två på varandra följande streck.</li>
+</ul>
+<li>Maximal längd på ett Microsoft Azure Blob-namn är 1024 tecken. För att säkerställa att det går att säkerhetskopiera till Microsoft Azure är den längsta sökvägen 1024 minus namnet för målmappen som specificerades när uppgiften skapades.</li>
+
+<li>Filnamnet får inte innehåll något tecken som inte är UTF-8 eller något kontrolltecken.</li>
+<li>Meddelandet om misslyckad autentisering kan orsakas av oriktigt autentiseringsinformation, ett problem med nätverksanslutning eller att tiden på din Synology NAS och fjärrservern inte stämmer överens. För att kontrollera tidsinställningarna på din Synology NAS, vänligen gå till <strong>Kontrollpanel</strong> > <strong>Nationella inställningar</strong> ><strong> Tid</strong> för att synkronisera tiden med NTP-servern.</li>
+</ul>
+
+
+
+<h4>hicloud S3-säkerhetskopieringuppgifter:</h4>
+<ul>
+<li>När säkerhetskopieringsuppgifter skapas med en hicloud S3-server som nätverksmål för säkerhetskopiering finns olika alternativ tillgängliga (t.ex. krypterad överföring). Vänligen observera att en del alternativ, såsom överföringskryptering kan minska hastigheten för säkerhetskopieringsuppgiften.</li>
+<li>Säkerhetskopieringsfiler sparas i den <strong>Bucket</strong> du valde på hicloud S3-servern och Set KEY-värdet börjar med ett katalognamn som du väljer och slutar med den kompletta filsökvägen för filen.</li>
+<li>Datastrukturen på hicloud S3 inkluderar ett par Bucket och KEY utan någon mappstruktur. Säkerhetskopiering av tomma mappar stöds inte.</li>
+<li>Om en säkerhetskopierad fil inte har ändrats kommer den inte att säkerhetskopieras till samma Bucket på hicloud S3-server igen.</li>
+<li>Varje Bucket på hicloud S3 måste ha ett unikt namn. Dessutom ska varje namn:</li>
+<ul>
+<li>vara mellan 3 och 63 tecken långt.</li>
+<li>endast innehålla gemena bokstäver, siffror, punkter (.) och streck (-).</li>
+<li>börja och sluta med en siffra eller en bokstav och inte ha ett (-) i slutet, innehålla två på varandra följande punkter eller innehålla streck bredvid punkter (t.ex. är "my-.bucket.com" och "my.-bucket" ogiltiga).</li>
+</ul>
+<li>En hicloud S3 KEY får inte överskrida 255 tecken. För att säkerställa att det går att säkerhetskopiera till hicloud S3 är den längsta sökvägen 255 minus namnet för målmappen som specificerades när uppgiften skapades.</li>
+<li>Vid överföring av en fil kommer filen att delas upp i delar. Storleken för delarna kan ställas in med alternativet <strong>Multipart Upload delstorlek</strong> i uppgiftens inställning, vilket som standard är 512MB. Om nätverksmiljön inte är stabil rekommenderas att du ställer in ett lägre nummer.</li>
+
+<li>Hicloud stöder endast de maximalt 1000 delarna per överföring. Det betyder att den totala storleken på filen inte kan överskrida 1000 multiplicerad med delstorlek. Om, till exempel, Multipart Upload Part Size är inställd på 8MB misslyckas uppladdning av en enstaka fil som är större 8000MB. </li>
+
+<li>Säkerhetskopiering av krypterade delade mappar stöds inte.</li> 
+
+<li>Filnamnet får inte innehåll något tecken som inte är UTF-8 eller något kontrolltecken.</li>
+</ul>
+
+
+  
+
+<h4>SFR NAS BACKUP-säkerhetskopieringsuppgifter:</h4>
+<ul>
+<li>När säkerhetskopieringsuppgifter skapas med en SFR NAS BACKUP-server som nätverksmål för säkerhetskopiering finns olika alternativ tillgängliga, såsom krypterad överföring med mera. Vänligen observera att en del alternativ, såsom överföringskryptering kan minska hastigheten för säkerhetskopieringsuppgiften.</li>
+<li>Säkerhetskopieringsfiler sparas i den <strong>Bucket</strong> du valde på SFR NAS BACKUP-servern och Set KEY-värdet börjar med ett katalognamn som du väljer och slutar med den kompletta filsökvägen för filen.</li>
+<li>Datastrukturen på SFR NAS BACKUP inkluderar ett par Bucket och Key utan någon mappstruktur. Säkerhetskopiering av tomma mappar stöds inte.</li>
+<li>Om en säkerhetskopierad fil inte har ändrats kommer den inte att säkerhetskopieras till samma Bucket på SFR NAS BACKUP-server igen.</li>
+<li>Varje Bucket på SFR NAS BACKUP-server måste ha ett unikt namn. Dessutom ska varje namn:</li>
+<ul>
+<li>vara mellan 3 och 63 tecken långt.</li>
+<li>endast innehålla gemena bokstäver, siffror, punkter (.) och streck (-).</li>
+<li>börja och sluta med en siffra eller en bokstav och inte ha ett (-) i slutet, innehålla två på varandra följande punkter eller innehålla streck bredvid punkter (t.ex. är "my-.bucket.com" och "my.-bucket" ogiltiga).</li>
+</ul>
+<li>En SFR NAS BACKUP KEY får inte överskrida 1024 tecken. För att säkerställa att det går att säkerhetskopiera till SFR NAS BACKUP är den längsta sökvägen 1024 minus namnet för målmappen som specificerades när uppgiften skapades.</li>
+<li>Vid överföring av en fil kommer filen att delas upp i delar. Storleken för delarna kan ställas in med alternativet <strong>Multipart Upload delstorlek</strong> i uppgiftens inställning, vilket som standard är 64MB. Om nätverksmiljön inte är stabil rekommenderas att du ställer in ett lägre nummer.</li>
+
+<li>Filnamnet får inte innehåll något tecken som inte är UTF-8 eller något kontrolltecken.</li> 
+
+</ul>
+
+<h4>Andra S3-kompatibla-säkerhetskopieringsuppgifter:</h4>
+<ul>
+<li>För att använda andra S3-kompatibla moln, ange vid uppmaning IP-adressen/domänen för det önskade S3-kompatibla molnet i fältet <strong>S3-server</strong>.</li>
+<li>Om det föreligger något problem med användning, vänligen se den relevanta dokumentationen eller kontakta leverantören av det S3-kompatibla molnet.</li>
+</ul>
+
+<h3>LUN-säkerhetskopiering*</h3>
+
+<p>Du kan använda <b>Lokal LUN-säkerhetskopiering</b> för att säkerhetskopiera iSCSI LUNs på din Synology NAS till lokala delade mappar. Du kan även använda <b>Nätverks-LUN-säkerhetskopiering (Synology-server)</b> för att säkerhetskopiera ytterligare en Synology NAS.</p>
+
+<h4>Säkerhetskopiera en iSCSI LUN:</h4>
+<ol>
+<li>Klicka på <strong>+</strong> i det nedre vänstra hörnet och välj <strong>LUN-säkerhetskopieringsuppgift</strong>.
+</li>
+<li>
+När du uppmanas att välja destinationstyp väljer du någon av följande:
+</li>
+<ul>
+<li>
+<b>Lokal LUN-säkerhetskopiering</b>: Välj detta alternativ för att säkerhetskopiera LUN från din Synology NAS till en lokal delad mapp eller en extern lagring som är ansluten till USB eller eSATA-porten på din Synology NAS.
+</li>
+<li><b>Nätverks-LUN-säkerhetskopiering (Synology server)</b>: Välj detta alternativ för att säkerhetskopiera LUN från din Synology NAS till en annan Synology NAS.
+</li>
+</ul>
+<li>
+När du uppmanas till det specificerar du säkerhetskopieringsdestinationen och käll-LUN och ställer in säkerhetskopieringsschemat.
+</li>
+<li>
+Följ guiden för att slutföra installationen.
+</li>
+</ol>
+<p>Efter att säkerhetskopieringsuppgiften har skapats kommer Synology NAS att utföra säkerhetskopieringsuppgiften enligt schema och lagra den säkerhetskopierade LUN på destinationen. Säkerhetskopierad LUN används endast för syftet säkerhetskopiering. För åtkomst till säkerhetskopierad LUN, se <a href="restore.html">Återställa säkerhetskopierad LUN</a> för mer information.</p>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Både vanliga fil- och blocknivå-LUN kommer att säkerhetskopieras som filavbilder på målet. Om återställda, kommer alla blocknivå-LUN att återställas till fil-LUN.</li>
+<li>Varje säkerhetskopieringsuppgift kan endast inkludera en LUN som säkerhetskopieringskällan.</li>
+<li>LUNS kan inte säkerhetskopieras till en extern disk med formatet FAT, FAT32, HFS, HFS Plus eller NTFS.</li>
+<li>Innan Nätverks-LUN-säkerhetskopiering utförs, vänligen logga in på målet Synology NAS för att säkerställa att tjänsten nätverkssäkerhetskopiering är aktiverad i <b>Kontrollpanel</b> > <b>Säkerhetskopieringstjänst</b>.</li>
+<li>Om din Synology NAS ansluts till nätverket via en router måste du se till att du har specificerat en regel för vidarebefordring av portar för iSCSI-tjänsten (TCP-port 3260) på routern, innan du utför Nätverks-LUN-säkerhetskopiering.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Om Fullständig säkerhetskopiering och inkrementell säkerhetskopiering:</h4>
+<p>
+Synology NAS kommer att utföra en fullständig säkerhetskopiering för vald LUN första gången och därefter inkrementell säkerhetskopiering. Men om namnet på den delade mappen eller säkerhetskopieringsdestinationen ändras kommer Synology NAS att utföra en fullständig säkerhetskopiering för uppgiften igen.
+</p>
+</div>
+
+<p>____<br /> * Endast tillgängligt för vissa modeller.</p>
+
+</body></html>

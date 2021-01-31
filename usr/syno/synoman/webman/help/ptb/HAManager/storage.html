@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Status do armazenamento</h2>
+	<p>Essa página detalha o status dos volumes de armazenamento e iSCSI LUNs (nível de bloqueio) dos servidores ativo e passivo do conjunto de high-availability.</p>
+    <p>Como a capacidade e as configurações dos volumes e iSCSI LUNs (nível de bloqueio) correspondentes dos servidores ativo e passivo devem ser idênticas, os volumes e iSCSI LUN (nível de bloqueio) dos dois servidores são exibidos em conjunto como unidades únicas. Portanto, caso você deseje exibir o status dos volumes e iSCSI LUNs (nível de bloqueio) dos servidores ativo e passivo, é necessário ir para a página <b>Status de Armazenamento</b> [ao acessar um cluster de high-availability, apenas volumes e iSCSI LUNs (Nível de Bloqueio) do servidor ativo podem ser exibidos no <b>Gerenciador de Armazenamento</b>].</p>
+
+    <p>Essa página contém as seguintes informações:</p>
+		<ul>
+			<li><b>Nome:</b> Exibe os nomes dos volumes e iSCSI LUNs (nível de bloqueio).</li>
+			<li><b>Usado:</b> Exibe a porcentagem da capacidade usada dos volumes e iSCSI LUNs (nível de bloqueio).</li>
+			<li><b>Tamanho Usado/Total:</b> Exibe o total e a capacidade usada dos volumes e iSCSI LUNs (nível de bloqueio).</li>
+            <li><b>Status:</b> Exibe o status dos volumes, iSCSI LUNs (nível de Bloqueio) e caches de SSD.</li>
+            <li><b>Descrição:</b> Exibe a descrição dos erros ou outras informações relativas ao volume, iSCSI LUN (Nível de Bloqueio) e cache de SSD.</li>
+		</ul>
+<h4>Para reparar um volume ou iSCSI LUN (nível de bloqueio) com defeito:</h4>
+	<ul>
+		<li>Se um disco rígido em um dos servidores tiver travado, você pode ir para a página <a href="disk.html">Status do Disco</a> para determinar qual disco rígido foi travado e precisa ser substituído. Nessa caso, faça o seguinte:
+        	<ol>
+            	<li>Substitua o disco rígido travado (para informar-se sobre as etapas de instalação do disco rígido, consulte o <i>Guia de Instalação Rápida</i> de seu produto Synology).</li>
+                <li>Vá para a página <b>Status de armazenamento</b> e clique em <b>Reparar</b>.</li>
+            </ol>
+        </li>
+        <li>Se o servidor passivo estiver offline, o status dos volumes e iSCSI LUNs (nível de bloqueio) indicarão que ocorreu um erro e nenhum dos discos do servidor passivo aparecerá na página Status do disco. Nesse caso, você pode tentar resolver o problema fazendo o seguinte:
+        	<ol>
+            	<li>Certifique-se de que o servidor passivo esteja ligado.</li>
+                <li>Verifique todas as fontes de alimentação.</li>
+                <li>Examine todas as conexões.</li>
+            </ol>
+        </li>
+        <li>Caso ocorra um erro no sistema de arquivo em um volume ou iSCSI LUN (nível de bloqueio) em um dos servidores, faça o seguinte:
+        	<ul>
+            	<li>Vá para a página <b>Status de Armazenamento</b>.</li>
+                <li>Clique em <b>Reparar</b>.</li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">Nota:</span>  O limite dos volumes e iSCSI LUNs (Nível de Bloqueio) em um cluster de high-availability é 64.</p>
+
+
+
+<h3>Servidor de quorum</h3>
+<p>Servidores de quorum podem ajudar a reduzir a possibilidade de erros de redes separadas. Nas configurações de redes separadas, você pode atribuir outro servidor como o servidor de quorum, desde que ele se conecte constantemente aos servidores ativos e passivos. Por exemplo, um servidor de gateway ou servidor DNS é uma opção adequada para o servidor de quorum porque pode se conectar aos servidores ativos e passivos. Observe que o servidor de quorum deve fornecer somente serviços de ping e nenhum aplicativo precisa ser instalado. Abaixo estão as circunstâncias que se seguirão quando o servidor de quorum for ativado:</p>
+
+<ul>
+<li>Se o servidor passivo não puder se conectar aos servidores ativos e de quorum, o failover não será realizado para evitar erros de redes separadas.</li>
+<li>Se o servidor ativo não puder se conectar ao servidor de quorum, mas o servidor passivo puder, a mudança será acionada a fim de garantir uma melhor disponibilidade.</li>
+</ul>
+
+ </body>
+</html>

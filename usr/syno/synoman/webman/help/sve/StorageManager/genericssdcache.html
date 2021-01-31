@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>SSD-cache*</h2>
+<p>SSD-cache kan f&ouml;rb&auml;ttra prestanda f&ouml;r tillf&auml;llig &aring;tkomst genom att lagra data som ofta anv&auml;nds p&aring; SSD-cache. SSD-cache kan monteras p&aring; en volym eller iSCSI LUN (Blockniv&aring;). Det finns tv&aring; typer av SSD-cache:</p>
+<ul>
+<li><strong>Endast l&auml;sbar cache</strong> kan best&aring; av 1 till 12 SSD:er som kan monteras i konfiguration basic eller RAID 0 respektive f&ouml;r att f&ouml;rb&auml;ttra den icke-sekventiella skrivningen f&ouml;r lagringsutrymmet p&aring; vilket det &auml;r monterat.
+<div class="section"><h4>Obs:</h4>
+	<p>Endast l&auml;sbar SSD-cache lagrar kopior av data fr&aring;n volymen, p&aring; s&aring; s&auml;tt uppst&aring;r inte n&aring;gon dataf&ouml;rlust &auml;ven om endast l&auml;sbar cache har kraschat.</p>
+	</div>
+</li>
+<li><strong>L&auml;s-skriv-cache</strong> kan monteras i en konfiguration med RAID 1 / RAID 5 / RAID 6, beroende p&aring; antalet SSD:er (upp till 12 SSD:er) f&ouml;r att f&ouml;rb&auml;ttra l&auml;s- och skrivprestandan vid tillf&auml;llig &aring;tkomst, f&ouml;r lagringsutrymmet p&aring; vilket det &auml;r monterat.</li>
+</ul>
+
+<p>B&aring;da typerna av SSD-cache implementerar en algoritm med LRU (Last Recently Used, &ouml;versatt senast anv&auml;nda) f&ouml;r att utf&ouml;ra swap av data i cachen.</p>
+
+<div class="section">
+<h4>Viktigt:</h4>
+<p>Efter installation av n&aring;gra SSD:er f&ouml;r anv&auml;ndning som cache, v&auml;nligen se f&ouml;ljande meddelanden:</p>
+<ul>
+<li>Syftet med att aktivera SSD-cache &auml;r att &ouml;ka prestandan vid tillf&auml;llig &aring;tkomst till en liten del data i lagringsutrymmet som ofta anv&auml;nds. Till exempel b&aring;de stora sekventiella l&auml;s- eller skriv&aring;tg&auml;rder (t.ex. HD-videostr&ouml;mning) och helt tillf&auml;lliga datal&auml;sningsm&ouml;nster som saknar &aring;terl&auml;sningsm&ouml;nster och p&aring; s&auml;tt har de inte n&aring;gon signifikant nytta av SSD-cachning. F&ouml;r allm&auml;nna till&auml;mpningar rekommenderas att alternativet <b>Hoppa &ouml;ver sekventiell I/O</b> aktiveras s&aring; att sekventiell I/O fortfarande kan passera genom diskarna p&aring; lagringsutrymmet.</li>
+<li>V&auml;nligen se kompatibilitetslista p&aring; <a href="http://www.synology.com/" target=_blank>Synology:s webbplats</a> f&ouml;r att se vilka SSD som kan v&auml;ljas f&ouml;r att anv&auml;ndas som cache f&ouml;r din Synology NAS.</li>
+<li class="disable-alpine">SSD-cache kr&auml;ver en viss m&auml;ngd systemminne beroende p&aring; cachestorleken, s&aring; montering av st&ouml;rre SSD-cache kan inneb&auml;ra att det beh&ouml;vs en minnesuppgradering p&aring; Synology NAS. F&ouml;r att h&aring;lla systemet stabilt och snabbt kan endast 1/4 av det f&ouml;rinstallerade systemminnet anv&auml;ndas f&ouml;r SSD-cache. Varje 1 GB av SSD-cache kr&auml;ver ungef&auml;r 416 KB systemminne (ut&ouml;kningsbart minne kan inr&auml;knas)**. D&auml;rf&ouml;r, om konfiguration f&ouml;r endast l&auml;sbar cache &auml;r 2 x 128 GB SSD kommer den totala storleken p&aring; cache att vara 256 GB och kr&auml;va minst 104 MB av minnet, om konfigurationen f&ouml;r l&auml;s-skriv-cache &auml;r 2 x 128 GB SSD kommer den totala storleken p&aring; cache att vara 128 GB och kr&auml;va minst 52 MB av minnet. Om minnet &auml;r otillr&auml;ckligt kommer skapandet av SSD-cache att bli begr&auml;nsat eller s&aring; blir storleken p&aring; SSD-cache begr&auml;nsat.</li>
+<li class="enable-alpine">Varje 1 GB av SSD-cache kr&auml;ver ungef&auml;r 416 KB systemminne (ut&ouml;kningsbart minne kan inr&auml;knas) och den maximala storleken f&ouml;r cache &auml;r 930 GB. D&auml;rf&ouml;r, om konfiguration f&ouml;r endast l&auml;sbar cache &auml;r 2 x 128 GB SSD kommer den totala storleken p&aring; cache att vara 256 GB och kr&auml;va minst 104 MB av minnet, om konfigurationen f&ouml;r l&auml;s-skriv-cache &auml;r 2 x 128 GB SSD kommer den totala storleken p&aring; cache att vara 128 GB och kr&auml;va minst 52 MB av minnet. Om minnet &auml;r otillr&auml;ckligt kommer skapandet av SSD-cache att bli begr&auml;nsat eller s&aring; blir storleken p&aring; SSD-cache begr&auml;nsat.</li>
+<li>V&auml;nligen se produktspecifikationerna f&ouml;r din modell p&aring; <a href="http://www.synology.com/" target=_blank>Synology:s webbplats</a> f&ouml;r den maximala storleken av SSD-cache som &auml;r till&aring;ten p&aring; din Synology NAS.</li>
+<li>N&auml;r en l&auml;s-skriv-SSD-cache blir trasig avaktiveras funktionen cachning och systemet b&ouml;rjar skriva (dvs. synkronisera) cachad data fr&aring;n SSD:erna till h&aring;rddiskarna. Efter att synkroniseringen av data &auml;r slutf&ouml;rd intr&auml;ffar inte n&aring;gon dataf&ouml;rlust &auml;ven efter att l&auml;s-skriv-cachen har kraschat.</li>
+<li>Se till att ta bort l&auml;s-skriv-SSD-cache ordentlig innan du kopplar ifr&aring;n dess motsvarande SSD:er. Att koppla ifr&aring;n SSD:erna felaktigt (t.ex. N&auml;r en cache fortfarande anv&auml;nds eller n&auml;r systemet st&auml;ngs av) g&ouml;r att data som lagras i m&aring;lvolymen eller iSCSI LUN kraschar.
+</li>
+<li>L&auml;s-skriv-cache kan inte anv&auml;ndas tillsammans med Time Backup. Till exempel n&auml;r du skapar en l&auml;s-skriv-SSD-cache kommer du inte att kunna k&ouml;ra Time Backup. &Auml;ven omv&auml;nt, om du k&ouml;r Time Backup kommer du inte att kunna skapa ett l&auml;s-skriv-SSD-cache.</li>
+</ul>
+</div>
+
+<h4>F&ouml;r att montera SSD-cache:</h4>
+<ol>
+  <li>Installera SSD:erna p&aring; din Synology NAS. V&auml;nligen se meddelanden h&auml;r ovanf&ouml;r f&ouml;rst.</li>
+  <li>G&aring; till <strong>Lagringshanterare</strong> &gt; <strong>SSD-cache</strong>. Klicka p&aring; <b>Skapa</b>.</li>
+<li>V&auml;lj l&auml;get f&ouml;r cache (endast tillg&auml;ngligt f&ouml;r modeller som har st&ouml;d f&ouml;r l&auml;s-skriv-cache).</li>
+<li>Lokalisera rullgardinsmenyn och v&auml;lj den volym eller iSCSI LUN (blockniv&aring;) som du vill montera SSD-cache p&aring;.</li>
+<li>V&auml;lj SSD:erna fr&aring;n listan. Data p&aring; SSD:erna kommer att raderas, s&aring; v&auml;nligen tillse att inga viktiga data raderas.</li>
+<li>Klicka p&aring; <b>Till&auml;mpa</b>.</li>
+</ol>
+
+<h4>F&ouml;r att stoppa cashning av sekventiell I/O: </h4>
+<p>Om din volym som &auml;r m&aring;l eller iSCSI LUN (blockniv&aring;) har utm&auml;rkt sekventiell I/O-prestanda kan du g&ouml;ra s&aring; att SSD-cache slutar cacha sekventiell I/O och har &aring;tkomst till data direkt fr&aring;n dina diskar, f&ouml;r h&ouml;gre hastighet och b&auml;ttre prestanda. </p>
+<ol>
+<li>Klicka p&aring; <strong>Konfigurera</strong> f&ouml;r att &ouml;ppna konfigurationsf&ouml;nstret.</li>
+<li>Markera <strong>Hoppa &ouml;ver sekventiell I/O</strong>. </li>
+</ol>
+
+
+<h4>F&ouml;r att ta bort SSD-cache:</h4>
+<ol>
+<li>Klicka p&aring; <b>Ta bort</b> f&ouml;r att permanent ta bort detta SSD-cache fr&aring;n Synology NAS.</li>
+<li>F&ouml;r l&auml;s-skriv-cache m&aring;ste du ta bort det med denna procedur (&auml;ven om din Synology NAS &auml;r avst&auml;ngd), i annat fall intr&auml;ffar en volymkrasch eftersom endast partiell data finns p&aring; detta cache.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Vid montering eller borttagning av SSD-cache stoppar systemet alla relaterade tj&auml;nster (t.ex. delade mappar, installerade filpaket, aktuella anslutningar etc).</li>
+<li>Om ett l&auml;s-skriv-cache p&aring; ett lagringsutrymme inte uppt&auml;cks vid uppstart, kommer inte systemet att montera det lagringsutrymmet. V&auml;nligen lokalisera och installera om SSD:erna p&aring; Synology NAS och starta om f&ouml;r att montera lagringsutrymmet. Om du inte kan lokalisera SSD:erna, kan du beh&ouml;va framtvinga montering av lagringsutrymmet. V&auml;nligen se <a href="space.html">Volym</a> eller <a href="iscsilun.html">iSCSI LUN</a>.</li>
+</ul>
+</div>
+
+<h4>Reparera SSD-cache:</h4>
+<ul>
+<li><strong>F&ouml;r l&auml;s-skriv-cache:</strong> Om en av SSD:erna har kraschat, v&auml;nligen f&ouml;lj stegen h&auml;r nedanf&ouml;r f&ouml;r att reparera det.
+  <ol>
+<li>Byt ut trasig SSD mot en ny. (Ny SSD m&aring;ste vara av samma modell och storlek som den gamla).</li>
+<li>Klicka p&aring; knappen <b>Reparera</b>.</li>
+<li>V&auml;lj en SSD fr&aring;n listan.</li>
+<li>Klicka p&aring; <b>Till&auml;mpa</b>.</li>
+</ol>
+</li>
+<li><strong>F&ouml;r endast l&auml;sbar cache:</strong> Om en av SSD:erna har kraschat, v&auml;nligen ta bort aktuellt cache och ers&auml;tt felaktigt SSD. Klicka d&auml;refter p&aring; <strong>Skapa</strong> f&ouml;r att g&ouml;ra en ny konfiguration av cache.</li>
+</ul>
+
+
+<h3>R&aring;dgivare f&ouml;r SSD-cache</h3>
+<p>Denna funktion l&aring;ter dig ber&auml;kna och se den totala storleken p&aring; antalet filer till vilka systemet senast haft &aring;tkomst. Om du &auml;nnu inte har skapat n&aring;gra SSD-cachar p&aring; den valda volymen kan den h&auml;r informationen anv&auml;ndas som referens vid utv&auml;rdering av hur mycket SSD-cache som &auml;r l&auml;mpligt f&ouml;r ditt system. Om du tidigare har skapat en SSD-cache p&aring; den valda volym visas &auml;ven analys och anv&auml;ndning av cachen h&auml;r.</p>
+
+<h4>Att anv&auml;nda R&aring;dgivare f&ouml;r SSD-cache:</h4>
+
+<ol>
+<li>Klicka p&aring; <b>R&aring;dgivare f&ouml;r SSD-cache</b> f&ouml;r att &ouml;ppna guiden.</li>
+<li>V&auml;lj en volym f&ouml;r ber&auml;kning och klicka sedan p&aring; <b>N&auml;sta</b>.</li>
+<li>Guiden kommer automatiskt att p&aring;b&ouml;rja summeringen av de filerna till vilka systemet senast haft &aring;tkomst p&aring; den valda volymen. Tiden f&ouml;r ber&auml;kning varierar beroende p&aring; din individuella milj&ouml;.</li>
+</ol>
+<p>_____<br> *SSD-cache &auml;r endast tillg&auml;ngligt f&ouml;r vissa modeller.<br> <span class="disable-alpine">**Det h&auml;r g&auml;ller inte f&ouml;r l&auml;s-skriv-SSD-cachar som skapats p&aring; DSM 5.1 eller tidigare versioner. Det betyder att varje 1 GB av SSD-cache som skapats innan DSM 5.2 fortfarande kr&auml;ver 4 MB systemminne &auml;ven n&auml;r den anv&auml;nds i milj&ouml;n DSM 5.2.</span>
+  </p>
+</body>
+</html>

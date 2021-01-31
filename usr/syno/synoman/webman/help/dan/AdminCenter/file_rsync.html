@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Backuptjenester - Synology DSM - Hjælp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>rsync</h2>
+
+<p>Du kan tillade andre brugere at udføre backup af data via rsync fra en Synology NAS eller rsync-kompatible klienter til din Synology NAS.</p>
+
+<h3>Aktivering af rsync-backuptjeneste</h3>
+
+<h4>Sådan aktiverer du rsync-tjeneste:</h4>
+
+<p>Gå til <strong>Kontrolpanel</strong> > <strong>Filtjenester</strong> > <strong>rsync</strong>, og vælg <strong>Aktiver rsync-tjeneste</strong>.</p>
+
+
+<h4>Sådan tildeler du rsync-backupprivilegier:</h4>
+
+
+<p>Tildel korrekte rsync-privilegier til brugere, så de kan udføre backup af data fra en kilde-Synology NAS eller en rsync-kompatibel server til destinations-Synology NAS'en.</p>
+
+<ol>
+<li>Gå til <b>Kontrolpanel</b> > <b>Privilegier</b>.</li>
+<li>Vælg <strong>rsync (Synkronisering af delt mappe, LUN-backup på understøttede modeller)</strong>, og klik på <strong>Rediger</strong> for at tildele privilegier.</li>
+<li>Tildel <strong>Tillad</strong>-privilegier til de ønskede brugere (DSM-brugere til krypteret rsync eller rsync-konti til ikke-krypteret rsync), eller yderligere angiv de tilladte IP-adresser til bestemte brugere.</li>
+</ol>
+
+
+
+<div class="section">
+<h4>Bemærk:</h4>
+<p>Udfør rsync-backup fra en Synology NAS, der kører en version af DSM før 3.0 eller en klient, der ikke er Synology NAS, og du vil bevare kildedatas oplysninger om <b>ejer</b> og <b>gruppe</b>, skal du tilføje rsync-konti til gruppen <b>administrators</b> og udføre backup på data til den delte mappe <b>NetBackup</b> i daemon-tilstand.</p>
+</div>
+
+<h3>Aktivering af rsync-konti</h3>
+<p>Hvis du udfører rsync-backup fra en ikke-Synology NAS-klient, skal du oprette rsync-konti på destinations-Synology NAS'en, så rsync-brugere kan udføre backup på data til din Synology NAS.</p>
+
+<h4>Sådan aktiverer du rsync-konti:</h4>
+<ol>
+<li>Gå til <b>Kontrolpanel</b> > <b>Filtjenester</b> > <strong>rsync</strong>, og vælg <b>Aktiver rsync-konto</b>.</li>
+<li>Klik på <b>Rediger rsync-konto</b> for at angive brugere og tilhørende adgangskoder til godkendelse.</li>
+<li>Klik på <b>Anvend</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Hvis rsync-tjenesten er krypteret (dvs. har en bestemt SSH-krypteringsport), vil systemet direkte bruge DSM-brugeres brugernavne og adgangskoder som deres rsync-konti.</li>
+<li>Hvis rsync-tjenesten ikke er krypteret, skal du oprette tilhørende rsync-konti til dem.</li>
+</ul>
+</div>
+
+
+<h3>Brug af tilpasset rsync-konfiguration</h3>
+
+<p>Du kan bruge tilpasset rsync-konfiguration og konfigurere brugerprivilegier og backupdestination på din Synology NAS. Andre personer kan derfor udføre rsync-backup fra deres Synology NAS eller rsync-kompatible klienter til de delte destinationsmapper (eller "backupmoduler") på din Synology NAS.</p>
+
+<h4>Sådan bruger du tilpasset rsync-konfiguration:</h4>
+
+<ol>
+<li>Log ind på din Synology NAS-enhed via Telnet eller SSH.</li>
+<li>Angiv backupmodulet og autoriserede brugere i rsync-konfigurationsfilen "<b><code>/etc/rsyncd.conf</code></b>". Detaljerede oplysninger findes på vejledningens side med <b>rsyncd.conf</b> på din rsync-klient eller <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">her</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<p>Hvis backupmodulet og den delte mappe deler samme navnbliver indstillingen for backupmodulet brugt.</p>
+</div>
+
+
+<h3>Aktivering af hastighedsgrænse</h3>
+<p>Du kan kontrollere den maksimalt brugbare båndbredde for rsync-backup til brugere og grupper.</p>
+
+<h4>Sådan aktiverer du hastighedsgrænse:</h4>
+<ol>
+  <li>Gå til <b>Kontrolpanel</b> > <b>Filtjenester</b> > <strong>rsync</strong>. Vælg en af følgende:
+  <ul>
+  <li><strong>Ingen hastighedsgrænse</strong></li>
+  <li><strong>Aktiver hastighedsgrænse</strong></li>
+  <li><strong>Aktiver hastighedsgrænse ifølge en plan</strong> (klik på <strong>Angiv plan</strong> ved yderligere ændring).</li>
+  </ul>
+  
+<div class="section">
+<h4>Bemærk:</h4>
+<p>Dette er en indstillinger, der gælder for hele serveren, og den vil overskrive indstillinger for individuelle brugere og grupper. Valg af <strong>Ingen hastighedsgrænse</strong> deaktiverer f.eks. indstillingerne for hastighedsgrænse for alle brugere og grupper.</p>
+</div>
+  </li>
+
+  <li>Hvis du har aktiveret hastighedsgrænse, skal du klikke på <strong>Indstillinger for hastighedsgrænse</strong> og klikke på den ønskede bruger/gruppe for at ændre indstillingerne:
+    <ul>
+       <li><strong>Ingen:</strong> Ingen hastighedsgrænse anvendes, når gruppemedlemmer overfører filer med tjenesten.</li>
+      <li><strong>Anvend gruppeindstillinger</strong>: Brugeren vil dele de samme indstillinger for hastighed med den tilknyttede gruppe.</li>
+      <li><strong>Konstant</strong>: En fast, konstant hastighedsgrænse bliver anvendt til brugere eller gruppemedlemmerne. Upload- og downloadhastighedsgrænser kan angives i felterne til venstre.</li>
+      <li><strong>Tilpasset</strong>: To forskellige hastighedsgrænser kan angives og anvendes til brugeren eller gruppemedlemmerne ifølge en plan. Klik på <strong>Tilpas</strong> for at ændre indstillingerne for hastighedsgrænse og angive en plan.</li>
+    </ul>
+  </li>
+ <li>Klik på <b>Anvend</b>.</li> 
+
+</ol>
+<div class="section">
+  <h4>Bemærk:</h4>
+    <p>Afsnittet <strong>Resultat (UL/DL)</strong> viser brugerens faktiske upload/downloadhastighedsgrænse ifølge hans individuelle og gruppeindstillinger. Hvis f.eks. brugeren "Achilles" har en individuel downloadgrænse på 100 KB/sek., men hører til en brugergruppe med en downloadgrænse på 500 KB/sek., vil afsnittet <strong>Resultat (UL/DL)</strong> vise "0/500."</p>
+</div>
+
+</body>
+</html>

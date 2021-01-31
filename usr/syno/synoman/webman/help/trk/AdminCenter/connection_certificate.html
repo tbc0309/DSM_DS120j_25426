@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="certificate"></a>Sertifika</h2>
+
+<p>Synology NAS ürününün, web (tüm HTTPS hizmetleri), posta ya da FTP gibi SSL hizmetlerini güvenli kılmak için bir sertifika kullanılabilir. Bir sertifikaya sahip olmak, kullanıcının, herhangi bir gizli bilgi göndermeden önce bir sunucunun ve yöneticinin kimliğini doğrulamasına olanak tanır.</p>
+
+<p><strong>Denetim Masası</strong> > <strong>Güvenlik</strong> > <strong>Sertifika</strong> öğesinde, şunları yapabilirsiniz:</p>
+
+<ul>
+<li>Let's Encrypt'den sertifikaları alın.</li>
+<li>Kendinden imzalı sertifikalar oluştur.</li>
+<li>Diğer sertifika otoritelerine (CA) sertifika imzalama talepleri oluştur.</li>
+<li>Diğer başvuru sahiplerinden gelen sertifika imzalama taleplerini imzala</li>
+<li>Synology NAS sunucunuzda sertifikaları yönetin.</li>
+</ul>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>DSM 6.0'dan, Synology NAS sunucunuza birden çok sertifikayı oluşturup aktarabilirsiniz.</li>
+<li><strong>Set as default certificate</strong> öğesine tıklarsanız, işlenen sertifika varsayılan sertifika olarak kullanılacaktır. Orijinal varsayılan sertifika varsayılan durumunu kaybedecektir.</li>
+</ul>
+</div>
+
+
+<h3>Let's Encrypt'den Sertifikalar</h3>
+
+<h4>Let's Encrypt'den sertifikaları almak için:</h4>
+<p>Ücretsiz ve güvenli SSL/TLS sertifikalarını otomatik olarak açık ve güvenilir sertifika otoritesi olan <a href="https://letsencrypt.org/" target="_blank">Let's Encrypt</a>'den alabilirsiniz.</p>
+
+<ol>
+<li><strong>Ekle</strong>'ye tıklayın.</li>
+<li><strong>Yeni bir sertifika ekle</strong>'yi seçin ve <strong>İleri</strong>'ye tıklayın.</li>
+<li><strong>Let's Encrypt'den bir sertifika edin</strong> seçimi yapın.</li>
+<li>Aşağıdaki bilgileri girin:
+<ul>
+<li><strong>Etki alanı adı</strong>: Etki alanı sağlayıcısından kaydolduğunuz etki alanını girin.</li>
+<li><strong>E-posta</strong>: Sertifika kaydı için kullanılan e-posta adresini girin.</li>
+<li><strong>Konu Alternatif Adı</strong>: Bir sertifikanın birden çok etki alanını kapsamasını sağlamak için, diğer etki alanı adlarını buraya girin.</li>
+</ul>
+</li>
+<li>Ayarları kaydetmek için <strong>Uygula</strong>'ya tıklayın. Teyit edildiğinde, sertifika anında Synology NAS sunucunuza aktarılır.</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Let's Encrypt'den alınan sertifikalara sadece sınırlı sayıda e-posta hesabı ile kaydolabilirsiniz. Limit aşılırsa, daha fazla sertifika almak için daha önce kaydedilen bir e-posta hesabı kullanın.</li>
+<li>Let's Encrypt'den etki alanı başına sadece sınırlı sayıda sertifika için kaydolabilirsiniz. Limit aşılırsa, mevcut etki alanı adını Konu Alternatif Adı (SAN) olarak girin ve sertifika talebi için başka bir etki alanı adı kullanın.</li>
+<li>Let's Encrypt etki alanlarınız için sertifika yayınlamadan önce etki alanı doğrulaması yapar. Synology NAS sunucunuzun ve yönlendiricinizin 80 numaralı bağlantı noktasının internetten etki alanı doğrulaması için açık olduğundan lütfen emin olun. Let's Encrypt ile tüm diğer iletişimleriniz HTTPS üzerinden gider ve Synology NAS sunucunuzu güvenli tutar.</li>
+<li>Let's Encrypt tarafından sunulan sertifikalar 90 gün boyunca geçerlidir. Sertifikaların süresi dolmadan önce, başarılı etki alanı doğrulaması sonrasında DSM otomatik olarak böyle sertifikaları yeniler. Synology NAS sunucunuzun ve yönlendiricinizin 80 numaralı bağlantı noktasının sertifika yenilemesi için açık olduğundan lütfen emin olun.</li>
+</ul>
+</div>
+
+<h3>Kendinden İmzalı Sertifikalar</h3>
+
+<p>Kendinden imzalı sertifikalar, kimliğini onayladığı aynı kişi/kuruluş tarafından oluşturulup imzalanmış bir sertifikaya karşılık gelir (bu durumda Synology NAS). Kendinden imzalı sertifikalar, Synology NAS tarafından üretilen özel anahtarla imzalanır. Kendinden imzalı sertifikalar üçüncü taraf sertifika yetkilileri tarafından yayınlanmadığından, sunucunun kimliği konusunda daha düşük kanıt sağlar ve genellikle yalnızca sunucu ve bir bilinen kullanıcılar grubu arasındaki kanalları güvenli kılmak için kullanılırlar.</p>
+
+
+<h4>Kendinden imzalı sertifikalar oluşturulması:</h4>
+<ol>
+	<li><strong>Ekle</strong>'ye tıklayın.</li>
+<li><strong>Yeni bir sertifika ekle</strong>'yi seçin ve <strong>İleri</strong>'ye tıklayın.</li>
+<li><strong>Kendinden imzalı sertifika oluştur</strong> öğesini seçin.</li>
+	<li>Kurulumu sihirbazının adımlarını izleyin.</li>
+</ol>
+
+
+<h3>Sertifika İmzalama İstekleri (CSR)</h3>
+
+<p>Let's Encrypt'den verilen sertifikalar ve kendinden imzalı sertifikalara ilave olarak, diğer ticari veya üçüncü parti sertifika otoritelerinden alınan sertifikalara da başvurabilirsiniz. Bir sertifika almak için, aşağıdaki iki şeyi yapmanız gerekebilir:</p>
+
+<ul>
+<li>Bir sertifika imzalama isteği (CSR) oluşturun: Sertifikanıza dahil edilecek, etki alanı adınız, kuruluş adınız, genel konumunuz ve e-posta adresiniz gibi bilgileri içeren, Synology NAS tarafından oluşturulmuş şifreli bir metin gövdesidir.</li>
+<li>Sertifika otoritesine kişisel veya kuruluşa ait kimlik bilgilerinizi verin ve sertifika imzalama isteğinin ortak isim alanına girilmiş olan etki alanı adının sahibi olduğunuzu kanıtlayın.</li>
+</ul>
+
+
+<h4>Sertifika imzalama isteklerinin oluşturulması:</h4>
+
+<ol>
+	<li><strong>CSR</strong>'ye tıklayın.</li>
+    <li><strong>Sertifika imzalama isteği (CSR) oluştur</strong> öğesini seçin.</li>
+	<li>Sertifika imzalama isteği oluşturmak ve indirmek için kurulum sihirbazının talimatlarını izleyin.</li>
+    <li>CSR ve gerekli bilgileri onay için sertifika otoritesine gönderin.</li>
+</ol>
+
+<p>Sertifika otoritesi tarafından verilen talep edilmiş sertifikayı aldığınızda, özel anahtarınızla birlikte içeri aktarabilirsiniz.</p>
+
+<div class="section">
+<h4>Not:</h4>
+<p>Sertifika imzalama isteğiyle birlikte bir özel anahtar da oluşturulmalıdır. Sertifika yetkililerinin bu özel anahtara gereksinimi yoktur. Lütfen Synology NAS ürününüze yönelik özel anahtarınızı güvende ve gizli tutun.</p>
+</div>
+
+<h4>Sertifika imzalama isteklerinin imzalanması:</h4>
+
+<p>Diğer cihazların kullanıcıları Synology NAS sunucunuza onaylı erişim elde etmek için sertifika imzalama istekleri gönderebilirler. Synology NAS sunucunuzun kök sertifikasını kullanarak isteklerini imzalayabilir ve oluşturulan sertifikaları başvuru sahiplerine gönderebilirsiniz.</p>
+
+<ol>
+	<li><b>CSR</b>'a tıklayın.</li>
+	<li><b>Bir sertifika imzalama isteğini (CSR) imzala</b>'ya tıklayın.</li>
+	<li>Sertifika imzalama isteğini yükleyip gerekli bilgileri girin. </li>
+	<li><b>İleri</b>'ye tıklayın, sistem sertifika isteğini imzalayacak ve uygun bir sertifika oluşturacaktır.</li>
+</ol>
+
+
+
+<h3>Sertifika Yönetimi</h3>
+
+
+<h4>Sertifikaları içeri aktarmak için:</h4>
+<p>Synology NAS sunucunuza diğer cihazlar tarafından güvenilmesini sağlamak için bir özel anahtar ile birlikte önceden dışarı aktarılmış bir sertifikayı ya da ticari veya üçüncü parti sertifika otoritesinden bir sertifikayı içeri aktarabilirsiniz.</p>
+
+<ol>
+<li><strong>Ekle</strong>'ye tıklayın.</li>
+<li><strong>Yeni bir sertifika ekle</strong>'yi seçin ve <strong>Sertifikayı içeri aktar</strong>'a tıklayın.</li>
+<li>Sertifika içeri alımını bitirmek için sihirbazın talimatlarına uyun.</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Ara sertifikalar, bazı sertifika yetkilisince yayınlanmış sertifikalar için isteğe bağlıdır.</li>
+<li>Sertifikaların X.509 PEM formatında olması gerekir.</li>
+<li>Özel anahtarlar RSA formatında olmalıdır ve parola korumalı olamazlar.</li>
+</ul>
+</div>
+
+
+<h4>Sertifikaları dışarı aktarmak için:</h4>
+
+<p>Mevcut sertifikalar yönetim veya arşivleme amacıyla indirilebilir ve ayrıca Synology NAS sunucunuz ve cihazları arasında güveni tesis etmek için diğer kullanıcıların cihazlarına da aktarılabilirler. Dışa aktarılan dosya, sertifikayı, özel anahtarı ve Synology NAS ürününün kendinden imzalı kök sertifikasını içerir. </p>
+
+<ol>
+<li>İstediğiniz sertifikayı seçin.</li>
+<li><strong>Sertifikayı dışa aktar</strong>'a tıklayın.</li>
+</ol>
+
+<h4>Sertifikaları yenilemek için:</h4>
+
+<p>Süresi bitmek üzere olan sertifikanız bu seçenek kullanılarak yenilenebilir.</p>
+
+<ol>
+	<li><b>CSR</b>'ye tıklayın.</li>
+	<li><b>Sertifikayı yenile</b>'yi seçip <b>İleri</b>'ye tıklayın.</li>
+	<li>Oluşturulan özel anahtarı ve sertifika imzalama isteğini indirin.</li>
+    <li>CSR'yi istenilen sertifika otoritesine yenilenen bir sertifika için gönderin.</li>
+</ol>
+
+
+<h4>Sertifikaları değiştirmek için:</h4>
+<p>Mevcut sertifikaları kullanmak istemiyorsanız, alternatif sertifikalarla değiştirebilirsiniz.</p>
+
+<ol>
+<li><strong>Ekle</strong>'ye tıklayın.</li>
+<li><strong>Mevcut bir sertifikayı değiştir</strong> öğesini ve istenmeyen sertifikayı açılır menüden seçin.</li>
+<li>Sertifika değişimini bitirmek için sihirbazın talimatlarına uyun.</li>
+</ol>
+
+
+<h4>Sertifikaları düzenlemek için:</h4>
+<p>Sertifika açıklamasını düzenleyebilir veya varsayılan sertifika olarak başka bir sertifikayı belirleyebilirsiniz.</p>
+
+<ol>
+<li>İstediğiniz sertifikayı seçin.</li>
+<li><strong>Düzenle</strong>'ye tıkladığınızda aşağıdaki eylemlerden bir tanesini yapabilirsiniz:
+
+<ul>
+<li>Sertifika açıklamasını değiştirin ve <strong>Tamam</strong>'a tıklayın.</li>
+<li>Varsayılan durumla atamak için <strong>Varsayılan sertifika olarak belirle</strong> öğesini seçin ve <strong>Uygula</strong>'ya tıklayın.</li>
+</ul>
+</ol>
+
+
+
+<h4>Sertifikaları yapılandırmak için:</h4>
+<p>Bir hizmet için olan bir sertifikayı ihtiyaçlarınıza uyması için başka bir sertifikaya değiştirebilirsiniz.</p>
+
+<ol>
+<li>Tüm hizmetleri ve ilgili sertifikaları göstermek için <strong>Yapılandır</strong>'a tıklayın.</li>
+<li>Hedeflenen hizmetin mevcut sertifikasına tıklayın.</li>
+<li>Açılır menüden uygun sertifikayı seçin.</li>
+<li><strong>Tamam</strong>'a tıklayın.</li>
+</ol>
+
+<h4>Sertifikaları silmek için:</h4>
+
+<ol>
+<li>İstenmedik sertifikayı seçin.</li>
+<li>Sertifika silmeyi tamamlamak için <strong>Sil</strong>'e tıklayın.</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Varsayılan sertifika silinemez.</li>
+<li>Varsayılan olmayan bir sertifikayı silerseniz, varsayılan sertifika ilgili hizmetlerinin yerini alır. Varsayılan sertifikanın bu hizmetlerle tam olarak uyumlu olmayabileceğine dikkat edin.</li>
+</ul>
+
+<p></p>
+</div>
+
+</body>
+</html>
+

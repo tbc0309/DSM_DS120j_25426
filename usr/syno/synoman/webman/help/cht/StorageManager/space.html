@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>儲存空間</h2>
+<p>儲存空間 (Volume) 是基本的存儲空間，您可以在其上建立共用資料夾或 iSCSI LUN (一般檔案)，儲存資料，或是安裝套件。建立任何儲存空間之前，請確認您是否已經建立好一個 RAID Group。如需更多關於 RAID Group 的詳細資訊，請參閱 <a href="raid.html">RAID Group</a>。</p>
+
+<h4>若要新增儲存空間：</h4>
+<ol>
+	<li>確認 Synology NAS 上已建立 RAID Group，且其上必須有可分配的剩餘空間。</li>
+	<li>按一下<strong>新增</strong>按鈕。</li>
+	<li>選擇要在哪個 RAID Group 上建立儲存空間。</li>
+	<li>依需求修改設定。</li>
+	<li>決定要分配的空間大小。(當儲存空間建立在單一儲存空間或 iSCSI LUN 的 RAID Group 上時，無法設定配置空間大小。)</li>
+	<li>按一下<strong>套用</strong>按鈕來確認設定。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>可分配的儲存空間大小上限為 200 TB。</li>
+	<li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Btrfs 儲存空間容量至少須設為 10 GB 以上。</li>
+    <li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Btrfs 儲存空間會保留 4% 的空間供 metadata 使用。</li>
+</ul>
+</div>
+
+<h4>若要移除儲存空間：</h4>
+<ol>
+	<li>選擇您要移除的儲存空間。</li>
+	<li>按一下<strong>移除</strong>按鈕並跟隨精靈的指示來完成流程。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>儲存空間移除後，上面的資料會一併被刪除。</li>
+</ul>
+</div>
+
+<h4>若要強制掛載儲存空間：</h4>
+<p>若儲存空間上的快取遺失，系統開機時將不會掛載此儲存空間。若快取無法復原，而您又希望存取此儲存空間，您可以按一下<strong>強制掛載</strong>。</p>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>此功能僅適用於特定機種。</li>
+</ul>
+</div>
+
+<h4>若要修復儲存空間：</h4>
+<p>當儲存空間處於<strong>降級</strong>模式，請前往 <strong>RAID Group</strong> 頁籤，並找到正確的 RAID Group。接著請跟隨指示進行修復。</p>
+
+<h4>若要擴充儲存空間</h4>
+<ul>
+	<li>對於多個儲存空間或 iSCSI LUN (段落分塊) 的 RAID Group 上建立的儲存空間。<ol>
+			<li>選擇您要擴充的儲存空間。</li>
+			<li>按一下<strong>編輯</strong>。</li>
+			<li>輸入新的空間大小，然後按一下<strong>確定</strong>來進行擴充。</li>
+		</ol>
+	</li>
+	<li>對於單一儲存空間或 iSCSI LUN (段落分塊) 的 RAID Group 上建立的儲存空間，請參考 <a href="raid.html">RAID Group</a> 的<strong>若要擴充 RAID Group 大小段落</strong>，在您完成擴充 RAID Group 之後，系統會自動擴充儲存空間。</li>
+</ul>
+
+<div class="section">
+<h4>注意：</h4>
+<p>如果您在儲存空間建立 <strong>Snapshot Replication</strong>的複寫任務，在儲存空間建立後，您可以在<strong>編輯</strong>視窗中調整<strong>記錄檔案存取時間頻率</strong>的設定值，以增進複寫任務的效能：</p>
+<ul>
+	<li><strong>每天</strong>：如同大部份的作業系統，檔案存取時間除了檔案被修改時，最多每天僅會更新一次。部份應用程式的功能對檔案存取時間的精準度需求較高。雖然此選項會影響複寫任務的效能，但若您經常使用以下功能或應用程式，仍建議您選擇<strong>每天</strong>：
+	<ul>
+		<li><strong>Storage Analyzer</strong>的<strong>最久未存取的檔案</strong></li>
+		<li><strong>儲存空間管理員</strong>的<strong>SSD 快取建議</strong></li>
+		<li>任何需依賴<strong>記錄檔案存取時間</strong>來運作的第三方應用程式。</li>
+	</ul>
+	</li>
+	<li><strong>每月</strong>：<strong>檔案存取時間</strong>除了檔案被修改時，最多每月僅會更新一次。選擇此選項可稍微增進複寫任務的效能，且依賴<strong>記錄檔案存取時間</strong>的應用程式仍能運作，但其精準度會降低。
+	</li>
+	<li><strong>從不</strong>：若您平常不會使用依賴<strong>記錄檔案存取時間</strong>的應用程式，建議您選擇此選項以獲得最快的複寫任務效能。
+	</li>
+</ul>
+</div>
+
+<h3>SSD TRIM</h3>
+<p>如果您的儲存空間完全由 SSD (Solid State Drives，固態硬碟) 組成，建議您啟動 SSD TRIM 功能。此功能可提升建立於 SSD 的儲存空間之讀寫效能，不僅提高效率，同時亦能延長 SSD 壽命。</p>
+
+<h4>若要啟動 SSD TRIM：</h4>
+<ol>
+	<li>開啟<strong>儲存空間管理員</strong>並前往<strong>儲存空間</strong>。</li>
+	<li>選擇完全由 SSD 組成的儲存空間，然後按一下<strong>設定</strong>按鈕。</li>
+	<li>在顯示的視窗中，前往 <strong>SSD TRIM</strong> 頁籤，並勾選<strong>啟動 TRIM</strong>。</li>
+	<li>按一下<strong>設定排程</strong>按鈕來選擇系統應於何時執行 SSD TRIM。</li>
+	<li>按一下<strong>確定</strong>。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>僅特定 Synology NAS 型號及 RAID 類型提供 SSD TRIM 功能。</li>
+	<li>部分 SSD 型號無法在 RAID 5<span class="enable-grantley">、</span><span class="disable-grantley"> 及 </span>RAID 6 <span class="enable-grantley">及 RAID F1 </span>儲存空間上執行 SSD TRIM。請參閱<a href="https://www.synology.com/" target="_blank">官方網站</a>上的相容清單。</li>
+	<li>在下列情況下無法啟動 SSD TRIM：<ul>
+			<li>儲存空間已掛載 SSD 快取。</li>
+			<li>已安裝 <strong>Time Backup</strong> 套件。</li>
+		</ul>
+	</li>
+	<li>段落分塊 iSCSI LUN 無法啟動 SSD TRIM。</li>
+	<li>執行 SSD TRIM 時，可能會影響系統效能。完成 TRIM 的所需時間依您的儲存空間大小及 SSD 型號而異。</li>
+	<li>當您在一個儲存空間上啟動 TRIM 後，相同的磁碟群組或 RAID Group 中的其它儲存空間皆會啟動此功能。</li>
+</ul>
+</div>
+
+
+<h3>檔案系統 Scrubbing*</h3>
+<p>檔案系統 scrubbing 的功能為資料維護，用於檢測儲存空間。若偵測到任何與總和檢查碼不一致的資料，系統會將檔案路徑記錄於日誌中心，且建議您使用備份來修復資料。</p>
+
+<p>建議您定期執行檔案系統 scrubbing 以確保資料的一致性。</p>
+
+<h4>若要執行檔案系統 scrubbing：</h4>
+<ol>
+	<li>開啟<strong>儲存空間管理員</strong>並前往<strong>儲存空間</strong>。</li>
+	<li>選擇要執行檔案系統 scrubbing 的儲存空間。</li>
+	<li>按一下<strong>管理</strong>。</li>
+	<li>選擇<strong>檔案系統 scrubbing</strong>。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>檔案系統 scrubbing 僅能在 <strong>Btrfs</strong> 檔案系統的儲存空間上執行。</li>
+	<li>檔案系統 scrubbing 僅能在儲存空間狀態為<strong>正常</strong>的情況下執行。</li>
+	<li>請勿在檔案系統 scrubbing 程序結束之前關閉系統。系統如果關機，檔案系統 scrubbing 就必須重新再執行一次。</li>
+</ul>
+</div>
+
+<h3>檔案系統重組*</h3>
+<p>若您經常修改檔案，檔案系統中破碎檔案的數量會增加，導致存取硬碟檔案的效能變慢。您可以執行檔案系統重組來提升效能。</p>
+
+<h4>若要執行檔案系統重組：</h4>
+<ol>
+	<li>開啟<strong>儲存空間管理員</strong>並前往<strong>儲存空間</strong>。</li>
+	<li>請選擇要執行檔案系統重組的儲存空間。</li>
+	<li>按一下<strong>管理</strong>。</li>
+	<li>選擇<strong>檔案系統重組</strong>。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>檔案系統重組僅能在 <strong>Btrfs</strong> 檔案系統的儲存空間上執行。</li>
+	<li>檔案系統重組僅能在儲存空間狀態為<strong>正常</strong>的情況下執行。</li>
+	<li>請勿在檔案系統重組程序結束之前關閉系統。系統如果關機，檔案系統重組就必須重新再執行一次。</li>
+	<li>若儲存空間上有共用資料的快照，儲存空間使用量可能會增加。</li>
+</ul>
+</div>
+
+<p>____<br /> * 僅適用於特定機型。</p>
+
+</body>
+</html>

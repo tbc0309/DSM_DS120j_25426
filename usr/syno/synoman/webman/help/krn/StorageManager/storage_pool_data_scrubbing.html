@@ -1,0 +1,133 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+<title>데이터 스크러빙</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Data scrubbing is a data maintenance feature that inspects volumes or disk groups and repairs any detected data inconsistencies.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>데이터 스크러빙</h2>
+
+<h3>데이터 스크러빙 수행</h3>
+<p>데이터 스크러빙은 스토리지 풀을 검사하는 데이터 유지 관리 기능입니다. 다음과 같은 두 가지 유형의 데이터 스크러빙이 순차적으로 수행됩니다.</p>
+
+<ul>
+<li><strong>파일 시스템 삭제</strong>: 이 기능은 Btrfs 파일 시스템의 볼륨을 확인합니다. 체크섬과 일치하지 않는 데이터가 감지되면 시스템은 백업을 사용하여 데이터 복구를 시도하고 파일 경로는 로그 센터에 기록됩니다.</li>
+<li><strong>RAID 삭제</strong>: 이 기능은 SHR(드라이브 세 개 이상으로 구성), RAID 5 또는 RAID 6를 구현하는 스토리지 풀과 함께 사용될 수 있습니다. 감지된 데이터 불일치를 복구할 수 있습니다.</li>
+</ul>
+
+<p>데이터 일관성을 유지하고 드라이브 오류 발생 시 데이터 손실을 방지하기 위해 정기적으로 데이터 스크러빙을 수행하는 것이 좋습니다.</p>
+
+<div class="section">
+<h4>참고:</h4>
+	<ul>
+	<li>특정 모델에서만 이 문서에서 설명된 데이터 스크러빙 관련 기능을 사용할 수 있습니다.</li>
+	<li>스토리지 풀 상태가 <strong>충돌함</strong> 또는 <b>저하됨</b>인 경우에는 데이터 스크러빙을 수행할 수 없습니다.</li>
+	<li>공유 폴더에 대해 <b>고급 데이터 무결성을 위한 데이터 체크섬</b>을 비활성화한 경우, 파일 시스템 삭제는 체크섬이 부족한 폴더의 데이터를 확인 및 복구할 수 없습니다.</li>
+	</ul>
+</div>
+
+<h3>데이터 스크러빙 스케줄 설정</h3>
+<p>데이터 스크러빙 스케줄을 설정할 수 있습니다. 시스템은 설정에 따라 데이터 스크러빙을 실행합니다.</p>
+<h4>데이터 스크러빙 스케줄 설정하기:</h4>
+<ol>
+<li><strong>저장소 관리자</strong>를 시작합니다.</li>
+<li><strong>스토리지 풀</strong> &gt; <strong>데이터 스크러빙</strong>으로 이동합니다.</li>
+<li><strong>스케줄 설정</strong>을 클릭합니다.</li>
+<li><strong> 데이터 스크러빙 스케줄 활성화</strong>를 선택합니다.</li>
+	<li><strong>빈도</strong>, <strong>시작일</strong> 및 <strong>시간 세션</strong>을 지정합니다.</li>
+<li><strong>대상 선택</strong> 탭으로 이동합니다.<li>데이터 스크러빙을 수행할 스토리지 풀을 선택합니다.</li>
+<li><strong>확인</strong>을 클릭합니다.</li>
+</ol>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>스케줄을 추가하려면 스토리지 풀이 <b>정상</b> 상태이고 데이터 스크러빙을 지원해야 합니다.</li>	
+<li>시스템이 6.1 버전에서 업그레이드되면 기본적으로 데이터 스크러빙을 실행할 수 있는 스토리지 풀이 스케줄에 추가됩니다.</li>
+<li>6.1 버전에서 스케줄을 설정하면 이전 설정에 따라 스케줄이 자동으로 활성화됩니다.</li>	
+</ul></div>
+
+<h4>스토리지 풀을 스케줄에 추가하거나 스케줄에서 제거하기:</h4>
+
+<ol>
+<li><strong>스케줄 설정</strong>을 클릭합니다.</li>
+<li><strong>대상 선택</strong> 탭으로 이동합니다.</li>	
+<li>스토리지 풀 확인란을 선택 또는 선택 취소하여 스토리지 풀을 스케줄에 추가하거나 스케줄에서 제거할 지 여부를 결정합니다.</li>
+<li><strong>확인</strong>을 클릭합니다.</li>
+</ol>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>데이터 스크러빙이 수동으로 이 스토리지 풀에서 실행되는 경우, 스토리지 풀을 스케줄에 추가하거나 스케줄에서 제거할 수 없습니다.</li>
+<li>예약된 데이터 스크러빙을 실행하는 스토리지 풀을 제거하려면 이 스토리지 풀 진행을 취소하면 됩니다.</li>
+</ul></div>
+
+<h4>스케줄 설정 수정하기:</h4>
+
+<ol>
+<li><strong>스케줄 설정</strong>을 클릭합니다.</li>
+<li>필요에 맞게 빈도, 시작일 및 시간 세션을 수정합니다.</li>
+<li><strong>확인</strong>을 클릭합니다.</li>
+</ol>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+  <li><strong>시작일</strong>을 수정하면 스케줄 진행이 초기화되고 새 시작일에 데이터 스크러빙이 다시 시작됩니다.</li>
+</ul>
+</div>	
+
+<h4>스케줄 일시 중지하기:</h4>
+
+<ol>
+<li>데이터 스크러빙 스케줄을 실행하고 있는 스토리지 풀을 선택합니다.</li>
+<li><b>동작</b> 드롭다운 목록에서 <strong>스케줄 일시 정지</strong>를 클릭합니다.</li>
+</ol>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>데이터 스크러빙 스케줄을 다시 시작하려면 <b>동작</b> 드롭다운 메뉴에서 <strong>스케줄 다시 시작</strong>을 클릭해야 합니다. 그렇지 않으면 스케줄이 일시 중지된 상태로 유지됩니다.</li>	
+</ul></div>
+	
+<h3>데이터 스크러빙을 수동으로 실행:</h3>
+
+<p>시스템이 저장소 공간에서 이상을 감지한 경우, 데이터 스크러빙을 수동으로 실행하여 데이터 복구를 시도할 수 있습니다.</p>	
+	
+<h4>수동으로 데이터 스크러빙 실행하기:</h4>
+
+<ol>
+	<li><strong>저장소 관리자</strong>를 엽니다.</li>
+	<li><strong>스토리지 풀</strong> &gt; <strong>데이터 스크러빙</strong>으로 이동합니다.</li>
+	<li>데이터 스크러빙을 수행할 스토리지 풀을 선택합니다.</li>
+	<li><strong>동작</strong> 드롭다운 메뉴에서 <strong>수동 실행</strong>을 클릭합니다.</li>
+</ol>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+
+<li>데이터 스크러빙이 완료되기 전에 시스템이 종료되면 일부 프로세스가 손실되고 데이터 스크러빙을 수동으로 다시 시작해야 합니다.</li>
+<li>데이터 스크러빙을 수동으로 실행한 시간이 예약된 데이터 스크러빙과 겹치는 경우, 수동 데이터 스크러빙 실행이 완료될 때까지 이 스케줄 주기가 완료되지 않습니다.</li>
+<li>데이터 스크러빙을 실행하면 시스템 성능이 영향을 받을 수 있으므로, 필요한 경우를 제외하고 여러 스토리지 풀에서 데이터 스크러빙을 실행하지 않는 것이 좋습니다.</li>	
+</ul></div>	
+
+<h4>데이터 스크러빙을 수동으로 실행하는 스토리지 풀에서 스케줄 일시 정지하기:</h4>	
+<ol>
+<li>일시 정지할 스토리지 풀을 선택합니다.</li>
+<li><b>동작</b> 드롭다운 메뉴에서 <b>일시 정지</b>를 클릭합니다.</li>	
+	</ol>	
+</body>
+</html>

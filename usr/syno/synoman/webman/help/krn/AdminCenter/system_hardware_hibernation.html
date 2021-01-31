@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>전원</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>HDD 최대 절전 모드</h2>
+<p>HDD 최대 절전 모드로 전환하기 전에 하드 디스크가 유휴 상태로 대기할 수 있는 시간을 지정할 수 있습니다. HDD 최대 절전 모드 동안 하드 디스크는 회전을 멈추고, 전력 소비를 줄이고, 하드 디스크의 수명을 연장합니다. 내부 하드 디스크와 외부 eSATA/USB 하드 디스크에 대해 서로 다르게 시간을 지정할 수 있습니다.</p>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>액세스하면 HDD 최대 절전 모드가 중지됩니다.</li>
+<li>특정 외부 USB 저장 장치만 HDD 최대 절전 모드를 지원합니다.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Synology NAS이(가) 최대 절전 모드로 전환되지 않는 이유는 무엇입니까?</h4>
+
+<p>다음 서비스가 Synology NAS을(를) 최대 절전 모드로 전환되지 못하게 한다는 점에 유의하십시오. 또한, 시스템은 예약 작업 2분 전에 최대 절전 모드를 종료합니다.</p>
+
+<p><strong>패키지:</strong></p>
+<ul>
+  <li>Download Station: Download Station이 eMule, RSS 예약 다운로드 또는 활성 작업을 실행 중이면 Synology NAS은(는) 최대 절전 모드로 전환될 수 없습니다.</li>
+  <li>CMS(중앙 집중 관리 시스템): CMS이 다른 NAS 서버를 관리하고 있으면 Synology NAS는 최대 절전 모드로 전환될 수 없습니다.</li>
+  <li>Mail Station: Mail Station이 POP3에서 페치되는 경우 Synology NAS은(는) 최대 절전 모드로 전환될 수 없습니다.</li>
+  <li>Surveillance Station: Surveillance Station이 녹화 중이면 Synology NAS은(는) 최대 절전 모드로 전환될 수 없습니다.</li>
+  <li>미디어 서버: 미디어 서버 설정에서 DMA 로그가 활성화된 경우 Synology NAS은(는) 최대 절전 모드로 전환될 수 없습니다(<strong>주 메뉴</strong> > <strong>미디어 서버</strong> > <strong>미디어 서버</strong> > <strong>진단</strong>으로 이동).</li>
+  <li>LDAP Server</li>
+  <li>Webalizer</li>
+  <li>Logitech<sup>&reg;</sup> Media Server</li>
+  <li>Plex Media Server</li>
+  <li>SABnzbd와 같은 기타 타사 소프트웨어 또는 옵트웨어</li>
+</ul>
+<p><strong>프로세스:</strong></p>
+<ul>
+  <li>썸네일 및 인덱싱: 썸네일을 생성 중이거나 업그레이드 후 멀티미디어 파일을 인덱싱하는 동안에는 Synology NAS은(는) 최대 절전 모드로 전환될 수 없습니다. 이 기간 중에는 "synoindexd" 프로세스가 "실행 중"으로 나열됩니다(<strong>주 메뉴</strong> > <strong>리소스 모니터</strong> > <strong>프로세스</strong>로 이동).</li>
+  <li>Local Master Browser: Local Master Browser가 활성화된 경우 Synology NAS은(는) 최대 절전 모드로 전환될 수 없습니다(<strong>제어판</strong> > <strong>Win/Mac/NFS</strong> > <strong>Windows 파일 서비스</strong> > <strong>Local Master Browser 활성화</strong>로 이동).</li>
+  <li>Windows Media Player: Windows Media Player의 네트워크 공유 서비스가 LAN에서 활성화된 경우 Synology NAS은(는) 최대 절전 모드로 전환될 수 없습니다.</li>
+  <li>다수의 동시 프로세스가 스왑을 요청하는 경우 RAM 성능이 초과되고 HDD가 일시적으로 읽기/쓰기 작업에 사용되므로, Synology NAS은(는) 최대 절전 모드로 전환될 수 없습니다..</li>
+</ul>
+<p><strong>기타</strong></p>
+<ul>
+  <li>USB 장치: USB 장치가 장치에 연결되어 있으면 Synology NAS은(는) 시스템 최대 절전 모드로 전환될 수 없습니다. </li>
+</ul>
+
+</div>
+
+<h2>완전 절전</h2>
+<p>연결된 Synology NAS 인터페이스를 통해 확장 유닛의 완전 절전을 활성화할 수 있습니다. 확장 유닛과 연결된 Synology NAS이(가) 서로 다른 시간 동안 유휴 상태가 되도록 구성할 수 있습니다. 따라서 연결된 Synology NAS이(가) 온라인 상태인 동안에 확장 유닛이 완전 절전으로 전환되도록 설정할 수 있습니다.</p>
+<p>완전 절전 모드 중에는 다음이 실행됩니다.</p>
+<ul>
+  <li>확장 유닛의 모든 LED가 꺼집니다.</li>
+<li>확장 유닛의 하드 디스크 전원이 꺼집니다.</li>
+<li>확장 유닛의 팬이 중지됩니다.</li>
+</ul>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>액세스하면 완전 절전이 종료됩니다.</li>
+<li>확장 유닛에서 완전 절전 기능 사용 시 정상적인 작동을 위해 후면 패널에 있는 <b>자동/수동</b> 스위치를 <b>자동</b>으로 미십시오.</li>
+</ul>
+</div>
+
+<h2>자동 전원 끄기</h2>
+<p>Synology NAS의 전원이 자동으로 꺼지기 전에 내부 디스크가 최대 절전 모드 상태에 있는 시간을 지정할 수 있습니다.</p>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>먼저 내부 HDD 최대 절전 모드를 활성화해야 합니다.</li>
+<li>Synology NAS 전원을 원격으로 켤 수 있도록 먼저 WOL 서비스를 활성화해야 합니다.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>EDS14는 외장 eSATA 하드 디스크, 완전 절전 모드 또는 자동 전원 끄기를 지원하지 않습니다.</li>
+</ul>
+</div>
+
+</body>
+</html>
+

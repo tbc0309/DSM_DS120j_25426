@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Áttekintés</h2>
+	<p>Ez az oldal alapvető információkat jelenít meg a high-availability klaszterről és annak tagkiszolgálóiról. Az oldal ezen kívül eszközöket biztosít a high-availability klaszterek és tagkiszolgálóik karbantartására.</p>
+
+<h3>High-Availability klaszter állapota</h3>
+  <p>Ez a mező a high-availability klaszter általános állapotát jeleníti meg, valamint figyelmeztet a hibákra. Az alábbi táblázat az ebben a mezőben megjelenő állapotokat foglalja össze:</p>
+    <table>
+     <tr>
+      <th width="12%">Állapot</th>
+      <th width="88%">Leírás</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Hibátlan</strong></td>
+      <td>A high-availability klaszter általános állapota jó.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Betöltés</strong></td>
+	  <td>A klaszterállapot épp betöltés alatt van. Az <strong>Átkapcsolás</strong> nem hajtható végre az állapot betöltésének befejezéséig. Tekintse át az <a href="switchover_fail.html">Átkapcsolás</a> szakaszt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Konfigurálás alatt</strong></td>
+	  <td>A rendszer konfigurálás alatt áll. Az <b>Átkapcsolás</b> a konfigurálási műveletek befejezéséig nem hajtható végre.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Figyelmeztetés</strong></td>
+      <td>A HA klaszter állapota rendellenes, de a szolgáltatások még működnek. Ebben az esetben nem hajtható végre <strong>Átkapcsolás</strong> művelet.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Veszély</strong></td>
+	  <td>Az aktív és passzív kiszolgálók is meghibásodtak, illetve a tároló összeomlott. A high-availability klaszter nem képes megfelelő működésre. Ellenőrizze valamennyi tárhely (pl. RAID Group, lemezcsoport, kötet, és iSCSI LUN) állapotát. Ebben az esetben nem hajthat végre <b>Átkapcsolás</b> műveletet.</td>
+     </tr>
+    </table>
+<h3>Figyelmeztető üzenetek</h3>
+   <p>A következő táblázatban a rendszer által hiba esetén megjelenített figyelmeztető üzeneteket tekintheti át. Ha egynél több figyelmeztető üzenet jelenik meg, akkor az előre/hátra gombokkal navigálhat köztük. </p>
+    <table>
+     <tr>
+      <th width="21%">Figyelmeztetés/hiba</th>
+      <th width="79%">Leírás</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ebben a high-availability klaszterben nincs passzív kiszolgáló</strong></td>
+	  <td>Nem érhető el a passzív kiszolgálóra vonatkozó információ. Győződjön meg róla, hogy a passzív kiszolgáló megfelelően van-e csatlakoztatva. Ebben az esetben nem végezhet átkapcsolást.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Passzív kiszolgáló nem érzékelhető</strong></td>
+      <td>Ez a hiba akkor fordul elő, ha a passzív kiszolgáló kapcsolat nélküli állapotban van, illetve az aktív és passzív kiszolgáló nem tud kommunikálni a Heartbeat-kapcsolaton keresztül. Ebben az esetben nem végezhet átkapcsolást.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Nem sikerült végrehajtani a feladatátvételt</strong></td>
+      <td>Az aktív kiszolgálón feladatátvétel indult el, ám végrehajtása sikertelen volt. Ebben az esetben az aktív kiszolgáló nem próbál meg újabb feladatátvitelt indítani. A hiba megszüntetéséhez kövesse az alábbi lépéseket:<ol>
+		  <li>Próbálja meg megoldani a problémákat a high-availability klaszterben.</li>
+		  <li>Indítsa újra a passzív kiszolgálót.</li>
+		  <li>Végezzen átkapcsolást a <strong>Kezelés</strong> > <strong>Átkapcsolás</strong> parancs segítéségével.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ellenőrzött cél hibája</strong></td>
+      <td>A rendszer egy vagy több megfigyelt célhelyen (rendszerállapot, a szolgáltatás és hálózati interfész) hibát észlelt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Egy vagy több hiba lépett fel a bővítőegységek és az aktív/passzív kiszolgáló közötti kapcsolatban</strong></td>
+      <td>A bővítőegységek és az aktív/passzív kiszolgáló közötti kapcsolat nem megfelelő. Győződjön meg róla, hogy megfelelő-e a bővítőegységek és az aktív kiszolgáló közötti kapcsolat, majd állítsa be ugyanezt a kapcsolatot a passzív kiszolgáló esetében is. Ebben az esetben nem végezhet átkapcsolást.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Egy kötet csökkent állapotban működik</strong></td>
+      <td>Egy tárhely (pl. RAID Group, lemezcsoport, kötet, iSCSI LUN vagy SSD-gyorsítótár) csökkent állapotban működik. Ellenőrizze a <b>Tárolási állapot</b> oldalt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Egy kötet összeomlott</strong></td>
+      <td>Egy tárhely (pl. RAID Group, lemezcsoport, kötet, iSCSI LUN vagy SSD-gyorsítótár) összeomlott. Ellenőrizze a <b>Tárolási állapot</b> oldalt. Automatikusan megtörténik a feladatátvétel, amennyiben a passzív kiszolgálónak sikerül felismerni a meghajtókat, amelyeket az aktív kiszolgáló nem tud elérni. Ellenkező esetben a feladatátvétel nem lehetséges.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Megszakadt a Heartbeat-kapcsolat</strong></td>
+      <td>Ez a hiba a Heartbeat-kapcsolat problémája miatt fordulhat elő. Ebben az esetben nem végezhet átkapcsolást.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Hardverhiba</strong></td>
+      <td>Ez a hiba általában az aktív vagy passzív kiszolgáló hardverének (például tápegység vagy rendszerventilátor) meghibásodása esetén jelentkezik.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Különböző méretű fizikai memória</strong></td>
+      <td>Ez a hiba az aktív és a passzív kiszolgálón telepített eltérő méretű fizikai memória miatt következhet be. Ebben az esetben nem végezhet átkapcsolást.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>A high-availability klaszter nem rendelkezik kiosztott statikus IP-címmel</strong></td>
+      <td>Ez a hiba általában akkor következik be, ha a high-availability klaszternek nincs statikus IP-címe. Ebben az esetben nem végezhet átkapcsolást.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Nincs statikus IP-cím a megfigyelt interfészen</strong></td>
+      <td>Ez a hiba általában akkor következik be, ha a megfigyelt interfésznek nincs statikus IP-címe. Ebben az esetben nem végezhet átkapcsolást.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Passzív kiszolgáló visszaállítása</strong></td>
+      <td>A passzív kiszolgáló visszaállítása folyamatban van. Ebben az esetben nem végezhet átkapcsolást.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Passzív kiszolgáló frissítése</strong></td>
+      <td>A rendszer épp a passzív kiszolgáló frissítését végzi. Ebben az esetben nem végezhet átkapcsolást.</td>
+     </tr>
+
+    </table>
+
+<h3>„Kezelés” gomb a high-availability klaszteren</h3>
+
+<p>Ez a gomb a high-availability klaszterre vonatkozó információk alatt található. A következő műveletekre használható:</p>
+<ul>
+<li><b>Átkapcsolás:</b> Átkapcsolást kezdeményez az aktív kiszolgálóról a passzív kiszolgálóra. A folyamat során az aktív kiszolgáló leállítja a szolgáltatásokat és átveszi a passzív kiszolgáló szerepkört. Ekkor a korábbi passzív kiszolgáló válik aktív kiszolgálóvá, és megkezdi a high-availability klaszter szolgáltatásainak működtetését. Ez a lehetőség nem érhető el, ha a passzív kiszolgáló állapota <b>hiba</b> vagy nincs kijelölve.</li>
+<li><b>A DSM frissítése:</b> Megnyitja a <strong>Vezérlőpult</strong> <strong>DSM frissítése</strong> oldalát. Innen mindkét kiszolgáló frissíthető.</li>
+<li><b>High-availability klaszter leállítása:</b> Leállítja mind az aktív, mind pedig a passzív kiszolgálót.</li>
+<li><b>Aktív kiszolgáló leállítása:</b> Leállítja az aktív kiszolgálót. Amennyiben a passzív kiszolgáló működőképes, a szolgáltatások átadásra kerülnek a passzív kiszolgálónak.</li>
+<li><b>Passzív kiszolgáló leállítása:</b> Leállítja a passzív kiszolgálót.</li>
+<li><b>Aktív kiszolgáló újraindítása:</b> Újraindítja az aktív kiszolgálót. Amennyiben a passzív kiszolgáló működőképes, a szolgáltatások átadásra kerülnek a passzív kiszolgálónak.</li>
+<li><b>Passzív kiszolgáló újraindítása:</b> Újraindítja a passzív kiszolgálót.</li>
+<li><b>Az ismeretlen kiszolgáló visszaállítása:</b> Visszaállítja a passzív kiszolgálót annak cseréje esetén, illetve, ha továbbra is ismeretlenként érzékeli a rendszer.</li>
+<li><b>Rendszer hangjelzésének kikapcsolása:</b> Hiba esetén az aktív és passzív kiszolgáló nem hallat sípoló hangot. A rendszer továbbra is hangjelzést ad, ha a későbbiekben meghibásodik az aktív vagy a passzív kiszolgáló.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Ha leállítja a passzív kiszolgálót, illetve nincs passzív kiszolgáló, az aktív kiszolgáló meghibásodása esetén a szolgáltatások nem kapcsolhatók át.</li>
+</ul>
+</div>
+
+<h3>Kiszolgálódiagram és információk</h3>
+ <p>A kiszolgálódiagram a kiszolgáló állapotát mutatja. A hely megfelel a modulok azon oldalának, ahová a kiszolgáló csatlakoztatva van. Bővebb információk megjelenítése érdekében vigye fölé a kurzort.</p>
+<p>A következő helyzeteket tartalmazza:</p>
+<ul>
+  <li><b>Ebben a high-availability klaszterben nincs passzív kiszolgáló:</b> Üres keretet jelenít meg.</li>
+  <li><b>Nem sikerült észlelni a passzív kiszolgálót:</b> Elmosódott kiszolgálóképet jelenít meg.</li>
+  <li><b>Felkiáltójel:</b> Hardveres meghibásodás esetén jelenik meg, illetve akkor, ha a Heartbeat-kapcsolat meghibásodása miatt nem érhetők el a kiszolgálóra vonatkozó információk.</li>
+</ul>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Amennyiben a másik kiszolgálóra vonatkozóan az „ismeretlen” üzenet jelenik meg, a kiszolgáló nem tartozik a high-availability klaszterhez. Kattintson a <b>Kezelés</b> parancsra, majd válassza a <b>Passzív kiszolgáló visszaállítása</b> lehetőséget a hiba elhárításához.</li>
+</ul>
+</div>
+
+<p>A kiszolgálóadatok a következőket foglalják magukban. <b>N/A</b> üzenet jelenik meg, ha nem érzékelhető passzív kiszolgáló.</p>
+
+  <ul>
+   <li><b>Sorozatszám:</b> A Synology kiszolgáló sorozatszáma.</li>
+   <li><b>Ventilátor állapota:</b> A kiszolgáló hűtőventilátorainak állapotát jeleníti meg. Ventilátor meghibásodása esetén figyelmeztetés jelenik meg. Ebben az esetben kérjen segítséget helyi képviselőjétől.</li>
+   <li><b>Hőmérséklet:</b> A Synology kiszolgáló hőmérsékletét mutatja. </li>
+   <li><b>Tápegység állapota:</b> Arról tájékoztat, hogy a kiszolgáló tápegységei megfelelően működnek-e. Ha a kiszolgáló rendelkezik redundáns áramforrásokkal, és ezek egyike meghibásodik, figyelmeztetés jelenik meg.</li>
+    <li><b>Fizikai memória:</b> A Synology kiszolgáló fizikai memóriájának méretét mutatja. Az átkapcsolás nem kivitelezhető, ha a két kiszolgáló különböző méretű fizikai RAM memóriával rendelkezik.</li>
+  </ul>
+
+<h3>Kiszolgálók közötti kapcsolat állapota</h3>
+<p>Ebben a részben az aktív és passzív kiszolgálók közötti kapcsolatra vonatkozó képek láthatók. A következő helyzeteket tartalmazza:</p>
+<ul>
+  <li><b>Nincs kép:</b> Passzív kiszolgáló hiányát jelzi.</li>
+  <li><b>Állókép:</b> Nem megfelelő Heartbeat-kapcsolatot jelez.</li>
+  <li><b>Felkiáltójel:</b> A két kiszolgáló közötti rendellenes kommunikációt vagy a Heartbeat-kapcsolat hibáját jelzi.</li>
+</ul>
+
+<h3>Hálózati interfész állapota</h3>
+<p>Ez a szakasz a kiszolgálók és az adathálózat közötti képeket tartalmazza. A következő helyzeteket tartalmazza:</p>
+<ul>
+  <li><b>Nincs felkiáltójel:</b> Hibátlan hálózati működést jelez.</li>
+  <li><b>Felkiáltójel:</b> A megfigyelt hálózati interfész meghibásodását jelzi.</li>
+</ul>
+
+<h3> Megosztott tárhelyre vonatkozó diagram és információk</h3>
+ <p>A megosztott tárhelyre vonatkozó diagram a kiszolgálók és a megosztott tárhely közötti kapcsolati állapotot jelzi. Az alapvető információk megjelenítése érdekében vigye fölé a kurzort.</p>
+<p>A következő helyzeteket tartalmazza:</p>
+<ul>
+  <li><b>Nincs felkiáltójel:</b> Azt jelzi, hogy a rendszer nem észlelt hibát.</li>
+  <li><b>Felkiáltójel:</b> A bővítőegységek kapcsolati állapotának problémáját jelzi.</li>
+</ul>
+
+<p>A megosztott tárhelyekre vonatkozó alapvető információk a következőket foglalják magukban. Részletesebb tájékoztatást a <b>Tároláskezelőben</b> talál.</p>
+
+  <ul>
+   <li><b>Ventilátor állapota:</b> Megjeleníti a bővítőegységek ventilátorainak állapotát. Ventilátor meghibásodása esetén figyelmeztetés jelenik meg. Ebben az esetben kérjen segítséget helyi képviselőjétől.</li>
+   <li><b>Tápegység állapota:</b> Arról tájékoztat, hogy a kiszolgáló tápegységei megfelelően működnek-e. Tápegység meghibásodása esetén figyelmeztetés jelenik meg.</li>
+   </ul>
+ </body>
+</html>

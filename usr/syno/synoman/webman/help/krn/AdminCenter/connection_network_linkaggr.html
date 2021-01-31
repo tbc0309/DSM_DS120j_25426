@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>네트워크</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="link_aggr"></a>Link Aggregation</h2>
+<p>Synology NAS에서는 다중 LAN을 지원하므로, Link Aggregation 기술을 사용하여 해당 LAN 인터페이스를 결합할 수 있습니다. Link Aggregation은 여러 네트워크 인터페이스를 집계하여 Synology NAS의 대역폭을 늘리고 트래픽 대체작동을 제공하여 연결이 끊긴 경우에 네트워크 연결을 유지합니다.</p>
+<p>LAN 인터페이스들이 결합된 후 <b>제어판</b> &gt; <b>네트워크</b> &gt; <b>네트워크 인터페이스</b>에 <b>Bond</b>라는 이름의 새 인터페이스가 나타납니다. 이것은 다른 인터페이스(예: LAN 또는 PPPoE)와 마찬가지로 구성할 수 있습니다.</p>
+
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>LAN 포트가 최소 두 개 이상 있는 모델에서만 Link Aggregation을 사용할 수 있습니다.</li>
+<li>Link Aggregation이 활성화되면 각 연결된 장치의 네트워크 트래픽이 자동으로 조정되어 균형을 잡습니다.</li>
+<li>네트워크 인터페이스가 여러 스위치에 연결된 경우, 스위치 포트가 같은 LAN 또는 VLAN에 있어야 합니다.</li>
+</ul>
+</div>
+
+
+<h4>Link Aggregation을 사용하여 여러 LAN 결합하기:</h4>
+<ol>
+<li><strong>제어판</strong> &gt; <strong>네트워크</strong> &gt; <strong>네트워크 인터페이스</strong>로 이동합니다. <strong>생성</strong> &gt; <strong>Bond 생성</strong>을 클릭합니다.</li><img src="about:blank" class="help_image"/><li>원하는 모드를 선택합니다.<div class="section">
+<h4>모드 설명:</h4>
+<ul>
+  <li><strong>Adaptive Load Balancing</strong>: 이 모드는 스위치가 Link Aggregation을 지원하는지 여부에 관계없이 Synology NAS에서 수신 및 전송되는 네트워크 트래픽을 최적화합니다. 예기치 않은 오류를 방지하려면 Link Aggregation이 지원되는 경우라도 스위치에서 Link Aggregation을 활성화하지 마십시오.</li>
+  <li><strong>IEEE 802.3ad 동적 Link Aggregation</strong>: 이 모드는 Synology NAS에서 수신 및 전송되는 네트워크 트래픽을 최적화하며, 스위치에서 IEEE 802.3ad(동적) Link Aggregation(LACP, 802.1AX)을 활성화해야 합니다. 여러 스위치를 사용하는 경우 이러한 스위치가 스택형이고 올바르게 구성되어야 합니다.</li>
+<li><strong>균형 XOR</strong>: 이 모드는 Synology NAS에서 수신 및 전송되는 네트워크 트래픽의 균형을 조정하며, 스위치에서 정적 Link Aggregation을 활성화해야 합니다. 여러 스위치를 사용하는 경우 이러한 스위치가 스택형이고 올바르게 구성되어야 합니다. 스위치에서 Link Aggregation을 지원하지 않는 경우에는 여전히 Synology NAS에서 전송되는 트래픽의 균형이 조정될 수 있습니다. 이 모드를 사용하면 손실된 링크가 감지될 수 있지만 이 모드가 링크 손실의 원인이 아닐 수 있습니다(예: 이더넷 케이블이 뽑혀져 있거나 스위치가 잘못 구성된 경우).</li>
+<li><strong>활성/대기</strong>: 이 기능은 Synology NAS에 network fault tolerance 기능을 제공합니다. 즉, 활성 네트워크 인터페이스가 중단되면 다른 LAN 포트 중 하나가 넘겨받아 네트워크 연결을 유지합니다. 스위치를 구성하지 않은 채로 또는 IEEE 802.3ad Link Aggregation을 지원하는 스위치를 사용하여 이 모드를 선택할 수 있습니다.</li>
+</ul>
+<p>Open vSwitch를 활성화하면 다음 모드 중 하나를 선택할 수 있습니다.</p>
+<ul>
+ <li><b>Balance-SLB</b>: 이 모드에서는 특정 네트워크 스위치에 대한 지원 없이 네트워크 트래픽의 균형을 조정하고 두 스위치 간의 연결을 활성화합니다.</li>
+ <li><b>Balance-TCP</b>: 이 모드에서는 동적 Link Aggregation(IEEE 802.3ad LACP)으로 구성된 스위치를 연결할 수 있습니다. 스위치를 여러 개 사용하는 경우 이러한 스위치는 스택형이고 올바르게 구성되어야 합니다.</li>
+ <li><b>활성/백업 모드</b>: 이 모드는 네트워크 인터페이스 두 개를 사용하여 Synology NAS에 network fault tolerance를 제공합니다. 활성 네트워크 인터페이스가 오작동하면 다른 네트워크 인터페이스가 네트워크 연결을 넘겨받아 유지합니다. 스위치를 구성하지 않고 이 모드를 선택할 수 있습니다.</li>
+</ul>
+</div>
+</li><img src="about:blank" class="help_image"/><li>Link Aggregation을 만들 인터페이스를 선택합니다.</li><img src="about:blank" class="help_image"/><li>IP 설정을 구성합니다. 필요에 따라 VLAN을 활성화할 수도 있습니다. <b>적용</b>을 클릭하여 변경 사항을 저장합니다.</li><img src="about:blank" class="help_image"/><li>완료하면 <b>네트워크 인터페이스</b> 목록에 새 인터페이스 <b>Bond 1</b>이 표시됩니다.</li><img src="about:blank" class="help_image"/></ol>
+
+<h4>Link Aggregation 설정 편집하기:</h4>
+<ol>
+<li>Link Aggregation 모드를 변경하거나 물리적 장치의 정보를 보려면 <b>제어판</b> &gt; <b>네트워크</b> &gt; <b>네트워크 인터페이스</b>로 이동합니다.</li>
+<li>인터페이스 <b>Bond 1</b>을 선택하고 <b>편집</b> 버튼을 클릭합니다.</li><img src="about:blank" class="help_image"/><li>해당 탭으로 이동하여 원하는 설정을 편집합니다.</li>
+</ol>
+
+<h4>Link Aggregation 제거하기:</h4>
+<ol>
+<li><b>제어판</b> &gt; <b>네트워크</b> &gt; <b>네트워크 인터페이스</b>로 이동합니다.</li>
+<li>인터페이스 <b>Bond 1</b>을 선택하고 <b>삭제</b> 버튼을 클릭합니다.</li><img src="about:blank" class="help_image"/><li>완료하면 네트워크 인터페이스 목록에 별도의 LAN 인터페이스 두 개가 표시됩니다.</li><img src="about:blank" class="help_image"/></ol>
+
+</body>
+</html>
+

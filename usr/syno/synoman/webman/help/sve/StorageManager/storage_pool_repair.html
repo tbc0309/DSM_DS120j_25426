@@ -1,0 +1,130 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Reparera en volym eller diskgrupp - Synology DSM Hjälp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to create a volume on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Reparera en volym eller diskgrupp</h2>
+
+<p>Volymfel kan inträffa av olika skäl, såsom skadade systempartitioner eller kraschade hårddiskar.  I en vissa fall kan du följa stegen här nedanför för att diagnostisera felen och åtgärda problemet.</p>
+
+<div class="section">
+<h4>Noteringar:</h4>
+<ul>
+<li>Funktionen <strong>Reparera</strong> som beskrivs här är endast tillgänglig för RAID-typer med dataredundans (dvs. RAID 1, RAID 5, RAID 6 etc.). Vänligen notera att denna funktion inte reparerar trasiga hårddiskar och inte heller garanterar att data på kraschade volymer kommer att räddas.</li>
+<li>För kraschade volymer rekommenderar vi att vår <span class="last"><a href="https://account.synology.com/support/support_form.php?lang=enu" target="_blank">Tekniska support</a> kontaktas för hjälp</span>.</li>
+</ul>
+</div>
+
+<h3>Felaktiga systempartitioneringar</h3>
+
+<p>När systempartitioner är felaktiga bör du se ett meddelande som ger dig information om att systempartitionerna inte är åtkomliga.</p>
+<h4>Att reparera systempartitioner:</h4>
+
+<ol>
+<li>Öppna <strong>Lagringshanterare</strong>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Gå till <strong>Översikt</strong> och klicka på länken med texten <strong>Reparera</strong>. Systemet bör reparera systempartitionerna.</li>
+
+<img src="about:blank" class="help_image"/>
+</ol>
+
+
+<h3>Trasiga volymer</h3>
+
+
+<p>En volym eller diskgrupp blir <strong>Trasig</strong> när en hårdisk blir felaktig men ingen dataförlust har inträffat. Detta händer bara med RAID-typer som tillhandahåller dataredundans, såsom SHR, RAID 1, RAID 5, RAID 6 och RAID 10. </p>
+<p>En trasig volym eller diskgrupp kan åtgärdas genom att byta ut den felaktiga hårddisken mot en frisk och reparera volymen eller diskgruppen.</p>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+  <li>Storleken på utbyteshårddisken måste vara större än eller lika stor som den minsta disken i volymen.</li>
+  <li>Status för hårddisken som ska bytas ut måste vara <strong>Initierat</strong> eller <strong>Ej initierat</strong>.</li>
+</ul>
+
+</div>
+
+<h4> Att reparera en trasig volym eller diskgrupp:</h4>
+
+<ol>
+
+<li>Gå till <strong>Lagringshanterare</strong> > <strong>Volym</strong> eller <strong>Diskgrupp</strong> för att bekräfta att statusen har ändrats till <strong>Trasig</strong>.</li> 
+<img src="about:blank" class="help_image"/>
+
+<li>Om så, gå till fliken <strong>HDD/SSD </strong>för att se vilken hårddisk som är felaktig.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Ta bort den felaktiga hårddisken och byt ut den mot en ny.</li>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Om din Synology NAS inte har stöd för snabbväxling, vänligen kom ihåg att stänga av den innan borttagning och installation av några hårddiskar.</li>
+<li>Befintliga data på utbyteshårddisken kommer att raderas.</li>
+</ul>
+</div>
+
+<li>Efter att utbyteshårddisken installerats, gå tillbaka till fliken <strong>Volym</strong> eller <strong>Diskgrupp</strong>.</li>
+
+<li>Välj den trasiga volymen eller diskgruppen.</li>
+
+<li>Klicka på <strong>Hantera</strong>.</li>  
+<img src="about:blank" class="help_image"/>
+
+<li>Välj <strong>Reparera</strong> och klicka på <strong>Nästa</strong>. </li>  
+<img src="about:blank" class="help_image"/>
+
+<li>Välj den utbyteshårddisk som du vill lägga till volymen. Klicka sedan på <strong>Nästa.</strong></li>
+<img src="about:blank" class="help_image"/>
+
+<li> Följ instruktionerna i installationsguiden för att slutföra. </li>
+</ol>
+
+
+
+
+<h3>Reparera volymer</h3>
+<p>För att radera en trasig volym/Diskgrupp/iSCSI LUN måste du byta ut den trasiga disken med en tillgänglig disk som överensstämmer med följande kriteria:</p>
+<ul>
+<li>För volymer med RAID 1, RAID 5 eller RAID 6 kan den trasiga volym repareras med en tillgänglig disk vars storlek är densamma eller större än storleken på den minsta disken i RAID-volymen.</li>
+<li>För SHR-1-volymer måste den tillgängliga disken uppfylla ett av följande kriterier: (1) Dess storlek måste vara lika med eller större än storleken på den felaktiga disken; (2) Den största disken i RAID-volymen exkluderad så måste dess storlek vara lika med eller större än storleken på den största kvarvarande disken.
+
+<ol>
+<li>Exempel 1: SHR-1 är sammansatt av diskar med storlekarna 3TB, 2TB, 2TB och 1TB. Om disken som är 3TB går sönder kan den repareras av en tillgänglig disk vars storlek är lika med eller större än 2TB.</li>
+<li>Exempel 2: SHR-1 är sammansatt av diskar med storlekarna 4TB, 4TB, 2TB och 2TB. Om disken som är 4TB går sönder kan den repareras av en tillgänglig disk vars storlek är lika med eller större än 4TB.</li>
+<li>Exempel 3: SHR-1 är sammansatt av diskar med storlekarna 4TB, 4TB, 2TB och 2TB. Om disken som är 2TB går sönder kan den repareras av en tillgänglig disk vars storlek är lika med eller större än 2TB.</li>
+</ol>
+</li>
+<li>För SHR-2-volymer måste den tillgängliga disken uppfylla ett av följande kriterier: (1) Dess storlek måste vara lika med eller större än storleken på den felaktiga disken; (2) Den två största diskarna i RAID-volymen exkluderade så måste dess storlek vara lika med eller större än den största kvarvarande disken.</li>
+</ul>
+<p>Om du har konfigurerat diskar som hot spares för att matcha ovanstående kriteria kommer de att användas för att reparera volym/Diskgrupp/RAID Group/iSCSI LUN.</p>
+
+
+<h3>Lösning för kraschade volymer</h3>
+
+<p>När statusen för en volym blir<strong> Kraschade</strong> kan du inte själv reparera volymen. För att lösa detta problem rekommenderar vi att vår <a href="https://account.synology.com/support/support_form.php?lang=enu" target="_blank">Tekniska support</a> kontaktas för hjälp.</p>
+
+<div class="section">
+<h4>Innan du kontaktar support:</h4>
+
+<ul>
+<li>Rädda dina data på din Synology NAS genom att kopiera filerna till din dator eller externa enheter via File Station, Windows File Service, FTP eller andra filtjänster.</li>
+<li>Behåll ordningen på hårddiskarna som de var när volymen kraschade.</li>
+<li>Vänligen utför ett S.M.A.R.T.-test på de problematiska hårddiskarna. För att göra så, vänligen gå till <strong>Lagringshanterare</strong> > <strong>HDD/SSD</strong>. Välj hårddisken i fråga och klicka på <strong>S.M.A.R.T.-test</strong>. <br />
+</li>
+</ul>
+</div>
+</body>
+</html>

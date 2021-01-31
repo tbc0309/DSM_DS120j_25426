@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+</head>
+<body>
+
+<h2> Overvåg</h2>
+
+<p>Denne side indeholder tre faner, som viser overvågningen af systemstatus, tjeneste og netværksinterface. Denne side sætter dig i stand til at overvåge visse destinationer. Hvis en overvåget destination fejler på den aktive server, vil systemet failover til den passive standby-server (når den passive server fungerer normalt). Følgende faner vises på denne side:</p>
+
+<h3> Fanen Systemstatus</h3>
+<p>Systemstatus overvåges som standard og kan ikke deaktiveres. Failover bliver udløst, når systemetfejl forekommer på den aktive server. Følgende afsnit vises på denne fane:</p>
+<ul>
+  <li><b>Aktiv serverstatus:</b> Failover ved fejl på den aktive server til at yde tjenester. F.eks. begge strømenheder på den aktive server fejlede.</li>
+  <li><b>Lagerforbindelse:</b> Failover i den situation, hvor en disk mangler på den aktive server, men findes på den passive server.</li>
+</ul>
+
+<h3> Fanen Tjeneste</h3>
+<p>Viser tjenester, der kan overvåges og deres status. Failover bliver udløst, når tjenester er unormale. Følgende afsnit vises på denne fane:</p>
+<ul>
+  <li><b>Tjeneste: </b> Viser tjenester, der an overvåges.</li>
+  <li><b>Status: </b> Viser, om tjenester kører eller ej.</li>
+  <li><b>Overvågning: </b>Marker afkrydsningsfeltet ved siden af en tjeneste for at starte dens overvågning. Systemet vil failover, hvis den valgte tjenester fejler.</li>
+</ul>
+
+<h4>Sådan overvåger du en tjeneste:</h4>
+
+<ol>
+<li>Find den tjeneste, du vil overvåge. Sørg for, at tjenestestatus er normal.</li>
+<li>Marker afkrydsningsfeltet ved siden af den.</li>
+<li>Klik på <b>Anvend</b> for at gemme indstillingerne.</li>
+</ol>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<p>Tjenester, der bliver overvåget, er følgende: Windows-filtjeneste, iSCSI Target, FTP, Mac File Service, NFS Service.</p>
+</div>
+
+<h3> Fanen Netværksinterface</h3>
+<p>Viser alle logiske netværksinterfacer, der kan overvåges. Failover bliver udløst, hvis netværksforbindelsen er unormal. (der henvises til Noter som følger). Følgende afsnit vises på denne fane:</p>
+<ul>
+  <li><b>Netværksinterface: </b>Viser alle interfacer, der kan overvåges.</li>
+  <li><b>Overvågning: </b>Marker afkrydsningsfeltet ved siden af et interface for at starte dens overvågning.</li>
+</ul>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<p>Hvis afkrydsningsfeltet <strong>Overvågning</strong> er markeret, vil systemet failover til den passive server, når netværksforbindelsen for den aktive server fejler, og netværksforbindelsen for den passive server stadig fungerer normalt.</p>
+<ul>
+<li>Failover bliver kun udløst, hvis den passive server har sundere forbindelser. Hvis f.eks. den aktive server har tre forbindelser, og den ene fejler, vil systemet kun udløse en failover, hvis den passive server har tre eller flere sunde forbindelser.</li>
+<li>Forbindelser kombineret med Link Aggregation tæller som én forbindelse. Hvis f.eks. to forbindelser kombineres, og en af dem fejler, men den anden fungerer endnu, vil forbindelsen stadig blive anset for sund.</li>
+</ul>
+</div>
+
+<h4>Sådan overvåger du et interface:</h4>
+
+<ol>
+<li>Find det interface, du vil overvåge. Sørg for, at kablerne er tilsluttet korrekt til interfacer på både den aktive og passive server.</li>
+<li> Marker afkrydsningsfeltet ved siden af den.</li>
+<li>Klik på <b>Anvend</b> for at gemme indstillingerne.</li>
+</ol>
+
+</body>
+</html>

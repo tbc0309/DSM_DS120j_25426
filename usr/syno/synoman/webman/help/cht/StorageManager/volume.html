@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>儲存空間</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the difference between volumes and disk groups, which are used to manage the storage space and capacity of Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>儲存空間</h2>
+<h3>儲存空間</h3>
+<p>儲存空間為您的 Synology NAS 提供了基本的資料存放空間，是用來存放共用資料夾、文件及套件資料等所有檔案的地方。因此，將資料儲存在 Synology NAS 之前，您必須先建立至少一個儲存空間。</p>
+
+
+<div class="section">
+<h4>注意：</h4>
+<p>如果您在儲存空間建立 <strong>Snapshot Replication</strong>的複寫任務，在儲存空間建立後，您可以在<strong>編輯</strong>視窗中調整<strong>記錄檔案存取時間頻率</strong>的設定值，以增進複寫任務的效能：</p>
+<ul>
+	<li><strong>每天</strong>：如同大部份的作業系統，檔案存取時間除了檔案被修改時，最多每天僅會更新一次。部份應用程式的功能對檔案存取時間的精準度需求較高。雖然此選項會影響複寫任務的效能，但若您經常使用以下功能或應用程式，仍建議您選擇<strong>每天</strong>：
+	<ul>
+		<li><strong>Storage Analyzer</strong>的<strong>最久未存取的檔案</strong>。</li>
+		<li><strong>儲存空間管理員</strong>的<strong>SSD 快取建議</strong>。</li>
+		<li>任何需依賴<strong>記錄檔案存取時間</strong>來運作的第三方應用程式。</li>
+	</ul>
+	</li>
+	<li><strong>每月</strong>：<strong>檔案存取時間</strong>除了檔案被修改時，最多每月僅會更新一次。選擇此選項可稍微增進複寫任務的效能，且依賴<strong>記錄檔案存取時間</strong>的應用程式仍能運作，但其精準度會降低。
+	</li>
+	<li><strong>從不</strong>：若您平常不會使用依賴<strong>記錄檔案存取時間</strong>的應用程式，建議您選擇此選項以獲得最快的複寫任務效能。
+	</li>
+</ul>
+</div>
+
+<h4>儲存空間格式</h4>
+<p>根據使用的檔案系統，儲存空間格式可以分為：</p>
+<ul>
+	<li><strong>新型儲存空間格式</strong>：此格式使用 <strong>Btrfs</strong> 檔案系統。此格式的儲存空間大小至少須為 10 GB。支援下列新功能讓您更容易管理資料：<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">共用資料夾快照</a></strong>：快照可記錄資料在拍攝快照時的完整狀態。在已拍攝快照的儲存空間中，若使用者不慎變更或刪除資料，您將可以快速還原該資料至拍攝快照時的狀態。</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">共用資料夾空間配額</a></strong>：可設定每個共用資料夾的最大空間限制。</li>
+			<li><strong>共用資料夾空間的<a href="../AdminCenter/file_user_create.html#userquota">使用者配額</a></strong>：可控制共用資料夾中每個使用者可使用的空間大小。</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">進階資料完整性保護</a></strong>：以 CRC32 checksum 及 copy-on-write 方式來保護共用資料夾。</li>
+		</ul>
+	</li>
+	<li><strong>傳統儲存空間格式</strong>：此格式使用 <strong>ext4</strong> 檔案系統。此格式的儲存空間大小至少須為 10 GB。大部分 Synology NAS 產品皆支援 ext4 檔案系統，故此格式的儲存空間可以很輕鬆地轉移至另一台 Synology NAS。</li>
+</ul>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>Btrfs 僅適用於特定機種。若要了解您的機種是否支援 Btrfs，請參閱<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">此篇文章</a>。</li>
+</ul>
+</div>
+
+</body>
+</html>

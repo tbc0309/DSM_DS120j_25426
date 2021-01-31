@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Split-brain</h2>
+
+<p>When a high-availability cluster is functioning normally, only one of the member servers should assume the role of active server. In this case, the passive server detects the presence of the active server through the Heartbeat connection as well as the data connection with the shared expansion units, so that the switchover will not be triggered. In addition, the passive server detects the shared storage's status to avoid wrongly taking over the role of active server when the current active server still normally accesses the shared expansion units.</p>
+
+<p>Upon the loss of Heartbeat and all data connections, or unstable status of shared storage and system, each of the two servers may take itself as the active server. This situation is referred to as a "split-brain". In this case, to avoid data corruption due to concurrent access by both servers, one server will try to continue providing services, while the other server will reboot and require a connection check afterwards. Connections from the client users may be unstable for awhile during this situation.</p>
+        
+ </body>
+</html>

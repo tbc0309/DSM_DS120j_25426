@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="certificate"></a>Certifikat</h2>
+
+<p>Ett certifikat kan användas för att säkra SSL-tjänster på Synology NAS, såsom webb (alla HTTPS-tjänster), e-post eller FTP. Att ha ett certifikat låter användare validera serverns identitet och administrator innan någon konfidentiell information överförs.</p>
+
+<p>I <strong>Kontrollpanel</strong> > <strong>Säkerhet</strong> > <strong>Certifikat</strong> kan du göra följande:</p>
+
+<ul>
+<li>Få ett certifikat från Let's Encrypt.</li>
+<li>Skapa självsignerade certifikat.</li>
+<li>Skapa signeringsförfrågan för certifikat för andra certifikatutfärdare (CA).</li>
+<li>Signera signeringsförfrågan från andra sökanden</li>
+<li>Hantera certifikat på din Synology NAS.</li>
+</ul>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Från och med DSM 6.0 kan du skapa och importera flera certifikat till din Synology NAS.</li>
+<li>Om du klickar på <strong>Ställ in som standardcertifikat</strong> används det certifikat som bearbetas som standardcertifikat. Det ursprungliga standardcertifikatet förlorar sin standarstatus.</li>
+</ul>
+</div>
+
+
+<h3>Certifikat från Let's Encrypt</h3>
+
+<h4>Att få certifikat från Let's Encrypt:</h4>
+<p>Du kan få ett gratis och säkert SSL-/TLS-certifikat automatiskt från <a href="https://letsencrypt.org/" target="_blank">Let's Encrypt</a>, en välbetrodd utfärdare av öppet certifikat.</p>
+
+<ol>
+<li>Klicka på <strong>Lägg till</strong>.</li>
+<li>Välj <strong>Lägg till ett nytt certifikat</strong> och klicka på <strong>Nästa</strong>.</li>
+<li>Välj <strong>Få ett certifikat från Let's Encrypt</strong>.</li>
+<li>Specificera följande information:
+<ul>
+<li><strong>Domännamn</strong>: Ange det domännamn du har registrerat hos domänleverantören.</li>
+<li><strong>E-postadress</strong>: Ange e-postadressen som användes för registrering av certifikat.</li>
+<li><strong>Alternativt namn för ämne</strong>: För att tillåta att ett certifikat omfattar flera domäner, ange de övriga domännamnen här.</li>
+</ul>
+</li>
+<li>Klicka på <strong>Tillämpa</strong> för att spara inställningarna. När de väl bekräftats blir certifikaten omedelbart importerade till din Synology NAS.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Du kan bara registrera dig för certifikat från Let's Encrypt med ett begränsat antal e-postkonton. Om gränsen överskridits, använd ett e-postkonto som tidigare registrerats för att få fler certifikat.</li>
+<li>Du kan bara registrera dig för ett begränsat antal certifikat per domän från Let's Encrypt. Om gränsen överskrids, ange den aktuella domännamnet som Alternativt namn för ämne (SAN) och använd ett annat domännamn för certifikatbegäranden.</li>
+<li>Let's Encrypt gör en domänvalidering innan certifikat utfärdas för dina domäner. Vänligen kontrollera att din Synology NAS och router har port 80 öppna för domänvalidering från Internet. Alla övriga kommunikationer med Let's Encrypt sker över HTTPS och håller din Synology NAS säker.</li>
+<li>Certifikat som utfärdas av Let's Encrypt är giltiga i 90 dagar. Innan certifikatet löper ut förnyar DSM automatiskt sådana certifikat efter lyckad domänvalidering. Vänligen kontrollera att din Synology NAS och router har port 80 öppna för förnyelse av certifikat.</li>
+</ul>
+</div>
+
+<h3>Självsignerade certifikat</h3>
+
+<p>Ett självsignerat certifikat är ett certifikat som skapats och signerats av samma enhet vars identitet det certifierar (i detta fall Synology NAS). Självsignerade certifikat signeras med en privat nyckel som genereras av Synology NAS. Eftersom självsignerade certifikat inte är utfärdade av tredjeparts certifikatutfärdare ger de mindre bevis för serverns identitet och används vanligtvis bara för att säkra kanaler mellan servern och en grupp av kända användare.</p>
+
+
+<h4>Att skapa självsignerade certifikat:</h4>
+<ol>
+	<li>Klicka på <strong>Lägg till</strong>.</li>
+<li>Välj <strong>Lägg till ett nytt certifikat</strong> och klicka på <strong>Nästa</strong>.</li>
+<li>Välj <strong>Skapa självsignerat certifikat</strong>.</li>
+	<li>Följ instruktionerna i installationsguiden.</li>
+</ol>
+
+
+<h3>Signeringsförfrågan för certifikat (CSR)</h3>
+
+<p>Utöver certifikat som utfärdats av Let's Encrypt och självsignerade certifikat kan du även ansöka om certifikat från andra kommersiella eller tredje parts certifikatutfärdare. För att få ett certifikat kan du behöva göra de två nedanstående sakerna:</p>
+
+<ul>
+<li>Skapa en signeringsförfrågan för certifikat (CSR): En krypterad textmassa som genererats av Synology NAS som innehåller information som kommer att inkluderas i ditt certifikat, såsom ditt domännamn, organisationsnamn, platsangivelse och e-postadress.</li>
+<li>Ge din personliga eller din organisations identitet till certifikatutfärdaren och bevisa att du är ägare av domännamnet som skrevs i namnfältet för signeringsförfrågan.</li>
+</ul>
+
+
+<h4>Att skapa signeringsförfrågningar:</h4>
+
+<ol>
+	<li>Klicka på <strong>CSR</strong>.</li>
+    <li>Välj <strong>Skapa signeringsförfrågan (CSR).</strong></li>
+	<li>Följ installationsguidens instruktioner för att skapa och ladda ned signeringsförfrågan för certifikatet.</li>
+    <li>Skicka CSR och begärd information till certifikatutfärdaren för bekräftelse.</li>
+</ol>
+
+<p>När du mottar det begärda certifikatet som utfärdats av certifikatutfärdare kan du importera det tillsammans med din privata nyckel.</p>
+
+<div class="section">
+<h4>Obs:</h4>
+<p>En privat nyckel ska även skapas tillsammans med signeringsförfrågan. Certifikatutfärdare behöver inte denna privata nyckel. Vänligen förvara den privata nyckeln för din Synology NAS säkert och hemligt.</p>
+</div>
+
+<h4>Att signera en signeringsförfrågan:</h4>
+
+<p>Användare av andra enheter kan skicka signeringsförfrågan för certifikat för att få certifierad åtkomst till din Synology NAS. Du kan signera deras förfrågningar med rootcertifikatet för Synology NAS och skicka det skapade certifikatet till de som ansöker.</p>
+
+<ol>
+	<li>Klicka på <b>CSR</b>.</li>
+	<li>Klicka på <b>Signera signeringsförfrågan (CSR)</b>.</li>
+	<li>Ladda upp signeringsförfrågan och ange relevant information. </li>
+	<li>Klicka på <b>Nästa</b> så signerar systemet certifikatbegäran och skapar ett motsvarande certifikat.</li>
+</ol>
+
+
+
+<h3>Hantera certifikat</h3>
+
+
+<h4>Att importera certifikat:</h4>
+<p>Du kan importera ett tidigare exporterat certifikat eller ett certifikat från en kommersiell eller tredje parts certifikatutfärdare tillsammans med en privat nyckel för att göra din Synology NAS betrodd av andra enheter.</p>
+
+<ol>
+<li>Klicka på <strong>Lägg till</strong>.</li>
+<li>Välj <strong>Lägg till ett nytt certifikat</strong> och klicka på <strong>Importera certifikat</strong>.</li>
+<li>Följ guidens instruktioner för att slutföra importen av certifikatet.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Mellanliggande certifikat är valfritt för vissa av de certifikat som utfärdas av certifkatutfärdare.</li>
+<li>Certifikat måste vara i formatet X.509 PEM.</li>
+<li>Privata nycklar måste vara i formatet RSA och kan inte vara skyddade med lösenordsfras.</li>
+</ul>
+</div>
+
+
+<h4>Att exportera certifikat:</h4>
+
+<p>Befintliga certifikat kan laddas ner för syftena hantering och arkivera och de kan även importeras till andra användares enheter för att bygga förtroende mellan din Synology NAS och deras enheter. Den exporterade filen innehåller certifikatet, privat nyckel och självsignerat root-certifikat för Synology NAS. </p>
+
+<ol>
+<li>Välj det önskade certifikatet.</li>
+<li>Klicka på <strong>Exportera certifikat</strong>.</li>
+</ol>
+
+<h4>Att förnya certifikat:</h4>
+
+<p>När ditt certifikat håller på att upphöra kan det förnyas genom att använda detta alternativ.</p>
+
+<ol>
+	<li>Klicka på <b>CSR</b>.</li>
+	<li>Välj <b>Förnya certifikat</b> och klicka på <b>Nästa</b>.</li>
+	<li>Ladda ner den privata nyckel som skapats samt signeringsförfrågan för certifikat.</li>
+    <li>Skicka CSR till önskad certifikatutfärdare för ett förnyat certifikat.</li>
+</ol>
+
+
+<h4>Att ersätta certifikat:</h4>
+<p>Om du inte vill använda befintliga certifikat kan du ersätta dem med alternativa certifikat.</p>
+
+<ol>
+<li>Klicka på <strong>Lägg till</strong>.</li>
+<li>Välj <strong>Ersätt ett befintligt certifikat</strong> och det oönskade certifikatet från rullgardinsmenyn.</li>
+<li>Följ guidens instruktioner för att slutföra ersättandet av certifikatet.</li>
+</ol>
+
+
+<h4>Att redigera certifikat:</h4>
+<p>Du kan redigera certifikatets beskrivning eller ställa in ett annan certifikat som standardcertifikat.</p>
+
+<ol>
+<li>Välj det önskade certifikatet.</li>
+<li>Klicka på <strong>Redigera</strong> så kan du utföra någon av nedanstående åtgärder:
+
+<ul>
+<li>Ändra certifikatets beskrivning och klicka på <strong>OK</strong>.</li>
+<li>Välj <strong>Ställ in som standardcertifikat</strong> för att tilldela det standardstatus och klicka på <strong>Tillämpa</strong>.</li>
+</ul>
+</ol>
+
+
+
+<h4>Att konfigurera certifikat:</h4>
+<p>Du kan ändra ett certifikat för en tjänst till ett annat certifikat för att motsvara dina behov.</p>
+
+<ol>
+<li>Klicka på <strong>Konfigurera</strong> för att visa alla tjänsterna och de motsvarande certifikaten.</li>
+<li>Klicka på det aktuella certifikatet för den tjänst som anges som mål.</li>
+<li>Välj ett riktigt certifikat från rullgardinsmenyn.</li>
+<li>Klicka på <strong>OK</strong>.</li>
+</ol>
+
+<h4>Att radera certifikat:</h4>
+
+<ol>
+<li>Välj det oönskade certifikatet.</li>
+<li>Klicka på <strong>Radera</strong> för att slutföra raderingen av certifikatet.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Standardcertifikatet går inte att radera.</li>
+<li>Om du raderar ett certifikat som inte är standard tar standardcertifikatet över dess tillhörande tjänster. Var försiktig eftersom standardcertifikatet eventuellt inte är fullt kompatibelt med dessa tjänster.</li>
+</ul>
+
+<p></p>
+</div>
+
+</body>
+</html>
+

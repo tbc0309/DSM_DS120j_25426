@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Herunterfahren und Zurücksetzen</h2>
+  <p>Die unten stehenden Anweisungen führen Sie durch den Prozess, einen High Availability-Cluster herunterzufahren, zu entfernen oder zurückzusetzen.</p>
+
+  <h4> High Availability-Cluster mit Synology High Availability herunterfahren:</h4>
+  <p>Wenn Sie einen High Availability-Cluster herunterfahren möchten, um die Server zu einem neuen Standort zu transportieren oder eine Wartung durchzuführen, aber nicht die High Availability-Cluster-Konfigurationen entfernen möchten, folgen Sie bitte diesen Anweisungen.</p>
+  <ol>
+   <li>Melden Sie sich bei DSM an.</li>
+   <li>Öffnen Sie Synology High Availability.</li>
+   <li>Klicken Sie auf die Schaltfläche <b>Verwaltung</b>.</li>
+   <li>Wählen Sie <b>HA-Cluster herunterfahren</b>.</li>
+   <li>Eine Bestätigungsmeldung wird angezeigt. Klicken Sie zur Bestätigung auf <b>Ja</b>.</li>
+  </ol>
+
+  <h4>High Availability-Cluster manuell herunterfahren:</h4>
+  <p> Der High Availability-Cluster kann auch über die Ein/Aus-Tasten an jedem Server manuell heruntergefahren werden. </p>
+  <ol>
+   <li>Halten Sie die Ein/Aus-Taste an einem Server (aktiv oder passiv) gedrückt, bis ein Signalton ausgegeben wird.</li>
+   <li>Warten Sie nach dem vollständigen Herunterfahren eines Servers mindestens 30 Sekunden lang (der Server, der noch online ist, benötigt diese Zeit zum Speichern der Einstellungen).</li>
+   <li>Halten Sie die Ein/Aus-Taste am anderen Server gedrückt, bis ein Signalton ausgegeben wird.</li>
+   <li>Warten Sie, bis der Server vollständig heruntergefahren ist.</li>
+  </ol>
+<div class="section">
+<h4>Server einschalten:</h4>   
+<p>Wenn Sie die Server wieder einschalten möchten, müssen der aktive und passive Server zur selben Zeit eingeschaltet werden (oder innerhalb von 5 Minuten). Wenn Sie nur einen der Server einschalten, versucht er, den anderen Server durch Senden der Meldung "Wake on LAN-Verbindung" einzuschalten.</p>
+<h4>Anormales Herunterfahren:</h4>
+<p>Wenn ein High Availability-Cluster erstellt wird, ist die Funktion für den Neustart nach einem Stromausfall in der Systemsteuerung automatisch aktiviert. Wenn die Server aufgrund eines Stromausfalls nicht normal herunterfahren, werden sie automatisch neu gestartet, wenn die Stromversorgung wiederhergestellt ist.</p>
+</div>
+
+<h4>So entfernen Sie einen High Availability-Cluster:</h4>
+ <p>Wenn Sie beide Server und den High Availability-Cluster entfernen möchten, um einen anderen Server einzubinden, folgen Sie bitte diesen Anweisungen.</p>
+  <ol>
+   <li>Gehen Sie zur Seite <b>Übersicht</b>.</li>
+   <li>Klicken Sie auf die Schaltfläche <b>Verwaltung</b>.</li> 
+   <li>Wählen Sie <b>HA-Cluster entfernen</b>.</li>
+  </ol>
+  <p>Nach der Bestätigung entfernt das System den High Availability-Cluster. Das Statusfeld zeigt den Fortschritt des Vorgangs an. Wenn der High Aailability-Cluster erfolgreich entfernt wurde, werden Sie zur ursprünglichen IP-Adresse des aktiven Servers geleitet. Der Status der beiden Servern ändert sich zu <b>Einzeln</b>.</li>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+	<li>Während des Entfernens eines High Availability-Clusters könnten einige unvollständige Datenschreibvorgänge stattfinden. Um die Vollständigkeit der Daten zu gewährleisten, führen Sie bitte eine Datenreplikation basierend auf dem aktiven Server aus, da der passive Server einige Datenaktualisierungen verpassen könnte.</li>
+</ul>
+</div>  
+ 
+ <h4>So setzen Sie einen fehlerhaften High Availability-Cluster zurück:</h4>
+  <p>Wenn Sie aufgrund eines Split Brain-Fehlers oder einer anderen Fehlfunktion nicht mehr auf DSM oder Synology High Availability zugreifen können, können Sie versuchen, ein Entfernen des High Availability-Clusters zu erzwingen, indem Sie auf die <b>Reset</b>-Taste an den Servern drücken.</p>
+  <ol>
+   <li>Halten Sie die <b>Reset</b>-Taste (gewöhnlich an der Rückseite eines Servers) gedrückt, bis der Server einen Signalton ausgibt.
+   <li>Dieses System wird vom High Availability-Cluster entfernt, und der Status dieses Server zu <b>Einzeln</b> geändert</li>
+   <li>Wenn Sie auf die <b>Reset</b>-Taste drücken, werden einige Einstellungen, z. B. IP-Adresse, DNS und Admin-Passwort zusätzlich zu folgenden Optionen auf die Standardwerte zurückgesetzt:</li>
+   <ul>
+    <li>Das Admin-Passwort wird gelöscht.</li>
+    <li>Das Gastkonto wird deaktiviert.</li>
+    <li>DHCP wird in den IP, DNS, Gateway und anderen Netzwerkschnittstellen aktiviert.</li>
+    <li>JumboFrames werden deaktiviert und der MTU-Wert wird auf 1500 eingestellt.</li>
+    <li>Der Verwaltungs-Port wird auf 5000/5001 zurückgesetzt.</li>
+    <li>PPPoE wird auf den Standardwert zurückgesetzt.</li>
+    <li>Automatische IP-Blockierung wird deaktiviert (die blockierte IP-Adresse wird nicht gelöscht).</li>
+    <li>Link Aggregation wird deaktiviert.</li>
+    <li>Firewall-Regeln werden deaktiviert (die Regeln werden nicht gelöscht).</li>
+   </ul>
+  </ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+	<li>Wenn Sie auf die <b>Reset</b>-Taste an einem Server drücken, wird nur dieser Server vom High Availability-Cluster entfernt. Wenn Sie beide Server vom High Availability-Cluster entfernen möchten, drücken Sie auf die <b>Reset</b>-Taste an beiden Servern.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

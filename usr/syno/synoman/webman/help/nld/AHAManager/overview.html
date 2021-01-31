@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Overzicht</h2>
+	<p>Deze pagina toont basisinformatie over de high-availability cluster en servers die er deel van uitmaken. Deze pagina biedt daarnaast hulpmiddelen om onderhoud uit te voeren op high-availability clusters en lidservers.</p>
+
+<h3>High-Availability Cluster-status</h3>
+  <p>Dit veld toont de globale status van uw high-availability cluster en wijst u op mogelijke fouten. Hieronder volgt een tabel van mogelijke condities die in dit veld worden weergegeven:</p>
+    <table>
+     <tr>
+      <th width="12%">Status</th>
+      <th width="88%">Beschrijving</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Gezond</strong></td>
+      <td>De algemene conditie van uw high-availability cluster is goed.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bezig met laden</strong></td>
+	  <td>Het systeem is bezig met het laden van de clusterstatus. <strong>Overschakelen</strong> kan niet worden uitgevoerd tot de status laden is voltooid. Zie <a href="switchover_fail.html">Overschakelen</a></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bezig met configureren</strong></td>
+	  <td>Het systeem wordt geconfigureerd. <b>Overschakelen</b> kan niet worden uitgevoerd tot de configuratie is voltooid.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Waarschuwing</strong></td>
+      <td>De status van HA-cluster wijkt af, maar de services zijn nog steeds operationeel. In deze situatie kan <strong>Overschakelen</strong> niet worden uitgevoerd.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Gevaar</strong></td>
+	  <td>Zowel de actieve als de passieve servers hebben een storing of de opslag is vastgelopen. De high-availability cluster kan niet normaal werken. Controleer de status van alle opslagruimtes (bijv. RAID-groepen, schijfgroepen, volumes en iSCSI LUN's). In deze situatie kan <b>Overschakelen</b> niet worden uitgevoerd.</td>
+     </tr>
+    </table>
+<h3>Waarschuwingsmeldingen</h3>
+   <p>De volgende tabel toont een overzicht van waarschuwingsmeldingen die systeemfouten kunnen worden weergegeven. Wanneer er meer dan een waarschuwingsmelding verschijnt, kunt u met de knoppen voorwaarts/achterwaarts doorheen de meldingen bladeren. </p>
+    <table>
+     <tr>
+      <th width="21%">Waarschuwing/fout</th>
+      <th width="79%">Beschrijving</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Er is geen passieve server in deze high-availability cluster.</strong></td>
+	  <td>De informatie van de passieve server is niet beschikbaar. Controleer of de passieve server correct is verbonden. In dit geval is overschakelen niet beschikbaar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>De detectie van de passieve server is mislukt</strong></td>
+      <td>Deze fout kan optreden omdat de passieve server offline is of omdat de actieve en passieve servers niet kunnen communiceren via de Heartbeatverbinding. In dit geval is overschakelen niet beschikbaar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Uitvoering van failover is mislukt</strong></td>
+      <td>Er is een failover geactiveerd op de actieve server maar de uitvoering is mislukt. In dit geval zal de actieve server geen tweede failover uitvoeren. Volg de onderstaande stappen om deze fout de verwijderen:
+		<ol>
+		  <li>Probeer de problemen in de high availability-cluster op te lossen.</li>
+		  <li>Schakel de passieve server opnieuw in.</li>
+		  <li>Klik op <strong>Beheren</strong> > <strong>Overschakelen</strong> om een overschakeling uit te voeren.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bewaakte doelfout</strong></td>
+      <td>Er is een fout opgetreden in een of meer gecontroleerde targets, inclusief systeemstatus, service of netwerkinterface.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Er is een fout (zijn fouten) opgetreden in de verbinding tussen de uitbreidingseenheden en de actieve/passieve server.</strong></td>
+      <td>De uitbreidingseenheden zijn niet correct verbonden met de actieve of passieve server. Controleer de correcte verbinding met de actieve server en stel dezelfde verbinding in met de passieve server. In dit geval is overschakelen niet beschikbaar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Een volume is beschadigd</strong></td>
+      <td>Een opslagruimte (bijv. RAID-groep, schijfgroep, volume, iSCSI LUN en SSD-cache) is beschadigd. Controleer de pagina <b>Opslagstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Een volume is vastgelopen</strong></td>
+      <td>Een opslagruimte (bijv. RAID-groep, schijfgroep, volume, iSCSI LUN en SSD-cache) is vastgelopen. Controleer de pagina <b>Opslagstatus</b>. Failover wordt automatisch uitgevoerd wanneer de passieve server schijven herkent waartoe de actieve server geen toegang heeft. Anders zal overschakelen niet beschikbaar zijn.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>De heartbeat-verbinding is verloren gegaan</strong></td>
+      <td>Deze fout kan optreden als gevolg van een storing van de Heartbeat-verbinding. In dit geval is overschakelen niet beschikbaar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Hardwarestoring</strong></td>
+      <td>Deze fout kan optreden bij een hardwarestoring (bijv. voedingseenheid of systeemventilator) op de actieve of passieve server.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Verschillende fysieke RAM-grootte</strong></td>
+      <td>Deze fout kan optreden wanneer de fysieke RAM-grootte van de actieve en passieve servers niet overeenkomen. In dit geval is overschakelen niet beschikbaar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Er is geen statisch IP toegewezen aan deze high-availability-cluster</strong></td>
+      <td>Deze fout kan optreden bij het ontbreken van een statisch IP voor de high-availaility cluster. In dit geval is overschakelen niet beschikbaar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Er is geen statisch IP op de gecontroleerde interface</strong></td>
+      <td>Deze fout kan optreden bij het ontbreken van een statisch IP voor de gecontroleerde interface. In dit geval is overschakelen niet beschikbaar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bezig met herstel van passieve server</strong></td>
+      <td>De herstelprocedure van de passieve server wordt uitgevoerd. In dit geval is overschakelen niet beschikbaar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bezig met upgraden van de passieve server</strong></td>
+      <td>Het systeem voert een upgrade uit van de passieve server. In dit geval is overschakelen niet beschikbaar.</td>
+     </tr>
+
+    </table>
+
+<h3>High-Availability Cluster knop &quot;Beheren&quot;</h3>
+
+<p>Deze knop bevindt zich onder de informatie van de high-availability cluster. Het bevat de volgende acties:</p>
+<ul>
+<li><b>Overschakelen:</b> initieert overschakelen van de actieve server naar de passieve server. Tijdens dit proces stopt de actieve server met het verlenen van services en wordt hij de nieuwe passieve server. De oude passieve server verandert vervolgens in de nieuwe actieve server en begint met de verlening van alle services van de high-availability cluster. Deze optie is niet beschikbaar als de passieve server de status <b>fout</b> heeft of niet is geselecteerd.</li>
+<li><b>DSM updaten:</b> opent de pagina <strong>DSM updaten</strong> van het <strong>Configuratiescherm</strong>. Hier kunt u beide servers bijwerken.</li>
+<li><b>High-availability-cluster uitschakelen:</b> schakelt zowel de actieve als de passieve servers uit.</li>
+<li><b>Actieve server uitschakelen:</b> schakel de actieve server uit. De services worden overgeschakeld wanneer de passieve server gezond is.</li>
+<li><b>Passieve server uitschakelen:</b> schakelt de passieve server uit.</li>
+<li><b>Actieve server opnieuw opstarten:</b> voor het opnieuw opstarten van de actieve server. De services worden overgeschakeld wanneer de passieve server gezond is.</li>
+<li><b>Passieve server opnieuw opstarten:</b> start de passieve server opnieuw op.</li>
+<li><b>De onbekende server herstellen:</b> herstelt de passieve server wanneer de passieve server wordt vervangen of nog steeds op de status onbekend staat.</li>
+<li><b>Systeempieptoon uit:</b> stopt de pieptoon van de actieve en passieve server bij een fout. Het systeem blijft een pieptoon weergeven indien een andere fout op de actieve of passieve server optreedt.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>schakelt u de passieve server uit of is er geen passieve server dan kunnen de services niet worden overgeschakeld wanneer er een fout op de actieve server optreedt.</li>
+</ul>
+</div>
+
+<h3>Servergrafiek en informatie</h3>
+ <p>De servergrafiek toont de serverstatus. De locatie komt overeen met de kant van de modules waarop de server is verbonden. Plaats de muiscursor over de locatie voor gedetailleerde informatie.</p>
+<p>Het bevat de volgende situaties:</p>
+<ul>
+  <li><b>Er is geen passieve server in deze high-availability cluster:</b> toont een leeg kader.</li>
+  <li><b>De detectie van de passieve server is mislukt:</b> toont een onscherp beeld.</li>
+  <li><b>Uitroepteken:</b> hardwarestoring of serverinformatie is niet beschikbaar door onderbroken Heartbeat-verbinding.</li>
+</ul>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>wordt "onbekend" aangegeven op de andere server dan betekent dit dat de server niet tot de high-availability cluster behoort. Klik op <b>Beheren</b> en selecteer <b>De onbekende server herstellen</b> om dit probleem op te lossen.</li>
+</ul>
+</div>
+
+<p>De serverinformatie bevat de volgende velden. Het toont <b>N/A</b> wanneer er geen passieve server wordt gedetecteerd.</p>
+
+  <ul>
+   <li><b>Serienummer:</b> serienummer van de Synologyserver.</li>
+   <li><b>Ventilatorstatus:</b> status van de ventilatoren van de server. Bij een storing van een van de ventilatoren verschijnt een melding. Neem in dat geval contact op met uw plaatselijke verdeler voor ondersteuning.</li>
+   <li><b>Temperatuur:</b> temperatuur van de Synologyserver. </li>
+   <li><b>Vermogenstatus:</b> toont of het vermogen van de server normaal is. AIs het servermodel is uitgerust met redundante stroombronnen, verschijnt er een waarschuwing als bij een van beide een storing optreedt.</li>
+    <li><b>Fysiek geheugen:</b> de fysieke RAM-grootte van de Synology-server. Overschakelen kan niet worden uitgevoerd wanneer de twee servers niet dezelfde fysieke RAM-grootte hebben.</li>
+  </ul>
+
+<h3>Connectiviteitstatus tussen servers</h3>
+<p>Dit gedeelte bevat afbeeldingen tussen de actieve en passieve servers. Het bevat de volgende situaties:</p>
+<ul>
+  <li><b>Geeb afbeelding:</b> er is geen passieve server gedetecteerd.</li>
+  <li><b>Stilstaande afbeelding:</b> er is een onjuiste Heartbeat-verbinding.</li>
+  <li><b>Uitroepteken:</b> wijst op een abnormale communicatie tussen de twee servers of incorrecte Heartbeat-verbinding.</li>
+</ul>
+
+<h3>Netwerkinterfacestatus</h3>
+<p>Dit gedeelte bevat afbeeldingen tussen servers en gegevensnetwerk. Het bevat de volgende situaties:</p>
+<ul>
+  <li><b>Geen uitroepteken:</b> geeft aan dat er geen netwerkstoring is gedetecteerd.</li>
+  <li><b>Uitroepteken:</b> geeft aan dat er een storing is opgetreden in de gecontroleerde netwerkinterface.</li>
+</ul>
+
+<h3> Gedeelde-opslaggrafiek en -informatie</h3>
+ <p>De gedeelde-opslaggrafiek toont de connectiviteitstatus tussen servers en gedeelde opslag. Plaats de muiscursor over de locatie voor informatie.</p>
+<p>Het bevat de volgende situaties:</p>
+<ul>
+  <li><b>Geen uitroepteken:</b> geeft aan dat er een fout is gedetecteerd.</li>
+  <li><b>Uitroepteken:</b> geeft de abnormale connectiviteitstatus van de uitbreidingseenheden aan.</li>
+</ul>
+
+<p>De basisinformatie van de gedeelde opslag bevat de volgende velden. Ga naar <b>Opslagbeheer</b> voor gedetailleerde informatie.</p>
+
+  <ul>
+   <li><b>Ventilatorstatus:</b> toont de status van de ventilatoren van uw uitbreidingseenheden. Als een ventilator slecht werkt, verschijnt er een waarschuwing. Neem in dat geval contact op met uw plaatselijke verdeler voor ondersteuning.</li>
+   <li><b>Vermogenstatus:</b> toont of het vermogen van de server normaal is. Een waarschuwing verschijnt bij een storing van een van de voedingseenheden.</li>
+   </ul>
+ </body>
+</html>

@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>バックアップ サービス - Synology DSM ヘルプ</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>バックアップ サービス</h2>
+<p><strong>[バックアップと複製]</strong> &gt; <strong>[バックアップ サービス]</strong> にあるオプションを使うと、別のユーザーがその人の Synology NAS デバイスからデータをバックアップしたり、再同期対応のクライアントを Synology NAS にバックアップしたりすることができます。</p>
+<h3>ネットワーク バックアップ サービスを有効にする</h3>
+<p>ある Synology NAS や rsync 対応サーバーから別の Synology NAS にデータをバックアップしたり、別の Synology NAS デバイスにリモート バックアップ タスクを実行させて、バックアップデータを Synology NAS デバイスのボリュームに保管したりするには、ネットワーク バックアップ タスクを作成する前に、バックアップ先のサーバーでネットワーク バックアップ サービスを有効にする必要があります。これは、<b>[コントロール パネル]</b> &gt; <b>[権限]</b> を選択し、<b>[ネットワーク バックアップ先]</b> の権限を割り当てることができます。そのあとで、Synology NAS で適切なアプリケーションや共有フォルダに対する権限を持った DSM ユーザーを作成してください。設定が完了した後は、他の人はその人の権限で、その人の Synology NAS からあなたの Synology NAS のバックアップ先である共有フォルダにネットワーク バックアップを行うことができます。</p>
+
+<h4>シングル バージョンのバックアップ サービスを有効にする：</h4>
+<ol>
+<li><b>[バックアップ サービス]</b> &gt; <b>[ネットワークのバックアップ先]</b> を選択し、次に <b>[ネットワーク バックアップ サービスを有効にする]</b> にチェックマークを付けます。</li>
+<li><b>[適用] </b>をクリックします。</li>
+<li><b>[コントロール パネル]</b> &gt; <b>[共有フォルダ]</b> を選択した後で、共有フォルダを選択します。次に､<b>[編集]</b> &gt; <b>[権限]</b> をクリックして、ユーザーに<b>読み取り/書き込み</b>権限を与えます。バックアップ先として使用できる別の共有フォルダも設定できるまで、この手順を繰り返してください。</li>
+</ol>
+<h4>マルチ バージョンのバックアップ サービスを有効にする：</h4>
+<ol>
+<li><strong>[バックアップ サービス]</strong> &gt; <b>[ネットワーク バックアップ ボリュームのバックアップ先]</b> を選択し、次に <strong>[ネットワーク バックアップ ボリュームのバックアップ先を有効にする]</strong> にチェックマークを付けます。</li>
+<li><b>[バックアップ先]</b> を選択し、ローカル ボリュームと関連付られたバックアップ先を選択します。</li>
+<li><b>[編集]</b> &gt; <b>[ホワイト リスト]</b>、次に<strong>[追加]</strong> をクリックしてユーザーまたはグループをリストに追加します。</li>
+</ol>
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>他の人が Synology NAS 以外のクライアントからネットワーク バックアップを行いたい場合は、Synology NAS で <b>admin</b> または <b>rsync</b> の権限を持っている場合にのみ行うことができます。<b>admin</b> のユーザー情報を他の人と共有したくない場合は、<b>[コントロール パネル]</b> &gt; <strong>[ユーザー] </strong>を選択して、<b>rsync</b> という名前のユーザー名を作成し、その権限を変更してください。次に、そのユーザー情報を他の人と共有してください。</li><li>DSM 3.0 以前のバージョンを起動している Synology NAS、またはSynology NAS を持たないクライアントからネットワーク バックアップを実行し、ソース データの<b>所有者</b>と<b>グループ</b>情報を維持するには、<b>administrators</b> グループに <b>バックアップ アカウント</b> を追加して、データを <b>NetBackup</b> 共有フォルダにバックアップします。</li>
+</ul>
+</div>
+<h3>カスタマイズした rsync 設定でネットワーク バックアップ サービスを有効にする</h3>
+<p> カスタマイズした rsync 設定を使って、ネットワーク バックアップ サービスを有効にして、ユーザーの権限と Synology NAS 上のバックアップ先を設定することができます。設定が完了したら、他の人はその人の Synology NAS または rsync 対応クライアントから、あなたの Synology NAS のバックアップ先の共有フォルダ（または「バックアップ モジュール」）へ rsync バックアップを実行することができます。</p>
+<h4>カスタマイズした rsync 設定を使ってネットワーク バックアップ サービスを有効にする：</h4>
+<ol>
+<li><b>[バックアップ サービス]</b> &gt; <b>[ネットワーク バックアップ先]</b> を選択します。</li>
+<li><b>[ネットワークバックアップサービスを有効にする]</b> にチェックマークを付けます。</li>
+<li><b>[カスタマイズした rsync 設定を使用する]</b> にチェックマークを付けます。</li>
+<li><b>[適用] </b>をクリックします。</li>
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<h4>Synology NAS でユーザーの権限とバックアップ モジュールを設定する：</h4>
+<ol>
+<li>
+Telnet または SSH を介して Synology NAS デバイスにログインします。
+</li>
+<li>バックアップ モジュールと rsync の設定ファイル<b>「/etc/rsyncd.conf」</b>で認証されたユーザーを指定します。詳しくは、rsync クライアントのマニュアルの <b>rsyncd.conf</b> のページ、または<a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">こちら</a>を参照してください。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>カスタマイズした rsync 設定が使用されている場合は、Synology NAS を<b>共有フォルダ同期</b>、<b>Time Backup</b>、<b>LUN バックアップ</b>の目的のサーバーとして使用することはできなくなります。</li>
+</ul>
+</div>
+
+<h3>速度制限を有効にする</h3>
+<p>ネットワーク バックアップを介してデータを転送するユーザーやグループが最大限使用できる帯域を制御するために、速度制限を設けることができます。</p>
+<h4>速度制限を有効にする：</h4>
+<ol>
+<li><b>[バックアップ サービス]</b> &gt; <b>[ネットワーク バックアップ先]</b> を選択します。<b>[速度制限を有効にする] </b>にチェックマークを付けます。あるいは、特定の時間のみ速度制限を設けるには、<strong>[スケジュールに基づいて速度制限を有効にする] </strong>にチェックマークを付けます。これは、サーバー全体の設定であり、個々のユーザーやグループの設定よりも優先されます。<strong>[速度制限なし] </strong>を選択すると、全ユーザーとグループの速度制限設定は無効になります。</li>
+<li>個人ユーザーまたはグループの設定を変更するには、<strong>[速度制限の設定] </strong>をクリックします。個人ユーザーとグループに対して、次のいずれかを選択できます。
+    <ul>
+<li><strong>グループ設定の適用：</strong> ユーザーが属するグループと同じ速度制限の設定が適用されます。</li>
+<li><strong>なし：</strong> グループのメンバーがサービスを使ってファイルを転送しているときには、速度制限は適用されません。</li>
+<li><strong>固定：</strong> ユーザーまたはグループ メンバーには、常に一定の速度制限が適用されます。アップロードとダウンロードの速度制限は、左側の欄で指定できます。</li>
+<li><strong>可変：</strong> スケジュールに基づいて、ユーザーまたはグループのメンバーに 2 つの速度制限を指定して適用することができます。速度制限の設定を変更したり、スケジュールを設定したりするには、<strong>[カスタマイズ] </strong>ボタンをクリックします。</li>
+    </ul>
+  </li>
+<li><b>[適用] </b>をクリックします。</li> 
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<div class="section">
+<h4>注意：</h4>
+<p>ユーザーに速度制限の設定を適用する場合は、個人およびグループの設定に基づいて、<strong>[結果] </strong>セクションにユーザーの実際の速度制限が表示されます。例えば、ユーザーの「Achilles」にダウンロード制限が 100 KB/s と設定されているが、このユーザーが属するグループのダウンロード制限は 500 KB/s となっている場合は、<strong>[結果] </strong>セクションには「0/500」と表示されます。</p>
+</div>
+
+<h3>Time Backup サービスを有効にする</h3>
+<p>Time Backup サービスは、別の Synology NAS からこの Synology NAS へ、リモートでフォルダの複数のバージョンをバックアップします。これを行うには、ネットワーク バックアップ機能と Time Backup 機能の両方を有効にする必要があります。</p>
+<h4>ネットワーク バックアップ機能と Time Backup 機能を有効にする：</h4>
+<p><strong>[バックアップ サービス]</strong> &gt; <b>[Time Backup]</b> を選択します。該当するチェックボックスにマークを付けてください。</p>
+<img src="about:blank" class="help_image"/>
+
+<div class="section">
+<h4>注意：</h4>
+<p>リモート Time Backup を行うためのバックアップ接続は、admin のアカウントを持ったユーザーしか確立できません。</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+#author: Consumer Platform Team
+
+#Skip some useless events
+ACTION!="add|remove", GOTO="hiddev_end"
+KERNEL!="hiddev5", GOTO="hiddev_end"
+ENV{SYNO_SUPPORT_DUALHEAD}=="yes", GOTO="hiddev_end"
+ENV{SYNO_BLOCK_OPTIONAL_USB}=="yes", GOTO="hiddev_end"
+
+ACTION=="add", RUN+="/usr/bin/killall -SIGUSR1 synorcd"
+ACTION=="remove", RUN+="/usr/bin/killall -SIGUSR2 synorcd"
+
+LABEL="hiddev_end"

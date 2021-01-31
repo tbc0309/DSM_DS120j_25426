@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>制限とシステム要件 - Synology DSM ヘルプ</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+ 
+ 
+<h2>制限とシステム要件</h2>
+
+<p>Synology High Availability の導入には、アクティブ サーバーと受動サーバーとして作動する、2 台の全く同じ Synology サーバーが必要です。2 台のサーバーを high-availability クラスタとして構成する前に、システムは次のハードウェアとソフトウェアの制限を確認して high-availability クラスタが構成可能かどうかを確認します。</p>
+ 
+  
+<h3>システム要件</h3>
+ 
+<p>ソフトウェアとハードウェアについては、次の説明をお読みください。</p>
+  <ul>
+<li><b>Synology サーバー：</b> アクティブ サーバーと受動サーバーの両方が同じモデルでなければなりません。</li>
+<li><b>拡張ユニット：</b> アクティブ サーバーと受動サーバーの両方が同じ拡張ユニットに正しく接続されなければなりません。</li>
+<li><b>ドライブの数とタイプ：</b> ドライブの種類は SAS だけです。DSM をインストールする前に、拡張ユニットに最低でも3台のドライブがインストールされていなければなりません。</li>
+<li><b>USB 外部デバイス：</b> USB ストレージのみサポートされています。他の USB 拡張デバイス（UPS、Wi-Fi ハードウェアキー、スピーカー、プリンタ、Bluetooth ハードウェアキー、DVB ハードウェアキー）はサポートされていません。USB ストレージは、アクティブ サーバーでのみ使用することができ、受動サーバーに切り換えることはできません。</li>
+
+  </ul>
+
+<h3>ネットワーク環境</h3>
+<p>High-availability クラスタを構築する際は、ネットワーク設定に関するガイドラインに従ってください。</p>
+  <ul>
+<li><b>ネットワーク設定：</b> 2台のサーバーの間の Heartbeat 接続は、正しく設定してください。両サーバーは同じサブネットに属している必要があり、インストールした後は固定 IP アドレスを設定する必要があります。</li>
+<li><b>LAN ポートの数：</b>両方のサーバーは同じ数の LAN ポートを備えていなければなりません。追加のネットワークカード インターフェイスが装備された Synology NAS のモデルの場合、別のサーバーにも同じネットワークカード インターフェイスがなければなりません。</li>
+<li><b>接続制限：</b> Wi-Fi ネットワークは、high-availability クラスタでサポートされていません。</li>
+
+  </ul>
+  <div class="section">
+<h4>注：</h4>
+    <ul>
+<li>NTP サーバーは、アクティブ サーバーで自動的に有効になります。</li>
+    </ul>
+  </div>
+
+<h3>パッケージとソフトウェアの制限</h3> 
+
+<p>パッケージおよびソフトウェア関連の制限をお読みください。</p>
+	<ul>
+	<li>high-availability クラスタは、次のパッケージと機能には対応しません。
+		<ul><li>DVBLink サーバー</li>
+		<li>CMS で high-availability クラスタをリブート/シャットダウンする機能</li>
+		<li>Time Backup</li>
+		</ul>
+	</li>
+	<li>共有ストレージを持つ High-availability クラスタは、複製ベースの high-availability クラスタとして設定したり、これと一緒に使用したりすることはできません。</li>
+    </ul>
+
+<h3>特定の拡張ユニット</h3>
+<p>アクティブ サーバーと受動サーバーの両方が特定の拡張ユニットに接続されなければなりません。各拡張ユニットにはそれぞれ2つのモジュールがあります。</p>
+<h4>拡張ユニットを設定/追加する：</h4>
+  <ul>
+<li>1つのモジュールには、左側に入力ポート、右側に出力ポートがあります。モジュールの出力ポートから出ている SAS ケーブルを次の拡張ユニットのモジュールの入力ポートに繋ぎます。</li>
+	<li>拡張ユニットは、各サーバーのそれぞれの側面のモジュールに直列に繋いでください。</li>
+<li>アクティブ サーバーと受動サーバーの両方が共有拡張ユニットに同じ順番で接続されなければなりません。</li>
+  </ul>
+
+
+<div class="section">
+<h4>注意：</h4>
+<p>拡張ユニットの装着についての詳しい情報は、サーバーと拡張ユニットのクイックインストール ガイドをお読みください。</p>
+</div>
+
+   
+ </body>
+</html>

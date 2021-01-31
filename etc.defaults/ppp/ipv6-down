@@ -1,0 +1,34 @@
+#!/bin/sh
+
+if [ -f /proc/sys/net/ipv6/conf/${IFNAME}/accept_ra ]; then
+	echo 1 > /proc/sys/net/ipv6/conf/${IFNAME}/accept_ra
+fi
+
+kill_dns ()
+{
+	if [ -z $1 ]; then
+		return 1
+	fi
+
+	process=`/sbin/initctl list | grep dhcp-client6 | grep ${1}/info`
+
+	if [ -n ${process} ]; then
+		/sbin/stop dhcp-client6 IFACE=${1} ACTION=info
+	fi
+
+	/usr/syno/sbin/synonetdtool --del-gateway-info -6 $1
+	/usr/syno/sbin/synonetdtool --refresh-gateway -6
+
+	return 0
+}
+
+TC_SCRIPT="/usr/syno/bin/synotc_common"
+RELAYDAEMON="/usr/syno/sbin/synorelayd"
+
+kill_dns ${IFNAME}
+
+if [ -x "${TC_SCRIPT}" ]; then
+	${TC_SCRIPT} restart /etc/tc
+fi
+
+${RELAYDAEMON} -U

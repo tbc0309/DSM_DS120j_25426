@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Servicios de copia de seguridad - Ayuda de Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Servicios de copia de seguridad</h2>
+<p>Las opciones de <strong>Copia de seguridad y replicación</strong> > <strong>Servicios de copia de seguridad</strong> permiten a los usuarios realizar copias de seguridad de datos desde sus dispositivos Synology NAS o clientes compatibles con rsync a su Synology NAS.</p>
+<h3>Habilitar servicio de copia de seguridad de red</h3>
+<p>Si desea realizar copias de seguridad de datos de un Synology NAS o de un servidor compatible con rsync a otro Synology NAS, o permitir que otro dispositivo Synology NAS realice tareas de copia de seguridad remotas y almacene los datos de las copias de seguridad en un volumen de su dispositivo Synology NAS, deberá habilitar el servicio de copias de seguridad de red en el servidor de destino antes de crear una tarea de copia de seguridad de red. Para hacer esto, vaya a <b>Panel de control</b> > <b>Privilegios</b> y otorgue el privilegio de <b>Destino de la copia de seguridad de red</b> a un usuario. A continuación, podrá crear un usuario de DSM con los privilegios adecuados de aplicaciones y carpetas compartidas en su Synology NAS. Una vez finalizada la configuración, los demás podrán utilizar los privilegios de usuario para realizar copias de seguridad de red desde sus Synology NAS a las carpetas compartidas de destino de su Synology NAS.</p>
+
+<h4>Para habilitar el servicio de copia de seguridad de versión única:</h4>
+<ol>
+<li>Vaya a <b>Servicios de copia de seguridad</b> > <b>Destino de la copia de seguridad de red</b> y a continuación haga clic en <b>Habilitar servicio de copia de seguridad de red</b>.</li>
+<li>Haga clic en <b>Aplicar</b>.</li>
+<li>Vaya a <b>Panel de control</b> > <b>Carpeta compartida</b>, seleccione una carpeta compartida, haga clic en <b>Editar</b> > <b>Permisos</b>, y luego otorgue el privilegio <b>Lectura/Escritura</b> a un usuario. Repita este paso para incluir más carpetas compartidas que podrían utilizarse como destinos de copia de seguridad.</li>
+</ol>
+<h4>Para habilitar el servicio de copia de seguridad de versión múltiple:</h4>
+<ol>
+  <li>Vaya a <strong>Servicios de copia de seguridad</strong> > <b>Destino del volumen de la copia de seguridad de red</b> y marque la casilla junto a <strong>Habilitar el destino del volumen de la copia de seguridad de red</strong>.</li>
+  <li>Vaya a <b>Destino de la copia de seguridad</b> y seleccione un destino de copia de seguridad con un volumen local.</li>
+<li>Haga clic en <b>Editar</b> > <b>Lista de permiso</b> > <strong>Agregar</strong> para agregar el usuario o grupo a la lista.</li>
+</ol>
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Si otros usuarios desean realizar una copia de seguridad de red desde un cliente que no sea Synology NAS, solo podrán hacerlo con privilegios de <b>admin</b> o <b>rsync</b> en su Synology NAS. Si no desea compartir sus credenciales de <b>admin</b> con otras personas, puede ir al <b>Panel de control</b> > <strong>Usuario</strong> para crear un usuario denominado <b>rsync</b>, modificar sus privilegios y luego compartir sus credenciales con otras personas.</li><li>Si realiza una copia de seguridad de red desde un Synology NAS con una versión de DSM anterior a 3.0 o un cliente que no sea Synology NAS, y desea conservar la información sobre el <b>propietario</b> y <b>grupo</b> de los datos de origen, debe añadir la <b>cuenta de copia de seguridad</b> al grupo de <b>administrators</b> y realizar una copia de seguridad de los datos a la carpeta compartida <b>NetBackup</b>.</li>
+</ul>
+</div>
+<h3>Habilitar el servicio de copia de seguridad de red utilizando una configuración personalizada de rsync</h3>
+<p> Puede habilitar el servicio de copia de seguridad de red usando una configuración personalizada de rsync, y configurar los privilegios de usuario y el destino de la copia de seguridad en su Synology NAS. Una vez finalizada la configuración, los demás podrán realizar copias de seguridad rsync desde sus dispositivos Synology NAS o clientes compatibles con rsync a las carpetas compartidas de destino (o "módulos de copia de seguridad") en su Synology NAS.</p>
+<h4>Para habilitar el servicio de copia de seguridad de red utilizando una configuración personalizada de rsync:</h4>
+<ol>
+<li>Vaya a <b>Servicios de copia de seguridad</b> > <b>Destino de la copia de seguridad de red</b>.</li>
+<li>Marque <b>Habilitar servicio de copia de seguridad de red</b>.</li>
+<li>Marque <b>Utilizar configuración personalizada de rsync</b>.</li>
+<li>Haga clic en <b>Aplicar</b>.</li><img src="about:blank" class="help_image"/></ol>
+<h4>Para configurar privilegios de usuario y módulos de copia de seguridad en su Synology NAS:</h4>
+<ol>
+<li>Inicie sesión en su dispositivo Synology NAS a través de Telnet o SSH.</li>
+<li>Especifique el módulo de copia de seguridad y los usuarios autorizados en el archivo de configuración rsync "<b>/etc/rsyncd.conf</b>". Para más información, consulte la página del manual de <b>rsyncd.conf</b> en su cliente de rsync o haga clic <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">aquí</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Si se utiliza una configuración personalizada de rsync, Synology NAS no podrá ser el servidor de destino para <b>Sincronización de carpetas compartidas</b>, <b>Time Backup</b> o <b>Copia de seguridad LUN</b>.</li>
+</ul>
+</div>
+
+<h3>Habilitar el límite de velocidad</h3>
+<p>Puede habilitar el límite de velocidad para controlar el ancho de banda útil máximo para usuarios y grupos al transferir datos a través de la copia de seguridad de red.</p>
+<h4>Para habilitar el límite de velocidad:</h4>
+<ol>
+  <li>Vaya a <b>Servicios de copia de seguridad</b> > <b>Destino de la copia de seguridad de red</b>. Marque la casilla con la indicación de <b>Habilitar límite de velocidad</b> o <strong>Habilitar el límite de velocidad de acuerdo con un programa</strong> si desea imponer un límite de velocidad solo en determinados momentos. Este ajuste se realiza a nivel de servidor y anulará los ajustes de usuarios individuales y de grupos. Si elige <strong>Sin límite de velocidad</strong> deshabilitará los ajustes del límite de velocidad para todos los usuarios y grupos.</li>
+  <li>Haga clic en <strong>Ajustes del límite de velocidad</strong> para modificar la configuración para determinados usuarios o grupos. Para cada usuario y grupo puede elegir una de las siguientes opciones:<ul>
+      <li><strong>Aplicar configuración de grupo:</strong> los ajustes del límite de velocidad serán los mismos que los del grupo al que pertenece el usuario. </li>
+      <li><strong>Ninguno:</strong> no se aplica ningún límite de velocidad cuando miembros del grupo transfieren archivos con el servicio.</li>
+      <li><strong>Constante:</strong> se aplicará un límite de velocidad fijo constante para el usuario o los miembros del grupo. Los límites de velocidad de carga y descarga se pueden especificar en los campos a la izquierda.</li>
+      <li><strong>Variable:</strong> se pueden especificar dos límites de velocidad diferentes al usuario o los miembros del grupo de acuerdo con un programa. Haga clic en el botón <strong>Personalizar</strong> para modificar los ajustes del límite de velocidad y definir un programa.</li>
+    </ul>
+  </li>
+ <li>Haga clic en <b>Aplicar</b>.</li><img src="about:blank" class="help_image"/></ol>
+<div class="section">
+  <h4>Nota:</h4>
+    <p>Cuando esté definiendo el límite de velocidad para un usuario, la sección <strong>Resultado</strong> mostrará el límite de velocidad actual del usuario de acuerdo con el ajuste individual y de grupo. Por ejemplo, si el usuario "Aquiles" tiene un límite individual de descarga de 100 kB/s, pero pertenece a un grupo de usuarios con un límite de descarga de 500 KB/s, entonces la sección de <strong>Resultados</strong> mostrará "0/500".</p>
+</div>
+
+<h3>Habilitar servicio Time Backup</h3>
+<p>El servicio Time Backup permite a los usuarios realizar copias de seguridad de varias versiones de carpetas desde otros Synology NAS a este Synology NAS de forma remota. Para esto es necesario habilitar el servicio de copia de seguridad de red y el servicio Time Backup.</p>
+<h4>Para habilitar el servicio de copia de seguridad de red y el servicio Time Backup:</h4>
+<p>Vaya a <strong>Servicios de copia de seguridad</strong> > <b>Time Backup</b>. Marque la casilla de verificación adecuada.</p><img src="about:blank" class="help_image"/><div class="section">
+<h4>Nota:</h4>
+<p>Solo se permite la cuenta admin para crear la conexión de copia de seguridad para Time Backup remoto.</p>
+</div>
+
+</body>
+</html>

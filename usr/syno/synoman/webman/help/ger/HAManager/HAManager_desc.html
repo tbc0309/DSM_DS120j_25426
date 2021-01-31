@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>High Availability Manager - Synology DSM Hilfe</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>High Availability Manager</h1>
+
+  <p>High Availability (&bdquo;hohe Verf&uuml;gbarkeit&ldquo;) bezeichnet ein Server-Layout, das Unterbrechungen von Diensten durch Serverausf&auml;lle reduziert. Dabei werden zwei Server in einem Synology High Availability-Cluster (&bdquo;Hochverf&uuml;gbarkeits-Cluster&ldquo;) zusammengefasst, wobei ein Server aktiv ist und der andere Server als Standby-Server (&bdquo;passiver Server&ldquo;) dient. Zur Bildung eines High-Availability-Clusters werden zwei kompatible Synology-Server ben&ouml;tigt.</p>
+  <p>Ein high-availability Cluster macht von den folgenden Komponenten und Konzepten Gebrauch:</p>
+
+  <ul>
+   <li><b>Konzept: </b>Der Einsatz von Synology High Availability erfordert Synology Server, um einen high-availability Cluster zu erstellen. Ein Server fungiert als &quot;aktiver Server&quot; und der andere als &quot;passiver Server&quot;. Nachdem der high-availability Cluster erstellt wurde, werden dauerhaft Daten vom aktiven Server auf den passiven Server repliziert. S&auml;mtliche Dateien auf dem aktiven Server werden auch auf dem passiven Server vorhanden sein. Wenn der aktive Server ausfallen sollte, kann der passive Server s&auml;mtliche Dienste mit einer vollst&auml;ndig gespiegelten Kopie der Daten des aktiven Servers &uuml;bernehmen. Der high-availability Cluster wird somit die Dienste weiterhin normal anbieten und die Server Ausfallzeit minimieren. Weitere Informationen &uuml;ber die &Uuml;bergabe finden Sie unter <a href="switchover_fail.html">&Uuml;bergabe</a></li>
+   <li><b>Aktiver Server:</b> Der aktive Server verwaltet das Angebot s&auml;mtlicher Dienste. Wenn ein Fehler auf dem aktiven Server auftritt, k&ouml;nnen Sie oder das System eine &Uuml;bergabe an den passiven Server einleiten. In diesem Fall werden die Dienste auf den passiven Server &uuml;bertragen und der aktive Server zum passiven Server werden.</li>
+   <li><b>Passiver Server:</b> Unter normalen Umst&auml;nden bleibt der passive Server im Standbymodus. Daten auf dem aktiven Server werden dauerhaft auf den passiven Server repliziert. Wenn der aktive Server keine Dienste anbieten kann, k&ouml;nnen Sie oder das System eine &Uuml;bergabe an den passiven Server einleiten. </li>
+   <li><b>Heartbeat-Verbindung:</b> Der aktive und passive Server in einem high-availability Cluster sind mit einer unabh&auml;ngigen, privaten Netzwerkverbindung verbunden, die als &quot;Heartbeat-Verbindung&quot; bezeichnet wird. Nachdem der high-availability Cluster erstellt wurde, hilft die Heartbeat-Verbindung bei der Datensynchronisierung und Replikation zwischen dem aktiven und dem passiven Server. Wenn der Kontakt zwischen den Servern &uuml;ber einen bestimmten Zeitraum unterbrochen ist, wird das System ggf. eine &Uuml;bergabe veranlassen.</li>
+   <li><b>High-availability Cluster Hauptspeicher-Volume:</b> Das Speichervolume des aktiven Servers wird das Hauptspeicher-Volume des high-availability Cluster. Daten werden &uuml;ber die Heartbeat-Verbindung auf das passive Serverspeicher-Volume repliziert.</li>
+   <li><b>High-availability Cluster Ersatzspeicher-Volume: </b>Das Speicher-Volume des passiven Servers wird das Ersatzspeicher-Volume des high-availability Clusters. Daten werden &uuml;ber die Heartbeat-Verbindung dauerhaft vom Speichervolume des aktiven Servers auf das passive Speichervolume repliziert. Dies stellt die Konsistenz der Dateiinhalte sicher, wenn eine &Uuml;bergabe durchgef&uuml;hrt wird.</li>
+   <li><b>High-availability Cluster Servername:</b> Server im high-availability Cluster werden einen Servernamen teilen. Im Netzwerk k&ouml;nnen Sie sich mit diesem Servernamen verbinden und Dienste werden vom aktiven Server angeboten. </li>
+   <li><b>High-availability Cluster IP: </b>Da der aktive und der passive Server im high-availability Cluster jeweils eine eigene IP-Adresse besitzt, wird der high-availability Cluster eine gemeinsame IP-Adresse f&uuml;r den Zugang erstellen, um bei einer &Uuml;bergabe eine &Auml;nderung der IP-Adressen zu vermeiden. Um auf DSM Dienste zuzugreifen, egal welcher Synology Server als aktiver Server dient, k&ouml;nnen Sie sich &uuml;ber diese IP-Adressen verbinden. </li>
+  </ul>
+
+
+
+ </body>
+</html>

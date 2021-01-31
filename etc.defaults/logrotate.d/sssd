@@ -1,0 +1,8 @@
+/var/log/sssd/*.log {
+    size 10M
+    missingok
+    rotate 4
+    postrotate
+        /bin/kill -HUP `cat /var/run/sssd.pid  2>/dev/null`  2> /dev/null || true
+    endscript
+}

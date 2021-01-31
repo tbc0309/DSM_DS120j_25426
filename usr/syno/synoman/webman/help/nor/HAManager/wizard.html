@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Veiviser for High Availability-administrasjon - Synology DSM Hjelp</title>
+
+
+ </head>
+ <body>
+<h2>Veiviser for High Availability-administrasjon</h2>
+<p>Denne veiviseren leder deg gjennom prosessen med å opprette og sette opp en high-availability-sky.</p>
+<h4>Slik starter du denne veiviseren:</h4>
+<ol>
+<li>Åpne <b>High Availability-administrasjon</b>.</li>
+<li>Gå til siden <b>Oversikt</b>.</li>
+<li>Klikk på <b>Opprett HA-sky</b>.</li>
+</ol>
+   
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Fullfør veiviseren for oppsett av high-availability-sky innen tidsbegrensningen. Hvis du overskrider tidsbegrensningen, må du starte oppsettprosessen på nytt.</li>
+<li>Hvis du må identifisere hvilken server som er den aktive serveren i en high-availability-sky, anbefaler vi at du laster ned Synologys <strong>DS finder</strong>-program og bruker lydsignalfunksjonen, som kan få den aktive serveren til å gi fra seg et kort lydsignal.</li>
+</ul>
+</div>
+
+<h4>Slik setter du opp den passive serveren:</h4>
+<p>Angi en Synology-server som passiv server. Under normale forhold, styrer ikke den passive serveren tjenester. Men hvis feil eller svikt oppstår, kan tjenester overføres fra den aktive serveren til den passive serveren.</p>
+<ol>
+<li><b>IP-adresse:</b> Angi IP-adressen for passiv server.
+
+</li>
+<li><b>Brukernavn:</b> Angi en brukerkonto som tilhører <b>administrator</b>-gruppen på målserveren. </li>
+<li><b>Passord:</b> Angi passordet for kontoen som tilhører <b>administrator</b>-gruppen.</li>
+</ol>
+
+<div class="section">
+<h4>Merk:</h4> 
+<ul>
+<li>Når high-availability-skyen er opprettet, vil all data på den passive serveren bli slettet. Forsikre deg om at ingen viktig data er lagret på den passive serveren. </li>   
+</ul>
+</div>
+  
+<h4>Slik konfigurerer du Heartbeat-tilkoblingen:</h4>
+<p>Koble de to serverne til hverandre. Denne tilkoblingen skal tjene som "Heartbeat"-tilkobling mellom de to serverne og legge til rette for kommunikasjon og kopiering av data fra den aktive til den passive serveren. For å sikre kvaliteten på Heartbeat-tilkoblingen, vil systemet kontrollere om denne tilkoblingen møter følgende kriterier ved oppretting av high-availability-skyen:</p>
+<ul>
+<li>Mellom de to serverne er det ingen andre enheter med IP-adresser i det samme kringkastingsdomenet. Hvis denne Heartbeat-tilkoblingen går gjennom svitsjer, må du kontrollere at svitsjene støtter multikast og Jumbo Frame.</li>
+<li>Har en nettverkstilkobling med liten ventetid. Ping-responstiden mellom de to serverne må være mindre enn 1 ms, og overføringshastigheten bør være minst 500 Mbps. MTU blir konfigurert til 9000 automatisk.</li>
+<li>Buke det samme nettverksgrensesnittet på begge serverne. For eksempel, hvis den ene enden er tilkoblet LAN 1 på en server, må den andre enden være tilkoblet LAN 1 på den andre serveren.</li>
+<li>Buke det raskeste nettverksgrensesnittet på begge serverne. Hvis serverne er utstyrt med 10GbE add-on-nettverksgrensesnittkort, må denne tilkoblingen bruke dem.</li>
+</ul>
+ <p>Etter at det ovenfornevnte er bekreftet går du til seksjonen <b>Grensesnitt for HA-tilkobling (Heartbeat)</b> og velger nettverksgrensesnittet på serverne som skal tjene som Heartbeat-tilkobling.</p>
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Innstillinger for Heartbeat-tilkobling vil generere to sett med IP-adresser (f.eks. 169.254.1.1 og 169.254.1.2) for datakopiering fra den aktive serveren til den passive serveren. Forsikre deg om at disse to IP-adressene ikke brukes av annet utstyr på nettverket.</li>
+<li>Aktivering av VLAD-ID på Heartbeat-tilkoblingsportene til din Synology NAS støttes ikke.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Konfigurere Link Aggregation på Heartbeat- eller datatilkoblingene:</h4>
+
+<ul>
+<li>For å konfigurere Link Aggregation på Heartbeat- eller datatilkoblingen, må du sette opp Link Aggregation på to eller flere LAN-porter i <strong>Kontrollpanel</strong> > <strong>Nettverk</strong> > <strong>Nettverksgrensesnitt</strong> før du starter veiviseren for oppretting av high availability. Forsikre deg om at Link Aggregation-innstillinger er identiske på begge serverne (f.eks. hvis du setter opp Link Aggregation på port 1 og 2 på den aktive serveren, må Link Aggregation settes opp på port 1 og 2 på den passive også).</li>
+
+
+<li>Heartbeat er utstyrt med øverføring av tjenester og lastbalansering, men datatilkoblinger er avhengig av Link Aggregation-metoden du velger.</li>
+</ul>
+
+</div>
+
+
+<h4>Slik konfigurerer du innstillingene for nettverksgrensesnittet til high-availability-skyen:</h4>
+<p>High-availability-skyen vil bruke en IP-adresse for high-availability-sky som tilkoblingsgrensesnitt utenfra. Du kan koble til med denne IP-adressen for high-availability-sky når du ønsker å bruke DSM-tjenester, uansett hvilken Synology-server som er aktiv server. Dette forhindrer at du må koble til forskjellige IP-adresser etter å ha utført overføring fra den aktive til den passive serveren.</p>
+
+<ol>
+<li><b>Servernavn for sky:</b> Navnet til high-availability-skyen. Se regler for servernavn (i <b>DSM Hjelp</b> > <b>Kontrollpanel</b> > <b>Tilkoblingsbarhet</b> > <b>Nettverk</b> > <b>Generelt</b>) for informasjon om navnbegrensninger.</li>
+<li><b>Nettverksgrensesnitt:</b> Nettverksgrensesnittet som brukes av high-availability-skyen. Du må velge en annen LAN-port enn den som er angitt for datakopiering under det forrige trinnet. </li>
+<li><b>IP-adresse:</b> IP-adressen som brukes av high-availability-skyen. Uansett hvilken server som aktivt styrer tjenester, kan skyen kobles til gjennom denne IP-adressen.</li>
+<li> <b>Delnettmaske:</b> Delnettmasken som brukes av high-availability-skyen.</li>
+</ol>
+
+<div class="section">
+<h4>Tilordne en VLAN-ID til datatilkoblingen:</h4>
+<ul>
+<li>For å tilordne en VLAN-ID til datatilkoblingen, går du til <strong>Kontrollpanel</strong> > <strong>Nettverk</strong> > <strong>Nettverksgrensesnitt</strong> før du starter veiviseren for oppretting av high-availability. Forsikre deg om at VLAN-innstillinger er identiske på begge serverne (f.eks. hvis LAN 1 er satt opp med VLAN-ID 1 på den aktive serveren, må LAN 1 på den passive serveren være satt opp med VLAN-ID 1 også).</li>
+</ul>
+</div>
+
+
+<h4>Slik bekrefter du innstillingene:</h4>
+<p>Dobbeltsjekk innstillingene som brukes av high-availability-skyen. Systemet vil begynne å tilknytte high-availability-skyen når du har klikket på <b>Bruk</b>. </p>
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Når du oppretter en high-availability-sky, må all data på den aktive serveren kopieres til den passive serveren. Hvis tilkoblingen til den passive serveren blir brutt i mer enn 30 minutter før den første kopieringsprosessen er fullført, vil den passive serveren gå tilbake i <strong>Frittstående</strong> modus. I så tilfelle, må du tilknytte den på nytt og utføre en ny fullstendig datakopiering.</li>
+</ul>
+</div>
+ </body>
+</html>

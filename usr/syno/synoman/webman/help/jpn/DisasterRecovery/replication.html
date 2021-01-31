@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js">：script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js">：script>
+：head>
+<body>
+
+<h2>複製：h2>
+
+<p>このページでは、システム管理者が複製の管理を行います。複製タスクを作成、編集、削除することができます。同期を実行/停止したり、複製タスクの情報を表示したりすることもできます。：p>
+
+<h3>共有フォルダ：h3>
+
+<h4>共有フォルダの複製タスクを作成する:：h4>
+<ol>
+	<li><strong>[共有フォルダ] ：strong>タブを開きます。：li>
+	<li><strong>[作成］：strong> をクリックします。：li>
+	<li><strong>複製タスクの作成：strong>ウィザードが起動します。ウィザードの指示に従って、共有フォルダの複製を作成してください。：li>
+：ol>
+
+<div class="section"><h4>注意：：h4>
+<ul>
+	<li>共有フォルダ「homes」は複製できません。：li>
+	<li>暗号化した共有フォルダは複製できません。：li>
+	<li>共有フォルダは Btrfs ボリュームになければなりません。：li>
+	<li>別の複製先サーバーに共有フォルダの <a href="#multiple_replication">[1台対複数/拡張複製：a> を作成することができます。ただし、それぞれの共有フォルダにつき、1つの複製サーバーには1つの複製しか作成できません。：li>
+：ul>
+：div>
+
+<h4>共有フォルダの複製を削除する：：h4>
+<ol>
+	<li>削除したい共有フォルダの複製タスクを選択します。：li>
+	<li><strong>[削除]：strong> をクリックします。：li>
+	<li>確認メッセージが表示されます。削除を確定するには <strong>[削除]：strong> をクリックします。：li>
+：ol>
+
+<h4>共有フォルダの複製を編集する：：h4>
+<ol>
+	<li>編集したい共有フォルダの複製タスクを選択します。：li>
+	<li><strong>[編集]：strong> をクリックします。：li>
+	<li>次のタブが表示された画面が開きます。
+	  <ul>
+			<li>パートナー サーバー：li>
+			<li>予約：li>
+			<li>保持：li>
+		：ul>
+	：li>
+	<li><strong>[パートナー サーバー]：strong> タブでは、パートナー サーバー情報（ホスト名、ポート、ユーザー名、パスワードなど）を編集することができます。：li>
+	<li><strong>[スケジュール]：strong> タブで<strong>[スナップショットの予定を有効にする：strong> にチェックマークを付けて、スナップショットを撮影する時間と頻度を設定します。共有フォルダの予約されていたスナップショットを中止するよう、チェックマークを外してください。：li>
+	<li><strong>[保持]：strong> タブで以下のオプションを選択します。
+		<ul>
+			<li><strong>最新のスナップショット 256 個を維持します。：strong> スナップショットが最大数（256個）に達したら、古いスナップショットから新しいもので上書きされていきます。：li>
+			<li><strong>常にスナップショットを維持する：：strong> スナップショットが最大数に達したら、スナップショットと複製が既に撮影したものを削除せずに、新しいスナップショットの撮影を中止します。：li>
+			<li><strong>次のポリシーに基づいてスナップショットを維持する:：strong> 指定した時間枠で維持規則を設定できます。：li>
+		：ul>
+	：li>
+	<li><strong>[OK] ：strong>をクリックして、新しい設定を適用します。：li>
+：ol>
+
+<div class="section"><h4>注意：：h4>
+<ul>
+	<li>複製タスクのを予約はソース サーバーでしか編集できません。：li>
+	<li>保持設定を変更すると、<strong>[スナップショット]：strong> ページの相当する設定にも影響します。：li>
+：ul>
+：div>
+
+<h4>共有フォルダの複製情報を表示する:：h4>
+<ol>
+	<li>表示したい共有フォルダの複製タスクを選択します。：li>
+	<li><strong>［情報］：strong> をクリックします。：li>
+	<li>次の情報が表示された画面が開きます。
+	  <ul>
+			<li><strong>この複製の状態：strong>。：li>
+			<li><strong>この複製の分析：strong>。：li>
+		：ul>
+	：li>
+：ol>
+
+<h4>共有フォルダの複製を同期する:：h4>
+<ol>
+	<li>同期したい共有フォルダの複製タスクを選択します。：li>
+	<li><strong>[実行]：strong> をクリックします。：li>
+	<li>撮影するスナップショットの説明を入力してください。：li>
+	<li>操作を確定するには <strong>[OK]：strong> をクリックします。：li>
+：ol>
+
+<h4>共有フォルダの複製の同期を停止する:：h4>
+<ol>
+	<li>停止したい共有フォルダの複製の同期を選択します。：li>
+	<li><strong>[中止]：strong> をクリックします。：li>
+	<li>確認メッセージが表示されます。操作を確定するには <strong>[中止]：strong> をクリックします。：li>
+：ol>
+
+<h3>iSCSI LUN：h3>
+
+<h4>iSCSI LUN の複製タスクを作成する:：h4>
+<ol>
+	<li><strong>[iSCSI LUN]：strong> タブを開きます。：li>
+	<li><strong>[作成］：strong> をクリックします。：li>
+	<li><strong>複製タスクの作成：strong>ウィザードが起動します。ウィザードの指示に従って、iSCSI LUN の複製を作成してください。：li>
+：ol>
+
+<div class="section"><h4>注意：：h4>
+<ul>
+	<li>iSCSI LUN は <strong>高度な LUN：strong> として作成されていなければなりません。：li>
+	<li>iSCSI LUN から別の複製先サーバーに <a href="#multiple_replication">[1台対複数/拡張複製：a> を作成することができます。ただし、それぞれの iSCSI LUN について、1つの複製サーバーには1つの複製しか作成できません。：li>
+：ul>
+：div>
+
+<h4>iSCSI LUN の複製を削除する：：h4>
+<ol>
+	<li>削除したい iSCSI LUN の複製タスクを選択します。：li>
+	<li><strong>[削除]：strong> をクリックします。：li>
+	<li>確認メッセージが表示されます。操作を確定するには <strong>[削除]：strong> をクリックします。：li>
+：ol>
+
+<h4>iSCSI LUN の複製を編集する：：h4>
+<ol>
+	<li>編集したい iSCSI LUN の複製タスクを選択します。：li>
+	<li><strong>[編集]：strong> をクリックします。：li>
+	<li>次のタブが表示された画面が開きます。
+	  <ul>
+			<li>パートナー サーバー：li>
+			<li>予約：li>
+			<li>保持：li>
+		：ul>
+	：li>
+	<li><strong>[パートナー サーバー]：strong> タブでは、パートナー サーバー情報（ホスト名、ポート、ユーザー名、パスワードなど）を編集することができます。：li>
+	<li><strong>[スケジュール]：strong> タブで <strong>[スナップショットの予定を有効にする]：strong> にチェックマークを付けて、スナップショットを撮影する時間と頻度を設定します。iSCSI LUN の予約されていたスナップショットを中止するよう、チェックマークを外してください。：li>
+	<li><strong>[保持]：strong> タブで以下のオプションを選択します。
+		<ul>
+			<li><strong>最新のスナップショット 256 個を維持します。：strong> スナップショットが最大数（256個）に達したら、古いスナップショットから新しいもので上書きされていきます。：li>
+			<li><strong>常にスナップショットを維持する：：strong> スナップショットが最大数に達したら、スナップショットと複製が既に撮影したものを削除せずに、新しいスナップショットの撮影を中止します。：li>
+			<li><strong>次のポリシーに基づいてスナップショットを維持する:：strong> 指定した時間枠で維持規則を設定できます。：li>
+		：ul>
+	：li>
+	<li><strong>[アプリケーション]：strong> タブで、<strong>[アプリケーション コンシステントなスナップショットを有効にする]：strong> にチェックマークを付けます。アプリケーション コンシステントなスナップショットをキャンセルするには、チェックマークを外してください。：li>
+	<li><strong>[OK] ：strong>をクリックして、新しい設定を適用します。：li>
+：ol>
+
+<div class="section"><h4>注意：：h4>
+<ul>
+	<li>複製ソースでしか予約は編集できません。：li>
+	<li>保持/アプリケーション設定を変更すると、<strong>[スナップショット]：strong> ページの相当する設定にも影響します。：li>
+：ul>
+：div>
+
+<h4>iSCSI LUN の複製を表示する：：h4>
+<ol>
+	<li>表示したい iSCSI LUN の複製タスクを選択します。：li>
+	<li><strong>［情報］：strong> をクリックします。：li>
+	<li>次の情報が表示された画面が開きます。
+	  <ul>
+			<li><strong>この複製の状態：strong>。：li>
+			<li><strong>この複製の分析：strong>。：li>
+		：ul>
+	：li>
+：ol>
+
+<h4>iSCSI LUN の複製を同期する:：h4>
+<ol>
+<li>同期したい iSCSI LUN の複製タスクを選択します。：li>
+	<li><strong>[実行]：strong> をクリックします。：li>
+	<li>撮影するスナップショットの説明を入力してください。：li>
+	<li>操作を確定するには <strong>[OK]：strong> をクリックします。：li>
+：ol>
+
+<h4>iSCSI LUN の複製の同期を中止する:：h4>
+<ol>
+	<li>中止したい同期中の iSCSI LUN の複製タスクを選択します。：li>
+	<li><strong>[中止]：strong> をクリックします。：li>
+	<li>確認メッセージが表示されます。操作を確定するには <strong>[中止]：strong> をクリックします。：li>
+：ol>
+
+<h3><a name="multiple_replication">：a>1台対複数/拡張した複製：h3>
+
+<p><strong>1台対複数：strong> 方式で、共有フォルダ/iSCSI LUN の複製を複数の保存先サーバーに複数作成することができます。また、<strong>拡張：strong> スキーマにより、複製した共有フォルダ/iSCSI LUN の拡張複製を作成します。：p>
+
+<div class="section"><h4>注意：：h4>
+<ul>
+	<li>1台対複数であれ、拡張されたスキーマであれ、複製タスクは最大で3台の複製先サーバーしか持つことができません。：li>
+：ul>
+：div>
+
+<div class="section"><h4><a name="smart_retention">：a>保持ポリシー：h4>
+<p>このオプションは、ボリュームのスペースを節約するためにスナップショットのバージョンが占有する最大容量を指定するのに理想的な方法ですが、長期間にわたってスナップショットを維持する必要があるかもしれません。：p>
+<p>Synology は GFS(｢Grandfather-Father-Son｣親子三代）維持ポリシーを採用しています。スナップショット バージョンが占有する最大容量を維持しておく期間を次のように設定することができます。<strong>毎時：strong>、<strong>毎日：strong>、<strong>毎週：strong>、<strong>毎月：strong>、<strong>毎年：strong>：p>
+<p>データ保護マネージャは、それぞれの時間枠において設定された最大数のスナップショットを維持します。特定の時間枠に複数のスナップがある場合は、最も古いものだけが維持されます。例えば、<strong>週間スナップショット：strong>を10個に設定した場合、過去10週間分は最も古いスナップショットが維持されます（1週間に複数のスナップショットが撮影された場合）。：p>
+<img class="help_image" src="https://help.synology.com/file/DSM/5.2/online_img/dsm/DisasterRecovery/retention_policy.png">
+<p>さらに、最近撮影したスナップショット バージョンから簡単に復元できるように、デフォルトでは最新のスナップショットが撮影されてから1時間以内に撮影したすべてのスナップショット バージョンが維持されます。維持規則により自動的にスナップショットが削除されないように、スナップショットをロックすることも可能です。：p>
+：div>
+
+：body>
+：html>

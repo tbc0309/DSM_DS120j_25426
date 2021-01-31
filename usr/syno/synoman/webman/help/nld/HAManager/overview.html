@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Overzicht</h2>
+	<p>Deze pagina toont basisinformatie over de high-availability cluster en servers die er deel van uitmaken. Deze pagina biedt daarnaast hulpmiddelen om te creëren, te verwijderen of onderhoud uit te voeren op high-availability clusters en op de servers die er deel van uitmaken.</p>
+
+<h3>High Availability Cluster-status</h3>
+  <p>Dit veld toont de globale status van uw high-availability cluster en wijst u op mogelijke fouten. Hieronder volgt een tabel van mogelijke condities die in dit veld worden weergegeven:</p>
+    <table>
+     <tr>
+      <th>Status</th>
+      <th>Beschrijving</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Standalone</strong></td>
+      <td>De servers worden niet gecombineerd in een high-availability cluster.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Gezond</strong></td>
+      <td>De algemene conditie van uw high-availability cluster is goed. Het spiegelen van gegevens van de actieve server naar de passieve server werkt normaal.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bezig met voorbereiding</strong></td>
+	  <td>De servers zijn gecombineerd in een high-availability cluster, maar de initiële gegevensreplicatie is nog niet voltooid. Er kan geen overschakeling plaatsvinden op dit moment. Meer informatie vindt u in <a href="switchover_fail.html">Overschakelen</a></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bezig met laden</strong></td>
+	  <td>Het systeem is bezig met het laden van de clusterstatus. <b>Overschakelen</b> kan niet worden uitgevoerd tot de status laden is voltooid.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Waarschuwing</strong></td>
+      <td>De status van HA-cluster wijkt af, maar de services zijn nog steeds operationeel.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Gevaar</strong></td>
+	  <td>Zowel de actieve als de passieve server werken niet naar behoren. De high-availability cluster kan niet normaal werken. Controleer de status van alle opslagruimtes (bijv. RAID-groepen, schijfgroepen, volumes en iSCSI LUN's).</td>
+     </tr>
+    </table>
+<h3>Waarschuwingsmeldingen</h3>
+   <p>De volgende tabel toont een overzicht van waarschuwingsmeldingen die systeemfouten kunnen worden weergegeven. Wanneer er meer dan een waarschuwingsmelding verschijnt, kunt u met de knoppen voorwaarts/achterwaarts doorheen de meldingen bladeren. </p>
+    <table>
+     <tr>
+      <th>Waarschuwing/fout</th>
+      <th>Beschrijving</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Bewaakte servicefout</strong></td>
+      <td>Er is een fout opgetreden in een of meer van de gecontroleerde services.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Opslagruimte beschadigd</strong></td>
+      <td>Een opslagruimte (bijv. RAID-groep, schijfgroep, volume, iSCSI LUN en SSD-cache) op de actieve of passieve server is beschadigd. Controleer de pagina <b>Opslagstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Opslagruimte gecrasht</strong></td>
+      <td>Een opslagruimte (bijv. RAID-groep, schijfgroep, volume, iSCSI LUN en SSD-cache) op de actieve of passieve server is vastgelopen. Controleer de pagina <b>Opslagstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Detectie van de passieve server is mislukt</strong></td>
+      <td>Deze fout kan optreden omdat de passieve server offline is of omdat de actieve en passieve servers geen verbinding kunnen maken via de Heartbeatverbinding. In dit geval is overschakelen niet beschikbaar.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Gegevens kunnen niet gerepliceerd worden naar passieve server</strong></td>
+      <td>Deze fout kan optreden als gevolg van een defect in het opslagvolume of van de schijf. In dit geval is overschakelen niet beschikbaar. Controleer de pagina <b>Opslagstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Passieve server is niet geselecteerd</strong></td>
+	  <td>Deze status zal worden getoond als de passieve server van de high-availability cluster is ontkoppeld. In dit geval is overschakelen niet beschikbaar. Klik op de vervolgkeuzelijst <b>Behouden</b> en klik op <b>Koppelen</b> als u de passieve server opnieuw wilt koppelen. Volledige datareplicatie is vereist voor het opnieuw koppelen van de passieve server.</td>
+     </tr>
+    </table>
+
+
+<h3>High Availability Cluster-informatie</h3>
+	<p>Dit veld bevindt zich onder de high-availability cluster-status en toont basisinformatie van de cluster. Als er geen high-availability cluster bestaat, zal dit veld enkel informatie bevatten over de functie van high-availability clusters.</p>
+    <p>Dit veld bevat de volgende gegevens:</p>
+ <ul>
+    	<li><b>Clusterservernaam:</b> de servernaam die door de high-availability cluster wordt gebruikt. </li>
+   <li><b>Cluster-IP-adres:</b> het IP-adres dat door de high-availability cluster wordt gebruikt. Ongeacht op welke server de services worden uitgevoerd, kunnen gebruikers met behulp van dit IP-adres een verbinding maken met de high-availability cluster.</li>
+        <li><b>Opstellingstijd:</b> de datum waarop de high-availability cluster is gemaakt.</li>
+ </ul>
+
+
+<h3>Bedieningsknoppen van de High Availability Cluster</h3>
+
+<p>De volgende drie knoppen bevinden zich onder de high-availability cluster-informatie:</p>
+
+<ol>
+	<li><b>HA cluster maken:</b> als er geen high-availability cluster is, kunt u op deze knop klikken om twee servers te combineren en een high-availability cluster creëren. Meer informatie over het aanmaken van een high-availability cluster vindt u in <a href="wizard.html">Synology High Availability-wizard</a>.</li>
+	<li><b>Beheer:</b> deze knop is enkel beschikbaar als er al een high-availability cluster bestaat. Het bevat de volgende opties:
+	<ul>
+	<li><b>Beheerwizard:</b> start een wizard met instructies voor de verschillende beheerprocedures.</li>
+	<li><b>Overschakelen:</b> initieert overschakelen van de actieve server naar de passieve server. Tijdens dit proces stopt de actieve server met het verlenen van services en wordt hij de nieuwe passieve server. De oude passieve server verandert vervolgens in de nieuwe actieve server en begint met de verlening van alle services van de high-availability cluster. Deze optie is niet beschikbaar als de passieve server de status <b>fout</b> heeft of wanneer er geen passieve server is geselecteerd.</li>
+	<li><b>DSM updaten:</b> Opent de pagina <strong>DSM updaten</strong> in het <strong>Configuratiescherm</strong>. Hier kunt u beide servers bijwerken.</li>
+	<li><b>HA cluster uitschakelen:</b> schakelt zowel de actieve als de passieve servers uit.</li></ul>
+	<li><b>Pieptoon deactiveren:</b> deze optie is alleen beschikbaar wanneer er een fout op de actieve of passieve server plaatsvindt. Stopt de pieptoon van de server waarop een fout optreedt. De servers geven nog altijd een pieptoon als fouten op een later moment optreden.</li>
+</ol>
+	
+<h3>Beheerwizard</h3>
+<p>De beheerwizard helpt u bij het uitvoeren van de volgende beheerprocessen.</p>
+<ul>
+	<li><b>Cluster beheren:</b>
+		<ul>
+			<li><b>Overschakelen van de actieve server naar de passieve server:</b> initieert overschakelen van de actieve server naar de passieve server. Tijdens dit proces stopt de actieve server met het verlenen van services en wordt hij de nieuwe passieve server. De oude passieve server verandert vervolgens in de nieuwe actieve server en begint met de verlening van alle services van de high-availability cluster. Deze optie is niet beschikbaar als de passieve server de status <b>fout</b> heeft of wanneer er geen passieve server is geselecteerd.</li>
+			<li><b>DSM op de actieve en de passieve server bijwerken:</b> Opent de pagina <strong>DSM updaten</strong> in het <strong>Configuratiescherm</strong>. Hier kunt u beide servers bijwerken.</li>
+			<li><b>HA cluster verwijderen:</b> ontkoppelt de cluster. De twee servers werken onafhankelijk van elkaar na het opnieuw opstarten.</li>
+			<li><b>Een nieuwe passieve server toevoegen:</b> voegt een passieve server toe aan de cluster. Deze optie is alleen beschikbaar als er geen passieve server is in de high-availability cluster.</li>
+			<li><b>Ontkoppel de passieve server van de high-availability cluster:</b> verwijdert de passieve server van de cluster. Wanneer de server opnieuw aan de high-availability cluster wordt gekoppeld na ontkoppelen, zal een volledige datareplicatie nodig zijn. We raden aan om deze optie alleen te gebruiken als u de bestaande passieve server door een nieuwe wilt vervangen.</li>
+			<li><b>Beide servers naar een andere locatie verplaatsen:</b> selecteer deze optie indien u de cluster moet verplaatsen. Beide servers worden uitgeschakeld na het uitvoeren van de bewerking.</li>
+		</ul></li>
+	<li><b>Actieve server beheren:</b>
+		<ul>
+			<li>Schakel de actieve server uit.</li>
+			<li>Start de actieve server opnieuw op.</li>
+			<li>Defecte componenten op de actieve server upgraden/vervangen: Deze optie zal de actieve server uitschakelen.</li>
+		</ul></li>
+	<li><b>Passieve server beheren:</b>
+		<ul>
+			<li>schakel de passieve server uit.</li>
+			<li>Schakel de passieve server opnieuw in.</li>
+			<li>Defecte componenten op de passieve server upgraden/vervangen: Deze optie zal de passieve server uitschakelen.</li>
+		</ul></li>
+</ul>
+	
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>zodra een high-availability cluster is verwijderd, moet een volledige datareplicatie worden uitgevoerd als u een nieuwe cluster wilt maken.</li>
+<li>Schakelt u de passieve server uit of koppelt u deze los dan kunnen de services niet worden overgeschakeld wanneer er een fout op de actieve server optreedt.</li>
+</ul>
+</div>
+
+<h3>Server- en gegevensreplicatiestatus</h3>
+<p>Dit gedeelte bevat afbeeldingen met de status van de actieve en passieve servers, en van de stroom van gegevensreplicatie tussen de servers.</p>
+<p>De afbeelding van gegevensreplicatie duidt op de volgende mogelijke condities:</p>
+	<ul>
+    	<li><b>gegevensreplicatie verloopt normaal:</b> dit wordt aangeduid door gegevens die van de actieve server naar de passieve server stromen.</li>
+    	<li><b>Geen datareplicatie:</b> dit wordt aangeduid door de afwezigheid van de afbeelding van de gegevensstroom.</li>
+    </ul>
+
+
+<h3> Servergegevens</h3>
+ <p>Dit gedeelte bevindt zich onder de serverafbeeldingen. Informatie over de actieve en passieve servers wordt in dit gedeelte weergegeven. Als er geen passieve server is geselecteerd, zal in dit gedeelte <b>Nvt</b> worden weergegeven.</p>
+  <ul>
+   <li><b>Servernaam:</b> Synologyservernaam.</li>
+   <li><b>Modelnaam:</b> Synologyservermodel.</li>
+   <li><b>Serienummer:</b> serienummer van de Synologyserver.</li>
+   <li><b>Ventilatorstatus:</b> status van de ventilatoren van de server. Als een ventilator slecht werkt, verschijnt er een waarschuwing. Neem in dat geval contact op met uw plaatselijke verdeler voor ondersteuning.</li>
+   <li><b>Temperatuur:</b> temperatuur van de Synologyserver. </li>
+   <li><b>Vermogenstatus:</b> geeft aan of server de voeding van een server normaal werkt. AIs het servermodel is uitgerust met redundante stroombronnen, verschijnt er een waarschuwing als een van beide een storing ondervindt.</li>
+  </ul>
+
+ </body>
+</html>

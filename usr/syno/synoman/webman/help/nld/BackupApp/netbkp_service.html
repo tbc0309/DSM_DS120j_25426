@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Back-upservices - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Back-upservices</h2>
+<p>Met de opties in <strong>Back-up en replicatie</strong> > <strong>Back-upservices</strong> staat u andere gebruikers toe om gegevens te back-uppen van hun Synology NAS-apparaten of rsync-compatibele clients naar uw Synology NAS.</p>
+<h3>Netwerkback-upservice inschakelen</h3>
+<p>Wilt u de gegevens van een Synology NAS of een rsync-compatibele server back-uppen aan een andere Synology NAS of een ander Synology NAS-apparaat externe back-uptaken laten uitvoeren en back-upgegevens op een volue van uw Synology NAS-apparaat laten opslaan, dan moet u de netwerkback-upservice op de doelserver inschakelen om een netwerkback-uptaak te kunnen maken. Ga hiervoor naar <b>Configuratiescherm</b> > <b>Rechten</b> en verleen de machtiging <b>Netwerkback-updoel</b> aan een gebruiker. Vervolgens kunt u een DSM-gebruiker maken met juiste toepassings- en gedeelde mapmachtigingen op uw Synology NAS. Na het voltooien van de installatie kunnen andere gebruikers gebruikersrechten gebruiken om netwerkback-up's van hun Synology NAS naar de gedeelde doelmappen op uw Synology NAS uit te voeren.</p>
+
+<h4>Back-upservice enkele versie inschakelen:</h4>
+<ol>
+<li>Ga naar <b>Back-upservices</b> > <b>Netwerkback-updoel</b> en schakel het selectievakje <b>Netwerkback-upservice inschakelen</b> in.</li>
+<li>Klik op <b>Toepassen</b>.</li>
+<li>Ga naar <b>Configuratiescherm</b> > <b>Gedeelde map</b>, selecteer een gedeelde map, klik op <b>Bewerken</b> > <b>Machtigingen</b> en verleen vervolgens de machtiging <b>Lezen/schrijven</b> aan een gebruiker. Herhaal deze stap om meer gedeelde mappen als back-updoelen op te geven.</li>
+</ol>
+<h4>Back-upservice meerdere versies inschakelen:</h4>
+<ol>
+  <li>Ga naar <strong>Back-upservices</strong> > <b>Netwerkback-upvolumedoel</b> en schakel het selectievakje <strong>Netwerkback-upvolumedoel inschakelen</strong> in.</li>
+  <li>Ga naar <b>Back-updoel</b> en selecteer een back-updoel van een lokaal volume.</li>
+<li>Klik op <b>Bewerken</b> > <b>Lijst toestaan</b> >  <strong>Toevoegen</strong> om een gebruiker of groep toe te voegen aan de lijst.</li>
+</ol>
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>als andere gebruikers een netwerkback-up van een andere client dan Synology NAS willen uitvoeren, is dat mogelijk met <b>admin</b>- of <b>rsync</b>-rechten op uw Synology NAS. Wilt u uw <b>admin</b>-rechten niet met andere gebruikers delen, ga dan naar <b>Configuratiescherm</b> > <strong>Gebruiker</strong> om een gebruiker met de naam <b>rsync</b> te maken, wijzig de rechten en deel vervolgens de gebruikersrechten met andere gebruikers.</li><li>Voert u een netwerkback-up uit vanaf een  Synology NAS met een DSM-versie eerder dan 3.0 of een client die geen Synology NAS is  en u wilt de informatie <b>Eigenaar</b> en <b>Groep</b> vam de brongegevens behouden, dan moet u de <b>Back-upaccount</b> toevoegen aan de groep <b>Administrators</b> en gegevens back-uppen naar de gedeelde map <b>NetBackup</b>.</li>
+</ul>
+</div>
+<h3>Netwerkback-upservice inschakelen via aangepaste rsync-configuratie</h3>
+<p> U kunt de netwerkback-upservice inschakelen via aangepaste rsync-configuratie, gebruikersrechten configureren en de back-upbestemming instellen op uw Synology NAS. Na het voltooien van de installatie kunnen andere gebruikers een rsync-back-up uitvoeren van hun Synology NAS-apparaten of rsync-compatibele clients naar de gedeelde doelmappen (of "back-upmodules") op uw Synology NAS.</p>
+<h4>Om netwerkback-upservice via aangepaste rsync-configuratie in te schakelen:</h4>
+<ol>
+<li>Ga naar <b>Back-upservices</b> > <b>Netwerkback-updoel</b>.</li>
+<li>Schakel <b>Netwerkback-upservice inschakelen</b> in.</li>
+<li>Schakel <b>Aangepaste rsync-configuratie gebruiken</b> in.</li>
+<li>Klik op <b>Toepassen</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<h4>Om uw gebruikersrechten en back-upmodules op uw Synology NAS te configureren:</h4>
+<ol>
+<li>
+Meld u bij uw Synology NAS-apparaat via Telnet of SSH.
+</li>
+<li>Specificeer de back-upmodule en gemachtigde gebruikers in het rsync-configuratiebestand "<b>/etc/rsyncd.conf</b>". Voor gedetailleerde informatie raadpleeg de handleidingspagina van <b>rsyncd.conf</b> op uw rsync-client of klik <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">hier</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>wordt aangepaste rsync-configuratie gebruikt, dan kan Synology NAS niet meer als bestemmingsserver fungeren voor <b>Gedeelde map synchroniseren</b>, <b>Time Backup</b> en <b>LUN-back-up</b>.</li>
+</ul>
+</div>
+
+<h3>Snelheidslimiet inschakelen</h3>
+<p>U kunt een snelheidslimiet inschakelen om de maximaal gebruikbare bandbreedte in te stellen voor gebruikers en groepen die gegevens via netwerkback-up overdragen.</p>
+<h4>Om snelheidslimiet in te schakelen:</h4>
+<ol>
+  <li>Ga naar <b>Back-upservices</b> > <b>Netwerkback-updoel</b>. schakel het selectievakje <b>Snelheidslimiet inschakelen</b> of <strong>Snelheidslimiet volgens schema inschakelen</strong> in als u enkel een snelheidslimiet op gezette tijden wilt implementeren. Dit is een globale serverinstelling die voorrang heeft op alle instellingen van individuele gebruikers en groepen. Selecteer <strong>Geen snelheidslimiet</strong> om de snelheidslimietinstellingen van alle gebruikers en groepen uit te schakelen.</li>
+  <li>Klik op <strong>Instellingen snelheidslimiet</strong> om de instellingen van individuele gebruikers of groepen te wijzigen. Voor elke gebruiker en groep kunt u een van de volgende opties selecteren:
+    <ul>
+      <li><strong>Groepsinstellingen toepassen:</strong> de snelheidslimietinstellingen zullen gelijk zijn aan die van de groep waartoe de gebruiker behoort. </li>
+      <li><strong>Geen:</strong> er wordt geen snelheidslimiet toegepast wanneer groepsleden bestanden via de service overdragen.</li>
+      <li><strong>Constant:</strong> een vaste en constante snelheidslimiet wordt toegepast op de gebruikers of groepsleden. In de velden links kunt u de upload- en downloadsnelheidslimieten opgeven.</li>
+      <li><strong>Variabel:</strong> om twee verschillende snelheidslimieten op te geven en volgens een schema toe te passen op de gebruikers of groepsleden. Klik op de knop <strong>Aanpassen</strong> om de snelheidslimietinstellingen te wijzigen en een schema op te stellen.</li>
+    </ul>
+  </li>
+ <li>Klik op <b>Toepassen</b>.</li> 
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<div class="section">
+  <h4>Opmerking:</h4>
+    <p>Bij het instellen van een snelheidslimiet voor een gebruiker ziet u in het gedeelte <strong>Resultaat</strong> de actuele snelheidslimiet van de gebruiker in overeenstemming met zijn individuele en groepsinstellingen. Als gebruiker "Achilles" bijvoorbeeld een individuele downloadlimiet heeft van 100 KB/s, maar deel uitmaakt van een gebruikersgroep met een downloadlimiet van 500 KB/s, wordt in het gedeelte <strong>Resultaten</strong> "0/500" weergegeven.</p>
+</div>
+
+<h3>Time Backup-service inschakelen</h3>
+<p>Met de Time Backup-service kunnen gebruikers meerdere versies van mappen van een andere Synology NAS extern back-uppen naar deze Synology NAS. Dit vereist de inschakeling van de netwerkback-upservice en de Time Backup-service.</p>
+<h4>Om netwerkback-upservice en Time Backup-services in te schakelen:</h4>
+<p>Ga naar <strong>Back-upservices</strong> > <b>Time Backup</b>. Schakel het desbetreffende selectievakje in.</p>
+<img src="about:blank" class="help_image"/>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>alleen de admin-account mag een back-upverbinding maken voor Time Backup op afstand.</p>
+</div>
+
+</body>
+</html>

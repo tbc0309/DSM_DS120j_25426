@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Destinazione di backup - Guida Synology DSM</title>
+
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Define local, network or cloud backup destination for backup tasks.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Destinazione di backup</h2>
+<p>Nella scheda <b>Destinazione di backup</b> di <b>Backup e Replica</b>, è possibile definire una destinazione di backup locale, di rete o cloud creando un'attività di backup.</p>
+
+<h4><a name="local_backup"></a>Per creare una destinazione di backup locale:</h4>
+<p>Una destinazione di backup locale è necessaria per il backup di dati da Synology NAS a una cartella locale condivisa, volume o unità esterna USB/eSATA. La destinazione del backup deve essere diversa dalla sorgente e la capacità della destinazione deve essere maggiore della dimensione totale dei dati di backup.</p>
+
+<ol>
+<li>Fare clic su <b>Crea</b>, seleziona <b>Destinazione di backup locale</b>, quindi fare clic su <b>Avanti</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Assegnare un nome alla destinazione di backup, selezionare la destinazione in cui salvare i dati di backup e se si desidera conservare solo la copia di backup più recente o tutte le versioni di backup.</li>
+</ol>
+
+<div class="section">
+<h4>Note.</h4>
+<ul>
+<li>Se i dati nella destinazione vengono rimossi durante la procedura di backup, il backup successivo sarà un backup completo.</li>
+<li>Le unità esterne nuove possono avere la necessità di essere formattate prima di servire come destinazione di backup. </li>
+<li>Prima di creare un'attività di backup, verificare di avere collegato le unità esterne correttamente a Synology NAS. È possibile andare su <b>Pannello di controllo</b> > <b>Dispositivi esterni</b> per controllare lo stato delle unità USB/eSATA. Le unità esterne non possono essere selezionate come destinazione per il backup se l'unità esterna è stata inizializzata, formattata o non funziona correttamente.</li>
+<li>Cartelle condivise remote non possono essere selezionate come sorgente o destinazione di backup.</li>
+<li>Se una cartella condivisa crittografata non è attiva, non può essere scelta come destinazione di backup.</li>
+<li>Non può essere effettuato il backup di miniature dell'immagine quando il file system della destinazione è NTFS/FAT.</li>
+</ul>
+</div>
+
+
+<h4><a name="network_backup"></a>Per creare una destinazione di backup di rete:</h4>
+<p>Una destinazione di backup di rete è necessaria se si esegue il backup di dati da Synology NAS a un altro Synology NAS o server compatibile con rsync sulla rete. Quando si creano attività di backup di rete, sono disponibili varie opzioni, quali codifica del trasferimento, compressione, backup livello di blocco, ecc. Alcune opzioni, come la codifica trasferimento, potrebbero ridurre la velocità dell'attività di backup.</p>
+
+<ol>
+<li>Prima di creare un'attività di backup di rete, accedere al server di destinazione, andare su <strong>Backup e Replica</strong> > <strong>Servizi di backup</strong> e abilitare il servizio di backup di rete e/o destinazione volume del backup di rete.</li>
+<li>Per il backup su Synology NAS, andare su <strong>Backup e Replica</strong> &gt; <strong>Destinazione di backup</strong>. Fare clic su <strong>Crea</strong>, selezionare <strong>Destinazione di backup di rete</strong> e seguire la procedura guidata per completare.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Con <strong>Destinazione di backup di rete (server Synology NAS)</strong> è possibile archiviare i dati di backup in una cartella condivisa per conservare la copia di backup più aggiornata o archiviare i dati di backup su un volume per conservare più versioni delle copie di backup. Con <strong>Destinazione di backup di rete (server compatibile rsync)</strong>, è possibile conservare solo la copia di backup più recente.</li>
+
+</ol>
+
+<div class="section">
+<h4>Note.</h4>
+<ul>
+<li>Le seguenti modalità sono disponibili quando si crea un'attività di backup con server compatibili rsync come destinazione di backup di rete: <b>modalità rsync daemon,</b> che è utilizzata quando si seleziona un modulo di backup (cartella condivisa su server compatibile rsync) dal menu a discesa accanto a <b>Moduli backup</b>; e <b>modalità shell remota,</b> che viene abilitata solo quando si inserisce un percorso assoluto (che inizia con "/") nei <b>Moduli backup</b>.</li>
+<li>Per gli utenti Linux, solo gli account <strong>admin</strong>, <strong>root</strong> e <strong>rsync</strong> possono svolgere le attività di backup.</li>
+<li>Per accedere a un server di destinazione su Internet usando il suo nome host, il nome host deve essere del formato FQDN (Nome di Dominio completo), ad esempio <strong>abc.bcd.com</strong>.</li>
+<li>Quando si effettua il backup da un dispositivo Synology Synology NAS all'altro, viene chiesto di inserire il nome utente e la password per un account di destinazione. Soprattutto, se si vuole effettuare il backup su un volume in un'altro Synology NAS, è necessario specificare un account appartenente al gruppo <strong>administrators</strong>. Quando si esegue il backup di cartelle condivise su un'altra Synology NAS, è possibile farlo in base alle impostazioni dei privilegi di accesso delle cartelle. Solo le cartelle condivise alle quali un account utente specifico ha privilegi di accesso saranno visualizzate. Se non si trova la cartella condivisa desiderata come destinazione, controllare i privilegi di accesso.</li>
+<li>La codifica del backup viene supportata solo quando il server di destinazione supporta il backup di rete codificato e la password di autenticazione non può essere vuota.</li>
+<li>La modalità shell remota supporta solo il backup crittografato.</li>
+<li>Quando si effettua un backup su un server compatibile con rsync, non si sarà in grado di modificare la modalità di crittografia rsync dopo aver creato le attività di backup di rsync. Per modificare la configurazione, creare una nuova attività di rsync. </li>
+<li>In caso di backup dei file in Synology NAS tramite un client rsync, i nomi dei file devono essere nella codifica UTF-8.</li>
+<li>In caso di backup dei file in Synology NAS tramite un client compatibile rsync, è possibile eseguire le operazioni soltanto dagli account <strong>admin</strong>, <strong>root</strong> e <strong>rsync</strong> della Synology NAS.</li>
+<li>In caso di backup dei file da un Synology NAS in un server compatibile rsync, sarà necessario inserire il nome e la password corretti dell'account rsync di backup. Inoltre , sarà necessario scegliere il modulo di backup corretto con il privilegio Scrittura.</li>
+</ul>
+</div>
+
+<h4><a name="cloudservice_backup"></a>Per creare una destinazione di Backup Amazon S3:</h4>
+<p>È necessaria una destinazione di backup Amazon S3 per il backup di dati da Synology NAS a un server Amazon S3.</p>
+  
+<ol>
+  <li>Fare clic su <b>Crea</b>, selezionare <b>Destinazione di backup cloud pubblico</b>, quindi <b>Destinazione Backup Amazon S3</b> e fare clic su <b>Avanti</b>.</li>
+  
+  <img src="about:blank" class="help_image"/>
+  
+  <li>Assegnare un nome alla destinazione di backup, immettere le credenziali di accesso e quindi compilare tutti i campi necessari per configurare l'attività di backup.</li>
+</ol>
+
+<div class="section">
+<h4> Note.</h4>
+<ul>
+  <li>Quando si creano attività di backup con server Amazon S3 come destinazione di backup di rete, sono disponibili varie opzioni, quali la codifica del trasferimento, il backup su Amazon S3 RRS (archiviazione a ridondanza ridotta), ecc. Alcune opzioni, come codifica trasferimento, potrebbero ridurre la velocità delle attività di backup.</li>
+  <li>I file di backup vengono archiviati nel <strong>Bucket</strong> selezionato sul server Amazon S3 e un Valore Set Key inizia con un nome directory a propria scelta e termina con il percorso completo del file.</li>
+  <li>La struttura dei dati di Amazon S3 include un paio di Bucket e KEY senza alcuna struttura a cartella. Il backup di cartella vuota non è supportato.</li>
+  <li>Se un file sottoposto a backup non è stato modificato, non verrà sottoposto di nuovo a backup sul server Amazon S3 nello stesso Bucket.</li>
+  <li>Ogni Bucket su Amazon S3 deve avere un nome univoco. Inoltre, il nome deve:</li>
+<ul>
+  <li>Essere composto da 3 a 63 caratteri.</li>
+  <li>Contenere soltanto lettere minuscole, numeri, punti (.) e trattini (-).</li><li>Iniziare e finire con un numero o una lettera e non può finire con un trattino (-), contenere due punti adiacenti o contenere trattini dopo punti (ad es., "my-.bucket.com" e "my.-bucket" non sono validi).</li>
+</ul>
+<li>La lunghezza massima di una Amazon S3 KEY è di 1024 caratteri. Per assicurare il successo di un backup su Amazon S3, la lunghezza massima del percorso è di 1024 meno la lunghezza del nome della cartella di destinazione specificato durante la creazione dell'attività.</li>
+<li>Abilitando il supporto Amazon S3 RRS (archiviazione a ridondanza ridotta) verrà eseguito il backup sull'archivio RRS solo dei dati modificati dopo l'abilitazione dell'opzione, il backup su RRS non sarà disponibile per i dati di cui è già stato eseguito il backup sull'archivio standard di Amazon S3. </li>
+<li>Lo spostamento dei file di backup da Amazon S3 a Amazon Glacier non è supportato. Se i file sono spostati da Amazon S3 a Amazon Glacier mediante la console di Gestione AWS, l'attività di backup collegata potrebbe non venire eseguita in modo corretto.</li>
+<li>Il backup di file su bucket stile host virtuale con SSL non è supportato.</li>
+<li>Quando si trasferisce un file sarà diviso in parti. La dimensione della parte può essere impostata dall'opzione <strong>Dimensione parte Multipart Upload</strong> in impostazioni attività con 512MB come dimensione predefinita. Se l'ambiente di rete non è stabile, è bene che l'opzione sia un valore più piccolo.</li>
+
+<li>Il numero massimo di parti per upload è 10000. Le dimensioni massime di un file corrispondono alla <strong>Dimensione parte Multipart Upload</strong> moltiplicata per 10000.</li>
+<li>I nomi dei file non possono contenere caratteri non UTF-8 o di controllo.</li>
+</ul>
+</div>
+<h4>Per creare una destinazione di backup Microsoft Azure:</h4>
+<p>È necessaria una destinazione di backup Microsoft Azure per il backup di dati da Synology NAS a un server Microsoft Azure.</p>
+  
+<ol>
+<li>Fare clic su <b>Crea</b>, selezionare <b>Destinazione di backup cloud pubblico</b>, quindi <b>Destinazione di Backup Microsoft Azure</b> e fare clic su <b>Avanti</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Denominare la destinazione di backup, immettere le credenziali di accesso e quindi compilare tutti i campi necessari per configurare l'attività di backup.</li>
+</ol>
+
+<div class="section">
+<h4> Note.</h4>
+<ul>
+<li>Quando si creano attività di backup con il server Microsoft Azure come destinazione di backup di rete, sono disponibili varie opzioni (ad es. codifica trasferimento). Alcune opzioni, come codifica trasferimento, potrebbero ridurre la velocità delle attività di backup.</li>
+<li>I file di backup sono archiviati nel <strong>Container</strong> selezionato sul server Microsoft Azure e il nome Blob impostato inizia con un nome directory a propria scelta e termina con il percorso completo del file.</li>
+<li>La struttura di dati di Microsoft Azure include un'associazione Contenitore e Blob senza alcuna struttura a cartella. Il backup di cartella vuota non è supportato.</li>
+<li>Se un file sottoposto a backup non è stato modificato, non verrà sottoposto di nuovo a backup sul server Microsoft Azure nello stesso Contenitore.</li>
+<li>Ogni Contenitore su Microsoft Azure deve avere un nome univoco. Inoltre, il nome deve:</li>
+<ul>
+<li>Essere composto da 3 a 63 caratteri.</li>
+<li>Contenere soltanto lettere minuscole, numeri e trattini (-).</li>
+<li>Iniziare e finire con un numero o una lettera e non può contenere due trattini adiacenti.</li>
+</ul>
+<li>La lunghezza massima di un nome Blob di Microsoft Azure è di 1024 caratteri. Per assicurare il successo di un'attività di backup su Microsoft Azure, la lunghezza massima del percorso è di 1024 meno la lunghezza del nome della cartella di destinazione specificato durante la creazione dell'attività.</li>
+
+<li>I nomi dei file non possono contenere caratteri non UTF-8 o di controllo.</li>
+<li>Il messaggio di avviso di autenticazione non riuscita può essere dovuto a un'informazione di autenticazione non corretta, a un problema di connessione di rete o all'ora del Synology NAS e del server remoto che non corrispondono. Per controllare le impostazioni sull'orario in Synology NAS, andare su <strong>Pannello di controllo</strong> > <strong>Opzioni regionali</strong> ><strong> Ora</strong> per sincronizzare l'ora con il server NTP.</li>
+</ul>
+</div>
+
+<h4>Per creare una destinazione di backup hicloud S3:</h4>
+<p>È necessaria una destinazione di backup hicloud S3 se si esegue il backup di dati da Synology NAS a un server hicloud S3.</p>
+  
+<ol>
+<li>Fare clic su <b>Crea</b>, selezionare <b>Destinazione di backup cloud pubblico</b>, quindi <b>Destinazione di Backup hicloud S3</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Assegnare un nome alla destinazione di backup, immettere le credenziali di accesso e quindi compilare tutti i campi necessari per configurare l'attività di backup.</li>
+</ol>
+
+<div class="section">
+<h4> Note.</h4>
+<ul>
+<li>Quando si creano attività di backup con il server hicloud S3 come destinazione di backup di rete, sono disponibili varie opzioni (ad es. codifica trasferimento). Alcune opzioni, come codifica trasferimento, potrebbero ridurre la velocità delle attività di backup.</li>
+<li>I file di backup sono archiviati nel <strong>Bucket</strong> selezionato sul server hicloud S3 e un Valore Set KEY inizia con un nome directory a propria scelta e termina con il percorso completo del file.</li>
+<li>La struttura di dati di hicloud S3 include un paio di Bucket e KEY senza alcuna struttura a cartella. Il backup di cartella vuota non è supportato.</li>
+<li>Se un file sottoposto a backup non è stato modificato, non verrà sottoposto di nuovo a backup sul server hicloud S3 nello stesso Bucket.</li>
+<li>Ogni Bucket su hicloud S3 deve avere un nome univoco. Inoltre, il nome deve:</li>
+<ul>
+<li>Essere composto da 3 a 63 caratteri.</li>
+<li>Contenere soltanto lettere minuscole, numeri, punti (.) e trattini (-).</li>
+<li>Iniziare e finire con un numero o una lettera e non può finire con un trattino (-), contenere due punti adiacenti o contenere trattini dopo punti (ad es., "my-.bucket.com" e "my.-bucket" non sono validi).</li>
+</ul>
+<li>La lunghezza massima di una hicloud S3 KEY è 255 caratteri. Per assicurare il successo di un backup su hicloud S3, la lunghezza massima di percorso è 255 meno la lunghezza del nome della cartella di destinazione specificato durante la creazione dell'attività.</li>
+<li>Quando si trasferisce un file sarà diviso in parti. La dimensione della parte può essere impostata dall'opzione <strong>Dimensione parte Multipart Upload</strong> in impostazioni attività con 512MB come dimensione predefinita. Se l'ambiente di rete non è stabile, si raccomanda di impostare un numero più piccolo.</li>
+
+<li>Hicloud supporta solo un massimo di 1000 parti per trasferimento. Quindi, le dimensioni totali dei file non devono superare 1000 moltiplicato per le dimensioni della parte. Ad esempio, se le dimensioni della parte di caricamento mutiparte sono impostate su 8MB, non sarà possibile calcoare singoli file con dimensioni superiori a 8000MB. </li>
+
+<li>Crittografia cartella condivisa cifrata non supportata.</li> 
+
+<li>I nomi dei file non possono contenere caratteri non UTF-8 o di controllo.</li>
+</ul>
+</div>
+
+<h4>Per creare una destinazione di backup SFR Stockage:</h4>
+<p>Una destinazione di backup SFR Stockage è necessaria se si esegue il backup di dati da Synology NAS a un server SFR Stockage.</p>
+  
+<ol>
+<li>Fare clic su <b>Crea</b>, selezionare <b>Destinazione di backup cloud pubblico</b>, quindi <b>Destinazione di Backup SFR S3</b> e fare clic su <b>Avanti</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Assegnare un nome alla destinazione di backup, immettere le credenziali di accesso e quindi compilare tutti i campi necessari per configurare l'attività di backup.</li>
+</ol>
+
+<div class="section">
+<h4> Note.</h4>
+<ul>
+<li>Quando si creano attività di backup con il server SFR NAS BACKUP come destinazione di backup di rete, sono disponibili varie opzioni, come la codifica del trasferimento e altre. Alcune opzioni, come codifica trasferimento, potrebbero ridurre la velocità delle attività di backup.</li>
+<li>I file di backup sono archiviati nel <strong>Bucket</strong> selezionato sul server SFR NAS BACKUP, e un Valore Set Key inizia con un nome directory a propria scelta e termina con il percorso completo del file.</li>
+<li>La struttura di dati di SFR NAS BACKUP include un paio di Bucket e Key senza alcuna struttura a cartella. Il backup di cartella vuota non è supportato.</li>
+<li>Se un file sottoposto a backup non è stato modificato, non verrà sottoposto di nuovo a backup sul server SFR NAS BACKUP nello stesso Bucket.</li>
+<li>Ogni Bucket sul server SFR NAS BACKUP deve avere un nome univoco. Inoltre, il nome deve:</li>
+<ul>
+<li>Essere composto da 3 a 63 caratteri.</li>
+<li>Contenere soltanto lettere minuscole, numeri, punti (.) e trattini (-).</li>
+<li>Iniziare e finire con un numero o una lettera e non può finire con un trattino (-), contenere due punti adiacenti o contenere trattini dopo punti (ad es., "my-.bucket.com" e "my.-bucket" non sono validi).</li>
+</ul>
+<li>La lunghezza massima di una SFR S3 KEY è di 1024 caratteri. Per assicurare il successo di un backup su SFR NAS BACKUP, la lunghezza massima di percorso è 1024 meno la lunghezza del nome della cartella di destinazione specificato durante la creazione dell'attività.</li>
+<li>Quando si trasferisce un file sarà diviso in parti. La dimensione della parte può essere impostata dall'opzione <strong>Dimensione parte Multipart Upload</strong> in impostazioni attività con 64MB come dimensione predefinita. Se l'ambiente di rete non è stabile, si raccomanda di impostare un numero più piccolo.</li>
+
+<li>I nomi dei file non possono contenere caratteri non UTF-8 o di controllo.</li> 
+
+</ul>
+</div>
+<h4>Per gestire la destinazione di backup:</h4>
+<p>Selezionare una destinazione di backup esistente e fare clic su uno dei pulsanti seguenti:</p>
+<ul>
+<li><strong>Modifica:</strong> per modificare le impostazioni della destinazione di backup selezionata.</li>
+<li><strong>Elimina:</strong> per eliminare la destinazione di backup selezionata.</li>
+</ul>
+
+<h3>Backup alla cartella condivisa</h3>
+<p>Questi due tipi di destinazioni di backup conserveranno solo la copia di backup più recente. Come impostazione predefinita, dopo aver completato il backup iniziale, i file che sono stati rimossi dall'origine sono rimossi dalla destinazione quando un'attività è eseguita successivamente. Tuttavia, se di desidera conservare i file nella destinazione anche dopo averli cancellati dall'origine, abilitare l'opzione <b>Conserva file di backup nella destinazione</b> quando si creano attività di backup.</p>
+
+<h3>Backup al Volume</h3>
+<p>Ce type de destination de sauvegarde doit être un volume local ou réseau sur un périphérique Synology NAS (à l'exception des périphériques de stockage externes). Esso archivierà più versioni di copie di backup, in modo da poter ripristinare facilmente qualsiasi cartella da un dato momento.</p>
+
+<h4>Per eliminare i dati archiviati da un'attività di backup:</h4>
+<ol>
+<li>Andare sulla scheda <strong>Destinazione di backup</strong> ed espandere la destinazione di backup contenente l'attività che si vuole eliminare.</li> 
+<li>Fare clic sull'icona <b>Elimina</b> in <b>Attività di backup</b> selezionata e quindi <strong>Elimina</strong> nella finestra di dialogo.</li>
+</ol>
+<h4>Per eliminare i dati archiviati di una versione di backup:</h4>
+<ol>
+<li>Andare sulla scheda <strong>Destinazione di backup</strong> ed espandere la destinazione di backup contenente la versione dell'attività che si vuole eliminare.</li> <li>Fare clic sull'icona <strong>Informazioni versione di backup</strong> sull'<strong>Attività di Backup</strong> selezionata.</li>
+<li>Selezionare la versione di backup che si vuole eliminare e fare clic sull'icona <b>Elimina</b>.</li>
+</ol>
+
+<h4><a name="lock_version"></a>Per bloccare una versione di backup e impedirne la rimozione durante la rotazione di backup:</h4>
+<ol>
+<li>Andare sulla scheda <strong>Destinazione di backup</strong> ed espandere la destinazione di backup contenente la versione dell'attività che si vuole bloccare.</li>
+<li>Fare clic sull'icona <strong>Informazioni versione di backup</strong> sull'<strong>Attività di Backup</strong> selezionata.</li>
+<li>Selezionare la versione di backup che si vuole bloccare e fare clic sull'icona <strong>Blocca</strong>.</li>
+</ol>
+
+<h4>Per gestire i privilegi di una destinazione di backup:</h4>
+<ol>
+<li>Selezionare una destinazione di backup associata a un volume locale, fare clic su <b>Modifica</b>.</li>
+<li> Fare clic su <strong>Elenco consentiti </strong>e poi su <strong>Aggiungi</strong> per aggiungere l'utente o il gruppo all'elenco.</li>
+</ol>
+
+<h4>Per impostare una destinazione di backup con un proprietario:</h4>
+<ol>
+<li>Selezionare una destinazione di backup associata a un volume locale e fare clic sull'icona <b>Proprietà</b> sull'<b>Attività di backup</b> selezionata.</li>
+<li>In <strong>Privilegio di backup</strong>, selezionare un <b>Proprietario</b> nel menu a discesa.</li>
+</ol>
+
+<h4>Per consentire a un utente o a un gruppo sulla Synology NAS di leggere e ripristinare i dati archiviati da un'attività di backup:</h4>
+<ol>
+<li>Selezionare una destinazione di backup associata a un volume locale e fare clic sull'icona <b>Proprietà</b> sull'<b>Attività di backup</b> selezionata.</li>
+<li> Fare clic su <strong>Elenco consentiti </strong>e poi su <strong>Aggiungi</strong> per aggiungere l'utente o il gruppo all'elenco.</li>
+</ol>
+
+<div class="section">
+<h4> Note.</h4>
+<ul>
+	<li>Il proprietario predefinito di un'attività di backup è l'utente che ha creato l'attività.</li>
+	<li>Solo il proprietario dell'attività di backup può eseguire l'attività. Tuttavia, le attività di backup create prima di DSM 5.1 non hanno tale limitazione, quindi qualsiasi utente appartenente al gruppo <b>administrators</b> è in grado di eseguire questa attività di backup.</li>
+	<li>Il proprietario dell'attività e gli utenti che appartengono al gruppo <b>administrators</b> possono eliminare i dati archiviati di un'attività di backup.</li>
+	<li>Il proprietario dell'attività e gli utenti che appartengono al gruppo <b>administrators</b>, e gli utenti che fanno parte di <b>Elenco consentiti</b> possono tutti ripristinare i dati archiviati di un'attività di backup.</li>
+	<li>Solo gli utenti che appartengono al gruppo <b>administrators</b> possono impostare una destinazione di backup locale con privilegi di accesso e un'attività di backup su una destinazione di backup locale con un proprietario e un elenco consentiti.</li>
+	<li>I dati archiviati di un'attività di backup utilizzeranno la quota di archiviazione del proprietario dell'attività. </li>
+	<li>Se un volume non ha una destinazione di backup, solo gli utenti che appartengono al gruppo <b>administrators</b> possono creare la prima destinazione di backup sul volume.</li>
+	<li>Solo gli utenti che appartengono al gruppo <b>administrators</b> possono eliminare i dati archiviati di un'intera destinazione di backup.</li>
+    
+    	<li>Ogni backup comprende una configurazione del sistema e metadati del file.</li>
+	<li>Crittografia cartella condivisa cifrata non supportata.</li>
+    
+	<li>Il blocco versioni non è supportato in DSM 5.1 o inferiori.</li>
+    
+</ul>
+</div>
+</body></html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>드라이브를 교체하여 저장소 용량 확장</h2>
+
+<p>특정 RAID 유형 사용 시 기존 드라이브를 용량이 더 큰 드라이브로 교체하여 스토리지 풀의 저장소 용량을 확장할 수 있습니다. 이 문서에서는 확장 프로세스와 관련된 중요 정보뿐만 아니라 저장소 용량을 확장하기 위해 기존 드라이브를 교체하는 방법을 예를 들어 설명합니다.</p>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>이 문서에서 설명된 절차는 SHR, RAID 1, RAID 5, RAID 6, RAID 10, RAID F1 유형에만 적용됩니다.</li>
+	<li>특정 모델에서만 SHR(Synology Hybrid RAID)을 사용할 수 있습니다. 자세한 내용은 <a href="https://www.synology.com/" target="_blank">Synology 웹사이트</a>를 참조하십시오.</li>
+	<li>특정 모델에서만 RAID F1을 사용할 수 있습니다. 자세한 내용은 <a href="https://www.synology.com/" target="_blank">Synology 웹사이트</a>를 참조하십시오.</li>
+	<li>스토리지 풀에서 데이터 스크러빙을 지원하면 드라이브를 교체하기 전에 데이터 스크러빙을 수행하여 볼륨과 스토리지 풀이 정상인지 확인하는 것이 좋습니다.</li>
+	<li>모든 문제를 방지하기 위해 <a href="https://www.synology.com/compatibility" target=blank>Synology 제품 호환 목록</a>에 있는 드라이브를 사용하는 것이 좋습니다. 호환되지 않는 드라이브를 사용하면 시스템 성능이 저하되거나 Synology NAS에서 데이터가 손실될 수 있습니다.</li>
+</ul>
+</div>
+
+<p>드라이브를 여러 개 교체하려는 경우, 드라이브를 하나씩 조심스럽게 교체해야 합니다. 드라이브 한 개를 교체하면 스토리지 풀을 복구한 후에 다음 드라이브를 교체해야 합니다. 다음 RAID 유형의 경우, 모든 드라이브를 교체하면 스토리지 풀 용량이 확장됩니다. RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</p>
+
+<h3 class="list_head"><a id="t1"></a>시작하기 전에</h3>
+<p>드라이브를 교체하기 전에 다음 사항을 확인하십시오.</p>
+<ul>
+	<li><strong>데이터 백업:</strong> 확장 프로세스를 통해서는 기존 데이터가 삭제되지 않지만, 데이터를 백업한 후에 확장 프로세스를 진행하는 것이 좋습니다.</li>
+	<li><strong>스토리지 풀 상태:</strong> 시작하기 전에 스토리지 풀 상태가 <strong>정상</strong>인지 확인합니다. 그렇지 않으면 먼저 스토리지 풀을 복구해야 합니다.</li>
+	<li><strong>확장 중에도 데이터에 액세스할 수 있습니까?</strong> 스토리지 풀을 확장하는 동안에도 시스템의 데이터를 사용할 수 있습니다. 하지만 프로세스가 처음 시작되면 시스템이 연결을 일시 중단할 수 있습니다.</li>
+	<li><strong>3TB 이상의 드라이브 사용:</strong> 3TB 이상의 드라이브로 스토리지 풀을 확장하려면 스토리지 풀이 DSM 3.0 이상을 사용하여 생성되었는지 확인합니다.</li>
+</ul>
+
+<div class="section"><h4>SHR(Synology Hybrid RAID)</h4>
+<p>SHR 스토리지 풀은 설치된 드라이브 개수와 크기를 토대로 저장소 용량을 최적화하므로, 다음 지침을 따라 용량을 올바르게 확장하십시오.</p>
+<ul>
+	<li>모든 기존 드라이브 용량이 동일한 경우, 저장소 용량을 확장하려면 드라이브를 최소 두 개 이상 용량이 더 큰 드라이브로 교체해야 합니다. 예를 들어, SHR 스토리지 풀이 2TB 드라이브 세 개로 구성된 경우 스토리지 풀 용량을 확장하려면 드라이브를 최소 두 개 이상 교체해야 합니다.</li>
+	<li>기존 드라이브 용량이 다른 경우, 새로 교체할 드라이브 크기는 크기가 가장 큰 기존 드라이브보다 크거나 같아야 합니다. 또한 용량 사용을 최적화하기 위해 용량이 작은 드라이브부터 교체해야 합니다. 예를 들어, SHR 스토리지 풀이 각각 4TB, 3TB, 2TB 용량의 드라이브 세 개로 구성된 경우 새로 교체할 드라이브는 최소한 4TB 이상이어야 합니다. 또한 3TB 또는 2TB 드라이브부터 교체해야 합니다.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID 5 / RAID 6 / RAID 10 / RAID F1</h4>
+<p>RAID 5 / RAID 6 / RAID 10 / RAID F1 스토리지 풀의 드라이브 교체 시 드라이브 사용량을 극대화하려면 항상 용량이 가장 작은 드라이브부터 교체해야 합니다. 각 RAID 유형의 저장소 용량은 다음과 같습니다.<ul>
+		<li>RAID 5: (드라이브 개수 - 1) x (가장 작은 드라이브 크기)</li>
+		<li>RAID 6: (드라이브 개수 - 2) x (가장 작은 드라이브 크기)</li>
+		<li>RAID 10: (드라이브 개수 / 2) x (가장 작은 드라이브 크기)</li>
+		<li>RAID F1: (드라이브 개수 - 1) x (가장 작은 드라이브 크기)</li>
+	</ul>
+</p>
+
+<p>예를 들어, RAID 5 스토리지 풀에 각각 4TB, 3TB, 2TB 용량의 드라이브 세 개가 포함된 경우 스토리지 풀의 사용 가능한 용량은 4TB입니다. 4TB 드라이브 또는 3TB 드라이브를 교체하면 스토리지 풀 용량은 변하지 않습니다. 스토리지 풀 용량을 확장하려면 2TB 드라이브부터 교체해야 합니다.</p>
+</div>
+
+
+<h3>드라이브를 교체하여 저장소 용량 확장</h3>
+<p>아래 단계에서는 SHR 스토리지 풀의 드라이브 교체를 예를 들어 설명합니다.</p>
+<h4>드라이브 교체하기:</h4>
+<ol>
+	<li><strong>저장소 관리자</strong>를 시작합니다.<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li><strong>스토리지 풀</strong>로 이동하여 용량이 가장 작은 기존 드라이브를 확인합니다.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>Synology NAS 전원을 끕니다. (Synology NAS이(가) 핫 스와핑을 지원하면 이 단계를 건너뜁니다.)</li>
+	<li>용량이 가장 작은 멤버 드라이브를 제거하고 용량이 더 큰 새 드라이브를 설치합니다.<br /><span class="note_head">참고: </span>부상 또는 Synology NAS 손상을 방지하려면 Synology 제품용 <em>하드웨어 설치 가이드</em>의 드라이브 설치 지침을 따르십시오.</li>
+	<li>Synology NAS을(를) 켭니다.</li>
+	<li><strong>저장소 관리자</strong>를 다시 시작합니다.</li>
+	<li><strong>HDD/SSD</strong>로 이동하여 새 드라이브가 인식되는지 확인합니다.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>스토리지 풀 상태는 <strong>저하됨</strong>이어야 합니다. 스토리지 풀을 선택하고 <strong>동작</strong> 드롭다운 메뉴에서 <strong>복구</strong>를 클릭합니다.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>스토리지 풀에 추가할 교체 드라이브를 선택합니다. 그런 다음 마법사 단계를 따라 완료합니다.</li>
+	<li>위 절차를 반복하여 원하는 모든 드라이브를 용량이 더 큰 드라이브로 교체합니다.</li>
+</ol>
+
+</body>
+</html>

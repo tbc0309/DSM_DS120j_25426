@@ -1,0 +1,3 @@
+/* Copyright (c) 2020 Synology Inc. All rights reserved. */
+
+Ext.namespace("SYNO.SDS.StorageManager.Notify");SYNO.SDS.StorageManager.Notify.Instance=Ext.extend(SYNO.SDS.AppInstance,{shouldNotifyMsg:function(a,b){return false},onOpen:function(a){SYNO.API.Request({webapi:{api:"SYNO.Storage.CGI.Storage",method:"login_check",version:1},callback:this.updaterHandler,scope:this})},updaterHandler:function(e,a,d,b){if(!e){return}function c(g){var h="";h=_T("volume","volume_warn_ebox_missing");h=String.format(h,g);var f=new SYNO.SDS.MessageBoxV5({modal:true,draggable:false,renderTo:document.body,isAlwaysOnTop:function(){return true}});f.alert(_T("volume","storage_manager"),h)}if(a.isDisplay&&a.disk_contains_crashed_space){c(a.disk_contains_crashed_space)}this.destroy()}});

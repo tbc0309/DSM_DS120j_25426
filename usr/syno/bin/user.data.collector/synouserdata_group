@@ -1,0 +1,127 @@
+#!/usr/bin/python2
+
+from subprocess import check_output
+import json
+import sys
+
+COLLECTOR_VERSION_KEY = "collector_version"
+COLLECTOR_VERSION = 2
+
+
+def execWebAPI(api, version, method, **kwargs):
+    cmd = ["/usr/syno/bin/synowebapi", "--exec"]
+    cmd.append("api=" + api)
+    cmd.append("version=" + str(version))
+    cmd.append("method=" + method)
+    for key, val in kwargs.items():
+        cmd.append('{0}={1}'.format(key, json.dumps(val)))
+    try:
+        with open('/dev/null', 'w') as null_fp:
+            raw_resp = check_output(cmd, stderr=null_fp)
+        return json.loads(raw_resp)
+    except Exception as e:
+        return False
+
+
+def fetch_groups():
+    group_list = []
+    try:
+        kwargs = {
+            'type': 'local',
+            'offset': 0,
+            'limit': -1
+        }
+        j_data = execWebAPI('SYNO.Core.Group', 1, 'list', **kwargs)
+        group_list = [_['name'] for _ in j_data['data']['groups']]
+    except Exception as e:
+        pass
+    return group_list
+
+
+def fetch_num_users_in_admin_group():
+    num = 0
+    try:
+        kwargs = {
+            'group': 'administrators',
+            'ingroup': True,
+            'offset': 0,
+            'limit': -1
+        }
+        j_data = execWebAPI('SYNO.Core.Group.Member', 1, 'list', **kwargs)
+        num = j_data['data']['total']
+    except Exception as e:
+        pass
+    return num
+
+
+def fetch_speed_limit(group_list):
+    def merge_dict(a, b):
+        result = a.copy()
+        result.update(b)
+        return result
+    output = {'FileStation': {
+                 'num_upload': 0,
+                 'num_download': 0
+             },
+             'FTP': {
+                 'num_upload': 0,
+                 'num_download': 0
+             },
+             'NetworkBackup': {
+                 'num_upload': 0,
+                 'num_download': 0
+             }}
+    for u in group_list:
+        j_data = execWebAPI('SYNO.Core.BandwidthControl', 2, 'get',
+                            name=u, owner_type='local_group')
+        try:
+            for _ in j_data['data']['bandwidths']:
+                if _['policy'] == 'enabled':
+                    if _['upload_limit_1'] != 0 or _['upload_limit_2'] != 0:
+                        output[_['protocol']]['num_upload'] += 1
+                    if _['download_limit_1'] != 0 or _['download_limit_2'] != 0:
+                        output[_['protocol']]['num_download'] += 1
+        except Exception as e:
+            pass
+    result = [merge_dict({'id': k}, output[k]) for k in output]
+    return result
+
+
+def main():
+    ''' Result Ouptput
+    {
+        COLLECTOR_VERSION_KEY: COLLECTOR_VERSION
+        'local_group_num': Int,
+        'num_of_user_in_adminstrator_group': Int
+        'speed': [
+            {
+                'id': 'FileStation',
+                'num_upload': Int,
+                'num_download': Int,
+            },
+            {
+                'id': 'FTP',
+                'num_upload': Int,
+                'num_download': Int,
+            },
+            {
+                'id': 'NetworkBackup',
+                'num_upload': Int,
+                'num_download': Int,
+            }
+        ]
+    }
+    '''
+    result = {
+        COLLECTOR_VERSION_KEY: COLLECTOR_VERSION
+    }
+
+    group_list = fetch_groups()
+    result['local_group_num'] = len(group_list)
+    result['num_of_user_in_adminstrator_group'] = fetch_num_users_in_admin_group()
+    result['speed'] = fetch_speed_limit(group_list)
+
+    sys.stdout.write(json.dumps(result))
+
+if __name__ == '__main__':
+    main()

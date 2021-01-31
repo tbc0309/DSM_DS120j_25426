@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Roz&scaron;&iacute;řen&iacute; kapacity &uacute;loži&scaron;tě nahrazen&iacute;m disků</h2>
+
+<p>Při použ&iacute;v&aacute;n&iacute; určit&yacute;ch typů RAID můžete kapacitu fondu &uacute;loži&scaron;tě roz&scaron;&iacute;řit nahrazen&iacute;m star&yacute;ch disků vět&scaron;&iacute;mi disky. Tento čl&aacute;nek obsahuje důležit&eacute; informace t&yacute;kaj&iacute;c&iacute; se procesu roz&scaron;&iacute;řen&iacute; a uk&aacute;zku postupu v&yacute;měny st&aacute;vaj&iacute;c&iacute;ch disků při zvy&scaron;ov&aacute;n&iacute; kapacity &uacute;loži&scaron;tě.</p>
+
+<div class="section"><h4>Pozn&aacute;mka:</h4>
+<ul>
+	<li>Postup popsan&yacute; v&nbsp;tomto čl&aacute;nku plat&iacute; pouze pro n&aacute;sleduj&iacute;c&iacute; typy RAID: SHR, RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</li>
+	<li>Funkce SHR (Synology Hybrid RAID) je k&nbsp;dispozici pouze u&nbsp;vybran&yacute;ch modelů. Dal&scaron;&iacute; informace se nach&aacute;zej&iacute; na <a href="https://www.synology.com/" target="_blank">webov&yacute;ch str&aacute;nk&aacute;ch Synology</a>.</li>
+	<li>Typ RAID F1 je k&nbsp;dispozici pouze u&nbsp;vybran&yacute;ch modelů. Dal&scaron;&iacute; informace se nach&aacute;zej&iacute; na <a href="https://www.synology.com/" target="_blank">webov&yacute;ch str&aacute;nk&aacute;ch Synology</a>.</li>
+	<li>Pokud fond &uacute;loži&scaron;tě podporuje scrubbing dat, doporučujeme před v&yacute;měnou disků prov&eacute;st scrubbing dat a&nbsp;ověřit tak, jestli jsou svazek a&nbsp;fond &uacute;loži&scaron;tě v&nbsp;poř&aacute;dku.</li>
+	<li>Aby nedoch&aacute;zelo k&nbsp;ž&aacute;dn&yacute;m probl&eacute;mům, doporučujeme použ&iacute;vat disky uveden&eacute; v&nbsp;<a href="https://www.synology.com/compatibility" target=blank>seznamu kompatibiln&iacute;ch produktů Synology</a>. Použ&iacute;v&aacute;n&iacute; nekompatibiln&iacute;ch disků může sn&iacute;žit v&yacute;kon syst&eacute;mu nebo dokonce způsobit ztr&aacute;tu dat v&nbsp;zař&iacute;zen&iacute; Synology NAS.</li>
+</ul>
+</div>
+
+<p>Pokud pl&aacute;nujete vyměnit v&iacute;ce disků, mus&iacute;te je vyměňovat po jednom. Po v&yacute;měně jednoho disku je třeba fond &uacute;loži&scaron;tě opravit a teprve pot&eacute; vyměňovat dal&scaron;&iacute;. U&nbsp;n&aacute;sleduj&iacute;c&iacute;ch typů RAID se kapacita fondu &uacute;loži&scaron;tě roz&scaron;&iacute;ř&iacute; až po v&yacute;měně v&scaron;ech disků: RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</p>
+
+<h3 class="list_head"><a id="t1"></a>Než začnete</h3>
+<p>Před v&yacute;měnou disku si pročtěte n&aacute;sleduj&iacute;c&iacute; pozn&aacute;mky:</p>
+<ul>
+	<li><strong>Z&aacute;lohovan&iacute; dat:</strong> Ačkoli během roz&scaron;&iacute;řen&iacute; nebudou smaz&aacute;na ž&aacute;dn&aacute; existuj&iacute;c&iacute; data, důrazně v&aacute;m doporučujeme v&scaron;echna svoje data předt&iacute;m zaz&aacute;lohovat.</li>
+	<li><strong>Stav fondu &uacute;loži&scaron;tě:</strong> Než začnete, přesvědčte se, že stav va&scaron;eho fondu &uacute;loži&scaron;tě je <strong>V&nbsp;poř&aacute;dku</strong>. Pokud ne, mus&iacute;te jej opravit.</li>
+	<li><strong>Jsou data v&nbsp;průběhu roz&scaron;iřov&aacute;n&iacute; dostupn&aacute;?</strong> V&nbsp;průběhu roz&scaron;iřov&aacute;n&iacute; fondů &uacute;loži&scaron;tě budou data v&nbsp;syst&eacute;mu dostupn&aacute;, i když syst&eacute;m může během prvn&iacute;ho spu&scaron;těn&iacute; procesu někter&aacute; spojen&iacute; dočasně přeru&scaron;it.</li>
+	<li><strong>Použ&iacute;v&aacute;n&iacute; disků o&nbsp;velikosti 3&nbsp;TB nebo vět&scaron;&iacute;ch:</strong> Chcete-li roz&scaron;&iacute;řit fond &uacute;loži&scaron;tě pomoc&iacute; disků o&nbsp;velikosti 3&nbsp;TB nebo vět&scaron;&iacute;ch, mus&iacute; b&yacute;t fond &uacute;loži&scaron;tě vytvořen pomoc&iacute; syst&eacute;mu DSM 3.0 nebo nověj&scaron;&iacute;ho.</li>
+</ul>
+
+<div class="section"><h4>Synology Hybrid RAID (SHR)</h4>
+<p>Jelikož fondy &uacute;loži&scaron;tě SHR optimalizuj&iacute; kapacitu &uacute;loži&scaron;tě podle počtu a velikosti nainstalovan&yacute;ch disků, postupujte při roz&scaron;iřov&aacute;n&iacute; kapacity podle n&aacute;sleduj&iacute;c&iacute;ch pokynů:</p>
+<ul>
+	<li>Pokud je kapacita v&scaron;ech st&aacute;vaj&iacute;c&iacute;ch disků stejn&aacute;, mus&iacute;te při roz&scaron;iřov&aacute;n&iacute; kapacity &uacute;loži&scaron;tě za vět&scaron;&iacute; vyměnit alespoň dva disky. Např&iacute;klad pokud v&aacute;&scaron; fond &uacute;loži&scaron;tě SHR obsahuje tři disky, každ&yacute; o&nbsp;velikosti 2&nbsp;TB, mus&iacute;te při zv&yacute;&scaron;en&iacute; kapacity fondu &uacute;loži&scaron;tě vyměnit nejm&eacute;ně dva disky.</li>
+	<li>Pokud je kapacita st&aacute;vaj&iacute;c&iacute;ch disků různ&aacute;, mus&iacute; b&yacute;t kapacita nov&yacute;ch disků stejn&aacute; nebo vět&scaron;&iacute; než kapacita největ&scaron;&iacute;ho st&aacute;vaj&iacute;c&iacute;ho disku. Aby se dos&aacute;hlo optim&aacute;ln&iacute;ho využit&iacute; kapacity, mus&iacute;te tak&eacute; jako prvn&iacute; vyměnit men&scaron;&iacute; disky. Např&iacute;klad pokud fond &uacute;loži&scaron;tě SHR obsahuje tři disky o&nbsp;velikosti 4&nbsp;TB, 3&nbsp;TB a 2&nbsp;TB, mus&iacute; b&yacute;t kapacita nov&yacute;ch disků alespoň 4&nbsp;TB. Nejdř&iacute;ve byste měli vyměnit disky o&nbsp;velikosti 3&nbsp;TB nebo 2&nbsp;TB.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID 5&nbsp;/ RAID 6&nbsp;/ RAID 10&nbsp;/ RAID F1</h4>
+<p>Při v&yacute;měně disků ve fondech &uacute;loži&scaron;tě typu RAID 5&nbsp;/ RAID 6&nbsp;/ RAID 10&nbsp;/ RAID F1 je nutn&eacute; vždy jako prvn&iacute; vyměnit nejmen&scaron;&iacute; disk, jen tak se dos&aacute;hne maxim&aacute;ln&iacute;ho využit&iacute; disků. &Uacute;ložn&eacute; kapacity jednotliv&yacute;ch typů RAID jsou:<ul>
+		<li>RAID 5: (počet disků - 1) x (velikost nejmen&scaron;&iacute;ho disku)</li>
+		<li>RAID 6: (počet disků - 2) x (velikost nejmen&scaron;&iacute;ho disku)</li>
+		<li>RAID 10: (počet disků / 2) x (velikost nejmen&scaron;&iacute;ho disku)</li>
+		<li>RAID F1: (počet disků - 1) x (velikost nejmen&scaron;&iacute;ho disku)</li>
+	</ul>
+</p>
+
+<p>Např&iacute;klad pokud fond &uacute;loži&scaron;tě RAID 5 obsahuje tři disky o&nbsp;velikosti 4&nbsp;TB, 3&nbsp;TB a 2&nbsp;TB, bude dostupn&aacute; kapacita fondu &uacute;loži&scaron;tě 4&nbsp;TB. Pokud vyměn&iacute;te disk o&nbsp;velikosti 4&nbsp;TB nebo 3&nbsp;TB, kapacita fondu &uacute;loži&scaron;tě se nezměn&iacute;. Aby se kapacita fondu &uacute;loži&scaron;tě zvět&scaron;ila, je nutn&eacute; nejprve vyměnit disk o&nbsp;velikosti 2&nbsp;TB.</p>
+</div>
+
+
+<h3>Roz&scaron;&iacute;řen&iacute; kapacity &uacute;loži&scaron;tě nahrazen&iacute;m disku</h3>
+<p>N&iacute;že uveden&yacute; postup představuje př&iacute;klad nahrazen&iacute; disků ve fondu &uacute;loži&scaron;tě SHR.</p>
+<h4>Nahrazen&iacute; disků:</h4>
+<ol>
+	<li>Spusťte <strong>Spr&aacute;vce &uacute;loži&scaron;tě</strong>.<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li>Přejděte do č&aacute;sti <strong>Fond &uacute;loži&scaron;tě</strong> a pod&iacute;vejte se, kter&yacute; st&aacute;vaj&iacute;c&iacute; disk je nejmen&scaron;&iacute;.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>Vypněte zař&iacute;zen&iacute; Synology NAS. (Pokud va&scaron;e zař&iacute;zen&iacute; Synology NAS podporuje v&yacute;měnu disků za chodu, tento krok přeskočte.)</li>
+	<li>Odeberte nejmen&scaron;&iacute; ze začleněn&yacute;ch disků a&nbsp;nainstalujte nov&yacute;, vět&scaron;&iacute; pevn&yacute; disk.<br /><span class="note_head">Pozn&aacute;mka: </span>Při instalaci disku se řiďte pokyny uveden&yacute;mi v&nbsp;<em>Instalačn&iacute; př&iacute;ručce hardwaru</em> va&scaron;eho produktu Synology, abyste se nezranili nebo zař&iacute;zen&iacute; Synology NAS nepo&scaron;kodili.</li>
+	<li>Zapněte zař&iacute;zen&iacute; Synology NAS.</li>
+	<li>Znovu spusťte <strong>Spr&aacute;vce &uacute;loži&scaron;tě</strong>.</li>
+	<li>Přejděte do č&aacute;sti <strong>HDD/SSD</strong> a zkontrolujte, jestli byl nov&yacute; disk rozpozn&aacute;n.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>Stav fondu &uacute;loži&scaron;tě by měl b&yacute;t <strong>Omezen&yacute; režim</strong>. Vyberte fond &uacute;loži&scaron;tě a v&nbsp;rozev&iacute;rac&iacute; nab&iacute;dce <strong>Akce</strong> vyberte možnost <strong>Opravit</strong>.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>Vyberte n&aacute;hradn&iacute; disk, kter&yacute; chcete do fondu &uacute;loži&scaron;tě přidat. Pot&eacute; dokončete postup podle pokynů v&nbsp;průvodci.</li>
+	<li>V&yacute;&scaron;e uveden&yacute; postup opakujte, dokud nebudou v&scaron;echny požadovan&eacute; disky nahrazeny za vět&scaron;&iacute;.</li>
+</ol>
+
+</body>
+</html>

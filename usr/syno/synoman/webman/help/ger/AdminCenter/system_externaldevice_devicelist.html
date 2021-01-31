@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Externe Geräte</h2>
+
+<p>Gehen Sie zu <strong>Systemsteuerung</strong> &gt; <b>Externe Geräte</b> &gt; <b>Externe Geräte</b>, um eine Liste von externen Speichergeräten anzuzeigen, die mit Synology NAS verbunden sind.</p>
+
+<h3><a name="usbdisk"></a><a name="esatadisk"></a>Externe Laufwerke</h3>
+<p>Durch Anschließen eines externen Laufwerks an das System können Sie dessen Laufwerkskapazität über einen vom System erstellten freigegebenen Ordner namens <b>usbshare[Nummer]</b> (für USB-Laufwerke) oder <b>satashare[Nummer]</b> (für eSATA-Laufwerke) nutzen. Der freigegebene Ordner wird automatisch entfernt, wenn das externe Laufwerk vom System getrennt wird.</p>
+
+<p>Synology NAS erkennt die folgenden Formate: <strong>Btrfs</strong>, <strong>ext3</strong>, <strong>ext4</strong>, <strong>FAT</strong>, <strong>FAT32</strong>, <strong>exFAT</strong>, <strong>HFS</strong>, <strong>HFS Plus</strong> und <strong>NTFS</strong>. Ein nicht erkanntes externes Laufwerk muss zuerst formatiert werden, bevor es im System verwendet werden kann.</p>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ol>
+	<li>Einige Modelle unterstützen HFS/HFS Plus nur schreibgeschützt.</li>
+	<li>Journal wird auf HFS/HFS Plus nicht unterstützt.</li>
+	<li>Sie müssen <strong>exFAT Access</strong> im <strong>Paketzentrum</strong> installieren, damit das Synology NAS exFAT unterstützen kann. Für eine Liste der Synology-Modelle, die das exFAT-Format unterstützen, siehe <a href="https://www.synology.com/dsm/packages/exFAT" target="_blank">diese Seite</a>.</li>
+	<li>Stellen Sie sicher, dass Sie das externe Laufwerk auswerfen, bevor Sie es abstecken.</li>
+	<li>Btrfs ist nur bei bestimmten Modellen verfügbar. In <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">diesem Artikel</a> erfahren Sie, ob Ihr Modell Btrfs unterstützt.</li>
+</ol>
+</div>
+
+<h4>Auf Datenträger-Images zugreifen:</h4>
+<p>Das Synology NAS unterstützt die Bereitstellung virtueller Laufwerke, um auf externen Geräten mit File Station auf Inhalte von Datenträger-Images zuzugreifen. Wie Sie virtuelle Laufwerke bereitstellen können, erfahren Sie in <a href="https://www.synology.com/knowledgebase/DSM/help/FileStation/mountiso" target="_blank">diesem Artikel</a>.</p>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+<li>Unterstütztes Datenträger-Imageformat: „.iso"-Dateien unter Verwendung des Dateisystems ISO 9960 und UDF.</li>
+</ul>
+</div>
+
+<h4>Laufwerk formatieren:</h4>
+
+<p>Klicken Sie auf <b>Formatieren</b> und folgen Sie dem Assistenten. Sie können externe Laufwerke mit dem Synology NAS in den Formaten <b>ext4</b> und <b>FAT32</b> formatieren.</p>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ol>
+	<li>Achten Sie darauf, dass Sie Ihre Daten sichern, bevor Sie das externe Laufwerk formatieren. Während des Vorgangs werden alle Daten gelöscht und können nicht wiederhergestellt werden.</li>
+	<li>Um das externe Laufwerk im Format ext3 oder ext4 zu formatieren, muss es größer als 1 GB sein.</li>
+	<li>Wenn das Laufwerk als ext3 oder ext4 formatiert ist, wird es nur vom Synology NAS erkannt. Wenn Sie Daten direkt von Ihrem externen Laufwerk mit einem PC oder Mac lesen möchten, wählen Sie das Format FAT32.</li>
+</ol>
+</div>
+
+<h4>S.M.A.R.T.-Test durchführen:</h4>
+<p>Der S.M.A.R.T.-Test prüft und meldet den Status Ihrer Festplatten und kann so frühzeitig vor drohendem Festplattenausfall warnen. Wir empfehlen, das Laufwerk auszutauschen, wenn Fehler erkannt werden. <br /> Um den S.M.A.R.T.-Test durchzuführen, klicken Sie einfach auf die Schaltfläche <strong>S.M.A.R.T.-Test</strong> und folgen dem Assistenten.<br /> Um die Testergebnisse zu sehen, klicken Sie einfach auf <strong>S.M.A.R.T.-Info</strong>.</p>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+	<li>Die Dauer des Tests hängt von der jeweiligen Systemumgebung ab.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Einschränkungen</h4>
+
+<p>Das Formatieren des Laufwerks ist in den folgenden Fällen nicht möglich:</p>
+
+<ul>
+	<li>Das externe Laufwerk wird gerade initialisiert, d. h. das externe Gerät wurde gerade erst angeschlossen.</li>
+	<li>Die Kapazität des externen Laufwerks beträgt weniger als 1 GB (Format ext3 oder ext4).</li>
+	<li>Das externe Laufwerk wird gerade formatiert.</li>
+	<li>Das System sichert gerade Dateien auf dem externen Laufwerk.</li>
+	<li>Das externe Laufwerk ist beschädigt.</li>
+</ul>
+
+<h4>Fehlerbehebung</h4>
+<ol>
+	<li>Das externe Laufwerk kann nicht formatiert werden. Warum?
+		<ul>
+			<li>Prüfen Sie, ob das externe Laufwerk ordnungsgemäß angeschlossen ist.</li>
+			<li>Prüfen Sie, ob das externe Laufwerk schreibgeschützt ist. Wenn ja, entfernen Sie den Schreibschutz vor der Formatierung. </li>
+		</ul>
+	</li>
+	<li>Das Dateisystem des externen Laufwerks wird als <strong>Nicht unterstützt</strong> angezeigt oder das System erstellt die freigegebenen Ordner <strong>usbshare[Nummer]</strong> oder <strong>satashare[Nummer]</strong> für das externe Laufwerk nicht. Was soll ich tun?
+<ul>
+			<li>Das aktuelle System erkennt die Formate Btrfs, ext3, ext4, FAT, FAT32, HFS, HFS Plus und NTFS. Alle externen Laufwerke, die nicht nach den o. g. Typen formatiert wurden, werden nicht erkannt und als Status wird <b>Nicht unterstützt</b> angezeigt.</li>
+		</ul>
+	</li>
+	<li>Ich kann nicht auf den freigegebenen Ordner <b>usbshare[Nummer]</b> oder <b>satashare[Nummer]</b> zugreifen. Was soll ich tun?
+		<ul>
+			<li>Dies könnte durch ein Problem im Dateisystem auf dem externen Laufwerk verursacht werden. Um dies zu beheben, schließen Sie das externe Laufwerk an einen PC an und führen Sie eine Dateisystemprüfung aus.</li>
+		</ul>
+	</li>
+	<li>Kann ich mein externes Laufwerk im ext3- oder ext4-Format direkt mit meinem PC und Mac verbinden und direkt darauf zugreifen?
+		<ul>
+			<li>Nein, ext3 oder ext4 werden nur vom Synology NAS erkannt. Wenn Sie Daten direkt von Ihrem externen Laufwerk mit einem PC oder Mac lesen möchten, wählen Sie das Format FAT32. </li>
+		</ul>
+	</li>
+	<li>Warum sehe ich auf meinem externen Laufwerk einen Ordner mit dem Namen „lost+found“?
+		<ul>
+			<li>Dies ist ein Standard-Systemordner, der automatisch bei der Verwendung des ext3/ext4-Dateisystems erstellt wird. Es ist ganz normal, dass Sie den Ordner auf dem externen Laufwerk sehen. Auch wenn Administratoren das Recht haben, auf den Inhalt zuzugreifen und ihn zu verwalten, so wird doch dringend empfohlen, diesen Ordner nicht zu verändern.</li>
+		</ul>
+	</li>
+</ol>
+</div>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+	<li>Btrfs ist nur bei bestimmten Modellen verfügbar. In <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">diesem Artikel</a> erfahren Sie, ob Ihr Modell Btrfs unterstützt.</li>
+</ul>
+</div>
+
+<h4>Standardberechtigungen für alle externen Geräte einstellen:</h4>
+<p>Sie können Standardberechtigungen festlegen, indem Sie auf <strong>Einstellungen</strong> > <strong>Standardberechtigungen</strong> klicken und angeben, welche Benutzer oder Gruppen externe Geräte und deren Inhalte anzeigen, ändern oder darauf zugreifen können. Wenn ein externes Gerät mit Ihrem Synology NAS verbunden wird, werden die von Ihnen festgelegten Berechtigungen automatisch auch dem externen Gerät zugewiesen.</p>
+
+<p>Gehen Sie im Berechtigungsfenster wie folgt vor, um Standardberechtigungen festzulegen:</p>
+<ol>
+	<li>Wählen Sie eine der folgenden Optionen aus dem Dropdown-Menü aus:
+		<ul>
+			<li><b>Interner Systembenutzer:</b> Weist Berechtigungen für Standard-Systembenutzer zu, z. B. Anonymous FTP/WebDAV-Benutzer.</li>
+			<li><b>Lokale Benutzer:</b> Weist Berechtigungen für lokale Benutzer (einschließlich <b>guest</b>) zu.</li>
+			<li><b>Lokale Gruppen:</b> Weist Berechtigungen für lokale Gruppen zu.</li>
+		</ul>
+	</li>
+	<li>Setzen oder entfernen Sie Häkchen, um die Berechtigungen für den Zugriff auf externe Geräte für die einzelnen Benutzer oder Gruppen anzupassen:
+		<ul>
+			<li><b>Lesen/Schreiben</b>: Der Benutzer oder die Gruppe hat Zugriff auf Dateien und Unterordner auf den externen Geräten und kann Änderungen an Dateien und Ordnern vornehmen.</li>
+			<li><b>Nur Lesen</b>: Der Benutzer oder die Gruppe kann auf die Dateien und Ordner auf den externen Geräten zugreifen.</li>
+			<li><b>Kein Zugriff</b>: Der Benutzer oder die Gruppe kann nicht auf die Dateien und Ordner auf den externen Geräten zugreifen.</li>
+		</ul>
+	</li>
+</ol>
+
+</body>
+</html>

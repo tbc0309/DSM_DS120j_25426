@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Oversikt</h2>
+	<p>Denne siden viser grunnleggende informasjon om high-availability-skyen og medlemsserverne. I tillegg gir denne siden deg verktøy til å opprette, fjerne eller utføre vedlikehold på high-availability-skyer og medlemsservere.</p>
+
+<h3>Status for high-availability-sky</h3>
+  <p>Dette feltet viser den generelle statusen til din high-availability-sky og varsler deg om eventuelle feil. Det følgende er en tabell med mulige forhold som vises i dette feltet:</p>
+    <table>
+     <tr>
+      <th>Status</th>
+      <th>Beskrivelse</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Frittstående</strong></td>
+      <td>Serverne er ikke tilknyttet en high-availability-sky.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fungerende</strong></td>
+      <td>Den generelle tilstanden til din high-availability-sky er god. Datakopiering fra den aktive serveren til den passive serveren fungerer som normalt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Forbereder</strong></td>
+	  <td>Serverne er tilknyttet en high-availability-sky, men innledende datakopiering er ikke fullført ennå. Overføring av tjenester kan ikke utføres ennå. For flere detaljer, se <a href="switchover_fail.html">Overføre</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Laster</strong></td>
+	  <td>Systemet laster skystatusen. <b>Overføre</b> kan ikke utføres før lastingen av statusen er fullført.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Advarsel</strong></td>
+      <td>Statusen til HA-skyen er unormal, men tjenestene fungerer fortsatt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fare</strong></td>
+	  <td>Både den aktive og den passive serveren er brutt sammen. High-availability-skyen kan ikke fungere som normalt. Kontroller statusen til alle lagringsområder (f.eks. RAID Group, diskgruppe, volum og iSCSI LUN).</td>
+     </tr>
+    </table>
+<h3>Advarselmeldinger</h3>
+   <p>Følgende tabell viser advarselmeldinger som kan dukke opp når en feil oppstår på systemet. Når flere enn en advarselmelding vises, kan du navigere mellom dem med knappene frem/tilbake. </p>
+    <table>
+     <tr>
+      <th>Advarsel/Feil</th>
+      <th>Beskrivelse</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Feil på overvåket tjeneste</strong></td>
+      <td>Det oppsto en feil på en eller flere overvåkede tjenester.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Lagringsområde degradert</strong></td>
+      <td>Et lagringsområde (f.eks. RAID Group, diskgruppe, volum, iSCSI LUN eller SSD-hurtigbuffer) på den aktive eller passive serveren er degradert. Se siden <b>Lagringsstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Lagringsområde brutt sammen</strong></td>
+      <td>Et lagringsområde (f.eks. RAID Group, diskgruppe, volum, iSCSI LUN eller SSD-hurtigbuffer) på den aktive eller passive serveren er ødelagt. Se siden <b>Lagringsstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Finner ikke passiv server</strong></td>
+      <td>Denne feilen kan oppstå fordi den passive serveren ikke er tilkoblet, eller fordi den aktive og den passive serveren ikke får kontakt gjennom Heartbeat-tilkoblingen. I dette tilfellet vil overføring være utilgjengelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Data kan ikke kopieres til passiv server</strong></td>
+      <td>Denne feilen kan oppstå på grunn av feil på lagringsvolum eller disk. I dette tilfellet vil overføring være utilgjengelig. Se siden <b>Lagringsstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Passiv server ikke valgt</strong></td>
+	  <td>Hvis den passive serveren er frigjort fra high-availability-skyen, vil denne statusen vises. I dette tilfellet vil overføring være utilgjengelig. Hvis du vil tilknytte den passive serveren igjen, klikker du på rullegardinmenyen <b>Vedlikehold</b> og deretter på <b>Tilknytt</b>. Når du tilknytter den passive serveren igjen, vil en fullstendig datakopiering være påkrevd.</td>
+     </tr>
+    </table>
+
+
+<h3>Informasjon om high-availability-sky</h3>
+	<p>Dette feltet finner du nedenfor statusen til high-availability-skyen, og den viser grunnleggende informasjon om skyen. Hvis high-availability-skyen ikke eksisterer, vil dette feltet kun vise en forklaring av high-availability-skyers funksjoner.</p>
+    <p>Dette feltet inneholder følgende informasjon:</p>
+ <ul>
+    	<li><b>Servernavn for sky:</b>Servernavnet brukes av high-availability-skyen. </li>
+   <li><b>IP-adresse for sky:</b>IP-adressen brukes av high-availability-skyen. Uansett hvilken server som styrer tjenestene, kan brukere koble til high-availability-skyen med denne IP-adressen.</li>
+        <li><b>Opprettingstidspunkt:</b> Datoen high-availability-skyen ble opprettet.</li>
+ </ul>
+
+
+<h3>Driftsknapper for high-availability-sky</h3>
+
+<p>Følgende to knapper finner du nedenfor informasjonen om high-availability-skyen:</p>
+
+<ol>
+<li><b>Opprett HA-sky:</b> Når det ikke eksisterer en high-availability-sky, kan du klikke på denne knappen for å kombinere to servere og opprette en high-availability-sky. For mer informasjon om oppretting av high-availability-sky, se <a href="wizard.html">Veiviser for Synology High Availability</a>.</li>
+<li><b>Administrasjon:</b> Denne knappen er kun tilgjengelig når en high-availability-sky allerede eksisterer. Den inkluderer følgende alternativer:
+<ul>
+<li><b>Administrasjonsveiviser:</b> Starter en veiviser som inkluderer instruksjoner for forskjellige administrasjonsprosesser.</li>
+<li><b>Overføre:</b> Starter en overføring av tjenester fra den aktive serveren til den passive serveren. Under denne prosessen, slutter den aktive serveren å styre tjenester og blir den nye passive serveren. Deretter blir den gamle passive serveren til den nye aktive serveren og begynner å styre alle tjenester i high-availability-skyen. Dette alternativet er utilgjengelig når den passive serveren har statusen <b>feil</b> eller ikke er valgt.</li>
+<li><b>Oppdater DSM:</b> Åpner siden <strong>Oppdater DSM</strong> i <strong>Kontrollpanel</strong>. Herfra kan begge serverne oppdateres.</li>
+<li><b>Fjern HA-sky:</b> Fjerner high-availability-skyen.</li>
+<li><b>Frigjør passiv server:</b> Fjerner den passive serveren fra skyen. Når serveren blir lagt til i high-availability-skyen igjen etter frigjøring, vil en fullstendig datakopiering være påkrevd. Derfor anbefaler vi å bruke dette alternativet kun når du vil erstatte den eksisterende passive serveren med en ny.</li>
+<li><b>Tilknytt passiv server:</b> Legger til en passiv server i skyen. Dette alternativet er kun tilgjengelig når det ikke er noen passiv server i high-availability-skyen.</li>
+<li><b>Slå av HA-sky:</b> Slår av både den aktive og den passive serveren.</li>
+<li><b>Slå av aktiv server:</b> Slår av den aktive serveren.</li>
+<li><b>Slå av passiv server:</b> Slår av den passive serveren.</li>
+<li><b>Start aktiv server på nytt:</b> Starter den aktive serveren på nytt.</li>
+<li><b>Start passiv server på nytt:</b> Starter den passive serveren på nytt.</li>
+<li><b>Deaktiver pipelyd på passiv server:</b> Stanser pipelyden på den passive serveren når det oppstår en feil. Den passive serveren vil likevel pipe hvis det oppstår en annen feil.</li>
+</ul>
+</li>
+</ol>
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Når en high-availability-sky er fjernet, vil det være påkrevd med en fullstendig datakopiering når du vil opprette en ny.</li>
+<li>Hvis du slår av eller frigjør den passive serveren, kan ikke tjenester overføres hvis det oppstår en feil på den aktive serveren.</li>
+</ul>
+</div>
+
+<h3>Status for server og datakopiering</h3>
+<p>Denne delen inneholder bilder som viser statusen til den aktive og den passive serveren, i tillegg til flyten av datakopiering mellom serverne.</p>
+<p>Bildet av datakopiering indikerer følgende mulige forhold:</p>
+	<ul>
+    	<li><b>Datakopiering fungerer som normalt:</b> Indikeres med dataflyt fra den aktive serveren til den passive serveren.</li>
+    	<li><b>Ingen datakopiering:</b> Indikeres med fravær av dataflytbilde.</li>
+    </ul>
+
+
+<h3> Serverinformasjon</h3>
+ <p>Denne delen finner du mellom serverbildene. Informasjon om de aktive og passive serverne vises i denne seksjonen. Hvis ingen passiv server er valgt, vil denne delen vise <b>N/A</b>.</p>
+  <ul>
+   <li><b>Servernavn:</b>Synology-servernavn.</li>
+   <li><b>Modellnavn:</b>Synology-servermodell.</li>
+   <li><b>Serienummer:</b> Serienummer på Synology-serveren.</li>
+   <li><b>Viftestatus:</b> Status på en servers nedkjølingsvifter. Hvis en vifte svikter, vil det vises en advarsel. I dette tilfellet må du kontakte din lokale forhandler for hjelp.</li>
+   <li><b>Temperatur:</b> Temperatur på Synology-serveren. </li>
+   <li><b>Strømstatus:</b> Indikerer om strømtilførselen til en server fungerer som normalt eller ikke. Hvis servermodellen er utstyrt med redundante strømkilder, vil det vises en advarsel hvis en av dem svikter.</li>
+  </ul>
+
+ </body>
+</html>

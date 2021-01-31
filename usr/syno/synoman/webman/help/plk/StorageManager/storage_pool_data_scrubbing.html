@@ -1,0 +1,133 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+<title>Czyszczenie danych</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Data scrubbing is a data maintenance feature that inspects volumes or disk groups and repairs any detected data inconsistencies.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Czyszczenie danych</h2>
+
+<h3>Przeprowadzanie czyszczenia danych</h3>
+<p>Czyszczenie danych to funkcja do zarządzania danymi, kt&oacute;ra sprawdza pule pamięci. Następujące dwa typy czyszczenia danych będą wykonywane jeden po drugim:</p>
+
+<ul>
+<li><strong>Czyszczenie systemu plik&oacute;w</strong>: Funkcja ta będzie sprawdzała wolumeny w systemie plik&oacute;w Btrfs. W przypadku wykrycia jakichkolwiek danych niezgodnych z sumą kontrolną system spr&oacute;buje użyć kopii zapasowej do naprawy danych, a ścieżka pliku zostanie zarejestrowana w centrum log&oacute;w.</li>
+<li><strong>Czyszczenie RAID</strong>: Funkcji tej można użyć dla pul pamięci masowej, kt&oacute;re korzystają z macierzy SHR (z trzech lub więcej dysk&oacute;w), RAID 5 lub RAID 6. Naprawia ona wszelkie wykryte niesp&oacute;jności danych.</li>
+</ul>
+
+<p>Zaleca się regularne wykonywanie czyszczenia danych w celu zapewnienia sp&oacute;jności danych i uniknięcia utraty danych w razie awarii dysku.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+	<ul>
+	<li>Czyszczenie danych i powiązane funkcje opisane w niniejszym artykule są dostępne tylko w określonych modelach.</li>
+	<li>Czyszczenia danych nie można przeprowadzić, gdy stan puli pamięci to <strong>Uszkodzony</strong> lub <b>Zdegradowany</b>.</li>
+	<li>Jeżeli funkcja <b>sumy kontrolnej danych dla zaawansowanej integralność danych</b> nie jest włączona dla folderu wsp&oacute;łdzielonego, czyszczenie systemu plik&oacute;w nie będzie w stanie sprawdzić i naprawić danych w folderze pod kątem braku sum kontrolnych.</li>
+	</ul>
+</div>
+
+<h3>Konfiguracja harmonogramu czyszczenia danych</h3>
+<p>Można ustawić harmonogram czyszczenia danych. System będzie przeprowadzał czyszczenie danych zgodnie z wprowadzonymi ustawieniami.</p>
+<h4>Aby skonfigurować harmonogram czyszczenia danych:</h4>
+<ol>
+<li>Uruchom aplikację <strong>Zarządzanie przechowywaniem</strong>.</li>
+<li>Przejdź do <strong>Pula pamięci</strong> &gt; <strong>Czyszczenie danych</strong>.</li>
+<li>Kliknij przycisk <strong>Ustaw harmonogram</strong>.</li>
+<li>Zaznacz opcję <strong>Włącz harmonogram czyszczenia danych</strong></li>
+	<li>Określ ustawienia <strong>Częstotliwość</strong>, <strong>Data początkowa</strong> i <strong>Sesja czasowa</strong>.</li>
+<li>Przejdź do karty <strong>Wybierz cel</strong>.<li>Wybierz pulę pamięci, dla kt&oacute;rej chcesz przeprowadzić czyszczenie danych.</li>
+<li>Kliknij przycisk <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Aby było możliwe dodanie puli pamięci do harmonogramu, musi ona mieć status <b>Normalny</b> i obsługiwać czyszczenie danych.</li>	
+<li>Jeśli system został uaktualniony z wersji 6.1, pule pamięci z obsługą czyszczenia danych zostaną domyślnie dodane do harmonogramu.</li>
+<li>Jeśli harmonogram ustawiono w wersji 6.1, automatycznie włączymy harmonogram zgodnie z wcześniejszymi ustawieniami.</li>	
+</ul></div>
+
+<h4>Aby dodać pulę pamięci do harmonogramu lub usunąć pulę pamięci z harmonogramu:</h4>
+
+<ol>
+<li>Kliknij przycisk <strong>Ustaw harmonogram</strong>.</li>
+<li>Przejdź do karty <strong>Wybierz cel</strong>.</li>	
+<li>Zaznacz lub usuń zaznaczenie pola wyboru puli pamięci, jeśli chcesz dodać ją lub usunąć z harmonogramu.</li>
+<li>Kliknij przycisk <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Nie można dodać lub usunąć puli pamięci z harmonogramu podczas ręcznego czyszczenia danych w tej puli pamięci.</li>
+<li>Aby usunąć z harmonogramu pulę pamięci, kt&oacute;ra przechodzi zaplanowane czyszczenie danych, konieczne jest usunięcie postępu tej puli pamięci.</li>
+</ul></div>
+
+<h4>Aby zmodyfikować ustawienia harmonogramu:</h4>
+
+<ol>
+<li>Kliknij przycisk <strong>Ustaw harmonogram</strong>.</li>
+<li>Zmodyfikuj ustawienia częstotliwości, daty początkowej i sesji czasowej zgodnie z potrzebami.</li>
+<li>Kliknij przycisk <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+  <li>Modyfikacja ustawienia <strong>Data początkowa</strong> spowoduje zresetowanie postępu harmonogramu, a funkcja czyszczenia danych zostanie uruchomiona ponownie zgodnie z nową datą początkową.</li>
+</ul>
+</div>	
+
+<h4>Aby wstrzymać harmonogram:</h4>
+
+<ol>
+<li>Wybierz pulę pamięci, w kt&oacute;rej wykonywane jest czyszczenie danych zgodnie z harmonogramem.</li>
+<li>Kliknij opcję <strong>Zatrzymaj harmonogram</strong> z listy rozwijanej <b>Akcja</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Aby wznowić harmonogram czyszczenia danych, należy kliknąć opcję <strong>Wzn&oacute;w harmonogram</strong> z menu rozwijanego <b>Akcja</b>. W innym przypadku harmonogram pozostanie wstrzymany.</li>	
+</ul></div>
+	
+<h3>Ręczne uruchamianie czyszczenia danych:</h3>
+
+<p>Jeśli system wykryje nienormalne elementy w przestrzeni pamięci, można spr&oacute;bować naprawić dane, uruchamiając czyszczenie danych ręcznie.</p>	
+	
+<h4>Aby uruchomić czyszczenie danych ręcznie:</h4>
+
+<ol>
+	<li>Otw&oacute;rz aplikację <strong>Zarządzanie przechowywaniem</strong>.</li>
+	<li>Przejdź do <strong>Pula pamięci</strong> &gt; <strong>Czyszczenie danych</strong>.</li>
+	<li>Wybierz pulę pamięci, dla kt&oacute;rej chcesz przeprowadzić czyszczenie danych.</li>
+	<li>Kliknij <strong>Uruchomienie ręczne</strong> w menu rozwijanym <strong>Akcja</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+
+<li>Jeśli system zostanie wyłączony przed zakończeniem czyszczenia danych, postęp może zostać utracony, co wiąże się z koniecznością przeprowadzenia ręcznego czyszczenia danych.</li>
+<li>Jeśli czas uruchomionego ręcznie czyszczenia danych nachodzi na zaplanowane czyszczenie danych, dana runda harmonogramu nie zostanie ukończona do momentu ukończenia ręcznego czyszczenia danych.</li>
+<li>Uruchomienie czyszczenia danych może mieć wpływ na wydajność systemu. Zalecamy, aby nie uruchamiać czyszczenia danych na wielu pulach pamięci, chyba że jest to konieczne.</li>	
+</ul></div>	
+
+<h4>Aby zatrzymać harmonogram dla puli pamięci, kt&oacute;ra przechodzi uruchomione ręcznie czyszczenie danych:</h4>	
+<ol>
+<li>Wybierz pulę pamięci, kt&oacute;rą chcesz zatrzymać.</li>
+<li>Kliknij <b>Zatrzymaj</b> w menu rozwijanym <b>Akcja</b>.</li>	
+	</ol>	
+</body>
+</html>

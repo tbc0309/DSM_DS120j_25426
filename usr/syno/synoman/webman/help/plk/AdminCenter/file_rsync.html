@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Usługi kopii zapasowej &mdash; pomoc systemu Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Rsync</h2>
+
+<p>Można zezwolić innym użytkownikom na archiwizowanie danych za pomocą rsync z Synology NAS lub klient&oacute;w zgodnych z rsync na swoim Synology NAS.</p>
+
+<h3>Włączenie usługi kopii zapasowej rsync</h3>
+
+<h4>Aby włączyć usługę rsync:</h4>
+
+<p>Wybierz kolejno <strong>Panel sterowania</strong> &gt; <strong>Usługi plik&oacute;w</strong> &gt; <strong>rsync</strong> i zaznacz opcję <strong>Włącz usługę rsync</strong>.</p>
+
+
+<h4>Aby przypisać uprawnienia kopii zapasowej rsync:</h4>
+
+
+<p>Należy przypisać odpowiednie uprawnienia rsync użytkownikom, aby mogli oni archiwizować dane ze źr&oacute;dłowego Synology NAS lub serwera zgodnego z rsync na docelowym Synology NAS.</p>
+
+<ol>
+<li>Wybierz pozycję <b>Panel sterowania</b> &gt; <b>Uprawnienia</b>.</li>
+<li>Wybierz <strong>rsync (synchronizacja folder&oacute;w wsp&oacute;łdzielonych, kopia zapasowa LUN na obsługiwanych modelach)</strong> i kliknij <strong>Edytuj</strong>, aby przydzielić uprawnienia.</li>
+<li>Przydziel uprawnienia <strong>Zezwalaj</strong> żądanym użytkownikom (użytkownikom DSM dla szyfrowanego rsync lub kontom rsync dla nieszyfrowanych rsync) lub określ dopuszczone adresy IP dla określonych użytkownik&oacute;w.</li>
+</ol>
+
+
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Aby wykonać kopię zapasową rsync z urządzenia Synology NAS z wersją DSM wcześniejszą niż 3.0 lub przy użyciu klienta innego niż Synology NAS i chcesz zachować <b>właściciela</b> i <b>grupę</b> danych źr&oacute;dłowych, musisz dodać konta rsync do grupy <b>administrators</b>, a następnie zapisać kopię zapasową danych w folderze wsp&oacute;łdzielonym <b>NetBackup</b> w trybie daemon.</p>
+</div>
+
+<h3>Włączanie kont rsync</h3>
+<p>Po przeprowadzeniu kopii zapasowej rsync z klienta innego niż Synology NAS należy utworzyć konta rsync na docelowym Synology NAS, aby użytkownicy rsync mogli archiwizować dane na Twoim Synology NAS.</p>
+
+<h4>Aby włączyć konta rsync:</h4>
+<ol>
+<li>Wybierz kolejno <b>Panel sterowania</b> &gt; <b>Usługi plik&oacute;w</b> &gt; <strong>rsync</strong> i zaznacz opcję <b>Włącz konto rsync</b>.</li>
+<li>Kliknij przycisk <b>Edytuj konto rsync</b>, aby ustawić użytkownik&oacute;w i odpowiednie hasła uwierzytelniania.</li>
+<li>Kliknij przycisk <b>Zastosuj</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Jeśli usługa rsync jest szyfrowana (tj. ma określony port szyfrowania SSH), system bezpośrednio zastosuje nazwy i hasła użytkownik&oacute;w DSM jako ich konta rsync.</li>
+<li>Jeśli usługa rsync jest nieszyfrowana, należy utworzyć dla nich odpowiednie konta rsync.</li>
+</ul>
+</div>
+
+
+<h3>Korzystanie z dostosowanej konfiguracji rsync</h3>
+
+<p>Można użyć niestandardowej konfiguracji rsync oraz skonfigurować uprawnienia użytkownik&oacute;w i docelowy folder zapisu kopii zapasowej na swoim urządzeniu Synology NAS. Inne osoby mogą wykonywać kopie zapasowe rsync danych ze swoich urządzeń Synology NAS lub klient&oacute;w zgodnych z protokołem rsync w docelowych folderach wsp&oacute;łdzielonych (lub modułach kopii zapasowej) na Twoim urządzeniu Synology NAS.</p>
+
+<h4>Aby użyć dostosowanej konfiguracji rsync:</h4>
+
+<ol>
+<li>Zaloguj się w swoim urządzeniu Synology NAS z wykorzystaniem połączenia Telnet lub SSH.</li>
+<li>W pliku konfiguracyjnym rsync <b><code>/etc/rsyncd.conf</code></b> wskaż moduł kopii zapasowej i upoważnionych użytkownik&oacute;w. W celu zapoznania się ze szczeg&oacute;łowymi informacjami przejdź na stronę podręcznika <b>rsyncd.conf</b> swojego klienta rsync lub <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">tutaj</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Jeśli moduł kopii zapasowej i folder wsp&oacute;łdzielony mają tę samą nazwę, zostanie użyte ustawienie modułu kopii zapasowej.</p>
+</div>
+
+
+<h3>Włącz limit prędkości</h3>
+<p>Można kontrolować maksymalną użyteczną przepustowość kopii zapasowych rsync dla użytkownik&oacute;w i grup.</p>
+
+<h4>Aby włączyć limit prędkości:</h4>
+<ol>
+  <li>Wybierz kolejno <b>Panel sterowania</b> &gt; <b>Usługi plik&oacute;w</b> &gt; <strong>rsync</strong>. Wybierz jedną z następujących opcji:<ul>
+  <li><strong>Brak limitu prędkości</strong></li>
+  <li><strong>Włącz limit prędkości</strong></li>
+  <li><strong>Włączenie limitu prędkości zgodnie z harmonogramem</strong> (kliknij <strong>Ustaw harmonogram</strong>, aby uzyskać więcej opcji modyfikacji).</li>
+  </ul>
+  
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Jest to globalne ustawienie serwera, kt&oacute;re zastąpi ustawienia poszczeg&oacute;lnych użytkownik&oacute;w i grup. Na przykład, wybranie opcji <strong>Brak limitu prędkości</strong> dezaktywuje ustawienia limitu prędkości dla wszystkich użytkownik&oacute;w i grup.</p>
+</div>
+  </li>
+
+  <li>Jeśli włączono limit prędkości, kliknij <strong>Ustawienia limitu prędkości</strong> i kliknij żądanego użytkownika/grupę, aby zmodyfikować ustawienia:<ul>
+       <li><strong>Brak</strong>: brak limitu prędkości, gdy członkowie grupy przesyłają pliki za pomocą tej usługi.</li>
+      <li><strong>Zastosuj ustawienia grupy</strong>: Użytkownik udostępni te same ustawienia limitu prędkości powiązanej grupie.</li>
+      <li><strong>Stały</strong>: zastosowanie stałego limitu prędkości dla użytkownika lub członk&oacute;w grupy. Ograniczenia prędkości przesyłania i pobierania można określić w polach po lewej stronie.</li>
+      <li><strong>Niestandardowy</strong>: określanie dw&oacute;ch r&oacute;żnych limit&oacute;w szybkości oraz stosowanie ich dla użytkownika i członk&oacute;w grupy zgodnie z harmonogramem. Kliknij przycisk <strong>Dostosuj</strong>, aby zmodyfikować ustawienia limitu prędkości i ustalić harmonogram.</li>
+    </ul>
+  </li>
+ <li>Kliknij przycisk <b>Zastosuj</b>.</li> 
+
+</ol>
+<div class="section">
+  <h4>Uwaga:</h4>
+    <p>Sekcja <strong>Wynik (UL/DL)</strong> wyświetla aktualny limit przesyłania i pobierania zgodnie z ustawieniami indywidualnymi i grupowymi. Jeśli na przykład użytkownik Achilles ma przypisany limit pobierania 100&nbsp;KB/s, ale należy do grupy z limitem pobierania 500&nbsp;KB/s, w części <strong>Wynik (UL/DL)</strong> wyświetlana będzie wartość &bdquo;0/500&rdquo;.</p>
+</div>
+
+</body>
+</html>

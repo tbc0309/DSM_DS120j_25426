@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Usługi kopii zapasowej — pomoc systemu Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Usługi kopii zapasowej</h2>
+<p>Opcje w obszarze <strong>Kopia zapasowa i replikacja</strong> > <strong>Usługi kopii zapasowej</strong> pozwalają innym użytkownikom tworzyć kopie zapasowe danych w swoich urządzeniach Synology NAS lub klientów zgodnych z rsync i przesyłać je na urządzenie Synology NAS.</p>
+<h3>Włączenie usługi sieciowej kopii zapasowej</h3>
+<p>Aby przesyłać kopię zapasową danych z jednego urządzenia Synology NAS lub serwera zgodnego z rsync na inne urządzenie Synology NAS lub umożliwić innemu urządzeniu Synology NAS wykonywanie zdalnych zadań kopii zapasowej i zapisywanie danych kopii w woluminie urządzenia Synology NAS, należy przed utworzeniem zadania sieciowej kopii zapasowej włączyć usługę sieciowej kopii zapasowej w serwerze docelowym. W tym celu wybierz <b>Panel sterowania</b> > <b>Uprawnienia</b> i przyznaj uprawnienia <b>Sieciowe miejsce docelowe kopii zapasowych</b> dla użytkownika. Następnie można utworzyć użytkownika DSM przy użyciu odpowiedniej aplikacji i uprawnienia folderu współdzielonego w urządzeniu Synology NAS. Po przeprowadzeniu konfiguracji inne osoby mogą korzystać z uprawnień użytkownika i wykonywać sieciowe kopie zapasowe danych ze swoich urządzeń Synology NAS i przesyłać je do docelowych folderów współdzielonych w tym urządzeniu Synology NAS.</p>
+
+<h4>Aby włączyć usługę pojedynczej wersji kopii zapasowej:</h4>
+<ol>
+<li>Wybierz <b>Usługi kopii zapasowej</b> > <b>Sieciowe miejsce docelowe kopii zapasowych</b>, a następnie zaznacz pole <b>Włącz usługę sieciowej kopii zapasowej</b>.</li>
+<li>Kliknij przycisk <b>Zastosuj</b>.</li>
+<li>Wybierz <b>Panel sterowania</b> > <b>Folder współdzielony</b>, wybierz folder współdzielony, kliknij <b>Edytuj</b> > <b>Uprawnienia</b>, a następnie przyznaj uprawnienia <b>Odczyt/Zapis</b> użytkownikowi. Powtórz ten krok, aby udostępnić więcej folderów współdzielonych, które mogą być wykorzystywane jako foldery docelowe zapisu kopii zapasowych.</li>
+</ol>
+<h4>Aby włączyć usługę wielu wersji kopii zapasowej:</h4>
+<ol>
+  <li>Wybierz <strong>Usługi kopii zapasowej</strong> > <b>Miejsce docelowe sieciowej kopii zapasowej</b>, a następnie zaznacz pole obok opcji <strong>Włącz docelowy wolumin sieciowej kopii zapasowej</strong>.</li>
+  <li>Wybierz <b>Miejsce docelowe kopii zapasowych</b>, a następnie wybierz miejsce docelowe kopii zapasowych powiązane z lokalnym woluminem.</li>
+<li>Kliknij <b>Edytuj</b> > <b>Lista dozwolonych</b> > <strong>Dodaj</strong>, aby dodać użytkownika lub grupę do listy.</li>
+</ol>
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Jeśli chcesz, aby inne osoby wykonywały kopie zapasowe z klientów które nie są urządzeniami Synology NAS, , mogą to robić, jednakże pod warunkiem posiadania uprawnień <b>admin</b> lub <b>rsync</b> na Twoim urządzeniu Synology NAS. Jeśli nie chcesz udostępniać swoich poświadczeń na poziomie <b>admin</b> innym osobom, możesz wybrać <b>Panel sterowania</b> > <strong>Użytkownik</strong>, aby utworzyć użytkownika o nazwie <b>rsync</b>, zmodyfikować jego uprawnienia, a następnie przekazać je innym osobom.</li><li>Jeśli wykonujesz sieciową kopię zapasową z urządzenia Synology NAS z wersją DSM wcześniejszą niż 3.0 lub przy użyciu klienta innego niż Synology NAS i chcesz zachować <b>właściciela</b> i <b>grupę</b> danych źródłowych, musisz dodać <b>konto kopii zapasowej</b> do grupy <b>administrators</b>, a następnie zapisać kopię zapasową danych w folderze współdzielonym <b>NetBackup</b>.</li>
+</ul>
+</div>
+<h3>Włączanie usługi sieciowej kopii zapasowej przy użyciu niestandardowej konfiguracji rsync</h3>
+<p> Sieciową kopię zapasową możesz włączyć przy użyciu niestandardowej konfiguracji rsync oraz skonfigurować uprawnienia użytkowników i docelowy folder zapisu kopii zapasowej na swoim urządzeniu Synology NAS. Po zakończeniu konfiguracji inne osoby będą mogły wykonywać kopie zapasowe rsync danych ze swoich urządzeń Synology NAS lub klientów zgodnych z protokołem rsync w docelowych folderach współdzielonych (lub modułach kopii zapasowej) na Twoim urządzeniu Synology NAS.</p>
+<h4>Aby włączyć usługę sieciowej kopii zapasowej przy użyciu niestandardowej konfiguracji rsync:</h4>
+<ol>
+<li>Wybierz <b>Usługi kopii zapasowej</b> > <b>Sieciowe miejsce docelowe kopii zapasowych</b>.</li>
+<li>Zaznacz opcję <b>Włącz usługę sieciowej kopii zapasowej</b>.</li>
+<li>Zaznacz opcję <b>Użyj dostosowanej konfiguracji rsync</b>.</li>
+<li>Kliknij przycisk <b>Zastosuj</b>.</li><img src="about:blank" class="help_image"/></ol>
+<h4>Aby skonfigurować uprawnienia użytkownika i moduły kopii zapasowej w swoim urządzeniu Synology NAS:</h4>
+<ol>
+<li>Zaloguj się w swoim urządzeniu Synology NAS z wykorzystaniem połączenia Telnet lub SSH.</li>
+<li>W pliku konfiguracyjnym rsync <b>/etc/rsyncd.conf</b> wskaż moduł kopii zapasowej i upoważnionych użytkowników. W celu zapoznania się ze szczegółowymi informacjami przejdź na stronę podręcznika <b>rsyncd.conf</b> swojego klienta rsync lub <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">tutaj</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Jeśli będziesz używać niestandardowej konfiguracji rsync, urządzenie Synology NAS nie będzie mogło pełnić roli serwera docelowego usług <b>Synchronizacja folderów współdzielonych</b>, <b>Time Backup</b> oraz <b>Kopia zapasowa LUN</b>.</li>
+</ul>
+</div>
+
+<h3>Włącz limit prędkości</h3>
+<p>Ustawienie limitu prędkości pozwala kontrolować maksymalną przepustowość łącza dla użytkowników lub grup, którzy przesyłają dane przez usługę sieciowej kopii zapasowej.</p>
+<h4>Aby włączyć limit prędkości:</h4>
+<ol>
+  <li>Wybierz <b>Usługi kopii zapasowej</b> > <b>Sieciowe miejsce docelowe kopii zapasowych</b>. Zaznacz pole <b>Włącz limit prędkości</b> lub <strong>Włącz limit prędkości zgodnie z harmonogramem</strong>, jeśli chcesz włączyć limit prędkości tylko w niektórych okresach. Jest to ustawienie dla całego serwera, które zastąpi ustawienia poszczególnych użytkowników i grup. Wybranie opcji <strong>Brak limitu prędkości</strong> dezaktywuje ustawienia limitu prędkości dla wszystkich użytkowników i grup.</li>
+  <li>Kliknij przycisk <strong>Ustawienia limitu prędkości</strong>, aby zmodyfikować ustawienia dla poszczególnych użytkowników lub grup. W przypadku każdego użytkownika lub grupy można wybrać jedną z następujących opcji:<ul>
+      <li><strong>Zastosuj ustawienia grupy:</strong> ustawienia limitu szybkości będą takie same jak w przypadku grupy, do której należy użytkownik. </li>
+      <li><strong>Brak:</strong> brak limitu szybkości, gdy członkowie grupy przesyłają pliki za pomocą tej usługi.</li>
+      <li><strong>Stały:</strong> zastosowanie stałego limitu szybkości dla użytkownika lub członków grupy. Ograniczenia prędkości przesyłania i pobierania można określić w polach po lewej stronie.</li>
+      <li><strong>Zmienny:</strong> określanie dwóch różnych limitów szybkości i stosowanie ich dla użytkownika i członków grupy zgodnie z harmonogramem. Kliknij przycisk <strong>Dostosuj</strong>, aby zmodyfikować ustawienia limitu szybkości i ustalić harmonogram.</li>
+    </ul>
+  </li>
+ <li>Kliknij przycisk <b>Zastosuj</b>.</li><img src="about:blank" class="help_image"/></ol>
+<div class="section">
+  <h4>Uwaga:</h4>
+    <p>Podczas ustawiania ograniczania prędkości dla użytkownika w części <strong>Rezultat</strong> będzie można zobaczyć rzeczywiste ograniczenie prędkości zgodne z ustawieniami indywidualnymi lub grupy. Jeśli na przykład użytkownik Achilles ma przypisany limit pobierania 100 KB/s, ale należy do grupy z limitem pobierania 500 KB/s, w części <strong>Wyniki</strong> wyświetlona będzie wartość 0/500.</p>
+</div>
+
+<h3>Włączenie usługi Time Backup</h3>
+<p>Usługa Time Backup pozwala tworzyć kopie zapasowe wielu wersji folderów z innych urządzeń Synology NAS i przesyłać je zdalnie na to urządzenie Synology NAS. Wymaga to włączenia usługi sieciowej kopii zapasowej oraz usługi Time Backup.</p>
+<h4>Aby włączyć usługi sieciowej kopii zapasowej i Time Backup:</h4>
+<p>Wybierz <strong>Usługi kopii zapasowej</strong> > <b>Time Backup</b>. Zaznacz odpowiednie pole wyboru.</p><img src="about:blank" class="help_image"/><div class="section">
+<h4>Uwaga:</h4>
+<p>Tylko konto administratora ma uprawnienia do tworzenia połączenia kopii zapasowej dla zdalnej aplikacji Time Backup.</p>
+</div>
+
+</body>
+</html>

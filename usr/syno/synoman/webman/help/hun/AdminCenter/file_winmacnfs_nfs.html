@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>NFS szolgáltatás</h2>
+<p>Az NFS szolgáltatás lehetővé teszi a Linux kliensek számára a(z) Synology NAS eszközön tárolt adatokhoz való hozzáférést.</p>
+<h4>NFS szolgáltatás engedélyezése:</h4>
+<ol>
+<li>Lépjen a <strong>Vezérlőpult</strong> > <strong>Fájlszolgáltatások</strong> > <strong>SMB/AFP/NFS</strong> menüpontra, majd jelölje be az <b>NFS engedélyezése</b> opciót.</li>
+<li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+</ol>
+
+
+<div class="section">
+  <h4>Megjegyzés:</h4>
+<ul>
+<li> A(z) Synology NAS jelenleg az NFSv2-, NFSv3- és NFSv4-protokollokat támogatja.</li>
+<li>Csatlakoztatáskor a használandó NFS-verzió megadásához adja hozzá az <strong>-o vers=2</strong>, <strong>-o vers=3</strong> vagy <strong>-o vers=4</strong> paramétert a csatlakoztatási parancshoz.</li>
+<li>Az alábbi típusú megosztott mappák nem engedélyezik az NFS-hozzáférést:<ul>
+    <li>Titkosított megosztott mappák</li>
+    <li>PetaSpace típusú megosztott mappák</li>
+    <li>HFS, HFS Plus vagy exFAT fájlrendszert használó megosztott mappák</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>Linux kliensek hozzáférési jogosultságainak konfigurálása a megosztott mappákhoz:</h4>
+<p>Lépjen a <b>Vezérlőpult</b> > <b>Megosztott mappa</b> menüpontra. Válasszon egy megosztott mappát, majd az NFS-szabályok kezeléséhez és a Linux kliensek hozzáférési jogosultságainak szabályozásához kattintson a <strong>Szerkesztés</strong> lehetőségre.</p>
+
+
+<h3>NFSv4 támogatásának beállítása</h3>
+<p>Meghatározhatja, hogy az NFS-szerver támogassa-e az NFSv4-protokollt. Az opció engedélyezése esetén az NFS-szerver az NFSv2-, NFSv3- és NFSv4-protokollokat támogatja. Ellenkező esetben csak az NFSv2- és NFSv3-protokoll támogatott.</p>
+
+<h4>NFSv4 támogatásának engedélyezése:</h4>
+<ol>
+<li>Jelölje be az <b>NFSv4 támogatás engedélyezése</b> jelölőnégyzetet.</li>
+<li>Az <b>NFSv4 tartomány</b> mezőben adja meg a használni kívánt NFSv4 tartomány nevét. A mező kitöltése opcionális, akár üresen is hagyható.</li>
+<li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>Megosztott mappa NFSv4-protokollal történő csatlakoztatása esetén ügyeljen a következőkre. Ellenkező esetben a felhasználónévhez társuló fájlműveletek meghiúsulhatnak.</p>
+<ul>
+<li>Az NFS-kliensnek engedélyeznie kell az idmpad használatát.</li>
+<li>Az NFS-kliensen található idmpad.conf fájlban lévő NFSv4 tartománybeállításoknak konzisztensnek kell lenniük a(z) Synology NAS készülék <b>NFSv4 tartomány</b> mezőjével.</li>
+</ul>
+
+</div>
+
+
+<h3>Speciális beállítások</h3>
+
+<h4>Alapértelmezett UNIX-engedélyek alkalmazása</h4>
+<p> Az <strong>Alapértelmezett UNIX engedélyek alkalmazása</strong> opció bejelölése esetén a rendszer fájlok és mappák feltöltése vagy létrehozása esetén a Windows ACL engedélyek helyett a Linux kliensben beállított alapértelmezett UNIX engedélyeket alkalmazza. A rendszer ugyanazokat az engedélyeket alkalmazza, mintha a <strong>umask</strong> UNIX-parancsot használná. Az alapértelmezett umask értéke: 022.</p><div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+  <li>A Windows ACL-t használó megosztott mappák esetében (a külső meghajtókon lévő megosztásokon és a „photo” mappán kívül az összes megosztás) futtassa a <strong>chmod</strong> parancsot Linux rendszerén vagy FTP-kliensén, amennyiben a Windows ACL mappa- és fájlengedélyeit UNIX-ra szeretné állítani.</li>
+  <li>Az opció engedélyezése inkonzisztens engedélyekkel kapcsolatos problémákat okozhat a különböző protokollok között. Az inkonzisztenciák elkerülése érdekében azt javasoljuk, hogy ne kapcsolja be ezt az opciót.</li>
+</ul>
+</div>
+
+<h4>Egyedi port</h4>
+<p>Egyedi portokat adhat meg a statd és nlockmgr szolgáltatások számára.</p>
+
+<ol>
+<li>Válassza az <strong>Egyedi portok</strong> lehetőséget.</li>
+<li>A <strong>statd port</strong> és <strong>nlockmgr port</strong> opcióknál írja be a portszámokat.</li>
+<li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Amennyiben NFSv3-szolgáltatásokat szeretne használni, lépjen a <strong>Vezérlőpult</strong> > <strong>Biztonság</strong> > <strong>Tűzfal</strong> menübe, majd hozzon létre egy olyan tűzfalszabályt, amely engedélyezi a beépített „Mac/Linux fájlszerver” alkalmazás működését.</li>
+</ul>
+</div>
+<h4>Olvasási/írási csomag méretének beállítása</h4>
+<p>Ebben a mezőben adhatja meg az olvasási/írási csomag méretét, amennyiben ennek beállítására az NFS-kliensben nincs lehetőség.</p>
+
+<ol>
+<li>Az <strong>Olvasási csomag mérete</strong> és az <strong>Írási csomag mérete</strong> mezőkben adja meg a kívánt csomagméretet.</li>
+<li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+<li>Csatolja újra a megosztást.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Az olvasási/írási csomag méretének módosítása után a megosztott mappát újra kell csatlakoztatni az új beállítások érvényesítéséhez.</li>
+<li>Ezek a beállítások kizárólag az UDP-n (User Datagram Protocol) keresztül csatlakozó NFS kliensekre vonatkoznak.</li>
+</ul>
+</div>
+
+
+
+
+<h3>Kerberos beállítások*</h3>
+<p>A Kerberos egy hálózati hitelesítő protokoll. Használatával lehetővé válik, hogy egy nem biztonságos hálózaton belül egymással kommunikációt folytató kliensek és szerverek biztonságosan hitelesítsék magukat, és bebizonyítsák egymásnak identitásukat. A(z) Synology NAS lehetőséget biztosít a már meglévő Kerberos kulcsok importálására. A sikeres importálást követően az NFS kliensek a Kerberos hitelesítő protokoll használatával csatlakozhatnak a(z) Synology NAS készülékhez.</p>
+
+<h4> Kerberos kulcs importálása: </h4>
+<ol>
+<li>Kattintson a <strong>Kerberos beállítások</strong> lehetőségre.</li>
+<li>Kattintson az <b>Importálás</b> gombra.</li>
+<li>Válassza ki az importálni kívánt Kerberos kulcsot.</li>
+<li>Kattintson az <b>OK</b> gombra.</li>
+</ol>
+
+<h3><a name="idmap"></a>Kerberos ID leképezése</h3>
+<p>Az egyéni Kerberos principálisokat helyi DSM felhasználói fiókokhoz is leképezheti.</p>
+<h4> Kerberos principálisok és helyi felhasználói fiókok leképezése: </h4>
+<ol>
+<li>Kattintson a <strong>Kerberos beállítások</strong> lehetőségre.</li>
+<li>Lépjen az <strong>ID leképezés</strong> lapra.</li>
+<li> Kattintson a <b>Hozzáadás</b> gombra. Válassza a következők valamelyikét.</li>
+<ul>
+<li><strong>ID leképezés:</strong> Adja meg a Kerberos principálist és a helyi felhasználói fiókot, melyhez szeretné azt leképezni.</li>
+<li><strong>Javasolt leképezési lista:</strong> Az opciót választva a rendszer által generált javasolt Kerberos principális/helyi felhasználó leképezések listája jelenik meg.</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> Megjegyzés: </h4>
+<ul>
+<li>Amennyiben Kerberoson keresztül létező tartományi/LDAP-felhasználói fiókhoz csatlakozó NFS kliens leképezését szeretné elvégezni, előbb csatlakozzon a címtárszolgáltatáshoz. Ezenfelül a címtárszervernek rendelkeznie kell egy olyan attribútummal is, amely tartalmazza a megfelelő Kerberos principálist.</li>
+<ul>
+<li><strong>Tartományfelhasználó:</strong> A megfelelő attribútum formátuma a következő legyen: <strong>felhasználóPrincipálisNév</strong>.</li>
+<li><strong>LDAP-felhasználó:</strong> A megfelelő attribútum formátuma a következő legyen: <strong>GSSHitelesítésiNév</strong>.</li>
+</ul>
+<li>Amennyiben a felhasználót egyetlen helyi felhasználóhoz vagy tartományi/LDAP-felhasználóhoz sem lehet leképezni, akkor a felhasználót „vendégként” kell leképezni.<li>A leképezési prioritás a következő: Helyi felhasználó > Tartományi/LDAP-felhasználó > Vendég. </li>
+<li>Amennyiben szeretné módosítani az NFS kliensek hozzáférési engedélyeit, használjon Windows hozzáférés-vezérlési listát (ACL listát). A <strong>Vezérlőpult</strong> > <strong>Felhasználó</strong> menüpontban található jogosultsági opciók az NFS kliensekre nem érvényesek.</li>
+</ul>
+</div>
+<p><br>____<br> *Csak bizonyos típusokon érhető el.</p>
+
+
+
+</body>
+</html>

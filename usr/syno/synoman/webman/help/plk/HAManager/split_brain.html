@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Rozdwojenie jaźni</h2>
+
+<p>W trakcie normalnego działania klastra high-availability tylko jeden należący do niego serwer powinien pełnić rolę serwera aktywnego. W takim przypadku serwer pasywny wykrywa obecność serwera aktywnego zarówno poprzez połączenie Heartbeat, jak i poprzez połączenie danych.</p>
+
+<p>Jeżeli wszystkie połączenia Heartbeat i danych zostaną zerwane, oba serwery mogą próbować przejąć rolę serwera aktywnego. Sytuację taką nazywa się błędem „rozdwojenia jaźni”. W tym przypadku połączenia z adresami IP klastra high-availability zostaną przekierowane do jednego z dwóch serwerów, a niespójne dane mogą być aktualizowane lub zapisywane na obu serwerach.</p>
+        
+<p>Po przywróceniu dowolnego połączenia Heartbeat lub danych system wykryje błąd „rozdwojenia jaźni” i niespójność danych pomiędzy dwoma serwerami, a następnie wejdzie w tryb bezpieczeństwa high-availability.</p> 
+
+       
+<h4>W przypadku wystąpienia błędu „rozdwojenia jaźni”:</h4>
+	<ol>
+    <li>Do momentu usunięcia błędu „rozdwojenia jaźni” usługi w obu serwerach i adresach IP klastrów high-availability będą niedostępne.</li>
+	<li>Gdy oba serwery wejdą w tryb bezpieczeństwa high-availability, w lewym panelu pojawi się nowa zakładka <strong>Rozdwojenie jaźni</strong>. W zakładce będą wymienione następujące informacje: różnica pomiędzy plikami w folderach współdzielonych na obu serwerach, czas przejęcia przez serwery roli serwerów aktywnych, jak również informacja o ostatnim połączeniu iSCSI Target. Wszystkie pozostałe zakładki będa dostępne tylko do odczytu.</li>
+<li>W trybie bezpieczeństwa high-availability aplikacja File Station będzie dostępna tylko do odczytu, a pliki będzie można jedynie pobrać albo wyświetlić.</li>
+       <li>W zakładce <b>Przegląd</b> będzie możliwe jedynie usunięcie błędów „rozdwojenia jaźni” lub wyłączenie bieżącego serwera logowania. Aby usunąć błędy rozdwojenia jaźni, wykonaj następujące czynności:<ul>
+       <li>Wybierz jeden serwer jako serwer aktywny klastra high-availability, a drugi jako pasywny. Po ponownym uruchomieniu obu serwerów wszystkie dane oraz ustawienia serwera aktywnego będą synchronizowane z serwerem pasywnym. Należy pamiętać, że podczas wystąpienia błędu rozdwojenia jaźni zaktualizowane dane znajdujące się na serwerze pasywnym zostaną utracone.</li>
+       <li>Wybierz jeden serwer klastra high-availability jako serwer aktywny i usuń powiązanie pozostałych. Po ponownym uruchomieniu obu serwerów serwer aktywny pozostanie w klastrze high-availability, a serwer, dla którego usunięto powiązanie, zachowa swoje dane i powróci do stanu <b>Autonomiczny</b>. Należy pamiętać, że do podłączenia nowego pasywnego serwera w przyszłości konieczne będzie przeprowadzenie pełnej replikacji.</li>
+       <li>Usuń powiązania obu serwerów, zachowaj ich indywidualne dane i pozwól im na powrót do stanu <b>Autonomiczny</b>.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Uwagi:</h4>
+    <ul>
+    <li>Im więcej plików znajduje się w folderach współdzielonych, tym więcej czasu zajmie znalezienie różnic.</li>
+    <li>Przed wybraniem serwera jako aktywnego lub pasywnego upewnij się, że oba serwery są włączone.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

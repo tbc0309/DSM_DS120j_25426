@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Strøm</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+<h2>UPS</h2>
+
+<p class="disable-eds14">En UPS (Uninterruptible Power Supply) er en sikkerhedsstrømenhed, der gør det muligt for Synology NAS at fortsætte driften et kort stykke tid, hvis strømmen svigter. Denne funktion under <strong>Kontrolpanel</strong> > <strong>Hardware og strøm</strong> > <strong>UPS</strong> hjælper med at forhindre datatab ved at give Synology NAS nok tid til at gemme data og fraknytte diskenheder, før strømmen mistes fuldstændigt.</p>
+
+<p class="enable-eds14">En UPS (Uninterruptible Power Supply) er en sikkerhedsstrømenhed, der gør det muligt for Synology NAS at fortsætte driften et kort stykke tid, hvis strømmen svigter. Denne funktion under <strong>Kontrolpanel</strong> > <strong>Hardware og strøm</strong> > <strong>UPS</strong> hjælper med at forhindre datatab ved at give Synology NAS nok tid til at gemme data og fraknytte diskenheder, før strømmen mistes eller stopper.</p>
+
+<div class="section">
+<h4>Fejlsikret tilstand</h4>
+<p class="disable-eds14">Når Synology NAS går i fejlsikret tilstand, stander den alle tjenester og fraknytter diskenheder for at forhindre datatab og lukker sikkert, når UPS-enheden ikke har mere strøm. Som standard går systemet i fejlsikret tilstand, når UPS-enheden ikke har så meget strøm tilbage. Du kan også angive tidsperioden, før Synology NAS går i fejlsikret tilstand, når strømsvigt opstår. Hvis UPS-enheden dog når lav batteritilstand, før det angivne tidspunkt, går systemet i fejlsikret tilstand med det samme.</p>
+
+<p class="enable-eds14">Når Synology NAS går i fejlsikret tilstand, stander den alle tjenester og fraknytter diskenheder for at forhindre datatab og stopper sikkert, når UPS-enheden ikke har mere strøm. Som standard går systemet i fejlsikret tilstand, når UPS-enheden ikke har så meget strøm tilbage. Du kan også angive tidsperioden, før Synology NAS går i fejlsikret tilstand, når strømsvigt opstår. Hvis UPS-enheden dog når lav batteritilstand, før det angivne tidspunkt, går systemet i fejlsikret tilstand med det samme.</p>
+
+
+<p></p>
+<p class="disable-eds14">I situationer, hvor Synology NAS lukker i Sikret tilstand, vil den automatisk blive tændt, når strømmen kommer igen, hvis du har aktiveret muligheden <strong>Genstart automatisk efter strømnedbrud</strong> (findes i <strong>Kontrolpanel</strong> > <strong>Hardware og strøm</strong> > <strong>Generelt</strong>).</p>
+
+<p></p>
+</div>
+
+
+
+
+<h3>Lokal UPS-support</h3>
+
+<p>Detaljer om hardwareinstallation findes i brugervejledningen til UPS-enheden. Når installationen er færdig, og Synology NAS er tilsluttet UPS-enheden, kan du følge nedenstående trin til at aktivere UPS-support.</p>
+<h4>Sådan aktiverer du lokal UPS-understøttelse</h4>
+<OL>
+<li>Tilslut UPS-enheden til en USB-port på Synology NAS.</li>
+<LI>På fanen <strong>UPS</strong> markere du afkrydsningsfeltet <b>Aktiver UPS-support</b>.</LI>
+<LI>Vælg, hvornår Synology NAS skal gå i fejlsikret tilstand efter strømsvigt.</LI>
+<LI>Vælg, om der skal sendes et lukkesignal til UPS'en, når systemet går i Fejlsikret tilstand, eller ej. De fleste UPS-enheder tændes automatisk, når strømmen genoprettes.</LI>
+<LI>Klik på <b>Anvend</b>.</LI>
+</OL>
+
+<h3>SNMP UPS-support</h3>
+
+<p>Din Synology NAS understøtter også tilslutning af SNMP (Simple Network Management Protocol) UPS-enheder. Detaljer om hardwareinstallation findes i brugervejledningen til SNMP UPS-enheden. Når Synology NAS er tilsluttet UPS-enheden og tilsluttet til samme netværk, kan du følge nedenstående trin til at aktivere UPS-support.</p>
+<h4>Sådan aktiverer du lokal SNMP UPS-support</h4>
+<ol>
+<LI>På fanen <strong>UPS</strong> markere du afkrydsningsfeltet <b>Aktiver UPS-support</b>.</LI>
+<li>Vælg <strong>SNMP UPS</strong> i rullemenuen <strong>Netværks-UPS-type</strong>.</li>
+<li>I feltet <strong>SNMP UPS IP-adresse</strong> indtaster du IP-adressen på SNMP UPS-enheden.</li>
+<LI>Vælg, hvornår Synology NAS skal gå i fejlsikret tilstand efter strømsvigt.</LI>
+<li>Indtast gruppestrengen på SNMP UPS-enheden i feltet <strong>SNMP-fællesskab</strong>.</li>
+<LI>Klik på <b>Anvend</b>.</LI>
+</ol>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Det anbefales kraftigt at bruge <b>SNMP-UPS</b> til Synology High Availability (SHA)-implementeringer.</li>
+<li>Synology NAS understøtter SNMPv1 og SNMPv2c UPS-enheder.</li>
+</ul>
+</div>
+
+
+<h3>Netværks-UPS-support</h3>
+
+<p>Hvis der er to Synology-produkter, der bruger en UPS-enhed med én USB-port, kan kun én Synology NAS hente oplysninger om status for UPS-enheden. I dette tilfælde kan én Synology NAS fungere som "netværks-UPS-server" og tilsluttes til UPS-enheden via USB eller netværket (afhængigt af enheden). Netværks-UPS-serveren henter UPS-oplysninger og videresender dem til den anden "klient"-Synology NAS.</p>
+<h4>Sådan aktiverer du netværkets UPS-understøttelse:</h4>
+<OL>
+<li>Log ind på den Synology NAS, der er tilsluttet til UPS-enheden (via USB eller netværk). Hvis lokal UPS-support ikke er aktiveret på denne Synology NAS endnu, skal du se i ovenstående afsnit.</li>
+<LI>På fanen <strong>UPS</strong> markerer du feltet <strong>Aktiver netværkets UPS-server</strong> for at sætte Synology NAS i stand til at videresende UPS-oplysninger til klient-Synology NAS.</li>
+<li>Klik på knappen <strong>Tilladte Synology NAS-enheder</strong>.</li>
+<li>I det vindue, der vises, skal du indtaste IP-adresser for den anden Synology NAS, som bruger UPS-enheden, men ikke er tilsluttet via USB eller netværket, Klik på <strong>OK</strong>.</li>
+<li>Klik på <strong>Anvend</strong> for at gemme indstillingerne.</li>
+</OL>
+<p>Nu kan netværks-UPS-serveren hente UPS-oplysninger og videresende dem til den anden Synology NAS, der bruger UPS-enheden. Se nedenstående vejledning for at aktivere UPS-support på den anden Synology NAS.</p>
+<h4>Sådan aktiverer du UPS-support på klient-Synology NAS:</h4>
+<ol>
+<li>Log ind på den anden Synology NAS, der bruger UPS-enheden, men ikke er tilsluttet via USB eller netværk.</li>
+<li>På fanen <strong>UPS</strong> markere du feltet <strong>Aktiver UPS-support</strong>.</li>
+<li>Vælg <strong>Synology UPS-server</strong> i rullemenuen <strong>Netværks-UPS-type</strong>.</li>
+<li>Indtast IP-adressen på netværks-UPS-serveren (dvs. den Synology NAS, der er tilsluttet til UPS-enheden) i feltet <strong>IP for netværkets UPS-server</strong>.</li>
+<LI>Vælg, hvornår Synology NAS skal gå i fejlsikret tilstand efter strømsvigt. Du kan vælge <strong>Samme som server</strong> for at forenkle indstillinger for fejlsikret tilstand.</LI>
+<LI>Klik på <b>Anvend</b> for at gemme indstillingerne.</LI>
+</OL>
+<div class="section">
+<h4>Krav til netværks-UPS:</h4>
+<UL>
+<LI>For at videresende UPS-enhedsoplysninger, skal hver Synology NAS være tilsluttet til det samme netværk.</LI>
+<LI>Netværksenheden (f.eks. omskifter eller hub), som hver Synology NAS er tilsluttet, skal tilsluttes til den samme UPS-enhed. Ellers kan Synology NASs ikke videresende UPS-enhedsoplysninger, når strømmen svigter.</LI>
+</UL>
+</div>
+</body>
+</html>

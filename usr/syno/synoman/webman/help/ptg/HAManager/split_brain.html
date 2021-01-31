@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Split-brain</h2>
+
+<p>Quando um cluster de high-availability estiver a funcionar normalmente, s&oacute; um dos servidores membros dever&aacute; ser o servidor activo. Neste caso, o servidor passivo detecta a presen&ccedil;a do servidor activo atrav&eacute;s da liga&ccedil;&atilde;o Heartbeat e da liga&ccedil;&atilde;o de dados.</p>
+
+<p>Se todas as liga&ccedil;&otilde;es Heartbeat e de dados forem perdidas, os dois servidores poder&atilde;o tentar assumir a fun&ccedil;&atilde;o do servidor activo. Esta situa&ccedil;&atilde;o &eacute; denominada como erro de &quot;split-brain&quot;. Neste caso, as liga&ccedil;&otilde;es aos endere&ccedil;os IP do high-availability cluster ser&atilde;o redirecionados para um dos dois servidores, e os dados inconsistentes podem ser atualizados ou escritos nos dois servidores.</p>
+        
+<p>Quando algum das liga&ccedil;&otilde;es Heartbeat ou de dados volta a estabelecer a liga&ccedil;&atilde;o, os sistema ir&aacute; detetar o erro split-brain e inconsist&ecirc;ncia entre os dois servidores, e entrar&aacute; no modo de seguran&ccedil;a high-availability.</p> 
+
+       
+<h4>Em caso de erro de split-brain:</h4>
+	<ol>
+    <li>Os servi&ccedil;os em ambos servidores e os endere&ccedil;os IP do high-availability cluster estar&atilde;o indispon&iacute;veis at&eacute; estar resolvido o erro split-brain.</li>
+	<li>Assim que ambos servidores entrarem no modo de seguran&ccedil;a high-availability, aparecer&aacute; um novo separador com o nome <strong>Split-brain</strong> no painel esquerdo. Neste separador, ser&aacute; listada a seguinte informa&ccedil;&atilde;o: a diferen&ccedil;a entre os ficheiros nas pastas partilhadas nos dois servidores, a hora a que os servidores se tornaram servidores ativos, bem como a &uacute;ltima informa&ccedil;&atilde;o de liga&ccedil;&atilde;o iSCSI Target. Todos os outros separadores permanecem apenas de leitura.</li>
+<li>No modo de seguran&ccedil;a high-availability, File Station estar&aacute; no modo apenas de leitura, e poder&aacute; transferir ou visualizar os ficheiros.</li>
+       <li>No separador <b>Vis&atilde;o Geral</b>, apenas pode resolver erros split-brain ou encerrar o servidor atual. Para resolver erros split-brain, fa&ccedil;a um dos seguintes:
+       <ul>
+       <li>Escolha um servidor como o servidor ativo do high-availability cluster e o outro como o servidor passivo. Assim que ambos servidores reiniciem, todos os dados e defini&ccedil;&otilde;es diferentes no servidor ativo ser&atilde;o sincronizados para o servidor passivo. Tenha em conta que os dados atualizados no servidor passvo durante o erro split-brain ser&atilde;o perdidos.</li>
+       <li>Escolha um servidor como o servidor ativo do high-availability cluster, e desvincule o outro. Assim que ambos servidores reiniciarem, o servidor ativo permanecer&aacute; no high-availability cluster, e o servidor desvinculado manter&aacute; os seus dados e regressar&aacute; ao estado <b>Aut&oacute;nomo</b>. Tenha em conta que ser&aacute; necess&aacute;ria uma duplica&ccedil;&atilde;o total para vincular um novo servidor passivo de futuro.</li>
+       <li>Desvincule ambos servidores, reserve os dados individuais, e deixe que regressem ao estado <b>Aut&oacute;nomo</b>.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Notas:</h4>
+    <ul>
+    <li>Quantos mais ficheiros houver nas suas pastas partilhadas, mais tempo ir&aacute; demorar a listar as diferen&ccedil;as.</li>
+    <li>Antes de escolher qual o servidor que funcionar&aacute; como servidor ativo/passivo, certifique-se que ambos os servidores est&atilde;o ligados.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

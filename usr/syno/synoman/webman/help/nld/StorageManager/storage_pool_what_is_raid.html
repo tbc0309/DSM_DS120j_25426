@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Selecteer een RAID-type</h2>
+
+<p>RAID (Redundant Array of Independent Disks) is een gegevensopslagtechnologie waarmee meerdere schijven in een enkele opslagruimte kunnen worden gecombineerd. Er zijn verschillende RAID-types, elk met verschillende prestaties, opslagcapaciteit en betrouwbaarheid.</p>
+
+<p>Dit artikel geeft een kort overzicht van de RAID-types die door Synology NAS worden ondersteund, inclusief implementatievereisten en voor- en nadelen.</p>
+
+<!--1-->
+
+<h3>Ondersteunde RAID-types</h3>
+
+<p>Deze tabel geeft een kort overzicht van de verschillende RAID-types die door Synology NAS worden ondersteund, inclusief de opslagcapaciteit, het minimum vereist aantal schijven per RAID-type en het aantal schijffouten die getolereerd worden tot optreding van gegevensverlies. </p>
+
+<table>
+	<tr>
+		<th>Volumetype</th>
+		<th>Aantal HHD's</th>
+		<th>Toegelaten schijffouten</th>
+		<th>Beschrijving</th>
+		<th>Volumecapaciteit</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>Optimaliseert de volumegrootte als schijven met verschillende groottes worden gecombineerd.</li>
+				<li>Biedt gegevensredundantie als het volume uit twee of meer schijven bestaat.</li>
+				<li>Aanbevolen voor beginners.</li>
+			</ul>
+		</td>
+		<td>1 x (HDD-grootte)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">Geoptimaliseerd door het systeem.</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Basic</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Bestaat uit een schijf als onafhankelijke eenheid.</li>
+				<li>Geen ondersteuning van gegevensredundantie.</li>
+			</ul>
+		</td>
+		<td>1 x (HDD-grootte)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Combineert een verzameling van schijven in een enkele opslagruimte met een capaciteit gelijk aan de som van alle schijven.</li>
+				<li>Geen ondersteuning van gegevensredundantie.</li>
+			</ul>
+		</td>
+		<td>Som van alle HDD-groottes</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Biedt "striping", een procedure waarbij gegevens in blokken verdeeld worden en deze gegevensblokken over verschillende schijven worden verspreid om de prestaties te verbeteren.</li>
+				<li>Geen ondersteuning van gegevensredundantie.</li>
+			</ul>
+	    </td>
+		<td>Som van alle HDD-groottes</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>Schrijft identieke gegevens gelijktijdig naar alle schijven.</li>
+				<li>Biedt gegevensredundantie.</li>
+			</ul>
+		</td>
+		<td rowspan="3">Kleinste HDD-grootte</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Implementeert blok-niveau-striping met verspreiding van pariteitsgegevens over alle schijven, waardoor een betere gegevensredundantie worden geboden dan bij RAID 1.</li>
+			</ul>
+		</td>
+		<td>(N – 1) x (kleinste HDD-grootte)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>Implementeert twee lagen van pariteitsgegevens om redundante gegevens op te slaan op een ruimte die gelijk is aan de grootte van twee schijven. Biedt een grotere mate van gegevensredundantie dan RAID 5.</li>
+			</ul>
+		</td>
+		<td>(N – 2) x (kleinste HDD-grootte)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br />(even getal)</td>
+		<td>Helft van het totaal aantal HDD</td>
+		<td>
+			<ul>
+				<li>Biedt de prestaties van RAID 0 en het gegevensbeveiligingsniveau van RAID 1 door schijven in groepen van twee te combineren en gegevens te spiegelen.</li>
+			</ul>
+		</td>
+		<td>(N / 2) x (kleinste HDD-grootte)</td>
+	</tr>
+	<tr>
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Implementeert blok-niveau-striping met verspreiding van pariteitsgegevens over lidschijven.</li>
+				<li>Een bepaalde schijf zal meer pariteitsinformatie hebben.</li>
+				<li>Aanbevolen voor een all-flash array.</li>
+			</ul>
+		</td>
+		<td>(N – 1) x (kleinste SSD-grootte)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>de RAID-types, behalve &quot;Basic&quot;, zijn alleen beschikbaar op bepaalde modellen, afhankelijk van het aantal harde schijfsleuven en het aantal geïnstalleerde schijven.</li>
+	<li>RAID F1 is uitsluitend beschikbaar op specifieke modellen. Voor meer informatie raadpleeg <a href="https://www.synology.com/" target="_blank">Synology website</a>.</li>
+	<li>"N" staat voor het totaal aantal schijven binnen het volume.</li>
+</ul>
+</div>
+
+<!--2-->
+
+<h3>Synology Hybrid RAID (SHR)</h3>
+<p>Synology Hybrid RAID (SHR) is een geautomatiseerd RAID-beheersysteem dat speciaal is ontworpen om opslagbeheer te vergemakkelijken en tegemoet te komen aan de behoefte van nieuwe gebruikers zonder kennis over RAID-types. </p>
+<p>SHR kan schijven van verschillende groottes combineren om een opslagvolume te maken met geoptimaliseerde capaciteit en prestaties, waardoor minder schijfruimte wordt verspild en een flexibelere opslagoplossing wordt aangeboden.  Wanneer een toereikend aantal schijven is opgenomen, biedt SHR redundantie voor 1 of 2 schijven. Een SHR-volume kan dus maximaal een of twee fouten van schijven ondergaan zonder daarbij gegevens te verliezen.<br /><img src="about:blank" class="help_image"/></p>
+
+<!--3-->
+
+<h3>RAID 0</h3>
+<p>RAID 0 combineert twee of meer schijven om de prestaties en capaciteit te verhogen, maar biedt geen fouttolerantie. Een enkele schijffout resulteert in het verlies van alle gegevens op de array. RAID 0 is handig voor niet-cruciale systemen die een hoog prijs/prestatie-evenwicht vereisen.<br /><img src="about:blank" class="help_image"/></p>
+
+<!--4-->
+
+<h3>RAID 1</h3>
+<p>RAID 1 wordt vaak met twee schijven geïmplementeerd. De gegevens op de schijven worden gespiegeld en bieden zo fouttolerantie in geval van een defecte schijf. De leesprestaties worden verhoogd terwijl de schijfprestaties vergelijkbaar blijven met die van een enkele schijf. Een enkele schijffout leidt niet tot gegevensverlies. RAID 1 wordt vaak gebruikt wanneer fouttolerantie centraal staat, terwijl ruimte en prestaties geen cruciale vereisten zijn.<br /><img src="about:blank" class="help_image"/></p>
+
+<!--5-->
+
+<h3>RAID 5</h3>
+<p>RAID 5 biedt fouttolerantie en verbeterde leesprestaties. Een minimum van drie schijven wordt vereist. RAID 5 kan het verlies van een enkele schijf dragen. Bij een schijffout worden de gegevens van de beschadigde schijf hersteld door pariteits-striping van de resterende schijven. Dit wil zeggen dat zowel de lees- als de schrijfprestaties ernstig worden beïnvloed bij een RAID 5-array in beschadigde staat. RAID 5 is ideaal wanneer ruimte en kosten belangrijker zijn dan prestaties.<br /><img src="about:blank" class="help_image"/></p>
+
+<!--6-->
+
+<h3>RAID 6</h3>
+<p>RAID 6 is vergelijkbaar met RAID 5, maar biedt bovendien een extra striping-laag en kan twee schijfstoringen verdragen. Een minimum van vier schijven wordt vereist. Door deze aanvullende fouttolerantie zijn de prestaties van RAID 6 lager dan die van RAID 5. RAID 6 is interessant wanneer ruimte en kosten belangrijk zijn en fouttolerantie van meerdere schijven wordt vereist.<br /><img src="about:blank" class="help_image"/></p>
+
+<!--7-->
+
+<h3>RAID 10</h3>
+<p>RAID 10 combineert de voordelen van RAID 1 en RAID 0. Lees- en schrijfprestaties worden verbeterd, maar slechts de helft van de totale ruimte is beschikbaar voor gegevensopslag. Er zijn vier of meer schijven nodig waardoor het een dure aangelegenheid wordt, maar de prestaties zijn fantastisch en er wordt fouttolerantie geboden. Een RAID 10 kan meerdere schijffouten verdragen als de fouten niet binnen dezelfde subgroep optreden. RAID 10 is ideaal voor toepassingen met hoge in-/uitvoerverzoeken zoals databaseservers.<br /><img src="about:blank" class="help_image"/></p>
+
+
+<!--8-->
+<h3>RAID F1</h3>
+<p>RAID F1 past het mechanisme van RAID 5 toe en biedt fouttolerantie en hogere leesprestaties. Met RAID F1 heeft een bepaalde schijf meer pariteitsinformatie om de veroudering van de schijf te versnellen zodat niet alle schijven op hetzelfde moment aan het einde van hun levensduur komen. Dit heeft een subtiele invloed op de prestaties in vergelijking met RAID 5. Een minimum van drie schijven wordt vereist. RAID F1 kan het verlies van een enkele schijf dragen. Bij een schijffout worden de gegevens van de beschadigde schijf hersteld door pariteits-striping van de resterende schijven. Dit wil zeggen dat zowel de lees- als de schrijfprestaties ernstig worden beïnvloed bij een RAID F1-array in beschadigde staat. RAID F1 is ideaal voor all-flash array.<br /><img src="about:blank" class="help_image"/></p>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+#!/bin/sh
+
+source /usr/syno/etc.defaults/iptables_modules_list
+
+ALL_MODULES="
+	${KERNEL_MODULES_CORE}
+	${KERNEL_MODULES_COMMON}
+	${KERNEL_MODULES_NAT}
+	${IPV6_MODULES}
+	${GEOIP_MODULES}
+	${TC_MODULES}
+	${TC_6_MODULES}
+	${PPP_MODULES}
+	${PPTP_MODULES}
+	${L2TP_MODULES}
+	${OPENVPN_MODULES}
+	${PPPOE_MODULES}
+"
+
+MODULES=""
+for mod in ${ALL_MODULES}; do
+	echo $mod
+	if [ -e "/lib/modules/$mod" ]; then
+		MODULES="${MODULES} ${mod}"
+	fi
+done
+
+InsertModules="${MODULES}"

@@ -1,0 +1,57 @@
+# ----------------------------------------------------------------------------
+#
+#    Copyright (C) 2000-2015 Synology Inc. All rights reserved.
+#
+# ----------------------------------------------------------------------------
+
+	mount,
+	umount,
+
+	change_profile -> unconfined,
+
+	capability                                            block_suspend,
+	capability                                            kill,
+	capability                                            mknod,
+	capability                                            mac_admin,
+
+	/                                                     r,
+	/dev/                                                 r,
+	/dev/pts/                                             r,
+	/dev/pts/*                                            wr,
+	/dev/sd*                                              rw,
+	/dev/sata*                                            rw,
+	/dev/sas*                                             rw,
+	/dev/nvc*                                             rw,
+	/dev/nvme*                                            rw,
+	/dev/mapper/control                                   rw,
+	/volume*                                              rw,
+	/volume*/@appstore/{,**}                              r,
+	/volume*/@database/**                                 r,
+
+	/usr/sbin/{apparmor_parser,dmsetup}                   ixr,
+	/usr/syno/sbin/synocachepinfiletool                   ixr,
+	/usr/syno/sbin/synocachepinfiletool-status            ixr,
+	/usr/syno/synopkg/{,**}                               r,
+	/usr/syno/synopkg/synopkg_install_backup_plugin.sh    ix,
+	/usr/syno/locale/locale_checker.sh                    ix,
+	/usr/syno/etc.defaults/rc.sysv/{,**}                  ix,
+
+	/usr/libexec/volume/unmount/                          r,
+	/usr/libexec/volume/unmount/*                         ixr,
+	/usr/local/etc/rc.d/                                  r,
+
+	/var/packages/*/{,**}                                 ixr,
+	/sys/kernel/security/apparmor/*                       rw,
+
+	/etc/fstab                                            r,
+	/etc/fstab*                                           rw,
+	/etc/shadow                                           r,
+	/etc/postgresql/postgresql.conf                       r,
+
+	/etc/pam.d/{su,other}                                 ixr,
+	/etc/apparmor/subdomain.conf                          r,
+	/etc/apparmor.d/{,**}                                 r,
+	/etc/apparmor.d/pkg_*                                 kw,
+	/etc/apparmor.d/usr.syno.sbin.synoscgi                wk,
+	/etc/apparmor.d/cache/.usr.syno.sbin.synoscgi*        rw,
+

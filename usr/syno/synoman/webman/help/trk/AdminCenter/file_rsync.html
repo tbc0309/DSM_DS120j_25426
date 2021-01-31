@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Yedekleme Hizmetleri - Synology DSM Yardım</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>rsync</h2>
+
+<p>Diğer kullanıcıların rsync yoluyla bir Synology NAS'tan veya rsync uyumlu istemcilerden Synology NAS sunucunuza verileri yedeklemesine izin verebilirsiniz.</p>
+
+<h3>Rsync Yedekleme Hizmetini Etkinleştirme</h3>
+
+<h4>Rsync hizmetini etkinleştirmek için:</h4>
+
+<p><strong>Denetim Masası</strong> > <strong>Dosya Hizmetleri</strong> > <strong>rsync</strong> öğesine gidin ve <strong>Rsync hizmetini etkinleştir</strong>'i seçin.</p>
+
+
+<h4>Rsync yedekleme ayrıcalıkları atamak için:</h4>
+
+
+<p>Bu kullanıcıların kaynak Synology NAS'tan veya rsync uyumlu sunucudan hedef Synology NAS'a yedekleme yapabilmeleri için uygun rsync ayrıcalıklarını kullanıcılara atayın.</p>
+
+<ol>
+<li><b>Denetim Masası</b> > <b>Ayrıcalıklar</b> öğesine gidin.</li>
+<li><strong>rsync (desteklenen modellerde Paylaşımlı Klasör Senkronizasyonu, LUN Yedeklemesi)</strong> seçimi yapın ve ayrıcalıkları atamak için <strong>Düzenle</strong>'ye tıklayın.</li>
+<li>İstenilen kullanıcılara (şifrelenen rsync için DSM kullanıcıları veya şifrelenmemiş rsync için rsync hesapları) <strong>İzin Ver</strong> ayrıcalıkları atayın ya da belirli kullanıcılar için izin verilen IP adreslerini belirleyin.</li>
+</ol>
+
+
+
+<div class="section">
+<h4>Not:</h4>
+<p>3.0'dan daha eski bir DSM sürümünü çalıştıran bir Synology NAS sunucusundan ya da Synology NAS olmayan bir istemciden rsync yedeklemesi yapmak ve kaynak verisinin <b>sahibi</b> ve <b>grup</b> bilgisini korumak için, rsync hesaplarını <b>administrators</b> grubuna eklemeli ve daemon modunda verileri <b>NetBackup</b> paylaşımlı klasörüne yedeklemelisiniz.</p>
+</div>
+
+<h3>Rsync Hesaplarının Etkinleştirilmesi</h3>
+<p>Synology NAS olmayan bir istemciden rsync yedeklemesi yaparsanız, rsync kullanıcılarının verilerinizi Synology NAS'ınıza yedekleyebilmesi için hedef Synology NAS üzerinde rsync hesapları oluşturmanız gerekir.</p>
+
+<h4>Rsync hesaplarını etkinleştirmek için:</h4>
+<ol>
+<li><b>Denetim Masası</b> > <b>Dosya Hizmetleri</b> > <strong>rsync</strong> öğesine gidin ve <b>Rsync hesabını etkinleştir</b>'i seçin.</li>
+<li>Kulalnıcıları ve kimlik doğrulama için ilgili parolaları belirlemek üzere <b>Rsync Hesabını Düzenle</b>'ye tıklayın.</li>
+<li><b>Uygula</b>'ya tıklayın.</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Rsync hizmeti şifrelenirse (yani, belirlenen bir SSH şifreleme portuna sahip olma), sistem DSM kullanıcılarının kullanıcı adlarını ve parolalarını onların rsync hesapları olarak uygular.</li>
+<li>Rsync hizmeti şifrelenmez ise, onlar için ilgili rsync hesaplarını oluşturmanız gerekir.</li>
+</ul>
+</div>
+
+
+<h3>Özelleştirilen rsync Yapılandırmasını Kullanma</h3>
+
+<p>Özelleştirilen rsync yapılandırmasını kullanabilir ve Synology NAS sunucunuz üzerinde kullanıcı ayrıcalıklarını ve yedekleme hedefini yapılandırabilirsiniz. Dolayısıyla diğer kişiler Synology NAS cihazlarından veya rsync uyumlu istemcilerinden Synology NAS sunucunuzdaki hedef paylaşımlı klasörlere (veya "yedekleme modüllerine") rsync yedeklemesi yapabilirler.</p>
+
+<h4>Özelleştirilmiş rsync yapılandırması kullanmak için:</h4>
+
+<ol>
+<li>Telnet veya SSH yoluyla Synology NAS sunucunuzda oturum açın.</li>
+<li>"<b><code>/etc/rsyncd.conf</code></b>" rsync yapılandırma dosyasında yedekleme modülünü ve yetkilendirilen kullanıcıları belirleyin. Ayrıntılı bilgi için, rsync istemcinizin <b>rsyncd.conf</b> kılavuz sayfasına bakın veya <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">buraya</a> tıklayın.</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<p>Yedekleme modülü ve paylaşımlı klasör aynı adı paylaşıyorsa, yedekleme modülü ayarı kullanılacaktır.</p>
+</div>
+
+
+<h3>Hız Limitini Etkinleştirme</h3>
+<p>Kullanıcılar ve gruplar için rsync yedeklemesinin maksimum kullanılabilir bant genişliğini kontrol edebilirsiniz.</p>
+
+<h4>Hız limitini etkinleştirmek için:</h4>
+<ol>
+  <li><b>Denetim Masası</b> > <b>Dosya Hizmetleri</b> > <strong>rsync</strong>'ye gidin. Aşağıdakilerden dilediğinizi seçin:
+  <ul>
+  <li><strong>Hız limiti yok</strong></li>
+  <li><strong>Hız limitini etkinleştir</strong></li>
+  <li><strong>Bir programa göre hız limitini etkinleştir</strong> (Daha ileri modifikasyon için <strong>Programı ayarla</strong>'ya tıklayın.)</li>
+  </ul>
+  
+<div class="section">
+<h4>Not:</h4>
+<p>Bu sunucu ölçeğinde bir ayardır ve münferit kullanıcıların ve grupların ayarlarının yerini alacaktır. Örneğin, <strong>Hız limiti yok</strong> seçiminin yapılması tüm kullanıcılar ve gruplar için hız limiti ayarlarını devre dışı bırakır.</p>
+</div>
+  </li>
+
+  <li>Hız limitini etkinleştirmişseniz, <strong>Hızlı Limiti Ayarları</strong>'na tıklayın ve ayarları değiştirmek için istenilen kullanıcı/gruba tıklayın:
+    <ul>
+       <li><strong>Yok:</strong> Grup üyeleri hizmet ile dosyaları transfer ettiğinde hiçbir hız limiti uygulanmayacaktır.</li>
+      <li><strong>Grup ayarlarını uygula</strong>: Kullanıcı ilişkili grup ile aynı hız limiti ayarlarını paylaşacaktır.</li>
+      <li><strong>Sabit</strong>: Kullanıcı veya grup üyelerine fiks, sabit bir hız limiti uygulanacaktır. Karşıya yükleme ve indirme hızı limitleri soldaki alanlarda belirtilebilir.</li>
+      <li><strong>Özelleştirilmiş</strong>: Bir programa göre iki farklı hız limiti belirlenebilir ve kullanıcı veya grup üyelerine uygulanabilir. Hız limiti ayarlarını değiştirmek ve bir program belirlemek için <strong>Özelleştir</strong> düğmesine tıklayın.</li>
+    </ul>
+  </li>
+ <li><b>Uygula</b>'ya tıklayın.</li> 
+
+</ol>
+<div class="section">
+  <h4>Not:</h4>
+    <p><strong>Sonuç (UL/DL)</strong> bölümü bireysel ve grup ayarlarına göre kullanıcının gerçek yükleme ve indirme limitini görüntüler. Örneğin, eğer bir kullanıcı "Achilles" 100 KB/s düzeyinde bir bireysel indirme limitine sahipse, ancak 500 KB/s düzeyinde bir indirme limitine sahip bir kullanıcı grubuna aitse, <strong>Sonuç (UL/DL)</strong> kısmında "0/500" görüntülenir.</p>
+</div>
+
+</body>
+</html>

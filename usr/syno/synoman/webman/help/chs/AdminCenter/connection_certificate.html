@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="certificate"></a>证书</h2>
+
+<p>证书可用于保护 Synology NAS 的 SSL 服务，如网页（所有的 HTTPS 服务）、邮件或 FTP。证书可让用户在发送保密信息之前验证服务器和管理员的身份。</p>
+
+<p>在<strong>控制面板</strong> > <strong>安全性</strong> > <strong>证书</strong>中，您可进行以下操作：</p>
+
+<ul>
+<li>从 Let's Encrypt 获取证书。</li>
+<li>创建自我签署证书。</li>
+<li>创建向另一个认证机构 (CA) 的证书签发请求。</li>
+<li>签署来自另一个应用程序的证书签发请求</li>
+<li>管理 Synology NAS 上的证书。</li>
+</ul>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>从 DSM 6.0 开始，您可对 Synology NAS 创建和导入多个证书。</li>
+<li>如果单击<strong>设为默认证书</strong>，处理的证书将被用作默认证书。原始默认证书将失去其默认状态。</li>
+</ul>
+</div>
+
+
+<h3>来自 Let's Encrypt 的证书</h3>
+
+<h4>若要从 Let&apos;s Encrypt 获取证书：</h4>
+<p>您可从信誉良好的公共认证机构 <a href="https://letsencrypt.org/" target="_blank">Let&apos;s Encrypt</a> 自动获得免费又安全的 SSL/TLS 证书。</p>
+
+<ol>
+<li>单击<strong>添加</strong>。</li>
+<li>选择<strong>添加新证书</strong>并单击<strong>下一步</strong>。</li>
+<li>选择<strong>从 Let&apos;s Encrypt 获取证书</strong>。</li>
+<li>指定以下信息： <ul><li><strong>域名</strong>：输入您向域供应商注册的域。</li>
+<li><strong>电子邮件</strong>：输入用于证书注册的电子邮件地址。</li>
+<li><strong>主体备用名称</strong>：若要让一个证书涵盖多个域，请在此输入其他域名。还可以通过采用以下格式输入 Synology DDNS 的域名来申请通配符证书：<div class="code_div"><code>*.SYNOLOGY_DDNS_DOMAIN_NAME</code></div></li></ul></li>
+<li>单击<strong>应用</strong>以保存设置。一经确认，证书将会立即导入到您的 Synology NAS。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4><ul><li>您只能用有限数量的电子邮件帐户从 Let&apos;s Encrypt 注册证书。如果超出限制，请使用之前注册的电子邮件帐户来获取更多的证书。</li>
+<li>您只能从 Let&apos;s Encrypt 的每个域注册有限数量的证书。如果超出限制，请执行以下任一操作： <ul><li>输入当前域名作为主体备用名称 (SAN)，并用其他域名申请证书。</li> 
+		<li>输入 <code>*.SYNOLOGY_DDNS_DOMAIN_NAME</code> 作为 SAN 以申请通配符证书。</li></ul><li>Let&apos;s Encrypt 将在为您的域颁发证书之前执行域验证。请确认 Synology NAS 和路由器已打开端口 80，以用于从 Internet 进行域验证。与 Let&apos;s Encrypt 的所有其他通信将通过 HTTPS 进行，并保护 Synology NAS 的安全。</li>
+<li>Let&apos;s Encrypt 颁发的证书在 90 天内有效。证书到期之前，DSM 将在域验证成功后自动续订这些证书。请确认 Synology NAS 和路由器已打开端口 80，以用于证书续订。</li>
+<li>仅对 Synology DDNS 支持通配符证书。</li></ul></div>
+
+<h3>自我签署证书</h3>
+
+<p>自我签署证书是指证实身份的同一实体创建和签署的证书（在此情况下，为 Synology NAS）。自我签署证书使用 Synology NAS生成的私钥签署。因为自我签署证书不是由第三方认证机构颁发，他们提供证明力较低的服务器验证，且一般用于服务器和一组已知用户之间的安全通道。</p>
+
+
+<h4>若要创建自我签署证书：</h4>
+<ol>
+	<li>单击<strong>添加</strong>。</li>
+<li>选择<strong>添加新证书</strong>并单击<strong>下一步</strong>。</li>
+<li>选择<strong>创建自我签署证书</strong>。</li>
+	<li>按照设置向导的指示进行操作。</li>
+</ol>
+
+
+<h3>证书签发请求 (CSR)</h3>
+
+<p>除从 Let's Encrypt 颁发的证书外，您还可从其他商业或第三方认证机构申请证书。若要获取证书，您需要做以下两件事：</p>
+
+<ul>
+<li>创建证书签发请求 (CSR)：由 Synology NAS 生成的文本的加密正文，它含有将包含在证书中的信息，如您的域名、组织名称、一般位置和电子邮件地址。</li>
+<li>向认证机构提供个人或组织的身份验证，并证明您是证书签发请求通用名称栏中输入的域名的拥有者。</li>
+</ul>
+
+
+<h4>若要创建证书签发请求：</h4>
+
+<ol>
+	<li>单击 <strong>CSR</strong>。</li>
+    <li>选择<strong>创建证书签发请求 (CSR)。</strong></li>
+	<li>按设置向导的说明创建和下载证书签发请求。</li>
+    <li>将 CSR 和所需的信息发送到证书机构以进行确认。</li>
+</ol>
+
+<p>当您收到由认证机构颁发的所请求证书后，您可随私钥导入。</p>
+
+<div class="section">
+<h4>注：</h4>
+<p>私钥也可随证书签发请求一起生成。但认证机构无需此私钥。请保存私钥以保护 Synology NAS 安全和保密。</p>
+</div>
+
+<h4>若要签署证书签发请求：</h4>
+
+<p>其他设备的用户可发送证书签发请求以获得对 Synology NAS 的认证访问权限。您可使用 Synology NAS 的根证书来签署证书签发请求，并将生成的证书发送到应用程序。</p>
+
+<ol>
+	<li>单击 <b>CSR</b>。</li>
+	<li>请单击<b>签署证书签发请求 (CSR)</b>。</li>
+	<li>上传证书签发请求并输入相关信息。</li>
+	<li>单击<b>下一步</b>，然后系统会签署证书请求并创建相应证书。</li>
+</ol>
+
+
+
+<h3>证书管理</h3>
+
+
+<h4>若要导入证书：</h4>
+<p>您可导入之前导出的证书或来自商业或第三认证机构的证书以及私钥，让您的 Synology NAS 被其他设备信任。</p>
+
+<ol>
+<li>单击<strong>添加</strong>。</li>
+<li>选择<strong>添加新证书</strong>并单击<strong>导入证书</strong>。</li>
+<li>按照向导的指示完成证书导入。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>中间证书对部分认证机构颁发的证书而言是非必要的。</li>
+<li>证书必须为 X.509 PEM 格式。</li>
+<li>私钥必须为 RSA 格式且无法受密码短语保护。</li>
+</ul>
+</div>
+
+
+<h4>若要导出证书：</h4>
+
+<p>可下载已有的证书进行管理和归档，证书还可导入到其他用户的设备以在 Synology NAS 和其他设备之间建立信任。导出的文件含有 Synology NAS 的证书、私钥和自我签署根证书。</p>
+
+<ol>
+<li>选择所需证书。</li>
+<li>单击<strong>导出证书</strong>。</li>
+</ol>
+
+<h4>若要续订证书：</h4>
+
+<p>当您的证书将到期时，可使用此选项来续订。</p>
+
+<ol>
+	<li>单击 <b>CSR</b>。</li>
+	<li>选择<b>延长证书</b>并单击<b>下一步</b>。</li>
+	<li>下载生成的私钥和证书签发请求。</li>
+    <li>发送 CSR 到所需的认证机构以获得延长证书。</li>
+</ol>
+
+
+<h4>若要替换证书：</h4>
+<p>如果您不要使用已有的证书，可用其他证书替换。</p>
+
+<ol>
+<li>单击<strong>添加</strong>。</li>
+<li>从下拉菜单中选择<strong>替换已有证书</strong>和不需要的证书。</li>
+<li>按照向导的指示完成证书替换。</li>
+</ol>
+
+
+<h4>若要编辑证书：</h4>
+<p>您可编辑证书措施或将另一个证书设置为默认证书。</p>
+
+<ol>
+<li>选择所需证书。</li>
+<li>单击<strong>编辑</strong>，您可进行以下操作之一：<ul>
+<li>更改证书描述，并单击<strong>确定</strong>。</li>
+<li>选择<strong>设为默认证书</strong>以向它分配默认状态，并单击<strong>应用</strong>。</li>
+</ul>
+</ol>
+
+
+
+<h4>若要配置证书：</h4>
+<p>您可为服务将一个证书更改为另一个证书以适合您的需要。</p>
+
+<ol>
+<li>单击<strong>配置</strong>可显示所有的服务和相应的证书。</li>
+<li>单击目标服务的当前证书。</li>
+<li>请从下拉菜单中选择适当的证书。</li>
+<li>单击<strong>确定</strong>。</li>
+</ol>
+
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li><strong>系统默认</strong>证书会应用于不在服务列表中的连接。</li>
+</ul>
+</div>
+
+
+
+
+<h4>若要删除证书：</h4>
+
+<ol>
+<li>选择不需要的证书。</li>
+<li>单击<strong>删除</strong>完成证书删除。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>默认证书无法删除。</li>
+<li>如果您删除非默认证书，则默认证书将接管其对应的服务。请小心，默认证书可能不与这些服务完全兼容。</li>
+</ul>
+
+<p></p>
+</div>
+
+</body>
+</html>
+

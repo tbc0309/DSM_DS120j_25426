@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>R&eacute;seau</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="link_aggr"></a>Link Aggregation</h2>
+<p>Synology NAS prend en charge les r&eacute;seaux locaux multiples, ce qui vous permet de combiner ces interfaces&nbsp;LAN en utilisant la technologie Link&nbsp;Aggregation. Link&nbsp;Aggregation augmente la bande passante de votre Synology NAS en regroupant plusieurs interfaces r&eacute;seau et offre un basculement du trafic pour maintenir la connexion r&eacute;seau en cas de panne de celle-ci.</p>
+<p>Une fois que vos interfaces&nbsp;LAN sont combin&eacute;es, vous pouvez voir une nouvelle interface nomm&eacute;e <b>Bond</b> dans <b>Panneau de configuration</b>&nbsp;&gt; <b>R&eacute;seau</b>&nbsp;&gt; <b>Interface r&eacute;seau</b>, pouvant &ecirc;tre configur&eacute;e comme toutes les autres interfaces (LAN ou PPPoE, par exemple).</p>
+
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<ul>
+<li>Link&nbsp;Aggregation n&apos;est disponible que sur les mod&egrave;les dot&eacute;s d&apos;au moins deux ports&nbsp;LAN.</li>
+<li>Lorsque Link&nbsp;Aggregation est activ&eacute;, le trafic r&eacute;seau est automatiquement ajust&eacute; et &eacute;quilibr&eacute; pour chaque p&eacute;riph&eacute;rique connect&eacute;.</li>
+<li>Si les interfaces r&eacute;seau sont connect&eacute;es &agrave; plusieurs commutateurs, assurez-vous que les ports des commutateurs se trouvent sur le m&ecirc;me&nbsp;LAN ou VLAN.</li>
+</ul>
+</div>
+
+
+<h4>Pour combiner plusieurs r&eacute;seaux locaux avec Link&nbsp;Aggregation&nbsp;:</h4>
+<ol>
+<li>Acc&eacute;dez &agrave; <strong>Panneau de configuration</strong>&nbsp;&gt; <strong>R&eacute;seau</strong>&nbsp;&gt; <strong>Interface r&eacute;seau</strong>. Cliquez sur <strong>Cr&eacute;er</strong>&nbsp;&gt; <strong>Cr&eacute;er Bond</strong>.</li><img src="about:blank" class="help_image"/><li>S&eacute;lectionnez le mode souhait&eacute;.<div class="section">
+<h4>Descriptions des modes&nbsp;:</h4>
+<ul>
+  <li><strong>Adaptive&nbsp;Load&nbsp;Balancing</strong>&nbsp;: ce mode permet d&apos;optimiser le trafic r&eacute;seau re&ccedil;u et envoy&eacute; par votre Synology NAS, que le commutateur prenne en charge Link&nbsp;Aggregation ou non. Pour &eacute;viter des erreurs inattendues, n&apos;activez pas Link&nbsp;Aggregation sur le commutateur, m&ecirc;me lorsqu&apos;il est pris en charge.</li>
+  <li><strong>IEEE&nbsp;802.3ad Dynamic Link&nbsp;Aggregation</strong>&nbsp;: ce mode permet d&apos;optimiser le trafic r&eacute;seau re&ccedil;u et envoy&eacute; par votre Synology NAS et n&eacute;cessite l&apos;activation de (Dynamic) Link&nbsp;Aggregation (LACP, 802.1AX) IEEE&nbsp;802.3ad sur les commutateurs. Si vous utilisez plusieurs commutateurs, ceux-ci doivent &ecirc;tre empilables et configur&eacute;s de mani&egrave;re appropri&eacute;e.</li>
+<li><strong>Balance&nbsp;XOR</strong>&nbsp;: ce mode permet d&apos;&eacute;quilibrer le trafic r&eacute;seau re&ccedil;u et envoy&eacute; par votre Synology NAS et n&eacute;cessite l&apos;activation de Link&nbsp;Aggregation statique sur les commutateurs. Si vous utilisez plusieurs commutateurs, ceux-ci doivent &ecirc;tre empilables et configur&eacute;s de mani&egrave;re appropri&eacute;e. Si Link&nbsp;Aggregation n&apos;est pas pris en charge par le commutateur, il est encore possible d&apos;&eacute;quilibrer le trafic envoy&eacute; par votre Synology NAS. Gr&acirc;ce &agrave; ce mode, il est possible de d&eacute;tecter les liens perdus, mais pas la cause (par exemple, lorsque que des c&acirc;bles Ethernet sont d&eacute;branch&eacute;s ou que le commutateur n&apos;est pas correctement configur&eacute;).</li>
+<li><strong>Actif/Veille</strong>&nbsp;: ce mode offre une fonctionnalit&eacute; Network&nbsp;Fault&nbsp;Tolerance &agrave; votre Synology NAS. Cela signifie que lorsque l&apos;interface r&eacute;seau active tombe en panne, l&apos;un des autres ports&nbsp;LAN assure la prise en charge afin de maintenir la connexion r&eacute;seau. Vous pouvez s&eacute;lectionner ce mode sans avoir &agrave; configurer le commutateur ou avec un commutateur qui prend en charge IEEE&nbsp;802.3ad Link&nbsp;Aggregation.</li>
+</ul>
+<p>Si vous avez activ&eacute; Open&nbsp;vSwitch, vous pouvez s&eacute;lectionner l&apos;un des modes suivants&nbsp;:</p>
+<ul>
+ <li><b>Balance-SLB</b>&nbsp;: ce mode &eacute;quilibre le trafic r&eacute;seau sans n&eacute;cessiter la prise en charge de commutateurs r&eacute;seau sp&eacute;cifiques et permet de connecter deux commutateurs.</li>
+ <li><b>Balance-TCP</b>&nbsp;: ce mode permet de connecter les commutateurs configur&eacute;s en tant que Dynamic&nbsp;Link&nbsp;Aggregation (LACP IEEE&nbsp;802.3ad). Si vous utilisez plusieurs commutateurs, ceux-ci doivent &ecirc;tre empilables et configur&eacute;s de mani&egrave;re appropri&eacute;e.</li>
+ <li><b>Mode actif/sauvegarde</b>&nbsp;: gr&acirc;ce &agrave; ce mode, votre Synology&nbsp;NAS b&eacute;n&eacute;ficie d&apos;une tol&eacute;rance aux pannes r&eacute;seau &agrave; l&apos;aide de deux interfaces r&eacute;seau. Lorsque l&apos;interface r&eacute;seau active est d&eacute;faillante, l&apos;autre interface r&eacute;seau prend le relais afin de maintenir la connexion r&eacute;seau. Vous pouvez choisir ce mode sans configurer le commutateur.</li>
+</ul>
+</div>
+</li><img src="about:blank" class="help_image"/><li>S&eacute;lectionnez les interfaces pour cr&eacute;er Link&nbsp;Aggregation.</li><img src="about:blank" class="help_image"/><li>Configurez les param&egrave;tres de l&apos;IP. Vous pouvez &eacute;galement activer VLAN, si n&eacute;cessaire. Cliquez sur <b>Appliquer</b> pour enregistrer les modifications.</li><img src="about:blank" class="help_image"/><li>Lorsque vous avez termin&eacute;, la nouvelle interface <b>Bond&nbsp;1</b> s&apos;affiche dans la liste <b>Interface r&eacute;seau</b>.</li><img src="about:blank" class="help_image"/></ol>
+
+<h4>Pour modifier les param&egrave;tres de Link&nbsp;Aggregation&nbsp;:</h4>
+<ol>
+<li>Pour modifier le mode Link&nbsp;Aggregation ou afficher les informations des p&eacute;riph&eacute;riques physiques, acc&eacute;dez &agrave; <b>Panneau de configuration</b>&nbsp;&gt; <b>R&eacute;seau</b>&nbsp;&gt; <b>Interface r&eacute;seau</b>.</li>
+<li>S&eacute;lectionnez l&apos;interface <b>Bond&nbsp;1</b>, puis cliquez sur le bouton <b>Modifier</b>.</li><img src="about:blank" class="help_image"/><li>Acc&eacute;dez aux onglets correspondants pour modifier les param&egrave;tres souhait&eacute;s.</li>
+</ol>
+
+<h4>Pour supprimer Link&nbsp;Aggregation&nbsp;:</h4>
+<ol>
+<li>Acc&eacute;dez &agrave; <b>Panneau de configuration</b>&nbsp;&gt; <b>R&eacute;seau</b>&nbsp;&gt; <b>Interface r&eacute;seau</b>.</li>
+<li>S&eacute;lectionnez l&apos;interface <b>Bond&nbsp;1</b>, puis cliquez sur le bouton <b>Supprimer</b>.</li><img src="about:blank" class="help_image"/><li>Lorsque vous avez termin&eacute;, deux interfaces&nbsp;LAN distinctes s&apos;affichent dans la liste Interface r&eacute;seau.</li><img src="about:blank" class="help_image"/></ol>
+
+</body>
+</html>
+

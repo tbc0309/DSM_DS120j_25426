@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Kreator High Availability Manager – Pomoc Synology DSM</title>
+
+
+ </head>
+ <body>
+<h2>Kreator High Availability Manager</h2>
+<p>Kreator ten prowadzi przez proces tworzenia i konfigurowania klastra o wysokiej dostępności.</p>
+<h4>Aby uruchomić kreatora:</h4>
+<ol>
+<li>Otwórz pozycję <b>High Availability Manager</b>.</li>
+<li>Przejdź do strony <b>Przegląd</b>.</li>
+<li>Kliknij przycisk <b>Utwórz klaster HA</b>.</li>
+</ol>
+   
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Zakończ kreator High Availability Manager w określonym limicie czasu. Po przekroczeniu limitu czasu konieczne będzie ponowne uruchomienie procesu konfiguracji.</li>
+<li>Jeśli musisz zidentyfikować aktywny serwer klastra wysokiej dostępności, zalecamy pobranie aplikacji Synology <strong>DS finder</strong> i użycie wbudowanej w nią funkcji beep, która powoduje, że aktywny serwer emituje krótki dźwięk.</li>
+</ul>
+</div>
+
+<h4>Aby skonfigurować pasywny serwer:</h4>
+<p>Wyznacz serwer Synology, który ma być serwerem pasywnym. W normalnych warunkach serwer pasywny nie świadczy usług. Jednakże w przypadku awarii usługi mogą zostać przesłane z aktywnego serwera do serwera pasywnego.</p>
+<ol>
+<li><b>Adres IP:</b> Wpisz adres IP serwera pasywnego.</li>
+<li><b>Nazwa użytkownika:</b> Podaj konto użytkownika należące do grupy <b>administrator</b> na serwerze docelowym. </li>
+<li><b>Hasło:</b> Podaj hasło do konta należącego do grupy <b>administrator</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4> 
+<ul>
+<li>Po utworzeniu klastra wysokiej dostępności wszystkie dane na serwerze pasywnym zostaną usunięte. Upewnij się, że na serwerze pasywnym nie są przechowywane żadne ważne dane. </li>   
+</ul>
+</div>
+  
+<h4>Aby skonfigurować połączenie heartbeat:</h4>
+<p>Połącz dwa serwery ze sobą. Połączenie to będzie służyć jako połączenie „heartbeat” między dwoma serwerami, co upraszcza komunikację i pozwala na replikowanie danych z aktywnego serwera do pasywnego. Aby zapewnić jakość połączenia heartbeat, podczas tworzenia klastra wysokiej dostępności system sprawdzi, czy to połączenie spełnia następujące kryteria:</p>
+<ul>
+<li>Między dwoma serwerami nie ma żadnych innych urządzeń z adresami IP w tej samej domenie rozsyłania. Jeśli to połączenie Heartbeat przechodzi przez jakiekolwiek przełączniki, należy upewnić się, że przełączniki obsługują łączność multicast i Jumbo Frame.</li>
+<li>Dostępne jest połączenie sieciowe o małych opóźnieniach. Czas odpowiedzi na polecenie ping między dwoma serwerami musi być krótszy niż 1 ms, a szybkość transmisji powinna wynosić przynajmniej 500 Mb/s. MTU zostanie automatycznie skonfigurowany jako 9000.</li>
+<li>Użyj tego samego interfejsu sieciowego na obu serwerach. Na przykład, jeśli jeden koniec jest podłączony do LAN 1 na jednym serwerze, drugi koniec musi zostać podłączony do LAN 1 na drugim serwerze.</li>
+<li>Użyj najszybszego interfejsu sieciowego na obu serwerach. Jeśli serwery są wyposażone w dodatkowe karty interfejsu sieciowego 10GbE, to połączenie musi z nich korzystać.</li>
+</ul>
+ <p>Po potwierdzeniu powyższych przejdź do sekcji <b>Interfejs połączenia HA (Heartbeat)</b> i wybierz interfejs sieciowy na serwerach, który będzie służył do obsługi połączenia Heartbeat.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Ustawienia połączenia Heartbeat spowodują utworzenie dwóch zestawów adresów IP (np. 169.254.1.1 i 169.254.1.2) do celów replikacji danych z serwera aktywnego do pasywnego. Upewnij się, że oba adresy IP nie są używane przez inny sprzęt w sieci.</li>
+<li>Włączenie identyfikatora VLAN na portach połączenia Heartbeat w Synology NAS nie jest obsługiwane.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Konfigurowanie agregacji łącza w Heartbeat lub połączeniach danych:</h4>
+
+<ul>
+<li>Aby skonfigurować agregację łącza w Heartbeat lub połączeniu danych, skonfiguruj agregację łącza na przynajmniej dwóch portach LAN w opcji <strong>Panelu sterowania</strong> > <strong>Sieć</strong> > <strong>Interfejs sieciowy</strong> przed uruchomieniem kreatora wysokiej dostępności. Upewnij się, że ustawienia agregacji łącza są identyczne na obu serwerach (np. jeśli skonfigurujesz agregację łącza na portach 1 i 2 aktywnego serwera, agregację łącza należy również skonfigurować na portach 1 i 2 pasywnego).</li>
+
+
+<li>Heartbeat jest wyposażony w funkcję ochrony przed awarią i bilansowania obciążenia, ale połączenia danych zależą od wybranego trybu agregacji łącza.</li>
+</ul>
+
+</div>
+
+
+<h4>Aby skonfigurować ustawienia interfejsu sieciowego klastra wysokiej dostępności:</h4>
+<p>Klaster wysokiej dostępności będzie korzystać z adresu IP klastra wysokiej dostępności, ponieważ jego interfejs połączenia jest skierowany na zewnątrz. Nie można połączyć za pomocą adresu IP klastra high-availability, kiedy mają być używane usługi DSM, niezależnie od tego, który serwer Synology jest aktywny. Zapobiega to konieczności połączenia z innymi adresami IP po przeprowadzeniu przełączenia z aktywnego serwera do pasywnego.</p>
+
+<ol>
+<li><b>Nazwa serwera klastra:</b> Nazwa klastra wysokiej dostępności. Informacje dotyczące ograniczeń nazw zawierają reguły nazywania serwerów (w opcji <b>Pomoc DSM</b> > <b>Panelu sterowania</b> > <b>Łączność</b> > <b>Sieć</b> > <b>Ogólne</b>).</li>
+<li><b>Interfejs sieciowy:</b> Interfejs sieciowy używany przez klaster wysokiej dostępności. Należy wybrać inny port LAN z wyznaczonych do replikacji danych w poprzednim kroku. </li>
+<li><b>Adres IP:</b> Adres IP używany przez klaster wysokiej dostępności. Niezależnie od tego, który serwer aktywnie dostarcza usługi, klaster można podłączyć za pomocą tego adresu IP.</li>
+<li> <b>Maska podsieci:</b> Maska podsieci używana przez klaster wysokiej dostępności.</li>
+</ol>
+
+<div class="section">
+<h4>Przydzielanie identyfikatora VLAN dla połączenia danych:</h4>
+<ul>
+<li>Aby przypisać identyfikator VLAN do połączenia danych, przejdź do pozycji <strong>Panel sterowania</strong> > <strong>Sieć</strong> > <strong>Interfejs sieciowy</strong> przed uruchomieniem kreatora wysokiej dostępności. Upewnij się, że ustawienia VLAN są identyczne na obu serwerach (np. jeśli LAN 1 ustawiono z identyfikatorem VLAN 1 na serwerze aktywnym, LAN 1 serwera pasywnego musi również zostać ustawiony z użyciem VLAN 1).</li>
+</ul>
+</div>
+
+
+<h4>Aby potwierdzić ustawienia:</h4>
+<p>Kliknij dwukrotnie ustawienia używane przez klaster wysokiej dostępności. System rozpocznie łączenie klastra wysokiej dostępności po kliknięciu przycisku <b>Zastosuj</b>. </p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Podczas tworzenia klastra wysokiej dostępności wszystkie dane muszą zostać zreplikowane na serwerze pasywnym. Jeśli połączenie z pasywnym serwerem zostanie utracone na dłużej niż 30 minut przed zakończeniem pierwszej replikacji, serwer pasywny powróci do trybu <strong>Samodzielny</strong>. W takim przypadku konieczne jest ponownie powiązanie i przeprowadzenie ponownej replikacji.</li>
+</ul>
+</div>
+ </body>
+</html>

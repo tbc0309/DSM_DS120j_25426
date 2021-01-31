@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>Faça backup de seus dados no Synology NAS para garantir a segurança dos dados</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>Faça backup do seu Synology NAS</h1>
+<div class="tutorials_content">
+<img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" />
+<h2>Visão geral</h2>
+<p>Perda inesperada de dados devido a falhar no disco rígido ou desastres naturais representam ameaças em potencial para os seus principais dados, especialmente quando não há nenhuma solução de backup confiável disponível. O <strong>Hyper Backup</strong> é uma solução de backup/restauração intuitiva e integrada que ajuda a manter/recuperar cópias de seus dados valiosos e restaurar aplicativos e configurações do sistema para um estado anterior. Os destinos de armazenamento a seguir são suportados:</p>
+
+<ul>
+<li><strong>Pastas compartilhadas locais (incluindo dispositivos de armazenamento externos conectados ao seu Synology NAS)</strong></li>
+<li><strong>Synology NAS remoto</strong></li>
+<li><strong>Servidores rsync remotos</strong></li>
+<li><strong>Servidores OpenStack Swift remotos</strong></li>
+<li><strong>Nuvens públicas (Amazon S3, Microsoft Azure e OpenStack Swift, etc.)</strong></li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>O Hyper Backup só faz backup de alguns aplicativos e configurações de sistema específicos. Para obter mais informações, consulte a documentação de ajuda do Hyper Backup.</p>
+</div>
+
+
+<h3 class="list_head">1. Crie tarefas de backup local em uma pasta compartilhada local//dispositivo de armazenamento externo</h3>
+<p>O <strong>Hyper Backup</strong> oferece procedimentos de backup e restauração semelhantes em diferentes tipos de destino. Abaixo demonstramos como fazer backup e restaurar dados localmente para sua referência de outros tipos de tarefas.</p>
+
+<ol>
+<li>Faça login no DSM e localize o pacote <strong>Hyper Backup</strong>.</li>
+<li>Clique em <strong>+</strong> no canto inferior esquerdo e selecione <strong>Tarefa de backup de dados</strong>.</li>
+<li>Para configurar uma tarefa de backup local, selecione <strong>Pasta compartilhada local</strong></li>
+<img src="../../images/Backup/1x/Backup/1.png" width="600" alt=""/>
+<li>Selecione <strong>Criar tarefa de backup</strong> e selecione uma pasta compartilhadas local ou um dispositivo de armazenamento externo conectado ao seu Synology NAS.</li>
+<img src="../../images/Backup/1x/Backup/2.png" width="600" alt=""/>
+<li>Selecione as pastas de origem para fazer backup dos dados contidos nelas. As pastas compartilhadas criptografadas, se selecionadas, devem permanecer montadas durante o processo de backup. Se a origem e o destino estiverem no mesmo volume, o sistema marcará tais pastas de origem com exclamações em laranja.</li>
+<img src="../../images/Backup/1x/Backup/3.png" width="600" alt=""/>
+<li>Selecione os aplicativos para fazer backup.</li>
+<img src="../../images/Backup/1x/Backup/4.png" width="600" alt=""/>
+<li>Especifique as configurações de backup abaixo conforme suas necessidades:
+  <ul>
+  <li><strong>Tarefa</strong>: Nomeie a tarefa de backup.</li>
+  <li><strong>Habilitar notificação de tarefa</strong>: Selecione para ser informado do status da tarefa por e-mail, SMS ou serviço push.</li>
+  <li><strong>Habilitar backup de configuração</strong>: Backup das configurações do sistema (ex.: credenciais do usuário). Essa configurações é forçada em todas as tarefas de backup por padrão.</li>
+  <li><strong>Compactar dados de backup</strong>: Compacte os dados de backup para reduzir o uso do armazenamento de destino. Se esta opção for selecionada, o tempo de backup será maior.</li>
+  <li><strong>Habilitar criptografia de transferência</strong> (apenas para backup remoto): Selecione para criptografar dados de backup durante a transferência para um destino remoto (ex.: um servidor rsync ou nuvem pública).</li>
+  <li><strong>Tamanho das partes para upload com diversas partes</strong> (apenas para servidores compatíveis com S3): Divide os dados de backup pelo tamanho especificado.</li>
+  <li><strong>Habilitar criptografia do lado do cliente</strong>: Selecione para proteger os dados de backup com senha contra acessos indesejados no lado do destino.</li>
+    
+  <li><strong>Habilitar agendamento de backup</strong>: Selecione para agendar quando executar automaticamente a tarefa de backup.</li>
+  </ul>
+  </li>
+  
+<img src="../../images/Backup/1x/Backup/5.png" width="600" alt=""/>
+<li>Selecione <strong>Habilitar rotação do backup</strong> para configurar o esquema de rotação:
+  
+  <ul>
+  <li><strong>Das versões mais antigas</strong>: Excluir as versões de backup existentes anteriormente quando o <strong>Número de versões</strong> especificado for ultrapassado.</li>
+  <li><strong>Smart Recycle</strong>: O sistema manterá cada versão de backup até que o número de versões especificado seja ultrapassado. Quando a rotação for disparada, o sistema primeiro girará as versões que não atende nenhuma das condições, se todas as versões existentes atenderem as condições abaixo, o sistema girará a versão mais recente:
+  <ul>
+  <li><strong>Versões horárias das últimas 24 horas</strong>: O sistema mantém a versão mais recente que foi criada em cada hora.</li>
+  <li><strong>Versões diárias de 1 dia passado a 1 mês</strong>: O sistema mantém a versão mais recente que foi criada em cada dia.</li>
+  <li><strong>Versão semanal com mais de 1 mês</strong>: O sistema mantém a versão mais recente que foi criada em cada semana.</li>
+  </ul>
+  
+  </li>
+  <li><strong>Número de versões</strong>: Defina o limite superior das versões de backup possíveis mantidas.</li>
+  <li>Linha do tempo: Exibe o resultado possível da retenção de backup de acordo com sua programação de backup e esquema de alternância:</li>
+  </ul>
+</li>
+
+<img src="../../images/Backup/1x/Backup/6.png" width="600" alt=""/>
+<li>Clique em <strong>Aplicar</strong> para completar a configuração.</li>
+<li>Para executar a tarefa de backup imediatamente, siga as instruções do Assistente de backup e clique em <strong>Sim</strong>.</li>
+</ol>
+
+
+<h3 class="list_head">2. Restaure arquivos únicos de uma pasta compartilhada local/dispositivo de armazenamento externo</h3>
+
+
+<ol>
+<li>Vá para <strong>Hyper Backup</strong>, selecione a tarefa de backup desejada no painel esquerdo e clique em <strong>Explorador de backup</strong> (ícone da lupa). Digite a senha se a tarefa for protegida por criptografia do lado do cliente.</li>
+<img src="../../images/Backup/1x/Backup/Single_1.png" width="600" alt=""/>
+<li>Encontre e selecione o arquivo desejado para restaurar. Você também pode selecionar a versão desejada para restaurar com a barra da linha do tempo.</li>
+<img src="../../images/Backup/1x/Backup/Single_2.png" width="600" alt=""/>
+<li>Clique em <strong>Restaurar</strong> para restaurar o arquivo/pasta selecionado.</li>
+
+</ol>
+
+
+
+<h3 class="list_head">3. Restaure todas as tarefas para os pontos do tempo desejado</h3>
+
+<ol>
+<li>Clique em <strong>Restaurar</strong> no canto inferior esquerdo e selecione <strong>Dados</strong>. Digite a senha se a tarefa for protegida por criptografia do lado do cliente.</li>
+
+<img src="../../images/Backup/1x/Backup/Restore_1.png" width="600" alt=""/>
+<li>Selecionar uma tarefa para restaurar. Para restaurar dados de outros repositórios, selecione <strong>Restaurar de outros repositórios</strong> e localize a tarefa a ser restaurada.</li>
+<img src="../../images/Backup/1x/Backup/Restore_2.png" width="600" alt=""/>
+<li>Selecione se deseja restaurar as configurações do sistema. Se você selecionar <strong>Restaurar configurações do sistema</strong>, selecione as configurações específicas na lista abaixo para restaurar.</li>
+<img src="../../images/Backup/1x/Backup/Restore_3.png" width="600" alt=""/>
+
+<li>Encontre e selecione o arquivo alvo/tarefa desejado para restaurar. Você também pode selecionar a versão desejada para restaurar com a barra da linha do tempo.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.png" width="600" alt=""/>
+<li>Selecionar aplicações para restaurar.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.5.png" width="600" alt=""/>
+<li>Serão exibidas informações básicas de restauração.</li>
+<img src="../../images/Backup/1x/Backup/Restore_5.png" width="600" alt=""/>
+<li>Clique em <strong>Aplicar</strong> para iniciar a restauração.</li>
+</ol>
+
+
+
+
+
+
+<div class="page-info">
+  <ul>
+    <li>Anteriormente nesse tópico: <a href="backup_from_computer.html">Backup de dados em seu PC/Mac usando o Cloud Station</a> </li>
+  </ul>
+</div>
+</body>
+
+</html>

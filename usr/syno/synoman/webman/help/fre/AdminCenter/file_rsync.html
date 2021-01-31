@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Services de sauvegarde - Aide de Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Rsync</h2>
+
+<p>Vous pouvez autoriser d&apos;autres utilisateurs &agrave; sauvegarder des donn&eacute;es via rsync &agrave; partir d&apos;un Synology&nbsp;NAS ou de clients compatibles avec rsync sur votre Synology NAS.</p>
+
+<h3>Activation du service de sauvegarde rsync</h3>
+
+<h4>Pour activer le service rsync&nbsp;:</h4>
+
+<p>Acc&eacute;dez &agrave; <strong>Panneau de configuration</strong>&nbsp;&gt; <strong>Services de fichiers</strong>&nbsp;&gt; <strong>rsync</strong> et s&eacute;lectionnez <strong>Activer le service rsync</strong>.</p>
+
+
+<h4>Pour attribuer des privil&egrave;ges de sauvegarde rsync&nbsp;:</h4>
+
+
+<p>Affectez des privil&egrave;ges de rsync appropri&eacute;s aux utilisateurs afin qu&apos;ils puissent sauvegarder leur donn&eacute;es &agrave; partir d&apos;un Synology NAS source sur le Synology NAS de destination.</p>
+
+<ol>
+<li>Acc&eacute;dez &agrave; <b>Panneau de configuration</b>&nbsp;&gt; <b>Privil&egrave;ges</b>.</li>
+<li>S&eacute;lectionnez <strong>rsync (Synchronisation du dossier partag&eacute;, Sauvegarde des LUN sur les mod&egrave;les pris en charge)</strong> et cliquez sur <strong>Modifier</strong> pour attribuer des privil&egrave;ges.</li>
+<li>Attribuez des privil&egrave;ges <strong>Autoriser</strong> aux utilisateurs souhait&eacute;s (des utilisateurs&nbsp;DSM pour un rsync chiffr&eacute; ou des comptes pour un rsync non chiffr&eacute;) ou indiquez plus pr&eacute;cis&eacute;ment les adresses&nbsp;IP autoris&eacute;es pour des utilisateurs sp&eacute;cifiques.</li>
+</ol>
+
+
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<p>Pour effectuer une sauvegarde rsync &agrave; partir d&apos;un Synology NAS ex&eacute;cutant une version de DSM ant&eacute;rieure &agrave;&nbsp;3.0 ou un client qui n&apos;est pas un Synology NAS, et pour conserver les informations relatives au <b>propri&eacute;taire</b> et au <b>groupe</b> des donn&eacute;es sources, vous devez ajouter les comptes rsync au groupe <b>administrators</b> et sauvegarder les donn&eacute;es dans le dossier partag&eacute; <b>NetBackup</b> en mode daemon.</p>
+</div>
+
+<h3>Activation des comptes rsync</h3>
+<p>si vous effectuez une sauvegarde &agrave; partir d&apos;un client non Synology NAS, vous devez cr&eacute;er des comptes rsync sur le Synology NAS de destination afin que les utilisateurs puissent sauvegarder les donn&eacute;es sur votre Synology NAS.</p>
+
+<h4>Pour activer des comptes rsync&nbsp;:</h4>
+<ol>
+<li>Acc&eacute;dez &agrave; <b>Panneau de configuration</b>&nbsp;&gt; <b>Services de fichiers</b>&nbsp;&gt; <strong>rsync</strong> et s&eacute;lectionnez <b>Activer le compte rsync</b>.</li>
+<li>Cliquez sur <b>Modifier le compte rsync</b> pour d&eacute;finir des utilisateurs et les mots de passe correspondants pour l&apos;authentification.</li>
+<li>Cliquez sur <b>Appliquer</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<ul>
+<li>Si le service rsync est chiffr&eacute; (c&apos;est-&agrave;-dire, qu&apos;un port de chiffrement&nbsp;SSH est sp&eacute;cifi&eacute;), le syst&egrave;me applique directement les noms d&apos;utilisateur et mots de passe des utilisateurs DSM comme leurs comptes rsync.</li>
+<li>Si le service rsync n&apos;est pas crypt&eacute;, vous devez cr&eacute;er des comptes rsync correspondants pour eux.</li>
+</ul>
+</div>
+
+
+<h3>Utilisation de la configuration rsync personnalis&eacute;e</h3>
+
+<p>Vous pouvez utiliser une configuration rsync personnalis&eacute;e et configurer les privil&egrave;ges des utilisateurs et une destination de sauvegarde sur votre Synology NAS. D&apos;autres personnes peuvent donc effectuer une sauvegarde rsync depuis leurs p&eacute;riph&eacute;riques Synology NAS ou des clients compatibles avec rsync vers les dossiers partag&eacute;s de destination (ou «&nbsp;modules de sauvegarde&nbsp;») sur votre Synology NAS.</p>
+
+<h4>Pour utiliser une configuration rsync personnalis&eacute;e&nbsp;:</h4>
+
+<ol>
+<li>Connectez-vous avec votre p&eacute;riph&eacute;rique Synology NAS via Telnet ou SSH.</li>
+<li>Sp&eacute;cifiez le module de sauvegarde et les utilisateurs autoris&eacute;s dans le fichier de configuration rsync «&nbsp;<b><code>/etc/rsyncd.conf</code></b>&nbsp;». Pour obtenir des informations d&eacute;taill&eacute;es, consultez la page du manuel d&eacute;di&eacute;e &agrave; <b>rsyncd.conf</b> sur votre client rsync ou <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">ici</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<p>Si le module de sauvegarde et le dossier partag&eacute; partagent le m&ecirc;me nom, le r&eacute;glage du module de sauvegarde est utilis&eacute;.</p>
+</div>
+
+
+<h3>Activation de la limite de vitesse</h3>
+<p>Vous pouvez contr&ocirc;ler la bande passante maximale utilisable de la sauvegarde rsync pour des utilisateurs et des groupes.</p>
+
+<h4>Pour activer la limite de vitesse&nbsp;:</h4>
+<ol>
+  <li>Acc&eacute;dez &agrave; <b>Panneau de configuration</b>&nbsp;&gt; <b>Services de fichiers</b>&nbsp;&gt; <strong>rsync</strong>. S&eacute;lectionnez l&apos;une des options suivantes&nbsp;:<ul>
+  <li><strong>Pas de limite de vitesse</strong></li>
+  <li><strong>Activer la limite de vitesse</strong></li>
+  <li><strong>Activer la limite de vitesse selon un programme</strong> (Cliquez sur <strong>D&eacute;finir la programmation</strong> pour des modifications plus approfondies.)</li>
+  </ul>
+  
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<p>Ceci est un param&eacute;trage &agrave; l&apos;&eacute;chelle du serveur qui remplace les param&egrave;tres des utilisateurs individuels et groupes. Par exemple, lorsque l&apos;option <strong>Pas de limite de vitesse</strong> est s&eacute;lectionn&eacute;e, les param&egrave;tres de limite de vitesse de tous les utilisateurs et groupes sont d&eacute;sactiv&eacute;s.</p>
+</div>
+  </li>
+
+  <li>Si vous avez activ&eacute; une limite de vitesse, cliquez sur <strong>Param&egrave;tres de limite de vitesse</strong>, puis sur l&apos;utilisateur/le groupe de votre choix pour modifier les param&egrave;tres&nbsp;:<ul>
+       <li><strong>Aucun</strong>&nbsp;: aucune limite de vitesse ne sera appliqu&eacute;e lorsque les membres du groupe transf&egrave;rent des fichiers avec le service.</li>
+      <li><strong>Appliquer les param&egrave;tres de groupe</strong>&nbsp;: L&apos;utilisateur partage les m&ecirc;mes param&egrave;tres de limite de vitesse que le groupe auquel il est affili&eacute;.</li>
+      <li><strong>Constant</strong>&nbsp;: une limite de vitesse fixe, constante sera appliqu&eacute;e &agrave; l&apos;utilisateur ou aux membres du groupe. Les vitesses de chargement et de t&eacute;l&eacute;chargement peuvent &ecirc;tre sp&eacute;cifi&eacute;es dans les champs sur la gauche.</li>
+      <li><strong>Personnalis&eacute;</strong>&nbsp;: deux limites de vitesse diff&eacute;rentes peuvent &ecirc;tre sp&eacute;cifi&eacute;es et appliqu&eacute;es &agrave; l&apos;utilisateur ou aux membres du groupe en fonction d&apos;un horaire. Cliquez sur <strong>Personnaliser</strong> pour modifier les param&egrave;tres de limite de vitesse et d&eacute;finir une programmation.</li>
+    </ul>
+  </li>
+ <li>Cliquez sur <b>Appliquer</b>.</li> 
+
+</ol>
+<div class="section">
+  <h4>Remarque&nbsp;:</h4>
+    <p>La section <strong>R&eacute;sultat (UL/DL)</strong> affiche la limite de vitesse r&eacute;elle de chargement et de t&eacute;l&eacute;chargement de l&apos;utilisateur en fonction de ses param&egrave;tres individuels et de groupe. Par exemple, si un utilisateur «&nbsp;Achille&nbsp;» est soumis &agrave; une limite de vitesse de t&eacute;l&eacute;chargement de 100&nbsp;Ko/s, mais qu&apos;il appartient &agrave; un groupe d&apos;utilisateurs qui disposent d&apos;une limite de t&eacute;l&eacute;chargement de 500&nbsp;Ko/s, la section <strong>R&eacute;sultats (TR/TL)</strong> affiche alors «&nbsp;0/500&nbsp;».</p>
+</div>
+
+</body>
+</html>

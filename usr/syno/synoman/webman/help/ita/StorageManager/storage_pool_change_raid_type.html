@@ -1,0 +1,143 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Modificare il tipo di RAID di uno storage pool - Guida DSM Synology</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing storage pools on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+	
+</head>
+<body>
+<h2>Modificare il tipo RAID di uno storage pool</h2>
+
+<p>Gli storage pool possono essere cambiati fa un tipo di RAID all'altro senza perdita di dati esistenti. Ad esempio, è possibile creare uno storage pool RAID 1 su Synology NAS e in seguito passare a RAID 5 se vengono installate altre unità. In questo articolo sono fornite le istruzioni per cambiare il tipo di RAID degli storage pool esistenti e su Synology NAS. Prima di iniziare a modificare il tipo di RAID di uno storage pool, consultare le sezioni <b>Requisiti unità</b> e <b>Requisiti e limitazioni del tipo di RAID</b> di seguito per ottenere informazioni dettagliate sui principali requisiti e limitazioni.
+
+<h3>Requisiti unità</h3>
+
+<p>Per modificare il tipo di RAID di uno storage pool, si deve avere un numero sufficiente di unità disponibili installati in Synology NAS. Per il numero minimo di unità necessari per ciascun tipo di RAID, consultare la tabella riportata di seguito.</p>
+
+<table>
+  <tr>
+    <th width="50%">Tipo di RAID</th>
+    <th width="50%">Numero minimo di unità richieste</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 o 5 (a seconda della configurazione unità di SHR-1)</td>
+  </tr>
+
+</table>
+
+</p>
+<h3>Requisiti e limiti del tipo RAID</h3>
+
+<p>Solo alcuni tipi di RAID possono essere cambiati con altri tipi di RAID. Ad esempio, RAID 1 può essere cambiato a RAID 5, ma RAID 5 non può essere cambiato a RAID 1. Per ulteriori dettagli, consultare la tabella riportata di seguito.</p>
+
+<table>
+  <tr>
+    <th width="30%">Tipo RAID corrente</th>
+    <th width="30%">Tipo di destinazione di conversione possibile</th>
+    <th width="40%">Numero aggiuntivo di unità richieste</th>
+  </tr>
+  <tr>
+    <td>Base</td>
+    <td>RAID 1</td>
+    <td>1</td>
+  </tr>
+ <tr>
+    <td>Base</td>
+    <td>RAID 5</td>
+	  <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+	  <td>1</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+	  <td>1</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+	  <td>1 o 2 ( seconda della configurazione unità di SHR)</td>
+  </tr>
+
+</table>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+<li>per maggiori informazioni su SHR (Synology Hybrid RAID), vedere <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_is_Synology_Hybrid_RAID_SHR" target="_blank">qui</a>.</li>
+<li>Per maggiori informazioni sulla scelta del tipo RAID per uno storage pool, vedere <a href="storage_pool_what_is_raid.html">qui</a>.</li>
+<li>Per una stima dell'utilizzo dello spazio, consultare <a href="https://www.synology.com/support/RAID_calculator" target="_blank">Calcolatore RAID di Synology</a>.</li>
+<li>Uno storage pool SHR-1 con le seguenti configurazioni unità potrebbe richiedere altre due unità in caso di modifica in uno storage pool SHR-2:
+<ul>
+<li>Lo storage pool contiene solo due unità.</li>
+<li>Tutte le unità hanno capacità differenti.</li>
+<li>In un RAID Array comprendente tre o più unità, la capacità delle due unità più grandi è superiore a quella delle altre unità.</li>
+</ul>
+</li>
+<li>Alcuni modelli non supportano la sostituzione di uno storage pool RAID 5 con uno storage pool RAID 6.</li>
+</ul>
+</div>
+
+<h3>Modificare il tipo di RAID</h3>
+
+<h4>Prima di cominciare:</h4>
+<p>Prima di modificare il tipo di RAID, notare quanto segue:</p>
+<ul>
+<li>Verificare che lo stato dello storage pool sia <b>Integro</b>.</li>
+<li>quando si aggiungono nuove unità a uno storage pool, le nuove unità devono essere più grandi rispetto all'unità più piccola nello storage pool e tutte le unità devono essere dello stesso tipo.</li>
+<li>Il tipo di RAID di array RAID in un RAID Group non può essere modificato. La funzione RAID Group è disponibile solo su alcuni modelli.<br><span class="note_head">Nota:</span> Aprire <a href="https://www.synology.com/products" target="_blank">questa pagina Web</a> e spuntare la casella in alto a destra di Synology NAS e di tutti gli altri modelli, quindi fare clic sul pulsante <b>Confronto</b> nell'angolo in basso a destra. Se il modello in uso supporta RAID Group, sarà mostrato nella pagina Web <b>Confronto risultati</b>.</li>
+</ul>
+
+<div class="section">
+<h4>Nota:</h4>
+
+<ul>
+<li>Si consiglia di utilizzare le unità nell'<a href="https://www.synology.com/compatibility" target=blank>Elenco compatibilità dei prodotti Synology</a> per evitare eventuali problemi. L'utilizzo di unità incompatibili potrebbe influire sulle prestazioni di sistema e persino causare la perdita di dati.</li>
+</ul>
+</div>
+<h4>Per cambiare il tipo di RAID di uno storage pool:</h4>
+
+<ol>
+<li>Aprire <strong>Storage Manager</strong>.</li>
+<img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/>
+<li>Andare su <b>Storage Pool</b>.</li>
+<li>Selezionare lo storage pool di cui modificare il tipo di RAID e fare clic su <b>Modifica tipo di RAID</b> dal menu a discesa <b>Azione</b>.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/change_raid_type.png" class="help_image"/>
+
+<li>Selezionare il tipo RAID da modificare. Fare clic su <b>Avanti</b>.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_raid.png" class="help_image"/>
+
+<li>Selezionare le unità da aggiungere allo storage pool esistente. Fare clic su <b>Avanti</b>.<br><span class="note_head">Nota:</span> tutti i dati nelle nuove unità aggiunte saranno cancellati. Verificare di avere eseguito il backup dei dati in anticipo.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_disks.png" class="help_image"/>
+
+
+<li>Per terminare, seguire la procedura guidata.</li></ol>
+
+</body>
+</html>

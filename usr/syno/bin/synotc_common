@@ -1,0 +1,349 @@
+#!/bin/sh
+
+IPTABLES="iptables"
+MODULES_BASE="/lib/modules"
+RULES_IPTABLES="/etc/firewall_rules.dump"
+RULES_6_IPTABLES="/etc/firewall_6_rules.dump"
+TC_RULES_IPTABLES="/etc/tc_rules.dump"
+TC_RULES_6_IPTABLES="/etc/tc_6_rules.dump"
+TC_CMD="/etc/tc_cmd.sh"
+TC_CMD_RESET="/etc/tc_cmd.sh.reset"
+TC_DEF_RULE="/etc/tc/default.cmd"
+KERNEL_VERSION=`uname -r`
+PROC_IPTABLES_NAMES="/proc/net/ip_tables_names"
+PROC_6_IPTABLES_NAMES="/proc/net/ip6_tables_names"
+CONF="/etc.defaults/synoinfo.conf"
+V4ONLY=`get_key_value /etc.defaults/synoinfo.conf ipv4only`
+SupportPciWifi=`/bin/get_key_value /etc.defaults/synoinfo.conf support_pci_wifi`
+TC="tc"
+RUN_HA=`get_key_value /etc/synoinfo.conf runha`
+RUNLEVEL=`runlevel |cut -d' ' -f2`
+LOCK_FILE="/tmp/iptables_scripts.lock"
+
+## Get module list
+source /usr/syno/etc.defaults/iptables_modules_list
+
+success()
+{
+	[ -n $1 ] && echo "success" || echo "$1: success"
+}
+
+failure()
+{
+	[ -n $1 ] && echo "failed" || echo "$1: failed"
+}
+
+reverse_syno()
+{
+	local modules=$1
+	local mod
+	local ret=""
+
+	for mod in $modules; do
+	    ret="$mod $ret"
+	done
+
+	echo $ret
+}
+
+#ipv6 ip6tables
+ipv6_start()
+{
+	local RULES_FILE=$1
+
+	/usr/syno/bin/iptablestool --insmod $TC ${IPV6_MODULES}
+	/usr/syno/bin/iptablestool --insmod $TC ${TC_6_MODULES}
+
+	# if ipv6 iptable rules not exist, we skip
+	if [ -e ${RULES_FILE} ]; then
+		/sbin/ip6tables-restore < ${RULES_FILE}
+	else
+		/sbin/ip6tables -F -t mangle
+	fi
+
+	return 0
+}
+
+#ipv4 iptables, ipv4 modules must been loaded, because of following ipv6 firewall may use those modules
+ipv4_start()
+{
+	local RULES_FILE=$1
+
+	/usr/syno/bin/iptablestool --insmod $TC ${KERNEL_MODULES_CORE}
+	/usr/syno/bin/iptablestool --insmod $TC ${KERNEL_MODULES_COMMON}
+	/usr/syno/bin/iptablestool --insmod $TC ${TC_MODULES}
+
+	if [ -e ${RULES_FILE} ]; then
+		/sbin/iptables-restore < ${RULES_FILE}
+	else
+		/sbin/iptables -F -t mangle
+	fi
+
+	return 0
+}
+
+dump_rules_clear()
+{
+	for i in $@;
+	do
+		if [ -e $i ]; then
+			rm -f $i
+		fi
+	done
+}
+
+start()
+{
+	local addDefRule=0
+	local hasRules=0
+	local runAP=0
+	local v6rules="${TC_RULES_6_IPTABLES}"
+	[ "yes" = "${V4ONLY}" ] && v6rules="none"
+
+	if [ -z $1 ];then
+		RULES_DIR="/etc/tc"
+	else
+		RULES_DIR=$1
+	fi
+
+	if [ -e ${TC_CMD_RESET} ]; then
+		chmod +x $TC_CMD_RESET
+		$TC_CMD_RESET
+	fi
+
+	dump_rules_clear ${TC_RULES_IPTABLES} ${TC_RULES_6_IPTABLES} ${TC_CMD} ${TC_CMD_RESET}
+	/usr/syno/bin/tctool -dump_rules ${RULES_DIR} ${TC_RULES_IPTABLES} ${v6rules} ${TC_CMD}
+	hasRules=$?
+	/usr/syno/bin/iptablestool --checkap
+	runAP=$?
+
+	if [ 1 -eq $runAP -a "yes" != "$SupportPciWifi" ]; then
+		addDefRule=1
+	fi
+
+	if [ 255 -eq $hasRules ]; then
+		echo "Dump rules fail, remove tc modules..."
+		stop
+		dump_rules_clear ${TC_RULES_IPTABLES} ${TC_RULES_6_IPTABLES} ${TC_CMD} ${TC_CMD_RESET}
+		return 1
+	elif [ 254 -eq $hasRules ]; then #the sum of manual ceil values is larger than TC_VALUE_MAX
+		return 254
+	elif [ 253 -eq $hasRules ]; then #the maximum manual ceil value is larger than avgUnlimitValue
+		return 253
+	elif [ 0 -eq $hasRules -a 1 -ne $addDefRule ]; then
+		stop
+		dump_rules_clear ${TC_RULES_IPTABLES} ${TC_RULES_6_IPTABLES} ${TC_CMD} ${TC_CMD_RESET}
+		return 1
+	fi
+
+	ipv4_start ${TC_RULES_IPTABLES}
+	[ "yes" != "${V4ONLY}" ] && ipv6_start ${TC_RULES_6_IPTABLES}
+
+	#execute tc command
+	if [ -e ${TC_CMD} ]; then
+		chmod +x $TC_CMD
+		$TC_CMD
+	fi
+
+	#add default tc rule for wlan0
+	if [ 1 -eq $addDefRule ]; then
+		echo "######## Begin of wlan0 #######" >> ${TC_CMD_RESET}
+		echo "tc qdisc del dev wlan0 root" >> ${TC_CMD_RESET}
+		echo "######## End of wlan0 #######" >> ${TC_CMD_RESET}
+		if [ -e ${TC_DEF_RULE} ]; then
+			chmod +x ${TC_DEF_RULE}
+			${TC_DEF_RULE}
+		fi
+	fi
+
+	return 0
+}
+
+#ipv6 ip6tables -F -t mangle
+ipv6_stop()
+{
+	local modules_reverse=""
+
+	if [ ! -e "$PROC_6_IPTABLES_NAMES" ]; then
+		return 0
+	fi
+
+	/bin/cat $PROC_6_IPTABLES_NAMES | grep mangle > /dev/null 2>&1
+	if [ 0 -ne $? ]; then
+		return 0
+	fi
+
+	echo ""
+	echo "Clean all ipv6 firewall mangle rules... "
+	/sbin/ip6tables -F -t mangle
+	[ $? -eq 0 ] && success || failure
+
+	echo ""
+	echo "Unloading ipv6 tc modules... "
+	modules_reverse=`reverse_syno "$TC_6_MODULES"`
+	/usr/syno/bin/iptablestool --rmmod $TC $modules_reverse
+
+	echo ""
+	echo "Unloading ipv6 netfilter Kernel modules... "
+	modules_reverse=`reverse_syno "$IPV6_MODULES"`
+	/usr/syno/bin/iptablestool --rmmod $TC $modules_reverse
+
+	/bin/rm -f $TC_RULES_6_IPTABLES
+
+	return 0
+}
+
+#ipv4 iptables -F -t mangle
+ipv4_stop()
+{
+	local modules_reverse=""
+
+	if [ ! -e "$PROC_IPTABLES_NAMES" ]; then
+		return 0
+	fi
+
+	/bin/cat $PROC_IPTABLES_NAMES | grep mangle > /dev/null 2>&1
+	if [ 0 -ne $? ]; then
+		return 0
+	fi
+
+	echo ""
+	echo "Clean all ipv4 firewall mangle rules... "
+	/sbin/iptables -F -t mangle
+	[ $? -eq 0 ] && success || failure
+
+	echo "Unloading ipv4 tc modules... "
+	modules_reverse=`reverse_syno "$TC_MODULES"`
+	/usr/syno/bin/iptablestool --rmmod $TC $modules_reverse
+
+	echo ""
+	echo "Unloading kernel ipv4 netfilter common modules... "
+	modules_reverse=`reverse_syno "$KERNEL_MODULES_COMMON"`
+	/usr/syno/bin/iptablestool --rmmod $TC $modules_reverse
+
+	echo ""
+	echo "Unloading kernel ipv4 netfilter core modules... "
+	modules_reverse=`reverse_syno "$KERNEL_MODULES_CORE"`
+	/usr/syno/bin/iptablestool --rmmod $TC $modules_reverse
+
+	/bin/rm -f $TC_RULES_IPTABLES
+	/bin/rm -f $TC_CMD
+	/bin/rm -f $TC_CMD_RESET
+
+	return 0
+}
+
+stop()
+{
+	# stop ipv6 first then ipv4 ~ because of the modules loaded sequence
+	if [ -e ${TC_CMD_RESET} ]; then
+		chmod +x $TC_CMD_RESET
+		$TC_CMD_RESET
+	fi
+
+	[ "yes" != "${V4ONLY}" ] && ipv6_stop
+	ipv4_stop
+
+	return 0
+}
+
+restart()
+{
+	stop
+	start $1
+	return $?
+}
+
+flush()
+{
+	local TC_CMD_RESET_TMP="${TC_CMD_RESET}.tmp"
+	#This function is used to flush wlan0 default tc rule
+	if [ "xwlan0" != "x$1" ]; then
+		exit 1
+	fi
+
+	tc qdisc del dev $1 root 2>/dev/null
+	if [ "yes" != "${V4ONLY}" -a ! -e ${TC_RULES_6_IPTABLES} ]; then
+		ipv6_stop
+	fi
+	if [ ! -e ${TC_RULES_IPTABLES} ]; then
+		ipv4_stop
+	fi
+
+	#clean wlan0 reset command
+	if [ -e ${TC_CMD_RESET_TMP} ]; then
+		/bin/rm ${TC_CMD_RESET_TMP}
+	fi
+	/bin/grep -v "wlan0" ${TC_CMD_RESET} >> ${TC_CMD_RESET_TMP}
+	/bin/mv ${TC_CMD_RESET_TMP} ${TC_CMD_RESET}
+
+	return 0
+}
+
+# do operations if supportTc="yes", or just return.
+supportTc=`/bin/get_key_value $CONF supportTc`
+if [ "xyes" != "x$supportTc" ]; then
+	echo "This platform doesn't support Tc!"
+	exit 1;
+fi
+
+get_lock()
+{
+	local timeout=30
+	local i=0
+
+	exec 100>$LOCK_FILE
+	for i in `seq 1 $timeout`; do
+		flock -x -n 100
+		if [ 0 -eq $? ]; then
+			return 0
+		fi
+		sleep 1
+	done
+	return 1
+}
+
+free_lock()
+{
+	flock -u 100
+}
+
+get_lock
+if [ 0 -ne $? ]; then
+	echo "lock fail"
+	exit 1
+fi
+
+case "$1" in
+	start)
+		start $2
+		RETVAL=$?
+		if [ "$RUN_HA" != "yes" ] && [ $RUNLEVEL -eq 1 ]; then
+			/sbin/initctl emit --no-wait network-ready
+		fi
+		;;
+	force-reload)
+		start $2
+		RETVAL=$?
+		;;
+	stop)
+		stop
+		RETVAL=$?
+		;;
+	restart)
+		restart $2
+		RETVAL=$?
+		;;
+	flush)
+		flush $2
+		RETVAL=$?
+		;;
+	*)
+		echo $"Usage: ${0##*/} {start|stop|restart|force-reload|flush}"
+		RETVAL=2
+		;;
+esac
+
+free_lock
+
+exit $RETVAL

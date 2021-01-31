@@ -1,0 +1,76 @@
+#!/bin/sh
+# Copyright (c) 2000-2011 Synology Inc. All rights reserved.
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/syno/bin:/usr/syno/sbin
+
+. /etc.defaults/rc.subr
+
+KERNEL_VCODE=`KernelVersionCode $(KernelVersion)`
+
+check_alive()
+{
+	/bin/pidof $1 &> /dev/null
+}
+
+start()
+{
+	echo "Starting iSCSI initiator service."
+	if [ ! -f /etc/iscsi/initiatorname.iscsi ]; then
+		echo "InitiatorName=`/sbin/iscsi-iname`" > /etc/iscsi/initiatorname.iscsi 
+	fi
+
+	if [ $KERNEL_VCODE -lt $(KernelVersionCode "3") ]; then
+		insmod /lib/modules/scsi_transport_iscsi.ko
+	fi
+	insmod /lib/modules/libiscsi.ko
+	insmod /lib/modules/libiscsi_tcp.ko
+	insmod /lib/modules/iscsi_tcp.ko
+
+	if check_alive iscsid; then
+		echo "iscsid is already running"
+		return
+	fi
+	iscsid
+}
+
+stop()
+{
+	echo "Stopping iSCSI initiator service."
+	sync
+	iscsiadm -m node --logoutall=all
+	killall iscsid
+	rm -f /var/run/iscsid.pid
+	rm -f /var/lock/subsys/open-iscsi
+	
+	sleep 1
+	rmmod /lib/modules/iscsi_tcp.ko
+	rmmod /lib/modules/libiscsi_tcp.ko
+	rmmod /lib/modules/libiscsi.ko
+	if [ $KERNEL_VCODE -lt $(KernelVersionCode "3") ]; then
+		rmmod /lib/modules/scsi_transport_iscsi.ko
+	fi
+}
+
+restart()
+{
+	stop
+	start
+}
+
+case "$1" in
+	start)
+			start
+			;;
+	stop)
+			stop
+			;;
+	restart)
+			stop
+			start
+			;;
+	*)
+			echo $"Usage: $0 {start|stop|restart}"
+			exit 1
+esac
+
+

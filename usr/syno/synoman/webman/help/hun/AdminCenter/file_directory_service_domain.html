@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Tartomány</h2>
+
+<p>A(z) Synology NAS eszköze képes csatlakozni a Windows tartományokhoz. A tartományhoz történő csatlakozást követően a tartományfelhasználók is bejelentkezhetnek a(z) Synology NAS eszközre a tartományfiók és a jelszavak segítségével, melynek köszönhetően hozzáférhetnek a fájlokhoz, valamint használhatják a DSM-alkalmazásokat, mindezt úgy, hogy nem kell számos felhasználónevet és jelszót megjegyezniük.</p>
+
+<h4>Csatlakozás tartományhoz:</h4>
+<ol>
+	<li>Lépjen a <strong>Vezérlőpult</strong> > <strong>Könyvtárszolgáltatás</strong> > <strong>Tartomány</strong> menüpontra.</li>
+	<li>Jelölje be a <strong>Csatlakozás tartományhoz</strong> jelölőnégyzetet.</li>
+	<li>Írja be a tartomány nevét, majd a megfelelő mezők segítségével határozza meg a DNS-szervert.</li>
+	<li>Amennyiben szükséges, jelölje be a <strong>Speciális tartománybeállítások</strong> jelölőnégyzetet. (A részleteket lásd alább.)</li>
+	<li>Kattintson az <strong>Alkalmaz</strong> gombra.</li>
+	<li>A felugró ablakban adja meg a rendszergazda felhasználónevét és jelszavát a tartományszerveren.</li>
+	<li>Kattintson az <strong>OK</strong> gombra.</li>
+</ol>
+
+<div class="section"><h4>DNS Server</h4>
+<p>Ajánlatos meghatározni egy DNS-szervert, ezzel elősegítve a(z) Synology NAS eszköz számára a tartomány megkeresését. Ha azonban a tartomány nincs regisztrálva a DNS-szerveren, akkor előfordulhat, hogy a tartományhoz történő csatlakozás sikertelen lesz.</p>
+
+<h4>Tartományszerver típusa</h4>
+<p>Ez a mező jeleníti meg a tartomány típusát, amikor a(z) Synology NAS eszköz csatlakozik egy tartományhoz. A tartomány típusa „AD tartomány” lesz.</p>
+
+<h4>Kezelési mód</h4>
+<p>Ez a beállítás határozza meg, hogy a rendszer hogyan kezelje a tartományfelhasználók és csoportok jogosultságait. </p>
+<ul>
+	<li><strong>Megbízható tartomány</strong>: A csatlakozott tartományban, valamint a megbízható tartományokban szereplő felhasználókat és csoportokat kezelheti. A felhasználók és a csoportok a tartomány legördülő lista segítségével szűrhetők.</li>
+	<li><strong>Egy tartomány új szervezeti egységgel</strong>: Ebben az üzemmódban csak a csatlakoztatott tartományban szereplő felhasználók és csoportok jelennek meg. Ezen üzemmódban a tartományfelhasználók/tartománycsoportok az OU (szervezeti egység) legördülő menü segítségével szűrhetők.</li>
+</ul>
+
+<h4>Speciális tartománybeállítások</h4>
+<p>A speciális tartománybeállításokat általában nem szükséges kitöltenie. A speciális tartománybeállításokra csak egyes tartománykörnyezetekben van szükség. </p>
+<ul>
+	<li><strong>DC IP/FQDN</strong>: Határozzon meg egy DC (tartományvezérlő) IP-címet vagy FQDN-t, ekkor a(z) Synology NAS megpróbál kommunikálni vele. Ha egynél több IP-címet vagy FQDN-t ad meg, vesszővel (,) válassza el őket egymástól. Tegyen csillagot (*) az utolsó DC IP-cím vagy FQDN után, ha azt szeretné, hogy a(z) Synology NAS megpróbáljon más DC-vel is kommunikálni, ha az összes meghatározott cím sikertelennek bizonyult. A csillag és az utolsó IP-cím vagy FQDN közé vesszőt kell tennie.</li>
+	<li><strong>Domain NetBIOS név</strong>: Adja meg a tartomány NetBIOS nevét.</li>
+	<li><strong>Domain FQDN (DNS név)</strong>: Adja meg a tartomány FQDN-jét (DNS név).</li>
+	<li><strong>DNS-interfész regisztrálása</strong>: Egy tartományhoz történő csatlakozáskor az itt meghatározott NIC (hálózati kártya) lesz regisztrálva a DNS-szerveren. Ne feledje, ha a(z) Synology NAS eszköz állomásneve alulvonást (_) is tartalmaz, a regisztráció sikertelen lesz, mivel a DNS-nél nem használható alulvonás (_).</li>
+	<li><strong>Felhasználó-/csoportlista frissítése</strong>: Határozza meg, hogy a(z) Synology NAS eszköz milyen gyakran frissítse automatikusan a tartományfelhasználó-/csoportlistát. Meghatározhatja, hogy a frissítések naponta, hetente vagy havonta legyenek elvégezve. Ezenfelül a tartományfelhasználó-/csoportlisták manuálisan is frissíthetők. Ehhez lépjen a <strong>Tartományfelhasználó</strong> lapra, majd kattintson az <strong>Összes tartomány frissítése</strong> elemre. Ne feledje, hogy az automatikus frissítések hatással lehetnek a rendszer hibernálására.</li>
+</ul>
+
+<h4>Csak olvasható tartományvezérlő csatlakoztatása</h4>
+<p>A(z) Synology NAS eszköz csak olvasható tartományvezérlőhöz (RODC) történő csatlakoztatása érdekében a <strong>DC IP/FQDN</strong> mezőben meg kell határoznia a csak írható tartományvezérlő (RWDC) „teljes számítógépnevét” (RWDC). A teljes számítógépnevet a következő formátumban kell megadnia: <strong>ComputerName.Domain</strong>, pl. „ad01.synology.com”.</p>
+</div>
+
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>Ha a tartomány nevében a „%” vagy a „$” jel szerepel, előfordulhat, hogy nem fog tudni hozzáférni az otthoni mappájához. Kérjen a tartomány rendszergazdájától új felhasználónevet.</li>
+	<li>A <strong>Tartománygazda</strong> és a <strong>Vállalati rendszergazda</strong> tartománycsoportokat a rendszer automatikusan hozzáadja a helyi <strong>Administrators</strong> csoporthoz. Ebből következően az ezen csoportokhoz tartozó tartományfelhasználók rendszergazda jogosultságokkal fognak rendelkezni a(z) Synology NAS eszközön, ideértve az olyan fájlszolgáltatásokhoz történő hozzáférést is, mint pl. a CIFS/FTP/AFP/WebDAV és egyéb DSM-alkalmazások.</li>
+	<li>A tartományfelhasználók hozzáférési jogosultságait is konfigurálhatja a(z) Synology NAS megosztott mappáihoz. További információkért kattintson <a href="file_directory_service_user_group.html">ide</a>.</li>
+</ul>
+</div>
+
+<h3>Tartománybeállítások</h3>
+
+<p>Ez a rész az alábbi kiegészítő tartománybeállításokat tartalmazza.</p>
+<ul>
+	<li><strong>A DiskStation minden alkalommal szinkronizál az NTP szerverrel, amikor a domain felhasználója bejelentkezik</strong>: Ezen opció engedélyezése esetén a rendszer kényszerítve végzi el az idő szinkronizálását a(z) Synology NAS eszköz és az NTP-szerver között.</li>
+	<li><strong>Szerveraláírás engedélyezése</strong>: Amennyiben a kliens engedélyezte a kliens aláírását, abban az esetben a szerver aláírását is engedélyezni kell a(z) Synology NAS eszközön, hogy a felhasználók normál módon használhassák a tartományszolgáltatásokat.</li>
+	<li><strong>Felhasználó-/csoportlisták megszerzése NT4-kompatibilis üzemmóddal</strong>: Ezen opció engedélyezése lehetővé teszi a rendszer számára, hogy az NT4 RPC mód segítségével felhasználó-/csoportlistákat kérhessen le. Ez az opciót abban az esetben érdemes engedélyezni, ha bizonyos tartományfelhasználó-/csoportlisták nem kérhetők le az alapértelmezett beállításokkal.</li>
+	<li><strong> Tartománygazdák és vállalati rendszergazdák adminisztrátori engedélyeinek letiltása</strong>: A rendszergazda jogosultsággal rendelkező felhasználók teljes körű felügyelettel rendelkeznek a(z) Synology NAS eszköz és az azon tárolt fájlok felett. Ezen opció engedélyezése lehetővé teszi a Tartománygazdák és a Vállalati rendszergazdák jogainak normál felhasználói jogokra történő korlátozását, ezzel átörökítve minden normál felhasználói fájl-/mappaengedélyt.</li>
+	<li><strong>Beágyazott csoportszintek felsorolása</strong>: Határozza meg a beágyazott tartománycsoport tagok számát</li>
+</ul>
+
+<h3>Tartományállapot ellenőrzése</h3>
+
+<p>Ha rákattint a <strong>Tartományállapot ellenőrzése</strong> lehetőségre, a rendszer ellenőrzi a DSM és a tartományszerver közötti kapcsolat állapotát. A hibaelhárítással kapcsolatos további információkért tekintse meg az alábbi elemeket:</p>
+<ul>
+	<li><strong>Ellenőrizze, hogy a Synology NAS és az Active Directory-szerver közötti kapcsolat megfelelően működik-e</strong>: A Synology NAS nem tud kommunikálni az Active Directory-szerverrel.<ul>
+			<li>Ellenőrizze, hogy a 389-es, a 139-es, illetve a 445-ös portok megfelelően működnek-e az Active Directory-szerveren.</li>
+			<li>Ellenőrizze, hogy az NTDS-szolgáltatás megfelelően működik-e az Active Directory-szerveren.</li>
+		</ul>
+	</li>
+	<li><strong>Ellenőrizze, hogy vannak-e ütköző állomásnevek az alhálózatban</strong>: A Synology NAS állomásneve már létezik az alhálózatban.<ul>
+			<li>Ha a Synology NAS több hálózati interfésszel csatlakozik az alhálózathoz, a DSM megfelelően fog működni.</li>
+			<li>Ha a Synology NAS egy hálózati interfésszel csatlakozik az alhálózathoz, módosítsa a Synology NAS állomásnevét, és csatlakozzon vele ismét a tartományhoz.</li>
+		</ul>
+	</li>
+	<li><strong>Ellenőrizze, hogy a Synology NAS és a Kerberos-szerver közötti kapcsolat megfelelően működik-e</strong>: A Synology NAS nem tud kommunikálni a Kerberos-szerverrel.<ul>
+			<li>Ellenőrizze, hogy a DNS-szerveren létezik-e a megfelelő Kerberos DNS SRV rekord, valamint a hozzá tartozó A rekord.</li>
+			<li>Ellenőrizze, hogy a KDC-szerveren elérhető-e a 88-as port.</li>
+		</ul>
+	</li>
+	<li><strong>Ellenőrizze, hogy a Synology NAS és az LDAP-szerver közötti kapcsolat megfelelően működik-e</strong>: A Synology NAS nem tud kommunikálni az LDAP-szerverrel.<ul>
+			<li>Ellenőrizze, hogy a DNS-szervereken létezik-e a megfelelő LDAP DNS SRV rekord, valamint a hozzá tartozó A rekord.</li>
+			<li>Ellenőrizze, hogy az LDAP-szerveren megfelelően működik-e a 389-es port.</li>
+		</ul>
+	</li>
+	<li><strong>A(z) Synology NAS és a tartományvezérlő közötti kapcsolat megfelelő működése érdekében ellenőrizze, hogy az MTU megfelelően van-e konfigurálva</strong>: Egy vagy több kapcsoló csomagokat dobott el a Synology NAS és az Active Directory Server közötti átvitel során, mivel a csomagok MTU-mérete érvénytelen volt.<ul>
+			<li>Ellenőrizze a Synology NAS és az Active Directory Server közötti kapcsolók interfész-beállításait.</li>
+		</ul>
+	</li>
+	<li><strong>Ellenőrizze, hogy a Synology NAS és a tartomány között szinkronizálva van-e az idő</strong>: A Synology NAS eszközön beállított idő nem egyezik a tartományszerveren érvényes idővel.<ul>
+			<li>Állítsa be az NTP-szolgáltatást, amely szinkronizálja a Synology NAS és a tartományszerver idejét, vagy engedélyezze a <strong>Tartománybeállítások</strong> menü <strong>A Synology NAS minden alkalommal szinkronizál az NTP-szerverrel, amikor egy tartományfelhasználó bejelentkezik:</strong> funkcióját.</li>
+		</ul>
+	</li>
+</ul>
+
+</body>
+</html>

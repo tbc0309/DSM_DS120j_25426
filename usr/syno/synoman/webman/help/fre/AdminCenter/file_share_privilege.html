@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Attribuer les autorisations sur le dossier partagé - Aide de Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="You can specify which users or groups can access, view, or modify a shared folder and its contents. This article shows you how to assign and customize shared folder permissions in DSM.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Attribuer les autorisations sur le dossier partagé</h2>
+
+<p>Vous pouvez spécifier les utilisateurs et les groupes qui peuvent accéder, voir ou modifier un dossier partagé et son contenu. Les autorisations d'accès des dossiers partagés, de même que les fichiers et sous-dossiers individuels, peuvent être personnalisés pour chaque utilisateur ou groupe.</p>
+
+<div class="section disable-eds14">
+<h4>Windows ACL :</h4>
+
+<p>Dans DSM 5.0 ou les versions ultérieures, les autorisations d'accès des dossiers partagés sont basées sur Windows ACL par défaut. Les dossiers partagés nouvellement créés appliquent les paramètres d'autorisations de Windows ACL, qui permettent également de personnaliser les autorisations des fichiers et sous-dossiers individuels. De plus, les autorisations peuvent être personnalisées via File Station ou File Explorer dans Windows.</p>
+<p>Les dossiers partagés suivants ne peuvent utiliser le système de gestion des autorisations Windows ACL : <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+<div class="section disable-eds14">
+<h4>Remarque :</h4>  
+<p>Les dossiers personnels <strong>home</strong> des utilisateurs se trouvent sous le dossier <strong>homes</strong>. Si vous paramétrez une autorisation NA pour un utilisateur/groupe sur <strong>homes</strong>, les utilisateurs n'ont pas accès à leur dossier partagé personnel <strong>Accueil</strong> car ACL fonctionne sur une base d'autorisation d'héritage. </p>
+</div>
+<h4>Pour modifier les autorisations d'un dossier partagé :</h4>
+
+<ol>
+
+<li>Accédez à <strong>Panneau de configuration</strong> > <strong>Dossier partagé</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Sélectionner le dossier partagé dont vous désirez modifier les autorisations. Cliquez sur <b>Modifier</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li> Accédez à l’onglet <strong>Permissions</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Choisissez l'un des éléments suivants dans le menu déroulant :
+
+<ul>
+<li><b>Utilisateur du système interne :</b> Attribue des privilèges d'accès aux utilisateurs système par défaut, tels que l'utilisateur Anonymous FTP/WebDAV. Avant d'autoriser les utilisateurs FTP anonymes à se connecter à un dossier partagé, vous devez attribuer des privilèges d'accès à cet utilisateur.</li>
+<li><b>Utilisateurs locaux :</b> Attribue des permissions aux utilisateurs locaux (y compris <b>guest</b>).</li>
+<li><b>Groupes locaux :</b> Attribue des permissions aux groupes locaux.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Cochez ou décochez les cases appropriées pour chaque utilisateur ou groupe afin de personnaliser leurs privilèges d'accès au dossier partagé :
+
+  <ul>
+<li><b>Lecture/écriture</b> : L'utilisateur ou le groupe peut accéder et apporter des modifications aux fichiers et sous-dossiers du dossier partagé.</li>
+<li><b>Lecture seule</b> : L'utilisateur ou le groupe peut accéder aux fichiers et sous-dossiers du dossier partagé.</li>
+<li><b>Pas d'accès</b> : L'utilisateur ou le groupe ne peut pas accéder aux fichiers et sous-dossiers du dossier partagé.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Cliquez sur <b>OK</b> pour terminer.</li>
+</ol>
+
+<div class="section">
+<h4>Remarque :</h4>
+
+<ul>
+<li>Lorsque vous rencontrez des conflits de privilèges, la priorité des privilèges s'établit comme suit : Pas d'accès > Lecture/écriture > Lecture seule.</li>
+<li>Lors de la création d'un nouveau dossier partagé, si les autorisations pour les utilisateurs appartenant au groupe <strong>administrators</strong> sont définies sur <b>Pas d'accès</b>, ces utilisateurs ne pourront voir le dossier partagé que dans <strong>Panneau de configuration</strong> > <strong>Dossier partagé</strong>.</li>
+</ul>
+</div>
+
+<h3 class="disable-eds14">Personnalisation des autorisations Windows ACL</h3>
+
+<p class="disable-eds14">Outre les paramètres décrits ci-dessus, vous pouvez personnaliser davantage les autorisations en suivant les étapes ci-dessous. </p>
+
+<div class="section disable-eds14">
+<h4>Remarque :</h4>
+<p>Les paramètres ci-dessous ne peuvent être utilisés avec les dossiers partagés suivants : <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+
+<h4 class="disable-eds14">Pour personnaliser les autorisations :</h4>
+<ol class="disable-eds14">
+  <li>Sur l'onglet <strong>Permissions</strong>, sélectionnez l'utilisateur auquel vous souhaitez personnaliser les autorisations. Cliquez n'importe où dans la colonne <strong>Personnalisé</strong>.</li>
+  <img src="about:blank" class="help_image"/>
+  <li>Effectuez l'une des actions suivantes dans la fenêtre <b>Éditeur de permission</b> pour gérer les autorisations ACL pour le fichier ou le dossier :
+      <ol>
+        <li><b>Utilisateur ou groupe :</b> Spécifiez l'utilisateur ou le groupe dont vous désirez personnaliser les permissions.</li>
+        <img src="about:blank" class="help_image"/>
+        
+        <div class="section disable-eds14">
+<h4>Remarque :</h4>  
+<p>Les options d'<strong>Utilisateurs authentifiés</strong> et <strong>SYSTEM</strong> dans le menu déroulant <strong>Authenticated Users</strong> sont créées afin de correspondre aux paramètres de privilèges de Windows ACL. La portée des privilèges est la suivante :</p>
+<ul>
+	<li><strong>Authenticated Users</strong> comprend les comptes exclus de <strong>https</strong> et <strong>guest</strong>.</li>
+	<li><strong>SYSTEM</strong> comprend les comptes dans <strong>https</strong> et <strong>anonymous</strong>.</li>
+</ul>
+</div>
+        
+        
+        
+        
+        <li><b>Hériter de :</b> Pour visualiser seulement. Afficher les informations ici pour voir si l'autorisation est héritée (d'un dossier parent) ou explicite (indiqué par <b>Aucun</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Type :</b> Choisissez <b>Autoriser</b> ou <b>Refuser</b> pour accorder ou refuser la permission à l'utilisateur ou au groupe.</li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Appliquer à :</b>Si vous créez une entrée d'autorisation pour un dossier, cochez les cases pour appliquer l'entrée à ce dossier, les dossiers (ou <b>Dossiers enfants</b>) ou fichiers (ou <b>Fichiers enfants</b>) dans ce dossier, ou tous les fichiers ou dossiers contenu dans ce dossier (ou <b>Tous les descendants</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Administration :</b> Cochez <b>Lire les permissions</b>, <b>Changer les permissions</b> ou <b>Prendre possession</b> pour spécifier le privilège d'accès de l'utilisateur ou du groupe pour l'entrée de permission. </li>
+        <li><b>Lecture</b> ou <b>Écriture</b> : Cochez les cases dans ces sections pour modifier l'autorisation de l'utilisateur ou du groupe pour le fichier ou dossier. </li>
+      </ol>    
+  <li> Cliquez sur <b>OK</b>.</li>
+</ol>
+<div class="section disable-eds14">
+  <h4>Les permissions ACL peuvent être classées comme suit :</h4>
+  <ul>
+    <li><b>Administration :</b>
+    <ul>
+      <li><b>Changer les permissions</b> : Permet de contrôler si un utilisateur peut changer l'autorisation du fichier ou dossier.</li>
+      <li><b>Prendre possession</b> : Permet de contrôler si un utilisateur a la possession du fichier ou dossier.</li>
+    </ul></li>
+    <li><b>Lecture :</b>
+    <ul>
+      <li><b>Traverser les dossiers/Exécuter les fichiers</b> : Permet de contrôler si un utilisateur peut exécuter un fichier programme.</li>
+      <li><b>Lister les dossiers/Lire les données</b> : Permet de contrôler si un utilisateur peut lire les données dans un fichier.</li>
+      <li><b>Lire les attributs</b> : Permet de contrôler si un utilisateur peut afficher les attributs d'un fichier.</li>
+      <li><b>Lire les attributs étendus</b> : Permet de contrôler si un utilisateur peut afficher les attributs étendus d'un fichier.</li>
+      <li><b>Lire les permissions</b> : Permet de contrôler si un utilisateur peut lire les autorisations du fichier ou dossier.</li>
+    </ul></li>
+    <li><b>Écrire :</b>
+    <ul>
+      <li><b>Créer des fichiers/Écrire des données</b> : Permet de contrôler si un utilisateur peut changer le contenu d'un fichier.</li>
+      <li><b>Créer des dossiers/Ajout de données</b> : Permet de contrôler si un utilisateur peut ajouter des dossiers à la fin d'un fichier.</li>
+      <li><b>Attributs d'écriture</b> : Permet de contrôler si un utilisateur peut changer les attributs d'un fichier.</li>
+      <li><b>Attributs d'écriture étendus</b> :  Permet de contrôler si un utilisateur peut changer les attributs étendus d'un fichier.</li>
+      <li><b>Supprimer des sous-dossiers et des fichiers</b> : Permet de contrôler si un utilisateur peut supprimer un dossier.</li>
+      <li><b>Supprimer</b> : Permet de contrôler si un utilisateur peut supprimer un fichier.</li>
+    </ul></li>
+  </ul>
+  <h4>À propos de l'héritage de l'autorisation :</h4>
+  <p> Les permissions ACL sont héritées des objets parents aux objets enfants. Par exemple, si une entrée ACL du dossier « ventes » accorde l'autorisation « Lecture » à l'utilisateur « Pierre », alors l'entrée ACL est appliquée à tous les fichiers contenus dans le dossier « ventes » (comme « rapport annuel.xls »), autorisant l'utilisateur à ouvrir les fichiers. Les autorisations non-héritées sont affichées en gris, tandis que les propres autorisations de l'objet (ou autorisations « explicites ») sont affichées en noir. </p>
+</div>
+<div class="section disable-eds14">
+  <h4>Remarque :</h4>
+  <ul>
+    <li>Vous ne pouvez pas ajouter plus de 200 entrées d'autorisation ACL explicite pour un fichier ou un dossier</li>
+    <li>Windows ACL ne prend pas en charge le système de fichiers ext3. Pour les personnes qui utilisent le système de fichiers ext3, vous devez créer au moins un volume ext4/Btrfs pour utiliser les autorisations Windows ACL. Cela signifie qu'il vous faut formater au moins un disque et recréer un volume. Le formatage de votre Synology NAS supprime toutes les données et paramètres stockés. Assurez-vous que toutes les données sont sauvegardées avant de les traiter.</li>
+    <li>Pour définir les privilèges des utilisateurs de domaine, assurez-vous que les clients Windows et DSM se trouvent dans le même domaine.</li>
+    <li>Lorsque vous modifiez les autorisations avec Windows File Explorer, les règles <strong>Refuser</strong> appliquées au groupe <strong>Domain Admins</strong> sont ignorées.</li>
+  </ul>
+</div>
+
+
+</body>
+</html>

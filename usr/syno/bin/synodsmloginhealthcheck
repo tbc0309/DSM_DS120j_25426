@@ -1,0 +1,24 @@
+#!/bin/sh
+
+test_connection()
+{
+    retry=0
+    ret=$(/bin/curl "$1" -IkL -w "%{http_code}" --connect-timeout "$2" -o /dev/null);
+    curl_ret=$?
+    while [ $retry -lt "$3" ] && [ "${ret}" != "200" ]; do
+        sleep 5s
+        retry=$((retry+1))
+        echo "Web Service Error(${curl_ret}): ${1} HTTP_CODE: [${ret}] (Retry...${retry})"
+        ret=$(/bin/curl "$1" -IkL -w "%{http_code}" --connect-timeout "$2" -o /dev/null)
+        curl_ret=$?
+    done
+    if [ "${ret}" != "200" ]; then 
+        echo "Web Service Error(${curl_ret}): ${1} HTTP_CODE: [${ret}]"
+        exit 1
+    fi
+}
+
+test_connection "http://localhost:$(/usr/syno/bin/synow3 --get-dsm-port)" 120 2
+test_connection "https://localhost:$(/usr/syno/bin/synow3 --get-dsm-ssl-port)" 120 2
+
+exit 0

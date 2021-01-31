@@ -1,0 +1,119 @@
+# Copyright (c) 2000-2016 Synology Inc. All rights reserved.
+
+worker_processes    auto;
+
+events {
+    use                 epoll;
+    worker_connections  1024;
+    accept_mutex        on;
+}
+
+http {
+    include         mime.types;
+    default_type    application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+        '$status $body_bytes_sent "$http_referer" '
+        '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  off;
+    error_log   /var/log/nginx/error_default.log error;
+
+    sendfile        on;
+    server_tokens   off;
+
+    scgi_buffering          off;
+    scgi_request_buffering  off;
+
+    resolver_timeout        5s;
+    client_header_timeout   10s;
+    client_body_timeout     60s;
+    send_timeout            60s;
+    keepalive_timeout       65s 20s;
+    client_max_body_size    0;
+
+    upstream synoscgi {
+        server  unix:/run/synoscgi.sock;
+    }
+
+    index index.html index.htm index.php;
+
+    server {
+        listen  5000;
+        listen  [::]:5000;
+
+        root    /usr/syno/synoman/;
+        index   index.cgi index.html index.htm;
+
+        location = / {
+            try_files $uri /index.cgi$is_args$query_string;
+        }
+
+        location ~ ^/volume(?:X|USB|SATA|Gluster)?\d+/ {
+            internal;
+
+            root /;
+        }
+
+        location ~ \.cgi {
+            scgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+            scgi_param  CONTENT_LENGTH     $content_length;
+            scgi_param  SCRIPT_NAME        $fastcgi_script_name;
+            scgi_param  REQUEST_METHOD     $request_method;
+            scgi_param  REQUEST_URI        $request_uri;
+            scgi_param  QUERY_STRING       $query_string;
+            scgi_param  CONTENT_TYPE       $content_type;
+            scgi_param  DOCUMENT_URI       $document_uri;
+            scgi_param  DOCUMENT_ROOT      $document_root;
+            scgi_param  SCGI               1;
+            scgi_param  SERVER_PROTOCOL    $server_protocol;
+            scgi_param  HTTPS              $https if_not_empty;
+            scgi_param  GATEWAY_INTERFACE  CGI/1.1;
+            scgi_param  SERVER_SOFTWARE    nginx/$nginx_version;
+            scgi_param  REMOTE_ADDR        $remote_addr;
+            scgi_param  REMOTE_PORT        $remote_port;
+            scgi_param  SERVER_ADDR        $server_addr;
+            scgi_param  SERVER_PORT        $server_port;
+            scgi_param  SERVER_NAME        $host;
+
+            fastcgi_split_path_info        ^(.+?\.cgi)(.*)$;
+            scgi_param  PATH_INFO          $fastcgi_path_info;
+
+            scgi_intercept_errors          on;
+            scgi_read_timeout              3600s;
+            scgi_pass                      synoscgi;
+        }
+
+        location /wfmlogindialog.js {
+            alias /usr/syno/synoman/webfm/webUI/directlogin.js;
+        }
+
+        error_page 403 404 500 502 503 504 @error_page;
+
+        location @error_page {
+            root /usr/syno/share/nginx;
+            rewrite (.*) /error.html break;
+        }
+
+        location ~ ^/webman/modules/Indexer/ {
+            deny all;
+        }
+
+        location ~ ^/webapi/lib/ {
+            deny all;
+        }
+
+        location ~ ^/webapi/(:?(:?.*)\.lib|(:?.*)\.api|(:?.*)\.auth|lib.def)$ {
+            deny all;
+        }
+
+        location ~ /\. { access_log off; log_not_found off; deny all; }
+    }
+
+    server {
+        listen  80;
+        listen  [::]:80;
+
+        return 302 http://$host:5000;
+    }
+}

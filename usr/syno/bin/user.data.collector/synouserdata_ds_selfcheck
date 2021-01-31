@@ -1,0 +1,24 @@
+#! /usr/bin/env python2
+# Copyright (c) 2000-2017 Synology Inc. All rights reserved.
+
+import json
+import os
+
+
+if __name__ == '__main__':
+    logs = {
+        'full' : 'dsm.full.result',
+        'integrity' : 'dsm.hash.result.for.integrity.rule1',
+    }
+    result = {'collector_version' : 1}
+
+    for key in logs:
+        result[key] = []
+        path = '/var/log/selfcheck/{}'.format(logs[key])
+        if os.path.isfile(path):
+            with open(path) as fd:
+                lists = [_ for _ in fd]
+                lists = [_.split()[0] for _ in lists if _]
+                result[key] = sorted(list(set(lists)))
+
+    print json.dumps(result)

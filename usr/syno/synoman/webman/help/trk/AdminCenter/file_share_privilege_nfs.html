@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Paylaşımlı Klasör</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>NFS İzinleri Ata</h2>
+<p>Herhangi bir paylaşımlı klasöre NFS izinleri atayabilirsiniz, böylece Linux istemcileri bu klasöre erişebilir.</p>
+<h4>
+Bir paylaşımlı klasöre NFS izinleri atamak için:
+</h4>
+<ol>
+<li>Paylaşımlı klasör listesinden düzenlemek istediğiniz paylaşımlı klasörü seçin.</li>
+<li><strong>Düzenle</strong> > <strong>NFS İzinleri</strong>'ne tıklayın.</li>
+<li>Bir NFS kuralı eklemek için <b>Oluştur</b> üzerine tıklayın.</li>
+<li>Bir açılır pencere görülür. Aşağıdaki seçenekleri tanımlayın.</li>
+<li><strong>Ana bilgisayar adı veya IP'si:</strong> Paylaşımlı klasöre erişecek NFS istemcisinin IP adresini girin. Bir ana bilgisayarı üç şekilde belirleyebilirsiniz:
+<ul>
+<li><strong>Tek Ana Bilgisayar:</strong> Tam tanımlanmış alan adı veya IP adresi.</li>
+<li><strong>Jokerler:</strong> *,* .synology.com</li>
+<li><strong>IP ağları:</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>Ayrıcalık:</strong> NFS istemcisi için okuma/yazma izinlerini seçin.</li>
+<li> <strong> Güvenlik:</strong> Uygulanacak güvenlik durumunu belirleyin.
+  <ul>
+  <li><strong>AUTH_SYS:</strong> Erişim izinlerini kontrol etmek için NFS istemcisinin UID (kullanıcı tanımlayıcısı) ve GID (grup tanımlayıcısı) öğelerini kullanın.</li>
+<li><strong>Kerberos doğrulaması:</strong> NFS istemcisi paylaşımlı klasöre bağlandığında Kerberos doğrulamasını yapın. İstemci sadece Kerberos doğrulamasından geçtikten sonra paylaşımlı klasöre erişebilir.</li>
+<li><strong>Kerberos doğruluğu:</strong> Veri transferi sırasında Kerberos doğrulaması yapın ve paketlerin güvenliğini sağlayın.</li>
+<li><strong>Kerberos gizliliği:</strong> Veri transferi sırasında Kerberos doğrulamasını yapın ve NFS paketlerini şifreleyin ve böylece zararlı partilerin NFS trafiğini etkilemesine engel olun.</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>: Bu alan, NFS istemcinin kullanıcıların erişim ayrıcalıklarını denetlemenize olanak tanır. Lütfen aşağıdakilerden birini seçin:
+  <ul>
+    <li><strong>Eşleme yok:</strong> NFS istemcinin tüm kullanıcılarının, kök kullanıcılar dahil, orijinal erişim ayrıcalıklarını sürdürmesine olanak tanır.</li>
+    <li><strong>Kökü yöneticiye eşle:</strong> NFS istemcinin kök kullanıcılarına, sisteminizdeki yönetici kullanıcı erişim ayrıcalıklarına eşdeğer erişim ayrıcalıkları atar.</li>
+    <li><strong>Kökü misafire eşle:</strong> NFS istemcinin kök kullanıcılarına, sisteminizdeki misafir erişim ayrıcalıklarına eşdeğer erişim ayrıcalıkları atar.</li>
+    <li><strong>Tüm kullanıcıları yöneticiye eşle:</strong> NFS istemcinin tüm kullanıcılarına, sisteminizdeki yönetici kullanıcı erişim ayrıcalıklarına eşdeğer erişim ayrıcalıkları atar.</li>
+  </ul>
+</li>
+
+<li><strong>Eşzamansız seçeneğini etkinleştir:</strong> Bu seçeneği işaretlemek, dosyalardaki değişiklikler tamamlanmadan önce Synology NAS ürününüzün NFS istemcilerinden gelen isteklere yanıt vermesine, sonuçta daha iyi performansa olanak tanır.</li>
+<li><strong>Ayrıcalıksız portlardan gelen bağlantılara izin ver (1024'ten daha yüksek portlar):</strong> Bu seçeneğin işaretlenmesi NFS istemcilerinin ayrıcalıksız portları (ör. 1024'ten büyük portlar) Synology NAS 'e bağlanırken kullanmasını sağlar. </li>
+<li><strong>Kullanıcıların bağlanmış alt klasörlere erişmesine izin ver：</strong> Bu seçeneğin işaretlenmesi NFS istemcilerinin tanıtılan alt klasörlere erişmesini sağlar.</li>
+<li>Bitirmek için <b>Tamam</b>'a tıklayın.</li>
+  <li>NFS izinlerini uygulamak için <b>Tamam</b> üzerine tıklayın.</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Sunucu adının biçimi <strong>*.domain</strong> olduğunda, Synology NAS tarafından karşılık gelen IP adresleri aranarak *.domain adının bulunmasını sağlamak için NFS istemcisinin IP adresine karşılık gelen bir DNS PTR kaydı olmalıdır.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Güvenlik Türleri</h4>
+<p> Belirli bir kullanıcı hesabıyla NFS yoluyla bir paylaşımlı klasöre erişirken: </p>
+<ul>
+<li><strong>AUTH_SYS</strong> güvenlik durumu uygulanmışsa: İstemcinin, NFS istemcisi ve Synology NAS üzerinde tamamen aynı sayısal UID (kullanıcı tanımlayıcısı) ve GID (grup tanımlayıcısı) öğelerine sahip olması gerekir aksi durumda istemciye paylaşımlı klasöre erişim sırasında <strong>diğerleri</strong>'nin izinleri atanacaktır. Herhangi bir izin çakışmasını önlemek için, <strong>Squash</strong> öğesinden <strong>Tüm kullanıcıları yöneticiye eşle</strong> öğesini seçebilir ya da paylaşımlı klasöre "Herkes" izinlerini verebilirsiniz.</li>
+<li><strong>Kerberos (krb5, krb5i, krb5p)</strong> güvenlik durumu uygulanırsa: NFS istemcisini belirli bir kullanıcıya haritalamak veya bir Windows/LDAP etki alanını ilgili kullanıcı hesabıyla birleştirmek için <strong>Win/Mac/NFS</strong> > <strong>NFS Hizmeti</strong> > <strong>Kerberos Ayarları</strong> > <strong>ID Haritalama</strong> öğesine gitmeniz gerekir, aksi taktirde istemciye paylaşımlı klasöre erişim sırasında <strong>guest</strong> izinleri atanır.</li>
+<li>Üzerinde paylaşımlı klasörlerin oluşturulduğu harici cihazın dosya sistemi NTFS veya FAT ise, <strong>Tüm kullanıcıları yöneticiye eşle</strong> seçeneği zorunlu olarak uygulanacaktır.</li>
+</ul>
+<p>Synology NAS sunucusuna bağlanmak için Kerberos güvenlik ayarlarını kullanmak için, <strong>Win/Mac/NFS</strong> > <strong>NFS Hizmeti</strong> > <strong>Kerberos Ayarları</strong> öğesine gidilerek Kerberos doğrulaması yapılandırılmalıdır.</p>
+</div>
+
+</body>
+</html>

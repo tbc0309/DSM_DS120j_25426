@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Créer un dossier partagé - Aide DSM Synology</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Shared folders are the basic directories where you can store and manage files and folders on your Synology NAS. This article shows you how to create a shared folder.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Création d'un dossier partagé</h2>
+<p>Les dossiers partagés sont les répertoires de base où vous pouvez stocker et gérer les fichiers et dossiers sur votre Synology NAS. Avant de stocker des fichiers, vous devez créer au moins un dossier partagé dans DSM. </p>
+
+<h4>Pour créer un dossier partagé :</h4>
+<ol>
+	<li>Accédez à <strong>Panneau de configuration</strong> > <strong>Dossier partagé</strong> et cliquez sur <strong>Créer</strong>.<br /><img src="about:blank" class="help_image"/></li>
+	<li>Spécifiez un nom et une description pour le dossier partagé.<br /><img src="about:blank" class="help_image "/></li>
+	<li>Sélectionnez un stockage sur lequel créer le dossier partagé (passez cette étape s'il n'y a aucun volume existant).<br /><img src="about:blank" class="help_image"/></li>
+	<li>Modifiez les options suivantes si nécessaire :<br /><img src="about:blank" class="help_image"/>
+		<ul>
+			<li><strong>Cacher ce dossier partagé dans « Mes emplacements réseau » :</strong> Empêche le dossier partagé d'apparaître sous « Réseau » dans Windows File Explorer. Cette option n'affecte pas les privilèges d'accès du dossier partagé.
+				<div class="section"><h4>Remarque :</h4>
+				<ul>
+				<li>Cacher un dossier dans « Favoris réseau » n'affecte pas les droits d'accès. Les droits d'accès du dossier partagé caché demeurent inchangés. Les utilisateurs disposant des droits suffisants peuvent toujours accéder à ce dossier partagé en saisissant « \\nom serveur\nom dossier partagé ».</li>
+				</ul>
+				</div>
+			</li>
+			<li><strong>Masquer les sous-dossiers et les fichiers des utilisateurs sans autorisations :</strong> Lorsque <strong>Masquer les sous-dossiers et les fichiers des utilisateurs sans autorisations</strong> est activé, si un utilisateur sans privilèges de lecture tente d'accéder à un dossier partagé via le protocole de partage de fichiers de Windows, l'utilisateur ne pourra pas voir les sous-dossiers ou les fichiers dans le dossier partagé. Cela empêche les utilisateurs de s'y perdre quand ils se connectent à leurs produits Synology et trouvent un grand nombre de fichiers et de sous-dossiers qu'ils ne peuvent pas ouvrir.
+				<div class="section"><h4>Remarque :</h4>
+				<ul>
+					<li>Cette fonctionnalité est uniquement prise en charge avec le protocole de partage de fichiers de Windows.</li>
+					<li>Vous pouvez modifier les paramètres de privilège de chaque dossier dans File Station en cliquant-droit dessus. Choisissez <strong>Propriétés</strong> dans le menu déroulant et cliquez sur l'onglet <strong>Permission</strong>.</li>
+					<li>Le dossier partagé lui-même ne sera pas caché aux utilisateurs sans autorisation en activant <strong>Masquer les sous-dossiers aux utilisateurs sans autorisations</strong>. Seuls les sous-dossiers et les fichiers qui se trouvent dans ce dossier partagé seront masqués.</li>
+				</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li><strong>Activer la corbeille :</strong>Quand les fichiers dans le dossier partagé sont supprimés, ils seront déplacés vers un dossier nommé <strong>#recycle</strong> L'accès à la corbeille de recyclage peut être limité aux utilisateurs appartenant au groupe <strong>administrators</strong>.</li>
+	<a name="sharequota"></a><li class=""><strong>Activer le quota du dossier partagé :</strong> Pour indiquer la capacité maximale de chaque dossier partagé, cochez la case <strong>Activer le quota du dossier partagé</strong> et saisissez la capacité maximale (par ex., 10 Go) dans le champ suivant.
+		<div class="section"><h4>Remarque :</h4>
+		<ul>
+			<li>Les options de <strong>Activer le quota du dossier partagé</strong> ne sont disponibles pour les dossiers partagés que lorsque le stockage utilise le système de fichiers Btrfs.</li>
+			<li>L'utilisation du stockage combiné des répertoires <strong>home</strong> de tous les utilisateurs ne peut pas dépasser le quota de « <strong>homes</strong> ».</li>
+		</ul>
+		</div>
+	</li>
+	<a name="integrity_protection"></a>
+	<li><strong>Activation de la somme de contrôle des données pour l'intégrité avancée des données :</strong> Pour protéger un dossier partagé à l'aide de la <strong>somme de contrôle CRC32</strong> et de stratégies <strong>copie lors de l'écriture</strong>, vous pouvez activer la somme de contrôle des données pour l'intégrité avancée des données pendant la création du dossier partagé. Une somme de contrôle CRC32 est appliquée afin de vérifier si les données demeurent telles qu'elles ont été écrites à l'origine et le système utilise automatiquement la redondance du RAID pour corriger les données altérées. La copie lors de l'écriture permet d'améliorer la cohérence des données en cas d'arrêt anormal du système.
+		<div class="section"><h4>Remarque :</h4>
+		<ul>
+			<li>Cette option est uniquement disponible pour les volumes utilisant le système de fichiers Btrfs.</li>
+			<li>Vous pouvez activer ou désactiver cette option pour chaque dossier partagé lors de sa création. Il est impossible de modifier cette option une fois le dossier partagé créé.</li>
+			
+			<li>L'activation de cette option permet au système d'exécuter un nettoyage des données à grande échelle. <a href="../StorageManager/storage_pool_data_scrubbing.html">En savoir plus sur le nettoyage des données</a></li>
+			<li>Pour assurer la qualité du service, nous recommandons de ne pas activer la somme de contrôle des données lorsque le dossier partagé est utilisé pour les services suivants :
+			<ul>
+				<li>Hébergement de bases de données ou de machines virtuelles</li>
+				<li>Stockage des enregistrements vidéo de Surveillance Station</li>
+				<li>Exécution de services qui nécessitent un petit modèle d'écriture aléatoire</li>
+			</ul>
+			</li>
+			
+		</ul>
+		</div>
+	</li>
+    <a name="btrfs_compression"></a><li><strong>Activer la compression de fichier </strong>: Les données dans le dossier partagé créé sont automatiquement compressés par le système de fichiers Btrfs afin d'économiser l'espace de stockage. Lorsqu'elles sont récupérées en vue de leur utilisation, les données sont automatiquement décompressées.
+		<div class="section"><h4>Remarque :</h4>
+		<ul>
+			<li>Cette option n'est disponible que si vous créez un dossier partagé sur un volume Btrfs ou si l'option <strong>Protection avancée de l'intégrité des données</strong> est activée.</li>
+			<li>Il est impossible de modifier cette option une fois le dossier partagé créé.</li>
+			<li>Le taux de compression diffère en fonction du type de données : Les fichiers de texte bénéficient du taux de compression le plus élevé, alors que les fichiers multimédias (par ex., images, musique, vidéos) peuvent ne pas être correctement compressés car ils le sont déjà pour la sortie.</li>
+            <li>Il est impossible d'activer cette option si le chiffrement des dossiers partagés est activé.</li>
+		</ul>
+		</div>
+	</li>
+	<li><strong>Crypter ce dossier partagé :</strong> Si vous souhaitez chiffrer le dossier partagé, procédez comme suit :
+		<ol>
+			<li>Spécifiez et confirmez une nouvelle clé de chiffrement. La clé de chiffrement ne peut pas contenir des virgules (,) ou le signe égal (=). </li>
+			<li>Si nécessaire, cochez la case <strong>Ajouter une clé de chiffrement au gestionnaire de clés</strong> pour monter le dossier chiffré automatiquement quand le système démarre. Si cette option n'est pas désactivée, le dossier crypté partagé sera déconnecté la prochaine fois que Synology Synology NAS redémarre. Pour afficher ou accéder à un dossier partagé déconnecté, vous devrez monter le dossier manuellement en important ou en entrant la clé de chiffrement.</li>
+		</ol>
+	</li>
+	<li>Cliquez sur <strong>OK</strong> pour terminer.</li>
+	
+	
+<div class="section"><h4>Remarque :</h4>
+	<ul>
+	<li>Certaines fonctions et options de dossiers partagés sont prises en charge uniquement par VDSM et les modèles dotés des architectures de paquets suivantes : Apollo Lake, Avoton, Braswell, Broadwell, Bromolow, Cedarview et Grantley. Pour savoir quelle architecture de paquet votre modèle prend en charge, reportez-vous à <a href="https://www.synology.com/en-us/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">cet article</a>.</li>
+	</ul>
+</div>
+	
+</ol>
+
+<div class="section"><h4>Règles de nommage du dossier partagé :</h4>
+<ul>
+	<li>Les noms de dossiers partagés sont sensibles à la casse et peuvent être composés de 1 à 32 caractères. Les noms ne peuvent pas inclure les caractères suivants : <strong>! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~</strong></li>
+	<li>Les noms suivants sont réservés pour le système : <strong>.</strong>, <strong>..</strong>, <strong>global</strong>, <strong>home</strong>, <strong>homes</strong>, <strong>printers</strong>, <strong>public</strong>, <strong>satashare</strong>, <strong>surveillance</strong>, <strong>usbbackup</strong>, <strong>usbshare</strong>. </li>
+	<li>Le premier caractère du nom d'un dossier partagé ne peut être ni le signe moins ni un espace tout comme le dernier caractère qui ne peut également pas être un espace.</li>
+	<li>La <strong>description </strong>du dossier partagé est sensible à la casse et est limitée à 64 caractères Unicode affichables.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>Dossiers partagés chiffrés :</h4>
+<p>Le chiffrage AES 256 bits protège les données en bloquant toute tentative d'accès non autorisée. Quand un dossier partagé est chiffré, ceux qui ne possèdent pas la clé de chiffrement ne pourront pas accéder ou modifier les données cryptées même s'ils retirent les disques durs de votre Synology NAS et les montent sur un autre appareil.</p>
+</div>
+
+<div class="section"><h4>Remarque :</h4>
+<ul>
+	<li>Le nom d'un fichier ou d'un dossier dans un dossier partagé chiffré ne peut pas comporter plus de 143 caractères anglais ou 47 caractères asiatiques (CJK) ; si vous accédez à vos dossiers partagés à l'aide de Mac OS, le nom d'un fichier ou d'un dossier dans un dossier partagé chiffré ne peut pas comporter plus de 130 caractères anglais ou 43 caractères asiatiques (CJK).</li>
+	<li>Il n'est pas possible d'accéder aux dossiers partagés cryptés via NFS.</li>
+	<li>Si vous restaurez les mots de passe par défaut à l'aide du bouton reset sur le Synology NAS, les dossiers partagés cryptés seront démontés, et l'option de montage automatique des dossiers partagés cryptés sera désactivée.</li>
+	<li>Les dossiers partagés chiffrés ne sont pris en charge qu'en mode à privilèges élevés (uniquement applicable à Dockerx64). Pour utiliser cette fonction, accédez au paquet Docker sur votre DSM hôte, sélectionnez le <strong>Docker DSM</strong> pour lequel vous souhaitez activer des dossiers partagés chiffrés, cliquez sur <strong>Modifier</strong> et cochez la case en regard de <strong>Exécuter le conteneur à l'aide de privilèges élevés</strong>.</li>
+</ul>
+</div>
+
+</body>
+</html>

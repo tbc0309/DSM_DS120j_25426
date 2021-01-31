@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Csatlakozás VPN hálózathoz – Synology DSM Súgó</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Turn your Synology NAS into a VPN client and create profiles to connect your Synology NAS to a VPN server.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h1>Csatlakozás VPN hálózathoz</h1>
+<p>Synology NAS eszközét egyszerűen VPN-klienssé alakíthatja, majd csatlakozhat vele egy létező VPN (Virtual Private Network, virtuális magánhálózat) szerverhez PPTP, OpenVPN- vagy L2TP/IPSec-protokoll segítségével. Amennyiben több VPN-szerverrel rendelkezik, az egyes szerverekhez tartozó specifikus VPN-profilokat is létrehozhat, melyek között egyetlen kattintással válthat, így egyszerűen csatlakozhat különböző VPN-szerverekhez.</p>
+
+
+<div class="section">
+<h4>Mi az a VPN?</h4>
+<p>A VPN, avagy virtuális magánhálózat olyan megoldás, melynek segítségével biztonságosan elérheti magánhálózata erőforrásait az interneten keresztül. A vállalkozások (és ritkább esetben magánszemélyek) esetén azonban a hálózati kapacitás bővítésének folyamatosan növekvő igényével együtt az ilyen fizikai hálózati rendszerek kiépítésének és műszaki karbantartásának költségei meredeken emelkednek. Költséghatékonyság és hosszú távú karbantartási igényei szempontjából a VPN okos és egyre vonzóbb megoldásnak számít. A titkosítást és egyéb biztonsági mechanizmusokat alkalmazó VPN-technológia lehetővé teszi a vállalatok munkatársai számára a céges központi hálózat erőforrásainak a LAN hálózatokhoz hasonlóan gyors és egyszerű elérését. Magánszemélyek szintén hozzáférhetnek LAN hálózatuk erőforrásaihoz, akkor is, ha éppen nem otthon tartózkodnak.</p>
+</div>
+
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li> A(z) Synology NAS eszköz kizárólag olyan OpenVPN-szerverekhez képes kapcsolódni, melyek támogatják a Layer 3 tun-típusú alagútjait.</li>
+<li>A VPN csomag telepítése előtt ellenőrizze, hogy van-e olyan VPN-szerver, melyhez kapcsolódni tud. A jobb kompatibilitás érdekében javasolt olyan Synology NAS eszközön hosztolt VPN-szolgáltatásokhoz csatlakozni, melyen már fut a <strong>VPN Server</strong> csomag. Másik Synology NAS VPN-szerverként történő beállításával kapcsolatos utasításokért lásd: <b>DSM Súgó</b> > <b>VPN Server</b> > <b>VPN Server beállítása</b>.</li>
+</ul>
+</div>
+
+
+<h4>VPN-profil létrehozása:</h4>
+<ol>
+<li>Lépjen a <b>Vezérlőpult</b> > <b>Hálózat</b> menüpontra.</li><img src="about:blank" class="help_image"/><li>A <b>Hálózati interfész</b> lapon kattintson a <b>Létrehozás</b> elemre, majd válassza a <b>VPN profil létrehozása</b> lehetőséget.</li><img src="about:blank" class="help_image"/><li>Új VPN-profil létrehozásakor az alábbi kapcsolódási típusok közül választhat:<ul>
+		<li><b>PPTP</b>: A PPTP (Point-to-Point Tunneling Protocol) gyakran használt VPN-megoldás, melyet a legtöbb kliens támogat (Windows, Mac, Linux és mobileszközök egyaránt).</li>
+		<li><b>OpenVPN</b>: Az OpenVPN egy nyílt forráskódú megoldás a VPN-szolgáltatás biztosítására. SSL/TLS titkosítási mechanizmussal védi a VPN-kapcsolatot.</li>
+		<li><b>L2TP/IPSec</b>: Az L2TP (Layer 2 Tunneling Protocol) IPSec-en keresztül növelt biztonságú virtuális magánhálózatot biztosít. Ezt a protokollt a kliensek többsége szintén támogatja (például Windows, Mac, Linux és mobileszközök).</li>
+	</ul>
+</li><img src="about:blank" class="help_image"/><li>A három különböző típusú VPN-kapcsolat bármelyikének beállításával kapcsolatban tekintse át az alábbi utasításokat.</li>
+</ul>
+</ol>
+
+<h4>PPTP-profil létrehozása:</h4>
+
+  <ol>
+  <li>A VPN-csatlakozási mód kiválasztásakor válassza a <b>PPTP</b> lehetőséget, majd kattintson a <b>Tovább</b> gombra.</li>
+  <li>Válasszon egy nevet az új profil számára, adja meg a VPN-szerver nevét, melyhez csatlakozni kíván, majd írja be a szerver felhasználónevét és jelszavát. A folytatáshoz kattintson a <b>Tovább</b> gombra.</li>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+
+<ul>
+<li>A VPN-szerver felhasználónevét, jelszavát és címét a VPN-szerver rendszergazdájától kérje el.</li>
+</ul>
+</div>
+
+  <li>A VPN-kliens jelszavának hitelesítés közbeni védelmére válasszon a következő hitelesítési módok közül a <b>Hitelesítés</b> menüből:<ul>
+		<li><b>PAP</b>: A rendszer nem titkosítja a jelszót hitelesítés közben.</li>
+		<li><b>CHAP</b>: A jelszót a CHAP (Challenge-Handshake Authentication Protocol) protokoll használatával titkosítja a rendszer.</li>
+		<li><b>MS CHAP</b>: A jelszót a rendszer a Microsoft CHAP 1. verziójával titkosítja.</li>
+		<li><b>MS CHAP v2</b>: A jelszót a rendszer a Microsoft CHAP 2. verziójával titkosítja.</li>
+	</ul>
+  </li>
+  <li>Ha <b>MS CHAP</b> vagy <b>MS CHAP v2</b> módszert választ a hitelesítéshez, a VPN-kapcsolat titkosításához válassza a következők egyikét a <b>Titkosítás</b> menüből:<ul>
+		<li><b>Nincs MPPE</b>: A VPN-kapcsolatot nem védi Microsoft Point-to-Point titkosítás.</li>
+		<li><b>MPPE szükséges (40/128 bit)</b>: A VPN-kapcsolatot 40 vagy 128 bites Microsoft Point-to-Point titkosítás védi.</li>
+		<li><b>Maximális MPPE (128 bit)</b>: A VPN-kapcsolatot 128 bites Microsoft Point-to-Point titkosítási mechanizmus védi, amely a legmagasabb szintű biztonságot nyújtja.</li>
+	</ul>
+  </li>
+    <div class="section">
+    <h4>Megjegyzés:</h4>
+  
+    <ul>
+    <li>Itt ugyanazokat a hitelesítési és titkosítási beállításokat kell használnia, mint a VPN-szerver esetében. Részletekért forduljon a VPN-szerver rendszergazdájához.</li>
+    </ul>
+    </div>
+   
+<li>Igényeinek megfelelően jelölje be a következő jelölőnégyzetek bármelyikét:<ul>
+		<li><b>Alapértelmezett átjáró használata a távoli hálózaton</b>: Ezzel az opcióval a(z) Synology NAS eszköz hálózati forgalma a megadott VPN-szerverre irányítható.</li>
+		<li><b>Más hálózati eszközök is csatlakozhatnak ennek a Synology szervernek az internetkapcsolatán keresztül</b>: Ezzel az opcióval a(z) Synology NAS eszközzel azonos helyi hálózaton található eszközök csatlakozhatnak ugyanahhoz a VPN-szerverhez.</li>
+		<li><b>Újracsatlakozás a VPN-kapcsolat elvesztésekor</b>: Ha a VPN-kapcsolat váratlanul elveszik, a rendszer öt alkalommal, 30 másodpercenként megpróbálja helyreállítani azt.</li>
+	</ul>
+</li>
+
+<li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+</ol>
+<h4>OpenVPN-profil létrehozása:</h4>
+<ol>
+<li>A VPN-csatlakozási mód kiválasztásakor válassza az <b>OpenVPN</b> lehetőséget, majd kattintson a <b>Tovább</b> gombra.</li>
+<li>Válasszon egy nevet az új profil számára, adja meg a VPN-szerver nevét, melyhez csatlakozni kíván, majd írja be a szerver felhasználónevét és jelszavát.</li>
+<li>A <b>Tanúsítvány</b> mezőben kattintson a <strong>Böngészés</strong> gombra, majd keresse meg és importálja a VPN-szerverről exportált tanúsítványfájlt (pl. <b>ca.crt</b>). A folytatáshoz kattintson a <b>Tovább</b> gombra.</li>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+
+<ul>
+<li>A VPN-szerver felhasználónevét, jelszavát, címét és tanúsítványát VPN-szerver rendszergazdájától kérje el.</li>
+</ul>
+</div>
+
+<li>Igényeinek megfelelően jelölje be a következő jelölőnégyzetek bármelyikét:<ul>
+		<li><b>Tömörítés engedélyezése a VPN linken</b>: Engedélyezze az opciót, amennyiben szeretné, hogy a rendszer VPN hálózaton történő adatátvitel előtt tömörítést végezzen. Ez a lehetőség növelheti az átviteli sebességet, ám több rendszererőforrást is fogyaszt.</li>
+		<li><b>Alapértelmezett átjáró használata a távoli hálózaton</b>: Ezzel az opcióval a(z) Synology NAS eszköz hálózati forgalma a megadott VPN-szerverre irányítható.</li>
+		<li><b>Más hálózati eszközök is csatlakozhatnak ennek a Synology szervernek az internetkapcsolatán keresztül</b>: Ezzel az opcióval a(z) Synology NAS eszközzel azonos helyi hálózaton található eszközök csatlakozhatnak ugyanahhoz a VPN-szerverhez.</li>
+		<li><b>Újracsatlakozás a VPN-kapcsolat elvesztésekor</b>: Ha a VPN-kapcsolat váratlanul elveszik, a rendszer öt alkalommal, 30 másodpercenként megpróbálja helyreállítani azt.</li>
+	</ul>
+</li>
+<li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+</ol>
+
+
+
+<h4>OpenVPN-profil létrehozása (.ovpn fájlon keresztül):</h4>
+<ol>
+<li>A VPN-csatlakozási mód kiválasztásakor válassza az <b>OpenVPN (.ovpn fájl importálásával)</b> lehetőséget, majd kattintson a <b>Tovább</b> gombra.</li>
+<li>Adjon nevet az új profilnak, és az <strong>.ovpn fájlok importálása</strong> mezőben kattintson a <strong>Böngészés</strong> opcióra a VPN-szerverről exportált .ovpn fájl kiválasztásához és importálásához.</li>
+<li>Gépelje be a következő, a VPN-szerver rendszergazdája által megadott információkat: az Ön <strong>felhasználóneve</strong>, <strong>jelszava</strong>, majd importálja a <b>CA-tanúsítvány</b> fájlját.</li>
+<li>Amennyiben a VPN-szerverszolgáltató is biztosított Önnek <b>TLS-hitelesítési kulcsot</b>, <b>klienskulcsot</b>, <b>klienstanúsítványt</b>, vagy <b>tanúsítvány-visszahívási listát</b>, kattintson a <strong>Haladó beállítások</strong> lehetőségre, majd importálja ezeket az elemeket a megfelelő mezőkbe.</li>
+<li>A folytatáshoz kattintson a <b>Tovább</b> gombra. </li>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Felhasználónevét, jelszavát, címét és a további fájlokat, például tanúsítványait vagy kulcsait a VPN-szerver rendszergazdája biztosítja.</li>
+</ul>
+</div>
+
+<li>Igényeinek megfelelően jelölje be a következő jelölőnégyzetek bármelyikét:</li>
+<ul>
+<li><b>Tömörítés engedélyezése a VPN linken</b>: Engedélyezze az opciót, amennyiben szeretné, hogy a rendszer VPN hálózaton történő adatátvitel előtt tömörítést végezzen. Ez a lehetőség növelheti az átviteli sebességet, ám több rendszererőforrást is fogyaszt.</li>
+<li><b>Alapértelmezett átjáró használata a távoli hálózaton</b>: Ezzel az opcióval a(z) Synology NAS eszköz hálózati forgalma a megadott VPN-szerverre irányítható.</li>
+<li><b>Más hálózati eszközök is csatlakozhatnak ennek a Synology szervernek az internetkapcsolatán keresztül</b>: Ezzel az opcióval a(z) Synology NAS eszközzel azonos helyi hálózaton található eszközök csatlakozhatnak ugyanahhoz a VPN-szerverhez.</li>
+<li><b>Újracsatlakozás a VPN-kapcsolat elvesztésekor</b>: Ha a VPN-kapcsolat váratlanul elveszik, a rendszer öt alkalommal, 30 másodpercenként megpróbálja helyreállítani azt.</li>
+</ul>
+<li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+</ol>
+
+
+
+
+
+<h4>L2TP/IPSec-profil létrehozása:</h4>
+<ol>
+<li>A VPN-csatlakozási mód kiválasztásakor válassza az <b>L2TP/IPSec</b> lehetőséget, majd kattintson a <b>Tovább</b> gombra.</li>
+<li>Válasszon egy nevet az új profil számára, adja meg a VPN-szerver nevét, melyhez csatlakozni kíván, majd írja be a szerver felhasználónevét és jelszavát. A VPN-szerver előre megosztott kulcsát is meg kell adnia. Ezt követően kattintson a <strong>Tovább</strong> gombra.</li>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+
+<ul>
+<li>A VPN-szerver felhasználónevét, jelszavát, címét és előre megosztott tanúsítványát a VPN-szerver rendszergazdájától kérje el.</li>
+</ul>
+</div>
+
+<li>A VPN-kliens jelszavának hitelesítés közbeni védelmére válasszon a következő hitelesítési módok közül a <b>Hitelesítés</b> menüből:<ul>
+		<li><b>PAP</b>: A jelszót a rendszer nem titkosítja.</li>
+		<li><b>CHAP</b>: A jelszót a CHAP (Challenge-Handshake Authentication Protocol) protokoll használatával titkosítja a rendszer.</li>
+		<li><b>MS CHAP</b>: A jelszót a rendszer a Microsoft CHAP 1. verziójával titkosítja.</li>
+		<li><b>MS CHAP v2</b>: A jelszót a rendszer a Microsoft CHAP 2. verziójával titkosítja.</li>
+	</ul>
+</li>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>Itt ugyanazokat a hitelesítési és titkosítási beállításokat kell használnia, mint a VPN-szerver esetében. Részletekért forduljon a VPN-szerver rendszergazdájához.</li>
+</ul>
+</div>
+
+<li>Igényeinek megfelelően jelölje be a következő jelölőnégyzetek bármelyikét:<ul>
+		<li><b>Alapértelmezett átjáró használata a távoli hálózaton</b>: Ezzel az opcióval a(z) Synology NAS eszköz hálózati forgalma a megadott VPN-szerverre irányítható.</li>
+		<li><b>Más hálózati eszközök is csatlakozhatnak ennek a Synology szervernek az internetkapcsolatán keresztül</b>: Ezzel az opcióval a(z) Synology NAS eszközzel azonos helyi hálózaton található eszközök csatlakozhatnak ugyanahhoz a VPN-szerverhez.</li>
+		<li><strong>Szerver egy NAT eszköz mögött van</strong>: Alapértelmezés szerint az L2TP/IPSec-protokoll nem engedélyezi a NAT eszköz mögött található VPN-szerverhez való kapcsolódást. A korlátozás megkerüléséhez engedélyezze ezt az opciót, így a(z) Synology NAS eszköz NAT eszköz mögött található L2TP/IPSec VPN-szerverhez is képes lesz kapcsolódni.</li>
+		<li><b>Újracsatlakozás a VPN-kapcsolat elvesztésekor</b>: Ha a VPN-kapcsolat váratlanul elveszik, a rendszer öt alkalommal, 30 másodpercenként megpróbálja helyreállítani azt.</li>
+	</ul>
+</li>
+<li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+</ol>
+
+
+<h4>Kapcsolódás VPN-szerverhez és a kapcsolat megszüntetése:</h4>
+
+<ol>
+<li>Válassza ki a kívánt VPN-profilt.</li>
+<li>Kattintson a <b>Csatlakozás</b> vagy a <b>Lecsatlakozás</b> lehetőségre.</li><img src="about:blank" class="help_image"/></ol>
+
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Egyszerre csak egy profil csatlakozhat.</li>
+</ul>
+</div>
+
+<h4>VPN-profil módosítása:</h4>
+
+<ol>
+<li>Válassza ki a kívánt VPN-profilt.</li>
+<li>Kattintson a <strong>Szerkesztés</strong> gombra.</li>
+
+</ol>
+
+
+</body>
+</html>

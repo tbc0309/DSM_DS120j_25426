@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Oversigt</h2>
+	<p>Denne side viser grundlæggende oplysninger om Hig Availability-klyngen og medlemsservere. Derudover har denne side værktøjer til oprettelse, fjernelse eller udførelse af vedligeholdelse af High Availability-klynger og medlemsservere.</p>
+
+<h3>Status for High Availability-klynge</h3>
+  <p>Dette felt viser den generelle status for din High Availability-klynge, og advarer dig om eventuelle fejl. Her følger en tabel over mulige betingelser, der vises i dette felt:</p>
+    <table>
+     <tr>
+      <th>Status</th>
+      <th>Beskrivelse</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Standalone</strong></td>
+      <td>Serverne er ikke kombineret til en high-availability-klynge.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Sund</strong></td>
+      <td>Den generelle tilstand for din high-availability-klynge er god. Datakopiering fra den aktive til den passive server fungerer normalt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Forbereder</strong></td>
+	  <td>Serverne er kombineret til en high-availability-klynge uden fejl, men startdatakopiering er endnu ikke færdig. Switchover kan ikke udføres på nuværende tidspunkt. Yderligere oplysninger findes i <a href="switchover_fail.html">Switchover</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Indlæser</strong></td>
+	  <td>Systemet indlæser klyngestatus. <b>Switchover</b> kan ikke udføres, før statusindlæsning er færdig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Advarsel</strong></td>
+      <td>Status for HA-klynge er unormal, men tjenesterne fungerer endnu.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fare</strong></td>
+	  <td>Både den aktive og passive server fejler. High-availability-klyngen kan ikke fungere normalt. Kontroller status for alle lagerpladser (f.eks. RAID Groups, diskgrupper, diskenheder og iSCSI LUN'er).</td>
+     </tr>
+    </table>
+<h3>Advarselsmeddelelser</h3>
+   <p>Følgende tabel viser advarselsmeddelelser, der kan vises, når der opstår en fejl på systemet. Når mere end én advarselsmeddelelse vises, kan du navigere mellem dem med fremad/tilbage-knapperne. </p>
+    <table>
+     <tr>
+      <th>Advarsel/fejl</th>
+      <th>Beskrivelse</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Overvågede tjenestefejl</strong></td>
+      <td>Der opstod en fejl på en eller flere overvågede tjenester.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Lagerplads degraderet</strong></td>
+      <td>En lagerplads (f.eks. RAID Group, diskgruppe, diskenhed, iSCSI LUN og SSD-cache) på den aktive eller passive server er degraderet. Kontroller på siden <b>Lagerstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Lagerplads brudt sammen</strong></td>
+      <td>En lagerplads (f.eks. RAID Group, diskgruppe, diskenhed, iSCSI LUN og SSD-cache) på den aktive eller passive server er brudt sammen. Kontroller på siden <b>Lagerstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Kunne ikke registrere den passive server</strong></td>
+      <td>Denne fejl kan forekomme, fordi den passive server er offline, eller den aktive og passive server kan ikke oprette forbindelse via Heartbeat-forbindelsen. I dette tilfælde vil switchover ikke være tilgængelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Data kan ikke kopieres til passiv server</strong></td>
+      <td>Denne fejl kan forekomme på grund af lagerdiskenheds- eller diskfejl. I dette tilfælde vil switchover ikke være tilgængelig. Kontroller på siden <b>Lagerstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Passiv server er ikke valgt</strong></td>
+	  <td>Hvis den passive server er udgående fra high-availability-klyngen, bliver denne status vist. I dette tilfælde vil switchover ikke være tilgængelig. Hvis du vil genbinde den passive server, skal du klikke på rullemenuen <b>Vedligehold</b> og klikke på <b>Bind</b>. Når du genbinder den passive server, kræves der en fuld datakopiering.</td>
+     </tr>
+    </table>
+
+
+<h3>Oplysninger om High Availability-klynge</h3>
+	<p>Dette felt findes under High Availability-klyngens status og viser grundlæggende oplysninger om klyngen. Hvis en High Availability-klynge ikke findes, vil dette felt kun angive en forklaring på funktionen af High Availability-klynger.</p>
+    <p>Dette felt indeholder følgende oplysninger:</p>
+ <ul>
+    	<li><b>Klynges servernavn:</b> Det servernavn, der bruges af high availability-klyngen. </li>
+   <li><b>Klynges IP-adresse:</b> Den IP-adresse, der bruges af high availability-klyngen. Uanset hvilken server, der kører tjenester, kan brugere oprette forbindelse til high availability-klyngen med denne IP-adresse.</li>
+        <li><b>Byggetidspunkt:</b> Den dato, hvor High Availability-klyngen blev oprettet.</li>
+ </ul>
+
+
+<h3>Knapper til high availability-klynge</h3>
+
+<p>Følgende to knapper findes under oplysningerne om High Availability-klyngen:</p>
+
+<ol>
+<li><b>Opret HA-klynge:</b> Når der ikke er nogen high-availability-klynge, kan du klikke på denne knap for at kombinere to servere og oprette en high-availability-klynge. Yderligere oplysninger om oprettelse af en high-availability-klynge findes i <a href="wizard.html">Guide til Synology High Availability</a>.</li>
+<li><b>Administration:</b> Denne knap er kun tilgængelig, når en high-availability-klynge allerede findes. Den omfatter følgende muligheder:
+<ul>
+<li><b>Administrationsguide:</b> Starter en guide, der omfatter vejledning i forskellige administrationsprocedurer.</li>
+<li><b>Switchover:</b> Starter switchover fra den aktive til den passive server. Under processen stopper den aktive server med at yde tjenester og bliver den nye passive server. Så skifter den passive server til den nye aktive server og begynder at yde alle tjenester for High Availability-klyngen. Denne mulighed er ikke tilgængelig, når den passive server har status <b>fejl</b> eller ikke er valgt.</li>
+<li><b>Opdater DSM:</b> Åbner siden <strong>DSM-opdatering</strong> i <strong>Kontrolpanel</strong>. Herfra kan begge servere opdateres.</li>
+<li><b>Fjern HA-klynge:</b> Fjerner high-availability-klyngen.</li>
+<li><b>Bind passiv server op:</b> Fjerner den passive server fra klyngen. Når serveren tilføjes til High Availability-klyngen igen efter ophævelse af binding, er det nødvendigt med en fuld datakopiering. Derfor anbefaler vi, at denne mulighed kun bruges, når du vil udskifte den eksisterende passive server med en ny.</li>
+<li><b>Bind passiv server:</b> Tilføjer en passiv server til klyngen. Denne mulighed er kun tilgængelig, når der ikke er en passiv server i high-availability-klyngen.</li>
+<li><b>Luk HA-klynge:</b> Lukker både den aktive og passive server.</li>
+<li><b>Luk aktiv server:</b> Lukker den aktive server.</li>
+<li><b>Luk passiv server:</b> Lukker den passive server.</li>
+<li><b>Genstart aktiv server:</b> Genstarter den aktive server.</li>
+<li><b>Genstart passiv server:</b> Genstarter den passive server.</li>
+<li><b>Deaktiver bip på passiv server:</b> Standser biplyden på den passive server, når der opstår en fejl. Den passive server bipper stadig, hvis der opstår endnu en fejl senere.</li>
+</ul>
+</li>
+</ol>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Når en High Availability-klynge fjernes, kræves fuld datakopiering, når du vil oprette en ny.</li>
+<li>Hvis du lukker eller fjerne bindingen af den passive server, kan tjenester ikke skiftes over, hvis fejl opstår på den aktive server.</li>
+</ul>
+</div>
+
+<h3>Status for server- og datakopiering</h3>
+<p>Dette afsnit indeholder billeder, der angiver status for den aktiv og passive server samt strømmen for datakopieringen mellem serverne.</p>
+<p>Billedet af datakopiering angiver følgende mulige forhold:</p>
+	<ul>
+    	<li><b>Datakopiering fungerer normalt:</b> Angives af data, der går fra den aktive server mod den passive server.</li>
+    	<li><b>Ingen datakopiering:</b> Angives af fravær af et dataoverførselsbillede.</li>
+    </ul>
+
+
+<h3> Serveroplysninger</h3>
+ <p>Dette afsnit findes under serverbillederne. Oplysninger om den aktiv og passive server vises i dette afsnit. Hvis ingen passiv server er valgt, viser dette afsnit <b>N/A</b>.</p>
+  <ul>
+   <li><b>Servernavn:</b> Navnet på Synology-serveren.</li>
+   <li><b>Modelnavn:</b> Synology-servermodel.</li>
+   <li><b>Serienummer:</b> Serienummer på Synology-serveren.</li>
+   <li><b>Blæserstatus:</b> Status for en servers køleblæsere. Hvis en blæser fejler, vises en advarsel. I dette tilfælde skal du kontakte din lokale forhandler for at få hjælp.</li>
+   <li><b>Temperatur:</b> Temperaturen på Synology-serveren. </li>
+   <li><b>Strømstatus:</b> Angiver, om strømforsyningerne på en server alle fungerer normalt eller ej. Hvis servermodellen er udstyret med redundante strømforsyninger, vises en advarsel, hvis en af dem fejler.</li>
+  </ul>
+
+ </body>
+</html>

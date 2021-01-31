@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Remplacer les disques pour &eacute;tendre la capacit&eacute; de stockage</h2>
+
+<p>Lors de l&apos;utilisation de certains types de RAID, vous pouvez &eacute;tendre la capacit&eacute; de stockage d&apos;un groupe de stockage en rempla&ccedil;ant les anciens disques avec des disques de plus grande taille. Cet article fournit des informations importantes concernant le processus d&apos;extension ainsi qu&apos;un exemple sur la fa&ccedil;on de remplacer les disques existants afin d&apos;&eacute;tendre la capacit&eacute; de stockage.</p>
+
+<div class="section"><h4>Remarque&nbsp;:</h4>
+<ul>
+	<li>La proc&eacute;dure d&eacute;crite dans cet article s&apos;applique uniquement aux types de RAID suivants&nbsp;: SHR, RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</li>
+	<li>SHR (Synology Hybrid RAID) n&apos;est disponible que sur certains mod&egrave;les. Pour plus d&apos;informations, veuillez visiter le <a href="https://www.synology.com/" target="_blank">site Web de Synology</a>.</li>
+	<li>RAID&nbsp;F1 n&apos;est disponible que sur certains mod&egrave;les. Pour plus d&apos;informations, veuillez visiter le <a href="https://www.synology.com/" target="_blank">site Web de Synology</a>.</li>
+	<li>Si votre groupe de stockage prend en charge le nettoyage des donn&eacute;es, nous vous recommandons de l&apos;ex&eacute;cuter pour v&eacute;rifier si votre volume et votre groupe de stockage sont normaux avant le remplacement des disques.</li>
+	<li>Nous vous recommandons d&apos;utiliser des disques figurant dans la <a href="https://www.synology.com/compatibility" target=blank>Liste de compatibilit&eacute; des produits Synology</a> pour &eacute;viter tout probl&egrave;me. L&apos;utilisation de disques non compatibles pourrait r&eacute;duire les performances syst&egrave;me, voire provoquer une perte de donn&eacute;es sur votre Synology NAS.</li>
+</ul>
+</div>
+
+<p>Si vous planifiez un remplacement de plusieurs disques, vous devez faire attention &agrave; remplacer les disques durs un par un. Apr&egrave;s avoir remplac&eacute; un disque, vous devez remplacer le groupe de stockage en rempla&ccedil;ant le suivant. Pour les types de RAID suivants, la capacit&eacute; du groupe de stockage augmente une fois tous les disques remplac&eacute;s&nbsp;: RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</p>
+
+<h3 class="list_head"><a id="t1"></a>Avant de commencer</h3>
+<p>Avant de remplacer un disque, consultez les notes suivantes&nbsp;:</p>
+<ul>
+	<li><strong>Sauvegarde des donn&eacute;es&nbsp;:</strong> bien que le processus d&apos;extension du processus ne supprime pas les donn&eacute;es existantes, il est vivement recommand&eacute; de sauvegarder vos donn&eacute;es avant de commencer.</li>
+	<li><strong>&Eacute;tat du groupe de stockage&nbsp;:</strong> avant de commencer, v&eacute;rifiez que l&apos;&eacute;tat de votre groupe de stockage est <strong>Sain</strong>. Si ce n&apos;est pas le cas, vous devez le r&eacute;parer.</li>
+	<li><strong>Est-ce que les donn&eacute;es sont toujours accessibles pendant l&apos;extension&nbsp;?</strong> Les donn&eacute;es de votre syst&egrave;me seront toujours disponibles pendant l&apos;extension des groupes de stockage, bien que le syst&egrave;me puisse suspendre temporairement des connexions lors du premier d&eacute;marrage du processus.</li>
+	<li><strong>Utilisation de disques de 3&nbsp;To ou plus&nbsp;:</strong> pour &eacute;tendre un groupe de stockage comportant des disques de 3&nbsp;To ou plus, assurez-vous que le groupe de stockage a &eacute;t&eacute; cr&eacute;&eacute; &agrave; l&apos;aide de DSM&nbsp;3.0 ou d&apos;une version ult&eacute;rieure.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>Les groupes de stockage SHR optimisant la capacit&eacute; de stockage en fonction du nombre et de la taille des disques install&eacute;s, veuillez suivre les lignes directrices ci-dessous pour &eacute;tendre correctement la capacit&eacute;&nbsp;:</p>
+<ul>
+	<li>Si la capacit&eacute; des disques existants est &eacute;gale, vous devez remplacer au moins deux disques par des disques plus grands afin d&apos;&eacute;tendre la capacit&eacute; de stockage. Par exemple, si votre groupe de stockage SHR comporte trois disques de 2&nbsp;To, alors vous devez remplacer au moins deux disques afin d&apos;&eacute;tendre la capacit&eacute; du groupe de stockage.</li>
+	<li>Si la capacit&eacute; des disques existants est diff&eacute;rente, alors les nouveaux disques de remplacement doivent &ecirc;tre &eacute;gaux ou sup&eacute;rieurs au plus gros disque existant. En outre, vous devez remplacer les plus petits disques en premier afin d&apos;optimiser l&apos;utilisation de la capacit&eacute;. Par exemple, si votre groupe de stockage SHR comporte trois disques de 4&nbsp;To, 3&nbsp;To et 2&nbsp;To respectivement, alors vos nouveaux disques de remplacement doivent &ecirc;tre d&apos;au moins 4&nbsp;To. En outre, il convient de remplacer d&apos;abord les disques de 3&nbsp;To et de 2&nbsp;To.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID&nbsp;5 / RAID&nbsp;6 / RAID&nbsp;10 / RAID&nbsp;F1</h4>
+<p>Lors du remplacement de disques de groupes de stockage RAID&nbsp;5 / RAID&nbsp;6 / RAID&nbsp;10 / RAID&nbsp;F1, le plus petit disque doit &ecirc;tre remplac&eacute; en premier afin d&apos;optimiser l&apos;utilisation des disques. La capacit&eacute; de stockage de chaque type de RAID est la suivante&nbsp;:<ul>
+		<li>RAID&nbsp;5&nbsp;: (nombre de disques - 1) x (taille du plus petit disque)</li>
+		<li>RAID&nbsp;6&nbsp;: (nombre de disques - 2) x (taille du plus petit disque)</li>
+		<li>RAID&nbsp;10&nbsp;: (nombre de disques / 2) x (taille du plus petit disque)</li>
+		<li>RAID&nbsp;F1&nbsp;: (nombre de disques - 1) x (taille du plus petit disque)</li>
+	</ul>
+</p>
+
+<p>Par exemple, si votre groupe de stockage RAID&nbsp;5 comporte trois disques de 4&nbsp;To, 3&nbsp;To et 2&nbsp;To respectivement, la capacit&eacute; disponible de votre groupe de stockage sera de 4&nbsp;To. Si vous remplacez le disque de 4&nbsp;To ou celui de 3&nbsp;To, la capacit&eacute; du groupe de stockage ne changera pas. Pour augmenter la capacit&eacute; de votre groupe de stockage, le disque de 2&nbsp;To doit &ecirc;tre remplac&eacute; en premier.</p>
+</div>
+
+
+<h3>Remplacement des disques pour &eacute;tendre la capacit&eacute; de stockage</h3>
+<p>Dans les &eacute;tapes suivantes, nous vous fournissons un exemple de remplacement des disques d&apos;un groupe de stockage SHR.</p>
+<h4>Pour remplacer les disques&nbsp;:</h4>
+<ol>
+	<li>Lancez le <strong>Gestionnaire de stockage</strong>.<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li>Acc&eacute;dez &agrave; <strong>Groupe de stockage</strong> pour voir quel disque existant est le plus petit.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>&Eacute;teignez votre Synology NAS. (Vous pouvez ignorer cette &eacute;tape si votre Synology NAS prend en charge le remplacement &agrave; chaud.)</li>
+	<li>Retirez le plus petit disque et installez un nouveau disque plus grand.<br /><span class="note_head">Remarque&nbsp;: </span>afin d&apos;&eacute;viter de vous blesser ou d&apos;endommager votre Synology NAS, veuillez suivre les instructions d&apos;installation de disque, disponibles dans le <em>Guide d&apos;installation mat&eacute;rielle</em> de votre produit Synology.</li>
+	<li>Allumez votre Synology NAS.</li>
+	<li>Lancez de nouveau le <strong>Gestionnaire de stockage</strong>.</li>
+	<li>Acc&eacute;dez &agrave; <strong>HDD/SSD</strong> pour vous assurer que le nouveau disque est reconnu.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>L&apos;&eacute;tat de votre groupe de stockage doit &ecirc;tre <strong>D&eacute;grad&eacute;</strong>. S&eacute;lectionnez le groupe de stockage et cliquez sur <strong>R&eacute;parer</strong> dans le menu d&eacute;roulant <strong>Action</strong>.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>S&eacute;lectionnez le disque de remplacement &agrave; ajouter au groupe de stockage. Suivez ensuite les &eacute;tapes de l&apos;assistant pour terminer.</li>
+	<li>R&eacute;p&eacute;tez le processus ci-dessus jusqu&apos;au remplacement de tous les disques d&eacute;sir&eacute;s par des plus grands.</li>
+</ol>
+
+</body>
+</html>

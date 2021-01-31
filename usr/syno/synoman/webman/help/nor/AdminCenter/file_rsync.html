@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Sikkerhetskopitjenester - Synology DSM Hjelp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>rsync</h2>
+
+<p>Du kan la andre brukere sikkerhetskopere data via rsync fra en Synology NAS eller rsync-kompatibel klient til din Synology NAS.</p>
+
+<h3>Aktivere rsync-sikkerhetskopitjeneste</h3>
+
+<h4>Slik aktiver du rsynctjeneste:</h4>
+
+<p>Gå til <strong>Kontrollpanel</strong> > <strong>Filtjenester</strong> > <strong>rsync</strong> og merk av for <strong>Aktiver rsync-tjeneste</strong>.</p>
+
+
+<h4>Slik tilordner du rsync-sikkerhetskopieringsrettigheter:</h4>
+
+
+<p>Tilordne rsync-rettigheter til brukere slik at de kan sikkerhetskopiere data fra en kilde-Synology NAS eller en rsync-kompatibel server til mål-Synology NAS.</p>
+
+<ol>
+<li>Gå til <b>Kontrollpanel</b> > <b>Rettigheter</b>.</li>
+<li>Velg <strong>rsync (Synkronisering av delt mappe, LUN-sikkerhetskopiering på støttede modeller)</strong> og klikk på <strong>Rediger</strong> for å tilordne rettigheter.</li>
+<li>Tilordne <strong>Tillat</strong>-rettigheter til ønskede brukere (DSM-brukere for kryptert rsync, eller rsync-kontoer for ukryptert rsync) eller spesifiser tillatte IP-adresser for spesifikke brukere.</li>
+</ol>
+
+
+
+<div class="section">
+<h4>Merk:</h4>
+<p>For å utføre nettverkssikkerhetskopi fra en Synology NAS som kjører en versjon av DSM eldre enn 3.0, eller en klient som ikke er Synology NAS, og du ønsker å beholde kildedataenes <b>eier</b>- og <b>gruppe</b>-informasjon, må du legge til rsync-kontoene i gruppen <b>administrators</b> og sikkerhetskopiere dataene til den delte mappen <b>NetBackup</b> i daemon-modus.</p>
+</div>
+
+<h3>Aktivere rsync-kontoer</h3>
+<p>Hvis du utfører rsync-sikkerhetskopiering fra en ikke-Synology NAS-klient, må du opprette rsync-kontoer på mål-Synology NAS slik at rsync-brukerne kan sikkerhetskopiere data til din Synology NAS.</p>
+
+<h4>Slik aktiver du rsync-kontoer:</h4>
+<ol>
+<li>Gå til <b>Kontrollpanel</b> > <b>Filtjenester</b> > <strong>rsync</strong> og merk av for <b>Aktiver rsync-konto</b>.</li>
+<li>Klikk på <b>Rediger rsync-konto</b> for å angi brukere og korresponderende passord for autentisering.</li>
+<li>Klikk på <b>Bruk</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Hvis rsync-tjenesten er kryptert (dvs. har en spesifisert SSH-krypteringsport), vil systemet ta i bruk DSM-brukernes brukernavn og passord som deres rsync-kontoer.</li>
+<li>Hvis rsync-tjenesten er ukryptert, må du opprette korresponderende rsync-kontoer for dem.</li>
+</ul>
+</div>
+
+
+<h3>Bruke egendefinert rsync-konfigurasjon</h3>
+
+<p>Du kan bruke egendefinert rsync-konfigurasjon og konfigurere brukerrettigheter og sikkerhetskopimål på din Synology NAS. Andre kan dermed utføre rsync-sikkerhetskopiering fra sine Synology NAS-enheter eller rsync-kompatible klienter til delte målmapper (eller "sikkerhetskopimoduler") på din Synology NAS.</p>
+
+<h4>Slik bruker du egendefinert rsync-konfigurasjon:</h4>
+
+<ol>
+<li>Logg inn på din Synology NAS-enhet via Telnet eller SSH.</li>
+<li>Angi sikkerhetskopimodulen og autoriserte brukere i rsync-konfigurasjonsfilen "<b><code>/etc/rsyncd.conf</code></b>". For detaljert informasjon kan du se manualsiden for <b>rsyncd.conf</b> på din rsync-klient eller <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">her</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Merk:</h4>
+<p>Hvis sikkerhetskopimodulen og den delte mappen har samme navn, vil innstillingen for sikkerhetskopimodulen bli tatt i bruk.</p>
+</div>
+
+
+<h3>Aktivere hastighetsgrense</h3>
+<p>Du kan kontrollere maksimum båndbredde ved rsync-sikkerhetskopiering for brukere og grupper.</p>
+
+<h4>Slik aktiverer du hastighetsgrense:</h4>
+<ol>
+  <li>Gå til <b>Kontrollpanel</b> > <b>Filtjenester</b> > <strong>rsync</strong>. Velg ett av følgende:
+  <ul>
+  <li><strong>Ingen hastighetsgrense</strong></li>
+  <li><strong>Aktiver hastighetsgrense</strong></li>
+  <li><strong>Aktiver hastighetsgrense i henhold til en tidstabell</strong> (klikk på <strong>Angi tidsplan</strong> for ytterligere endringer.)</li>
+  </ul>
+  
+<div class="section">
+<h4>Merk:</h4>
+<p>Dette er en serveromsluttende innstilling og vil overskrive innstillingene til individuelle brukere og grupper. For eksempel, ved å velge <strong>Ingen hastighetsgrense</strong>, deaktiverer du innstillingene for hastighetsgrense for alle brukere og grupper.</p>
+</div>
+  </li>
+
+  <li>Hvis du har aktivert en hastighetsgrense, klikker du på <strong>Innstillinger for hastighetsgrense</strong> og klikker på ønsket bruker/gruppe for å endre innstillinger:
+    <ul>
+       <li><strong>Ingen:</strong> Ingen hastighetsgrense vil være i bruk når gruppemedlemmer overfører filer med tjenesten.</li>
+      <li><strong>Bruk gruppeinnstillinger</strong>: Brukeren vil ha samme innstillinger for hastighetsgrense som gruppen han tilhører.</li>
+      <li><strong>Konstant</strong>: En fastsatt, konstant hastighetsgrense vil gjelde for brukeren eller gruppemedlemmene. Hastighetsgrenser for opplasting og nedlasting kan spesifiseres i feltene til venstre.</li>
+      <li><strong>Tilpasset</strong>: To forskjellige hastighetsgrenser kan spesifiseres og tas i bruk for brukeren eller gruppemedlemmene i henhold til en tidstabell. Klikk på <strong>Tilpass</strong> for å endre innstillingene for hastighetsgrense og angi en tidstabell.</li>
+    </ul>
+  </li>
+ <li>Klikk på <b>Bruk</b>.</li> 
+
+</ol>
+<div class="section">
+  <h4>Merk:</h4>
+    <p>Delen <strong>Resultat (UL/DL)</strong> viser brukerens faktiske opplastings- og nedlastingsgrense i henhold til hans individuelle innstillinger og gruppeinnstillinger. For eksempel, hvis brukeren "Achilles" har en indiviudell nedlastingsgrense på 100 KB/s, men tilhører en gruppe med en nedlastingsgrense på 500 KB/s, vil seksjonen <strong>Resultat (UL/DL)</strong> vise "0/500".</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Genel Bakış</h2>
+	<p>Bu sayfa high-availability kümesi ve üye hizmetlere ilişkin temel bilgileri görüntüler. Ayrıca bu sayfa high-availability kümeleri ve üye hizmetlerde oluşturma, kaldırma ve bakım yapma araçlarını sunar.</p>
+
+<h3>High Availability Kümesi Durumu</h3>
+  <p>Bu alan high-availability kümenizin genel durumunu görüntüleyerek, sizi herhangi bir hataya karşı uyarır. Aşağıdakiler bu alanda görüntülenen muhtemel durumların bir tablosudur:</p>
+    <table>
+     <tr>
+      <th>Durum</th>
+      <th>Açıklama</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Tek Başına</strong></td>
+      <td>Sunucular bir high-availability kümesinde birleştirilmez.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Sağlıklı</strong></td>
+      <td>High-availability kümenizin genel durumu iyidir. Aktif sunucudan ve pasif sunucuya verilerin çoğaltılması normal işlev görmektedir.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Hazırlanıyor</strong></td>
+	  <td>Sunucular bir high-availability kümesinde başarıyla birleştirildi ancak ilk veri çoğaltımı henüz tamamlanmadı. Geçiş bu sırada yapılamaz. Daha fazla bilgi için, lütfen <a href="switchover_fail.html">Geçiş</a> kısmına bakın.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Yükleniyor</strong></td>
+	  <td>Sistem küme durumunu yüklüyor. Yükleniyor durumu bitirilene kadar <b>Geçiş</b> gerçekleştirilemez.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Uyarı</strong></td>
+      <td>HA kümesinin durumu anormaldir ama hizmetler çalışmaya devam etmektedir.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Tehlike</strong></td>
+	  <td>Aktif ve pasif sunucuların her ikisi de hatalı çalışıyor. High-availability kümesi normal olarak işlev göremiyor. Lütfen tüm depolama alanlarının (örn. RAID Grupları, Disk Grupları, birimler ve iSCSI LUN'lar) durumunu kontrol edin.</td>
+     </tr>
+    </table>
+<h3>Uyarı Mesajları</h3>
+   <p>Aşağıdaki tablo, sistemde bir hata meydana geldiğinde görülebilen uyarı mesajlarını göstermektedir. Birden fazla uyarı mesajı belirirse, ileri/geri düğmeleriyle aralarında gezinebilirsiniz. </p>
+    <table>
+     <tr>
+      <th>Uyarı/Hata</th>
+      <th>Açıklama</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>İzlenen hizmet hatası</strong></td>
+      <td>İzlenen bir ya da daha fazla hizmette bir hata oluştu.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Depolama alanı kapasitesi düştü</strong></td>
+      <td>Aktif ya da pasif sunucudaki bir depolama alanının (ör. RAID Group, Disk Grubu, birim, iSCSI LUN ve SSD önbellek) kapasitesi düştü. Lütfen <b>Depolama Durumu</b> sayfasını kontrol edin.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Depolama alanı çöktü</strong></td>
+      <td>Aktif ya da pasif sunucudaki bir depolama alanı (ör. RAID Group, Disk Grubu, birim, iSCSI LUN ve SSD önbellek) çöktü. Lütfen <b>Depolama Durumu</b> sayfasını kontrol edin.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Pasif sunucu algılanamadı</strong></td>
+      <td>Bu hata, pasif sunucunun çevrimdışı olması veya aktif ve pasif sunucuların Kalp Atışı bağlantısı yoluyla bağlanamaması nedeniyle oluşabilir. Bu durumda geçiş kullanılamaz.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Veri pasif sunucuya çoğaltılamıyor</strong></td>
+      <td>Bu hata depolama birimi veya disk arızası nedeniyle oluşabilir. Bu durumda geçiş kullanılamaz. Lütfen <b>Depolama Durumu</b> sayfasını kontrol edin.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Pasif sunucu seçili değil</strong></td>
+	  <td>Pasif sunucu high-availability kümesinden ayrılırsa, bu durum görüntülenir. Bu durumda geçiş kullanılamaz. Pasif sunucuyu yeniden bağlamak isterseniz, <b>Bakım</b> açılır menüsüne tıklayın ve <b>Birleştir</b> üzerine tıklayın. Pasif sunucuyu yeniden bağladığınızda, tam bir veri çoğaltımı gerekir.</td>
+     </tr>
+    </table>
+
+
+<h3>High Availability Kümesi Bilgileri</h3>
+	<p>Bu alan high-availability kümesi durumunun altında bulunur ve kümeyle ilgili temel bilgileri görüntüler. Bir high-availability kümesi mevcut değilse, bu alan sadece high-availability kümelerinin işlevinin bir açıklamasını sunar.</p>
+    <p>Bu alan aşağıdaki bilgileri içerir:</p>
+ <ul>
+    	<li><b>Küme Sunucu Adı:</b> High-availability kümesi tarafından kullanılan sunucu adı. </li>
+   <li><b>Küme IP Adresi:</b> High-availability kümesi tarafından kullanılan IP adresi. Hangi sunucunun servisleri yürüttüğünden bağımsız olarak, kullanıcılar bu IP adresini kullanarak high-availability kümesine bağlanabilirler.</li>
+        <li><b>Oluşturma zamanı:</b> High-availability kümesinin oluşturulma tarihi.</li>
+ </ul>
+
+
+<h3>High Availability Kümesi Çalışma Düğmeleri</h3>
+
+<p>Aşağıdaki iki düğme high-availability kümesi bilgilerinin altında yer alır:</p>
+
+<ol>
+<li><b>HA Kümesini oluştur:</b> Hiçbir high-availability kümesi mevcut olmadığında, iki sunucuyu birleştirmek ve bir high-availability kümesi oluşturmak için bu düğmeye tıklayabilirsiniz. Bir high-availability kümesi oluşturma hakkında daha fazla bilgi için, lütfen <a href="wizard.html">Synology High Availability Sihirbazı</a>'na bakın.</li>
+<li><b>Yönetim:</b> Bu düğme sadece bir high-availability kümesi mevcut olduğunda kullanılır. Aşağıdaki seçenekleri içerir:
+<ul>
+<li><b>Yönetim sihirbazı:</b> Çeşitli yönetim prosedürleri için talimatları içeren bir sihirbazı başlatır.</li>
+<li><b>Geçiş:</b> Aktif sunucudan pasif sunucuya bir geçişi başlatır. Bu işlem sırasında, aktif sunucu hizmetleri sunmayı durdurur ve yeni pasif sunucu haline gelir. Ardından, eski pasif sunucu yeni aktif sunucu haline gelir ve high-availability kümesinin tüm hizmetlerini sunmaya başlar. Bu seçenek pasif sunucu <b>hata</b> durumunda olduğunda veya silmediğinde kullanılamaz.</li>
+<li><b>DSM'yi güncelle:</b> <strong>Denetim Masası</strong>'nın <strong>DSM Güncelleme</strong> sayfasını açar. Buradan, her iki sunucu da güncellenebilir.</li>
+<li><b>HA kümesini kaldır:</b> High-availability kümesini kaldırır.</li>
+<li><b>Pasif sunucuyu ayır:</b> Pasif sunucuyu kümeden kaldırır. Çözme sonrasında high-availability kümesine bir sunucu eklendiğinde, tam bir veri çoğaltımı gereklidir. Dolayısıyla, sadece mevcut pasif sunucuyu yenisiyle değiştirmek istediğinizde bu seçeneği kullanmanızı öneririz.</li>
+<li><b>Pasif sunucuyu birleştir:</b> Bir pasif sunucuyu kümeye ekler. Bu seçenek sadece high-availability kümesinde pasif sunucu bulunmadığında kullanılabilir.</li>
+<li><b>HA kümesini kapat:</b> Aktif ve pasif sunucuların her ikisini de kapatır.</li>
+<li><b>Aktif sunucuyu kapat:</b> Aktif sunucuyu kapatır.</li>
+<li><b>Pasif sunucuyu kapat:</b> Pasif sunucuyu kapatır.</li>
+<li><b>Aktif sunucuyu yeniden başlat:</b> Aktif sunucuyu yeniden başlatır.</li>
+<li><b>Pasif sunucuyu yeniden başlat:</b> Pasif sunucuyu yeniden başlatır.</li>
+<li><b>Pasif sunucuda bip sesini devre dışı bırak:</b> Bir hata oluştuğunda pasif sunucunun bip sesini durdurur. Başka bir hata oluşursa pasif sunucu bip sesi çıkarmaya devam eder.</li>
+</ul>
+</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Bir high-availability kümesi kaldırıldığında, yenisini oluşturmak istediğinizde tam bir veri çoğaltımı gereklidir.</li>
+<li>Pasif sunucuyu kapaır veya ayırırsanız, hatanın aktif sunucu da olması durumunda hizmetler aktarılamaz.</li>
+</ul>
+</div>
+
+<h3>Sunucu ve Veri Çoğaltımı Durumu</h3>
+<p>Bu bölüm aktif ve pasif sunucuların durumunu belirten görüntülerle birlikte sunucular arasında veri çoğaltımı akışını gösterir.</p>
+<p>Veri çoğaltımı görüntüsü aşağıdaki muhtemel koşulları bildirir:</p>
+	<ul>
+    	<li><b>Veri çoğaltımı normal işlev görüyor:</b> Bu durum aktif sunucudan pasif sunucuya doğu akan veriyle bildirilir.</li>
+    	<li><b>Veri çoğaltımı yok:</b> Bu durum veri akış görüntüsünün kaybolmasıyla bildirilir.</li>
+    </ul>
+
+
+<h3> Sunucu Bilgisi</h3>
+ <p>Bu bölüm sunucu görüntülerinin altında yer alır. Aktif ve pasif sunucular için geçerli bilgiler bu kısımda görüntülenir. Hiçbir pasif sunucu seçilmemişse, bu bölümde <b>N/A</b> gösterilir.</p>
+  <ul>
+   <li><b>Sunucu Adı:</b> Synology sunucu adı.</li>
+   <li><b>Model Adı:</b> Synology sunucu modeli.</li>
+   <li><b>Seri Numarası:</b> Synology sunucusu seri numarası.</li>
+   <li><b>Fan Durumu:</b> Sunucunun soğutma fanlarının durumu. Fan arıza yaparsa, bir uyarı görülür. Bu durumda, lütfen yardım almak için yerel distribütörünüzle görüşün.</li>
+   <li><b>Sıcaklık:</b> Synology sunucu sıcaklığı. </li>
+   <li><b>Güç Durumu:</b> Bir sunucudaki güç beslemesinin normal çalışıp çalışmadığını bildirir. Sunucu modeli yedek güç kaynağı ile donatılmışsa, bunlardan birisinin arıza yapması durumunda bir uyarı gözükecektir.</li>
+  </ul>
+
+ </body>
+</html>

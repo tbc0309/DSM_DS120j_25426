@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Create a Shared Folder - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Shared folders are the basic directories where you can store and manage files and folders on your Synology NAS. This article shows you how to create a shared folder.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Create a Shared Folder</h2>
+<p>Shared folders are the basic directories where you can store and manage files and folders on your Synology NAS. Before storing any files, you'll need to create at least one shared folder in DSM. </p>
+
+<h4>To create a shared folder:</h4>
+<ol>
+	<li>Go to <strong>Control Panel</strong> > <strong>Shared Folder</strong> and click <strong>Create</strong>.<br /><img src="about:blank" class="help_image"/></li>
+	<li>Specify a name and description for the shared folder.<br /><img src="about:blank" class="help_image "/></li>
+	<li>Select a storage on which to create the shared folder (skip this step if only one storage exists).<br /><img src="about:blank" class="help_image"/></li>
+	<li>Modify the following options if necessary:<br /><img src="about:blank" class="help_image"/>
+		<ul>
+			<li><strong>Hide this shared folder in "My Network Places":</strong> Keeps the shared folder from appearing under "Network" in Windows File Explorer. This option does not affect the access privileges of the shared folder.
+				<div class="section"><h4>Note:</h4>
+				<ul>
+				<li>Hiding a shared folder in &quot;My Network Places&quot; does not affect its access right. The access right of the hidden shared folder will remain unchanged. Users who have the proper access rights to the shared folder can still access it by entering &quot;\\server name\shared folder name&quot;.</li>
+				</ul>
+				</div>
+			</li>
+			<li><strong>Hide sub-folders and files from users without permissions:</strong> When <strong>Hide sub-folders and files from users without permissions</strong> is enabled, if a user without read privileges attempts to access a shared folder via Windows File Sharing protocol, the user will not be able to view sub-folders or files within the shared folder. This prevents users from being confused when they connect to their Synology products, but encounter a large number of files and sub-folders that they cannot open.
+				<div class="section"><h4>Note:</h4>
+				<ul>
+					<li>This feature is only supported with Windows File Sharing protocol.</li>
+					<li>You can modify privilege settings of each folder and file in File Station by right-clicking on it. Choose <strong>Properties</strong> from the drop-down menu and click on the <strong>Permission</strong> tab.</li>
+					<li>The shared folder itself will not be hidden from users without   permissions by enabling <strong>Hide sub-folders and files from users without permissions</strong>. Only the sub-folders and files   within this shared folder will be hidden.</li>
+				</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li><strong>Enable Recycle Bin:</strong> When files in the shared folder are deleted, they will be moved to a folder named <strong>#recycle</strong>. Access to the recycle bin can be limited to users belonging to the <strong>administrators</strong> group.</li>
+	<a name="sharequota"></a><li class=""><strong>Enable shared folder quota:</strong> To specify the maximum capacity for each shared folder, tick <strong>Enable shared folder quota</strong> checkbox, and enter the maximum capacity (e.g. 10 GB) in the following field.
+		<div class="section"><h4>Note:</h4>
+		<ul>
+			<li>Only when the storage is using Btrfs file system will the option of <strong>Enable shared folder quota</strong> be available for shared folders.</li>
+			<li>The combined storage usage of all users' <strong>home</strong> directories cannot exceed the quota of "<strong>homes</strong>".</li>
+		</ul>
+		</div>
+	</li>
+	<a name="integrity_protection"></a>
+	<li><strong>Enable data checksum for advanced data integrity:</strong> To protect a shared folder with <strong>CRC32 checksum</strong> and <strong>copy-on-write</strong> strategies, you can enable data checksum for advanced data integrity during the shared folder's creation. CRC32 checksum is applied to checking if the data remain identical to when they were originally written, and the system will automatically use RAID redundancy to fix corrupted data. Copy-on-write helps to improve data consistency upon abnormal system shutdown.
+		<div class="section"><h4>Note:</h4>
+		<ul>
+			<li>This option is available for only the volumes using the Btrfs file system.</li>
+			<li>You can enable/disable this option for each shared folder during its creation. This option cannot be modified once the shared folder has been created.</li>
+			
+			<li>Enabling this option allows the system to perform a full-scale data scrubbing. <a href="../StorageManager/storage_pool_data_scrubbing.html">Learn more about data scrubbing</a></li>
+			<li>To ensure service quality, we recommend not enabling data checksum when the shared folder will be used for the following services:
+			<ul>
+				<li>Hosting databases or virtual machines</li>
+				<li>Storing video recordings of Surveillance Station</li>
+				<li>Running services that require a small and random write pattern</li>
+			</ul>
+			</li>
+			
+		</ul>
+		</div>
+	</li>
+    <a name="btrfs_compression"></a><li><strong>Enable file compression</strong>: Data in the created shared folder will be automatically compressed by the Btrfs file system to save the storage space. When retrieved for use, the data will be automatically decompressed.
+		<div class="section"><h4>Note:</h4>
+		<ul>
+			<li>This option is available only when you create a shared folder in a Btrfs volume or when <strong>Advanced data integrity protection</strong> is enabled.</li>
+			<li>This option cannot be modified once the shared folder is created.</li>
+			<li>The compression rate differs with data types: Text files enjoy the highest compression rate, while multimedia files (e.g. images, music or videos) may not be well compressed since they are already compressed for output.</li>
+            <li>This option cannot be enabled if shared folder encryption is enabled.</li>
+		</ul>
+		</div>
+	</li>
+	<li><strong>Encrypt this shared folder:</strong> If you would like to encrypt the shared folder, do the following:
+		<ol>
+			<li>Specify and confirm a new encryption key. The encryption key cannot include commas (,) or equal signs (=). </li>
+			<li>If necessary, tick the box <strong>Add encryption key to Key Manager</strong> to mount the encrypted folder automatically when the system starts. If this option is disabled, the encrypted shared folder will be unmounted next time the Synology NAS restarts. To view or access an unmounted shared folder, you will need to mount the folder manually by importing or entering the encryption key.</li>
+		</ol>
+	</li>
+	<li>Click <strong>OK</strong> to finish.</li>
+	
+	
+<div class="section"><h4>Note:</h4>
+	<ul>
+	<li>Certain features and options of a shared folder are supported only by VDSM and models with the following package architectures: Apollo Lake, Avoton, Braswell, Broadwell, Bromolow, Cedarview, and Grantley. To see which package architecture your model supports, please refer to <a href="https://www.synology.com/en-us/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">this article</a>.</li>
+	</ul>
+</div>
+	
+</ol>
+
+<div class="section"><h4>Shared Folder Naming Rules:</h4>
+<ul>
+	<li>Shared folder names are case insensitive and can include 1-32 characters. Names cannot include the following characters: <strong>! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~</strong></li>
+	<li>The following names are reserved for system use: <strong>.</strong>, <strong>..</strong>, <strong>global</strong>, <strong>home</strong>, <strong>homes</strong>, <strong>printers</strong>, <strong>public</strong>, <strong>satashare</strong>, <strong>surveillance</strong>, <strong>usbbackup</strong>, <strong>usbshare</strong>. </li>
+	<li>The first character of a shared folder name cannot be a minus sign or a space, and the last character cannot be a space character.</li>
+	<li>The shared folder <strong>description</strong> is case sensitive and limited up to 64 displayable Unicode characters.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>Encrypting Shared Folders:</h4>
+<p>AES 256-bit encryption protects data by blocking off all unauthorized access attempts. Once a shared folder is encrypted, those without the encryption key will not be able to access or modify the encrypted data even if they remove the hard drives from your Synology NAS and mount them on another device.</p>
+</div>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>The name of a file or a folder within an encrypted shared folder cannot exceed 143 English characters or 47 Asian (CJK) characters; if you access your shared folders with Mac OS, the name of a file or a folder within an encrypted shared folder cannot exceed 130 English characters or 43 Asian (CJK) characters.</li>
+	<li>Encrypted shared folders cannot be accessed via NFS.</li>
+	<li>If passwords are restored to default using the reset button located on the Synology NAS, encrypted shared folders will be unmounted, and the option to automatically mount encrypted shared folders will be disabled.</li>
+	<li>Encrypted shared folders are only supported in high privilege mode (only applicable to Dockerx64). To use this feature, go to the Docker package on your host DSM, select the <strong>Docker DSM</strong> you want to enable encrypted shared folders for, click <strong>Edit</strong> and tick the box next to <strong>Execute container using high privileges</strong>.</li>
+</ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability 管理員精靈 - Synology DSM 說明</title>
+
+
+ </head>
+ <body>
+<h2>High Availability Manager 精靈</h2>
+<p>此精靈將會引導您建立及設定 high-availability 叢集。</p>
+<h4>若要開啟精靈：</h4>
+<ol>
+<li>開啟 <b>High Availability Manager</b>。</li>
+<li>請前往<b>總覽</b>頁面。</li>
+<li>按一下<b>建立 HA 叢集</b>。</li>
+</ol>
+   
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>請在一定的有效時間內完成 high-availability 叢集設定。若超過有效時限，您必須重新進行設定。</li>
+<li>如果您需要確認哪一台伺服器是 high-availability 叢集的主伺服器，建議您下載 Synology <strong>DS finder</strong> 應用程式，並使用嗶聲功能來使主伺服器發出短暫嗶聲。</li>
+</ul>
+</div>
+
+<h4>若要設定副伺服器：</h4>
+<p>請選擇一台 Synology 伺服器做為副伺服器。在正常情況下，副伺服器並不直接提供服務。但是當主伺服器發生異常時，服務可以轉移至副伺服器。</p>
+<ol>
+<li><b>IP 位址：</b>請填入副伺服器 IP 位址。
+
+</li>
+<li><b><b>使用者帳號：</b></b>填入目標伺服器上屬於 <b>administrator</b> 群組之帳號。 </li>
+<li><b>密碼：</b>填入屬於 <b>administrator</b> 群組之帳號的密碼。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4> 
+<ul>
+<li>High-availability 叢集建立之後，副伺服器上的所有資料將被清空。請務必確認副伺服器上沒有重要資料。 </li>   
+</ul>
+</div>   
+<h4>若要設定 heartbeat 連線：</h4>
+<p>將兩台伺服器對接。此連線會作為兩台伺服器間的「Heartbeat」連線，協助伺服器進行溝通並將資料從主伺服器複製到副伺服器。在建立 high-availability 叢集時，系統會檢查此連線是否符合下列條件，以確保 heartbeat 連線的品質：</p>
+<ul>
+<li>在兩台伺服器間，沒有其他具有相同廣播網域 IP 位址的裝置。若此 Heartbeat 連線有通過任何交換器，則須確認交換器支援多點傳送 (Multicast) 與 Jumbo Frame。</li>
+<li>擁有低延遲率的網路連線。兩台伺服器之間的 Ping 反應時間須小於 1ms，傳輸速度至少須為 500 Mbps。MTU 會自動被設定至 9000。</li>
+<li>在兩台伺服器上使用相同的網路介面。例如，若連線一端接到一台伺服器上的 LAN 1，則另一端必須接到另一台伺服器上的 LAN 1。</li>
+
+<li>在兩台伺服器上使用最快的網路介面。若伺服器配備 10GbE 附加網路卡，則此連線必須使用 10GbE 附加網路卡。</li>
+</ul>
+ <p>在確認以上事項後，前往 <b>HA 連線 (Heartbeat) 介面</b>區塊並選擇伺服器上要作為 Heartbeat 連線的網路介面。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>Heartbeat 連線設定將會產生兩組 IP 位址 (例如 169.254.1.1 及 169.254.1.2)，供主伺服器及副伺服器於資料複製時使用。請確認此兩組 IP 位址於網路中並無其它設備使用。</li>
+<li>不支援在您 Synology NAS 的 Heartbeat 連線埠上啟動 VLAN ID。</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>在 Heartbeat 或資料連線上設定 Link Aggregation：</h4>
+
+<ul>
+<li>若要在 Heartbeat 或資料連線上設定 Link Aggregation，請先至<strong>控制台</strong> &gt; <strong>網路</strong> &gt; <strong>網路介面</strong>設定二個以上網路埠的 Link Aggregation，然後再開啟 high availability 建立精靈。請確認兩台伺服器上的 Link Aggregation 設定完全相同 (例如您為主伺服器的網路埠 1 與 2 設定了 Link Aggregation，則您也必須為副伺服器的網路埠 1 與 2 設定 Link Aggregation)。</li>
+
+<li>Heartbeat 具備容錯移轉及負載平衡的能力，但資料連線則須視您選擇的 Link Aggregation 模式而定。</li>
+</ul>
+
+</div>
+
+
+<h4>若要設定 high-availability 叢集網路介面：</h4>
+<p>High-availability 叢集會使用一組 IP 位址做為對外連接的介面。不論由哪台 Synology 伺服器擔任主伺服器，您都可以透過這組 high-availability 叢集 IP 位址連線，使用 DSM 服務。這個方式可避免服務轉移後必須連到不同 IP 位址的情況。</p>
+
+<ol>
+<li><b>叢集伺服器名稱：</b>High-availability 叢集的名稱。請參閱伺服器命名規則 (位於 <b>DSM 說明</b> > <b>控制台</b> > <b>連線能力</b> > <b>網路</b> > <b>一般</b>) 來了解名稱相關限制。 </li>
+<li><b>網路介面：</b>High-availability 叢集所要使用的網路介面。必須選擇不同於資料複製所用的網路埠。 </li>
+<li><b>IP 位址：</b>High-availability 叢集所要使用的 IP 位址。不論目前正由哪一台伺服器提供服務，都可使用此 IP 連結叢集。</li>
+<li> <b>子網路遮罩：</b>High-availability 叢集所要使用的子網路遮罩。</li>
+</ol>
+
+<div class="section">
+<h4>為資料連線指定 VLAN ID：</h4>
+<ul>
+<li>若要為資料連線指定 VLAN ID，請先至<strong>控制台</strong> &gt; <strong>網路</strong> &gt; <strong>網路介面</strong>，然後再開啟 high availability 建立精靈。請確認兩台伺服器上的 VLAN 設定完全相同 (例如主伺服器的網路埠 1 設定了 VLAN ID 1，則副伺服器的網路埠 1 也必須設定 VLAN 1)。</li>
+</ul>
+</div>
+
+
+<h4>若要確認設定：</h4>
+<p>請再次檢查接下來所要使用的 high-availability 叢集設定。按下<b>套用</b>後系統即會開始建立 high-availability 叢集。 </p>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>建立 high-availability 叢集時，主伺服器上的資料必須全部複製到副伺服器上。複製程序完成前，若副伺服器的連線斷線超過 30 分鐘，副伺服器會回到<strong>獨立運作</strong>模式。在此情況下，您需要重新連結副伺服器並再執行一次完整的資料複製。</li>
+</ul>
+</div>
+ </body>
+</html>

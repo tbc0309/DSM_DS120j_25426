@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>Add Drives to Expand the Storage Pool Capacity</h2>
+
+<p>If there are empty drive slots on your Synology NAS, you can install additional drives and add them to an existing storage pool. This article guides you through how to expand an existing storage pool by installing additional drives.</p>
+
+<p>Drives can be added to storage pools in the following RAID configurations:</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID 5</li>
+	<li>RAID 6</li>
+	<li>RAID F1</li>
+	<li>A Synology Hybrid RAID (SHR) consisting of at least 2 drives</li>
+</ul>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>The status of the newly-added drive must be <strong>Initialized</strong> or <strong>Not Initialized</strong>.</li>
+</ul>
+</div>
+	
+<h4>Drive requirements:</h4>
+
+<p>Please make sure the drives that you intend to add to your Synology NAS meet the following requirements:</p>
+<ul>
+	<li>RAID or SHR configuration must be created by drives of the same type. Using drives of different types will affect system reliability and performance. Mixed drive types as shown below are not supported for RAID or SHR configuration:
+	<ul>
+	<li>SATA drives and SAS drives</li>
+	<li>4K native drives and non-4K native drives</li>
+	</ul>
+	</li>
+	<li><strong>For SHR</strong>: The capacity of the drive you intend to add must be equal to or larger than the largest drive in the storage pool, or equal to any of the drives in the storage pool.</br><span class="note_head">Example:</span> If an SHR storage pool is composed of three drives (2 TB, 1.5 TB, and 1 TB), we recommend that the newly-added drive should be at least 2 TB for a better capacity usage. You can consider adding 1.5 TB and 1 TB drives, but please note that some capacity of the 2 TB drive will remain unused.</li>
+	<li><strong>For RAID 5, RAID 6, or RAID F1</strong>: The capacity of the drive you intend to add must be equal to or larger than the smallest drive in the storage pool.</br><span class="note_head">Example:</span> If a RAID 5, RAID 6, or RAID F1 storage pool is composed of three drives (2 TB, 1.5 TB, and 1 TB), then the capacity of the new drive must be at least 1 TB.</li>
+</ul>
+
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>SHR (Synology Hybrid RAID) is available on specific models only. Please visit <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">here</a> to check if your model has limited support for SHR.</li>
+	<li>RAID F1 is available on specific models only. Please visit <a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank">here</a> to check if your model supports RAID F1.</li>
+	<li>We recommend using drives in the <a href="https://www.synology.com/compatibility" target="_blank">Synology Products Compatibility List</a> to prevent any issues. Using incompatible drives may lower the system performance and even cause data loss.</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">To add a drive to a storage pool:</a></h4>
+<p>Before you start, make sure the status of the storage pool you intend to expand is <strong>Healthy</strong>. If the storage pool status is not healthy, please follow the recommended actions shown beneath the status to fix drive issues. Afterward, follow the steps below to add a drive to a storage pool:</p>
+	
+<ol>
+	<li>Power off your Synology NAS.</br>
+	<span class="note_head">Note:</span> Skip this step if your Synology NAS supports hot-swapping.
+	</li>
+	<li>Insert a new drive into an empty drive slot.</br>
+		<span class="note_head">Note:</span> To avoid harming yourself or damaging your Synology NAS, please go to <a href="https://www.synology.com/support/download" target="_blank">Download Center</a> and select your Synology product. At <strong>Documents</strong> > <strong>Hardware Installation Guide</strong>, you can download the hardware installation guide of your preferred language to follow the drive installation instructions.</li>
+
+	<li>Power on your Synology NAS and launch <strong>Storage Manager</strong>.</li>
+	<li>Go to the <b>Storage Pool</b> page and select the storage pool you want to expand. Click <strong>Add Drive</strong> from the <strong>Action</strong> drop-down menu.</li>
+	<li>Select the drive you want to add from the list. Only drives that meet the type and capacity requirements will be listed.</li>
+	<li>Follow the wizard to finish the process.</li>
+</ol>
+
+<h4>To expand the volume size:</h4>
+<p>Once a storage pool contains sufficient capacity, the size of its corresponding volume can be expanded either automatically or manually, depending on the storage pool type.</p>
+<ul>
+<li><b>Single-volume storage pool:</b> For a storage pool that supports a single volume, the volume size will be expanded automatically once the storage pool capacity has been expanded. Please refer to <a href="#t1">To add a drive to a storage pool</a> for details.</li>
+<li><b>Multiple-volume storage pool:</b> For a storage pool that supports multiple volumes, the volume size can be expanded manually once the storage pool contains sufficient capacity. Please refer to <a href="volume_expand_volume.html" target="_blank">Expand the Volume Size</a> for details.</li>
+</ul>
+
+</body>
+</html>

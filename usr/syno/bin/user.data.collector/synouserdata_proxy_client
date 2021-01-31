@@ -1,0 +1,40 @@
+#!/bin/sh
+
+BIN_GET_KEY_VALUE="/bin/get_key_value"
+CONFIG_PATH="/etc/proxy.conf"
+
+PROXY_ENABLE=`$BIN_GET_KEY_VALUE $CONFIG_PATH proxy_enabled`
+if [ "$PROXY_ENABLE" != "yes" ]; then
+    PROXY_ENABLE="no"
+fi
+HTTP_HOST=`$BIN_GET_KEY_VALUE $CONFIG_PATH http_host`
+if [ "$HTTP_HOST" != "" ]; then
+    PROXY_HTTP_ENABLE="yes"
+else
+    PROXY_HTTP_ENABLE="no"
+fi
+HTTPS_HOST=`$BIN_GET_KEY_VALUE $CONFIG_PATH https_host`
+if [ "$HTTPS_HOST" != "" ]; then
+    PROXY_HTTPS_ENABLE="yes"
+else
+    PROXY_HTTPS_ENABLE="no"
+fi
+AUTH_ENABLE=`$BIN_GET_KEY_VALUE $CONFIG_PATH auth_enabled`
+if [ "$AUTH_ENABLE" != "yes" ]; then
+    AUTH_ENABLE="no"
+fi
+
+echo -n "{"
+
+echo -n \"proxy_enable\":\"$PROXY_ENABLE\",
+echo -n \"proxy_http_enable\":\"$PROXY_HTTP_ENABLE\",
+echo -n \"proxy_https_enable\":\"$PROXY_HTTPS_ENABLE\",
+echo -n \"proxy_auth_enable\":\"$AUTH_ENABLE\",
+
+# let version be the last one msg
+echo -n \"collector_version\":1
+
+echo "}"
+
+
+

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Begränsningar och systemkrav - Synology DSM hjälp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+ 
+ 
+<h2>Begränsningar och systemkrav</h2>
+
+ <p>Implementering av Synology High Availability kräver två identiska eller kompatibla Synology-servrar för att skapa ett high-availability-kluster där de kan agera som aktiv respektive passiv server. Innan dessa två servrar kombineras till ett high-availability-kluster kommer systemet att kontrollera följande begränsningar i hård- och mjukvara för att se till att ett high-availability-kluster kan skapas.</p>
+ 
+  
+ <h3>Systemkrav</h3>
+ 
+  <p>Vänligen observera följande rekommendationer om mjuk- och hårdvara:</p>
+  <ul>
+   <li><b>Synology Server:</b> Både den aktiva och den passiva servern måste vara av samma modell.</li>
+   <li><b>Expansionsenhet(er):</b> Både den aktiva och den passiva servern måste vara korrekt anslutna till samma utökningsenheter.</li>
+   <li><b>Antal och typ av diskar:</b> Enheten kan bara vara av SAS-typ. Innan DSM installeras måste du installera minst 3 enheter i utökningsenheten(utökningsenheterna).</li>
+   <li><b>USB-ansluten extern enhet:</b> Endast USB-lagring har stöd. Andra USB-anslutna enheter (dvs. UPS, Wi-Fi-dongle, högtalare, skrivare, blåtanddongle och DVB-dongle) stöds inte. USB-lagring kan bara användas på den aktiva servern och kan inte göra en övergång till den passiva servern.</li>
+
+  </ul>
+
+  <h3>Nätverksmiljö</h3>
+  <p>Vänligen notera följande rekommendation beträffande nätverksinställningar vid ansats att skapa ett high-availability-kluster.</p>
+  <ul>
+    <li><b>Nätverksinställningar:</b> Heartbeat-anslutningen mellan de två servrarna måste vara korrekt installerade. Båda servrarna måste tillhöra samma subnät och en konfiguration av statisk IP-adress krävs efter installation.</li>
+    <li><b>Antal LAN-portar:</b> Båda servrarna måste ha samma antal LAN-portar. Om en av dina Synology NAS-modeller är utrustade med ytterligare nätverksgränssnitt måste den andra vara utrustad med samma nätverksgränssnitt. </li>
+    <li><b>Anslutningsbegränsningar:</b> Wi-Fi-nätverk stöds inte av high-availability-klustret.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Obs:</h4>
+    <ul>
+      <li>NTP-server kommer automatiskt att aktiveras på den aktiva servern.</li>
+    </ul>
+  </div>
+
+<h3>Begränsningar för Filpaket och Mjukvara</h3> 
+
+<p>Vänligen se begränsningar för filpaketen och mjukvaran har nedanför:</p>
+	<ul>
+	<li>High-availability-klustret stöder inte följande filpaket och funktioner:
+		<ul><li>DVBLink Server</li>
+		<li>Funktionen att starta om/stänga av high-availability-klustret i CMS</li>
+		<li>Time Backup</li>
+		</ul>
+	</li>
+	<li>High-availability-kluster med delad lagring kan inte konfigureras som eller användas i kombination med ett replikeringsbaserat high-availability-kluster.</li>
+    </ul>
+
+<h3>Specifika utökningsenheter</h3>
+  <p>Både den aktiva och den passiva servern måste vara anslutna till de specifika utökningsenheterna. Det finns två moduler på varje utökningsenhet.</p>
+  <h4>Att installera/lägga till utökningsenheter:</h4>
+  <ul>
+    <li>En modul innehåller två portar; inmatningsporten finns på den vänstra sidan och utmatningsporten på den högra sidan. Anslut en SAS-kabel från utmatningsporten till en modul till inmatningsporten för nästa utökningsenhet.</li>
+	<li>Utökningsenheterna måste vara seriellt ansluta med modulerna på motsvarande sidor för varje server.</li>
+    <li>Både den aktiva och den passiva servern måste vara anslutna till de delade utökningsenheterna i samma ordning.</li>
+  </ul>
+
+
+<div class="section">
+<h4>Noteringar:</h4>
+<p>För mer information om installation av expansionsenheter, vänligen se Snabb installationsguide för din server och utökningsenhet.</p>
+</div>
+
+   
+ </body>
+</html>

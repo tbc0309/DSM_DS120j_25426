@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>일반</h2>
+
+<p>사용자는 저장소 관리자를 사용하여 Synology 제품의 모든 저장소 공간을 관리할 수 있습니다. 저장소 관리를 단순화하고 데이터가 보호되는 유연한 저장소 공간을 만들기 위해 Synology DSM은 여러 가지 유형의 스토리지 풀을 지원합니다.</p>
+
+<h4><a href="storage_pool.html">스토리지 풀</a></h4>
+<p>Synology NAS을(를) 사용하여 드라이브 여러 개를 스토리지 풀이라 하는 단일 저장소 유닛에 결합할 수 있습니다. Synology NAS은(는) 다음과 같은 유형의 스토리지 풀을 제공합니다.</p>
+<ul>
+	<li><strong>우수한 성능을 위한 스토리지 풀</strong>:<ul>
+			<li>모든 사용 가능한 용량을 단일 볼륨에 할당합니다.</li>
+			<li>성능은 향상되지만 저장소 관리 유연성이 저하됩니다.</li>
+			<li>볼륨에 iSCSI LUN(일반 파일)을 여러 개 만들 수 있습니다.</li>
+			<li>RAID 배열을 최대 한 개 지원합니다.</li>
+		</ul>
+	</li>
+	<li><strong>보다 높은 유연성을 위한 스토리지 풀</strong>:<ul>
+			<li>스토리지 풀 하나에 볼륨을 여러 개 만들 수 있습니다.</li>
+			<li>보다 우수한 저장소 관리 유연성을 제공합니다.</li>
+			<li>볼륨에 iSCSI LUN(일반 파일)을 여러 개 만들 수 있습니다.</li>
+			<li>스토리지 풀 한 개에 RAID 배열을 여러 개 결합할 수 있습니다(RAID 5, RAID 6 또는 RAID F1으로 구성 시).</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>RAID 유형</h4>    
+<p>스토리지 풀 생성 시 먼저 RAID 유형을 선택합니다. RAID 유형에 따라 서로 다른 데이터 보호, 저장소 기능 및 성능 수준이 제공됩니다. 현재 Synology NAS은(는) 다음과 같은 RAID 유형을 지원합니다.</p>
+<ul>
+	<li><strong>Basic</strong>: 드라이브 한 개를 사용하여 스토리지 풀 한 개를 만듭니다. 기본 스토리지 풀은 데이터 중복을 제공하지 않습니다.</li>
+	<li><strong>JBOD*</strong>: 드라이브를 최소 두 개 이상 결합하여 스토리지 풀 한 개를 만듭니다. JBOD 스토리지 풀은 데이터 중복을 제공하지 않습니다. JBOD 스토리지 풀의 사용 가능한 용량은 스토리지 풀에 포함된 모든 드라이브의 총 용량과 동일합니다. JBOD에서 다양한 크기의 드라이브를 결합할 수 있습니다.</li>
+	<li><strong>RAID 0*</strong>: 드라이브를 최소 두 개 이상 결합하여 스토리지 풀 한 개를 만듭니다. RAID 0은 데이터 중복을 제공하지 않습니다. 단일 멤버 드라이브에서 오류가 발생하면 스토리지 풀의 데이터가 손실됩니다. RAID 0 스토리지 풀의 사용 가능한 용량은 모든 멤버 드라이브의 총 용량과 동일합니다. RAID 0에서 다양한 크기의 드라이브를 결합할 수 있습니다.</li>
+	<li><strong>RAID 1*</strong>: 드라이브 2~4 개를 결합하여 스토리지 풀 한 개를 만듭니다. 시스템은 각 드라이브에 동일한 데이터를 작성합니다. 드라이브 한 개가 정상적으로 작동하는 동안은 RAID 1이 데이터를 보호합니다. RAID 1 스토리지 풀의 사용 가능한 용량은 가장 작은 멤버 드라이브 크기와 동일합니다.</li>
+	<li><strong>RAID 5*</strong>: 드라이브를 최소 세 개 이상 결합하여 스토리지 풀 한 개를 만들고 모든 멤버 드라이브의 데이터와 패리티 정보를 모두 제거합니다. RAID 5는 데이터 중복을 제공합니다. 멤버 드라이브 한 개에서 오류가 발생하면 시스템은 다른 멤버 드라이브의 패리티 정보를 사용하여 다시 빌드될 수 있습니다. 여러 볼륨을 위한 스토리지 풀 한 개를 만들면 여러 RAID 배열을 결합할 수 있습니다. RAID 5 스토리지 풀의 사용 가능한 용량 = <span class="note_content">결합된 RAID 배열 총 용량 RAID 배열 용량 = (드라이브 수 - 1) x (가장 작은 드라이브 용량)</span></li>
+	<li><strong>RAID 6*</strong>: 드라이브를 최소 4개 이상 결합하여 스토리지 풀 한 개를 만들고 모든 멤버 드라이브의 데이터와 패리티 정보를 모두 제거합니다. RAID 6은 데이터 중복을 제공합니다. 멤버 드라이브 두 개에서 오류가 발생하더라도 시스템은 다른 멤버 드라이브의 패리티 정보를 사용하여 다시 빌드될 수 있습니다. 여러 볼륨을 위한 스토리지 풀 한 개를 만들면 여러 RAID 배열을 결합할 수 있습니다. RAID 6 스토리지 풀의 사용 가능한 용량 = <span class="note_content">결합된 RAID 배열 총 용량 RAID 배열 용량 = (드라이브 수 - 2) x (가장 작은 드라이브 용량)</span></li>
+	<li><strong>RAID 10*</strong>: 드라이브를 최소 4개 이상 결합하여 스토리지 풀 한 개를 만듭니다. 드라이브 수는 짝수여야 합니다. RAID 10은 RAID 0 성능과 더불어 RAID 1과 동일한 수준의 데이터 보호를 제공합니다. RAID 10 스토리지 풀의 사용 가능한 용량 = <span class="note_content">(가장 작은 드라이브 용량) X (드라이브 수 / 2)</span></li>
+	<li><strong>RAID F1*</strong>: 이 RAID 유형은 SSD(반도체 드라이브)용으로 설계되었습니다. SSD를 최소 세 개 이상 결합하여 스토리지 풀 한 개를 만들고, 모든 멤버 SSD 간 데이터와 패리티 정보를 모두 제거하는 한편 특정 SSD에 더 많은 패리티 비트를 작성하여 여러 SSD에서의 오류 동시 발생을 방지합니다. RAID F1은 데이터 중복을 제공합니다. 멤버 SSD 한 개에서 오류가 발생하면 시스템은 다른 멤버 SSD의 패리티 정보를 사용하여 다시 빌드될 수 있습니다. 여러 볼륨을 위한 스토리지 풀 한 개를 만들면 여러 RAID 배열을 결합할 수 있습니다. RAID F1 스토리지 풀의 사용 가능한 용량 = <span class="note_content">결합된 RAID 배열 총 용량 RAID 배열 용량 = (드라이브 수 - 1) x (가장 작은 드라이브 용량)</span></li>
+</ul>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>드라이브 베이가 충분한 NAS 모델에서만 <strong>*</strong> 표시가 있는 RAID 유형을 사용할 수 있습니다. 사용자 모델에서 지원되는 RAID 유형을 확인하려면 <a href="https://www.synology.com" target="_blank">www.synology.com</a>에 방문하여 사용자 모델 사양을 확인하십시오.</li>
+</ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>LAN/Trådlöst LAN</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="lan"></a>LAN/Internet</h2>
+<p>Beroende på din modell av Synology NAS och nätverksinställningar kan du konfigurera DHCP-inställningar för LAN eller Internet i <strong>Kontrollpanel</strong> > <strong>Nätverk</strong> > <strong>Nätverksgränssnitt</strong>. DHCP är ett nätverksprotokoll för automatisk IP-konfiguration. För att låta DHCP tilldela en IP för systemet, klicka på <strong>Redigera</strong> och välj <b>Hämta nätverksinställningar automatiskt (DHCP)</b> på fliken <strong>IPv4</strong>.</p>
+<p>Om du använder en specifik IP-adress från din leverantör av nätverkstjänster, välj <b>Använd manuella inställningar</b> och ange IP-adressen och subnätmasken manuellt. Om en DNS-server eller en standardgateway inte är tillgänglig ska fältet vara tomt.</p>
+
+<div class="section">
+<h4>Obs:</h4>
+<ol>
+<li>För att säkerställa att e-postmeddelanden levereras ordentligt genom SMTP-servern måste en giltig DNS-server IP anges.</li>
+<li>Jumbo Frames är Ethernet-ramar med mer än standarden på 1500 bytes av Maximum Transmission Unit (MTU), vilket gör Ethernet-överföring av stora filer mer effektivt. Det kan endast aktiveras under Gigabit-nätverksmiljö.  För att se till att Jumbo Frame fungerar korrekt, måste alla datorer och enheter över nätverket som har åtkomst till din Synology NAS stödja det och använda samma MTU-värde.</li>
+</ol>
+</div>
+
+<h3><a name="vlan"></a>VLAN</h3>
+<p>När nätverksmiljön kräver VLAN-inställningar kan du aktivera alternativet VLAN och ange ett VLAN ID för nätverksmiljön på fliken <strong>IPv4</strong> i fönstret Redigera.</p>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Tillse att din nätverksswitch är riktigt konfigurerad, annars kan tjänster för din Synology NAS komma att bli otillgängliga.</li>
+<li>Om du inte kan ansluta till din Synology NAS efter att du ändrat ovanstående inställningar, vänligen tryck på knappen RESET som finns på din Synology NAS för att återställa standardinställningarna.</li>
+</ul>
+</div>
+
+
+<h3><a name="ipv6"></a>IPv6-inställning</h3>
+<p>Synology NAS-enheter har stöd för IPv4/IPv6 dual stack-scheman. Detta innebär att både IPv4 och IPv6 kan arbeta samtidigt på Synology din Synology NAS. Standardinställningarna för IPv6 är <b>Automatiskt</b>. Välj ett befintligt nätverksgränssnitt, klicka på knappen <b>Redigera</b> och gå till fliken <b>IPv6</b> för att ändra inställningarna.</p>
+
+<h4>Att konfigurera inställningarna för IPv6:</h4>
+<ol>
+<li>Gå till <strong>Kontrollpanel</strong> > <strong>Nätverk</strong> > <strong>Nätverksgränssnitt</strong>.</li>
+<li>Välj ett befintligt nätverksgränssnitt och klicka på <strong>Redigera</strong>.</li>
+<li>Under fliken <strong>IPv6</strong>, välj en typ av inställning från <strong>IPv6-inställning</strong>:
+  <ul>
+    <li><b>Automatiskt</b>: Din Synology NAS kommer automatiskt att generera en IPv6-adress, beroende på routerannonsering (Router Advertisement - RA) i LAN.</li>
+	<ul>
+	  <li><strong>Tillståndslöst läge</strong>: Låter enheter som är anslutna till routern att automatiskt konfigurera en IPv6-adress utan inställning av IPv6 DNS Server.</li>
+      <li><strong>Tillståndslöst DHCPv6-läge</strong>: Låter enheter som är anslutna till routern att automatiskt konfigurera en IPv6-adress och erhålla DNS-information via DHCPv6.</li>
+      <li><strong>Tillståndsstyrt läge</strong>: Låter enheter som är anslutna till routern att erhålla IPv6-adress och DNS-information via DHCPv6. I det här läget måste du aktivera DHCPv6-server och ställa in <strong>Start-IPv6-adress</strong> och <strong>Slut-IP-adress</strong> för DHCPv6-servern.</li>
+	</ul>
+<li><b>Manuell</b>: Ställ in IPv6 manuellt genom att ange <b>IPv6-adress</b>, <b>Prefix-längd</b> och <b>Standardgateway</b>.</li>
+<li><b>Av</b>: Avaktivera IPv6-stödet.</li>
+  </ul>
+</ol>
+<p>Till dess IPv6 helt och håller ersätter IPv4 behövs övergångsmekanismer för IPv6 för att aktivera värdar med IPv4-adresser att nå IPv6-tjänster. Välj mellan de olika typerna av övergångsmekanismer för IPv6:</p>
+<ul>
+  <li><b>6i4</b>: Ansluter till IPv6-nätverket genom en tunnelagent. Du behöver fylla i <b>IPv6-adress</b>, <b>Prefix-längd</b>, <b>Prefix</b> och <b>IPv4-adress för tunnelagent</b>. Det kräver en publik IPv4-adress.</li>
+<li><b>6till4</b>: Anslut till IPv6-nätverket genom en tunnelagent genom att använda anycast. Det kräver en publik IPv4-adress.</li>
+<li><b>DHCP-PD</b>: Erhåll ett IPv6-prefix från DHCP-servern via prefixdelegering inom LAN. Det kräver IPS-stöd och fungerar bara i routerläge.</li>
+<li><b>IPv6-tunnling (TSP)</b>: Gå till <strong>Kontrollpanel</strong> > <strong>Nätverk</strong> > <strong>Allmänt</strong> för att konfigurera det här alternativet.</li>
+</ul>
+
+<h3>802.1X</h3>
+<p>802.1X är en autentiseringsstandard som utvecklats av IEEE för nätverk med användare anslutna. 802.1X kan användas i nätverk för att autentisera klienten och neka klienter som inte har godkänts vid autentisering att få åtkomst till det skyddade nätverket. </p>
+<p>Du kan tillåta din Synology NAS att ansluta till nätverket som skyddas av 802.1X-autentisering.</p>
+
+<h4>Att aktivera 802.1X-autentisering:</h4>
+<ol>
+<li>Gå till <strong>Kontrollpanel</strong> > <strong>Nätverk</strong> > <strong>Nätverksgränssnitt</strong>. </li>
+<li>Välj ett trådbundet nätverk (dvs. LAN) och klicka på <strong>Redigera</strong>. </li>
+<li>Gå till fliken <strong>802.1X</strong> och markera <strong>Aktivera 802.1X-autentisering</strong>. </li>
+<li>Välj ett av följande protokoll från rullgardinsmenyn <strong>Autentisering</strong>. Om du är osäker på vilket protokoll som är mest lämpligt, välj <strong>Automatiskt</strong>. <ul>
+<li><strong>Skyddad EAP (PEAP)</strong>: Använd ett CA-certifikat (valfritt) för att upprätta en säker anslutning. Den här säkra anslutningen används av inre autentisering.</li>
+<li><strong>Tunnlad TLS (TTLS)</strong>: Använd ett CA-certifikat (valfritt) för att upprätta en säker anslutning. Den här säkra anslutningen används av inre autentisering.</li>
+<li><strong>TLS</strong>: använd TLS (Transport Layer Security) för att autentisera.</li> </ul> </li>
+<li>Om du väljer <strong>TTLS</strong> eller <strong>PEAP</strong> väljer du ett av protokollen för inre autentisering från rullgardinsmenyn.
+<ul>
+<li><strong>MS CHAP v2</strong>: Autentiseringsinformationen krypteras med Microsoft CHAP v2.</li>
+<li><strong>GTC</strong>: Autentiseringsinformationen använder GTC (Generic Token Card) för kryptering.</li>
+</ul></li>
+<li>Ange ditt användarnamn och lösenord.</li>
+<li>Om det behövs, klicka på <strong>Importera</strong> och sedan på <strong>Bläddra</strong> för att hitta och importera ett certifikat som exporterats från Radius Server (exempelvis ca.crt).</li>
+<li>Klicka på <strong>OK</strong> för att spara dina inställningar.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>För att konfigurera 802.1X-autentisering för trådlösa nätverk, gå till <strong>Kontrollpanel</strong> > <strong>Trådlöst</strong> > <strong>Wi-Fi</strong>.</li>
+<li>Inställningarna för autentisering måste vara samma som på den inställda Radius Server. För mer information, vänligen kontakta administratören för Radius Server.</li>
+</ul>
+</div>
+
+<h2>Trådlöst LAN*</h2>
+<p>När din Synology NAS agerar som en trådlös router kan du konfigurera följande inställningar för trådlöst LAN i <strong>Kontrollpanel</strong> > <strong>Nätverk</strong> > <strong>Nätverksgränssnitt</strong>.</p>
+<h3>IPv4-inställningar</h3>
+
+<h4>IP-adress eller subnätmask</h4> 
+<p>Du kan ställa in IP-adress och subnätmask för din Synology NAS här.</p>
+<h4>DHCP Server</h4>
+<p>Markera alternativet <strong>Aktivera DHCP-server</strong> för att tillåta att din Synology NAS tilldelar IP-adresser till klientenheter som ansluter till det lokala nätverk som tillhandahålls av din Synology NAS.</p>
+<h4>PPPoE-Överföring</h4>
+<p>Aktivera <strong>PPPoE-överföring</strong> för att tillåta enheter som är anslutna till din Synology NAS att ansluta till Internet via PPPoE-anslutning.</p>
+
+<h4>Konfigurera som en UPnP Internet Gateway</h4>
+<p>Aktivera tjänsten <strong>UPnP</strong> för att tillåta din Synology NAS att agera som en UPnP gatewayenhet på Internet, så att enheter som är anslutna till det lokala nätverket för din Synology NAS kan konfigurera vidarebefordring av port med UPnP.</p>
+
+<h3>IPv6-inställningar</h3>
+<p>Du kan få en IPv6-adress och -prefix från <strong>LAN/Internet</strong> med 6i4, 6till4 eller DHCP-PD. Med den här informationen kan du konfigurera alternativ för IPv6-routing för din Synology NAS här.</p>
+<ul>
+<li><strong>IPv6-adress</strong>: Ange IPv6-adressen som erhållits från <strong>LAN/Internet</strong>.</li>
+<li><strong>Prefix-längd</strong>: Ange prefix-längden för IPv6-adressen som erhållits från <strong>LAN/Internet</strong>, vanligtvis 64.</li>
+<li><strong>Primär DNS</strong>: Den primära DNS-servern för enheterna som är anslutna till routern. Det här behöver inte ställas in i <strong>Tillståndslöst läge</strong>.</li>
+<li><strong>Sekundär DNS</strong>: Den sekundära DNS-servern för enheterna som är anslutna till routern. Det här behöver inte ställas in i <strong>Tillståndslöst läge</strong>.</li>
+</ul>
+<p>Det finns tre lägen för routerannonsering (Router Advertisement - RA) att välja mellan:</p>
+<ul>
+<li><strong>Tillståndslöst läge</strong>: Låter enheter som är anslutna till routern att automatiskt konfigurera en IPv6-adress utan inställning av IPv6 DNS Server.</li>
+<li><strong>Tillståndslöst DHCPv6-läge</strong>: Låter enheter som är anslutna till routern att automatiskt konfigurera en IPv6-adress och erhålla DNS-information via DHCPv6.</li>
+<li><strong>Tillståndsstyrt läge</strong>: Låter enheter som är anslutna till routern att erhålla IPv6-adress och DNS-information via DHCPv6. I det här läget måste du aktivera DHCPv6-server och ställa in <strong>Start-IP-adress</strong> och <strong>Slut-IP-adress</strong> för DHCPv6-servern.</li>
+</ul>
+
+<h3>DHCP-klienter</h3>
+<p>Här kan du se en lista över DHCP-klienter och deras nätverkskonfiguration (såsom MAC-adress, IP-adress, värdnamn och tid kvar innan DHCP-lånet upphör).</p>
+<p>Du kan filtrera rullgardinsmenyn för IPv4/IPv6-klienter för att visa vilka klienter som använder IPv4 respektive IPv6. Välj en klient och klicka på <strong>Lägg till i adressreservation</strong> för att lägga till klienten i adressreservationslistan.</p>
+
+<h3>DHCP-reservation</h3>
+<p>Om du vill att en klient alltid ska få samma IP-adress vid förnyelse av DHCP-lån kan du lägga till klienten i adressreservationslistan.</p>
+<p>Du kan filtrera rullgardinsmenyn IPv4/IPv6-adressreservation. IPv4-adresser identifieras av MAC-adressen medan IPv6-adresser identifieras av DUID.</p>
+<h4>Lägga till en klient i adressreservationslistan:</h4>
+<ul>
+<li>Välj en klient och klicka på <b>Lägg till</b>.</li>
+<li>Specificera klientens MAC-adress eller DUID, den IPv4/IPv6-adress du vill tilldela till klienten och klientens värdnamn. </li>
+<li>Klicka på <b>OK</b> för att spara dina inställningar.</li>
+</ul>
+<p>
+<b>_____</b> <br> * Endast tillgängligt för specifika modeller eller beroende på din miljö.
+</p>
+</body>
+</html>

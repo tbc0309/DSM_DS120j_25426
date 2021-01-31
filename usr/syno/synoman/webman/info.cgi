@@ -1,0 +1,1 @@
+/usr/syno/bin/synosearchagent

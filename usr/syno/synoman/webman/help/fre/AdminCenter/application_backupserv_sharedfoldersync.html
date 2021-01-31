@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Sauvegarde et r&eacute;plication</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Synchronisation du dossier partag&eacute;</h2>
+<p>Le service de synchronisation du dossier partag&eacute; permet aux utilisateurs de synchroniser les dossiers partag&eacute;s depuis un p&eacute;riph&eacute;rique Synology&nbsp;NAS (la source) vers d&apos;autres p&eacute;riph&eacute;riques Synology&nbsp;NAS (les destinations) sur un r&eacute;seau local ou sur Internet.</p>
+<p>Synchronisation du dossier partag&eacute; effectue une synchronisation compl&egrave;te du ou des dossiers partag&eacute;s s&eacute;lectionn&eacute;s. Ensuite, seuls les fichiers modifi&eacute;s sont synchronis&eacute;s. Les fichiers qui ont &eacute;t&eacute; supprim&eacute;s de la source sont &eacute;galement supprim&eacute;s de la destination.</p>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<ul>
+<li>Synchronisation du dossier partag&eacute; est une solution de synchronisation &agrave; sens unique, qui synchronise les fichiers de la source vers la destination. Pour une solution de synchronisation bidirectionnelle, veuillez utiliser <strong>Synology&nbsp;Drive&nbsp;ShareSync</strong>.</li>
+<li>S&apos;il existe un dossier partag&eacute; du m&ecirc;me nom sur la destination (Par ex. SharedFolder) que dans le dossier partag&eacute; de la source, le dossier de destination est nomm&eacute; « SharedFolder_1 ».</li>
+<li>S&apos;il n&apos;existe pas de dossier partag&eacute; portant le m&ecirc;me nom sur la destination que le nom du dossier partag&eacute; de la source, un dossier est cr&eacute;&eacute; en prenant le nom du volume correspondant ou du premier volume disponible.</li>
+<li>Par d&eacute;faut, aucun utilisateur ne poss&egrave;de de privil&egrave;ge pour acc&eacute;der au dossier partag&eacute; sur la destination. Contactez l&apos;<strong>admin</strong> de la destination pour obtenir les privil&egrave;ges.</li>
+</ul>
+</p>
+</div>
+
+<h3>Activation du service</h3>
+<h4>Pour activer la synchronisation du dossier partag&eacute;&nbsp;:</h4>
+<p>Vous devez pr&eacute;alablement activer le service sur le Synology&nbsp;NAS de destination.</p>
+<ol>
+<li>Acc&eacute;dez &agrave; <strong>Panneau de configuration</strong>&nbsp;&gt; <strong>Service de fichiers</strong>&nbsp;&gt; <strong>rsync</strong>.</li>
+<li>S&eacute;lectionnez <strong>Activer le service rsync</strong> pour activer le service Synchronisation du dossier partag&eacute;.</li>
+<li>Cliquez sur <strong>Appliquer</strong>.</li>
+</ol>
+
+
+<h4>Pour d&eacute;connecter les dossiers partag&eacute;s du Synology&nbsp;NAS de destination&nbsp;:</h4>
+
+<p>Si diff&eacute;rentes sources synchronisent simultan&eacute;ment un dossier partag&eacute; identique sur un Synology NAS de destination, il y a conflit. Vous devez d&eacute;connecter le dossier partag&eacute; c&ocirc;t&eacute; source avant qu&apos;une autre source puisse synchroniser son dossier sur la destination.<ol>
+<li>Connectez-vous au Synology NAS de destination, puis acc&eacute;dez &agrave; <strong>Panneau de configuration</strong> &gt; <strong>Synchronisation du dossier partag&eacute;</strong> &gt; <strong>Liste de connexion</strong>.</li>
+<li>S&eacute;lectionnez la connexion en conflit sur le Synology NAS source, et cliquez sur <strong>D&eacute;connecter</strong> pour la supprimer.</li>
+</ol>
+
+<p>Une autre source peut d&eacute;sormais synchroniser le dossier partag&eacute; sur le Synology NAS de destination.</p>
+
+<h3>G&eacute;rer les t&acirc;ches de synchronisation</h3>
+
+<h4>Pour cr&eacute;er une t&acirc;che de synchronisation&nbsp;:</h4>
+<ol>
+<li>Connectez-vous au Synology NAS source, puis acc&eacute;dez &agrave; <b>Panneau de configuration</b> &gt; <b>Synchronisation du dossier partag&eacute;</b> &gt; <strong>Liste des t&acirc;ches</strong>.</li>
+<li>Cliquez sur <b>Cr&eacute;er</b>.</li>
+<li>saisissez un nom pour la t&acirc;che.</li>
+<li>S&eacute;lectionnez le dossier partag&eacute; que vous souhaitez synchroniser &agrave; la destination.</li>
+<li>Sp&eacute;cifiez le Synology NAS de destination et les options suivantes de synchronisation&nbsp;:</li>
+<ul>
+<li><strong>Personnaliser le port de chiffrement&nbsp;SSH pour la synchronisation du dossier partag&eacute; chiffr&eacute;</strong>&nbsp;: sp&eacute;cifiez le port de chiffrement souhait&eacute; pour le chiffrement du transfert SSH.</li>
+<li><strong>Activer le chiffrement du transfert&nbsp;SSH</strong>&nbsp;: chiffrez les donn&eacute;es pendant le transfert. Ceci offre une plus grande s&eacute;curit&eacute;, tandis que le transfert non chiffr&eacute; offre davantage de performances. Vous pouvez choisir selon vos besoins.</li> 
+<li><strong>Activer la compression du transfert</strong>&nbsp;: comprime les donn&eacute;es pendant le transfert. Cela permet d&apos;&eacute;conomiser la bande passante du r&eacute;seau mais augmente la charge du CPU.</li>
+<li><strong>Activer la synchronisation au niveau des blocs</strong>&nbsp;: transf&egrave;re seulement les donn&eacute;es diff&eacute;rentielles au lieu de fichiers entiers. Cela permet d&apos;&eacute;conomiser la bande passante du r&eacute;seau mais augmente la charge du CPU.</li>
+</ul>
+<li>Lorsque vous y &ecirc;tes invit&eacute;, s&eacute;lectionnez l&apos;une des options suivantes pour d&eacute;cider quand proc&eacute;der &agrave; la synchronisation de la source sur la destination&nbsp;:</li>
+<ul>
+<li><strong>Ex&eacute;cuter la synchronisation sur modification</strong>&nbsp;: Ex&eacute;cute la t&acirc;che de synchronisation imm&eacute;diatement apr&egrave;s un changement sur le dossier partag&eacute; source.</li>
+<li><strong>Ex&eacute;cuter la synchronisation manuellement</strong>&nbsp;: ex&eacute;cutez manuellement la t&acirc;che de synchronisation depuis le dossier partag&eacute; source.</li>
+<li><strong>Planification avanc&eacute;e</strong>&nbsp;: cliquez sur <strong>Plan de calendrier</strong> pour pr&eacute;ciser quand effectuer la t&acirc;che de synchronisation.</li>
+
+</ul>
+<li>Cliquez sur <strong>Appliquer</strong>. Vous pouvez maintenant voir la t&acirc;che de synchronisation sur la liste des t&acirc;ches, qui est effectu&eacute;e selon le programme sp&eacute;cifi&eacute;.</li></ol>
+<h4>Pour g&eacute;rer une t&acirc;che de synchronisation&nbsp;:</h4>
+<ol>
+<li>Sur le Synology NAS source, acc&eacute;dez au <strong>Panneau de configuration</strong> &gt; <strong>Synchronisation du dossier partag&eacute;,</strong> cliquez sur <strong>Liste des t&acirc;ches</strong> et s&eacute;lectionnez la t&acirc;che souhait&eacute;e.</li>
+<li>Choisissez l&apos;une des m&eacute;thodes suivantes&nbsp;:</li>
+<ul>
+<li>Cliquez sur <b>Modifier</b> pour modifier la t&acirc;che.</li>
+<li>Cliquez sur <b>Supprimer</b> pour supprimer la t&acirc;che.</li> 
+<li>Si la t&acirc;che de synchronisation n&apos;est pas en cours, cliquez sur <b>Synchroniser maintenant</b> pour effectuer la t&acirc;che imm&eacute;diatement.</li>
+<li>Si la t&acirc;che de synchronisation est en cours, cliquez sur <b>Annuler</b> pour arr&ecirc;ter la t&acirc;che en cours.</li>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<p>Si la planification pour une t&acirc;che de synchronisation est d&eacute;finie sur <b>Ex&eacute;cuter la synchronisation sur modification</b>, la t&acirc;che de synchronisation en cours sera interrompue si vous cliquez sur <b>Annuler</b>. Cependant, si des modifications sont apport&eacute;es au contenu du ou des dossiers partag&eacute;s contr&ocirc;l&eacute;s par la t&acirc;che de synchronisation, la synchronisation du dossier partag&eacute; reprend la t&acirc;che.</p>
+</div>
+
+<li>Cliquez sur <b>Synchro compl&egrave;te</b> pour synchroniser toutes les donn&eacute;es. La synchronisation du dossier partag&eacute; ex&eacute;cute une synchronisation compl&egrave;te, et synchronise uniquement les parties modifi&eacute;es apr&egrave;s la premi&egrave;re synchronisation. Vous pouvez synchroniser &agrave; nouveau manuellement toutes les donn&eacute;es en cliquant &agrave; nouveau sur ce bouton.</li>
+</ul>
+</ol>
+
+<div class="section">
+<h4>Plus d&apos;informations</h4>
+<ol>
+<li>Le nom de la t&acirc;che doit comporter de 1 &agrave; 32&nbsp;caract&egrave;res Unicode et ne doit pas contenir les caract&egrave;res suivants&nbsp;:<br> <span class="letterSpace5">! &quot; # $ % &amp; &apos; ( ) * + , / : ;<= >? @ [ ] \ ^ ` { } | ~</span></span></li>
+<li>Si vous synchronisez des dossiers partag&eacute;s du syst&egrave;me de fichiers&nbsp;ext4 vers&nbsp;ext3, des erreurs peuvent se produire si la t&acirc;che contient plus de 32&nbsp;000&nbsp;dossiers.</li>
+<li>Si les dossiers partag&eacute;s dans le Synology NAS de destination ont d&eacute;j&agrave; &eacute;t&eacute; synchronis&eacute;s avec un autre Synology NAS, la synchronisation du dossier partag&eacute; effectuera une synchronisation compl&egrave;te pour cette t&acirc;che.</li>
+<li>Pour effectuer des t&acirc;ches de synchronisation du dossier partag&eacute;, vous devez disposer du privil&egrave;ge admin sur le Synology NAS de destination. Soit vous disposez du mot de passe de son compte administrateur, soit vous &ecirc;tes dans son groupe d&apos;administration.</li>
+<li>Lors de la synchronisation vers le Synology NAS de destination via Internet, vous pouvez saisir le nom du serveur &agrave; l&apos;aide de son adresse&nbsp;IP externe ou de son nom d&apos;h&ocirc;te. Cependant, si vous choisissez de saisir son nom d&apos;h&ocirc;te, le nom doit &ecirc;tre au format FQDN (nom de domaine complet), comme «&nbsp;www.synology.com&nbsp;».</li>
+<li>Pour la transmission des ports, la synchronisation du dossier partag&eacute; utilise le port&nbsp;22 pour le transfert chiffr&eacute; et le port&nbsp;873 pour le transfert non chiffr&eacute;.</li>
+<li>Les p&eacute;riph&eacute;riques de stockage externe ne sont pas pris en charge par la synchronisation du dossier partag&eacute;.</li>
+<li>Lorsque la t&acirc;che Synchronisation du dossier partag&eacute; est ouverte, le ou les dossiers partag&eacute;s chiffr&eacute;s &agrave; la destination sont automatiquement mont&eacute;s ; toutefois, pour acc&eacute;der aux donn&eacute;es qui s&apos;y trouvent, vous devez pr&eacute;alablement monter le ou les dossiers partag&eacute;s chiffr&eacute;s sur &agrave; la destination.</li>
+<li>La synchronisation du dossier partag&eacute; planifi&eacute;e n&apos;est pas ex&eacute;cut&eacute;e &agrave; l&apos;heure sp&eacute;cifi&eacute;e si aucune modification n&apos;a &eacute;t&eacute; apport&eacute;e au dossier partag&eacute; s&eacute;lectionn&eacute;.</li>
+<li>Pour optimiser les performances, nous sugg&eacute;rons de faire en sorte que chaque t&acirc;che de synchronisation comprenne moins de 200 dossiers partag&eacute;s.</li>
+<li>La fonction <strong>Accueil utilisateur</strong> est d&eacute;sactiv&eacute;e sur le Synology NAS de destination si le dossier partag&eacute; <strong>homes</strong> est synchronis&eacute; depuis le Synology NAS source vers le Synology NAS de destination.</li>
+
+<li>Pour les mod&egrave;les disposant de processeurs non Intel, vous pouvez synchroniser jusqu&apos;&agrave; 100&nbsp;000&nbsp;dossiers partag&eacute;s (y compris les sous-dossiers) &agrave; l&apos;aide de la synchronisation du dossier partag&eacute;.</li>
+ <li>La synchronisation du dossier partag&eacute; peut sauvegarder les param&egrave;tres de Windows&nbsp;ACL lorsque le syst&egrave;me de fichiers de la destination est ext4 ou Btrfs. <br><span class="note_head">Remarque&nbsp;:</span> Les donn&eacute;es et les param&egrave;tres de Windows ACL stock&eacute;s sur Synology NAS ne peuvent pas &ecirc;tre synchronis&eacute;s avec l&apos;EDS14.</li>
+ 
+ <li>La synchronisation du dossier partag&eacute; &eacute;chouera si vous effectuez une synchronisation vers un serveur de destination qui porte le m&ecirc;me nom que votre Synology NAS.</li>
+ 
+<li>Les permissions avanc&eacute;es sur le dossier partag&eacute; &agrave; la source ne seront pas synchronis&eacute;es avec la destination. En outre, une r&egrave;gle de lecture seule pour le groupe administrators sera cr&eacute;&eacute;e sur la destination.</li> 
+
+  </ol>
+</div>
+
+</body></html>

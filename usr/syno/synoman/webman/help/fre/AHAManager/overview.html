@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Vue d'ensemble</h2>
+	<p>Cette page affiche des informations de base concernant le cluster high-availability et les serveurs membres. En outre, cette page fournit des outils pour effectuer l'entretien sur les clusters high-availability et les serveurs membres.</p>
+
+<h3>État du cluster high-availability</h3>
+  <p>Ce champ affiche l'état global de votre cluster high-availability et vous alerte en cas d'erreurs éventuelles. Voici une liste de conditions possibles affichées dans ce champ :</p>
+    <table>
+     <tr>
+      <th width="12%">État</th>
+      <th width="88%">Description</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Sain</strong></td>
+      <td>La condition générale de votre cluster high-availability est bonne.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Chargement</strong></td>
+	  <td>Le système charge l'état du cluster. Le <strong>basculement</strong> ne peut pas être effectué tant que le chargement de l'état n'est pas fini. Veuillez vous reporter à <a href="switchover_fail.html">Basculement</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>En cours de configuration</strong></td>
+	  <td>Le système est en cours de configuration. Le <b>basculement</b> ne peut pas être effectué tant que la configuration n'est pas terminée.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Avertissement</strong></td>
+      <td>L'état du cluster HA est anormal, mais les services sont toujours en fonction. Il est possible que le <strong>basculement</strong> ne soit pas réalisable dans cette situation.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Danger</strong></td>
+	  <td>Le serveur actif et le serveur passif sont tous les deux défectueux ou le stockage a planté. Le cluster high-availability ne peut pas fonctionner normalement. Veuillez vérifier l'état de tous les espaces de stockage (p.ex. RAID Groups, groupes de disques, volumes et iSCSI LUN). Le <b>basculement</b> n'est pas réalisable dans cette situation.</td>
+     </tr>
+    </table>
+<h3>Messages d'avertissement</h3>
+   <p>Le tableau suivant affiche les messages d'avertissement qui peuvent apparaître lorsqu'une erreur se produit sur​le système. Lorsque plus d'un message d'avertissement apparaît, vous pouvez naviguer entre eux avec les boutons avance/retour. </p>
+    <table>
+     <tr>
+      <th width="21%">Avertissement/Erreur</th>
+      <th width="79%">Description</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Il n'y a pas de serveur passif dans ce cluster high-availability</strong></td>
+	  <td>Les informations du serveur passif ne sont pas disponibles. Assurez-vous que le serveur passif est correctement connecté. Dans ce cas, le basculement ne sera pas disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Échec de détection du serveur passif</strong></td>
+      <td>Cette erreur peut se produire parce que le serveur passif est hors ligne ou ou que le serveur actif et le serveur passif ne peuvent pas communiquer via la connexion Heartbeat. Dans ce cas, le basculement ne sera pas disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Échec de l'exécution de la prise en charge</strong></td>
+      <td>Un basculement a été déclenché sur le serveur actif, mais il a échoué. Dans ce cas, le serveur actif ne tentera pas d'autre basculement. Pour éradiquer cette erreur, suivez les étapes ci-dessous :
+		<ol>
+		  <li>Essayez de trier les problèmes dans le cluster high-availability.</li>
+		  <li>Redémarrez le serveur passif.</li>
+		  <li>Effectuez un basculement en cliquant sur <strong>Gérer</strong> > <strong>Basculement</strong>.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Erreur de cible surveillée</strong></td>
+      <td>Une erreur s'est produite sur une ou plusieurs cibles surveillées, notamment l'état du système, un service ou une interface réseau.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Une ou des erreurs se sont produites au niveau de la connexion entre les unités d'extension et le serveur actif/passif</strong></td>
+      <td>Les unités d'expansion ne sont pas correctement connectées au serveur actif ou passif. Veuillez vous assurer que leur connexion au serveur actif est correcte, et configurez la même connexion au serveur passif. Dans ce cas, le basculement ne sera pas disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Un volume a été dégradé</strong></td>
+      <td>Un espace de stockage (par ex. RAID Group, groupes de disques, volumes, iSCSI LUN et cache SSD) est dégradé. Veuillez vérifier la page <b>État du stockage</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Un volume a planté</strong></td>
+      <td>Un espace de stockage (par ex. RAID Group, groupes de disques, volumes, iSCSI LUN et cache SSD) a planté. Veuillez vérifier la page <b>État du stockage</b>. Un basculement est automatiquement effectué si le serveur passif parvient à reconnaître les disques qui n'ont pas pu être accédés sur le serveur actif. Sinon, le basculement n'est pas disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>La connexion Heartbeat est perdue</strong></td>
+      <td>Cette erreur peut se produire en raison d'une panne de la connexion Heartbeat. Dans ce cas, le basculement ne sera pas disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Dysfonctionnement matériel</strong></td>
+      <td>Cette erreur peut survenir suite à une panne matérielle (par ex., alimentation ou ventilateur du système) sur le serveur actif ou passif.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Taille de RAM physique différente</strong></td>
+      <td>Cette erreur peut survenir si la taille de la RAM physique ne correspond pas sur les serveurs actif et passif. Dans ce cas, le basculement ne sera pas disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Aucune IP statique n'a été affectée à ce cluster high-availability</strong></td>
+      <td>Cette erreur peut se produire en raison du manque d'IP statiques pour le cluster high-availability. Dans ce cas, le basculement ne sera pas disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Il n'y a pas d'IP statique sur l'interface surveillée</strong></td>
+      <td>Cette erreur peut se produire en raison du manque d'IP statiques pour l'interface surveillée. Dans ce cas, le basculement ne sera pas disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Récupération du serveur passif</strong></td>
+      <td>La récupération du serveur passif est en cours. Dans ce cas, le basculement ne sera pas disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Mise à jour du serveur passif</strong></td>
+      <td>Le système est en train de mettre à niveau le serveur passif. Dans ce cas, le basculement ne sera pas disponible.</td>
+     </tr>
+
+    </table>
+
+<h3>Bouton &quot;Gérer&quot; du serveur high-availability</h3>
+
+<p>Ce bouton est situé sous les informations du cluster high-availability. Il comprend les opérations suivantes :</p>
+<ul>
+<li><b>Basculement :</b> Basculez les services depuis le serveur actif vers le serveur passif. Pendant ce processus, le serveur actif cesse de fournir les services et devient serveur passif. Ensuite, le serveur passif devient le serveur actif et commence à fournir tous les services du cluster high-availability. Cette option est indisponible quand le serveur passif est en statut d'<b>erreur</b> ou n'est pas sélectionné.</li>
+<li><b>Mettre à jour DSM :</b> Ouvre la page <strong>Mise à jour DSM</strong> du <strong>Panneau de configuration</strong>. Ici, les deux serveurs peuvent être mis à jour.</li>
+<li><b>Arrêter le cluster high-availability :</b> Arrête à la fois les serveurs actif et passif.</li>
+<li><b>Arrêter le serveur actif :</b> Arrête le serveur actif. Les services vont être basculés sur le serveur passif s'il est sain.</li>
+<li><b>Arrêter le serveur passif :</b> Arrête le serveur passif.</li>
+<li><b>Redémarrer le serveur actif :</b> Redémarre le serveur actif. Les services vont être basculés sur le serveur passif s'il est sain.</li>
+<li><b>Redémarrer le serveur passif :</b> Redémarre le serveur passif.</li>
+<li><b>Récupérer le serveur inconnu :</b> Récupérer le serveur passif s'il est remplacé ou s'il est encore reconnu comme inconnu.</li>
+<li><b>Bip système désactivé :</b> Interrompt le bip du serveur actif et du serveur passif lorsqu'une erreur se produit. Le système émet toujours un bip sur le serveur actif ou le serveur passif si une autre erreur survient par la suite.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Remarque :</h4>
+<ul>
+<li>Si vous arrêtez le serveur passif ou s'il n'existe pas de serveur passif, il n'est plus possible de basculer les services en cas d'erreur sur le serveur actif.</li>
+</ul>
+</div>
+
+<h3>Diagramme et informations du serveur</h3>
+ <p>Le diagramme du serveur affiche l'état du serveur. L'emplacement correspond au côté des modules auxquels le serveur est connecté. Passez le curseur de la souris dessus pour obtenir davantage de détails.</p>
+<p>Il comprend les situations suivantes :</p>
+<ul>
+  <li><b>Il n'y a pas de serveur passif dans ce cluster high-availability :</b> Affiche un cadre blanc.</li>
+  <li><b>Échec de détection du serveur passif :</b> Affiche une image de serveur floue.</li>
+  <li><b>Point d'exclamation :</b> Possible dysfonctionnement matériel ou les informations du serveur ne sont pas disponibles à cause d'une panne de connexion Heartbeat.</li>
+</ul>
+
+<div class="section">
+<h4>Remarque :</h4>
+<ul>
+<li>Si « inconnu » est affichée sur l'autre serveur, cela signifie que le serveur n'appartient pas au cluster high-availability. Cliquez sur <b>Gérer</b> et sélectionnez <b>Récupérer le serveur inconnu</b> pour corriger ce problème.</li>
+</ul>
+</div>
+
+<p>Les informations du serveur comprennent les entrées suivantes. <b>N/A</b> est affiché si aucun serveur passif n'est détecté.</p>
+
+  <ul>
+   <li><b>Numéro de série :</b> Numéro de série du serveur Synology.</li>
+   <li><b>État du ventilateur :</b> État des ventilateurs de refroidissement du serveur. Si l'un des ventilateurs est victime d'un dysfonctionnement, un avertissement apparaît. Dans ce cas, veuillez contacter votre distributeur local pour obtenir de l'aide.</li>
+   <li><b>Température :</b> Température du serveur Synology. </li>
+   <li><b>État de l'alimentation :</b> Indique si les alimentations du serveur fonctionnent toutes normalement ou non. Si le serveur est équipé d'alimentations redondantes, un avertissement apparaît en cas de dysfonctionnement de l'une d'elles.</li>
+    <li><b>Mémoire physique :</b> Taille de la RAM physique du serveur Synology. Le basculement est impossible si les deux serveurs n'ont pas la même taille de RAM physique.</li>
+  </ul>
+
+<h3>État de la connectivité entre les serveurs</h3>
+<p>Cette section comporte des images entre les serveurs actif et passif. Il comprend les situations suivantes :</p>
+<ul>
+  <li><b>Pas d'image :</b> Indique qu'aucun serveur passif n'est détecté.</li>
+  <li><b>Image fixe :</b> Indique une connexion Heartbeat incorrecte.</li>
+  <li><b>Point d'exclamation :</b> Indique une connexion anormale entre les deux serveurs ou une connexion Heartbeart incorrecte.</li>
+</ul>
+
+<h3>État de l'interface réseau</h3>
+<p>Cette section comporte des images entre les serveurs et le réseau de données. Il comprend les situations suivantes :</p>
+<ul>
+  <li><b>Pas de point d'exclamation :</b> Indique qu'aucune panne de réseau n'est détectée.</li>
+  <li><b>Point d'exclamation :</b> Indique une panne au niveau de l'interface réseau surveillée.</li>
+</ul>
+
+<h3> Diagramme et informations du stockage partagé</h3>
+ <p>Le diagramme de stockage partagé montre l'état de la connectivité entre les serveurs et le stockage partagé. Passez le curseur de la souris dessus pour obtenir des informations de base.</p>
+<p>Il comprend les situations suivantes :</p>
+<ul>
+  <li><b>Pas de point d'exclamation :</b> Indique qu'aucune erreur n'est détectée.</li>
+  <li><b>Point d'exclamation :</b> Indique un état de connectivité anormale des unités d'expansion.</li>
+</ul>
+
+<p>Les informations de base du stockage partagé comprennent les entrées suivantes. Accédez à <b>Gestionnaire de stockage</b> pour obtenir des informations plus détaillées.</p>
+
+  <ul>
+   <li><b>État du ventilateur :</b> Affiche l'état des ventilateurs de vos unités d'expansion. Si un ventilateur dysfonctionne, un avertissement apparaîtra. Dans ce cas, veuillez contacter votre distributeur local pour obtenir de l'aide.</li>
+   <li><b>État de l'alimentation :</b> Indique si les alimentations du serveur fonctionnent toutes normalement ou non. Un avertissement s'affiche si l'une d'elles est victime d'un dysfonctionnement.</li>
+   </ul>
+ </body>
+</html>

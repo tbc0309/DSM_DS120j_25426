@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Adatok biztonsági mentése</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Biztonsági mentés</h2>
+
+<p>A <strong>Biztonsági mentés és visszaállítás</strong> funkció segítségével számos különféle típusú adatról (rendszerkonfiguráció, megosztott mappák és alkalmazások/csomagok) készíthet manuális vagy ütemezett biztonsági mentést a(z) Synology NAS készülékén. A biztonsági mentés adatait helyi megosztott mappákban, távoli szervereken, vagy akár nyilvános felhőkben is (Amazon S3, Microsoft Azure, hicloud S3 és SFR NAS BACKUP) tárolhatja. A <strong>Biztonsági mentés és visszaállítás</strong> funkció használata esetén minden biztonsági mentési feladat több biztonsági mentést is tartalmazhat, melyek rotációja a Smart Recycle szabályok alapján történik.</p>
+
+
+<h3>Adatok biztonsági mentése</h3>
+<p>A <strong>Biztonsági mentés és visszaállítás</strong> használata során számos mentési hely közül választhat, a biztonsági adatmentési feladat pedig számos különféle módon állítható be.</p>
+
+<h4>Biztonsági mentési feladat létrehozása:</h4>
+
+<ol>
+<li>Kattintson a bal alsó sarokban található <strong>+</strong> gombra, majd a Biztonsági mentés varázsló elindításához válassza a <strong>Biztonsági adatmentési feladat</strong> lehetőséget.</li>
+<li>Válassza ki a biztonsági mentés helyének típusát:<ul>
+<li>Helyi/távoli megosztott mappák vagy külső tárolóeszközök</li>
+<li>Távoli rsync-szerverek</li>
+<li>Nyilvános felhők (pl. Amazon S3 és Microsoft Azure)</li>
+</ul>
+</li>
+<li>Állítsa be a biztonsági mentési feladat típusát:<ul>
+<li>Teljesen új feladat létrehozásához válassza a <strong>Biztonsági mentési feladat létrehozása</strong>.</li>
+<li>Egy adott helyen már meglévő biztonsági mentési adatok ismételt felhasználásához válassza az <strong>Újracsatolás létező feladathoz</strong> lehetőséget. Az újracsatolás segítségével kihasználhatja a más feladatokban lévő biztonsági adatok nyújtotta előnyöket.</li>
+</ul>
+</li>
+
+<li>A beállítások elvégzéséhez kövesse a varázslóban megjelenő útmutatásokat. Az adatok átvitelt megelőző titkosítása érdekében válassza a <strong>Kliensoldali titkosítás engedélyezése</strong> lehetőséget, ezzel biztosítva a biztonsági mentési célhelyen lévő adatok biztonságát.</li>
+</ol>
+
+
+<div class="section">
+<h4>Megjegyzések:</h4>
+<ul>
+<li>A feladatok neve 1–32 Unicode karaktert tartalmazhat, az alábbiak kivételével:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; < = > ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>Biztonsági mentés esetén a mappa teljes elérési útvonala nem lehet hosszabb 2048 karakternél.</li>
+<li>Ha AFP segítségével 32000 fájlnál vagy mappánál többet tölt fel egy EXT3 megosztott mappába, akkor valamennyi biztonsági mentési feladat sikertelen lesz, beleértve a megosztott mappát is.</li>
+<li>Titkosított megosztott mappáról akkor készíthető biztonsági mentés, ha csatlakoztatva van, a helyreállítás során pedig egy titkosított vagy nem titkosított mappába is visszaállíthatók. A helyreállítás után azonban a mappák mindig titkosítatlan állapotba kerülnek, a számítógép indításakor pedig a rendszer nem csatolja azokat automatikusan. Titkosított megosztott mappa csatlakoztatásához meg kell adnia, illetve importálnia kell annak titkosítási kulcsát.</li>
+<li>Titkosított mappa biztonsági mentése másik titkosított mappába nem támogatott.</li>
+<li>Távoli mappák használata a biztonsági mentés forrásaként vagy céljaként nem támogatott.</li>
+<li>A rendszer csak bizonyos alkalmazások esetében támogatja a biztonsági mentést. Ha kíváncsi rá, hogy egy adott csomag támogatja-e a biztonsági mentést, illetve szeretné megismerni a biztonsági mentés tartalmát és a rá vonatkozó korlátozásokat, tekintse át az egyes alkalmazások súgóját.</li>
+<li class="enable-eds14">A(z) Synology NAS írható EXT3/EXT4 külső eszköz nélkül nem támogatja az alkalmazások biztonsági mentését.</li>
+<li class="enable-eds14">A(z) Synology NAS kizárólag EXT3/EXT4 külső eszközökön létrehozott megosztott mappák biztonsági mentésére képes.</li>
+</ul>
+</div>
+
+
+<div class="section disable-eds14">
+<h4>Windows ACL-beállítások biztonsági mentése:</h4>
+<p>A(z) Synology NAS eszközön található fájlok Windows ACL-beállításairól is készíthető biztonsági mentés, a cél fájlrendszerétől függően:</p>
+
+<ul>
+<li>A célhely fájlrendszerétől függetlenül minden biztonsági mentési hely képes menteni a Windows ACL beállításokat.</li>
+</ul>
+</div>
+
+<h4>Biztonsági mentés adatainak exportálása nyilvános felhőbe vagy távoli Synology NAS eszközre:</h4>
+<p>Nagy mennyiségű adat nyilvános felhőbe történő biztonsági mentése során azt javasoljuk, hogy az eredeti verziót exportálja egy külső tárolóeszközre (pl. USB-meghajtóra), majd az eszközt juttassa el a felhőszolgáltató számára. Így a felhőszolgáltató csatlakoztatni tudja az eszközt a rendszeréhez, melynek eredményeképpen az adatokat közvetlenül tudja feltölteni a felhőbe. Ily módon az első biztonsági mentés ideje jelentősen lecsökkenthető.</p>
+<ol>
+<li>Kattintson a bal alsó sarokban található <strong>+</strong> gombra, majd válassza a <strong>Távoli Synology NAS</strong> lehetőséget, vagy jelölje ki a választott felhőszolgáltatót.</li>
+<li>Válassza az <strong>Exportálás helyi megosztott mappába (külső tárolóeszközöket is beleértve)</strong> lehetőséget, majd végezze el a beállításokat. Amikor a rendszer választási lehetőséget kínál fel, a védett biztonsági adatmentés érdekében válassza a <strong>Kliensoldali titkosítás engedélyezése</strong> lehetőséget.</li>
+<li>Juttassa el a külső tárolóeszközt a távoli Synology NAS eszközhöz vagy a felhőszolgáltatóhoz. Importálja az exportált adatokat a külső tárolóeszközről.</li>
+<li>A megerősítést követően lépjen vissza a <strong>Biztonsági mentés és visszaállítás</strong> funkcióra, majd kattintson az <strong>Újracsatolás most</strong> lehetőségre.</li>
+<li>A(z) Synology NAS eszköz és a raktár összekapcsolásához kövesse az Újracsatolási varázsló által megjelenített utasításokat. Amennyiben az adatokat titkosítva exportálta, jelszót/titkosítási kulcsot is meg kell adnia.</li>
+</ol>
+
+<div class="section">
+	<h4>Megjegyzés:</h4>
+	<ul>
+		<li>A feladat létrehozását követően a kliensoldali titkosítás nem tiltható le, illetve a jelszó sem módosítható.</li>
+		<li>Egy biztonsági mentési raktár csak egy biztonsági mentési feladattal kapcsolható össze.</li>
+		<li>Amennyiben a biztonsági mentés forrásmappája egy titkosított megosztott mappa vagy almappa, a forrásmappa a biztonsági mentési feladat létrehozásakor csatolható vagy választható le.</li>
+		<li>A titkosított megosztott mappák nem használhatók a biztonsági mentési feladatok célmappájaként.</li>
+		<li>A <strong>Kliensoldali titkosítás engedélyezése</strong> lehetőség kiválasztása esetén a feladatban szereplő adatok visszaállításához jelszó/titkosítási kulcs megadása szükséges. <strong>A jelszó/titkosítási kulcs elvesztése végleges adatvesztést von maga után</strong>.</li>
+	</ul>
+</div>
+
+<h4>Biztonsági mentési feladatok kezelése:</h4>
+<p>A bal oldali panelen válasszon egy biztonsági mentési feladatot, majd a megfelelő feladat elvégzése érdekében kattintson az alábbi gombok valamelyikére:</p>
+<ul>
+<li><strong>Biztonsági mentés most</strong>: A kiválasztott feladat biztonsági mentésének azonnali elkészítése.</li>
+<li><strong>Biztonságimentés-kezelő</strong> (a nagyító ikon): A biztonsági mentés összes verziójának megtekintése, valamint a bennük tárolt fájlok másolása/visszaállítása/letöltése.</li>
+<li><strong>Verziólista</strong>: Az összes biztonsági mentési verzió létrehozási dátumának és státuszának megtekintése, adott verziók törlése, valamint konkrét verziók lezárása a kényszerített megőrzés érdekében.</li>
+<li><strong>Szerkesztés</strong>: A biztonsági mentés forrásának, célhelyének, ütemezésének és egyéb beállításainak módosítása.</li>
+<li><strong>Törlés</strong>: A biztonsági mentési feladat törlése.</li>
+<li><strong>Mégse</strong>: A folyamatban lévő biztonsági mentési feladat leállítása</li>
+</ul>
+
+
+<h4>Verziók rotációja:</h4>
+<p>A biztonsági mentések rotációja a verziók kezelését határozza meg. Automatikusan törli a régi, szükségtelen verziókat, így segít a biztonsági mentések változatainak kezelésében, illetve tárhelyet szabadít fel. A funkció a <strong>Feladatbeállítások</strong> pontban engedélyezhető, illetve a biztonsági mentési feladat létrehozásakor is beállítható.</p>
+<ol>
+<li>A bal oldali panelen válassza ki a kívánt biztonsági mentési feladatot, majd kattintson a <strong>Szerkesztés</strong> vagy a <strong>Beállítások</strong>> <strong>Feladatbeállítások</strong> lehetőségre.</li>
+<li>Válassza a <strong>Biztonsági mentés rotáció engedélyezése</strong> lehetőséget, majd válassza ki a kívánt rotációs módot:<ul>
+<li><strong>A legkorábbi verzióktól</strong>: Amikor az elérhető verziók száma elér egy előre meghatározott értéket, a rendszer a biztonsági mentés legrégebbi verzióit törli.</li>
+<li><strong>Smart Recycle</strong>: A biztonsági mentési verziók megőrzése a következő szabályok valamelyike alapján történik:<ul>
+<li><strong>Óránkénti verziók az elmúlt 24 órából</strong>: A rendszer az adott órában legkorábban létrehozott verziót tartja meg.</li>
+<li><strong>Napi verziók az előző 1 naptól 1 hónapig visszamenőleg</strong>: A rendszer az adott napon legkorábban létrehozott verziót tartja meg.</li>
+<li><strong>1 hónapnál idősebb heti verziók</strong>: A rendszer az adott héten legkorábban létrehozott verziót tartja meg.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Határozza meg a <strong>verziók számának</strong> maximális értékét. Amikor a verziók száma meghaladja ezt az értéket, a legrégebbi verzió törlésre kerül.</li>
+<li>Amennyiben az <strong>Ütemezés</strong> menüpontban egy ismételt biztonsági mentési ütemtervet állított be, egy előnézet segítségével megtekintheti a biztonsági mentések verzióinak megőrzési módját, illetve egy idővonal segítségével a legrégebbi visszaállítási pont dátumát is megtekintheti.</li>
+<li>A beállítások mentéséhez kattintson az <strong>OK</strong> gombra.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>A zárolt verziókat sosem távolítja el a rendszer.</li>
+<li>A verziórotáció kizárólag a többverziós biztonsági mentési feladatok esetén érhető el.</li>
+<li>A verziórotációt a DSM 5.1 és az ennél régebbi kiadások nem támogatják.</li>
+<li>A rotáció a beállítás módosítását követően azonnal vagy a biztonsági mentés feladat befejezését követően kerül végrehajtásra.</li>
+<li>A maximális verziók számának meghatározásánál a rendszer a zárolt verziókat nem veszi figyelembe.</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>A biztonsági adatmentési feladatra vonatkozó megjegyzések.</h3>
+<p>Kérjük, hogy minden biztonsági mentési feladattípus esetén olvassa el a következőkben ismertetett, fontos beállítási információkat és hibaelhárítási tippeket.</p>
+
+<h4>Helyi biztonsági mentési feladatok:</h4>
+<ul>
+<li>Ha biztonsági mentési feladat közben a célhelyen adatokat töröl, a feladat következő végrehajtásakor a rendszer teljes biztonsági mentést készít.</li>
+<li>Az új külső meghajtókat esetleg formázni kell azelőtt, hogy biztonsági mentési célhelyeként szolgálhatnának. </li>
+<li>Biztonsági mentési feladat létrehozása előtt győződjön meg róla, hogy valóban megfelelően elvégezte-e a külső meghajtók csatlakoztatását a(z) Synology NAS eszközhöz. Az USB/eSATA-meghajtók állapotának ellenőrzéséhez lépjen a <b>Vezérlőpult</b> > <b>Külső eszközök</b> menüpontra. Külső meghajtók nem választhatók ki a biztonsági mentés célhelyeként, ha a külső meghajtó éppen inicializálás vagy formázás alatt van, illetve hibásan működik.</li>
+<li>Távoli csatlakoztatású megosztott mappák nem választhatók ki a biztonsági mentés forrásaként vagy céljaként.</li>
+<li>A leválasztott titkosított megosztott mappák nem választhatók ki a biztonsági mentés célhelyeként.</li>
+<li>Képminiatűrökről nem készíthető biztonsági másolat, amennyiben a célhely fájlrendszere NTFS/FAT.</li>
+</ul>
+
+
+
+
+
+<h4>Távoli rsync biztonsági mentési feladatok:</h4>
+<ul>
+<li>Amikor olyan biztonsági mentési feladatot hoz létre, melyben a hálózati biztonsági mentés célhelye rsync-kompatibilis szerver, az alábbi módok állnak rendelkezésre: <b>rsync daemon üzemmód,</b> amely akkor használatos, ha a <b>Biztonsági mentés modul</b> melletti legördülő menüből választ ki egy biztonsági mentési modult (megosztott mappát az rsync-kompatibilis szerveren); valamint a <b>remote shell üzemmód,</b> amely kizárólag akkor használható, ha („/” jellel kezdődő) abszolút útvonalat ad meg a <b>Biztonsági mentés modul</b> opciónál.</li>
+<li>Linux-felhasználók számára kizárólag az <strong>admin</strong>, <strong>root</strong> és <strong>rsync</strong> fiókok használata engedélyezett biztonsági mentési feladat végrehajtásához.</li>
+<li>Ha a célszerver elérésére az interneten keresztül, annak állomásnevének használatával kerül sor, akkor az állomásnévnek FQDN (teljes értékű tartománynév) formátummal kell rendelkeznie, például: <strong>abc.bcd.com</strong>.</li>
+<li>Ha egyik Synology NAS eszközéről a másikra végez biztonsági mentést, a rendszer felszólítja egy, a célhelyen található fiókhoz tartozó felhasználónév és jelszó megadására. Másik Synology NAS eszközön található megosztott mappákba a mappák hozzáférési jogosultság beállításai szerint készíthet biztonsági mentést. Csak azok a megosztott mappák jelennek meg, amelyekhez a meghatározott felhasználói fiók hozzáférési jogosultsággal rendelkezik. Ha nem találja a kívánt megosztott mappát a célhelyen, ellenőrizze a hozzáférési jogosultságokat.</li>
+<li>Az átviteli titkosítás csak akkor támogatott, ha a célszerver támogatja a titkosított hálózati biztonsági mentést, és a hitelesítő jelszó mező nem üres.</li>
+<li>A remote shell üzemmód kizárólag a titkosított átvitelt támogatja.</li>
+<li>Ha a fájlok biztonsági mentését Synology NAS termékére rsync-kliensen keresztül végzi, akkor kizárólag UTF-8 kódolású fájlneveket használhat.</li>
+<li>Ha a fájlok biztonsági mentését rsync-kompatibilis klienssel egy Synology NAS készülékre végzi, a feladatot csak a(z) Synology NAS eszköz <strong>admin</strong>, <strong>root</strong> és <strong>rsync</strong> fiókjában tudja végrehajtani.</li>
+<li>Ha a fájlok biztonsági mentését Synology NAS eszközéről egy rsync-kompatibilis szerverre végzi, meg kell adnia az rsync biztonsági mentéshez tartozó fiók felhasználónevét és jelszavát. A megfelelő biztonsági mentési modult is ki kell választania írási jogosultsággal.</li>
+</ul>
+
+
+
+<h4>Amazon S3 biztonsági mentési feladatok:</h4>
+<ul>
+  <li>Amikor olyan biztonsági mentési feladatot hoz létre, melyben a hálózati biztonsági mentés célhelye az Amazon S3 szerver, különböző lehetőségek állnak rendelkezésre, például az átvitel titkosítása, biztonsági mentés Amazon S3 RRS tárolóra (Csökkentett redundanciájú tárolás) stb. Ne feledje, hogy egyes lehetőségek, például az átvitel titkosítása esetleg csökkenthetik a biztonsági mentési feladatok sebességét.</li>
+  <li>A biztonsági mentés fájljai az Amazon S3 szerveren kiválasztott <strong>Bucket</strong> tárolóba kerülnek, a beállított Key értéke az Ön által választott könyvtár nevével fog kezdődni, valamint a fájl teljes fájlelérési útvonalával fog végződni.</li>
+  <li>Az Amazon S3 adatstruktúrája egy összepárosított Bucket tárolót és KEY elemet tartalmaz, mappastruktúra nélkül. Üres mappa biztonsági mentése nem támogatott.</li>
+  <li>A nem módosított biztonsági mentési fájlokról nem készül ismételten biztonsági mentés az Amazon S3 szerveren található Bucket tárolóba.</li>
+  <li>Az Amazon S3 szerveren minden egyes Bucket tárolónak egyedi névvel kell rendelkeznie. A névnek ezenfelül meg kell felelnie az alábbiaknak is:</li>
+<ul>
+  <li>3–63 karakter közötti karaktert tartalmazhat.</li>
+  <li>csak kisbetűket, számokat, pontot (.) és kötőjelet (-) tartalmazhat.</li><li>számmal vagy betűvel kell kezdődnie, nem végződhet kötőjelre (-), nem tartalmazhat két egymás melletti pontot, illetve nem tartalmazhat egymás mellett kötőjelet és pontot (pl. a „my-.bucket.com” és a „my.-bucket” nevek érvénytelenek).</li>
+</ul>
+<li>Az Amazon S3 KEY maximális hossza 1024 karakter lehet. Az Amazon S3 szerverre végzendő sikeres biztonsági mentés biztosítása érdekében az útvonal maximális hossza 1024 karakter mínusz a feladat létrehozása közben meghatározott célmappa neve lehet.</li>
+<li>Ha engedélyezi az Amazon S3 RRS (Reduced Redundancy Storage – csökkentett redundanciájú tárolás) támogatását, a rendszer kizárólag a funkció engedélyezése után módosult adatokat menti az RRS-tárhelyre, tehát az Amazon S3 normál tárhelyére már korábban elmentett adatokról nem készül új mentés az RRS-re. </li>
+<li>A rendszer nem támogatja a biztonsági mentési fájlok áthelyezését az Amazon S3 szolgáltatásból az Amazon Glacier szolgáltatásba. Ha a fájlokat az Amazon S3-ról az AWS kezelőkonzol segítségével próbálja áthelyezni az Amazon Glacier szolgáltatásba, a kapcsolódó biztonsági mentési feladatok sikertelenek lehetnek.</li>
+<li>A rendszer nem támogatja a fájlok virtuálisan szolgáltatott bucket tárolókba történő biztonsági mentését SSL segítségével.</li>
+<li>A fájl átvitele során a rendszer részekre osztja a fájlt. A részméret a feladat beállításai között található <strong>Többrészes feltöltési rész mérete</strong> opcióval adható meg. Az alapértelmezett érték 512 MB. Instabil hálózati környezet esetén kisebb szám megadása ajánlott.</li>
+
+<li>Legfeljebb 10 000 részt tölthet fel egyszerre. A maximális fájlméret egyenlő a <strong>Többrészes feltöltési rész mérete</strong> opciónál megadott érték tízezerszeres szorzatával.</li>
+<li>A fájlnevek nem tartalmazhatnak UTF-8 kódolástól eltérő, illetve vezérlőkaraktereket.</li>
+</ul>
+
+
+
+<h4>Microsoft Azure biztonsági mentési feladatok:</h4>
+<ul>
+<li>Amikor olyan biztonsági mentési feladatot hoz létre, melyben a hálózati biztonsági mentés célhelye a Microsoft Azure szerver, különböző lehetőségek állnak rendelkezésre, például az átvitel titkosítása. Ne feledje, hogy egyes lehetőségek, például az átvitel titkosítása esetleg csökkenthetik a biztonsági mentési feladatok sebességét.</li>
+<li>A biztonsági mentés fájljai a Microsoft Azure szerveren kiválasztott <strong>Container</strong> tárolóba kerülnek, a beállított Blob neve az Ön által választott könyvtár nevével fog kezdődni, valamint a fájl teljes fájlelérési útvonalával fog végződni.</li>
+<li>A Microsoft Azure adatstruktúrája egy Container és Blob párt tartalmaz, mappastruktúra nélkül. Üres mappa biztonsági mentése nem támogatott.</li>
+<li>A nem módosított biztonsági mentési fájlokról nem készül ismételten biztonsági mentés a Microsoft Azure szerveren található Container tárolóba.</li>
+<li>A Microsoft Azure szerver minden Container tárolójának egyedi névvel kell rendelkeznie. A névnek ezenfelül meg kell felelnie az alábbiaknak is:</li>
+<ul>
+<li>3–63 karakter közötti karaktert tartalmazhat.</li>
+<li>csak kisbetűket, számokat és kötőjelet (-) tartalmazhat.</li>
+<li>számmal vagy betűvel kell kezdődnie és végződnie, továbbá nem tartalmazhat két egymás melletti kötőjelet.</li>
+</ul>
+<li>A Microsoft Azure Blob nevének maximális hossza 1024 karakter lehet. A Microsoft Azure szerverre végzendő sikeres biztonsági mentés biztosítása érdekében az útvonal maximális hossza 1024 karakter mínusz a feladat létrehozása közben meghatározott célmappa neve lehet.</li>
+
+<li>A fájlnevek nem tartalmazhatnak UTF-8 kódolástól eltérő, illetve vezérlőkaraktereket.</li>
+<li>Előfordulhat, hogy a sikertelen hitelesítésről szóló figyelmeztető üzenetet helytelen hitelesítési adatok vagy hálózati csatlakozási probléma okozza, illetve az is elképzelhető, hogy nem egyezik meg a(z) Synology NAS eszközön és a távoli szerveren beállított idő. A(z) Synology NAS eszköz időbeállításainak ellenőrzéséhez lépjen a <strong>Vezérlőpult</strong> > <strong>Területi beállítások</strong> > <strong>Idő</strong> menüpontra, majd szinkronizálja az időt az NTP-szerveren.</li>
+</ul>
+
+
+
+<h4>hicloud S3 biztonsági mentési feladatok:</h4>
+<ul>
+<li>Amikor olyan biztonsági mentési feladatot hoz létre, melyben a hálózati biztonsági mentés célhelye a hicloud S3 szerver, különböző lehetőségek állnak rendelkezésre, például az átvitel titkosítása. Ne feledje, hogy egyes lehetőségek, például az átvitel titkosítása esetleg csökkenthetik a biztonsági mentési feladatok sebességét.</li>
+<li>A biztonsági mentés fájljai a hicloud S3 szerveren kiválasztott <strong>Bucket</strong> tárolóba kerülnek, a Set KEY értéke az Ön által választott könyvtár nevével fog kezdődni, valamint a fájl teljes fájlelérési útvonalával fog végződni.</li>
+<li>A hicloud S3 adatstruktúrája egy Bucket és KEY párt tartalmaz, mappastruktúra nélkül. Üres mappa biztonsági mentése nem támogatott.</li>
+<li>A nem módosított biztonsági mentési fájlokról nem készül ismételten biztonsági mentés a hicloud S3 szerveren található Bucket tárolóba.</li>
+<li>A hicloud S3 szerveren minden egyes Bucket tárolónak egyedi névvel kell rendelkeznie. A névnek ezenfelül meg kell felelnie az alábbiaknak is:</li>
+<ul>
+<li>3–63 karakter közötti karaktert tartalmazhat.</li>
+<li>csak kisbetűket, számokat, pontot (.) és kötőjelet (-) tartalmazhat.</li>
+<li>számmal vagy betűvel kell kezdődnie, nem végződhet kötőjelre (-), nem tartalmazhat két egymás melletti pontot, illetve nem tartalmazhat egymás mellett kötőjelet és pontot (pl. a „my-.bucket.com” és a „my.-bucket” nevek érvénytelenek).</li>
+</ul>
+<li>A hicloud S3 KEY maximális hossza 255 karakter lehet. A hicloud S3 szerverre végzendő sikeres biztonsági mentés biztosítása érdekében az útvonal maximális hossza 255 karakter mínusz a feladat létrehozása közben meghatározott célmappa neve lehet.</li>
+<li>A fájl átvitele során a rendszer részekre osztja a fájlt. A részméret a feladat beállításai között található <strong>Többrészes feltöltési rész mérete</strong> opcióval adható meg. Az alapértelmezett érték 512 MB. Instabil hálózati környezet esetén ennél alacsonyabb érték használata ajánlott.</li>
+
+<li>A Hicloud feltöltésenként legfeljebb 1000 részt támogat. Ez azt is jelenti, hogy az összes fájl mérete együttesen nem haladhatja meg a részméret ezerszeresét. Ha például 8 MB-ra állítja a Többrészes feltöltési rész mérete opciót és egyetlen, 8000 MB-ot meghaladó méretű fájlt próbál feltölteni, a rendszer hibát fog jelezni. </li>
+
+<li>A titkosított megosztott mappába való biztonsági mentést a rendszer nem támogatja.</li> 
+
+<li>A fájlnevek nem tartalmazhatnak UTF-8 kódolástól eltérő, illetve vezérlőkaraktereket.</li>
+</ul>
+
+
+  
+
+<h4>SFR NAS BACKUP biztonsági mentési feladatok:</h4>
+<ul>
+<li>Olyan biztonsági mentési feladatok létrehozásánál, ahol egy SFR NAS BACKUP szerver a hálózati biztonsági mentési célhely, különböző beállítások állnak rendelkezésre, pl. átvitel titkosítás stb. Ne feledje, hogy egyes lehetőségek, például az átvitel titkosítása esetleg csökkenthetik a biztonsági mentési feladatok sebességét.</li>
+<li>A biztonsági mentés fájljai az SFR NAS BACKUP szerveren kiválasztott <strong>Bucket</strong> tárolóba kerülnek, a beállított Key értéke az Ön által választott könyvtár nevével fog kezdődni, valamint a fájl teljes fájlelérési útvonalával fog végződni.</li>
+<li>Az SFR NAS BACKUP adatstruktúrája egy összepárosított Bucket tárolót és Key elemet tartalmaz, mappastruktúra nélkül. Üres mappa biztonsági mentése nem támogatott.</li>
+<li>A nem módosított biztonsági mentési fájlokról nem készül ismételten biztonsági mentés az SFR NAS BACKUP szerveren található Bucket tárolóba.</li>
+<li>Az SFR NAS BACKUP szerveren minden egyes Bucket tárolónak egyedi névvel kell rendelkeznie. A névnek ezenfelül meg kell felelnie az alábbiaknak is:</li>
+<ul>
+<li>3–63 karakter közötti karaktert tartalmazhat.</li>
+<li>csak kisbetűket, számokat, pontot (.) és kötőjelet (-) tartalmazhat.</li>
+<li>számmal vagy betűvel kell kezdődnie, nem végződhet kötőjelre (-), nem tartalmazhat két egymás melletti pontot, illetve nem tartalmazhat egymás mellett kötőjelet és pontot (pl. a „my-.bucket.com” és a „my.-bucket” nevek érvénytelenek).</li>
+</ul>
+<li>Egy SFR NAS BACKUP KEY maximális hossza 1024 karakter lehet. Az SFR NAS BACKUP szerverre végzendő sikeres biztonsági mentés biztosítása érdekében az útvonal maximális hossza 1024 karakter mínusz a feladat létrehozása közben meghatározott célmappa neve lehet.</li>
+<li>A fájl átvitele során a rendszer részekre osztja a fájlt. A részméret a feladat beállításai között található <strong>Többrészes feltöltési rész mérete</strong> opcióval adható meg. Az alapértelmezett érték 64MB. Instabil hálózati környezet esetén ennél alacsonyabb érték használata ajánlott.</li>
+
+<li>A fájlnevek nem tartalmazhatnak UTF-8 kódolástól eltérő, illetve vezérlőkaraktereket.</li> 
+
+</ul>
+
+<h4>Egyéb S3-kompatibilis biztonsági mentési feladatok:</h4>
+<ul>
+<li>Amikor a rendszer erre kéri, az egyéb S3-kompatibilis felhő használatához írja be a kívánt S3-kompatibilis felhő IP-címét/tartományát az <strong>S3-szerver</strong> mezőbe.</li>
+<li>Amennyiben a használattal kapcsolatos probléma merül fel, kérjük, tekintse meg a megfelelő dokumentációt, vagy vegye fel a kapcsolatot az S3-kompatibilis felhő szolgáltatójával.</li>
+</ul>
+
+<h3>LUN biztonsági mentés*</h3>
+
+<p>A <b>Helyi LUN biztonsági mentés</b> funkciót a(z) Synology NAS eszközön található iSCSI LUN-ok helyi megosztott mappákba történő biztonsági mentéséhez használhatja. A <b>Hálózati LUN biztonsági mentés (Synology szerver)</b> funkciót más Synology NAS eszközre történő biztonsági mentéshez is használhatja.</p>
+
+<h4>iSCSI LUN biztonsági mentése:</h4>
+<ol>
+<li>Kattintson a bal alsó sarokban található <strong>+</strong> gombra, majd válassza ki a <strong>LUN biztonsági mentési feladat</strong> lehetőséget.</li>
+<li>Amikor a rendszer felkéri, hogy válasszon céltípust, válasszon a következők közül:</li>
+<ul>
+<li><b>Helyi LUN biztonsági mentés</b>: Ezt az opciót választva a LUN biztonsági mentése a(z) Synology NAS eszközről helyi megosztott mappába vagy a(z) Synology NAS készülék USB- vagy eSATA-portjához csatlakoztatott külső meghajtóra végezhető.</li>
+<li><b>Hálózati LUN biztonsági mentés (Synology szerver)</b>: Ezen opció kiválasztása esetén a LUN biztonsági mentése a(z) Synology NAS eszközéről egy másik Synology NAS eszközre végezhető el.</li>
+</ul>
+<li>A kérdésre adja meg a biztonsági mentés célhelyét és a forrás LUN-t, majd állítsa be a mentés időzítését.</li>
+<li>A beállítás befejezéséhez kövesse a varázsló utasításait.</li>
+</ol>
+<p>A biztonsági mentési feladat létrehozását követően a(z) Synology NAS eszköz az ütemezés szerint végzi el a biztonsági mentési feladatot, illetve eszerint tárolja el a LUN-ok biztonsági másolatát a célhelyen. A LUN biztonsági másolata kizárólag biztonsági mentési célokat szolgál. A LUN biztonsági másolatának elérésével kapcsolatos további információkért tekintse meg a <a href="restore.html">LUN visszaállítása biztonsági másolatból</a> című fejezetet.</p>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>A normál fájl LUN-ok és a blokkszintű LUN-ok biztonsági mentése során képfájlok készülnek a célhelyen. Visszaállítás esetén minden blokkszintű LUN-t fájl LUN-ok váltanak fel.</li>
+<li>Az egyes biztonsági mentési feladatok egy LUN-t tartalmazhatnak biztonsági mentési forrásként.</li>
+<li>FAT, FAT32, HFS, HFS Plus vagy NTFS fájlrendszerre nem készíthető biztonsági mentés a LUN-okról.</li>
+<li>Mielőtt hálózati LUN biztonsági mentést végezne, kérjük, jelentkezzen be a célként szolgáló Synology NAS eszközre, ezzel meggyőződve róla, hogy a Hálózaton keresztüli biztonsági mentés szolgáltatás engedélyezve van-e a <b>Vezérlőpult</b> > <b>Biztonsági mentési szolgáltatás</b> menüpontban.</li>
+<li>Ha a(z) Synology NAS routeren keresztül csatlakozik a hálózathoz, a hálózati LUN biztonsági mentés végrehajtása előtt győződjön meg róla, hogy az iSCSI szolgáltatáshoz a routeren meg van-e adva porttovábbítási szabály (3260-as TCP-port).</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>A teljes biztonsági mentés és a növekményes mentés:</h4>
+<p>A(z) Synology NAS az első alkalommal teljes biztonsági mentést készít a kiválasztott LUN-ról, az ezt követő alkalmakkor pedig növekményes (részleges) mentést készít. Ha viszont a biztonsági mentés célhelyeként szolgáló megosztott mappa vagy könyvtárnév megváltozik, a(z) Synology NAS eszköz újra teljes biztonsági mentést készít a feladat keretében.</p>
+</div>
+
+<p>____<br /> *Csak bizonyos típusok esetében érhető el.</p>
+
+</body></html>

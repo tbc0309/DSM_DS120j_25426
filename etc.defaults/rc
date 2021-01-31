@@ -1,0 +1,613 @@
+#!/bin/sh
+# Copyright (c) 2000-2019 Synology Inc. All rights reserved.
+
+# Set pin mux for HI3535
+if [ "hi3535" == `/bin/get_key_value /etc.defaults/synoinfo.conf unique | cut -d"_" -f2` ]; then
+	echo "[SYNO] set pin mux for hi3535 " > /dev/kmsg
+	. /etc.defaults/rc.clkcfg_hi3535 > /dev/null || echo "[SYNO] fail to run rc.clkcfg_hi3535" > /dev/kmsg
+	. /etc.defaults/rc.sysctl_hi3535 > /dev/null || echo "[SYNO] fail to run rc.sysctl_hi3535" > /dev/kmsg
+	. /etc.defaults/rc.pinctrl_hi3535_aic31 > /dev/null || echo "[SYNO] fail to run rc.pinctrl_hi3535_aic31" > /dev/kmsg
+
+    if [ -f "/.nvr_lang_sel" ]; then
+        LANG_SEL=`cat "/.nvr_lang_sel"`
+        echo "Try to apply language ${LANG_SEL}" > /dev/kmsg
+        /usr/syno/bin/synosetkeyvalue /etc/synoinfo.conf language "${LANG_SEL}"
+        rm -f "/.nvr_lang_sel"
+    fi
+
+    if [ -f "/.assistant_install_create_vol" ]; then
+        echo "Try to apply long polling time for nvr_check_vol.sh" > /dev/kmsg
+        touch "/tmp/.nvr_create_vol"
+    fi
+fi
+
+HOME=/
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/syno/sbin:/usr/syno/bin:/usr/local/sbin:/usr/local/bin
+export HOME PATH
+
+SupportPORTMAPV2=`/bin/get_key_value /etc.defaults/synoinfo.conf supportportmappingv2`
+if [ "$SupportPORTMAPV2" = "yes" ]; then
+       cp -vf /etc.defaults/model.dtb /var/run/
+fi
+
+. /etc.defaults/rc.subr
+. /etc.defaults/rc.fan
+. /etc.defaults/rc.wifi
+
+RCMsg "Starting /etc/rc"
+
+junk=`dmesg | grep "junk in compressed archive"`
+# if this is x86_64 platform and found junk in rd.gz then stuck here
+if /bin/uname -a | /bin/egrep "(x86_64)" > /dev/null 2>&1 && [ -n "${junk}" ]; then
+	RCMsg "Found junk when decompressing rd.gz"
+	while [ 1 ]
+	do
+		sleep 5
+	done
+fi
+
+# System log: "System started to boot up."
+/usr/syno/bin/synologset1 sys info 0x11100002
+
+# umount initrd and freeramdisk "blockdev --flushbufs /dev/ram0"
+[ -f /initrd/tmp/usbinfoall ] && cp -f /initrd/tmp/usbinfoall /tmp/usbinfoall
+[ -d /initrd ] && [ ! -f /.nofree ] && /bin/umount /initrd && /usr/sbin/blockdev --flushbufs /dev/ram0
+
+dual_synoinfo_handling
+SYNOCheckAndUnloadModules "ehci-hcd"
+
+# synobootseq write boot state in tmp directory
+/usr/syno/bin/synobootseq --set-start-etcrc >/dev/null 2>&1
+
+# do cfgen to correct config
+SYNOBootupConfGen
+
+# read variable by source config
+SYNOSourceConf
+
+SYNOINFO="/etc/synoinfo.conf"
+SYNOINFO_DEF="/etc.defaults/synoinfo.conf"
+KERNEL_VCODE=`KernelVersionCode $(KernelVersion)`
+
+UNIQUE=`get_key_value $SYNOINFO_DEF unique`
+PLATFORM=`get_key_value $SYNOINFO_DEF unique | cut -d"_" -f2`
+IPv4_ONLY=`get_key_value $SYNOINFO_DEF ipv4only`
+
+SUPPORT_DUAL_HEAD=`/bin/get_key_value /etc.defaults/synoinfo.conf support_dual_head`
+SUPPORT_HA=`get_key_value $SYNOINFO_DEF support_ha`
+SUPPORT_XA="`/bin/get_key_value $SYNOINFO_DEF support_xa`"
+SUPPORT_RAID=`get_key_value $SYNOINFO_DEF supportraid`
+SUPPORT_SYNOACL=`get_key_value $SYNOINFO_DEF support_synoacl`
+SUPPORT_STARTUPD=`get_key_value $SYNOINFO_DEF supportstartupd`
+SUPPORT_HDD_DYNAMIC_POWER=`get_key_value $SYNOINFO_DEF HddEnableDynamicPower`
+SUPPORT_SMBUS_HDD_ENABLE=`get_key_value $SYNOINFO_DEF SMBusHddEnable`
+SUPPORT_ZRAM=`get_key_value $SYNOINFO_DEF support_zram`
+SUPPORT_ENC_POWERCTL=`get_key_value $SYNOINFO_DEF support_enc_powerctrl_onoff`
+SUPPORT_LED_BRIGHTNESS_ADJUSTMENT=`get_key_value $SYNOINFO_DEF support_led_brightness_adjustment`
+SUPPORT_RDMA=`get_key_value $SYNOINFO_DEF support_rdma`
+SUPPORT_CHASSIS_SN=`get_key_value $SYNOINFO_DEF support_chassis_sn`
+
+SZF_HA_SBIN_SYNOHA="/var/packages/HighAvailability/target/sbin/synoha"
+SZF_DUAL_RC="/usr/syno/synodual/etc/rc.dual"
+SupportSAS=`/bin/get_key_value /etc.defaults/synoinfo.conf supportsas`
+
+UsbStation=`/bin/get_key_value /etc.defaults/synoinfo.conf usbstation`
+SUPPORT_POWER_OFF=`get_key_value $SYNOINFO_DEF support_poweroff`
+MMCBLK0="/sys/block/mmcblk0"
+SUPPORT_MMC_BOOT=`get_key_value /etc.defaults/synoinfo.conf support_emmc_boot`
+ThermalModule="thermal_ctrl"
+SUPPORT_AESNI_INTEL=`get_key_value $SYNOINFO_DEF support_aesni_intel`
+
+# disk topology required kernel modules on SAS model, for #44960
+SG_MODULES="sg"
+ENABLE_ZRAM=`get_key_value $SYNOINFO enable_zram`
+RUN_HA=`get_key_value $SYNOINFO runha`
+RUN_SYSTEMDR=`get_key_value $SYNOINFO runsystemdr`
+RUN_SYNOBIOS=`get_key_value $SYNOINFO synobios`
+MIN_FREE_KBYTES=`get_key_value $SYNOINFO_DEF min_free_kbytes`
+
+# mount other filesystem, move to mount-all-fs ?
+# debugfs is required by SASAssignEncID so it should be mounted first.
+SYNOMountFS
+
+# we need sg.ko before we can assign enclosure id
+SYNOLoadModules ${SG_MODULES}
+# Need to assign Enclosure id before synodiskpathparse(SYNOTurnOnSwap) #81110
+if [ "$SupportSAS" = "yes" -a -d /initrd ]; then
+	. /etc.defaults/rc.sas
+	SASAssignEncID
+fi
+
+# prepare device node before turnon swap
+SYNOPrepareDevNode
+
+# turn swap on
+SYNOTurnOnSwap
+
+# handle Upgrade Bootup Task
+SYNOBootupUpgTask
+
+# Do Bootup check conf, include following task
+# 1. remove config or setting which should clean on each bootup
+# 2. check and correct config before remain task
+SYNOBootupCheckConf
+
+# start udev to handle hotplug event,
+/sbin/initctl start --no-wait udevd
+
+SYNOLoadIPv6()
+{
+	# see bug 16542, some modules of 824x don't support ipv6
+	# fixed by add this key to minimize the effect
+	local v6install=`get_key_value $SYNOINFO_DEF v6install`
+	# check if ipv4 only platform...
+	if [ "$IPv4_ONLY" = "yes" ]; then
+		# ipv4 only platform but forced to install v6 module..
+		if [ "$v6install" = "yes" ]; then
+			SYNOLoadModules "ipv6"
+		fi
+		return
+	fi
+
+	local ipv6mods="ipv6"
+	# load IPv6-in-IPv4 module
+	if [ $KERNEL_VCODE -ge $(KernelVersionCode "3.10") ]; then
+		ipv6mods="$ipv6mods ip_tunnel"
+	fi
+	ipv6mods="$ipv6mods tunnel4 sit"
+
+	SYNOLoadModules $ipv6mods
+}
+
+SYNOLoadIPMIModule()
+{
+	local support_ipmi=`get_key_value $SYNOINFO_DEF support_ipmi`
+	if [ "$support_ipmi" = "yes" ]; then
+		SYNOLoadModules ipmi_msghandler ipmi_devintf ipmi_si
+	fi
+}
+
+SYNOLoadLED_lp3943()
+{
+	local supportlp3943=`get_key_value $SYNOINFO_DEF support_leds_lp3943`
+
+	if [ "$supportlp3943" = "yes" ]; then
+			SYNOLoadModules i2c-i801 leds-lp3943
+	fi
+}
+
+SYNOLoadUSBModule()
+{
+	# For bug 1248, probe USB device after scemd
+	# usb-uhci.o is for VIA, usb-ohci.o is for NEC
+	# USB_MODULES="ehci-hcd.o usb-uhci.o usb-storage.o printer.o"
+	if [ $KERNEL_VCODE -lt $(KernelVersionCode "2.6") ]; then
+		USB_MODULES="ehci-hcd usb-ohci usb-uhci usb-storage printer hid"
+	elif [ $KERNEL_VCODE -ge $(KernelVersionCode "3.6") ]; then
+		# Add hid-generic.ko into module list for new kernel (>= 3.6).
+		# CONFIG_HID_GENERIC should be enabled
+		USB_MODULES="phy-stih407-usb phy-st-usb3 dwc3 dwc3-st hiusb-otg hiusb-ehci-hi3536 hiusb-xhci-hi3536 ehci-hcd ehci-pci ehci-platform ohci-hcd xhci-hcd etxhci-hcd st-hcd oxu210hp-hcd uhci-hcd usb-storage ehci-orion"
+		if [ "$SUPPORT_DUAL_HEAD" != "yes" ]; then
+			USB_MODULES="${USB_MODULES} usblp input-core hid usbhid hid-generic"
+		fi
+	else
+		USB_MODULES="ehci-hcd ehci-pci ohci-hcd xhci-hcd etxhci-hcd oxu210hp-hcd uhci-hcd usb-storage"
+		if [ "$SUPPORT_DUAL_HEAD" != "yes" ]; then
+			USB_MODULES="${USB_MODULES} usblp input-core hid usbhid"
+		fi
+	fi
+
+	SUPPORT_ACM=`/bin/get_key_value /etc.defaults/synoinfo.conf support_acm`
+	if [ "$SUPPORT_ACM" == "yes" ]; then
+		USB_MODULES="${USB_MODULES} cdc-acm"
+		mknod /dev/ttyACM0 c 166 0
+	fi
+
+	SYNOLoadModules ${USB_MODULES}
+}
+
+SYNOLoadNVGPUModule()
+{
+	local supportnvgpu=`get_key_value $SYNOINFO_DEF support_nvidia_gpu`
+
+	if [ "$supportnvgpu" = "yes" ]; then
+		SYNOLoadModules nvidia nvidia-uvm
+		/usr/bin/nvidia-smi -pm 1
+	fi
+}
+
+if [ "$SupportSAS" = "yes" -a -d /initrd ]; then
+	. /etc.defaults/rc.sas
+	SASInterruptDiskSelfTest & # when powering on, there is possible disk self test running, stop it for #47006
+fi
+
+SYNOLoadIPv6
+
+/usr/syno/bin/synobootseq --set-start-services >/dev/null 2>&1
+
+# change runlevel to 1
+# bootup regen config finished
+# swap ready
+# device node ready
+# upgrade correct config finished
+# bootup correct config finished
+echo "runlevel1="`awk '{print $1}' /proc/uptime` >> /run/synoservice/bootup_time_detail
+/sbin/telinit 1
+
+ThisMachine=`uname -m`
+if [ $KERNEL_VCODE -ge $(KernelVersionCode "2.6") ]; then
+	# 2.6 or 3.x
+	VXLAN_MODULES="ip_tunnel udp_tunnel ip6_udp_tunnel vxlan"
+	MLX_MODULES="compat mlx_compat mlx4_core mlx4_en mlx5_core"
+	RDMA_MODULES=
+	if [ "$SUPPORT_RDMA" == "yes" ]; then
+		RDMA_MODULES="ib_addr ib_core ib_mad iw_cm ib_sa ib_cm rdma_cm mlx4_ib mlx5_ib"
+	fi
+	BNX2X_MODULES="mdio libcrc32c bnx2x"
+	RTK_MODULES="r8168"
+	NET_DRIVERS="${VXLAN_MODULES} dca e1000e i2c-algo-bit igb be2net ixgbe i40e tn40xx ${RTK_MODULES} atlantic qed qede ${MLX_MODULES} ${BNX2X_MODULES} ${RDMA_MODULES}"
+	if [ "kvmx64" == "$PLATFORM" -o "nextkvmx64" == "$PLATFORM" ]; then
+		NET_DRIVERS="${VXLAN_MODULES} igbvf ixgbevf i40evf be2net"
+	fi
+	CRYPTO_MODULES="crypto_algapi crypto_wq crypto_blkcipher crypto_hash aead pcompress cryptomgr cbc md5 aes_generic rng cts ansi_cprng krng eseqiv crc32c des_generic chainiv ocf cryptodev rng-core authenc talitos cesa_dev cesa_ocf_drv m86xxx_elp aes-x86_64 aes-i586 ecb sha1_generic sha256_generic ecryptfs cryptosoft cryptd arc4"
+	AESNI_MODULES="ablk_helper gf128mul lrw glue_helper aesni-intel"
+	if [ "$SUPPORT_AESNI_INTEL" == "yes" ]; then
+		CRYPTO_MODULES="${CRYPTO_MODULES} ${AESNI_MODULES}"
+	fi
+	if [ "rtd1296" == "$PLATFORM" ] || [ "armada37xx" == "$PLATFORM" ] || [ "rtd1619" == "$PLATFORM" ]; then
+		CRYPTO_MODULES="${CRYPTO_MODULES} ablk_helper gf128mul aes-ce-blk aes-neon-blk"
+	fi
+	if [ -f /lib/modules/crc32c-intel.ko ]; then
+		CRYPTO_MODULES="${CRYPTO_MODULES} crc32c-intel"
+	fi
+	RAID_MODULES="dm-mod async_tx async_memcpy xor async_xor raid6_pq async_pq async_raid6_recov linear raid0 raid10 raid456"
+	CPUFREQ_MODULES="freq_table cpufreq_stats cpufreq thermal_sys processor mperf acpi-cpufreq cpufreq_ondemand cpufreq_performance cpufreq_powersave cpufreq_conservative"
+	if [ $KERNEL_VCODE -ge $(KernelVersionCode "4.4") ]; then
+		KERNEL_MODULES="llc p8022 psnap usbcore quota_tree quota_v2 crc-ccitt crc-itu-t zlib_inflate dm-bufio dm-snapshot"
+	else
+		KERNEL_MODULES="llc p8022 psnap usbcore quota_tree quota_v2 crc-ccitt crc-itu-t zlib_inflate dm-snapshot"
+	fi
+	KERNEL_I2C_MODLES="i2c-core of_i2c i2c-mpc"
+	if [ "ppc853x" = "$PLATFORM" ]; then
+		KERNEL_MODULES="${RAID_MODULES} ${KERNEL_MODULES} ${CPUFREQ_MODULES} ${CRYPTO_MODULES} ${KERNEL_I2C_MODLES}"
+	elif [ "comcerto2k" = "$PLATFORM" ]; then
+		KERNEL_MODULES="xor-neon ${RAID_MODULES} ${KERNEL_MODULES} ${CPUFREQ_MODULES} ${CRYPTO_MODULES}"
+	elif [ "kvmx64" = "$PLATFORM" -o \
+			"nextkvmx64" == "$PLATFORM" -o \
+			"kvmcloud" = "$PLATFORM" ]; then
+		KERNEL_MODULES="${KERNEL_MODULES} ${CRYPTO_MODULES}"
+	else
+		KERNEL_MODULES="${KERNEL_MODULES} ${CPUFREQ_MODULES} ${CRYPTO_MODULES}"
+	fi
+	KERNEL_MODULES="${KERNEL_MODULES} fat vfat fuse"
+	if [ $KERNEL_VCODE -ge $(KernelVersionCode "3") ]; then
+	# 3.x
+		KERNEL_MODULES="${KERNEL_MODULES} ${NET_DRIVERS}"
+		KERNEL_MODULES="usb-common ${KERNEL_MODULES} hmac md4 hfsplus crc32c libcrc32c zlib_deflate"
+	else
+	# 2.6
+		if [ $KERNEL_VCODE -eq $(KernelVersionCode "2.6.37") ]; then
+		    KERNEL_MODULES="${KERNEL_MODULES} hmac md4"
+		fi
+		if [ $KERNEL_VCODE -ge $(KernelVersionCode "2.6.32") ]; then
+		    KERNEL_MODULES="${KERNEL_MODULES} hfsplus"
+	    fi
+	fi
+else
+	# 2.4
+	KERNEL_MODULES="netlink_dev reiserfs scsi_mod sd_mod sg usbcore quota_v2"
+	if [ "${ThisMachine}" = "ppc" ]; then
+		KERNEL_MODULES="${KERNEL_MODULES} zlib_inflate"
+	fi
+	KERNEL_MODULES="${KERNEL_MODULES} fat vfat ntfs"
+fi
+
+if [ "$SUPPORT_SYNOACL" = "yes" ]; then
+	KERNEL_MODULES="${KERNEL_MODULES} synoacl_vfs"
+fi
+
+if [ "$PLATFORM" = "evansport" ]; then
+	VIDEO_MODULES="i2c-algo-bit button backlight thermal_sys video agpgart intel-gtt intel-agp fbdev drm fb output cfbimgblt cfbcopyarea cfbfillrect drm_kms_helper"
+	KERNEL_MODULES="${KERNEL_MODULES} ${VIDEO_MODULES} udma"
+fi
+
+if [ "$PLATFORM" = "braswell" ]; then
+	if [ $KERNEL_VCODE -ge $(KernelVersionCode "4.4.0") ]; then
+		VIDEO_MODULES="i2c-algo-bit button backlight thermal_sys video agpgart intel-gtt intel-agp fbdev fb drm cfbimgblt cfbcopyarea cfbfillrect fb_sys_fops sysimgblt sysfillrect syscopyarea drm_kms_helper i915"
+	else
+		VIDEO_MODULES="i2c-algo-bit button backlight thermal_sys video agpgart intel-gtt intel-agp fbdev fb drm output cfbimgblt cfbcopyarea cfbfillrect drm_kms_helper i915"
+	fi
+	KERNEL_MODULES="${KERNEL_MODULES} ${VIDEO_MODULES}"
+fi
+
+if [ "$PLATFORM" = "apollolake" ]; then
+	VIDEO_MODULES="i2c-algo-bit button backlight video fbdev fb iosf_mbi drm_panel_orientation_quirks drm cfbimgblt cfbcopyarea cfbfillrect fb_sys_fops sysimgblt sysfillrect syscopyarea drm_kms_helper i915"
+	KERNEL_MODULES="${KERNEL_MODULES} ${VIDEO_MODULES}"
+fi
+
+if [ "$PLATFORM" = "geminilake" ]; then
+	VIDEO_MODULES="i2c-algo-bit button backlight video fbdev fb iosf_mbi drm_panel_orientation_quirks drm cfbimgblt cfbcopyarea cfbfillrect fb_sys_fops sysimgblt sysfillrect syscopyarea drm_kms_helper i915"
+	KERNEL_MODULES="${KERNEL_MODULES} ${VIDEO_MODULES}"
+fi
+
+if [ -f /lib/modules/btrfs.ko ]; then
+	if [ -f /lib/modules/lzo_compress.ko ]; then
+		KERNEL_MODULES="${KERNEL_MODULES} lzo_compress"
+	fi
+	if [ -f /lib/modules/lzo_decompress.ko ]; then
+		KERNEL_MODULES="${KERNEL_MODULES} lzo_decompress"
+	fi
+
+	KERNEL_MODULES="${KERNEL_MODULES} btrfs"
+fi
+
+if [ -f /lib/modules/xfs.ko ] && [ -f /lib/modules/exportfs.ko ]; then
+	KERNEL_MODULES="${KERNEL_MODULES} exportfs xfs"
+fi
+
+if [ -f /lib/modules/exfat.ko ]; then
+	KERNEL_MODULES="${KERNEL_MODULES} exfat"
+fi
+
+if [ -f /lib/modules/overlay.ko ]; then
+	KERNEL_MODULES="${KERNEL_MODULES} overlay"
+fi
+
+SYNOLoadModules ${KERNEL_MODULES}
+SYNOLoadAdt7490
+SoftLink7490fanInput
+SYNOLoadLED_lp3943
+SYNOLoadIPMIModule
+SYNOLoadNVGPUModule
+
+case "${ThisMachine}" in
+armv5tel)
+	NET_MODULES="sky2"
+	;;
+ppc)
+	if [ $KERNEL_VCODE -ge $(KernelVersionCode "2.6") ]; then
+		NET_MODULES="sk98lin skge"
+	else
+		NET_MODULES="sk98lin"
+	fi
+	;;
+armv6l)
+	NET_MODULES="mii gmac";
+	;;
+esac
+SYNOLoadModules ${NET_MODULES}
+
+if [ "no" != "$RUN_SYNOBIOS" ]; then
+	SYNOLoadModules "synobios"
+	/bin/mknod /dev/synobios c 201 0 2>/dev/null
+
+	SYNOLoadModules $ThermalModule
+fi
+
+RCMsg "Rolling group ID: $(/usr/syno/bin/synorollinggroupid --get)"
+
+# Check if the system is in kernel debug mode
+# The required files are uploaded via support actions, and removed while leaving debug mode
+CRASHKERNEL=`grep crashkernel /proc/cmdline | wc -l`
+APPENDCMD="irqpoll nr_cpus=1 reset_devices"
+if [ "cedarview" == "$PLATFORM" ]; then
+	APPENDCMD="${APPENDCMD} acpi=off"
+fi
+
+if [ -f /.crash_debug ] && [ "$CRASHKERNEL" -gt "0" ]; then
+	DBGKERNEL="/root/zImage"
+	DBGINITRD="/root/rd.gz"
+
+	RCMsg "The system is now in debug mode, loading images..."
+	if [ -f /sbin/kexec ] && [ -f ${DBGKERNEL} ] && [ -f ${DBGINITRD} ]; then
+		/sbin/kexec -p ${DBGKERNEL} --initrd=${DBGINITRD} --reuse-cmdline --append="${APPENDCMD}"
+		RCMsg "Debug images loaded."
+	else
+		MsgWarn "Missing required files, debug functions are not started."
+	fi
+fi
+
+#We save chassis number if it exist
+if [ "$SUPPORT_CHASSIS_SN" == "yes" ]; then
+    CHASSIS_SN=`/usr/syno/bin/synomulticontroller --chassis_sn_get`
+    echo ${CHASSIS_SN} > /tmp/syno-chassis-serial-number
+    chmod 644 /tmp/syno-chassis-serial-number
+fi
+
+# execute only after NIC kernel modules are loaded
+SYNOInitEth
+
+SYNOInitWireless
+
+if [ "$PLATFORM" == "broadwellntbap" ]; then
+	SYNOLoadUSBModule
+fi
+
+# start rc.network
+SYNOStartNetwork
+
+if [ -r "/etc.defaults/sysctl.conf" ]; then
+	/sbin/sysctl -p /etc.defaults/sysctl.conf
+fi
+
+#This should be done after configuration upgrade and before spacetool
+/bin/grep eunitseq $SYNOINFO_DEF > /tmp/eunitseq
+if [ "$SUPPORT_ENC_POWERCTL" = "yes" -a "$SUPPORT_DUAL_HEAD" != "yes" ]; then
+	# dualhead wait enclosure HDD in AHAtasks
+	. /etc.defaults/rc.sas
+	SASWaitEncHDDReady
+fi
+
+if [ "yes" = "$SUPPORT_XA" ]; then
+	$SZF_HA_SBIN_SYNOHA --ntb-precheck
+	if [ -f /usr/syno/bin/check_and_retry_ntb.sh ]; then
+		/usr/syno/bin/check_and_retry_ntb.sh
+		if [ $? != 0 ] && $SZF_HA_SBIN_SYNOHA --remote-i2c-alive ; then
+			$SZF_HA_SBIN_SYNOHA --unbind-local noreboot "NTB failed"
+		fi
+	fi
+	$SZF_HA_SBIN_SYNOHA --mkdir-ha-folder
+	/sbin/initctl start pkg-synoha-messaged
+	$SZF_HA_SBIN_SYNOHA --check-boot
+	/sbin/initctl start pkg-synoha-xa-i2c-checker
+fi
+
+# related action before volume start
+SYNOActionPreVolume
+
+# start volume: 1. start space, 2. run rc.volume
+SYNOStartVolume
+
+#set time zone information to kernel
+/usr/syno/bin/synokerneltz
+
+core_file_volume="$(/usr/syno/bin/servicetool --get-alive-volume)"
+if [ ! -d "${core_file_volume}" ]; then
+	core_file_volume="/var/crash"
+fi
+/sbin/sysctl -w kernel.core_pattern="|/usr/syno/sbin/syno-dump-core.sh ${core_file_volume} %e %p %s"
+
+if [ $KERNEL_VCODE -ge $(KernelVersionCode "2.6") ]; then
+	/sbin/sysctl -w fs.suid_dumpable=2
+else
+	/sbin/sysctl -w kernel.suid_dumpable=2
+fi
+ulimit -c unlimited
+
+TEHUTI_COUNT=`grep tn40xx /proc/bus/pci/devices | awk '{s+=1} END {print s}'`
+if [ -f /sbin/dmidecode ]; then
+	MEMORY_TOTAL=`dmidecode -t 17 | grep "Size.*B" | awk '{if ($3=="kB") {s+=$22} else if ($3=="MB") {s+=$2*1024} else if ($3=="GB") {s+=$2*1024*1024} else if ($3=="TB") {s+=$2*1024*1024*1024}} END {print s}'`
+else
+	MEMORY_TOTAL=`awk '"MemTotal:"==$1{print $2}' /proc/meminfo`
+fi
+if [ -n "$MIN_FREE_KBYTES" ]; then
+	/sbin/sysctl -w vm.min_free_kbytes=$MIN_FREE_KBYTES
+elif [ "" != "$TEHUTI_COUNT" ] && [ 4194304 -le $MEMORY_TOTAL ]; then
+	# Tehuti card need bigger vm.min_free_kbytes
+	# Adjust the min_free_kbyte to memory size / 16
+	# And the upper bound is 1G
+	FREE_KBYTE=$(($MEMORY_TOTAL/16))
+	if [ $FREE_KBYTE -gt 1048576 ]; then
+		FREE_KBYTE=1048576
+	fi
+	/sbin/sysctl -w vm.min_free_kbytes=$FREE_KBYTE
+elif /bin/uname -a | /bin/egrep "(hi3535)" > /dev/null 2>&1; then
+	/sbin/sysctl -w vm.min_free_kbytes=32768
+elif /bin/uname -a | /bin/egrep "(x86|i686)" > /dev/null 2>&1 || [ 1048576 -le $MEMORY_TOTAL ]; then
+	# i686 is for evansport (x86 32bit)
+	# if physical memory size greater than 1GB, and then set vm.min_free_kbytes to 64MB
+	/sbin/sysctl -w vm.min_free_kbytes=65536
+else
+	/sbin/sysctl -w vm.min_free_kbytes=8192
+fi
+
+if [ "$PLATFORM" = "armada370" ]; then
+	/sbin/sysctl -w net.ipv4.tcp_rmem="4096 87380 913920"
+fi
+
+# enlarge ARP cache size
+/sbin/sysctl -w net.ipv4.neigh.default.gc_thresh1=256
+/sbin/sysctl -w net.ipv4.neigh.default.gc_thresh2=1024
+/sbin/sysctl -w net.ipv4.neigh.default.gc_thresh3=2048
+
+# enlarge this quota so that we can mount more encyption share simultaneously
+/sbin/sysctl -w kernel.keys.root_maxbytes=200000
+
+if [ "yes" = "$SUPPORT_HA" ] && [ -x "$SZF_HA_SBIN_SYNOHA" ]; then
+	$SZF_HA_SBIN_SYNOHA --remove-login-remote-session
+fi
+
+# start rc service, S01~S99
+SYNOStartService
+
+/sbin/start network-pppoe NETWORKING=${NETWORKING}
+
+if [ "$PLATFORM" != "broadwellntbap" ]; then
+	SYNOLoadUSBModule
+fi
+
+SYNOLoadModules ${KERNEL_MODULES}
+
+if [ "$SUPPORT_HDD_DYNAMIC_POWER" = "yes" ]; then
+	SYNOLoadModules "syno_hddmon"
+fi
+
+if [ "$SUPPORT_SMBUS_HDD_ENABLE" = "yes" ]; then
+	SYNOLoadModules "syno_smbus_hddmon"
+fi
+
+# start rc.local
+SYNOStartRcLocal
+
+# Adjust share memory max number for the max camera support number of Surveillance Station
+if [ "$PLATFORM" = "bromolow" -o "$PLATFORM" = "grantley" -o "$PLATFORM" = "broadwell" -o "$PLATFORM" = "kvmx64" -o "$PLATFORM" = "broadwellnk" -o "$PLATFORM" = "purley" -o "$PLATFORM" = "coffeelake" -o "$PLATFORM" = "broadwellntb" -o "$PLATFORM" = "nextkvmx64" -o "$PLATFORM" = "broadwellntbap" -o "$PLATFORM" = "kvmcloud" ]; then
+	SHMMNI=`cat /proc/sys/kernel/shmmni`
+	SHMMNI_TARGET=16384
+	if [ ${SHMMNI_TARGET} -gt ${SHMMNI} ]; then
+		/sbin/sysctl -w kernel.shmmni=${SHMMNI_TARGET}
+	fi
+fi
+
+# Adjust max semphore array size for the max camera support number of Surveillance Station
+SEM_ARRAY_SIZE=`cat /proc/sys/kernel/sem | awk '{print $4}'`
+SEM_TARGET=${SEM_ARRAY_SIZE}
+case "${PLATFORM}" in
+bromolow|grantley|bromolowESM|broadwell|kvmx64|broadwellnk|purley|coffeelake|broadwellntb|nextkvmx64|broadwellntbap|kvmcloud)
+	SEM_TARGET=1024
+	;;
+alpine|alpine4k|armadaxp|avoton|cedarview|evansport|braswell|apollolake|dockerx64|denverton|geminilake|v1000)
+	SEM_TARGET=512
+	;;
+esac
+
+if [ "${PLATFORM}" = "monaco" ]; then
+	sleep 5;
+	/usr/syno/etc/MonacoSDKInstall.sh
+fi
+
+IS_NVR=`get_key_value $SYNOINFO_DEF nvr`
+if [ "xyes" == "x$IS_NVR" ]; then
+    #Additional check for the need of producting tool
+    cat /proc/cmdline | grep -i "no_localinstall" > /dev/null 2>&1
+    if [ 0 -ne $? ]; then
+        /usr/syno/etc.defaults/nvr_check_vol.sh &
+    fi
+fi
+
+if [ "${PLATFORM}" = "hi3535" ]; then
+	/usr/syno/etc/hi3535ModuleInstall.sh || \
+	echo "[SYNO] fail to install hi3535 modules"
+fi
+if [ "${PLATFORM}" = "hi3536" ]; then
+	/usr/syno/etc/load3536 -i && \
+	echo "[SYNO] fail to install hi3536 modules"
+fi
+
+if [ ${SEM_TARGET} -gt ${SEM_ARRAY_SIZE} ]; then
+	/sbin/sysctl -w kernel.sem="`cat /proc/sys/kernel/sem | awk '{print $1 " " $2 " " $3}'` ${SEM_TARGET}"
+fi
+
+if [ "$PLATFORM" != "kvmx64" -a \
+		"$PLATFORM" != "nextkvmx64" -a \
+		"$PLATFORM" != "kvmcloud" ]; then
+	if [ -f /usr/syno/bin/syno_hdd_util ]; then
+		syno_hdd_util --ssd_detect --without-id-log 2>/dev/null
+	fi
+fi
+
+if [ "$SUPPORT_DUAL_HEAD" = "yes" ]; then
+	/usr/syno/synoaha/bin/synoaha --init-mgr-daemon-version
+	/usr/syno/synoaha/bin/syno_aha_mgr_daemon active_stage &
+	/usr/syno/synoaha/bin/synoahamonmd0_static &
+fi
+
+if [ "${SUPPORT_LED_BRIGHTNESS_ADJUSTMENT}" == "yes" ]; then
+	mkdir /tmp/syno_led_brightness
+	cp /usr/syno/etc.defaults/led_brightness.xml /tmp/syno_led_brightness/led_brightness.xml
+	chmod +r /tmp/syno_led_brightness/led_brightness.xml
+fi
+
+# Avoid /var/run interrupt hiberation for low memory model
+/usr/bin/vmtouch -lfd /var/run
+
+exit 0

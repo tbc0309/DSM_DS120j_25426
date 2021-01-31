@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import sys, os, errno, traceback
+import sqlite3
+import argparse
+from datetime import datetime
+
+def get_logs(cursor, output=None, before=None, after=None, keywords=None, limit=None, order=None):
+    query = 'SELECT * FROM logs WHERE 1=1'
+
+    if before:
+        query += ' AND time <= {}'.format(int((datetime.strptime(before, '%Y/%m/%d %H:%M:%S') - datetime.fromtimestamp(0)).total_seconds()))
+    if after:
+        query += ' AND time >= {}'.format(int((datetime.strptime(after, '%Y/%m/%d %H:%M:%S') - datetime.fromtimestamp(0)).total_seconds()))
+    if keywords:
+        query += ' AND (1=2{})'.format(''.join(' OR msg GLOB "*{}*"'.format(k.strip().replace("'", "''")) for k in keywords.split(',')))
+    query += ' ORDER BY ID {} LIMIT {}'.format('DESC' if order == 'DESC' else 'ASC', limit if limit else 10000)
+
+    with open(output, 'w') if output else sys.stdout as out:
+        for row in cursor.execute(query):
+            try:
+                log_text = u'{level}\t{time}\t{username}:\t{msg}\n'.format(
+                    level    = row[2],
+                    time     = datetime.fromtimestamp(int(row[1])).strftime('%Y/%m/%d %H:%M:%S'),
+                    username = row[3],
+                    msg      = row[4])
+                out.write(log_text.encode('utf8'))
+            except:
+                traceback.print_exc()
+                sys.stderr.write('row = {}\n'.format(row))
+
+def main():
+    parser = argparse.ArgumentParser(description='Convert synolog to human readable format.')
+    parser.add_argument('database', help='Log database path')
+    parser.add_argument('-o', '--output', help='Save converted log to specified file.')
+    parser.add_argument('--after', help='Filter logs that after specified time only. Ex: YY/mm/dd HH:MM/SS')
+    parser.add_argument('--before', help='Filter logs that before specified time only. Ex: YY/mm/dd HH:MM/SS')
+    parser.add_argument('-k', '--keywords', help='Filter logs that included specified keywords only. '\
+        + 'keywords can be splited by comma. Ex: "Log, FTP"')
+    parser.add_argument('--limit', help='Limit the number of logs. Default: 10000')
+    parser.add_argument('--order', help='Order by id ASC or DESC. Default: ASC')
+
+    args = parser.parse_args()
+
+    if not os.path.exists(args.database):
+        raise OSError(errno.ENOENT, os.strerror(errno.ENOENT), args.database)
+
+    with sqlite3.connect(args.database) as conn:
+        get_logs(conn.cursor(), output=args.output, before=args.before, after=args.after, keywords=args.keywords, limit=args.limit, order=args.order)
+
+
+if __name__ == '__main__':
+    main()

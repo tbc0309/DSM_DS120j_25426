@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Delad mapp</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Tilldela NFS-behörigheter</h2>
+<p>Du kan tilldela NFS-behörigheter till alla delade mappar så att Linux-klienter kan få åtkomst till den.</p>
+<h4>
+Att tilldela NFS-behörigheter till en delad mapp:
+</h4>
+<ol>
+<li>Välj den delade mapp som du vill redigera från listan över delade mappar.</li>
+<li>Klicka på <strong>Redigera</strong> > <strong>NFS-behörigheter</strong>.</li>
+<li>Klicka på <b>Skapa</b> för att lägga till en NFS-regel.</li>
+<li>En popup-ruta visas. Definiera nedanstående alternativ.</li>
+<li><strong>Värdnamn eller IP:</strong> Skriv IP-adress för den NFS-klient som ska ha åtkomst till delad mapp. Du kan ange en värd på tre sätt:
+<ul>
+<li><strong>Enskild värd:</strong> Ett fullt kvalificerat domännamn eller en IP-adress.</li>
+<li><strong>Jokertecken:</strong> *, *.synology.com</li>
+<li><strong>IP-nätverk:</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>Privilegie:</strong> Välj läs-/skrivbehörigheter för NFS-klienten.</li>
+<li> <strong> Säkerhet:</strong> Specificera vilken säkerhetsvariant som ska implementeras.
+  <ul>
+  <li><strong>AUTH_SYS:</strong> Använder NFS-klientens UID (user identifier) och GID (group identiifier) för att kontrollera åtkomstbehörigheter.</li>
+<li><strong>Kerberos-autentisering:</strong> Utför Kerberos-autentisering när NFS-klienten ansluter till den delade mappen. Klienten får endast åtkomst till den delade mappen efter avklarad Kerberos-autentisering.</li>
+<li><strong>Kerberos-integritet:</strong> Utför Kerberos-autentisering och säkerställer integriteten för paketen under dataöverföring.</li>
+<li><strong>Kerberos-sekretess:</strong> Utför Kerberos-autentisering och krypterar NFS-paketen vid dataöverföring och förhindrar på så sätt skadliga aktörer från att manipulera NFS-trafik.</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>: Detta fält låter dig kontrollera åtkomstprivilegier för användaren root på NFS-klienten. Vänligen välj en av följande:
+  <ul>
+    <li><strong>Ingen mappning:</strong> Låter alla som använder NFS-klient, inklusive root-användare, att behålla ursprungliga åtkomstprivilegier.</li>
+    <li><strong>Mappa root till admin:</strong> Tilldelar åtkomstprivilegier till root-användare som använder NFS-klient, vilket är motsvarande de användaren admin har som åtkomsträttigheter på ditt system.</li>
+    <li><strong>Mappa root till guest:</strong> Tilldelar åtkomstprivilegier till root-användare som använder NFS-klient, vilket är motsvarande de användaren guest har som åtkomstprivilegier på ditt system.</li>
+    <li><strong>Mappa alla användare till admin:</strong> Tilldelar åtkomstprivilegier till alla användare som använder NFS-klient, vilket är motsvarande de användaren admin har som åtkomstprivilegier på ditt system.</li>
+  </ul>
+</li>
+
+<li><strong>Aktivera asynkron:</strong> Att markera detta alternativ låter din Synology NAS svara på förfrågningar från NFS-klienter före alla ändringar på filer är slutförda, vilket ger bättre prestanda.</li>
+<li><strong>Tillåt anslutningar från icke-privilegierade portar (portar högre än 1024):</strong> Markering av detta alternativ tillåter NFS-klienter att använda icke-privilegierade portar (dvs. portar högre än 1024) vid anslutning till Synology NAS. </li>
+<li><strong>Tillåter att använder får åtkomst till monterade undermappar : </strong> Att markera det här alternativet låter NFS-klienter få åtkomst till monterade undermappar.</li>
+<li>Klicka på <b>OK</b> för att slutföra.</li>
+  <li>Klicka på <b>OK</b> för att tillämpa NFS-behörigheterna.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>När formatet för servernamnet är <strong>*.domän</strong> måste NFS-klientens IP-adress ha en motsvarande PTR-post i DNS för att tillåta att Synology NAS hittar namnet *.domän genom att söka efter den motsvarande IP-adressen.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Säkerhetsvarianter:</h4>
+<p> Vid åtkomst till delad mapp via NFS med en specifikt användare: </p>
+<ul>
+<li>Om säkerhetsvarianten <strong>AUTH_SYS</strong> är implementerad: Klienten måste ha exakt samma numeriska UID (user identifier) och GID (group identifier) på NFS-klienten och Synology NAS, i annat fall kommer klienten att tilldelas behörigheter för <strong>övriga</strong> vid åtkomst till den delade mappen. För att undvika konflikter för behörigheter kan du välja <strong>Mappa alla användare till admin</strong> från <strong>Squash</strong> eller ge "Alla"-behörigheter till den delade mappen.</li>
+<li>Om säkerhetsvarianten <strong>Kerberos (krb5, krb5i, krb5p)</strong> är implementerad: Du måste gå till <strong>Win/Mac/NFS</strong> > <strong>NFS-tjänst</strong> > <strong>Kerberos-inställningar</strong> > <strong>ID-mappning</strong> för att mappa NFS-klienten till en specifik användare eller ansluta till en Windows-/LDAP-domän med motsvarande användarkonto, i annat fall kommer klienten att tilldelas behörigheter för <strong>guest</strong> vid åtkomst till den delade mappen.</li>
+<li>Om filsystemet på en extern enhet på vilka delade mappar är skapade är NTFS eller FAT, kommer alternativet <strong>Mappa alla användare till admin</strong> att tillämpas som tvingande.</li>
+</ul>
+<p>För att använda säkerhetsvarianten Kerberos för att ansluta till Synology NAS måste autentisering konfigureras i <strong>Win/Mac/NFS</strong> > <strong>NFS-tjänst</strong> > <strong>Kerberos-inställningar</strong>.</p>
+</div>
+
+</body>
+</html>

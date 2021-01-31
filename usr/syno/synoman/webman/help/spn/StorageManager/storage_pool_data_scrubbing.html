@@ -1,0 +1,133 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+<title>Depuraci&oacute;n de datos</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Data scrubbing is a data maintenance feature that inspects volumes or disk groups and repairs any detected data inconsistencies.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Depuraci&oacute;n de datos</h2>
+
+<h3>Realizar la depuraci&oacute;n de datos</h3>
+<p>La depuraci&oacute;n de datos es una funci&oacute;n de mantenimiento de datos que inspecciona los grupos de almacenamiento. Los siguientes dos tipos de Depuraci&oacute;n de datos se ejecutar&aacute;n de forma secuencial:</p>
+
+<ul>
+<li><strong>Depuraci&oacute;n del sistema de archivos</strong>: esta funci&oacute;n comprobar&aacute; los vol&uacute;menes del sistema de archivos Btrfs. Si se detectan datos incoherentes con la suma de comprobaci&oacute;n, el sistema intentar&aacute; utilizar una copia de seguridad para reparar los datos y la ruta del archivo se registrar&aacute; en el Centro de registros.</li>
+<li><strong>Depuraci&oacute;n de RAID</strong>: esta funci&oacute;n puede usarse con grupos de almacenamiento que implementen SHR (compuestos por tres o m&aacute;s unidades), RAID 5 o RAID 6. Puede reparar cualquier inconsistencia detectada en los datos.</li>
+</ul>
+
+<p>Le recomendamos que realice regularmente la depuraci&oacute;n de datos para garantizar la consistencia de estos y evitar la p&eacute;rdida de datos importantes en caso de que una unidad falle.</p>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+	<ul>
+	<li>La depuraci&oacute;n de datos y las funciones relacionadas que se describen en este art&iacute;culo solo est&aacute;n disponibles en modelos espec&iacute;ficos.</li>
+	<li>La Depuraci&oacute;n de datos solo se puede realizar cuando el estado de los grupos de almacenamiento es <strong>Averiado</strong> o <b>Degradado</b>.</li>
+	<li>Si la <b>suma de comprobaci&oacute;n para la integridad de datos avanzada</b> no est&aacute; habilitada para una carpeta compartida, la depuraci&oacute;n del sistema de archivos no podr&aacute; comprobar y reparar los datos de la carpeta debido a la falta de sumas de comprobaci&oacute;n.</li>
+	</ul>
+</div>
+
+<h3>Configuraci&oacute;n del programa de depuraci&oacute;n de datos</h3>
+<p>Puede establecer un programa de depuraci&oacute;n de datos. El sistema ejecutar&aacute; la depuraci&oacute;n de datos en funci&oacute;n de la configuraci&oacute;n.</p>
+<h4>Para establecer un programa de depuraci&oacute;n de datos:</h4>
+<ol>
+<li>Inicie el <strong>Administrador de almacenamiento</strong>.</li>
+<li>Vaya a <strong>Grupo de almacenamiento</strong> &gt; <strong>Depuraci&oacute;n de datos</strong>.</li>
+<li>Haga clic en <strong>Establecer el programa</strong>.</li>
+<li>Marque <strong>Habilitar el programa de depuraci&oacute;n de datos</strong>.</li>
+	<li>Especifique la <strong>Frecuencia</strong>, la <strong>Fecha de inicio</strong> y la <strong>Sesi&oacute;n de tiempo</strong>.</li>
+<li>Vaya a la pesta&ntilde;a <strong>Seleccionar objetivo</strong>.<li>Seleccione el grupo de almacenamiento en el que desea realizar la depuraci&oacute;n de datos.</li>
+<li>Haga clic en <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+<li>Para que se pueda agregar a un programa, el grupo de almacenamiento debe estar en estado <b>Normal</b> y admitir la depuraci&oacute;n de datos.</li>	
+<li>Si su sistema se actualiza de la versi&oacute;n 6.1, los grupos de almacenamiento que permitan la depuraci&oacute;n de datos se agregar&aacute;n de forma predeterminada al programa.</li>
+<li>Si ha establecido el programa en la versi&oacute;n 6.1, habilitaremos el programa autom&aacute;ticamente seg&uacute;n la configuraci&oacute;n anterior.</li>	
+</ul></div>
+
+<h4>Para agregar un grupo de almacenamiento a un programa o eliminar un grupo de almacenamiento de un programa:</h4>
+
+<ol>
+<li>Haga clic en <strong>Establecer el programa</strong></li>
+<li>Vaya a la pesta&ntilde;a <strong>Seleccionar objetivo</strong>.</li>	
+<li>Marque o desmarque la casilla de verificaci&oacute;n de un grupo de almacenamiento para decidir si desea agregarlo o quitarlo de un programa.</li>
+<li>Haga clic en <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+<li>Un grupo de almacenamiento no se puede agregar a ni quitar de un programa cuando la depuraci&oacute;n de datos se est&aacute; ejecutando manualmente en ese grupo de almacenamiento.</li>
+<li>Al eliminar un grupo de almacenamiento en el que se est&aacute; ejecutando una depuraci&oacute;n de datos programada, el progreso de dicho grupo de almacenamiento se cancelar&aacute;.</li>
+</ul></div>
+
+<h4>Para modificar la configuraci&oacute;n del programa:</h4>
+
+<ol>
+<li>Haga clic en <strong>Establecer el programa</strong>.</li>
+<li>Modifique la frecuencia, la fecha de inicio y la sesi&oacute;n de tiempo en funci&oacute;n de sus necesidades.</li>
+<li>Haga clic en <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+  <li>Modificar la <strong>Fecha de inicio</strong> restablecer&aacute; el progreso del programa y la depuraci&oacute;n de datos se reiniciar&aacute; en funci&oacute;n de la nueva fecha de inicio.</li>
+</ul>
+</div>	
+
+<h4>Para pausar un programa:</h4>
+
+<ol>
+<li>Seleccione un grupo de almacenamiento en el que se est&eacute; realizando la depuraci&oacute;n de datos.</li>
+<li>Haga clic en <strong>Pausar programa</strong>, en el men&uacute; desplegable <b>Acci&oacute;n</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+<li>Haga clic en <strong>Continuar programa</strong> en el men&uacute; desplegable <b>Acci&oacute;n</b> para reanudar el programa de depuraci&oacute;n de datos. En caso contrario, el programa permanecer&aacute; en pausa.</li>	
+</ul></div>
+	
+<h3>Ejecuci&oacute;n manual de la depuraci&oacute;n de datos:</h3>
+
+<p>Si el sistema detecta anomal&iacute;as en el sistema, puede intentar reparar los datos ejecutando la depuraci&oacute;n de datos manualmente.</p>	
+	
+<h4>Para realizar la Depuraci&oacute;n de datos manualmente:</h4>
+
+<ol>
+	<li>Abra <strong>Administrador de almacenamiento</strong>.</li>
+	<li>Vaya a <strong>Grupo de almacenamiento</strong> &gt; <strong>Depuraci&oacute;n de datos</strong>.</li>
+	<li>Seleccione el grupo de almacenamiento en el que desea realizar la depuraci&oacute;n de datos.</li>
+	<li>Haga clic en <strong>Ejecuci&oacute;n manual</strong> en el men&uacute; desplegable <strong>Acci&oacute;n</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+
+<li>Si el sistema se apaga antes de que se complete la depuraci&oacute;n de datos, se pueden perder algunos progresos y deber&aacute; reiniciar manualmente la Depuraci&oacute;n de datos.</li>
+<li>Si la hora en que se realiza manualmente la depuraci&oacute;n de datos se superpone con la depuraci&oacute;n de datos programada, esta fase del programa no se completar&aacute; hasta que finalice la depuraci&oacute;n de datos manual.</li>
+<li>La depuraci&oacute;n de datos puede afectar al rendimiento del sistema. Le sugerimos que no ejecute la depuraci&oacute;n de datos en varios grupos de almacenamiento a menos que sea necesario.</li>	
+</ul></div>	
+
+<h4>Para pausar un programa en un grupo de almacenamiento en el que se est&aacute; ejecutando una depuraci&oacute;n de datos manual:</h4>	
+<ol>
+<li>Seleccione un grupo de almacenamiento que desee poner en pausa.</li>
+<li>Haga clic en <b>Pausar</b> en el men&uacute; desplegable <b>Acci&oacute;n</b>.</li>	
+	</ol>	
+</body>
+</html>

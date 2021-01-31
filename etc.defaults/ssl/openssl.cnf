@@ -1,0 +1,103 @@
+HOME        = .
+RANDFILE    = $ENV::HOME/.rnd
+
+[ ca ]
+default_ca                  = CA_default
+
+[ CA_default ]
+dir                         = /etc/ssl
+certs                       = $dir/certs
+crl_dir                     = $dir/crl
+database                    = $dir/index.txt
+new_certs_dir               = $dir/newcerts
+certificate                 = $dir/cacert.pem
+serial                      = $dir/serial
+crlnumber                   = $dir/crlnumber
+crl                         = $dir/crl.pem
+private_key                 = $dir/private/cakey.pem
+RANDFILE                    = $dir/private/.rand
+x509_extensions             = usr_cert
+name_opt                    = ca_default
+cert_opt                    = ca_default
+default_days                = 365
+default_crl_days            = 30
+default_md                  = default
+preserve                    = no
+policy                      = policy_match
+
+[ policy_match ]
+countryName                 = match
+stateOrProvinceName         = match
+organizationName            = match
+organizationalUnitName      = optional
+commonName                  = supplied
+emailAddress                = optional
+
+[ policy_anything ]
+countryName                 = optional
+stateOrProvinceName         = optional
+localityName                = optional
+organizationName            = optional
+organizationalUnitName      = optional
+commonName                  = supplied
+emailAddress                = optional
+
+[ req ]
+default_bits                = 2048
+default_keyfile             = privkey.pem
+default_md                  = sha256
+distinguished_name          = req_distinguished_name
+attributes                  = req_attributes
+x509_extensions             = v3_ca
+string_mask                 = utf8only
+
+[ req_distinguished_name ]
+countryName                 = Country Name (2 letter code)
+countryName_default         = TW
+countryName_min             = 2
+countryName_max             = 2
+stateOrProvinceName         = State or Province Name (full name)
+stateOrProvinceName_default = Taiwan
+localityName                = Locality Name (eg, city)
+localityName_default        = Taipei
+0.organizationName          = Organization Name (eg, company)
+0.organizationName_default  = Synology Inc.
+organizationalUnitName      = Organizational Unit Name (eg, section)
+commonName                  = Common Name (e.g. server FQDN or YOUR name)
+commonName_max              = 64
+emailAddress                = Email Address
+emailAddress_max            = 64
+emailAddress_default        = product@synology.com
+
+[ req_attributes ]
+challengePassword           = A challenge password
+challengePassword_min       = 4
+challengePassword_max       = 20
+unstructuredName            = An optional company name
+
+[ usr_cert ]
+basicConstraints            = CA:FALSE
+nsComment                   = "Synology Generated Certificate"
+nsCertType                  = server, sslCA
+subjectKeyIdentifier        = hash
+authorityKeyIdentifier      = keyid, issuer
+
+[ v3_req ]
+basicConstraints            = CA:FALSE
+keyUsage                    = nonRepudiation, digitalSignature, keyEncipherment
+
+[ v3_ca ]
+subjectKeyIdentifier        = hash
+authorityKeyIdentifier      = keyid:always, issuer
+basicConstraints            = CA:true
+
+[ crl_ext ]
+authorityKeyIdentifier      = keyid:always
+
+[ default_cert_ext ]
+basicConstraints			= critical, CA:FALSE
+keyUsage                    = critical, digitalSignature, keyEncipherment
+extendedKeyUsage			= critical, serverAuth, clientAuth
+subjectAltName				= DNS:synology
+subjectKeyIdentifier		= hash
+authorityKeyIdentifier		= keyid:always

@@ -1,0 +1,514 @@
+#!/usr/bin/env python
+# coding=utf8
+# Copyright (c) 2000-2017 Synology Inc. All rights reserved.
+import os
+import time
+import curses
+import re
+import math
+import locale
+from datetime import datetime
+from collections import deque
+from collections import namedtuple
+
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+
+V2PC = {}
+V2PC[0] = "NULL";                   V2PC[1] = "GETATTR"
+V2PC[2] = "SETATTR";                V2PC[3] = "ROOT"
+V2PC[4] = "LOOKUP";                 V2PC[5] = "READLINK"
+V2PC[6] = "READ";                   V2PC[7] = "WRITECACHE"
+V2PC[8] = "WRITE";                  V2PC[9] = "CREATE"
+V2PC[10] = "REMOVE";                V2PC[11] = "RENAME"
+V2PC[12] = "LINK";                  V2PC[13] = "SYMLINK"
+V2PC[14] = "MKDIR";                 V2PC[15] = "RMDIR"
+V2PC[16] = "READDIR";               V2PC[17] = "STATFS"
+
+V3PC = {}
+V3PC[0] = "NULL";                   V3PC[1] = "GETATTR"
+V3PC[2] = "SETATTR";                V3PC[3] = "LOOKUP"
+V3PC[4] = "ACCESS";                 V3PC[5] = "READLINK"
+V3PC[6] = "READ";                   V3PC[7] = "WRITE"
+V3PC[8] = "CREATE";                 V3PC[9] = "MKDIR"
+V3PC[10] = "SYMLINK";               V3PC[11] = "MKNOD"
+V3PC[12] = "REMOVE";                V3PC[13] = "RMDIR"
+V3PC[14] = "RENAME";                V3PC[15] = "LINK"
+V3PC[16] = "READDIR";               V3PC[17] = "READDIRPLUS"
+V3PC[18] = "FSSTAT";                V3PC[19] = "FSINFO"
+V3PC[20] = "PATHCONF";              V3PC[21] = "COMMIT"
+
+V4PC = {}
+V4PC[0] = "NULL";                   V4PC[1] = "COMPOUND"
+
+V4OP = {}
+V4OP[3] = "ACCESS";                 V4OP[4] = "CLOSE"
+V4OP[5] = "COMMIT";                 V4OP[6] = "CREATE"
+V4OP[7] = "DELEGPURGE";             V4OP[8] = "DELEGRETURN"
+V4OP[9] = "GETATTR";                V4OP[10] = "GETFH"
+V4OP[11] = "LINK";                  V4OP[12] = "LOCK"
+V4OP[13] = "LOCKT";                 V4OP[14] = "LOCKU"
+V4OP[15] = "LOOKUP";                V4OP[16] = "LOOKUPP"
+V4OP[17] = "NVERIFY";               V4OP[18] = "OPEN"
+V4OP[19] = "OPENATTR";              V4OP[20] = "OPEN_CONFIRM"
+V4OP[21] = "OPEN_DOWNGRADE";        V4OP[22] = "PUTFH"
+V4OP[23] = "PUTPUBFH";              V4OP[24] = "PUTROOTFH"
+V4OP[25] = "READ";                  V4OP[26] = "READDIR"
+V4OP[27] = "READLINK";              V4OP[28] = "REMOVE"
+V4OP[29] = "RENAME";                V4OP[30] = "RENEW"
+V4OP[31] = "RESTOREFH";             V4OP[32] = "SAVEFH"
+V4OP[33] = "SECINFO";               V4OP[34] = "SETATTR"
+V4OP[35] = "SETCLIENTID";           V4OP[36] = "SETCLIENTID_CONFIRM"
+V4OP[37] = "VERIFY";                V4OP[38] = "WRITE"
+V4OP[39] = "RELEASE_LOCKOWNER";     V4OP[40] = "BACKCHANNEL_CTL"
+V4OP[41] = "BIND_CONN_TO_SESSION";  V4OP[42] = "EXCHANGE_ID"
+V4OP[43] = "CREATE_SESSION";        V4OP[44] = "DESTROY_SESSION"
+V4OP[45] = "FREE_STATEID";          V4OP[46] = "GET_DIR_DELEGATION"
+V4OP[47] = "GETDEVICEINFO";         V4OP[48] = "GETDEVICELIST"
+V4OP[49] = "LAYOUTCOMMIT";          V4OP[50] = "LAYOUTGET"
+V4OP[51] = "LAYOUTRETURN";          V4OP[52] = "SECINFO_NO_NAME"
+V4OP[53] = "SEQUENCE";              V4OP[54] = "SET_SSV"
+V4OP[55] = "TEST_STATEID";          V4OP[56] = "WANT_DELEGATION"
+V4OP[57] = "DESTROY_CLIENTID";      V4OP[58] = "RECLAIM_COMPLETE"
+V4OP[59] = "ALLOCATE";              V4OP[60] = "COPY"
+V4OP[61] = "COPY_NOTIFY";           V4OP[62] = "DEALLOCATE"
+V4OP[63] = "IO_ADVISE";             V4OP[64] = "LAYOUTERROR"
+V4OP[65] = "LAYOUTSTATS";           V4OP[66] = "OFFLOAD_CANCEL"
+V4OP[67] = "OFFLOAD_STATUS";        V4OP[68] = "READ_PLUS"
+V4OP[69] = "SEEK";                  V4OP[70] = "WRITE_SAME"
+V4OP[71] = "CLONE"
+
+
+# Safe division: return 0 if denominator is 0
+def safe_div(x, y):
+    return x / float(y) if y else float(0)
+
+
+# helper method to millify numbers
+def millify(n, millnames, fmt="{:.2f}"):
+    n = float(n)
+    millidx = max(0, min(len(millnames)-1, int(math.floor(0 if n == 0 else math.log10(abs(n))/3))))
+    return (fmt + '{}').format(n / 10**(3 * millidx), millnames[millidx])
+
+
+# Helper class to get /proc/net/rpc/nfsd_lat data
+# TODO: Use inheritance to implement different version?
+class ProcLatency(object):
+    PROC_PATH = "/proc/net/rpc/nfsd_lat"
+
+    # operation status data structure
+    class OpStatus:
+        def __init__(self, id = 0, cnt = 0, iops = 0, lat = 0, maxlat = 0):
+            self.id = int(id)
+            self.cnt = int(cnt)
+            self.iops = float(iops)
+            self.lat = int(lat)
+            self.maxlat = int(maxlat)
+
+    def _init_ver2(self):
+        self._procf = "proc2"
+        self._opnames = V2PC
+
+    def _init_ver3(self):
+        self._procf = "proc3"
+        self._opnames = V3PC
+
+    def _init_ver4(self):
+        self._procf = "proc4"
+        self._opnames = V4PC
+        self._v4op = ProcLatency("4op")
+
+    def _init_ver4op(self):
+        self._procf = "proc4ops"
+        self._opnames = V4OP
+
+    def __init__(self, ver):
+        self._vers = ver
+        self._last = None
+        self._v4op = None
+        if (ver == "3"):
+            self._init_ver3()
+        elif (ver == "2"):
+            self._init_ver2()
+        elif (ver == "4op"):
+            self._init_ver4op()
+        else:
+            self._init_ver4()
+            self._vers = "4"
+
+    def _read_procfs(self):
+        ret = {}
+        try:
+            lines = open(self.PROC_PATH, 'r').readlines()
+
+            # [2:] ignore name and op counts
+            cnts = filter(lambda line: line.startswith(self._procf + " "), lines)[0].split()[2:]
+            lats = filter(lambda line: line.startswith(self._procf + "_lat "), lines)[0].split()[2:]
+            maxs = filter(lambda line: line.startswith(self._procf + "_maxlat "), lines)[0].split()[2:]
+
+            if len(cnts) != len(lats) or len(cnts) != len(maxs):
+                raise Exception("incorrect format")
+
+            data = zip(cnts, lats, maxs)
+            for i, (c, l, m) in enumerate(data):
+                ret[i] = self.OpStatus(id=i, cnt=c, lat=l, maxlat=m)
+            return ret
+        except:
+            return None
+
+    def _calc_output(self, nows, cycle_sec):
+        try:
+            ret = []
+            for id, now in nows.iteritems():
+                last = self._last[id]
+                diff = float(now.cnt - last.cnt)
+                lat = safe_div((now.lat - last.lat), diff)
+                iops = safe_div(diff, cycle_sec)
+                maxlat = now.maxlat
+                cnt = now.cnt
+                if (now.lat < 0) or (diff < 0):
+                    raise Exception("Overflow")
+                ret.append(self.OpStatus(id, cnt, iops, lat, maxlat))
+            return ret
+        except:
+            return []   # TODO: handle it
+
+    def reset_max_latency(self):
+        try:
+            lines = open(self.PROC_PATH, 'w', 0).write("0")
+        except:
+            pass
+
+    def get_header(self):
+        return [" ID  OPERATION                OP/S    LATENCY     MAXLAT      COUNTS"]
+                # 12  1234567890123456789012 654321 0987654321 0987654321 10987654321
+
+    def get_opstatus(self, cycle_sec):
+        now = self._read_procfs()
+
+        str = []
+        if (self._last is None or now is None):
+            self._last = now
+            if self._v4op:
+                self._v4op.get_opstatus(cycle_sec)
+            return []
+
+        output = self._calc_output(now, cycle_sec)
+        output = sorted(output,
+                        cmp = lambda x,y : 1 if (x.iops > y.iops or x.cnt > y.cnt) else (-1),
+                        reverse = True)
+        self._last = now
+        for data in output:
+            if data.cnt == 0:
+                continue # Ignore zero count operation
+            name = self._opnames[data.id] if data.id in self._opnames else "UNKNOWN"
+            str.append(
+                " {:>2d}  ".format(data.id) +
+                "{:22} ".format(name) +
+                "{:>6} ".format(millify(data.iops, ['','K','M'])) +
+                "{:>10} ".format(millify(data.lat, [' us',' ms','  s'])) +
+                "{:>10} ".format(millify(data.maxlat, [' us',' ms','  s'])) +
+                "{:11} ".format(data.cnt))
+
+        if self._v4op:
+            str.append("")
+            str.extend(self._v4op.get_opstatus(cycle_sec))
+        return str
+
+    @property
+    def vers(self):
+        return self._vers
+
+
+class PoolStats(object):
+    PROC_PATH = "/proc/fs/nfsd/pool_stats"
+    Hist = namedtuple("Hist", ["date", "value"])
+
+    def __init__(self):
+        self._last = self._get_pool_stats()
+        self.reset_history()
+
+    def _get_pool_stats(self):
+        try:
+            lines = open(self.PROC_PATH, 'r').readlines()
+            names = lines[0].split()[1:]    # ignore '#'
+            result = dict.fromkeys(names, 0)
+            for i in range(1, len(lines)):
+                for j in range(0, len(names)):
+                    values = lines[i].split()
+                    result[names[j]] += int(values[j])
+            return result
+        except:
+            return None
+
+    def get_header(self):
+        return [" Packets-Arrived   Sockets-Enqueued    Threads-Woken   Threads-Timedout"]
+                 #123456789012345    123456789012345    1234567890123    123456789012345
+
+    def reset_history(self):
+        self._enq_hist = deque([0], maxlen=18)
+        self._enq_max = None
+
+    def get_equeued_hist(self, width):
+        max_val = max(self._enq_hist)
+        str = ["", "", "", "", "", ""]
+        start = len(self._enq_hist) - int(math.floor(width / 4))
+        if start < 0: start = 0
+        for i in range(start, len(self._enq_hist)):
+            div = safe_div(self._enq_hist[i], max_val)
+            str[0] += u" [] " if (div > 0.75) else "    "
+            str[1] += u" [] " if (div > 0.50) else "    "
+            str[2] += u" [] " if (div > 0.25) else "    "
+            str[3] += u" [] " if (div > 0.00) else " _  "
+            if max_val > 0:
+                str[4] += "{:^4}".format(millify(self._enq_hist[i], ['','K','M'], fmt="{:.0f}"))
+            else:
+                str[4] += "    "
+        if self._enq_max is not None:
+            str.append("  Highest in history: {} @ {:%Y-%m-%d %H:%M:%S}".format(self._enq_max.value, self._enq_max.date))
+        return str
+
+    def get_pool_stats(self):
+        try:
+            now = self._get_pool_stats()
+
+            diff = {}
+            for key, value in now.iteritems():
+                sub = value - self._last[key]
+                diff[key] = sub if sub > 0 else 0 #TODO: handle overflow
+            self._enq_hist.append(diff["sockets-enqueued"])
+            if self._enq_max is None or self._enq_max.value < diff["sockets-enqueued"]:
+                self._enq_max = self.Hist(datetime.now(), diff["sockets-enqueued"])
+
+            self._last = now
+            return ["{:>16d}   {:>16d}   {:>14d}   {:>16d}".format(
+                    diff["packets-arrived"],
+                    diff["sockets-enqueued"],
+                    diff["threads-woken"],
+                    diff["threads-timedout"])]
+        except:
+            return [""]
+
+
+# Render help class
+class Renderer(object):
+    def __init__(self, stdscr):
+        self._init_color_table()
+        self._stdscr = stdscr
+        self._last_color = 1
+        # Clear and refresh the screen for a blank canvas
+        self.clear()
+        self.refresh()
+
+    # add color to color table
+    def _add_color(self, name, fg, bg):
+        try:
+            index = len(self._color_table) + 1
+            self._color_table[name] = index
+            curses.init_pair(index, fg, bg)
+        except:
+            pass
+
+    # init color table
+    def _init_color_table(self):
+        self._color_table = {}
+        # -1: default fg and bg
+        self._add_color("color_text", -1, -1)
+        self._add_color("color_header", -1, -1)
+        self._add_color("color_status_title", curses.COLOR_YELLOW, -1)
+        self._add_color("color_status_header", curses.COLOR_BLACK, curses.COLOR_CYAN)
+
+    # enable color setting to stdscr
+    def push_color(self, name):
+        try:
+            if name in self._color_table:
+                self._last_color = self._color_table[name]
+            else:
+                self._last_color = self._color_table["color_text"]
+            self._stdscr.attron(curses.color_pair(self._last_color))
+        except:
+            pass
+
+    # disable last color setting
+    def pop_color(self):
+        try:
+            self._stdscr.attroff(curses.color_pair(self._last_color))
+        except:
+            pass
+
+    # clear screen
+    def clear(self):
+        self._stdscr.clear()
+        self._now_x = 0
+        self._now_y = 0
+
+    # add string to stdscr
+    def _safe_addstr(self, str):
+        try:
+            self._stdscr.addnstr(self._now_y, self._now_x,
+                                 str.encode('UTF-8'), self.width - self._now_x)
+        except:
+            pass
+
+    # render lines
+    def printline(self, lines, color=None, reserve_height=1):
+        if color is not None:
+            self.push_color(color)
+        if isinstance(lines, list) is False:
+            lines = [lines]
+        for line in lines:
+            if self._now_y + reserve_height + 1 >= self.height:
+                break
+            line = line + " " * (self.width - len(line) - self._now_x)
+            self._safe_addstr(line)
+            self._now_y += 1
+        self._now_x = 0
+        if color is not None:
+            self.pop_color()
+        return self._now_y
+
+    # render str
+    def printstr(self, str, color=None):
+        if color is not None:
+            self.push_color(color)
+        self._safe_addstr(str)
+        self._now_y, self._now_x = self._stdscr.getyx()
+        if color is not None:
+            self.pop_color()
+        return self._now_y
+
+    # update the display immediately
+    def refresh(self):
+        self._stdscr.refresh()
+
+    # some properties
+    @property
+    def now_x(self):
+        return self._now_x
+
+    @now_x.setter
+    def now_x(self, value):
+        self._now_x = value
+
+    @property
+    def now_y(self):
+        return self._now_y
+
+    @now_y.setter
+    def now_y(self, value):
+        self._now_y = value
+
+    @property
+    def width(self):
+        h, w = self._stdscr.getmaxyx()
+        return w
+
+    @property
+    def height(self):
+        h, w = self._stdscr.getmaxyx()
+        return h
+
+
+# Get current time in ms
+def now_ms():
+    return time.time() * 1000.0
+
+
+def init_curses():
+    curses.start_color()
+    try:
+        curses.use_default_colors()
+        curses.curs_set(False)
+        # curses throws exception if configuration not supported (ex: tty)
+        # ignore error and display as black-white
+    except:
+        pass
+
+
+def main(stdscr):
+    key = 0
+    start_col = 0
+
+    # Init curses
+    init_curses()
+    renderer = Renderer(stdscr)
+    proc_latency = ProcLatency('4')
+    pool_stats = PoolStats()
+
+    # set getch blocking timeout (ms)
+    stdscr.timeout(200)
+
+    # make it update immediately
+    last_time = now_ms() - 1000
+
+    # Loop where q is the last character pressed
+    while (key != ord('q')):
+        update = True
+        if key == ord('4') and proc_latency != '4':
+            proc_latency = ProcLatency('4')
+            start_col = 0
+        elif key == ord('3') and proc_latency != '3':
+            proc_latency = ProcLatency('3')
+            start_col = 0
+        elif key == ord('2') and proc_latency != '2':
+            proc_latency = ProcLatency('2')
+            start_col = 0
+        elif key == ord('r'):
+            proc_latency.reset_max_latency()
+            pool_stats.reset_history()
+        elif key == curses.KEY_DOWN:
+            start_col = start_col + 1
+        elif key == curses.KEY_UP:
+            start_col = start_col - 1 if start_col > 0 else 0
+        else:
+            update = False
+
+        # sampling time = 1000ms = 1s
+        if now_ms() - last_time >= 1000 or update is True:
+            # Clear Screen
+            renderer.clear()
+
+            # Render Headers
+            renderer.push_color("color_header")
+            renderer.printline("=" * renderer.width)
+            renderer.printline("SYNOLOGY NFS MONITOR v1.0")
+            renderer.printline("=" * renderer.width)
+            renderer.pop_color()
+
+            # Render pool stats
+            renderer.printline("[Pool Stats]", "color_status_title")
+            renderer.printline(pool_stats.get_header(), "color_status_header")
+            renderer.printline(pool_stats.get_pool_stats(), "color_text")
+            renderer.printline("", "color_text")
+
+            # Render socket equeued chart
+            renderer.printline("[Sockets Enqueued]", "color_status_title")
+            renderer.printline(pool_stats.get_equeued_hist(renderer.width), "color_text")
+            renderer.printline("", "color_text")
+
+            # Render op status
+            renderer.printline("[NFS V{0} Operation Status]".format(proc_latency.vers), "color_status_title")
+            renderer.printline(proc_latency.get_header(), "color_status_header")
+            opstatus = proc_latency.get_opstatus((now_ms()-last_time) / 1000.0)
+            last_time = now_ms()
+            if len(opstatus) > 0 and start_col > len(opstatus) - 1:
+                start_col = len(opstatus) - 1
+            renderer.printline(opstatus[start_col:], "color_text")
+
+            # Render key menu
+            renderer.now_y = renderer.height - 2
+            renderer.printstr(" 4:", "color_text"); renderer.printstr(" NFSv4 ", "color_status_header")
+            renderer.printstr(" 3:", "color_text"); renderer.printstr(" NFSv3 ", "color_status_header")
+            renderer.printstr(" 2:", "color_text"); renderer.printstr(" NFSv2 ", "color_status_header")
+            renderer.printstr(" r:", "color_text"); renderer.printstr(" Reset History ", "color_status_header")
+            renderer.printstr(" q:", "color_text"); renderer.printstr(" Quit ", "color_status_header")
+            renderer.printline(" ", "color_status_header")
+
+            # Update the display
+            renderer.refresh()
+
+        # wait for next input
+        key = stdscr.getch()
+
+
+if __name__ == "__main__":
+    curses.wrapper(main)

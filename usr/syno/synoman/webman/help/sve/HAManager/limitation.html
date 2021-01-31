@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Begränsningar och systemkrav - Synology DSM hjälp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>Begränsningar och systemkrav</h1>
+
+ <p>Implementering av Synology High Availability kräver två identiska eller kompatibla Synology-servrar för att skapa ett high-availability-kluster där de kan agera som aktiv respektive passiv server. Före dessa två servrar kombineras till ett high-availability-kluster kommer Guiden för Synology High Availability att kontrollera följande begränsningar i hård- och mjukvara för att se till att ett high-availability-kluster kan skapas.</p>
+ 
+  
+ <h3>Systemkrav</h3>
+ 
+  <p>Vänligen observera följande rekommendationer om mjuk- och hårdvara:</p>
+  <ul>
+   <li><b>Synology Server:</b> Både den aktiva och den passiva servern måste vara av identiska modeller och ha stöd för Synology High Availability. Vänligen observera att namnet för high-availability-klustret måste vara annat än namnen på den aktiva och passiva servern.</li>
+   <li><b>DSM-version:</b> Samma version av DSM måste vara installerad på både den aktiva och den passiva servern. </li>
+   <li><b>Filpaketversion:</b> Samma version av Synology High Availability måste vara installerad på båda Synology-servrarna.</li>
+  </ul>
+
+  
+ <h3>Volym och enhet</h3>
+ 
+  <p>Vänligen observera följande rekommendationer beträffande lagringsutrymmen (dvs. volymer, diskgrupper, RAID Groups, etc) och hårdiskhantering.</p>
+  <ul>
+   <li><b>Diskkapacitet:</b> För att kunna tillhandahålla datareplikering måste diskkapaciteten för den passiva servern vara större än eller lika stor som kapaciteten för den aktiva servern. Vi rekommenderar å det bestämdaste att diskkapaciteten på båda servrarna är helt och hållet identiska för att minska risken för inkonsekvens. </li>
+   <li><b>Antal och typ av diskar:</b> Både den aktiva och den passiva servern måste ha samma antal diskar. Dessutom måste hårdisknumrering och position överensstämma på båda servrar och hårdisktyper (t.ex. SSD/HDD, SAS/SATA) och specifikationer (dvs. sektorer med storlekar på både 4K och 512) vara identiska. Vänligen observera att externa enheter såsom USB-hårddiskar inte kommer att vara inräknade när antalet diskar räknas.</li>
+   <li><b>Hot Spare-reparation:</b> Trasiga volymer på den passiva servern utlöser inte en hot spare-reparation. Om volymerna på den aktiva servern är trasiga utlöses dock en hot spare-reparation och volymerna på den passiva servern blir även de trasiga, eftersom systemet tar bort en disk som är felfri från RAID-volymer på den passiva servern för att framtvinga en hot spare-reparation.</li>
+   <li><b>SHR format stöds inte:</b> SHR-formaterade volymer stöds inte. Vänligen säkerställ att Synology-servern som agerar aktiv server inte innehåller volymer med SHR-format. </li>
+  </ul>
+
+    <div class="section">
+    <h4>Obs:</h4>
+    <ul>
+    <li>Hastigheten för diskarna på den passiva servern påverkar även prestandan för skrivning på high-availability-klustret, eftersom data synkas till den passiva servern via Heartbeat-anslutningen. Det är att rekommendera att du använder identiska diskar på både den aktiva och den passiva servern.</li>
+    <li>Om den passiva servern är nere eller om Heartbeat-anslutningen kopplas ifrån blir volymer temporärt otillgängliga och iSCSI-överföring pausas under ungefär 10 sekunder.</li>
+    </ul>
+    </div>
+
+  
+  <h3>Nätverksmiljö</h3>
+  <p>Vänligen notera följande rekommendation beträffande nätverksinställningar vid ansats att skapa ett high-availability-kluster.</p>
+  <ul>
+    <li><b>Nätverksinställningar:</b> Båda servrarna måste ha statiska IP-adresser som hör till samma subnät.</li>
+    <li><b>Antal LAN-portar:</b> Båda servrarna måste ha samma antal LAN-portar. Om din Synology NAS är försedd med extra nätverkskort, räknas dessa nätverksort också som extra LAN-portar. </li>
+        <li><b>Begränsningar i anslutningsmiljö:</b> Anslutningen mellan de två servrarna måste ha stöd för multisändning och det får inte finnas några brandväggsregler som blockerar de portar som används av high-availability-klustret. Om Heartbeat-anslutningen har letts genom några switchar måste du säkerställa att switcharna har stöd för multisändning och Jumbo Frame.</li>
+    <li><b>Anslutningsbegränsningar:</b> Servrarna kan inte ansluta till nätverket via DHCP, IPv6, PPPoE och WiFi. Vänligen säkerställ att dessa funktioner är avaktiverade innan ansatser att skapa ett high-availability-kluster görs.</li>
+    <li><strong>Ingen DHCP-tjänst:</strong> Servrarna kan inte använda alternativen för den inbyggda DHCP-servern när de kombinerats till ett kluster.</li>
+   <li><strong>Inställningar för Link Aggregation:</strong> Båda servrarna måste ha samma inställningar för link aggregation för datanätverket och heartbeat-anslutningen. När high-availability-klustret skapats kan inställningarna för link aggregation inte ändras.</li>
+   <li><b>Inställningar för Open vSwitch:</b> Statusen för Open vSwitch på båda servrarna måste vara likadan (antingen aktiverad eller avaktiverad). När väl high-availability-klustret skapats kan inställningarna för Open vSwitch inte ändras.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Obs:</h4>
+    <ul>
+      <li>SSH- och NTP-tjänst kommer automatiskt att aktiveras på den aktiva servern när high-availability-klustret har skapats.</li>
+    </ul>
+  </div>
+  <h3>Begränsningar för Lagringshanterare</h3>
+  <p>När ett high-availability-kluster väl har skapats finns inte alternativet för att ändra RAID-typen i Lagringshanteraren. Dock kommer följande alternativ att vara tillgängliga:
+<ul>
+<li>Utöka lagringsutrymmen (dvs. volymer, blocknivå iSCSI LUNs, diskgrupper, RAID Groups, etc.).</li>
+    <li>Skapa, radera eller reparera volymer, iSCSI LUNs, SSD endast läsbara och läs-skrivbara-cachar.</li>
+    <li>Ändra storlek och plats för iSCSI LUN (filnivå).</li>
+    <li>Ändra iSCSI LUN target.   </li>
+  </ul>
+
+  <div class="section">
+    <h4>Obs:</h4>
+    <ul>
+      <li>Ändra vänligen inte diskens plats när high-availability-klustret har skapats; i annat fall kommer lagringsutrymmet att saknas.</li>
+      <li>För att säkerställa att din server som är ansluten till Synology iSCSI Target inte råkar ut för överskriden tidsgräns vid redundans är det att rekommendera att du justerar inställningarna för överskriden tidsgräns för iSCSI-klienten och -initiativtagaren till 120 sekunder eller längre.</li>
+    </ul>
+  </div>
+
+ 
+<h3>Begränsningar för Filpaket och Mjukvara</h3> 
+
+<p>När high-availability-klustret har skapats kommer följande filpaket och funktioner inte att ha stöd:</p>
+	<ul>
+
+    <li>Virtual DSM Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>Funktionen att starta om/stänga av high-availability-klustret i CMS</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>Obs:</h4>
+    <ul>
+    <li>För att tillåta stöd för Docker DSM i High Availability måste du aktivera Open vSwitch innan klustret skapas.</li>
+    </ul>
+   </div>
+
+<h3>Lägga till expansionsenheter</h3>
+  <p>När ett high-availability-kluster skapats kan expansionsenheter läggas till det befintliga high-availability-klustrets konfiguration för att utöka lagringskapacitet. Som med annan hårdvara krävs identiska expansionsenheter för både den aktiva och den passiva servern. För att undvika fel som beror på inkonsekvens, var försiktig och följ instruktionerna här nedanför när någon utökningsenhet läggs till.</p>
+  
+  <h4>Lägga till expansionsenheter:</h4>
+   <ol>
+    <li>Lägg endast till identiska expansionsenheter och hårddiskar till den aktiva och passiva servern. Som tidigare nämnts måste hårdvara på både aktiv och passiv server vara identiska, detta inkluderar hårdvarumodell, hårdvarutyper och hårdiskens storlek och plats.</li>
+    <li>Förvissa dig om att radera alla befintliga data och volymer på hårddiskarna i expansionsenheterna.</li>
+    <li>Anslut expansionsenheter till den aktiva och den passiva servern när båda servrarna är påslagna och tagna i drift.</li>
+    <li>Skapa ett nytt lagringsutrymme (dvs. volymer, diskgrupper, RAID Groups etc.) på din expansionsenhet innan du slår av någon av servrarna.</li>
+   </ol>
+<div class="section">
+<h4>Noteringar:</h4>
+<p>För grundläggande information om installation av expansionsenheter, vänligen se din användarmanual för din expansionsenhet.</p>
+</div>
+
+
+<h3>Begränsningar för USB-enhet</h3>
+   <p>Övergång/redundans för USB-enheter stöds inte. Tjänster och applikationer som tillhandahålls av USB-enheter fungerar eventuellt inte ordentligt efter övergång/redundans.</p>
+
+   
+ </body>
+</html>

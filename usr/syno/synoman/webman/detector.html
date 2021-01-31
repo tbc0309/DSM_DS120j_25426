@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript">
+var Detector = (function() {
+	var found = false;
+	var total = 0;
+	var origin = location.protocol + '//' + location.host;
+	function create_load_callback(url) {
+		return function() {
+			if (!found) {
+				found = true;
+				parent.postMessage({success: true, url: url}, origin);
+			}
+		};
+	}
+	function create_error_callback() {
+		return function() {
+			if (--total === 0) {
+				parent.postMessage({success: false}, origin);
+			}
+		};
+	}
+	function process(request) {
+		total = request.data.url.length;
+		request.data.url.forEach(function(url) {
+			if (!found) {
+				var img = new Image();
+				img.onload = create_load_callback(url);
+				img.onerror = create_error_callback();
+				img.src = url + request.data.img_path;
+			}
+		});
+	}
+	function init() {
+		window.addEventListener('message', function(request) {
+			try {
+				process(request);
+			} catch(e) {
+				if (!found) {
+					parent.postMessage({success: false, error: e}, origin);
+				}
+			}
+		});
+	}
+	return { 'init': init };
+}());
+</script>
+</head>
+<body onload="Detector.init()">
+</body>
+</html>

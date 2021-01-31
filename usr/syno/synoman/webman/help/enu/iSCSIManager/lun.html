@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>iSCSI Manager</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_lun"></a>LUN</h2>
+<p>Before creating a LUN, you need to create a volume first in <a href="../StorageManager/volume_create_volume.html">Storage Manager</a>.</p>
+<p>LUN types with different features will be displayed in different colors:</p>
+<ul>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #00adad;"></span> Thin Provisioned LUNs created on an ext4 volume.</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #1a9900;"></span> Thin Provisioned LUNs created on a Btrfs volume.</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #0068b3;"></span> Thick Provisioned LUNs.</li>
+ </ul>
+ 
+
+<div class="section"><h4>Important:</h4>
+<ul>
+	<li>Only LUNs created on a Btrfs volume on DSM 6.2 onwards support new advanced features and instant snapshots. LUNs on an ext4 volume support only legacy advanced features.</li>
+</ul>
+</div>
+
+<h4>To create a LUN:</h4>
+<ol>
+  <li>Click <strong>Create</strong>.</li>
+  <li>Set the properties of this LUN.
+		<ul>
+			<li>LUN name</li>
+			<li>Location: You cannot modify the location after a LUN is created, but you can copy this LUN to another volume.</li>
+			<li>Capacity: LUN size must be at least 1 GB. For LUNs with legacy advanced features, the size must be at least 10 GB size.</li>
+			<li>Space Allocation: Thick Provisioning provides better stability and performance, while Thin Provisioning supports on-demand allocation and all advanced features but may cause a filesystem crash on the LUN when its volume runs out of space.</li>
+			<li>Advanced features: Thick Provisioned LUNs support only <strong>Hardware-Assisted Zeroing</strong> and <strong>Hardware-Assisted Locking</strong>, while LUNs on ext4 volumes support only legacy advanced features.</li></li>
+		</ul></li>
+	<li>Follow the wizard to complete the process.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+	<ul>
+	<li>New LUNs cannot be created when a volume has less than 1 GB of free space.</li>
+	<li>You can enable the advanced features to support corresponding VMware VAAI features.</li>
+	<li>You can enable <strong>Hardware-Assisted Data Transfer</strong> so that the LUNs can support Windows Offload Data Transfer (ODX) at the same time.</li>
+	<li>Enabling legacy advanced features may affect the I/O performance.</li>
+	<li>The number of supported LUNs varies depending on Synology NAS models. For detailed product specifications, please refer to <a href="http://www.synology.com/" target="_blank">www.synology.com</a>.</li>
+ 	</ul>
+</div>
+<div class="section"><h4><a name="terminologies_advanced_features"></a>Terminologies:</h4>
+	<ul>
+		<li><strong>Hardware-Assisted Zeroing:</strong> Helps VMware ESXi hosts to initialize virtual disks with better efficiency when creating new virtual disks.</li>
+		<li><strong>Hardware-Assisted Locking:</strong> Locks only required parts of a LUN when a VMware ESXi host accesses data on it, allowing multiple VMware ESXi hosts to access the same LUNs simultaneously without compromising the performance.</li>
+		<li><strong>Hardware-Assisted Data Transfer:</strong> Data transferring can be done quickly on your Synology NAS without taking up the resource of the hosts when copying data on VMware ESXi and Microsoft Hyper-V hosts.</li>
+		<li><strong>Snapshot:</strong> With the help of Btrfs file system features, instant snapshots and replication are available.</li>
+		<li><strong>Space Reclamation:</strong> Supports space reclamation command of the initiator. When data is deleted or transferred, the space it used will be released. However, this may affect I/O performance.</li>
+	</ul></div>
+
+	
+
+<h4>To remove a LUN:</h4>
+<p>When removing a LUN, all data on the LUN will be deleted. Connections between the LUN and any mapped Targets will also be lost.</p>
+<ol>
+	<li>Select the LUN you want to remove.</li>
+	<li>Click the <b>Remove</b> button and follow the wizard to complete the process.</li>
+</ol>
+
+<h4>To edit a LUN:</h4>
+<ol>
+	<li>Select the LUN you want to edit.</li>
+	<li>Select <b>Edit</b> from the <b>Action</b> drop-down menu.</li>
+	<li>Edit the desired properties.</li>
+	<li>Click <b>OK</b> to save the settings.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+<li>To avoid data loss when editing LUN capacity, you can only make it larger than the current size.</li>
+<li>If the status of an LUN changes to <b>Unavailable</b>, it means that some data-related errors occurred while accessing LUN. In order to avoid severe data loss on your system, this LUN will be temporarily inaccessible. Please contact Synology for support as soon as possible.</li>
+</ul>
+</div>
+
+<p>If your Synology NAS serves as the storage backend of OpenStack Cinder, LUNs with storage acceleration commands will be used when creating Cinder volumes. Operations and management of the LUNs/Targets used by Cinder will be limited on your Synology NAS.</p>
+<ul>
+<li>Cinder LUNs cannot be edited.</li>
+<li>Information such as the name, IQN, mapping, and masking of the Cinder Targets cannot be edited.</li>
+<li>You cannot map Cinder LUNs/Targets to general LUNs/Targets.</li>
+<li>You cannot take snapshots of Cinder LUNs via the DSM user interface nor edit, delete or restore snapshots of Cinder LUNs.</li>
+<li>LUNs cloned from Cinder LUNs/snapshots will become general LUNs.</li>
+</ul>
+
+<h4>To clone a LUN:</h4>
+	<ol>
+	<li>Select the LUN you want to clone.</li>
+	<li>Select <b>Clone</b> from the <b>Action</b> drop-down menu.</li>
+	<li>Edit the name of the cloned LUN, and select the destination volume.</li>
+	<li>Click <b>OK</b> to start cloning.</li>
+</ol>
+<div class="section">
+	<h4>Note:</h4>
+	<ul>
+		<li>A LUN can not be cloned when the remaining space of its volume is lower than 1 GB.</li>
+	</ul>
+</div>
+
+<h4>To defrag a LUN:</h4>
+<p>Defragmentation can recover deteriorated LUN performance caused by data fragmentation or snapshots. During a defragmentation, the LUNs' I/O performance may be affected, but you can stop it anytime and resume the process afterwards.</p>
+<ol>
+	<li>Select the LUN you want to defrag.</li>
+	<li>Click <b>Defrag</b> > <b>Start</b>.</li>
+</ol>
+<h4>To stop defragging a LUN:</h4>
+<ol>
+	<li>Select the LUN which is defragging.</li>
+	<li>Click <b>Defrag</b> > <b>Stop</b>.</li>
+</ol>
+<div class="section"><h4>Note:</h4>
+<ul>
+<li>Defragmentation is supported on Thin Provisioned Btrfs LUNs only.</li>
+<li>In the process of defragmentation, you cannot edit/clone the LUN or take snapshots; however, you could remove it.</li>
+<li>Defragmentation can be stopped anytime. The system keeps a record of the progress and will resume from where it was last stopped. </li>
+<li>Existing LUN snapshots will take up extra volume space after a LUN defragmentation.</li>
+</ul>
+</div>
+
+	
+<div class="section"><h4>Additional Information</h4>
+<ul>
+	
+	<li>LUNs with snapshot feature or legacy advanced features enabled can be cloned quickly within the same volume.</li>
+	<li>LUNs with the new advanced features can only be cloned to Btrfs volumes.</li>
+	<li>When LUNs with legacy advanced features are cloned to a Btrfs volume, they will be converted into LUNs with new advanced features. When cloned to another ext4 volume, the LUNs' legacy advanced features will be disabled.</li>
+	<li>LUN properties will not change after being cloned except for LUNs with legacy advanced features.</li>
+	<li>While you are cloning LUNs without snapshot or legacy advanced features, it is recommended that you disconnect these LUNs to prevent failed cloning or data inconsistency.</li>
+</ul>
+</div>
+	
+<h4>To convert a LUN with legacy advanced features:</h4>
+<ol>
+	<li>Select the LUN you want to convert.</li>
+	<li>Select <b>Convert</b> from the <b>Action</b> drop-down menu.</li>
+	<li>Configure the settings:
+		<ul>
+			<li>LUN name</li>
+			<li>Location: You cannot modify the location after a LUN is created, but you can convert this LUN to another Btrfs volume.</li>
+		</ul></li>
+	<li>Tick the checkbox if you wish to delete the original LUN and map the Target to the new LUN after the conversion.</li>
+	<li>Click <strong>Apply</strong> to confirm the settings.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+	<ul>
+	<li>Only LUNs with legacy advanced features can be converted to LUNs with new advanced features.</li>
+	<li>LUNs can only be converted onto Btrfs volumes with enough free space.</li>
+	<li>To ensure data consistency, LUNs will be unmapped from Target during the conversion.</li>
+	<li>There will be no snapshots on the converted new Advanced LUN.</li>
+</div>
+
+<div class="section"><h4>Terminologies:</h4>
+<ul>
+	<li><b>Thin Provisioning</b>: Thin Provisioning is a method for optimizing storage utilization by allocating storage space in a dynamic and on-demand manner.</li>
+	<li><b>VMware VAAI</b>: The VMware vStorage APIs for Array Integration (VAAI) can offload the work of the standard operations on virtual storage arrays to the iSCSI device in the VMware vSphere environment and optimize the storage performance.</li>
+	<li><b>Windows ODX</b>: Offload Data Transfer (ODX) is a new data transfer technology developed by Microsoft in Windows Server 2012 and 8. ODX improves transfer performance by offloading some of the workload to the storage array.<br />If the data source and destination are located on LUNs that are located on the same volume, cloning will be processed by storage acceleration commands, which saves up to 99.9% of the storage space consumption and accelerates cloning at the same time.</li>
+	<li><b>Target Mapping</b>: Map the LUN to one or more targets.</li>
+
+</ul>
+</div>
+
+</body>
+</html>

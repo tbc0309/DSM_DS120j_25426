@@ -1,0 +1,118 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Riparare uno storage pool - Guida Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to repair a storage pool on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Riparare uno storage pool</h2>
+
+<p>Gli errori dello storage pool possono essere causati da vari problemi, come unità in crash. In alcuni casi, è possibile diagnosticare e correggere gli errori seguendo le istruzioni riportate di seguito.</p>
+	
+<p>La funzione <strong>Ripara</strong>, indicata in questo articolo, è disponibile solo per storage pool con tipi RAID che supportano la ridondanza dei dati (SHR comprendente almeno 2 unità, RAID 1, RAID 5, RAID 6, RAID F1 e RAID 10). Questa funzione consente di riparare uno storage pool, ma non è in grado di riparare unità difettose.</p>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>si consiglia di utilizzare le unità nell'<a href="https://www.synology.com/compatibility" target=blank>Elenco compatibilità dei prodotti Synology</a> per evitare eventuali problemi. L'utilizzo di unità incompatibili potrebbe influire sulle prestazioni di sistema e persino causare la perdita di dati.</li>
+<li>SHR (Synology Hybrid RAID) è disponibile solo su alcuni modelli. Per ulteriori informazioni su SHR, vedere <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">qui</a>.</li>
+</ul>
+</div>
+	
+<h3>Riparare uno storage pool con partizioni di sistema non riuscite</h3>
+
+<p>Quando le partizioni del sistema falliscono, viene visualizzato un messaggio che informa che non è possibile accedere alle partizioni del sistema. Seguire i seguenti passaggi per risolvere il problema:</p>
+
+<ol>
+<li>Aprire <strong>Storage Manager</strong>.</li>
+<img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/>
+
+<li>Andare su <strong>Panoramica</strong> e fare clic sul link <strong>Riparazione</strong>. Il sistema dovrebbe avviare la riparazione delle partizioni di sistema.</li>
+
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/fail_system_partitions.png" class="help_image"/>
+</ol>
+
+<h3>Riparare uno storage pool degradato</h4>
+
+<p>Uno storage pool diventa <strong>Degradato</strong> quando non è in grado di accedere ai dati in un'unità, ma non si è verificata alcuna perdita dei dati. Questa condizione si verifica soltanto su storage pool con tipi RAID che forniscono ridondanza dei dati (SHR comprendente almeno 2 unità, RAID 1, RAID 5, RAID 6, RAID F1 e RAID 10). Prima di avviare la riparazione di uno storage pool degradato, riparare le unità difettose con le unità integre e rimuovere prima le unità difettose oppure, semplicemente, sostituirle con le unità integre.</p>
+
+<h4>Requisiti unità:</h4>
+<p>Sostituire le unità difettose con quelle integre corrispondenti ai seguenti criteri:</p>
+	
+<ul>
+<li><b>Per gli storage pool RAID 1, RAID 5, RAID 6, RAID F1 e RAID 10</b>: Le dimensioni dell'unità di sostituzione devono essere uguali o superiori alle dimensioni dell'unità più piccola nello storage pool.</li>
+<li><b>Per storage pool SHR-1</b>: L'unità di sostituzione deve soddisfare uno dei criteri seguenti.
+<ul>
+<li>Le dimensioni dell'unità di sostituzione devono essere uguali o superiori alle dimensioni dell'unità difettosa.</li>
+<li>Se l'unità più grande nello storage pool è esclusa, le dimensioni dell'unità sostitutiva devono essere uguali o superiori alle dimensioni dell'unità più grande restante. <br><span class="note_head">Esempi:</span>
+<ul>
+<li>Esempio 1: SHR-1 è composto da unità da 3TB, 2TB, 2TB e 1TB. Se l'unità da 3TB diventa difettosa, è possibile ripararla con una unità con dimensioni uguali o maggiori di 2TB.</li>
+<li>Esempio 2: SHR-1 è composto da unità da 4TB, 4TB, 2TB e 2TB. Se l'unità da 4TB diventa difettosa, è possibile ripararla con una unità con dimensioni uguali o maggiori di 4TB.</li>
+<li>Esempio 3: SHR-1 è composto da unità da 4TB, 4TB, 2TB e 2TB. Se l'unità da 2TB diventa difettosa, è possibile ripararla con una unità con dimensioni uguali o maggiori di 2TB.</li>
+</ul>	
+</li>
+			
+</ul>
+</li>
+<li><b>Per storage pool SHR-2</b>: L'unità di sostituzione deve soddisfare uno dei criteri seguenti.
+<ul>
+<li>Le dimensioni dell'unità di sostituzione devono essere uguali o superiori alle dimensioni dell'unità difettosa.</li>
+<li>Se le due unità più grandi nello storage pool è esclusa, le dimensioni dell'unità sostitutiva devono essere uguali o superiori all'unità più grande restante.</li>
+</ul>	
+</li>
+</ul>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>se le unità disponibili sono state assegnate come unità hot spare per proteggere uno o più storage pool, le unità hot spare ripareranno automaticamente gli storage pool degradati. Per ulteriori informazioni, consultare <a href="hotspare.html" target="_blank">Hot Spare</a>.</li>
+</ul>
+</div>
+
+
+<h4>Per riparare uno storage pool danneggiato:</h4>
+
+<p>Per riparare uno storage pool degradato, procedere come segue:</p>	
+<ol>
+<li>Andare su <strong>Storage Manager</strong> > <strong>Storage Pool</strong> e individuare lo storage pool nello stato <strong>Degradato</strong>.</li> 
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/volume_degraded.png" class="help_image"/>
+<li>Visualizzare le informazioni sullo storage pool e controllare lo stato dell'unità.</li>
+<li>Successivamente, andare alla pagina <strong>HDD/SSD</strong> per confermare quale unità è difettosa.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/hdd_ssd.png" class="help_image"/>
+
+<li>Rimuovere l'unità danneggiata da Synology NAS e sostituirla con una nuova. Se Synology NAS non supporta l'hot-swap, spegnere il dispositivo prima di rimuovere e installare qualsiasi unità.<br><span class="note_head">Nota:</span> i dati esistenti nell'unità sostitutiva saranno cancellati.</li>
+<li>Dopo avere installato l'unità sostitutiva, tornare alla pagina <strong>Storage pool</strong> e selezionare lo storage pool degradato.</li>
+<li>Fare clic su <b>Ripara</b> dal menu a discesa <b>Azione</b>.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/manage_repair.png" class="help_image"/>
+<li>Selezionare l'unità di sostituzione da aggiungere allo storage pool e seguire le istruzioni della procedura guidata per terminare.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>se la riparazione di uno storage pool richiede molto tempo, potrebbe essere associata alle cause elencate <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Why_does_it_take_a_long_time_to_repair_a_storage_pool" target="_blank">qui</a>.</li>
+</ul>
+</div>
+
+
+<h3>Risolvere storage pool in crash</h3>
+
+<p>Quando lo stato di uno storage pool diventa <strong>In crash</strong>, non è più possibile ripararlo autonomamente. Per ulteriori informazioni sui motivi comuni del crash del volume e sul metodo di risoluzione dei problemi, consultare i seguenti articoli:
+	<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_are_the_reasons_of_volume_crash" target="_blank">Cosa causa il crash di un volume?</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_do_I_do_when_a_volume_crashes" target="_blank">Cosa fare in caso di crash di un volume?</a></li>
+	</ul>
+</p>
+
+
+</body>
+</html>

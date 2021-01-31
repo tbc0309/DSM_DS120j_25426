@@ -1,0 +1,57 @@
+#!/bin/sh
+
+if [ -n "${LINKNAME}" ]; then
+# PPP
+VPNC_CONF=`/bin/echo ${LINKNAME} | /usr/bin/cut -d_ -f 2`
+
+else
+# TUN
+VPNC_CONF=`/bin/echo ${config} | /usr/bin/cut -d_ -f 2`
+fi
+
+VPNC_CURR="/tmp/vpnc_current"
+VPNC_CONNECTING="/usr/syno/etc/synovpnclient/vpnc_connecting"
+SHUTDOWN="/var/.NormalShutdown"
+VPNC_SHUTDOWN="/tmp/vpnc_shutdown"
+PROTO=`/bin/get_key_value ${VPNC_CURR} proto`
+
+if [ -e "${VPNC_CURR}" ]; then
+    eval `/bin/grep '^conf_id=' ${VPNC_CURR}`
+    eval `/bin/grep '^proto=' ${VPNC_CURR}`
+    eval `/bin/grep '^conf_name=' ${VPNC_CURR}`
+    eval `/bin/grep '^reconnect=' ${VPNC_CURR}`
+    eval `/bin/grep '^kill=' ${VPNC_CURR}`
+    if [ "${VPNC_CONF}" = "${conf_id}" ] || [ "openvpn" = "${proto}" ]; then
+        # clear vpn client remainders
+    	/usr/syno/bin/synovpnc clear
+	/usr/syno/bin/synologset1 man warn 0x13500007 ${conf_name}
+
+        if [ "yes" = "${reconnect}" ] && [ "yes" != "${kill}" ]; then
+            /bin/echo "conf_id=\"${conf_id}\"" > ${VPNC_CONNECTING}
+            /bin/echo "conf_name=\"${conf_name}\"" >> ${VPNC_CONNECTING}
+            /bin/echo "proto=\"${proto}\"" >> ${VPNC_CONNECTING}
+            reconnect_times=10
+            /bin/echo "reconnect_times=\"${reconnect_times}\"" >> ${VPNC_CONNECTING}
+            # reconnect
+            if [ ! -e "${SHUTDOWN}" ] && [ ! -e "${VPNC_SHUTDOWN}" ]; then
+                /usr/bin/killall synovpnc 2>/dev/null
+                reconnect_times=$(($reconnect_times-1))
+                /usr/syno/bin/synovpnc reconnect --protocol=${proto} --name=${conf_name} --retry=${reconnect_times} --interval=30
+            fi
+        fi
+    fi
+fi
+
+if [ "pptp" = "${PROTO}" ]; then
+	iptables -D VPN_CLIENT_INPUT -p 47 -j ACCEPT
+fi
+if [ "l2tp" = "${PROTO}" ]; then
+	iptables -D VPN_CLIENT_INPUT -p ah -j ACCEPT
+	iptables -D VPN_CLIENT_INPUT -p esp -j ACCEPT
+fi
+
+if [ -e "${VPNC_SHUTDOWN}" ]; then
+    /bin/rm "${VPNC_SHUTDOWN}" 2>/dev/null
+fi
+
+exit 0

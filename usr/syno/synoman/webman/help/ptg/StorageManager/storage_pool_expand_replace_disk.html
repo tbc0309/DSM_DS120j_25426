@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Substituir Unidades para Expandir a Capacidade de Armazenamento</h2>
+
+<p>Ao utilizar determinados tipos de RAID, pode expandir a capacidade de armazenamento de um volume ou grupo de discos substituindo as unidades antigas por outras de maior tamanho. Este artigo fornece informações importantes relativamente ao processo de expansão, bem como um exemplo de como substituir unidades existentes para expandir a capacidade de armazenamento.</p>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>O procedimento descrito neste artigo apenas funciona com SHR, RAID 1, RAID 5, <span class="disable-grantley">e </span>RAID 6<span class="enable-grantley">, e RAID F1</span>. Se planeia substituir várias unidades, deve proceder com cuidado para substituir as unidades uma de cada vez. Depois de substituir uma unidade, deve reparar o volume ou grupo de discos antes de substituir o seguinte. Para RAID 1, RAID 5, <span class="disable-grantley">e </span>RAID 6<span class="enable-grantley">, e RAID F1</span>, a capacidade do volume é expandida depois de todas as unidades terem sido substituídas.</li>
+</ul>
+</div>
+
+<h3 class="list_head"><a id="t1"></a>Antes de começar</h3>
+<p>Antes da substituição da unidade, consulte as seguintes notas:</p>
+<ul>
+	<li><strong>Cópia de Segurança de Dados:</strong> Embora o processo de expansão não elimine quasiquer dados existentes, recomendamos vivamente que efectue uma cópia de segurança dos seus dados antes de prosseguir.</li>
+	<li><strong>Estado do Volume ou Grupo de Discos:</strong> Antes de começar, certifique-se de que o estado do seu volume ou grupo de discos é <strong>Normal</strong>. Caso contrário, deverá repará-lo primeiro.</li>
+	<li><strong>Os dados permanecem acessíveis durante a expansão?</strong> Os dados no seu sistema estarão disponíveis durante a expansão dos volumes ou grupos de discos; no entanto, o sistema pode suspender temporariamente as ligações quando iniciar o processo pela primeira vez.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>Dado que os volumes SHR optimizam a capacidade de armazenamento com base no número e tamanho das unidades instaladas, siga as linhas de orientação seguintes para expandir adequadamente a capacidade:</p>
+<ul>
+	<li>Se a capacidade de todas as unidades existentes for igual, deve substituir pelo menos duas dessas unidades por maiores, para expandir a capacidade de armazenamento. Por exemplo, se o seu volume SHR for constituído por três unidades de 2 TB, então deverá substituir pelo menos duas unidades para expandir a capacidade do volume.</li>
+	<li>Se a capacidade das unidades existentes for diferente, então as novas unidades de substituição devem ser iguais ou de tamanho superior à maior unidade existente. Além disso, deverá substituir primeiro as unidades mais pequenas para optimizar a utilização da capacidade. Por exemplo, se o volume SHR for constituído por três unidades de 4 TB, 3 TB e 2 TB respectivamente, então as novas unidades de substituição devem ser de 4 TB, pelo menos. Além disso, deverá substituir primeiro as unidades de 3 TB ou 2 TB.</li>
+</ul>
+</div>
+
+<div class="section"><h4>RAID 5<span class="enable-grantley">,</span> <span class="disable-grantley">e </span>RAID 6<span class="enable-grantley">, e RAID F1</span></h4>
+<p>Quando substitui unidades de volumes ou grupos de disco RAID 5<span class="enable-grantley">,</span> <span class="disable-grantley">ou </span>RAID 6<span class="enable-grantley">, ou RAID F1</span>, deve ser sempre substituída primeiro a unidade mais pequena. A capacidade de armazenamento dos volumes RAID 5 <span class="enable-grantley"> e RAID F1 </span> é (número de unidades – 1) x (tamanho da unidade mais pequena), e RAID 6 é (número de unidades – 2) x (tamanho da unidade mais pequena). Assim, a unidade mais pequena deverá ser sempre substituída primeiro, para maximizar a utilização das unidades.</p>
+<p>Por exemplo, se o seu volume RAID 5 for constituído por três unidades de 4 TB, 3 TB e 2 TB respectivamente, a capacidade disponível do volume será de 4 TB. Se substituir as unidades de 4 TB ou 3 TB, a capacidade do volume não mudará. Para aumentar a capacidade do seu volume, deverá substituir primeiro a unidade de 2 TB.</p>
+</div>
+
+<h3>Substituir Unidade para Expandir a Capacidade de Armazenamento</h3>
+<p>Nos passos seguintes disponibilizamos um exemplo de substituição das unidades de um volume SHR.</p>
+<h4>Para susbtituir unidades:</h4>
+<ol>
+	<li>Abra o <strong>Gestor de armazenamento</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Aceda ao <strong>Volume</strong> para verificar qual a unidade existente mais pequena.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Desligue o seu Synology NAS. (Ignore este passo se o seu Synology NAS suportar hot-swapping.)</li>
+	<li>Retire a mais pequena das unidades e instale uma unidade nova e maior.<br /><span class="note_head">Nota: </span>Para evitar ferimentos ou danificar o seu Synology NAS, siga as instruções de instalação da unidade, que se encontram no <em>Guia de instalação de hardware</em> do seu produto Synology.</li>
+	<li>Ligue o seu Synology NAS.</li>
+	<li>Abra novamente o <strong>Gestor de Armazenamento</strong>.</li>
+	<li>Aceda a <strong>HDD/SSD</strong> para garantir que a nova unidade é reconhecida.<br /><img src="about:blank" class="help_image" /></li>
+	<li>O estado do seu volume deverá ser <strong>Degradado</strong>. Seleccione o volume e clique em <strong>Gerir</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Seleccione <strong>Reparar</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Seleccione a unidade de substituição para adicionar ao volume. Depois, siga os passos indicados pelo assistente para concluir.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Repita o processo anterior para substituir todas as unidades pretendidas por maiores.</li>
+</ol>
+
+</body>
+</html>

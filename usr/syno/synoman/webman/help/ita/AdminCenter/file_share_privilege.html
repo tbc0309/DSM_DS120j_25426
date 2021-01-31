@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Assegnare i permessi delle cartelle condivise - Guida Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="You can specify which users or groups can access, view, or modify a shared folder and its contents. This article shows you how to assign and customize shared folder permissions in DSM.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Assegnare i permessi delle cartelle condivise</h2>
+
+<p>È possibile specificare quali utenti o gruppi possono accedere, visualizzare o modificare una cartella condivisa e il suo contenuto. I permessi di accesso delle cartelle condivise, nonché file individuali e sottocartelle, possono essere personalizzati per ciascun utente o gruppo.</p>
+
+<div class="section disable-eds14">
+<h4>Windows ACL:</h4>
+
+<p>In DSM 5.0 o versione successiva, i permessi di accesso delle cartelle condivise sono basati su Windows ACL come impostazione predefinita. Le cartelle condivise create di recente implementano le impostazioni dei permessi di Windows ACL, che consentono anche di personalizzare i permessi dei singoli file e sottocartelle. Inoltre, i permessi possono essere personalizzati mediante File Station o File Explorer in Windows.</p>
+<p>Le seguenti cartelle condivise non possono utilizzare il sistema di gestione dei permessi di Windows ACL: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+<div class="section disable-eds14">
+<h4>Nota:</h4>  
+<p>Le cartelle <strong>home</strong> personali degli utenti sono poste nella cartella <strong>homes</strong>. Poiché ACL funziona su una base di ereditarietà dell'autorizzazione, se si imposta un'autorizzazione NA per un utente/gruppo su <strong>homes</strong>, gli utenti non avranno accesso alle proprie cartelle <strong>home</strong> personali. </p>
+</div>
+<h4>Per modificare i permessi di una cartella condivisa:</h4>
+
+<ol>
+
+<li>Andare su <strong>Pannello di controllo</strong> > <strong>Cartella condivisa</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Selezionare la cartella condivisa di cui modificare i permessi. Fare clic su <b>Modifica</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li> Andare alla scheda <strong>Permessi</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Selezionare una delle seguenti opzioni dal menu a discesa:
+
+<ul>
+<li><b>Utente interno di sistema:</b> assegnare autorizzazioni per gli utenti di sistema predefiniti, come utente Anonymous FTP/WebDAV. Prima di consentire a utenti FTP anonimi la connessione a una cartella condivisa, occorre assegnare i permessi di accesso a questo utente.</li>
+<li><b>Utenti locali:</b> assegnare autorizzazioni per gli utenti locali (incluso <b>guest</b>).</li>
+<li><b>Gruppi locali:</b> assegnare permessi per i gruppi locali.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Selezionare o deselezionare le caselle appropriate per ciascun utente o gruppo per personalizzare i permessi di accesso alla cartella condivisa:
+
+  <ul>
+<li><b>Lettura/Scrittura</b>: l'utente o il gruppo può accedere e apportare modifiche ai file e alle sottocartelle nella cartella condivisa.</li>
+<li><b>Sola lettura</b>: l'utente o il gruppo può accedere a file e sottocartelle nella cartella condivisa.</li>
+<li><b>Nessun accesso</b>: l'utente o il gruppo non può accedere a file o sottocartelle nella cartella condivisa.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Fare clic su <b>OK</b> per terminare.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+
+<ul>
+<li>quando si verificano conflitti delle autorizzazioni, la priorità delle autorizzazioni è la seguente: Nessun accesso > Lettura/Scrittura > Sola lettura.</li>
+<li>Quando si crea una nuova cartella condivisa, se i permessi per gli utenti che appartengono al gruppo <strong>administrators</strong> sono impostati su <b>Nessun accesso</b>, questi utenti potranno vedere solo la cartella condivisa in <strong>Pannello di controllo</strong> > <strong>Cartella condivisa</strong>.</li>
+</ul>
+</div>
+
+<h3 class="disable-eds14">Personalizzazione permessi Windows ACL</h3>
+
+<p class="disable-eds14">Oltre alle impostazioni descritte in precedenza, è possibile personalizzare ulteriormente i permessi seguenti i passi seguenti. </p>
+
+<div class="section disable-eds14">
+<h4>Nota:</h4>
+<p>Le impostazioni di seguito non possono essere utilizzate con le seguenti cartelle condivise: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+
+<h4 class="disable-eds14">Per personalizzare i permessi:</h4>
+<ol class="disable-eds14">
+  <li>Nella scheda <strong>Permessi</strong>, selezionare l'utente di cui si vogliono personalizzare i permessi. fare clic su un punto qualsiasi nella colonna <strong>Personalizzato</strong>.</li>
+  <img src="about:blank" class="help_image"/>
+  <li>Per gestire i permessi ACL per il file o la cartella, eseguire una delle seguenti azioni nella finestra <b>Editor autorizzazioni</b>:
+      <ol>
+        <li><b>Utente o gruppo:</b> Specificare l'utente o gruppo di cui si desidera personalizzare i permessi.</li>
+        <img src="about:blank" class="help_image"/>
+        
+        <div class="section disable-eds14">
+<h4>Nota:</h4>  
+<p>le opzioni di <strong>Authenticated Users</strong> e <strong>SYSTEM</strong> nel menu a discesa <strong>Utente o gruppo</strong> sono create per far corrispondere le impostazioni di privilegi di Windows ACL. Gli ambiti di privilegi sono i seguenti:</p>
+<ul>
+	<li><strong>Authenticated Users</strong> include gli account esclusi da <strong>https</strong> e <strong>guest</strong>.</li>
+	<li><strong>SYSTEM</strong> include gli account in <strong>https</strong> e <strong>anonymous</strong>.</li>
+</ul>
+</div>
+        
+        
+        
+        
+        <li><b>Eredita da:</b> solo per visualizzazione. Visualizza le informazioni per verificare se l'autorizzazione è ereditata (da una cartella principale) o esplicita (indicato con <b>Nessuno</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Tipo:</b> Scegliere <b>Consenti</b> o <b>Rifiuta</b> per concedere o negare l'autorizzazione all'utente o gruppo.</li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Applica a:</b> Se si sta creando una voce di autorizzazione per una cartella, selezionare le caselle di controllo per applicare la voce alla cartella, alle cartelle (o <b>Cartelle secondarie</b>) o file (o <b>File secondari</b>) nella cartella, o tutti i file e cartelle contenuti nella cartella (o <b>Tutti i discendenti</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Amministrazione:</b> spuntare <b>Leggi autorizzazioni</b>, <b>Cambia autorizzazioni</b> o <b>Diventa proprietario</b> per specificare le impostazioni del permesso di accesso al gruppo o all'utente per la voce. </li>
+        <li><b>Lettura</b> o <b>Scrittura:</b> selezionare le caselle di controllo in queste sezioni per modificare l'autorizzazione dell'utente o del gruppo per il file o cartella. </li>
+      </ol>    
+  <li> Fare clic su <b>OK</b>.</li>
+</ol>
+<div class="section disable-eds14">
+  <h4>Le autorizzazioni ACL possono essere assegnate a categorie come segue:</h4>
+  <ul>
+    <li><b>Amministrazione:</b>
+    <ul>
+      <li><b>Cambia autorizzazioni</b>: consente di scegliere se un utente può cambiare l'autorizzazione del file o della cartella.</li>
+      <li><b>Diventa proprietario</b>: consente di scegliere se un utente può diventare proprietario del file o della cartella.</li>
+    </ul></li>
+    <li><b>Lettura:</b>
+    <ul>
+      <li><b>Visita cartelle/Esegui file</b>: consente di scegliere se un utente può eseguire un file di programma.</li>
+      <li><b>Cartelle elenco/Leggi dati</b>: consente di scegliere se un utente può leggere i dati in un file.</li>
+      <li><b>Leggi attributi</b>: consente di scegliere se un utente può o meno visualizzare gli attributi di un file.</li>
+      <li><b>Leggi attributi estesi</b>: consente di scegliere se un utente può visualizzare gli attributi estesi di un file.</li>
+      <li><b>Leggi autorizzazioni</b>: consente di scegliere se un utente può leggere le autorizzazioni del file o cartella.</li>
+    </ul></li>
+    <li><b>Scrittura:</b>
+    <ul>
+      <li><b>Crea file/Scrivi dati</b>: consente di scegliere se un utente può o meno cambiare i contenuti di un file.</li>
+      <li><b>Crea cartelle/Aggiungi dati</b>: consente di scegliere se un utente può aggiungere i dati alla fine di un file.</li>
+      <li><b>Scrivi attributi</b>: consente di scegliere se un utente può cambiare gli attributi di un file.</li>
+      <li><b>Scrivi attributi estesi</b>:  consente di scegliere se un utente può cambiare gli attributi estesi di un file.</li>
+      <li><b>Elimina sottocartelle e file</b>: consente di scegliere se un utente può eliminare una cartella.</li>
+      <li><b>Elimina</b>: consente di scegliere se un utente può o non può eliminare un file.</li>
+    </ul></li>
+  </ul>
+  <h4>Informazioni sull'ereditarietà dell'autorizzazione:</h4>
+  <p> le autorizzazioni ACL sono ereditate dagli oggetti principali agli oggetti secondari. Ad esempio, se una voce ACL della cartella "vendite" ha l'autorizzazione "Lettura" per l'utente "Amy", allora la voce ACL sarà applicata a tutti i file contenuti nella cartella "vendite" (ad esempio "report annuale.xls"), consentendo all'utente di aprire i file. Le autorizzazioni ereditate saranno visualizzate con il colore grigio, mentre le autorizzazioni proprietario dell'oggetto (o autorizzazioni "esplicite") saranno visualizzate in nero. </p>
+</div>
+<div class="section disable-eds14">
+  <h4>Nota:</h4>
+  <ul>
+    <li>È possibile aggiungere fino a 200 voci di autorizzazioni esplicite ACL per un file o cartella.</li>
+    <li>Windows ACL non supporta il file system ext3. Per utenti che utilizzano il file system ext3, occorre creare almeno un volume ext4/Btrfs per utilizzare permessi Windows ACL. Quindi, occorre formattare almeno un'unità e ricreare un volume. La formattazione di Synology NAS cancellerà tutti i dati archiviati e le impostazioni. Prima di procedere, eseguire il backup completo.</li>
+    <li>Per definire i nuovi privilegi per utenti di dominio, assicurarsi che i clienti DSM e Windows siano nello stesso dominio.</li>
+    <li>Quando si modificano le autorizzazioni con Windows File Explorer, le regole <strong>Nega</strong> applicate al gruppo <strong>Domain Admins</strong> saranno ignorate.</li>
+  </ul>
+</div>
+
+
+</body>
+</html>

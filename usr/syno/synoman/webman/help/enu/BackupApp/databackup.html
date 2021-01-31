@@ -1,0 +1,322 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Data Backup</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Backup</h2>
+
+<p><strong>Backup & Restore</strong> allows you to back up various kinds of data (system configurations, shared folders, and applications/packages) on your Synology NAS, manually or by schedule. You can store the backup data in local shared folders, remote servers, and public clouds (Amazon S3, Microsoft Azure, hicloud S3, and SFR NAS BACKUP). With <strong>Backup & Restore</strong>, each backup task can retain multiple backup versions and rotate them with Smart Recycle policies.</p>
+
+
+<h3>Data Backup</h3>
+<p><strong>Backup & Restore</strong> offers various options of backup destinations and ways to set up a data backup task.</p>
+
+<h4>To create a data backup task:</h4>
+
+<ol>
+<li>Click <strong>+</strong> on the bottom left corner, and select <strong>Data backup task</strong> to launch the Backup Wizard.</li>
+<li>Select the desired type of backup destination:
+<ul>
+<li>Local/remote shared folders or external storage devices</li>
+<li>Remote rsync servers</li>
+<li>Public clouds (e.g. Amazon S3 and Microsoft Azure)</li>
+</ul>
+</li>
+<li>Set up  the desired type of your backup task:
+  <ul>
+<li>To create a whole new task, select <strong>Create backup task</strong>.</li>
+<li>To reuse existing backup data on any
+destination, select <strong>Relink to existing task</strong>. Relinking helps you directly leverage the backup data from a different task.</li>
+</ul>
+</li>
+
+<li>Follow the wizard's instructions to finish the settings. Select <strong>Enable client-side encryption</strong> to encrypt the data before transmission to ensure data safety in the backup destination.</li>
+</ol>
+
+
+<div class="section">
+<h4>Notes:</h4>
+<ul>
+<li>Names of tasks may include 1 to 32 Unicode characters, but cannot contain the following characters:<br>
+<span class="letterSpace5">! " # $ % &amp; ' ( ) * + , / : ; &lt; = &gt; ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>The maximum length of the complete folder path for backup is 2048 characters.</li>
+<li>If over 32000 files or folders are uploaded to an EXT3 shared folder via AFP, all backup tasks including the shared folder will fail.</li>
+<li>An encrypted shared folder can be backed up when mounted, and it can be restored into an encrypted/unencrypted folder. However, it will always be restored as unencrypted /////////and will not mount automatically on startup. You will be required to enter or import the encryption key of the encrypted shared folder to mount it.</li>
+<li>Backing up an encrypted folder to another encrypted folder is not supported.</li>
+<li>Using remote folders as backup source or backup destination is not supported.</li>
+<li>Backup for certain applications is supported. To see whether a specific package supports backup, and the backup content and limitations, please refer to the help of each application.</li>
+<li class="enable-eds14">Synology NAS does not support application backup without a writable EXT3/EXT4 external device.</li>
+<li class="enable-eds14">Synology NAS can only backup shared folders created on EXT3/EXT4 external devices.</li>
+</ul>
+</div>
+
+
+<div class="section disable-eds14">
+<h4>Backing up Windows ACL settings:</h4>
+<p>The Windows ACL settings of the files on the Synology NAS may also be backed up depending on the file systems of the destination:</p>
+
+<ul>
+<li>All backup destinations can back up Windows ACL settings regardless of the file system of the destination</li>
+</ul>
+</div>
+
+<h4>To export backup data to public clouds or remote Synology NAS:</h4>
+<p>When backing up a large amount of data to a public cloud, you are recommended to export the initial version to an external storage device (e.g. a USB drive) and deliver the device to the cloud service provider. There the device can get connected   and upload data directly to the cloud. In this way, you can significantly reduce the time for the first backup.</p>
+<ol>
+<li>Click <strong>+</strong> on the bottom left corner, and select <strong>Remote Synology NAS</strong> or the desired cloud service provider.</li>
+<li>Select <strong>Export to a local shared folder (including an external storage device)</strong>, and finish the settings. When prompted, select <strong>Enable client-side encryption</strong> for protected data backup.</li>
+<li>Deliver the external storage device to the remote Synology NAS or cloud service provider. Import the exported data from the external storage device.</li>
+<li>Once confirmed, return to <strong>Backup & Restore</strong>, and click <strong>Relink now</strong>.</li>
+<li>Follow the Relinking Wizard's instructions to link your Synology NAS to the repository. A password/encryption key is needed if the data were exported encrypted.</li>
+</ol>
+
+<div class="section">
+	<h4>Note：</h4>
+	<ul>
+		<li>Client-side encryption cannot be disabled once the task is set up, nor can the password be changed.</li>
+		<li>A backup repository can only be linked with one backup task.</li>
+		<li>If the backup source folder is an encrypted shared folder or its subfolder,  the source folder can be mounted or unmounted when you are creating the backup task.</li>
+		<li>Encrypted shared folders cannot be the backup destination.</li>
+		<li>If you select <strong>Enable client-side encryption</strong>, your password/encryption key is required to restore data in this task. <strong>Losing the password/encryption key will cause permanent data loss</strong>.</li>
+	</ul>
+</div>
+
+<h4>To manage backup tasks:</h4>
+<p>Select a desired backup task on the left panel, and click the buttons below for corresponding management:</p>
+<ul>
+<li><strong>Back up now</strong>: Back up data of the selected task immediately.</li>
+<li><strong>Backup Explorer</strong> (the magnifying glass icon): View all the available backup versions, and copy/restore/download the contained files.</li>
+<li><strong>Version List</strong>: View the created time and status of all backup versions, delete specific back versions, or lock up specific ones for enforced reservation.</li>
+<li><strong>Edit</strong>: Modify the backup source, destination, schedule, and other settings.</li>
+<li><strong>Delete</strong>: Delete the backup task.</li>
+<li><strong>Cancel</strong>: Stop the currently running backup task.</li>
+</ul>
+
+
+<h4>To rotate versions:</h4>
+<p>Backup rotation is a version management mechanism. It helps to manage backup versions by automatically deleting older, unnecessary versions and potentially freeing up storage space. You can enable this function at <strong>Task Settings</strong> or configure it when you create a backup task.</p>
+<ol>
+<li>Select the desired backup task on the left panel, and click <strong>Edit</strong> or <strong>Settings</strong>> <strong>Task Settings</strong>.</li>
+<li>Select <strong>Enable backup rotation</strong>, and choose the desired rotation mode:
+<ul>
+<li><strong>From the earliest versions</strong>: Delete the earliest backup versions when the available versions exceed the defined number.</li>
+<li><strong>Smart Recycle</strong>: Keep  backup versions by these policies:
+  <ul>
+<li><strong>Hourly versions from the past 24 hours</strong>: Keep the earliest version created each hour.</li>
+<li><strong>Daily versions from the past 1 day to 1 month</strong>: Keep the earliest version created each day.</li>
+<li><strong>Weekly version older 1 month</strong>: Keep the earliest version created each week.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Specify the maximum <strong>number of versions</strong>. When the version number exceeds this number, the oldest version is rotated.</li>
+<li>If you have configured a repeated backup schedule at <strong>Schedule</strong>, you can preview how your backup versions will be retained and the earliest recovery point in the timeline.</li>
+<li>Click <strong>OK</strong> to save the settings.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>Locked versions will never be removed.</li>
+<li>Only multi-version backup tasks provide version rotation.</li>
+<li>Version rotation is not supported in DSM 5.1 or below.</li>
+<li>Rotation will be triggered right after the setting is changed or the backup task is completed.</li>
+<li>Locked versions are excluded when calculating the maximum number of versions.</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Notes on Data Backup Tasks</h3>
+<p>For each type of backup tasks, please read the following notes for important setup details and troubleshooting tips.</p>
+
+<h4>Local backup tasks:</h4>
+<ul>
+<li>If data at the destination is removed while the backup task is underway, a full backup will be performed when the task is next performed.</li>
+<li>New external drives might need to be formatted before serving as the backup destination. </li>
+<li>Before creating a backup task, make sure you have already attached the external drives properly to your Synology NAS. You can go to <b>Control Panel</b> > <b>External Devices</b> to check the status of the USB/eSATA drives. External drives cannot be selected as the backup destination if the external drive is being initialized, formatted, or is malfunctioning.</li>
+<li>Remote mounted shared folders cannot be selected as the backup source or destination.</li>
+<li>If an encrypted shared folder is unmounted, it cannot be chosen as backup destination.</li>
+<li>Image thumbnails cannot be backed up when the file system of the destination is NTFS/FAT.</li>
+</ul>
+
+
+
+
+
+<h4>Remote rsync backup tasks:</h4>
+<ul>
+<li>The following modes are available when creating a backup task with rsync-compatible servers as the network backup destination: <b>rsync daemon mode,</b> which is used when you select a backup module (shared folder on the rsync-compatible server) from the drop-down menu next to <b>Backup module</b>; and <b>remote shell mode,</b> which is enabled only when you enter an absolute path (starting with "/") in <b>Backup module</b>.</li>
+<li>For Linux users, only the <strong>admin</strong>, <strong>root</strong> and <strong>rsync</strong> accounts are allowed to perform backup tasks.</li>
+<li>If you want to access a destination server over the Internet using its hostname, the hostname must be an FQDN (Fully Qualified Domain Name), for example <strong>abc.bcd.com</strong>.</li>
+<li>When backing up from one Synology NAS device to another, you are prompted to enter the username and password for an account at the destination. When backing up to shared folders on another Synology NAS, you can do so according to the access privilege settings of the folders. Only shared folders to which the specified user account has access privileges will be visible. If you cannot find the desired shared folder at the destination, please check your access privileges.</li>
+<li>Transfer encryption is supported only when the destination server supports encrypted network backup and authentication password is not empty.</li>
+<li>Remote shell mode only supports transfer encryption.</li>
+<li>If you are backing up files to a Synology NAS device through an rsync client, the file names must be in UTF-8 encoding.</li>
+<li>If you are backing up files to a Synology NAS device through an rsync-compatible client, you can only perform the task by <strong>admin</strong>, <strong>root</strong> and <strong>rsync</strong> accounts of the Synology NAS.</li>
+<li>If you are backing up files from your Synology NAS to an rsync-compatible server, you will need to input the correct rsync backup account name and password. You will also need to choose the correct backup module with Write privilege.</li>
+</ul>
+
+
+
+<h4>Amazon S3 backup tasks:</h4>
+<ul>
+  <li>When creating backup tasks with Amazon S3 server as the network backup destination, various options are available, such as transfer encryption, backup to Amazon S3 RRS (Reduced Redundancy Storage), and others. Please note that some options, like transfer encryption, might reduce the speed of backup tasks.</li>
+  <li>Backup files are stored in the <strong>Bucket</strong> you selected on the Amazon S3 server, and the set Key value begins with a directory name of your choosing and ends with the complete file path of the file.</li>
+  <li>The data structure of Amazon S3 includes a pair of Bucket and KEY without any folder structure. Empty folder backup is not supported.</li>
+  <li>If a backed up file has not been modified, it will not be backed up to Amazon S3 server in the same Bucket again.</li>
+  <li>Each Bucket on Amazon S3 must have a unique name. In addition, the name should:</li>
+<ul>
+  <li>be in the range of 3 to 63 characters.</li>
+  <li>contain only lowercase letters, numbers, periods (.), and dashes (-).</li><li>start and end with a number or a letter, and cannot end with a dash (-), contain two adjacent periods, or contain dashes next to periods (e.g., "my-.bucket.com" and "my.-bucket" are invalid).</li>
+</ul>
+<li>The maximum length of an Amazon S3 KEY is 1024 characters. To ensure successful back up  to Amazon S3, the maximum path length is 1024 minus the destination folder name specified during task creation.</li>
+<li>If you enable Amazon S3 RRS (Reduced Redundancy Storage) support, only data modified after the option is enabled will be backed up to the RRS storage, meaning that data already backed up to Amazon S3's standard storage will not be backed up to RRS again. </li>
+<li>Moving backed up files from Amazon S3 to Amazon Glacier is not supported. If files are moved from Amazon S3 to Amazon Glacier via the AWS Management console, the related backup tasks might fail.</li>
+<li>Backing up files to virtual hosted-style buckets with SSL is not supported.</li>
+<li>When transferring a file, the file will be split into parts. The part size can be set by the option <strong>Multipart Upload Part Size</strong> in task settings with 512MB as the default size. If the network environment is not stable, the option is recommended to be a smaller number.</li>
+
+<li>The maximum number of parts per upload is 10000. The maximum size of a file is the <strong>Multipart upload part size</strong> multiplied by 10000.</li>
+<li>The file names must not contain any non UTF-8 or control characters.</li>
+</ul>
+
+
+
+<h4>Microsoft Azure backup tasks:</h4>
+<ul>
+<li>When creating backup tasks with Microsoft Azure server as the network backup destination, various options are available, (e.g. transfer encryption). Please note that some options, like transfer encryption, might reduce the speed of backup tasks.</li>
+<li>Backup files are stored in the <strong>Container</strong> you selected on the Microsoft Azure server, and the set Blob name begins with a directory name of your choosing and ends with the complete file path of the file.</li>
+<li>The data structure of Microsoft Azure includes a pairing of Container and Blob without a folder structure. Empty folder backup is not supported.</li>
+<li>If a backed up file has not been modified, it will not be backed up to Microsoft Azure server in the same Container again.</li>
+<li>Each Container on Microsoft Azure must have a unique name. In addition, the name should:</li>
+<ul>
+<li>be in the range of 3 to 63 characters.</li>
+<li>contain only lowercase letters, numbers, and dashes (-).</li>
+<li>start and end with a number or a letter, and cannot contain two adjacent dashes.</li>
+</ul>
+<li>The maximum length of an Microsoft Azure Blob Name is 1024 characters. To ensure a successful backup to Microsoft Azure, the maximum path length is 1024 minus the destination folder name specified during task creation.</li>
+
+<li>The file names must not contain any non UTF-8 or control characters.</li>
+<li>The authentication failure warning message  may be caused by the incorrect authentication information, a network connection problem, or the time on your Synology NAS and the remote server do not match. To check the time setting on your Synology NAS, please go to <strong>Control Panel</strong> > <strong>Regional Options</strong> ><strong> Time</strong> to synchronize time with the NTP server.</li>
+</ul>
+
+
+
+<h4>hicloud S3 backup tasks:</h4>
+<ul>
+<li>When creating backup tasks with hicloud S3 server as the network backup destination, various options are available, (e.g. transfer encryption). Please note that some options, like transfer encryption, might reduce the speed of backup tasks.</li>
+<li>Backup files are stored in the <strong>Bucket</strong> you selected on the hicloud S3 server, and the Set KEY Value begins with a directory name of your choosing and ends with the complete file path of the file.</li>
+<li>The data structure of hicloud S3 includes a pairing of Bucket and KEY without a folder structure. Empty folder backup is not supported.</li>
+<li>If a backed up file has not been modified, it will not be backed up to hicloud S3 server in the same Bucket again.</li>
+<li>Each Bucket on hicloud S3 must have a unique name. In addition, the name should:</li>
+<ul>
+<li>be in the range of 3 to 63 characters.</li>
+<li>contain only lowercase letters, numbers, periods (.), and dashes (-).</li>
+<li>start and end with a number or a letter, and cannot end with a dash (-), contain two adjacent periods, or contain dashes next to periods (e.g., "my-.bucket.com" and "my.-bucket" are invalid).</li>
+</ul>
+<li>The maximum length of an hicloud S3 KEY is 255 characters. To ensure a successful backup to hicloud S3, the maximum path length is 255 minus the destination folder name specified during task creation.</li>
+<li>When transferring a file, the file will be split into parts. The part size can be set by the option <strong>Multipart Upload Part Size</strong> in task settings with 512MB as the default size. If the network environment is not stable, you are recommended to set a smaller number.</li>
+
+<li>Hicloud only supports the maximum of 1000 parts per transfer. This means that the total file size cannot exceed 1000 multiplied by the part size. For example, if the Multipart Upload Part Size is set to 8MB, a single file above 8000MB will fail to be uploaded. </li>
+
+<li>Encrypted shared folder backup is not supported.</li> 
+
+<li>The file names must not contain any non UTF-8 or control characters.</li>
+</ul>
+
+
+  
+
+<h4>SFR NAS BACKUP backup tasks:</h4>
+<ul>
+<li>When creating backup tasks with SFR NAS BACKUP server as the network backup destination, various options are available, such as transfer encryption, and others. Please note that some options, like transfer encryption, might reduce the speed of backup tasks.</li>
+<li>Backup files are stored in the <strong>Bucket</strong> you selected on the  SFR NAS BACKUP  server, and the set Key value begins with a directory name of your choosing and ends with the complete file path of the file.</li>
+<li>The data structure of SFR NAS BACKUP includes a pairing of Bucket and Key a folder structure. Empty folder backup is not supported.</li>
+<li>If a backed up file has not been modified, it will not be backed up to  SFR NAS BACKUP  server in the same Bucket again.</li>
+<li>Each Bucket on SFR NAS BACKUP  must have a unique name. In addition, the name should:</li>
+<ul>
+<li>be in the range of 3 to 63 characters.</li>
+<li>contain only lowercase letters, numbers, periods (.), and dashes (-).</li>
+<li>start and end with a number or a letter, and cannot end with a dash (-), contain two adjacent periods, or contain dashes next to periods (e.g., "my-.bucket.com" and "my.-bucket" are invalid).</li>
+</ul>
+<li>The maximum length of an  SFR NAS BACKUP KEY is 1024 characters. To ensure a successful backup to  SFR NAS BACKUP, the maximum path length is 1024 minus the destination folder name specified during task creation.</li>
+<li>When transferring a file, the file will be split into parts. The part size can be set by the option <strong>Multipart Upload Part Size</strong> in task settings with  64MB as the default size. If the network environment is not stable, you are recommended to set a smaller number.</li>
+
+<li>The file names must not contain any non UTF-8 or control characters.</li> 
+
+</ul>
+
+<h4>Other S3-compatible backup tasks:</h4>
+<ul>
+<li>To use other S3-compatible clouds, enter the IP address/domain of the desired S3-compatible cloud in the <strong>S3 Server</strong> field when prompted.</li>
+<li>If there is any usage issue, please refer to the relevant documentation or contact the S3-compatible cloud service provider.</li>
+</ul>
+
+<h3>LUN Backup*</h3>
+
+<p>You can use <b>Local LUN Backup</b> to back up the iSCSI LUNs on your Synology NAS to local shared folders. You can also use <b>Network LUN Backup (Synology server)</b> to back up to another Synology NAS.</p>
+
+<h4>To back up an iSCSI LUN:</h4>
+<ol>
+<li>Click <strong>+</strong> on the bottom left corner and select <strong>LUN backup task</strong>.
+</li>
+<li>
+When you are prompted to choose a destination type, choose either of the following:
+</li>
+<ul>
+<li>
+<b>Local LUN Backup</b>: Choose this option to back up the LUN from your Synology NAS to a local shared folder or an external storage that is connected to the USB or eSATA port of your Synology NAS.
+</li>
+<li><b>Network LUN Backup (Synology server)</b>: Choose this option to back up the LUN from your Synology NAS to another Synology NAS.
+</li>
+</ul>
+<li>
+When prompted, specify the backup destination and source LUN, and set the backup schedule.
+</li>
+<li>
+Follow the wizard to complete the setup.
+</li>
+</ol>
+<p>After the backup task is created, the Synology NAS will perform the backup task according to the schedule and store the backed up LUN at the destination. The backed up LUN is used for backup purpose only. To access the backup LUN, see <a href="restore.html">To restore the backup LUN</a>  for more information.</p>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>Both Regular File and Block-Level LUNs will be backed up as file images at the destination. If restored, all Block-Level LUNs will be changed to File LUNs.</li>
+<li>Each backup task can only include one LUN as the backup source.</li>
+<li>LUNs cannot be backed up to an external disk with FAT, FAT32, HFS, HFS Plus or NTFS format.</li>
+<li>Before performing Network LUN Backup, please log into the destination Synology NAS to make sure its Network Backup service is enabled at <b>Control Panel</b> > <b>Backup Service</b>.</li>
+<li>If your Synology NAS connects to the network through a router, make sure you have specified a port forwarding rule for the iSCSI service (TCP port 3260) on the router before performing Network LUN Backup.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>About Full Backup and Incremental Backup:</h4>
+<p>
+Synology NAS will perform a full backup of the selected LUN for the first time, and then perform incremental backup afterwards. However, if the shared folder name or directory name of the backup destination is changed, Synology NAS will perform a full backup for the task again.
+</p>
+</div>
+
+<p>____<br /> * Available on specific models only.</p>
+
+</body></html>

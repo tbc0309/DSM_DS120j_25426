@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Omezení a požadavky na systém – Nápověda Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>Omezení a požadavky na systém</h1>
+
+ <p>Implementace funkce Synology High Availability vyžaduje dva totožné servery Synology, které budou sloužit jako aktivní a pasivní server. Před zkombinováním dvou serverů do clusteru high-availability provede průvodce Synology High Availability Wizard kontrolu následujících omezení hardwarového a softwarového vybavení, aby bylo jisté, že je cluster high-availability možné vytvořit.</p>
+ 
+  
+ <h3>Požadavky na systém</h3>
+ 
+  <p>Přečtěte si následující pokyny týkající se softwarového a hardwarového vybavení:</p>
+  <ul>
+   <li><b>Server Synology:</b> Aktivní i pasivní server musí představovat totožné modely a oba musí podporovat funkci Synology High Availability. Název clusteru high-availability se musí lišit od názvu aktivního i pasivního serveru.</li>
+   <li><b>Verze DSM:</b> Na aktivním i pasivním serveru musí být nainstalována shodná verze systému DSM. </li>
+   <li><b>Verze balíčku:</b> Na obou serverech Synology musí být nainstalována shodná verze nástroje Synology High Availability.</li>
+  </ul>
+
+  
+ <h3>Svazek a disk</h3>
+ 
+  <p>Přečtěte si následující pokyny týkající se správy prostorů úložišť (například svazků, skupin disků, skupin RAID Group atd.) a pevných disků.</p>
+  <ul>
+   <li><b>Kapacita disku:</b> Aby bylo možné zajistit replikaci dat, musí být kapacita disku pasivního serveru stejná nebo větší než kapacita aktivního serveru. Důrazně doporučujeme, aby byla kapacita disků obou serverů naprosto totožná a snížila se tak pravděpodobnost výskytu nekonzistencí. </li>
+   <li><b>Počet a typ disků:</b> Aktivní i pasivní server musí obsahovat stejný počet disků. Kromě toho musí odpovídat pozice disků na obou serverech a typy disků (např. SSD/HDD, SAS/SATA) a totožné musí být i specifikace (např. velikost sektoru 4 tisíce nebo 512 bajtů) obou serverů. Externí zařízení, například pevné disky USB, se nebudou do počtu disků počítat.</li>
+   <li><b>Oprava disků Hot Spare:</b> Poškozené svazky v omezeném režimu na pasivním serveru neaktivují opravu diskem Hot Spare. Pokud se však poškodí svazky na aktivním serveru, aktivuje se oprava diskem Hot Spare a svazky do omezeného režimu přejdou i svazky na pasivním serveru, protože systém odebere ze svazků RAID na pasivním serveru jeden zdravý disk, aby vynutil opravu diskem Hot Spare.</li>
+   <li><b>Formát SHR není podporován:</b> Svazky ve formátu SHR nejsou podporovány. Přesvědčte se, že server Synology, který bude sloužit jako aktivní server, neobsahuje svazky SHR. </li>
+  </ul>
+
+    <div class="section">
+    <h4>Poznámka:</h4>
+    <ul>
+    <li>Rychlost disků na pasivním serveru ovlivní také výkon při zápisu clusteru high-availability, protože data se do pasivního serveru synchronizují prostřednictvím připojení Heartbeat. Na aktivním i pasivním serveru doporučujeme používat totožné disky.</li>
+    <li>Pokud dojde k vyřazení pasivního serveru nebo k přerušení připojení Heartbeat, budou svazky dočasně nedostupné a přenos iSCSI se přibližně na 10 sekund přeruší.</li>
+    </ul>
+    </div>
+
+  
+  <h3>Síťové prostředí</h3>
+  <p>Až se cluster high-availability budete pokoušet vytvořit, pročtěte si následující pokyny týkající se síťových nastavení.</p>
+  <ul>
+    <li><b>Nastavení sítě:</b> Oba servery musí mít statické IP adresy patřící do stejné podsítě.</li>
+    <li><b>Počet portů LAN:</b> Oba servery musí mít stejný počet portů LAN. Je-li zařízení Synology NAS vybaveno přídavnými kartami síťového rozhraní, počítají se tyto síťové karty jako přídavné porty LAN. </li>
+        <li><b>Omezení prostředí připojení:</b> Prostředí připojení mezi těmito dvěma servery musí podporovat vícesměrové vysílání a nesmí existovat žádná pravidla brány firewall blokující porty používané clusterem high-availability. Prochází-li připojení Heartbeat přes přepínače, je třeba zajistit podporu vícesměrového vysílání a rámce Jumbo Frame.</li>
+    <li><b>Omezení připojení:</b> Servery se nemohou připojovat do sítě prostřednictvím protokolů DHCP, IPv6, PPPoE nebo Wi-Fi. Před pokusem o vytvoření clusteru high-availability se přesvědčte, že jsou tyto funkce zakázané.</li>
+    <li><strong>Žádná služba DHCP:</strong> Pokud jsou servery sloučené do clusteru, nemohou používat volby integrovaného serveru DHCP.</li>
+   <li><strong>Nastavení Link Aggregation:</strong> Oba servery musí mít stejná nastavení Link Aggregation pro připojení k datové síti a připojení Heartbeat. Po vytvoření clusteru high-availability již nelze nastavení Link Aggregation měnit.</li>
+   <li><b>Nastavení přepínače Open vSwitch:</b> Stav přepínače Open vSwitch musí být na obou serverech stejný (povolený nebo zakázaný). Po vytvoření clusteru high-availability již nelze nastavení přepínače Open vSwitch měnit.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Poznámka:</h4>
+    <ul>
+      <li>Po vytvoření clusteru high-availability se na aktivním serveru automaticky aktivuje služba NTP.</li>
+    </ul>
+  </div>
+  <h3>Omezení služby Správce úložiště</h3>
+  <p>Po vytvoření clusteru high-availability nebude už volba pro změnu typu pole RAID ve službě Správce úložiště dostupná. Budou ale dostupné následující volby:<ul>
+<li>Rozšíření prostorů úložiště (např. svazků, jednotek iSCSI LUN na úrovni bloků, skupin disků, skupin RAID Group apod.).</li>
+    <li>Vytvoření, odstranění nebo oprava svazků, jednotek iSCSI LUN, mezipamětí SSD jen pro čtení a pro čtení i zápis.</li>
+    <li>Změna umístění a velikosti jednotky iSCSI LUN (úroveň souboru).</li>
+    <li>Změna cíle iSCSI LUN.   </li>
+  </ul>
+
+  <div class="section">
+    <h4>Poznámka:</h4>
+    <ul>
+      <li>Po vytvoření clusteru high-availability již neměňte pozice disků, protože jinak bude chybět prostor úložiště.</li>
+      <li>Aby se zajistilo, že u serveru připojeného k cíli Synology iSCSI Target nedojde při přepnutí služeb při selhání k vypršení časového limitu, doporučujeme upravit nastavení časového limitu klienta a uživatele iSCSI na 120 sekund nebo více.</li>
+    </ul>
+  </div>
+
+ 
+<h3>Omezení balíčků a softwaru</h3> 
+
+<p>Po vytvoření clusteru high-availability již nebudou podporovány následující balíčky a funkce:</p>
+	<ul>
+
+    <li>Virtual Machine Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>Tato funkce restartuje/vypne cluster high-availability v systému CMS</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>Poznámka:</h4>
+    <ul>
+    <li>Aby byla v režimu High Availability možná podpora aplikace Docker DSM, je nutné před vytvořením clusteru povolit přepínač Open vSwitch.</li>
+    </ul>
+   </div>
+
+<h3>Přidávání rozšiřovacích jednotek</h3>
+  <p>Po vytvoření clusteru high-availability lze do konfigurace stávajícího clusteru high-availability přidávat rozšiřovací jednotky a zvětšovat tak kapacitu úložiště. Podobně jako u ostatních hardwarových požadavků se i pro aktivní a pasivní servery vyžadují totožné rozšiřovací jednotky. Aby nedošlo k chybám z důvodu nekonzistence, dodržujte při přidávání rozšiřovacích jednotek důsledně následující pokyny.</p>
+  
+  <h4>Přidávání rozšiřovacích jednotek:</h4>
+   <ol>
+    <li>K aktivním a pasivním serverům je možné přidávat pouze totožné rozšiřovací jednotky. Jak je uvedeno výše, hardware aktivních i pasivních serverů musí být totožný, a to včetně modelů hardwaru i typů, velikostí a umístění pevných disků.</li>
+    <li>Nezapomeňte z pevných disků v rozšiřovacích jednotkách odstranit všechna stávající data a svazky.</li>
+    <li>Rozšiřovací jednotky připojujte k aktivním i pasivním serverům pouze tehdy, když jsou oba servery zapnuté a v provozu.</li>
+    <li>Nový prostor úložiště (např. svazky, skupiny disků, skupiny RAID Group apod.) vytvořte na rozšiřovacích jednotkách ještě před vypnutím kteréhokoli ze serverů.</li>
+   </ol>
+<div class="section">
+<h4>Poznámky:</h4>
+<p>Základní informace týkající se instalace rozšiřovacích jednotek se nacházejí v uživatelské příručce k rozšiřovací jednotce.</p>
+</div>
+
+
+<h3>Omezení zařízení USB</h3>
+   <p>Funkce přepnutí služeb a přepnutí služeb při selhání nejsou u zařízení USB podporovány. Služby či aplikace poskytované zařízeními USB nemusí po přepnutí nebo přepnutí služeb při selhání fungovat správně.</p>
+
+   
+ </body>
+</html>

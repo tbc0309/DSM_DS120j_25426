@@ -1,0 +1,30 @@
+#!/bin/sh
+help()
+{
+	echo "Usages: `basename $0` DEST_TEXTS CROWD_DIR"
+	exit 0
+}
+
+
+if [ $# -lt 2 ]; then
+	help
+elif [ ! -d $2 -o ! -d $1 ]; then
+	help
+fi
+
+#/usr/syno/synoman/webman/texts
+DEST_TEXTS=$1
+
+#/usr/local/share/notification
+AGGREGATE_DIR=$2
+
+for lan in `/usr/syno/bin/synogetkeyvalue /etc.defaults/synoinfo.conf supplang | sed 's/,/ /g'`
+do
+	if [ -f ${DEST_TEXTS}/${lan}/mails ]; then
+		/bin/rm -f ${DEST_TEXTS}/${lan}/mails ${DEST_TEXTS}/${lan}/notification_category
+		/bin/cat ${AGGREGATE_DIR}/*/${lan}/mails > ${DEST_TEXTS}/${lan}/mails
+	fi
+	if [ -f ${AGGREGATE_DIR}/dsm/${lan}/strings ]; then
+		/bin/rm -f ${AGGREGATE_DIR}/dsm/${lan}/strings
+	fi
+done

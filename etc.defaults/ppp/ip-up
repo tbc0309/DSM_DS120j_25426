@@ -1,0 +1,134 @@
+#!/bin/sh
+. /etc/ppp/ip-function
+
+TC_SCRIPT="/usr/syno/bin/synotc_common"
+RELAYDAEMON="/usr/syno/sbin/synorelayd"
+UPNP_TOOL="/usr/syno/bin/miniupnp-tool.sh"
+SYNONETD_TOOL="/usr/syno/sbin/synonetdtool"
+PPPOE_CONF="/etc/ppp/pppoe.conf"
+VPNC_CURRENT="/tmp/vpnc_current"
+PPTPCLIENT_CONF="/usr/syno/etc/synovpnclient/pptp/pptpclient.conf"
+L2TPCLIENT_CONF="/usr/syno/etc/synovpnclient/l2tp/l2tpclient.conf"
+DEFAULT_GATEWAY_FILE="/etc/iproute2/config/default-gateway"
+
+set_gateway_info()
+{
+	local priority=$1
+	local class=$2
+	local ifname="${IFNAME}"
+	local gateway="NULL"
+	local dns="NULL"
+	local ip="${IPLOCAL}"
+
+	logger -p user.err -t "/etc/ppp/ip-up" "${class} ${ifname} is up"
+
+	if test -n "$IPREMOTE" ; then
+		gateway="${IPREMOTE}"
+	fi
+
+	if test -n "$DNS1" ; then
+		dns="${DNS1}"
+	fi
+
+	if [ "${priority}" = "0" ]; then
+		/usr/syno/bin/synosetkeyvalue ${DEFAULT_GATEWAY_FILE} DEVICE ${ifname}
+	fi
+	${SYNONETD_TOOL} --add-gateway-info -4 ${priority} ${ifname} ${gateway} ${dns} ${class}
+	${SYNONETD_TOOL} --refresh-gateway -4
+
+	local enable_multi_gateway=`/bin/get_key_value /etc/synoinfo.conf multi_gateway`
+	if [ "xyes" = "x${enable_multi_gateway}" ]; then
+		${SYNONETD_TOOL} --add-policy-route-rule -4 multi-gateway ${ifname} NULL NULL ${gateway}
+		${SYNONETD_TOOL} --refresh-route-table -4 ${ifname} ${ip}
+	fi
+
+}
+
+if [ -x "${TC_SCRIPT}" ]; then
+	${TC_SCRIPT} restart /etc/tc
+fi
+${RELAYDAEMON} -U
+
+check_is_pppoe ${PPPD_PID}
+if [ 0 -eq $? ]; then
+	if [ -d /initrd ]; then
+		default_route=`/usr/syno/bin/synogetkeyvalue ${PPPOE_CONF} DEFAULTROUTE`
+		class="pppoe"
+		priority=""
+
+		if [ "xyes" = "x${default_route}" ]; then
+			priority="0"
+		else
+			priority="-1"
+		fi
+		set_gateway_info ${priority} ${class}
+	else
+		if test -n "$DNS1" ; then
+			echo "nameserver $DNS1" > /etc/resolv.conf
+		fi
+		if test -n "$DNS2" ; then
+			echo "nameserver $DNS2" >> /etc/resolv.conf
+		fi
+		/bin/chmod 644 /etc/resolv.conf 2>&1
+	fi
+	${UPNP_TOOL} sync-ppp
+
+	if [ -e "/etc/sysconfig/networking/ipv6-${IFNAME}" ]; then
+		${SYNONETD_TOOL} --init-ipv6-router ${IFNAME} ${IPLOCAL}
+	fi
+fi
+
+check_is_usbmodem "$6"
+if [ 1 -eq $? ]; then
+	class="3g"
+	priority=""
+
+	check_usbmodem_is_defaultroute
+	if [ 1 -eq $? ]; then
+		priority="0"
+	else
+		priority="-1"
+	fi
+
+	set_gateway_info ${priority} ${class}
+fi
+
+check_is_vpnclient_pptp ${PPPD_PID}
+if [ 0 -eq $? ]; then
+	while [ ! -f ${VPNC_CURRENT} ]; do
+		sleep 1
+	done
+	con_id=`/usr/syno/bin/get_section_key_value ${VPNC_CURRENT} curr_info conf_id`
+	default_route=`/usr/syno/bin/get_section_key_value ${PPTPCLIENT_CONF} ${con_id} def_gateway`
+	class="vpn-client"
+	priority=""
+
+	if [ "xyes" = "x${default_route}" ]; then
+		priority="0"
+	else
+		priority="-1"
+	fi
+
+	set_gateway_info ${priority} ${class}
+fi
+
+check_is_vpnclient_l2tp ${PPPD_PID}
+if [ 0 -eq $? ]; then
+	while [ ! -f ${VPNC_CURRENT} ]; do
+		sleep 1
+	done
+	con_id=`/usr/syno/bin/get_section_key_value ${VPNC_CURRENT} curr_info conf_id`
+	default_route=`/usr/syno/bin/get_section_key_value ${L2TPCLIENT_CONF} ${con_id} def_gateway`
+	class="vpn-client"
+	priority=""
+
+	if [ "xyes" = "x${default_route}" ]; then
+		priority="0"
+	else
+		priority="-1"
+	fi
+
+	set_gateway_info ${priority} ${class}
+fi
+
+${SYNONETD_TOOL} --refresh-static-route-rules -4

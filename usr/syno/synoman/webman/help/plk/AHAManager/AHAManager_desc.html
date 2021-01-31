@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Synology Advanced High Availability — pomoc Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and the other server acts as a standby passive server.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h1>Synology High Availability</h1>
+
+  <p>Pojęcie High Availability (wysoka dostępność) odnosi się do układu serwerów, który ma za zadanie zredukować przerwy w dostępności usług spowodowane nieprawidłowym działaniem serwera. W konfiguracji Synology High Availability (SHA) używa się dwóch serwerów tworzących „klaster high-availability”, w którym jeden serwer pełni rolę „serwera aktywnego”, a drugi serwer — „serwera pasywnego”. Do utworzenia i wdrożenia klastra high-availability potrzebne są dwa zgodne serwery Synology.</p>
+  
+  <p>W klastrze high-availability wykorzystuje się następujące elementy i koncepcje:</p>
+
+  <ul>
+   <li><b>Koncepcja: </b>wdrożenie konfiguracji Synology High Availability wymaga utworzenia klastra high-availability z dwóch serwerów Synology. Jeden serwer działa jako „serwer aktywny”, a drugi — „serwer pasywny”. Oba serwery z klastra high-availability są podłączone do tych samych jednostek rozszerzających i w związku z tym współdzielą tę samą pamięć masową. Aby zapewnić integralność danych, tylko serwer aktywny zapewnia usługi. W razie awarii serwera aktywnego serwer pasywny jest gotowy do przejęcia wszystkich usług. W ten sposób klaster high-availability będzie mógł nadal świadczyć normalnie usługi, minimalizując przestój. Więcej informacji na temat przełączania usług można znaleźć w temacie <a href="switchover_fail.html">Przełączanie</a>.</li>
+   <li><b>Serwer aktywny:</b> serwer aktywny zarządza działaniem wszystkich usług. Jeżeli na serwerze aktywnym wystąpią błędy, administrator lub system mogą zainicjować przełączenie usług na serwer pasywny. W takim przypadku zapewnianie działania usług zostanie przekazane serwerowi pasywnemu, a serwer dotychczas aktywny stanie się serwerem pasywnym.</li>
+   <li><b>Serwer pasywny:</b> w normalnych warunkach serwer pasywny pozostaje w trybie gotowości. Jeżeli aktywny serwer nie będzie mógł świadczyć usług, administrator lub system mogą zainicjować ich przełączenie na serwer pasywny.</li>
+   <li><b>Połączenie Heartbeat:</b> serwer aktywny i pasywny w klastrze high-availability są połączone dedykowanym, prywatnym połączeniem sieciowym określanym jako „połączenie Heartbeat”. Jeżeli dojdzie do utraty kontaktu pomiędzy serwerami trwającej określony czas, zostanie stwierdzona konieczność przełączenia.</li>
+   <li><b>Współdzielona pamięć masowa klastra high-availability:</b> dyski jednostek rozszerzających podłączonych do zarówno serwera aktywnego, jak i serwera pasywnego, pełnią rolę współdzielonej pamięci masowej klastra high-availability. Tylko serwer aktywny ma przyznane uprawnienia zapisu do pamięci masowej.</li>
+   <li><b>Nazwa serwera i ustawienia sieciowe klastra high-availability:</b> Nazwa serwera i ustawienia sieciowe klastra high-availability są określane przez odpowiednie ustawienia zdefiniowane w systemie DSM. Z serwerem można łączyć się przez sieć przy użyciu tej nazwy serwera, a usługi będzie zapewniać serwer aktywny. Więcej informacji na temat ustawień sieciowych można znaleźć <a href="../AdminCenter/connection_network_general.html">tutaj</a>.</li>
+
+  </ul>
+
+ </body>
+</html>

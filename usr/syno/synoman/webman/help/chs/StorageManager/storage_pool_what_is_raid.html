@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>选择 RAID 类型</h2>
+
+<p>RAID（独立磁盘冗余阵列）是将多个独立的硬盘整合成一个存储单元的数据存储技术。RAID 类型有多种，分别提供不同级别的性能、存储容量和可靠性。</p>
+
+<p>本文将简要介绍 Synology NAS 支持的 RAID 类型，包括执行要求、优势和不足。</p><!--1--><h3>支持的 RAID 类型</h3>
+
+<p>此表简要介绍了 Synology NAS 支持的各种 RAID 类型，包括存储容量、RAID 类型要求的硬盘最低数量以及数据丢失之前允许的故障硬盘数量。</p>
+
+<table>
+	<tr>
+		<th>存储空间类型</th>
+		<th>HDD 数量</th>
+		<th>硬盘容错能力</th>
+		<th>描述</th>
+		<th>卷容量</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>在合并不同容量的硬盘时优化卷大小。</li>
+				<li>如果卷由 2 个或更多硬盘构成，可提供数据冗余。</li>
+				<li>建议新手选择此选项。</li>
+			</ul>
+		</td>
+		<td>1 x（HDD 容量）</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">系统优化容量。</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Basic</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>单个硬盘构成独立的单位。</li>
+				<li>不提供数据冗余。</li>
+			</ul>
+		</td>
+		<td>1 x（HDD 容量）</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>将多个硬盘合并为单个存储空间，其容量等于所有硬盘容量的总和。</li>
+				<li>不提供数据冗余。</li>
+			</ul>
+		</td>
+		<td>所有 HDD 容量的总和</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>&ldquo;区块延展&rdquo;功能是将数据分成多个块，并将数据块分散到组成的多个硬盘上以提高性能的过程。</li>
+				<li>不提供数据冗余。</li>
+			</ul>
+	    </td>
+		<td>所有 HDD 容量的总和</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>同时向所有硬盘写入相同的数据。</li>
+				<li>提供数据冗余。</li>
+			</ul>
+		</td>
+		<td rowspan="3">最小 HDD 的容量</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>执行段落分块延展，并对分布到所有组成硬盘上的数据执行奇偶校验，从而提供比 RAID 1 更有效的数据冗余。</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (最小 HDD 的容量)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>执行两个层级的数据奇偶校验以存储等于 2 个硬盘容量的冗余数据，提供比 RAID 5 更大程度的数据冗余。</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 2) x (最小 HDD 的容量)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br />（偶数）</td>
+		<td>所有 HDD 容量总和的一半</td>
+		<td>
+			<ul>
+				<li>提供 RAID 0 的性能和 RAID 1 的数据保护级别，将硬盘组合进镜像数据的由两个硬盘组成的组。</li>
+			</ul>
+		</td>
+		<td>(N / 2) x (最小 HDD 的容量)</td>
+	</tr>
+	<tr>
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>执行段落分块延展，并对分布到所有组成硬盘上的数据执行奇偶校验。</li>
+				<li>某个硬盘将具有更多奇偶校验信息。</li>
+				<li>建议用于全闪存阵列。</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (最小 HDD 的容量)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>除&ldquo;Basic&rdquo;外的 RAID 类型仅可在特定型号上使用，取决于硬盘插槽数和安装的硬盘数。</li>
+	<li>RAID F1 仅在特定型号上可用。要了解更多信息，请访问 <a href="https://www.synology.com/" target="_blank">Synology 网站</a>。</li>
+	<li>&ldquo;N&rdquo;表示存储空间中硬盘的总数。</li>
+</ul>
+</div><!--2--><h3>Synology Hybrid RAID (SHR)</h3>
+<p>Synology Hybrid RAID (SHR) 是一种自动化 RAID 管理系统，专为简化存储管理以及满足不熟悉 RAID 类型的新用户而设计。</p>
+<p>SHR 可组合不同容量的硬盘来创建一个存储卷，并优化容量和性能、占用更少的硬盘空间以及提供更灵活的存储方案。当包含足够的硬盘时，SHR 允许 1 个或 2 个硬盘冗余，这意味着 SHR 存储空间能够经受住 1 个或 2 个硬盘发生故障而不会造成数据丢失。<br /><img src="about:blank" class="help_image"/></p><!--3--><h3>RAID 0</h3>
+<p>RAID 0 组合了两个或更多硬盘以提高性能和容量，但没有容错保护功能。单个硬盘出现故障将导致阵列中的的所有数据丢失。RAID 0 对于需要高性能比的非关键系统非常有用。<br /><img src="about:blank" class="help_image"/></p><!--4--><h3>RAID 1</h3>
+<p>RAID 1 通常为两个硬盘来执行。硬盘中的数据被映射，在硬盘出现故障时提供容错保护功能。读取性能得到提高，而写入性能将与单个硬盘类似。单个硬盘出现故障时可得以维持而不会丢失数据。在容错保护非常关键而空间和性能不那么重要时，往往使用 RAID 1。<br /><img src="about:blank" class="help_image"/></p><!--5--><h3>RAID 5</h3>
+<p>RAID 5 提供容错保护功能并提高了读取性能。至少需要三个硬盘。RAID 5 可在单个硬盘丢失时得以维持运行。在硬盘出现故障的情况下，故障硬盘上的数据将从其余硬盘上延展的奇偶校验进行重建。因此，在 RAID 5 阵列处于降级状态时，读写性能受到严重影响。当存储空间和成本的重要性高于性能时，RAID 5 最为理想。<br /><img src="about:blank" class="help_image"/></p><!--6--><h3>RAID 6</h3>
+<p>RAID 6 与 RAID 5 相似，但其提供了另一层区块延展功能，并在 2 个硬盘出现故障时得以维持。至少需要四个硬盘。RAID 6 的性能因其额外的容错保护功能而低于 RAID 5。在存储空间和成本较为重要且需要在多个硬盘出现故障得以维持的情况下，RAID 6 最为理想。<br /><img src="about:blank" class="help_image"/></p><!--7--><h3>RAID 10</h3>
+<p>RAID 10 集合了 RAID 1 与 RAID 0 的优势。读写性能有所提高，但用于存储数据的空间仅为总空间的一半。需要 4 个或更多硬盘使得成本相对较高，但在提供容错保护功能时性能较高。事实上，RAID 10 可在多个硬盘出现故障时得以维持，前提是故障不是发生在同一子群组内。RAID 10 对于输入/输出要求较高的应用程序（如数据库服务器）非常理想。<br /><img src="about:blank" class="help_image"/></p><!--8--><h3>RAID F1</h3>
+<p>RAID F1 应用了 RAID 5 的机制，提供容错并提高读取性能。但使用 RAID F1 时，某个硬盘会具有更多奇偶校验信息以加快其老化，这样可防止所有硬盘同时达到使用年限。与 RAID 5 相比，这可能会对性能有细微影响。至少需要三个硬盘。RAID F1 可在单个硬盘丢失时得以维持运行。在硬盘出现故障的情况下，故障硬盘上的数据将从其余硬盘上延展的奇偶校验进行重建。因此，在 RAID F1 阵列处于降级状态时，读写性能受到严重影响。RAID F1 是全闪存阵列的理想选择。<br /><img src="about:blank" class="help_image"/></p>
+
+</body>
+</html>

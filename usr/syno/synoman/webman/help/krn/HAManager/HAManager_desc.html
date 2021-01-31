@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>High Availability 관리자 - Synology DSM 도움말</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>High Availability 관리자</h1>
+
+  <p>High Availability는 서버 오작동으로 발생하는 서비스 중단을 줄이기 위해 제작된 서버 레이아웃 솔루션을 말합니다. Synology High Availability에서는 두 개의 서버를 사용하여 &quot;high-availability 클러스터&quot;를 구성합니다. 이 때 하나의 서버는 &quot;활성 서버&quot; 역할을 하고 다른 서버는 대기 &quot;수동 서버&quot;로 작동합니다. High-availability 클러스터를 구현하고 생성하려면 호환되는 두 개의 Synology 서버가 필요합니다.</p>
+  <p>High-availability 클러스터에서는 다음과 같은 구성 요소와 개념을 사용합니다.</p>
+
+  <ul>
+   <li><b>개념: </b>Synology High Availability를 구현하려면 두 개의 Synology 서버로 high-availability 클러스터를 생성해야 합니다. 한 개의 서버는 &quot;활성 서버&quot;로 작동하고 다른 서버는 &quot;수동 서버&quot;로 작동합니다. High-availability 클러스터가 생성된 후에는 활성 서버에서 수동 서버로 데이터가 계속 복제됩니다. 활성 서버의 모든 파일은 수동 서버에 중복으로 보관됩니다. 활성 서버가 오작동하는 경우 수동 서버가 활성 서버의 완벽하게 미러링된 데이터 사본으로 모든 서비스를 수행합니다. 이로써 high-availability 클러스터가 계속해서 서비스를 정상적으로 제공하여 서버 중단을 최소화합니다. 전환에 대한 자세한 정보는 <a href="switchover_fail.html">전환</a>을 참조하십시오</li>
+   <li><b>활성 서버:</b> 활성 서버는 모든 서비스의 제공을 관리합니다. 활성 서버에 오류가 발생하면 사용자 또는 시스템에서 수동 서버로 전환을 시작할 수 있습니다. 이 경우 서비스 제공이 수동 서버로 전환되고 그 순간부터 활성 서버가 수동 서버가 됩니다.</li>
+   <li><b>수동 서버:</b> 정상적인 상황에서 수동 서버는 대기 모드로 남아 있습니다. 또한 활성 서버의 데이터는 수동 서버로 계속 복제됩니다. 활성 서버에서 서비스를 제공할 수 없는 경우 사용자 또는 시스템에서 수동 서버로 전환을 시작할 수 있습니다.</li>
+   <li><b>심장박동 연결:</b> High-availability 클러스터의 활성 서버와 수동 서버는 &quot;심장박동 연결&quot;이라고 하는 전용 개인 네트워크 연결로 연결됩니다. High-availability 클러스터가 생성되면 심장박동 연결로 활성 서버와 수동 서버 간의 데이터 동기화와 복제를 보다 편리하게 수행할 수 있습니다. 지정된 시간 동안 서버 간의 연결이 끊어지면 시스템에서 전환이 필요하다고 결정합니다.</li>
+   <li><b>High-availability 클러스터 메인 저장소 볼륨:</b> 활성 서버의 저장소 볼륨은 high-availability 클러스터의 메인 저장소 볼륨이 됩니다. 데이터는 심장박동 연결을 통해 수동 서버의 저장소 볼륨으로 복제됩니다.</li>
+   <li><b>High-availability 클러스터 예비 저장소 볼륨: </b>수동 서버의 저장소 볼륨은 high-availability 클러스터의 예비 저장소 볼륨이 됩니다. 데이터는 심장박동 연결을 통해 활성 서버 저장소 볼륨에서 수동 저장소 볼륨으로 계속 복제됩니다. 이로써 전환이 발생할 때 파일 컨텐트의 일관성을 유지할 수 있습니다.</li>
+   <li><b>High-availability 클러스터 서버 이름:</b> High-availability 클러스터의 서버는 한 개의 서버 이름을 공유합니다. 네트워크에서는 이 서버 이름을 사용하여 연결하고, 활성 서버에서는 서비스를 제공합니다. </li>
+   <li><b>High-availability 클러스터 IP: </b>High-availability 클러스터의 활성 서버와 수동 서버에는 고유 IP 주소가 있어서 전환을 수행할 때 다른 IP 주소로 변경하지 않으며, high-availability 클러스터에서 액세스를 위한 공통 IP 주소를 생성합니다. DSM 서비스에 액세스할 때 어느 Synology 서버가 활성 서버로 작동하는지에 관계 없이 이 IP 주소를 통해 연결할 수 있습니다. </li>
+  </ul>
+
+
+
+ </body>
+</html>

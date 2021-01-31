@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Limitazioni e requisiti di sistema - Guida DSM Synology</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+ 
+ 
+<h2>Limitazioni e requisiti di sistema</h2>
+
+ <p>L'implementazione di Synology High Availability richiede due server Synology identici da utilizzare come server attivo e passivo. Prima di creare un cluster high-availability con due server, il sistema verifica le seguenti limitazioni hardware e software per garantire la creazione di un cluster high-availability.</p>
+ 
+  
+ <h3>Requisiti di sistema</h3>
+ 
+  <p>Consultare le seguenti linee guida relative a software e hardware:</p>
+  <ul>
+   <li><b>Server Synology:</b> I server attivi e passivi devono essere modelli identici.</li>
+   <li><b>Unità di espansione</b> Entrambi i server attivo e passivo devono connettersi correttamente alle stesse unità di espansione.</li>
+   <li><b>Numero e tipo di unità:</b> Il tipo di unità deve essere soltanto SAS. Prima di installare DSM, occorre installare almeno 3 unità nelle unità di espansione.</li>
+   <li><b>Dispositivo esterno USB:</b> È supportata soltanto l'archiviazione USB. Altri dispositivi esterni USB (es., UPS, dongle Wi-Fi, Microfono, Stampante, dongle Bluetooth e dongle DVB) non sono supportati. L'archiviazione USB può essere usata soltanto nel server attivo e non può essere passata al server passivo.</li>
+
+  </ul>
+
+  <h3>Ambiente di rete</h3>
+  <p>Consultare le seguenti linee guida relative alle impostazioni di rete quando si tenta di formare un cluster high-availability.</p>
+  <ul>
+    <li><b>Impostazioni di rete:</b> La connessione Heartbeat tra i due server deve essere configurata correttamente. Entrambi i server devono appartenere alla stessa subnet, che è necessaria per configurare gli indirizzi IP statici dopo l'installazione.</li>
+    <li><b>Numero di porte LAN:</b> entrambi i server devono avere lo stesso numero di porte LAN. Se uno dei modelli Synology NAS è fornito di altre interfacce di scheda di rete, l'altro dovrà essere fornito delle stesse interfacce di scheda di rete. </li>
+    <li><b>Limitazioni connessione:</b> la rete Wi-Fi non è supportata dal cluster high-availability.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Nota:</h4>
+    <ul>
+      <li>il server NTP verrà abilitato automaticamente nel server attivo.</li>
+    </ul>
+  </div>
+
+<h3>Limitazioni pacchetto e software</h3> 
+
+<p>Consultare le limitazioni relative a pacchetto e software riportate di seguito:</p>
+	<ul>
+	<li>Il cluster high-availability non supporta i seguenti pacchetti e funzioni:
+		<ul><li>Server DVBLink</li>
+		<li>La funzione per riavviare/spegnere il cluster high-availability in CMS</li>
+		<li>Time Backup</li>
+		</ul>
+	</li>
+	<li>Il cluster high-availability con archiviazione condivisa non può essere configurato come o usato in combinazione con un cluster high-availability basato su replica.</li>
+    </ul>
+
+<h3>Unità di espansione specifiche</h3>
+  <p>Entrambi i server attivo e passivo devono essere connessi a specifiche unità di espansione. In ciascuna unità di espansione, sono presenti due moduli.</p>
+  <h4>Per configurare/aggiungere le unità di espansione:</h4>
+  <ul>
+    <li>Un modulo contiene due porte: la porta di ingresso, ubicata a sinistro, e la porta di uscita, ubicata a destra. Collegare un cavo SAS dalla porta di uscita di un modulo alla porta di ingresso del modulo dell'unità di espansione successiva.</li>
+	<li>Le unità di espansione devono essere collegate in modo seriale con i moduli sui lati corrispondenti per ciascun server.</li>
+    <li>Entrambi i server attivo e passivo devono essere connessi alle unità di espansione condivise nello stesso ordine.</li>
+  </ul>
+
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Per informazioni dettagliate sull'installazione dell'unità di espansione, consultare la guida di installazione rapida per i server e le unità di espansione.</p>
+</div>
+
+   
+ </body>
+</html>

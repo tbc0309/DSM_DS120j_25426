@@ -1,0 +1,134 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+<title>Gegevens opschonen</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Data scrubbing is a data maintenance feature that inspects volumes or disk groups and repairs any detected data inconsistencies.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Gegevens opschonen</h2>
+
+<h3>Gegevens opschonen uitvoeren</h3>
+<p>Gegevens opschonen is een gegevensonderhoudfunctie voor de inspectie van opslagpools. De volgende twee vormen van Gegevens opschonen worden in volgorde uitgevoerd:</p>
+
+<ul>
+<li><strong>Bestandssysteemreiniging</strong>: deze functie zal de volumes in het Btrfs-bestandssysteem controleren. Detecteert de checksum inconsistente gegevens, dan zal het systeem een back-up gebruiken om de gegevens te repareren en wordt het bestandspad in Log Center opgeslagen.</li>
+<li><strong>RAID-reiniging</strong>: Deze functie kan worden gebruikt bij opslagpools die SHR (bestaande uit drie of meer schijven), RAID 5 of RAID 6 implementeren. De functie kan gedetecteerde gegevensinconsistenties repareren.</li>
+</ul>
+
+<p>Wij raden aan om gegevens regelmatig op te schonen om gegevensconsistentie te behouden en verlies van gegevens ten gevolge van een defecte harde schijf te voorkomen.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+	<ul>
+	<li>in dit artikel beschreven gegevens opschonen en gerelateerde functies zijn alleen beschikbaar op specifieke modellen.</li>
+	<li>gegevens opschonen kan alleen worden uitgevoerd wanneer de opslagpool de status <strong>Normaal</strong> of <b>Beschadigd</b> heeft.</li>
+	<li>Wanneer <b>gegevens-checksum voor geavanceerde gegevensintegriteit</b> voor een gedeelde map niet is ingeschakeld, kan de bestandssysteemreiniging door gebrek aan checksums de gegevens controleren of repareren.</li>
+	</ul>
+</div>
+
+<h3>Gegevens opschonen-schema instellen</h3>
+<p>U kunt een gegevens opschonen-schema instellen. Het systeem zal het gegevens opschonen-schema in overeenstemming met uw instellingen uitvoeren.</p>
+<h4>Een gegevens opschonen-schema instellen:</h4>
+<ol>
+<li>Start <strong>Opslagbeheer</strong>.</li>
+<li>Ga naar <strong>Opslagpool</strong> > <strong>Gegevens opschonen</strong>.</li>
+<li>Klik op <strong>Schema instellen</strong>.</li>
+<li>Schakel het selectievakje <strong>Gegevens opschonen-schema inschakelen</strong> in.</li>
+	<li>Specificeer <strong>Frequentie</strong>, <strong>Startdatum</strong> en <strong>Tijdsessie</strong>.</li>
+<li>Ga naar het tabblad <strong>Doel selecteren</strong>.	
+<li>Selecteer de opslagpool waarop u Gegevens opschonen wilt uitvoeren.</li>
+<li>Klik op <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>om een opslagpool aan een schema toe te voegen, moet de opslagpool de status <b>Normaal</b> hebben en Gegevens opschonen ondersteunen.</li>	
+<li>Is uw systeem geüpgraded van versie 6.1, dan zullen opslagpools met compatibiliteit voor Gegevens opschonen standaard aan het schema worden toegevoegd.</li>
+<li>Hebt u uw schema in versie 6.1. ingesteld, dan zullen we automatisch uw schema inschakelen in overeenstemming met uw eerdere instellingen.</li>	
+</ul></div>
+
+<h4>Een opslagpool toevoegen of verwijderen van een schema:</h4>
+
+<ol>
+<li>Klik op <strong>Schema instellen</strong>.</li>
+<li>Ga naar het tabblad <strong>Doel selecteren</strong>.</li>	
+<li>Schakel het selectievakje van een opslagpool in of uit om de opslagpool aan een schema toe te voegen of uit een schema te verwijderen.</li>
+<li>Klik op <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>tijdens het handmatig opschonen van gegevens op een opslagpool kan de opslagpool niet uit het schema worden verwijderd of worden toegevoegd.</li>
+<li>Om een opslagpool waarop geplande Gegevens opschonen wordt uitgevoerd te verwijderen, wordt de voortgang van deze opslagpool geannuleerd.</li>
+</ul></div>
+
+<h4>Schema-instellingen verwijderen:</h4>
+
+<ol>
+<li>Klik op <strong>Schema instellen</strong>.</li>
+<li>Wijzig desgewenst de frequentie, startdatum en tijdsessie.</li>
+<li>Klik op <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+  <li>door de <strong>Startdatum</strong> te wijzigen wordt het schemaproces gereset en gegevens opschonen gestart op de nieuwe startdatum.</li>
+</ul>
+</div>	
+
+<h4>Een schema pauzeren:</h4>
+
+<ol>
+<li>Selecteer een opslagpool waarop het Gegevens opschonen-schema wordt uitgevoerd.</li>
+<li>Klik op <strong>Schema pauzeren</strong> in de vervolgkeuzelijst <b>Actie</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>klik op <strong>Schema hervatten</strong> in het vervolgkeuzemenu <b>Actie</b> om het Gegevens opschonen-schema te hervatten. Anders blijft het schema onderbroken.</li>	
+</ul></div>
+	
+<h3>Gegevens opschonen handmatig uitvoeren:</h3>
+
+<p>Wanneer het systeem fouten in de opslagruimte detecteert, kunt u uw gegevens repareren door Gegevens opschonen handmatig uit te voeren.</p>	
+	
+<h4>Gegevens opschonen handmatig uitvoeren:</h4>
+
+<ol>
+	<li>Open <strong>Opslagbeheer</strong>.</li>
+	<li>Ga naar <strong>Opslagpool</strong> > <strong>Gegevens opschonen</strong>.</li>
+	<li>Selecteer de opslagpool waarop u Gegevens opschonen wilt uitvoeren.</li>
+	<li>Klik op <strong>Handmatig uitvoeren</strong> in het vervolgkeuzemenu <strong>Actie</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+
+<li>Als het systeem voor voltooiing van Gegevens opschonen wordt uitgeschakeld, kan voortgang verloren gaan en moet u Gegevens opschonen handmatig opnieuw opstarten.</li>
+<li>Wanneer de tijd van een handmatig uitgevoerde Gegevens opschonen de geplande Gegevens opschonen overlapt, wordt deze ronde van het schema niet uitgevoerd tot de handmatig uitgevoerde Gegevens opschonen is voltooid. </li>
+<li>Het uitvoeren van Gegevens opschonen kan invloed hebben op uw systeemprestaties. We raden u aan om Gegevens opschonen niet op meerdere opslagpools uit te voeren, tenzij daadwerkelijk noodzakelijk.</li>	
+</ul></div>	
+
+<h4>Een schema op een opslagpool pauzeren waarop Gegevens opschonen handmatig wordt uitgevoerd:</h4>	
+<ol>
+<li>Selecteer een opslagpool die u wilt pauzeren.</li>
+<li>Klik op <b>Pauzeren</b> in het vervolgkeuzemenu <b>Actie</b>.</li>	
+	</ol>	
+</body>
+</html>

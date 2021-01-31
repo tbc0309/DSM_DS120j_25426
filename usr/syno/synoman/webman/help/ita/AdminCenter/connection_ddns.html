@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>DDNS</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>DDNS</h2>
+<p>DDNS (Dinamico Domani Rame Service) semplifica la connessione di Synology NAS tramite Internet eseguendo la mappatura del nome host sul relativo indirizzo IP. Ad esempio, DDNS consente di accedere a Synology NAS utilizzando un nome dominio (ad esempio, <I>www.john.synology.me</I>), senza dover ricordare l'indirizzo IP (ad esempio, <I>172.16.254.1</I>).</p>
+
+<h3>Impostare il DDNS</h3>
+<p>È possibile puntare un nome host esistente sull'indirizzo IP di Synology NAS, o registrarne uno nuovo fornito da Synology o altri fornitore del servizio DDNS. Consultare ciascun fornitore del servizio per informazioni relative alla registrazione di un nome host.
+</p>
+
+
+
+<h4>Per configurare un nome host DDNS:</h4>
+<ol>
+<li>Fare clic sul pulsante <b>Aggiungi</b>.</li>
+<li>Viene visualizzata una finestra di dialogo che consente di modificare le seguenti impostazioni:
+  <ul>
+<li><strong>Provider di servizi:</strong> selezionare un provider di servizi. Per registraer un nome host gratuito fornito da Synology, scegliere Synology nel menu a discesa.</li>
+<li><strong>Nome host:</strong> inserire il nome host DDNS registrato, ad esempio <I>john.synology.me</I>.</li>
+<li><strong>Nome utente/E-mail:</strong> inserire il nome utente/l'e-mail del provider DDNS.</li>
+<li><strong>Password/Chiave:</strong> inserire la password/la chiave del provider DDNS.</li>
+<li><strong>Indirizzo esterno:</strong> inserire l'indirizzo IP esterno di Synology NAS che utilizzerà il nome host.</li>
+<li><strong>Heartbeat:</strong> abilitare questa opzione per ricevere gli avvisi relativi allo stato del nome host mappato (solo per i nomi host forniti da Synology).</li>
+</ul>
+</li>
+<li>Fare clic su <B>Test di connessione</B> per vedere se le impostazioni sono corrette.</li>
+<li>Fare clic su <B>OK</B> per salvare e terminare.</li>
+<li>Se <strong>Synology</strong> è stato selezionato come provider di servizi, verrà visualizzata una finestra di messaggio se non è disponibile alcun certificato SSL corrispondente per il nome host DDNS, che consiglia di registrare un certificato Let’s Encrypt per il nome host e di impostarlo come certificato predefinito. Fare clic su <B>Sì</B>.
+	<p>
+		<span class="note_head">Nota:</span> se un certificato SSL presenta già una corrispondenza per il nome host DDNS, verrà visualizzata una finestra di messaggio che richiede se impostarlo come certificato predefinito. Questo messaggio apparirà ogni volta che il nome host DDNS viene modificato. Per maggiori informazioni sul certificato SSL, consultare <a href="https://www.synology.com/knowledgebase/DSM/help/DSM/AdminCenter/connection_certificate" target=blank>qui</a>.
+	</p>
+	</li>
+</ol>
+
+<p>Al termine dell'impostazione, è possibile accedere a Synology NAS tramite Internet inserendo il nome host DDNS nel browser Web.</p>
+<div class="section">
+<h4>Requisiti e limitazioni</h4>
+<ul> 
+<li>I server del provider di servizi DDNS sono funzionanti.</li>
+<li>Synology NAS può collegarsi a Internet.</li>
+<li>DDNS funziona solo in ambienti di rete dove non sono necessari server proxy.</li>
+<li>È anche possibile inserire un nome host per ciascun fornitore DDNS.</li>
+
+</ul>
+</div>
+
+<h3>Gestire i nomi host</h3>
+<p>Usare i seguenti pulsanti per gestire le voci del nome host esistente:</p>
+<ul>
+<li><strong>Elimina:</strong> rimuove la voce del nome host selezionato dall'elenco.</li>
+<li><strong>Modifica:</strong> cambia le impostazioni della voce del nome host selezionato.</li>
+<li><strong>Aggiorna adesso:</strong> aggiorna lo stato di tutte le voci del nome host che hanno il servizio DDNS abilitato.</li></ul>
+
+<h3>Configurare di un provider DDNS personalizzato</h3>
+<p>È possibile aggiungere un provider DDNS personalizzato se il provide non appare ancora nell'elenco dei provider di servizi.</p>
+<h4>Per configurare un provider DDNS personalizzato:</h4>
+<ol>
+<li>Fare clic su <B>Personalizza</B>.</li>
+<li>Viene visualizzata una finestra di dialogo che richiede di inserire le seguenti impostazioni:
+<ul>
+    <li><strong>Fornitore di servizio:</strong> inserire il nome del provider di servizi personalizzati.</li>
+    <li><strong>URL query:</strong> inserire il nome del provider di servizi personalizzati.</li>
+  </ul>
+</li>
+<li>Fare clic su <B>Salva</B> per aggiungere il provider di servizi personalizzati all'elenco dei provider di servizi DDNS.</li>
+</ol>
+<div class="section">
+<h4>Requisiti e limitazioni</h4>
+<ul>
+  <li>L'URL query deve corrispondere al protocollo specificato dal provider di servizi. L'URL è usato per aggiornare le informazioni IP sul server DDNS del provider.</li>
+  <li>Un'URL query in genere contiene i seguenti quattro parametri. Quando si inserire l'URL query, sostituire i seguenti parametri con la variabile corrispondente.</li>
+  <ul>
+    <li>Nome utente: __USERNAME__</li>
+    <li>Password: __PASSWORD__</li>
+    <li>Nome host: __HOSTNAME__</li>
+    <li>Indirizzo esterno: __MYIP__</li>
+  </ul>
+<li>L'URL query non deve contenere spazi o punti e virgola.</li>
+</ul>
+</div>
+</body>
+</html>

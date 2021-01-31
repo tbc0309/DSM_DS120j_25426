@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Gestionnaire iSCSI</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_lun"></a>LUN</h2>
+<p>Avant de cr&eacute;er un LUN, vous devez d&apos;abord cr&eacute;er un volume dans <a href="../StorageManager/volume_create_volume.html">Gestionnaire de stockage</a>.</p>
+<p>Les types de LUN avec des fonctionnalit&eacute;s diff&eacute;rentes s&apos;afficheront dans des couleurs diff&eacute;rentes&nbsp;:</p>
+<ul>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #00adad;"></span> LUN avec Thin Provisioning cr&eacute;&eacute;s sur un volume ext4.</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #1a9900;"></span> LUN avec Thin Provisioning cr&eacute;&eacute;s sur un volume Btrfs.</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #0068b3;"></span> LUN avec Thick Provisioning.</li>
+ </ul>
+ 
+
+<div class="section"><h4>Important&nbsp;:</h4>
+<ul>
+	<li>Seuls les LUN cr&eacute;&eacute;s sur un volume Btrfs &agrave; partir de DSM&nbsp;6.2 prennent en charge les nouvelles fonctions avanc&eacute;es et les instantan&eacute;s. Les LUN d&apos;un volume ext4 ne prennent en charge que les fonctions avanc&eacute;es h&eacute;rit&eacute;es.</li>
+</ul>
+</div>
+
+<h4>Pour cr&eacute;er un LUN&nbsp;:</h4>
+<ol>
+  <li>Cliquez sur <strong>Cr&eacute;er</strong>.</li>
+  <li>Configurez les propri&eacute;t&eacute;s de ce LUN.<ul>
+			<li>Nom du LUN</li>
+			<li>Emplacement&nbsp;: vous ne pouvez pas modifier l&apos;emplacement apr&egrave;s la cr&eacute;ation d&apos;un LUN, mais vous pouvez copier ce LUN sur un autre volume.</li>
+			<li>Capacit&eacute;&nbsp;: la taille du LUN doit &ecirc;tre d&apos;au moins 1&nbsp;Go. Les LUN avec des fonctions avanc&eacute;es h&eacute;rit&eacute;es doivent avoir une taille d&apos;au moins 10&nbsp;Go.</li>
+			<li>Allocation d&apos;espace&nbsp;: le Thick Provisioning offre une meilleure stabilit&eacute; et de meilleures performances, tandis que le Thin Provisioning prend en charge l&apos;allocation &agrave; la demande et toutes les fonctions avanc&eacute;es, mais peut provoquer une panne du syst&egrave;me de fichiers sur le LUN lorsque son volume est satur&eacute;.</li>
+			<li>Fonctions avanc&eacute;es&nbsp;: les LUN avec Thick Provisioning ne prennent en charge que les fonctions <strong>Hardware-Assisted Zeroing</strong> et <strong>Hardware-Assisted Locking</strong>, tandis que les LUN sur les volumes ext4 ne prennent en charge que les fonctions avanc&eacute;es h&eacute;rit&eacute;es.</li></li>
+		</ul></li>
+	<li>Suivez l&apos;assistant pour finaliser le processus.</li>
+</ol>
+
+<div class="section"><h4>Remarque&nbsp;:</h4>
+	<ul>
+	<li>Il est impossible de cr&eacute;er des LUN lorsqu&apos;un volume poss&egrave;de moins de 1&nbsp;Go d&apos;espace libre.</li>
+	<li>Vous pouvez activer les fonctions avanc&eacute;es pour prendre en charge les fonctions VMware VAAI correspondantes.</li>
+	<li>Vous pouvez activer la fonction de transfert <strong>Hardware-Assisted Data Transfer</strong> afin que les LUN puissent prendre en charge en m&ecirc;me temps le processus Windows Offload Data Transfer (ODX).</li>
+	<li>L&apos;activation des fonctions LUN avanc&eacute;es h&eacute;rit&eacute;es peut avoir une incidence sur les performances d&apos;E/S.</li>
+	<li>Le nombre de LUN pris en charge varie en fonction des mod&egrave;les Synology NAS. Pour des sp&eacute;cifications produit d&eacute;taill&eacute;es, veuillez visiter la page <a href="http://www.synology.com/" target="_blank">www.synology.com</a>.</li>
+ 	</ul>
+</div>
+<div class="section"><h4><a name="terminologies_advanced_features"></a>Terminologie&nbsp;:</h4>
+	<ul>
+		<li><strong>Hardware-Assisted&nbsp;Zeroing&nbsp;:</strong> aide les h&ocirc;tes VMware ESXi &agrave; initialiser les disques virtuels avec une meilleure efficacit&eacute; lors de la cr&eacute;ation de disques virtuels.</li>
+		<li><strong>Hardware-Assisted Locking&nbsp;:</strong> verrouille uniquement les parties requises d&apos;un LUN lorsqu&apos;un h&ocirc;te VMware ESXi acc&egrave;de aux donn&eacute;es qu&apos;il contient, ce qui permet &agrave; plusieurs h&ocirc;tes VMware ESXi d&apos;acc&eacute;der simultan&eacute;ment aux m&ecirc;mes LUN sans compromettre les performances.</li>
+		<li><strong>Hardware-Assisted Data Transfer&nbsp;:</strong> le transfert de donn&eacute;es peut &ecirc;tre effectu&eacute; rapidement sur votre Synology NAS sans utiliser les ressources des h&ocirc;tes lors de la copie de donn&eacute;es sur des h&ocirc;tes VMware ESXi et Microsoft Hyper-V.</li>
+		<li><strong>Instantan&eacute;&nbsp;:</strong> gr&acirc;ce aux fonctions du syst&egrave;me de fichiers Btrfs, des instantan&eacute;s et la r&eacute;plication sont disponibles.</li>
+		<li><strong>R&eacute;cup&eacute;ration de l&apos;espace&nbsp;:</strong> prend en charge la commande de r&eacute;cup&eacute;ration d&apos;espace de l&apos;initiateur. Lorsque des donn&eacute;es sont supprim&eacute;es ou transf&eacute;r&eacute;es, l&apos;espace qui &eacute;tait utilis&eacute; se lib&egrave;re. Toutefois, cela peut affecter les performances d&apos;E/S.</li>
+	</ul></div>
+
+	
+
+<h4>Pour supprimer un LUN&nbsp;:</h4>
+<p>Lors de la suppression d&apos;un LUN, toutes les donn&eacute;es qui s&apos;y trouvent seront supprim&eacute;es. Les connexions entre le LUN et des cibles mapp&eacute;es seront &eacute;galement perdues.</p>
+<ol>
+	<li>S&eacute;lectionnez le LUN &agrave; supprimer.</li>
+	<li>Cliquez sur le bouton <b>Supprimer</b> et suivez l&apos;assistant pour terminer le processus.</li>
+</ol>
+
+<h4>Pour modifier un LUN&nbsp;:</h4>
+<ol>
+	<li>S&eacute;lectionnez le LUN que vous souhaitez modifier.</li>
+	<li>S&eacute;lectionnez <b>Modifier</b> dans le menu d&eacute;roulant <b>Action</b>.</li>
+	<li>Modifiez les priorit&eacute;s d&eacute;sir&eacute;es.</li>
+	<li>Cliquez sur <b>OK</b> pour enregistrer les param&egrave;tres.</li>
+</ol>
+
+<div class="section"><h4>Remarque&nbsp;:</h4>
+<ul>
+<li>Pour &eacute;viter toute perte de donn&eacute;es lors de la modification de la capacit&eacute; d&apos;un LUN, vous ne pouvez qu&apos;augmenter sa taille.</li>
+<li>Si l&apos;&eacute;tat d&apos;un LUN devient <b>Indisponible</b>, cela signifie que des erreurs li&eacute;es aux donn&eacute;es se sont produites lors de l&apos;acc&egrave;s au LUN. Afin d&apos;&eacute;viter les pertes graves de donn&eacute;es sur votre syst&egrave;me, ce LUN sera temporairement inaccessible. Veuillez contacter Synology pour obtenir une assistance d&egrave;s que possible.</li>
+</ul>
+</div>
+
+<p>Si votre Synology NAS sert de stockage final &agrave; OpenStack Cinder, des LUN avec des commandes d&apos;acc&eacute;l&eacute;ration de stockage seront utilis&eacute;s lors de la cr&eacute;ation de volumes Cinder. Les op&eacute;rations et la gestion des LUN/cibles utilis&eacute;s par Cinder sont limit&eacute;es sur votre Synology NAS.</p>
+<ul>
+<li>Les LUN Cinder ne peuvent pas &ecirc;tre modifi&eacute;s.</li>
+<li>Des informations telles que le nom, l&apos;IQN, le mappage et le masquage des cibles Cinder ne peuvent pas &ecirc;tre modifi&eacute;es.</li>
+<li>Vous ne pouvez pas mapper des LUN/cibles Cinder sur des LUN/cibles g&eacute;n&eacute;raux.</li>
+<li>Vous ne pouvez pas prendre d&apos;instantan&eacute;s de LUN Cinder via l&apos;interface utilisateur de DSM ni les modifier, ni les supprimer, ni les restaurer.</li>
+<li>Les LUN clon&eacute;s depuis des LUN/instantan&eacute;s Cinder deviennent des LUN g&eacute;n&eacute;raux.</li>
+</ul>
+
+<h4>Pour cloner un LUN&nbsp;:</h4>
+	<ol>
+	<li>S&eacute;lectionnez le LUN &agrave; cloner.</li>
+	<li>S&eacute;lectionnez <b>Cloner</b> dans le menu d&eacute;roulant <b>Action</b>.</li>
+	<li>Modifiez le nom du LUN clon&eacute; et s&eacute;lectionnez le volume de destination.</li>
+	<li>Cliquez sur <b>OK</b> pour commencer le clonage.</li>
+</ol>
+<div class="section">
+	<h4>Remarque&nbsp;:</h4>
+	<ul>
+		<li>Un LUN ne peut pas &ecirc;tre clon&eacute; lorsque l&apos;espace restant de son volume est inf&eacute;rieur &agrave; 1&nbsp;Go.</li>
+	</ul>
+</div>
+
+<h4>Pour d&eacute;fragmenter un LUN&nbsp;:</h4>
+<p>La d&eacute;fragmentation peut r&eacute;tablir des performances d&eacute;t&eacute;rior&eacute;es d&apos;un LUN entra&icirc;n&eacute;es par la fragmentation de donn&eacute;es ou les instantan&eacute;s. Pendant la d&eacute;fragmentation, les performances d&apos;E/S des LUN peuvent &ecirc;tre affect&eacute;es, mais vous pouvez interrompre le processus &agrave; tout moment pour le reprendre plus tard.</p>
+<ol>
+	<li>S&eacute;lectionnez le LUN que vous souhaitez d&eacute;fragmenter.</li>
+	<li>Cliquez sur <b>D&eacute;fragmenter</b>&nbsp;&gt; <b>D&eacute;marrer</b>.</li>
+</ol>
+<h4>Pour arr&ecirc;ter la d&eacute;fragmentation d&apos;un LUN&nbsp;:</h4>
+<ol>
+	<li>S&eacute;lectionnez le LUN en cours de d&eacute;fragmentation.</li>
+	<li>Cliquez sur <b>D&eacute;fragmenter</b>&nbsp;&gt; <b>Arr&ecirc;t</b>.</li>
+</ol>
+<div class="section"><h4>Remarque&nbsp;:</h4>
+<ul>
+<li>La d&eacute;fragmentation est uniquement prise en charge sur les LUN Btrfs avec Thin Provisioning.</li>
+<li>Au cours du processus de d&eacute;fragmentation, vous ne pouvez ni modifier/cloner le LUN, ni prendre d&apos;instantan&eacute;s&nbsp;; toutefois, vous pouvez supprimer ce LUN.</li>
+<li>Vous pouvez interrompre la d&eacute;fragmentation &agrave; tout moment. Le syst&egrave;me conserve un enregistrement de la progression et reprend &agrave; partir de l&apos;endroit o&ugrave; il s&apos;est arr&ecirc;t&eacute;.</li>
+<li>Les instantan&eacute;s de LUN occupent un espace de volume suppl&eacute;mentaire apr&egrave;s une d&eacute;fragmentation de LUN.</li>
+</ul>
+</div>
+
+	
+<div class="section"><h4>Informations compl&eacute;mentaires</h4>
+<ul>
+	
+	<li>Les LUN avec la fonctionnalit&eacute; instantan&eacute; activ&eacute;e peuvent &ecirc;tre clon&eacute;s rapidement dans le m&ecirc;me volume.</li>
+	<li>Les LUN dot&eacute;s des nouvelles fonctionnalit&eacute;s avanc&eacute;es ne peuvent &ecirc;tre clon&eacute;s que sur des volumes Btrfs.</li>
+	<li>Lorsque les LUN dot&eacute;s des fonctions avanc&eacute;es h&eacute;rit&eacute;es sont clon&eacute;s sur un volume Btrfs, ils sont convertis en LUN dot&eacute;s des nouvelles fonctions avanc&eacute;es. Lors du clonage sur un autre volume ext4, les fonctionnalit&eacute;s avanc&eacute;es h&eacute;rit&eacute;es du LUN sont d&eacute;sactiv&eacute;es.</li>
+	<li>Les propri&eacute;t&eacute;s des LUN ne changent pas apr&egrave;s le clonage, sauf pour les LUN dot&eacute;s des fonctions avanc&eacute;es h&eacute;rit&eacute;es.</li>
+	<li>Lorsque vous clonez des LUN sans la fonctionnalit&eacute; instantan&eacute; ou sans fonctionnalit&eacute;s avanc&eacute;es h&eacute;rit&eacute;es, il est recommand&eacute; de les d&eacute;connecter pour &eacute;viter les erreurs de clonage ou les incoh&eacute;rences de donn&eacute;es.</li>
+</ul>
+</div>
+	
+<h4>Pour convertir un LUN avec des fonctions avanc&eacute;es h&eacute;rit&eacute;es&nbsp;:</h4>
+<ol>
+	<li>S&eacute;lectionnez le LUN que vous souhaitez convertir.</li>
+	<li>S&eacute;lectionnez <b>Convertir</b> dans le menu d&eacute;roulant <b>Action</b>.</li>
+	<li>Configurez les param&egrave;tres&nbsp;:<ul>
+			<li>Nom du LUN</li>
+			<li>Emplacement&nbsp;: vous ne pouvez pas modifier l&apos;emplacement apr&egrave;s la cr&eacute;ation d&apos;un LUN, mais vous pouvez convertir ce LUN sur un autre volume Btrfs.</li>
+		</ul></li>
+	<li>Cochez cette case si vous souhaitez supprimer le LUN original et mapper la cible sur le nouveau LUN apr&egrave;s la conversion.</li>
+	<li>Cliquez sur <strong>Appliquer</strong> pour confirmer les param&egrave;tres.</li>
+</ol>
+
+<div class="section"><h4>Remarque&nbsp;:</h4>
+	<ul>
+	<li>Seuls les LUN dot&eacute;s de fonctions avanc&eacute;es h&eacute;rit&eacute;es peuvent &ecirc;tre convertis en LUN dot&eacute;s des nouvelles fonctions avanc&eacute;es.</li>
+	<li>Les LUN ne peuvent &ecirc;tre convertis que sur des volumes Btrfs comportant suffisamment d&apos;espace libre.</li>
+	<li>Pour assurer la coh&eacute;rence des donn&eacute;es, les LUN ne seront plus mapp&eacute;s sur la cible pendant la conversion.</li>
+	<li>Il n&apos;y aura aucun instantan&eacute; sur le nouveau LUN avanc&eacute; converti.</li>
+</div>
+
+<div class="section"><h4>Terminologie&nbsp;:</h4>
+<ul>
+	<li><b>Thin Provisioning</b>&nbsp;: le Thin Provisioning est une m&eacute;thode permettant d&apos;optimiser l&apos;utilisation de l&apos;espace de stockage en allouant de l&apos;espace de mani&egrave;re dynamique et «&nbsp;&agrave; la demande&nbsp;».</li>
+	<li><b>VMware VAAI</b>&nbsp;: les VAAI (vStorage API for Array Integration) de VMware peuvent d&eacute;charger le travail des op&eacute;rations standards sur les matrices de stockage virtuel vers le p&eacute;riph&eacute;rique iSCSI dans l&apos;environnement VMware vSphere et optimiser les performances de stockage.</li>
+	<li><b>Windows ODX</b>&nbsp;: Offload Data Transfer (ODX) est une nouvelle technologie de transfert de donn&eacute;es d&eacute;velopp&eacute;e par Microsoft dans Windows Server&nbsp;2012 et&nbsp;8. ODX am&eacute;liore les performances de transfert en d&eacute;chargeant une partie de la charge de travail sur la baie de stockage.<br />Si la source de donn&eacute;es et la destination se trouvent sur des LUN situ&eacute;s sur le m&ecirc;me volume, le clonage est trait&eacute; par des commandes d&apos;acc&eacute;l&eacute;ration de stockage, qui permettent d&apos;&eacute;conomiser jusqu&apos;&agrave; 99,9&nbsp;% de la consommation d&apos;espace de stockage et acc&eacute;l&egrave;re le clonage en m&ecirc;me temps.</li>
+	<li><b>Mappage de la cible</b>&nbsp;: permet de mapper le LUN sur une ou plusieurs cibles.</li>
+
+</ul>
+</div>
+
+</body>
+</html>

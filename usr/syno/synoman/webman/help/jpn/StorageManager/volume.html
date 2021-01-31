@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>ボリューム</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the difference between volumes and disk groups, which are used to manage the storage space and capacity of Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>ボリューム</h2>
+
+<p>ボリュームは、Synology NAS に基本的なストレージスペースを提供します。 共有フォルダ、ドキュメント、パッケージ データなどすべての素材は、ボリュームに保管されます。 そのため、Synology NAS にデータを保存する前に、最低でも1つのボリュームを作成する必要があります。</p>
+
+<div class="section">
+<h4>注：</h4>
+<p>ボリュームが <strong>Snapshot Replication</strong> の複製されたターゲットとして使われている場合、ボリュームが作成された後に <strong>編集</strong>ウィンドウで<strong>ファイルアクセス時間頻度の記録</strong>の設定を調整することで、レプリケーション パフォーマンスが向上します。</p>
+<ul>
+	<li><strong>毎日</strong>： ファイルアクセス時間は、大半のオペレーティングシステムのように、毎日あるいはファイルが修正された時に更新されます。 いくつかのアプリケーションの機能は、アクセス時間の精度に依存します。 <strong>毎日</strong>を選択すると、レプリケーション パフォーマンスに影響しますが、次の機能またはアプリケーションを頻繁に使用する場合にはお勧めします。
+		<ul>
+			<li><strong>ストレージ アナライザー</strong>内<strong>の最後のアクセス</strong></li>
+			<li><strong>ストレージ マネージャ</strong>内<strong>のSSD キャッシュ アドバイザー</strong></li>
+			<li><strong>ファイル アクセス時間の記録</strong>に依存するサードパーティアプリケーション。</li>
+		</ul>
+	<li><strong>月間</strong>： ファイルアクセス時間は、毎月あるいはファイルが修正された時に更新されます。 このオプションを選択すると、レプリケーション パフォーマンスが少し向上する一方、<strong>ファイル アクセス時間の記録</strong>に依存するアプリケーションは精度は落ちるものの動作できます。
+	</li>
+	<li><strong>なし</strong>： 最良のレプリケーション パフォーマンスが希望で、<strong>ファイル アクセス時間の記録</strong>に依存するアプリケーションが不要な、日常の利用にお勧めします。</li>
+</ul>
+</div>
+
+
+<h4>ボリューム フォーマット</h4>
+<p>使用しているファイル システムによって、2 種類のボリューム フォーマットがあります。</p>
+<ul>
+	<li><strong>新しいボリューム フォーマット</strong>： このフォーマットは、<strong>Btrfs</strong> ファイル システムを使用します。 このフォーマットのボリュームの最小サイズは、最低でも 10 GB でなければなりません。 データをより簡単に管理できる新しい機能がサポートされています。
+		<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">共有フォルダのスナップショット</a>：</strong> スナップショットを撮影した時点で、データ全体の状態が録画されます。 スナップショットが保管されたボリューム上のデータをユーザーが誤って変更したり、削除してしまったりしても、スナップショットを撮影した時点にすばやく戻すことができます。</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">共有フォルダの割り当て量</a>：</strong> 各フォルダの最大容量を設定できます。</li>
+			<li> <strong>共有フォルダに基づいた <a href="../AdminCenter/file_user_create.html#userquota">ユーザー クォータ</a>：</strong> それぞれのユーザーが共有フォルダ内で使用できるスペースの量を調整できます。</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">高度なデータ整合保護</a>：</strong> 共有フォルダが CRC32 checksum とコピー オン ライト戦略で保護されます。</li>
+		</ul>
+	</li>
+	<li><strong>従来のボリューム フォーマット</strong>： このフォーマットは、<strong>ext4</strong> ファイル システムを使用します。 このフォーマットのボリュームの最小サイズは、最低でも 10 GB でなければなりません。 ext4 ファイル システムはほとんどの Synology 製品がサポートしているため、このフォーマットのボリュームを別の Synology 製品に簡単にマイグレートすることができます。</li>
+</ul>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>Btrfs は特定のモデルのみに使用できます。 Btrfs をサポートするモデルについては、<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">この記事</a>をご覧ください。</li>
+</ul>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Een opslagpool repareren - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to repair a storage pool on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Een opslagpool repareren</h2>
+
+<p>Opslagpoolfouten kunnen om verschillende redenen optreden, zoals vastgelopen schijven. In bepaalde gevallen kunt u met de onderstaande stappen een diagnose uitvoeren en problemen op lossen.</p>
+	
+<p>De in dit artikel vermelde <strong>Reparatie</strong>-functie is alleen beschikbaar voor RAID-types die gegevensredundantie (bijv. SHR bestaande uit minstens 2 schijven, RAID 1, RAID 5, RAID 6, RAID F1 en RAID 10) ondersteunen. Denk eraan dat deze functie een opslagpool kan repareren, maar geen defecte schijven.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>We raden het gebruik van schijven aan die in de <a href="https://www.synology.com/compatibility" target=blank>Compatibiliteitslijst voor Synology-producten</a> staan om problemen te voorkomen. Het gebruik van incompatibele schijven kan van invloed zijn op de systeemprestaties of gegevensverlies veroorzaken.</li>
+<li>SHR (Synology Hybrid RAID) is alleen beschikbaar op specifieke modellen. Kijk <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">hier</a> voor meer informatie over SHR.</li>
+</ul>
+</div>
+	
+<h3>Een opslagpool met mislukte systeempartities repareren</h3>
+
+<p>Wanneer systeempartities falen, krijgt u een melding dat de systeempartities niet toegankelijk zijn. Volg de onderstaande stappen om dit probleem op te lossen:</p>
+
+<ol>
+<li>Start <strong>Storage Manager</strong>.</li>
+<img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/>
+
+<li>Ga naar de pagina <strong>Overzicht</strong> en klik op de koppeling <strong>Repareren</strong>. Het systeem start met de reparatie van de systeempartities.</li>
+
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/fail_system_partitions.png" class="help_image"/>
+</ol>
+
+<h3>Een beschadigde opslagpool repareren</h4>
+
+<p>Een opslagpool raakt <strong>beschadigd</strong> wanneer de gegevens op een schijf niet meer toegankelijk zijn, maar er nog geen gegevensverlies is opgetreden. Dit gebeurt alleen op opslagpools met RAID-types die gegevensredundantie bieden (bijv. SHR bestaande uit minstens 2 schijven, RAID 1, RAID 5, RAID 6, RAID F1 en RAID 10). Alvorens de reparatie van een beschadigde opslagpool te starten, moeten defecte schijven door gezonde schijven worden vervangen en vervolgens defecte schijven worden verwijderd of gewoon door gezonde schijven worden vervangen.</p>
+
+<h4>Schijfvereisten:</h4>
+<p>Vervang de defecte schijven door gezonde schijven die aan de volgende criteria voldoen:</p>
+	
+<ul>
+<li><b>Voor RAID 1, RAID 5, RAID 6, RAID F1 en RAID 10 opslagpools</b>: De grootte van de nieuwe schijf moet gelijk zijn aan of groter dan de grootte van de kleinste schijf in de opslagpool.</li>
+<li><b>Voor SHR-1 opslagpools</b>: De nieuwe schijf moet aan de volgende criteria voldoen.
+<ul>
+<li>De grootte van de nieuwe schijf moet gelijk zijn aan of groter dan de grootte van de defecte schijf.</li>
+<li>De grootste schijf in de opslagpool uitgesloten, moet de grootte van de nieuwe schijf gelijk zijn aan of groter dan de grootte van de grootste resterende schijf. <br><span class="note_head">Voorbeelden:</span>
+<ul>
+<li>Voorbeeld 1: SHR-1 bestaat uit 3TB-, 2TB-, 2TB- en 1TB-schijven. Wanneer de 3TB-schijf defect raakt, dan moet ze worden gerepareerd door een schijf die gelijk is aan of groter dan 2TB.</li>
+<li>Voorbeeld 2: SHR-1 bestaat uit 4TB-, 4TB-, 2TB- en 2TB-schijven. Wanneer de 4TB-schijf defect raakt, dan moet ze worden gerepareerd door een schijf die gelijk is aan of groter dan 4TB.</li>
+<li>Voorbeeld 3: SHR-1 bestaat uit 4TB-, 4TB-, 2TB- en 2TB-schijven. Wanneer de 2TB-schijf defect raakt, dan moet ze worden gerepareerd door een schijf die gelijk is aan of groter dan 2TB.</li>
+</ul>	
+</li>
+			
+</ul>
+</li>
+<li><b>Voor SHR-2 opslagpools</b>: De nieuwe schijf moet aan de volgende criteria voldoen.
+<ul>
+<li>De grootte van de nieuwe schijf moet gelijk zijn aan of groter dan de grootte van de defecte schijf.</li>
+<li>De twee grootste schijven in de opslagpool uitgesloten, moet de grootte van de nieuwe schijf gelijk zijn aan of groter dan de grootste resterende schijf.</li>
+</ul>	
+</li>
+</ul>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>wanneer de beschikbare schijven als hot spare-schijven zijn toegewezen om een of meer opslagpools te beschermen dan zullen de hot spare-schijven de beschadigde opslagpools automatisch repareren. Raadpleeg <a href="hotspare.html" target="_blank">Hot Spare</a> voor meer informatie.</li>
+</ul>
+</div>
+
+
+<h4>Een beschadigde opslagpool repareren:</h4>
+
+<p>Volg de onderstaande stappen om een beschadigde opslagpool te repareren:</p>	
+<ol>
+<li>Ga naar <strong>Storage Manager</strong> > <strong>Opslagpool</strong> en zoek naar de opslagpool met de status <strong>Beschadigd</strong>.</li> 
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/volume_degraded.png" class="help_image"/>
+<li>Bekijk de opslagpoolinformatie en controleer de schijfstatus.</li>
+<li>Ga vervolgens naar het tabblad <strong>HDD/SSD</strong> om te bevestigen welke schijf defect is.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/hdd_ssd.png" class="help_image"/>
+
+<li>Verwijder de defecte schijf uit uw Synology NAS en vervang deze door een nieuwe. Wanneer uw Synology NAS geen hot-swapping ondersteunt, vergeet dan niet om uw apparaat eerst uit te schakelen voor u schijven verwijdert of installeert.<br><span class="note_head">Opmerking:</span> Alle bestaande gegevens op de nieuwe schijf worden verwijderd.</li>
+<li>Nadat de nieuwe schijf is geïnstalleerd, gaat u terug naar de pagina <strong>Opslagpool</strong> en selecteert u de beschadigde opslagpool.</li>
+<li>Klik op <b>Repareren</b> in het vervolgkeuzemenu <b>Actie</b>.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/manage_repair.png" class="help_image"/>
+<li>Selecteer de vervangingsschijf die u aan de opslagpool wilt toevoegen en volg de wizard om de bewerking te voltooien.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>wanneer het repareren van een opslagpool te lang duurt, wordt dit meestal door de <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Why_does_it_take_a_long_time_to_repair_a_storage_pool" target="_blank">hier</a> vermelde redenen veroorzaakt.</li>
+</ul>
+</div>
+
+
+<h3>Problemen oplossen van vastgelopen opslagpools</h3>
+
+<p>Wanneer de status van een opslagvolume <strong>Vastgelopen</strong> is, kunt u het volume niet zelf meer herstellen. Raadpleeg de volgende artikelen voor meer informatie over gangbare oorzaken van een vastgelopen volume en hoe dit probleem op te lossen:
+	<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_are_the_reasons_of_volume_crash" target="_blank">Waardoor kan een volume vastlopen?</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_do_I_do_when_a_volume_crashes" target="_blank">Wat moet ik doen wanneer een volume vastloopt?</a></li>
+	</ul>
+</p>
+
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>選擇 RAID 類型</h2>
+
+<p>RAID (Redundant Array of Independent Disks，即「獨立磁碟冗餘陣列」) 是一個結合多顆硬碟，以單一儲存空間呈現的資料儲存技術。RAID 的類型眾多，每一種類型都提供不同層級的效能、儲存空間容量和可靠性。</p>
+
+<p>本文章針對 Synology NAS 支援的 RAID 類型提供簡短介紹，包含應用需求及利弊。</p><!--1--><h3>支援的 RAID 類型</h3>
+
+<p>此表格針對 Synology NAS 支援的不同 RAID 類型提供簡短介紹，包含儲存空間容量、RAID 類型所需的最少硬碟數量，以及資料遺失之前可容錯的硬碟數量。</p>
+
+<table>
+	<tr>
+		<th>儲存空間類型</th>
+		<th>硬碟數量</th>
+		<th>可容錯硬碟數量</th>
+		<th>描述</th>
+		<th>儲存空間容量</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>將由不同硬碟容量組合成的儲存空間最佳化。</li>
+				<li>提供由兩顆以上硬碟組合成的儲存空間資料備援功能。</li>
+				<li>建議剛入門的使用者使用</li>
+			</ul>
+		</td>
+		<td>1 x (HDD 容量)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">系統優化容量。</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Basic</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>以單顆硬碟為獨立的單位所組成。</li>
+				<li>不提供資料備援功能。</li>
+			</ul>
+		</td>
+		<td>1 x (HDD 容量)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>結合一系列硬碟成為單一儲存空間，容量相當於所有硬碟容量的總合。</li>
+				<li>不提供資料備援功能。</li>
+			</ul>
+		</td>
+		<td>所有 HDD 容量的總合</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>提供區塊延展 (Striping) 的功能，將資料分成好幾個區塊，再分散到組成硬碟上以加強效能。</li>
+				<li>不提供資料備援功能。</li>
+			</ul>
+	    </td>
+		<td>所有 HDD 容量的總合</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>將相同資料同時寫入兩顆硬碟</li>
+				<li>提供資料備援功能。</li>
+			</ul>
+		</td>
+		<td rowspan="3">最小 HDD 的容量</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>藉由同位元 (Parity) 資料分配至所有硬碟的區塊分塊延展功能，藉此提供比 RAID 1 更有效率的資料備援功能。</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (最小 HDD 的容量)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>藉由雙層同位元資料 (Parity)，將相當於兩顆硬碟的容量拿來儲存冗餘訊息 (redundancy)，提供比 RAID 5 更好的資料備援功能。</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 2) x (最小 HDD 的容量)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br />(偶數)</td>
+		<td>所有 HDD 容量總和的一半</td>
+		<td>
+			<ul>
+				<li>提供 RAID 0 的效能和 RAID 1 的資料保護層級，將硬碟結合成兩個資料映射的群組。</li>
+			</ul>
+		</td>
+		<td>(N / 2) x (最小 HDD 的容量)</td>
+	</tr>
+	<tr>
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>藉由同位元 (Parity) 資料分配至所有硬碟的區塊分塊延展功能。</li>
+				<li>特定硬碟上將會有更多同位元資料。</li>
+				<li>適合用於全快閃儲存陣列</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (最小 SSD 的容量)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>依照硬碟插槽及安裝的硬碟數量，「Basic」以外的 RAID 類型僅適用於部份機種。</li>
+	<li>RAID F1 僅適用於特定機種。請前往 <a href="https://www.synology.com/" target="_blank">Synology 網站</a>來瞭解更多資訊。</li>
+	<li>「N」表示儲存空間中硬碟的總數。</li>
+</ul>
+</div><!--2--><h3>Synology Hybrid RAID (SHR)</h3>
+<p>Synology Hybrid RAID (SHR) 是自動化的磁碟陣列管理系統，設計的目的是為了簡化儲存空間管理步驟，以及滿足不熟悉 RAID 類型使用者的使用需求。</p>
+<p>SHR 可以結合不同容量的硬碟，建立容量和效能皆優化的儲存空間，不僅省下更多硬碟空間，也提供較具彈性的儲存方案。當組成的硬碟數量夠多時，SHR 可允許 1 或 2 顆硬碟容錯，意即 SHR 儲存空間可在確保資料完整性的情況下，承受一或兩顆硬碟毀損。<br /><img src="about:blank" class="help_image"/></p><!--3--><h3>RAID 0</h3>
+<p>RAID 0 由兩顆以上硬碟組成，可增加效能和容量，但不具容錯功能。單一硬碟毀損會導致陣列上的資料全部遺失。RAID 0 對於尋求高價位 / 效能平衡的非重大系統來說相當實用。<br /><img src="about:blank" class="help_image"/></p><!--4--><h3>RAID 1</h3>
+<p>RAID 1 最常見的應用方式是由兩顆硬碟組成。硬碟上的資料會以映射的方式，在硬碟毀損的情況下提供容錯功能。此配置會提升讀取效能，寫入效能則和單一硬碟不相上下。即使單一硬碟毀損，資料也不會遺失。RAID 1 時常用於容錯功能扮演關鍵角色，但空間和效能非重要需求的情況。<br /><img src="about:blank" class="help_image"/></p><!--5--><h3>RAID 5</h3>
+<p>RAID 5 提供了容錯功能和更佳的讀取效能。最少需要三顆硬碟才能組成。RAID 5 能夠承受單一硬碟毀損。毀損情況發生時，故障硬碟上的資料會透經由其餘硬碟上延展出去的同位元資料重新架構。因此，當 RAID 5 陣列處於危險狀態時，會嚴重影響讀取和寫入效能。若空間和成本的重要性高於效能，RAID 5 會是最理想的配置。<br /><img src="about:blank" class="help_image"/></p><!--6--><h3>RAID 6</h3>
+<p>RAID 6 和 RAID 5 類似，差別在於 RAID 6 提供了另一層區塊延展技術，且可承受兩顆硬碟毀損。最少需要四顆硬碟才能組成。由於 RAID 6 相較於 RAID 5 多了一顆硬碟容錯的功能，因此效能較低。若空間和成本的重要性相當，且需要能支援多顆硬碟毀損，RAID 6 便較具吸引力。<br /><img src="about:blank" class="help_image"/></p><!--7--><h3>RAID 10</h3>
+<p>RAID 10 具備了 RAID 1 和 RAID 0 的優勢。讀取和寫入效能皆提升，但只有半數的空間可用來儲存資料。至少需要四顆以上硬碟才能組成 RAID 10，雖然成本較高，但效能極佳，同時還具有容錯功能。事實上，只要硬碟毀損的情況不要出現在同一個子群組，RAID 10 可承受多顆硬碟毀損。RAID 10 對於需要高輸入 / 輸出的應用程式而言是理想的解決方案，例如資料庫伺服器。<br /><img src="about:blank" class="help_image"/></p><!--8--><h3>RAID F1</h3>
+<p>RAID F1 採用 RAID 5 的機制，可承受單一硬碟損毀並提升讀取效能。RAID F1 會讓特定硬碟上有更多同位元資料來加速其壽命週期，以避免所有硬碟同時耗盡使用壽命。此機制可能會稍微影響效能，使其略低於 RAID 5 的效能。最少需要三顆硬碟才能組成。RAID F1 能夠承受單一硬碟毀損。毀損情況發生時，故障硬碟上的資料會經由其餘硬碟上延展出去的同位元資料重新架構。因此，當 RAID F1 陣列處於危險狀態時，會嚴重影響讀取和寫入效能。RAID F1 適合用於全快閃儲存陣列。<br /><img src="about:blank" class="help_image"/></p>
+
+</body>
+</html>

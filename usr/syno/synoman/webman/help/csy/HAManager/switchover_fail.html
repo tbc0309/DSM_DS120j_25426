@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Přepnutí</h2>
+  
+ <p>Chcete-li zajistit nepřetržitý provoz a minimalizovat výpadky služeb, lze služby aktivního serveru clusteru high-availability přepnout na redundantní, pasivní server. Tato funkce se nazývá „Přepnutí“, někdy také „Převzetí služeb při poruše“. V této části jsou objasněny základy těchto dvou konceptů.</p>
+  
+  <h3>Přepnutí</h3>
+  	<p>Funkce přepnutí označuje možnost přepínání mezi aktivním a redundnatním, pasivním serverem clusteru high-availability. Za běžných podmínek provádí aktivní server správu všech služeb. V případě, že aktivní server nefunguje správně, můžete zahájit proces přepnutí a přenosu všech služeb na pasivní server, a to, za předpokladu, že pasivní server je v pořádku. V takovém případě bude aktivní server plnit funkci pasivního serveru a pasivní server bude fungovat jako aktivní server.</p>
+    
+<h4>Postup ručního spuštění procesu přepnutí:</h4>
+ <ol>
+  <li>Přejděte na kartu <b>Přehled</b>.</li>
+  <li>Klikněte na možnost <b>Správa</b> > <b>Přepnutí</b>.</li>
+ </ol>
+<div class="section">
+<h4>Poznámka:</h4>
+   <p>Během procesu přepnutí bude nejdříve aktivní server plnit funkci pasivního serveru a pasivní server bude fungovat jako aktivní server. Výsledkem bude kratší časový úsek, kdy budou oba servery pasivní a nebudou zajišťovat běžný provoz služeb. Čas potřebný k dokončení procesu přepnutí závisí na počtu a velikosti svazků nebo jednotek iSCSI LUNs (na úrovni bloků) nebo na počtu a celkovému zatížení služeb clusteru high-availability.</p>
+</div>
+   
+<h3>Převzetí služeb při poruše</h3>
+    
+     <p>Dojde-li k určitým chybám, systém automaticky zahájí proces přepnutí služeb a zajistí údržbu. Tato událost se nazývá „Převzetí služeb při poruše“. K převzetí služeb při poruše může dojít v následujících situacích:</p>
+    
+     <ul>
+      <li><b>Poškozené úložné místo:</b> Došlo k poruše úložného místa (např. svazku, skupiny disků, skupiny RAID Group, mezipaměti SSD atd.) na aktivním serveru, ale příslušné úložné místo na pasivním serveru funguje běžným způsobem. Pokud poškozený prostor úložiště neobsahuje žádné svazky nebo jednotku iSCSI LUN (na úrovni bloků), systém proces převzetí služeb při poruše nespustí.</li>
+      <li><b>Chyba služby:</b> U sledované služby došlo k chybě.</li>
+      <li><b>Porucha napájení:</b> Aktivní server byl vypnut nebo restartován; došlo k poruše obou napájecích jednotek aktivního serveru; napájení není k dispozici.</li>      
+     </ul>    
+     
+    
+<h3>Porucha přepnutí</h3>
+    
+		<p>Funkci přepnutí nebo převzetí služeb při poruše nemusí fungovat v následujících situacích:</p>
+  			<ul>
+   				<li><b>Nekompletní replikace dat:</b> Pokud propojujete dva servery a vytváříte cluster high-availability poprvé, bude systém požadovat určitý čas na replikaci dat mezi aktivním a pasivním serverem.</li>
+   				<li><b>Došlo k poruše úložného místa na pasivním serveru:</b> Došlo k poruše úložného prostoru (např. svazku, skupiny disků, skupiny RAID Group atd.) na pasivním serveru.</li>
+                <li><b>Porucha napájení:</b> Pasivní server byl vypnut nebo restartován; došlo k poruše obou napájecích jednotek aktivního serveru; napájení není k dispozici.</li>
+                <li><b>Aktualizace DSM:</b> Při instalaci aktualizací DSM budou zastaveny všechny služby a budou obnoveny po dokončení instalace aktualizací systému DSM.</li>      
+ </ul>
+
+  <p>Pokud převzetí zahájíte ručně, ale služby nelze přepnout na pasivní server, pokusí se systém přepnout služby zpět na aktivní server.</p>
+ <p>Pokud dojde k zahájení převzetí při poruše, ale ze serverů nemůže vlivem poruchy plnit funkci aktivního serveru, nebude cluster high-availability zajišťovat běžný provoz služeb. Pokud nebude stav serverů automaticky změněn na hodnotu <b>Samostatný</b>, můžete stisknutím tlačítka <b>Reset</b> na obou serverech obnovit východní nastavení. Po obnovení výchozích nastavení můžete oba servery propojit a znovu vytvořit cluster high-availability.</p>
+ 
+ <h3>Nepřerušitelný zdroj napájení</h3>
+  <p>Cluster high-availability lze připojit k jednotkám nepřerušitelného zdroje napájení (UPS) a snížit riziko nečekaných výpadků napájení. Dojde-li k výpadku napájení, bude serverům zajištěno zálohové napájení pomocí připojených jednotek UPS. Dojde-li ke snížení napájení jednotky UPS připojení k aktivnímu serveru, systém se pokusí přepnout služby na pasivní server. Pokyny najdete níže.</p>
+   <ul>
+
+<li>Pokud je aktivní a pasivní server připojen ke stejnému síťovému přepínači, doporučujeme, abyste oba servery připojili ke stejnému zdroji napájení jako síťový přepínač.</li>
+<li>Pokud je aktivní a pasivní server připojen k odlišným síťovým přepínačům, které využívají odlišné zdroje napájení (např. elektřinu od různých dodavatelů energií), doporučujeme, abyste aktivní i pasivní server připojili k příslušným zdrojům napájení jako v případě připojených síťových přepínačů.</li>
+<li>Pokud je aktivní a pasivní server připojen k odlišným síťovým přepínačům, které využívají různé jednotky UPS, doporučujeme, abyste oba servery připojili k jedné z jednotek UPS a nikoli k různým jednotkám UPS. Pokud jednotka UPS nemá k dispozici napájení, aktivní server bude upozorněn a vstoupí do zabezpečeného režimu. Pasivní server bude řádně vypnut. Pokud jsou servery připojeny k různým jednotkám UPS, aktivní server nebude moci zaznamenat, zda jednotka UPS pasivního serveru má k dispozici napájení, a pasivní server tak může být neočekávaně vypnut.</li>
+   </ul>
+
+   
+<div class="section">
+<h4>Poznámka:</h4>
+<p>Zařízení Synology NAS podporuje připojení k místním zařízením a zařízením SNMP UPS. Další informace získáte v části <strong>Ovládací panel</strong> > <strong>Hardware</strong> > <strong>UPS</strong></p>
+</div>  
+ </body>
+</html>

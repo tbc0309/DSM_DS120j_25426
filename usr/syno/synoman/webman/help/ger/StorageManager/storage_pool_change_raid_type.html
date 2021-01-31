@@ -1,0 +1,143 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Den RAID-Typ eines Speicherpools ändern - Hilfe zu Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing storage pools on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+	
+</head>
+<body>
+<h2>Den RAID-Typ eines Speicherpools ändern</h2>
+
+<p>Speicherpools können von einem RAID-Typ auf einen anderen umgestellt werden, ohne dass vorhandene Daten verloren gehen. Sie können z. B. einen RAID 1-Speicherpool auf dem Synology NAS erstellen und ihn später zu RAID 5 ändern, wenn Sie weitere Laufwerke installieren. Dieser Artikel enthält Anweisungen zum Ändern des RAID-Typs von vorhandenen Speicherpools auf Ihrem Synology NAS. Bevor Sie den RAID-Typ eines Speicherpools ändern, lesen Sie bitte unten die <b>Laufwerksvoraussetzungen</b> und <b>Voraussetzungen und Einschränkungen von RAID-Typen</b> für Details zu den relevanten Anforderungen und Einschränkungen.
+
+<h3>Laufwerksvoraussetzungen</h3>
+
+<p>Um den RAID-Typ eines Speicherpools zu ändern, muss eine ausreichende Anzahl verfügbarer Laufwerke im Synology NAS installiert sein. Die Mindestanzahl an Laufwerken für jeden RAID-Typ können Sie der nachstehenden Tabelle entnehmen.</p>
+
+<table>
+  <tr>
+    <th width="50%">RAID-Typ</th>
+    <th width="50%">Mindestanzahl an Laufwerken</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 oder 5 (je nach Laufwerkskonfiguration von SHR-1)</td>
+  </tr>
+
+</table>
+
+</p>
+<h3>Voraussetzungen und Einschränkungen von RAID-Typen</h3>
+
+<p>Nur bestimmte RAID-Typen können zu anderen RAID-Typen geändert werden. RAID 1 kann beispielsweise zu RAID 5 geändert werden, nicht aber RAID 5 zu RAID 1. Weitere Informationen finden Sie in der nachstehenden Tabelle.</p>
+
+<table>
+  <tr>
+    <th width="30%">Aktueller RAID-Typ</th>
+    <th width="30%">Möglicher neuer RAID-Typ nach Änderung</th>
+    <th width="40%">Erforderliche zusätzliche Anzahl an Laufwerken</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1</td>
+    <td>1</td>
+  </tr>
+ <tr>
+    <td>Basic</td>
+    <td>RAID 5</td>
+	  <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+	  <td>1</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+	  <td>1</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+	  <td>1 oder 2 (je nach Laufwerkskonfiguration von SHR)</td>
+  </tr>
+
+</table>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+<li>Weitere Informationen zu SHR (Synology Hybrid RAID), finden Sie <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_is_Synology_Hybrid_RAID_SHR" target="_blank">hier</a>.</li>
+<li>Weitere Informationen zur Auswahl des RAID-Typs für einen Speicherpool finden Sie <a href="storage_pool_what_is_raid.html">hier</a>.</li>
+<li>Den voraussichtlichen Speicherplatzverbrauch können Sie mit dem <a href="https://www.synology.com/support/RAID_calculator" target="_blank">Synology RAID-Rechner</a> berechnen.</li>
+<li>Ein SHR-1-Speicherpool mit den folgenden Laufwerkskonfigurationen kann zwei zusätzliche Laufwerke erfordern, wenn er zu einem SHR-2-Speicherpool geändert wird:
+<ul>
+<li>Der Speicherpool enthält nur zwei Laufwerke.</li>
+<li>Alle Laufwerke haben unterschiedliche Kapazitäten.</li>
+<li>In einem RAID Array mit mindestens drei Laufwerken ist die Kapazität der beiden größten Laufwerke größer als jene der anderen Laufwerke.</li>
+</ul>
+</li>
+<li>Manche Modelle unterstützen die Änderung eines RAID 5-Speicherpools zu einem RAID 6-Speicherpool nicht.</li>
+</ul>
+</div>
+
+<h3>Den RAID-Typ ändern</h3>
+
+<h4>Bevor Sie beginnen:</h4>
+<p>Bevor Sie den RAID-Typ ändern, beachten Sie bitte Folgendes:</p>
+<ul>
+<li>Stellen Sie sicher, dass der Status des Speicherpools <b>In Ordnung</b> ist.</li>
+<li>Wenn Sie neue Laufwerke zu einem Speicherpool hinzufügen, müssen die neuen Laufwerke größer als das kleinste Laufwerk des Speicherpools sein. Außerdem muss der Typ der Laufwerke derselbe sein.</li>
+<li>Der RAID-Typ von RAID Arrays in einer RAID Group kann nicht geändert werden. Die Funktion RAID Group ist nur bei bestimmten Modellen verfügbar.<br><span class="note_head">Anmerkung:</span> Gehen Sie zu <a href="https://www.synology.com/products" target="_blank">dieser Webseite</a> und setzen Sie ein Häkchen im Kästchen oben rechts bei Ihrem Synology NAS und bei etwaigen anderen Modellen und klicken Sie dann unten rechts auf <b>Vergleichen</b>. Auf der Seite <b>Vergleichsergebnisse</b> wird angezeigt, ob Ihr Produkt RAID Group unterstützt.</li>
+</ul>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+
+<ul>
+<li>Wir empfehlen, Laufwerke aus der <a href="https://www.synology.com/compatibility" target=blank>Synology-Kompatibilitätsliste</a> zu verwenden, um Probleme zu vermeiden. Die Verwendung nicht kompatibler Laufwerke kann die Systemleistung beeinträchtigen oder sogar zu Datenverlust führen.</li>
+</ul>
+</div>
+<h4>RAID-Typ eines Speicherpools ändern:</h4>
+
+<ol>
+<li>Starten Sie den <strong>Speicher-Manager</strong>.</li>
+<img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/>
+<li>Gehen Sie zu <b>Speicherpool</b>.</li>
+<li>Wählen Sie den Speicherpool, dessen RAID-Typ Sie ändern möchten, und klicken Sie im Dropdown-Menü <b>Aktion</b> auf <b>RAID-Typ ändern</b>.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/change_raid_type.png" class="help_image"/>
+
+<li>Wählen Sie den gewünschten neuen RAID-Typ aus. Klicken Sie auf <b>Weiter</b>.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_raid.png" class="help_image"/>
+
+<li>Wählen Sie die Laufwerke aus, die zum vorhandenen Speicherpool hinzugefügt werden soll. Klicken Sie auf <b>Weiter</b>.<br><span class="note_head">Anmerkung:</span> Alle Daten auf den neu hinzugefügten Laufwerken werden gelöscht. Stellen Sie bitte sicher, dass Sie vorab Ihre Daten gesichert haben.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_disks.png" class="help_image"/>
+
+
+<li>Folgen Sie dem Assistenten, um den Vorgang abzuschließen.</li></ol>
+
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language"  charset="utf-8"/>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Wykonywanie kopii zapasowej danych na urządzeniu Synology NAS w celu zapewnienia bezpieczeństwa danych.</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>Tworzenie kopii zapasowej serwera Synology NAS</h1>
+<div class="tutorials_content"><img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" /><p>Nieoczekiwana utrata danych spowodowana awariami dysk&oacute;w twardych, klęskami żywiołowymi lub atakami typu ransomware może zagrozić bezpieczeństwu najważniejszych informacji. W celu zapobieżenia utracie danych w niefortunnych okolicznościach dość powszechne jest stosowanie strategii ochrony danych 3-2-1 polegającej na zarządzaniu wieloma wersjami kopii zapasowej danych. Zapewnia ona dodatkową ochronę na wypadek uszkodzenia wersji bieżącej danych lub zarażenia jej oprogramowaniem ransomware.</p>
+<p>Strategia ochrony danych 3-2-1 oznacza posiadanie co najmniej trzech kopii danych, z kt&oacute;rych jedna jest przechowywana lokalnie, a pozostałe dwie na dw&oacute;ch r&oacute;żnych urządzeniach. Użytkownik indywidualny możne rozważyć przyjęcie tej strategii w celu uzyskania ochrony na poziomie korporacyjnym dla takich zasob&oacute;w, jak filmy i zdjęcia rodzinne oraz niestandardowe albumy lub zdecydować się na przechowywanie co najmniej dw&oacute;ch kopii danych w celu zapewnienia ich dostępności. W przypadku użytkownik&oacute;w biznesowych zaleca się stosowanie strategii 3-2-1 w celu zapewnienia stałej ochrony danych biznesowych oraz informacji o znaczeniu krytycznym dla funkcjonowania przedsiębiorstwa.</p>
+<p>Z tego artykułu dowiesz się, jak za pomocą bezpłatnych narzędzi Synology dostępnych w <strong>Centrum pakiet&oacute;w</strong> DSM, takich jak <strong>Hyper Backup</strong>, <strong>Snapshot Replication</strong>, <strong>USB Copy</strong> i <strong>Cloud Sync</strong>, stworzyć własne rozwiązanie do ochrony danych bazujące na strategii 3-2-1.</p>
+
+</div>
+
+<h2>Spis treści</h2>
+<ol>
+<li><a href="#t1">Tworzenie kopii zapasowej na tym samym serwerze Synology NAS w celu dysponowania kopią lokalną obejmującą wiele wersji</a></li>
+<li><a href="#t2">Tworzenie kopii zapasowej w innym miejscu docelowym</a></li>
+<ul>
+<li>2.1 <a href="#t2.1">Na urządzeniach zewnętrznych (USB)</a></li>
+<li>2.2 <a href="#t2.2">Na innym serwerze Synology NAS</a></li>
+<li>2.3 <a href="#t2.3">Na serwerach plik&oacute;w</a></li>
+<li>2.4 <a href="#t2.4">W usługach chmurowych</a></li>
+</ul>
+<li><a href="#t3">Por&oacute;wnanie opisanych w tym artykule rozwiązań do tworzenia kopii zapasowych</a></li>
+</ol>
+<hr size="1" /><!--1--><h3 class="list_head"><a name="t1" id="t1"></a>1. Tworzenie kopii zapasowej na tym samym serwerze Synology NAS w celu dysponowania kopią lokalną obejmującą wiele wersji</h3>
+<p>Lokalna kopia obejmująca wiele wersji umożliwia szybkie odzyskiwanie danych w przypadku ich uszkodzenia lub przypadkowego usunięcia pliku, ponieważ kopia danych może być pobierana bezpośrednio z serwera Synology NAS, ale nawet wtedy, gdy takie działanie jest podejmowane, awaria macierzy RAID i dysku twardego nadal mogą spowodować katastrofalną utratę danych. Z tego względu zaleca się utworzenie zar&oacute;wno lokalnej kopii zapasowej obejmującej wiele wersji w celu zapewnienia wydajności odzyskiwania, jak r&oacute;wnież dodatkowej kopii w innym miejscu docelowym w celu zapewnienia dodatkowej ochrony danych.</p>
+<p>Kolejna sekcja zawiera kr&oacute;tkie wprowadzenie poświęcone narzędziom <strong>Hyper Backup</strong> i <strong>Snapshot Replication</strong>. Wyb&oacute;r pakietu zależy od funkcjonalności i potrzeb użytkownika.</p>
+<p>Aplikacja <strong>Hyper Backup</strong> pozwala tworzyć kopie zapasowe aplikacji i konfiguracji systemowych oraz przywracać je wtedy, gdy to konieczne w celu zachowania sp&oacute;jności danych. Co więcej, aplikacja ta jest wyposażona w funkcję blokowej, przyrostowej kopii zapasowej, co oznacza, że kopia zapasowa jest tworzona tylko dla plik&oacute;w, kt&oacute;re uległy zmianie w por&oacute;wnaniu z wersją pierwotną. Z kolei pliki, kt&oacute;rym zmieniono nazwę lub zostały zduplikowane, będą usuwane przez funkcję usuwania duplikat&oacute;w między wersjami w celu uniknięcia zużycia pamięci.</p>
+<p>Jeśli posiadany model serwera NAS obsługuje system plik&oacute;w Btrfs<sup>1</sup>, warto rozważyć utworzenie lokalnej kopii zapasowej przy użyciu narzędzia&nbsp;<strong>Snapshot Replication</strong>.&nbsp;Proces tworzenia migawki trwa zaledwie kilka sekund, a jego wpływ na wydajność systemu jest minimalny. W por&oacute;wnaniu aplikacją Hyper Backup narzędzie Snapshot Replication jest szybsze pod względem czasu tworzenia/przywracania kopii zapasowej, a ponadto obsługuje foldery wsp&oacute;łdzielone i jednostki iSCSI LUN.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Aby dowiedzieć się, jak krok po kroku utworzyć zadanie tworzenia kopii zapasowej w narzędziu Hyper Backup i Snapshot Replication, należy zapoznać się z następującymi samouczkami:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div>
+
+<h3 class="list_head"><a name="t2" id="t2"></a>2. Tworzenie kopii zapasowej w innym miejscu docelowym</h3>
+<p>Aby zabezpieczyć się przed utratą danych w wyniku uszkodzenia macierzy RAID lub awarii sprzętowej, można rozważyć utworzenie dodatkowej kopii zapasowej w jednym z zewnętrznych miejsc docelowych. Kolejne sekcje są poświęcone wybranym narzędziom pozwalającym na realizację wspomnianych zadań tworzenia kopii zapasowej.</p><!--2.1--><h4 class="list_head"><a name="t2.1" id="t2.1"></a>2.1 Na urządzeniach zewnętrznych (USB)</h4>
+<p>Tworzenie kopii zapasowej na nośnikach USB jest łatwe i wygodne z uwagi na popularność tych urządzeń. Ta metoda obsługuje szereg system&oacute;w plik&oacute;w i urządzeń zewnętrznych i umożliwia m.in. tworzenie kopii zapasowych informacji o znaczeniu krytycznym w formacie RDX.</p>
+<p>Aplikacja <strong>Hyper Backup</strong> pozwala tworzyć dokładne kopie zapasowe aplikacji i konfiguracji systemowych oraz przywracać je wtedy, gdy to konieczne. Co więcej, aplikacja ta jest wyposażona w funkcję blokowej, przyrostowej kopii zapasowej, co oznacza, że kopia zapasowa jest tworzona tylko dla plik&oacute;w, kt&oacute;re uległy zmianie w por&oacute;wnaniu z wersją pierwotną. Z kolei pliki, kt&oacute;rym zmieniono nazwę lub zostały zduplikowane, będą usuwane przez funkcję usuwania duplikat&oacute;w między wersjami w celu uniknięcia zużycia pamięci.</p>
+<p>W por&oacute;wnaniu z aplikacją Hyper Backup narzędzie <strong>USB Copy</strong> nie obsługuje tworzenia kopii zapasowej aplikacji i konfiguracji systemowych, a brak funkcji usuwania duplikat&oacute;w między wersjami może obniżać wydajność pamięci masowej, jednak narzędzie to rozpoczyna tworzenie kopii zapasowej danych w momencie podłączenia urządzenia zewnętrznego, a po zakończeniu procesu odłącza je automatycznie. Warto także wspomnieć, że format kopii zapasowej danych utworzonej w narzędziu USB Copy jest możliwy do odczytu w przeciwieństwie do kopii utworzonej w aplikacji Hyper Backup.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Aby dowiedzieć się, jak krok po kroku utworzyć kopię zapasową danych na urządzeniach zewnętrznych w narzędziu Hyper Backup i USB Copy, należy zapoznać się z następującymi samouczkami:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/USBCopy/usbcopy_general" target="_blank">USB Copy</a></li>
+</ul>
+</div><!--2.2--><h4 class="list_head"><a name="t2.2" id="t2.2"></a>2.2 Na innym serwerze Synology NAS</h4>
+<p>Podczas tworzenia kopii zapasowej na innym serwerze Synology NAS transfer danych odbywa się z wykorzystaniem protokołu NAS firmy Synology.</p>
+<p>Przy użyciu wspomnianej wcześniej aplikacji <strong>Hyper Backup</strong>, kt&oacute;ra jest wyposażona w technologię optymalizacji wydajności pamięci masowej i zapewnia obsługę kopii zapasowych aplikacji oraz konfiguracji systemowych, można z łatwością utworzyć kopię zapasową danych na zdalnym urządzeniu NAS. Wystarczy zainstalować na nim pakiet <strong>Hyper Backup Vault</strong>, kt&oacute;ry umożliwia podgląd otrzymanych zadań tworzenia kopii zapasowej oraz ich dziennik&oacute;w. Aplikacja Hyper Backup obsługuje zar&oacute;wno system plik&oacute;w EXT4, jak i Btrfs, jednak format kopii zapasowej danych nie jest możliwy do odczytu.</p>
+<p>Aplikacja <strong>Snapshot Replication</strong> oferuje wygodę replikowania migawek na wielu zdalnych serwerach Synology NAS, przy czym replikowane są jedynie bloki danych, kt&oacute;re zostały zmienione, co skutkuje mniejszym obciążeniem przepustowości i oszczędnością czasu. Dla większej elastyczności zarządzania pojedynczą replikację można rozszerzyć na maksymalnie trzy lokalizacje zdalne. Aplikacja Snapshot Replication jest przeznaczona dla modeli obsługujących system plik&oacute;w Btrfs<sup>1</sup>.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Aby dowiedzieć się, jak krok po kroku utworzyć kopię zapasową danych na innym serwerze Synology NAS w narzędziu Hyper Backup i Snapshot Replication, należy zapoznać się z następującymi samouczkami:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div><!--2.3--><h4 class="list_head"><a name="t2.3" id="t2.3"></a>2.3 Na serwerach plik&oacute;w</h4>
+<p>Ta metoda tworzenia kopii zapasowych obsługuje protokoły rsync, HTTP, WebDAV , OpenStack i S3, a ponadto zużywa więcej pamięci masowej na pamięć podręczną po stronie klienta w por&oacute;wnaniu z tworzeniem kopii zapasowej na innym serwerze Synology NAS.</p>
+<p>Aplikacja <strong>Hyper Backup</strong> pozwala tworzyć kopie zapasowe danych na serwerach plik&oacute;w z wykorzystaniem protokoł&oacute;w rsync i HTTP (WebDAV i OpenStack). Jej natywna obsługa wielu wersji pomaga zwiększyć poziom ochrony danych, natomiast funkcja usuwania duplikat&oacute;w między wersjami zmniejsza ilość pamięci masowej potrzebnej do przechowywania wielu wersji. Co więcej, obsługa tworzenia kopii zapasowych aplikacji i konfiguracji systemowych ułatwia przywracanie pierwotnych ustawień.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Aby dowiedzieć się, jak krok po kroku utworzyć kopię zapasową danych na serwerach plik&oacute;w w narzędziu Hyper Backup, należy zapoznać się z <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">tym samouczkiem</a>.</p>
+</div><!--2.4--><h4 class="list_head"><a name="t2.4" id="t2.4"></a>2.4 W usługach chmurowych</h4>
+<p>Tworzenie kopii zapasowych danych w usługach chmurowych to najbardziej elastyczna metoda wykorzystująca zasoby zewnętrzne, zwłaszcza w kontekście wykorzystania przestrzeni, ceny wyjściowej i koszt&oacute;w konserwacji sprzętu. Przedsiębiorstwo zachowuje możliwość pełnej skalowalności rozwiązania w miarę zmieniających się potrzeb bez konieczności ponoszenia dodatkowych koszt&oacute;w z tytułu inwestycji w nowe wdrożenia IT lub infrastrukturę sprzętową.</p>
+<p>Aplikacja <strong>Hyper Backup</strong> pozwala tworzyć kopie zapasowe danych w usłudze chmurowej firmy Synology o nazwie&nbsp;<a href="https://c2.synology.com" target="_blank">Synology C2</a>. Platforma ta zapewnia użytkownikom serwer&oacute;w Synology NAS dostępność danych w chmurze. Oferta plan&oacute;w cenowych jest zr&oacute;żnicowana, a dostęp do plik&oacute;w i ich przywracanie jest możliwe z poziomu dowolnej przeglądarki internetowej i bezpieczne dzięki technologii szyfrowania.</p>
+<p>Opr&oacute;cz usługi chmurowej Synology możesz także wykonywać kopie zapasowe danych do innych publicznych chmur. Hyper Backup nie tylko umożliwia tworzenie kopii zapasowych wielu wersji do chmur publicznych, ale także zapewnia sp&oacute;jność danych kopii zapasowych poprzez tworzenie kopii zapasowych aplikacji i konfiguracji systemowych.</p>
+<p>Z włączoną funkcją przesyłania jednokierunkowego aplikacja <strong>Cloud Sync</strong> pozwala synchronizować dane przechowywane na serwerze Synology NAS z chmurami publicznymi w czasie rzeczywistym.&nbsp;Należy pamiętać, że pakiet ten przechowuje jedynie bieżącą wersję wszystkich plik&oacute;w przechowywanych na serwerze Synology NAS. Jeśli jednak używana przez Ciebie usługa chmurowa obsługuje funkcję przechowywania wersji, zachowujesz możliwość konfigurowania zadań tworzenia kopii zapasowej danych w wielu wersjach. Pliki synchronizowane w miejscu docelowym zachowują format danych pierwotnych.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Aby dowiedzieć się, jak krok po kroku utworzyć kopię zapasową danych w usługach chmurowych za pomocą narzędzia Hyper Backup i Cloud Sync, należy zapoznać się z następującymi samouczkami:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_cloud_services_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/CloudSync/cloudsync" target="_blank">Cloud Sync</a></li>
+</ul>
+</div><!--3--><h3 class="list_head"><a name="t3" id="t3"></a>3. Por&oacute;wnanie opisanych w tym artykule rozwiązań do tworzenia kopii zapasowych</h3>
+<p>Aby zapobiec utracie danych w wyniku awarii sprzętowej, klęski żywiołowej lub atak&oacute;w typu ransomware, zaleca się stosowanie rozwiązań do tworzenia kopii zapasowych wykorzystujących zasoby zewnętrzne. Dla użytkownik&oacute;w nieposiadających własnej infrastruktury najlepszym rozwiązaniem jest tworzenie kopii zapasowych w chmurze, ponieważ usługi chmurowe pozwalają wyeliminować koszty sprzętu i jego konserwacji, a także energii elektrycznej i amortyzacji. Użytkownicy mogą dodatkowo wybrać rozwiązanie dostosowane do potrzeb, ponieważ dostawcy usług chmurowych oferują elastyczne plany cenowe. Jeśli jednak dysponujesz własną infrastrukturą, np. nośnikami USB, serwerami Synology NAS lub serwerami plik&oacute;w, możesz wykorzystać dostępną przestrzeń na kopię zapasową danych z serwera NAS. Pamiętaj jednak, aby umieścić urządzenie docelowe z dala od źr&oacute;dłowego serwera NAS, aby zapobiec potencjalnej utracie danych.</p>
+
+<p>Kopie danych przechowywane w zasobach zewnętrznych pomagają zwiększyć poziom ochrony, jednak najszybszym sposobem na odzyskanie danych jest użycie kopii lokalnej. Z tego względu zalecamy skorzystanie z funkcji oferowanych przez aplikację Hyper Backup lub Snapshot Replication. Za pomocą tych narzędzi możesz utworzyć kopię danych z serwera NAS na tym samym serwerze Synology NAS lub innych urządzeniach, kt&oacute;re należy umieścić blisko danych źr&oacute;dłowych w celu zwiększenia wydajności procesu przywracania.</p>
+
+<p>Znając zasady strategii 3-2-1 i dysponując co najmniej dwiema kopiami zapasowymi danych, można mieć pewność, że dane są nie tylko dostępne, ale także bezpieczne.</p>
+
+<p>W kolejnej sekcji znajdziesz podsumowanie poświęcone wszystkim opisanym w tym artykule narzędziom do tworzenia kopii zapasowych, a także por&oacute;wnanie ich funkcji. Dzięki tej tabeli będzie Ci łatwiej wybrać pakiet oprogramowania, kt&oacute;re pomoże Ci w realizacji założonych cel&oacute;w.</p>
+
+<table id="faqtable" cellspacing="5" cellpadding="5" width="100%"><tbody>
+    <tr>
+      <th width="8%">Miejsce docelowe kopii zapasowych</th>
+      <th width="8%">Hyper Backup</th>
+      <th width="8%">Snapshot Replication<sup>1</sup></th>
+      <th width="8%">USB Copy</th>
+      <th width="8%">Cloud Sync</th>
+    </tr>
+
+    <tr>
+      <td>Lokalne foldery wsp&oacute;łdzielone</td>
+      <td>Tak</td>
+      <td>Tak</td>
+      <td>Nie</td>
+      <td>Nie</td>
+    </tr>
+
+    <tr>
+      <td>Urządzenia zewnętrzne (USB)</td>
+      <td>Tak</td>
+      <td>Nie</td>
+      <td>Tak</td>
+      <td>Nie</td>
+    </tr>
+    
+    <tr>
+      <td>Inny serwer Synology NAS</td>
+      <td>Tak</td>
+      <td>Tak</td>
+      <td>Nie</td>
+      <td>Nie</td>
+    </tr>
+
+    <tr>
+      <td>serwery plik&oacute;w</td>
+      <td>Tak</td>
+      <td>Nie</td>
+      <td>Nie</td>
+      <td>Synchronizacja danych tylko za pośrednictwem protokołu WebDAV i OpenStack</td>
+    </tr>
+    
+<tr>
+      <td>Chmury publiczne</td>
+      <td>Tak</td>
+      <td>Nie</td>
+      <td>Nie</td>
+      <td>Tak</td>
+    </tr>
+
+<tr>
+	<td colspan="5"><strong>Podsumowanie funkcji</strong></td>
+</tr>
+
+<tr>
+      <td>Tworzenie kopii zapasowych aplikacji<sup>2</sup> i konfiguracji systemowych</td>
+      <td>Tak</td>
+      <td>Nie</td>
+      <td>Nie</td>
+      <td>Nie</td>
+    </tr>
+    
+    <tr>
+      <td>Wydajność tworzenia kopii zapasowych i przywracania danych</td>
+      <td>Niska</td>
+      <td>Wysoka</td>
+      <td>Średni</td>
+      <td>Średni</td>
+    </tr>
+    
+    <tr>
+      <td>Efektywność przechowywania</td>
+      <td>Średni</td>
+      <td>Wysoka</td>
+      <td>Niska</td>
+      <td>Niska</td>
+    </tr>
+    
+    <tr>
+      <td>Częstotliwość wykonywania kopii zapasowej</td>
+      <td>Codziennie</td>
+		<td>5 min (folder wsp&oacute;łdzielony)</br> 15 min (iSCSI LUN)</td>
+      <td>Obsługa podłączania urządzeń bez konieczności wyłączania/restartowania całego systemu</td>
+      <td>Synchronizacja po wprowadzeniu zmian</td>
+    </tr>
+
+</tbody></table>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ol>
+	<li>Aplikacja Snapshot Replication obsługuje wyłącznie system plik&oacute;w Btrfs. System EXT4 jest nieobsługiwany. Listę modeli obsługujących aplikację Snapshot Replication można znaleźć na&nbsp;<a href="https://www.synology.com/dsm/packages/SnapshotReplication" target="_blank">tej stronie</a>.</li>
+	<li>Liczba aplikacji obsługiwanych przez funkcję tworzenia kopii zapasowych jest ograniczona. Aby uzyskać więcej informacji na ten temat, należy odwiedzić stronę aplikacji kreatora kopii zapasowych.</li>
+</ol>
+</div>
+</body>
+</html>

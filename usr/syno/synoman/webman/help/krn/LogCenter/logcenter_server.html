@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>로그 수신 - Synology DSM 도움말</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Turn your Synology NAS into a syslog server to receive logs from other network devices.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+</head>
+<body>
+<h2>로그 수신</h2>
+<p>Synology NAS은(는) 네트워크를 통해 클라이언트 장치에서 로그를 수신하기 위한 syslog 서버 역할을 할 수 있습니다. 로그를 수신하는 데 다음 3개의 형식이 지원됩니다:  <strong>BSD </strong>(RFC 3164), <strong>IETF </strong>(RFC 5424) 및 <strong>사용자 지정</strong>. 수신된 모든 로그는 로그 데이터베이스에 저장됩니다.</p>
+
+<div class="section">
+<h4>시작하기 전에:</h4>
+<p><strong>로그 센터</strong> > <strong>아카이브 설정</strong>으로 이동하고 아카이브 로그를 저장할 위치를 선택합니다.</p>
+</div>
+<h3>표준 로그 수신 설정하기:</h3>
+<ol>
+<li><strong>로그 센터</strong> > <strong>로그 수신</strong> > <strong>표준</strong>으로 이동합니다.</li>
+<li>필요한 형식 아래에서 <b>다른 장치에서 로그 받기</b> 옵션을 선택하여 BSD 및 IETF 로그 수신을 활성화할 수 있습니다.</li>
+<li><strong>전송 프로토콜</strong>에서 <strong>UDP</strong> 또는 <strong>TCP</strong>를 선택합니다.</li>
+<li><strong>포트</strong>에 syslog 메시지를 수신하는 데 필요한 포트 번호를 지정합니다. 기본 포트 번호는 <strong>514</strong>입니다.</li>
+<li>전송 로그를 안전하게 보호하려면 <strong>보안 연결(SSL) 활성화</strong> 옵션을 선택합니다. 이 옵션은 <b>TCP</b>를 선택할 때만 사용할 수 있습니다.
+</li>
+<li><b>적용</b>을 클릭하여 설정을 저장합니다.</li>
+</ol>
+<!--DSM#62962: Customized rule receiving-->
+
+<h3>사용자 지정 로그 수신 설정하기:</h3>
+
+	<ol>
+	<li><strong>로그 센터</strong> > <strong>로그 수신</strong> > <strong>사용자 지정</strong>으로 이동합니다.</li>
+	<li><strong>생성</strong>을 클릭합니다.</li>
+	<li><strong>이름</strong>에 고유한 규칙 이름을 입력합니다.</li>
+	<li><strong>규칙 매개변수</strong>에 구문 분석 규칙을 입력합니다. 패턴 구문 분석기 생성에 대한 자세한 내용은 아래 참고를 참조하십시오.</li>
+	<li><strong>전송 프로토콜</strong>에서 <strong>UDP</strong> 또는 <strong>TCP</strong>를 선택합니다.</li>
+	<li><strong>포트</strong>에 syslog 메시지를 수신하는 데 필요한 포트 번호를 지정합니다. 기본 포트 번호는 <strong>514</strong>입니다.</li>
+	<li>전송 로그를 안전하게 보호하려면 <strong>보안 연결(SSL) 활성화</strong> 옵션을 선택합니다. 이 옵션은 <b>TCP</b>를 선택할 때만 사용할 수 있습니다.</li>
+	<li><b>확인</b>을 클릭하여 설정을 저장합니다.</li>
+	</ol>
+
+<div class="section">
+<h4>참고:</h4>
+<p>패턴 구문 분석기에 대한 자세한 내용은 <a href="http://www.balabit.com/sites/default/files/documents/syslog-ng-ose-3.5-guides/en/syslog-ng-ose-v3.5-guide-admin/html/syslog-ng-patterndb-using-parsers.html" target="_blank">여기</a>에서 찾을 수 있습니다. 참고를 위해 <a href="http://www.balabit.com/sites/default/files/documents/syslog-ng-ose-3.5-guides/en/syslog-ng-ose-v3.5-guide-admin/html/patterndb-download.html" target="_blank">샘플 패턴</a>을 다운로드할 수도 있습니다.</p>
+</div>
+
+<h3>사용자 지정 규칙 관리하기:</h3>
+
+	<ol>
+	<li>기존 사용자 지정 규칙을 선택합니다.</li>
+	<li>다음 중에서 선택합니다:</li>
+    <ul>
+    <li><strong>편집:</strong> 선택한 사용자 지정 규칙을 편집합니다.</li>
+<li><strong>삭제:</strong> 선택한 사용자 지정 규칙을 삭제합니다.</li>
+<li><strong>활성화:</strong> 선택한 사용자 지정 규칙을 활성화합니다.</li>
+<li><strong>비활성화:</strong> 선택한 사용자 지정 규칙을 비활성화합니다.</li>
+    </ul>
+	</ol>
+
+
+<h3>인증서 내보내기</h3>
+<p><strong>보안 연결(SSL) 활성화</strong> 옵션을 활성화하면 <strong>인증서 내보내기</strong> 단추를 클릭하여 Synology NAS에 로그를 전송할 때, 다른 장치 인증에 사용되는 인증서를 내보낼 수 있습니다.</p>
+
+</body>

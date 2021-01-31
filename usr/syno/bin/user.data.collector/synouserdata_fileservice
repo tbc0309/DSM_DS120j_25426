@@ -1,0 +1,264 @@
+#!/bin/sh
+
+BIN_GET_KEY_VALUE="/bin/get_key_value"
+BIN_CAT="bin/cat"
+BIN_SED="/bin/sed"
+BIN_GREP="/bin/grep"
+BIN_SCHEDULE_TASK="/usr/syno/bin/synoschedtask"
+SYNOINFO_CONF="/etc/synoinfo.conf"
+SMB_CONF="/etc/samba/smb.conf"
+SMBINFO_CONF="/etc/samba/smbinfo.conf"
+SMBSTATUS="/usr/bin/smbstatus"
+WBINFO="/usr/bin/wbinfo"
+NET="/usr/bin/net"
+TIMEOUT="/usr/bin/timeout"
+GETKEYINT() {
+	local File="$1"
+	local Key="$2"
+	local Value=`/usr/syno/bin/synogetkeyvalue "$File" "$Key"`
+	local ret=0
+	if [ "x$Value" = "x" ]; then
+		Value=0
+		ret=1
+	fi
+	echo -n "$Value"
+	return $ret
+}
+GETKEY() {
+	local File="$1"
+	local Key="$2"
+	local Value=`/usr/syno/bin/synogetkeyvalue "$File" "$Key"`
+	local ret=0
+	if [ "x$Value" = "x" ]; then
+		Value=""
+		ret=1
+	fi
+	echo -n "$Value"
+	return $ret
+}
+GETDOMAINBASICINFO() {
+	SERVER_OS=`GETKEY /usr/syno/etc/private/domain_info rpc:server_os`
+	if [ "x$SERVER_OS" = "x" ]; then
+		DC_HOSTNAME=`$TIMEOUT 20 $NET ads lookup 2>/dev/null | $BIN_GREP "Pre-Win2k Hostname:" | /usr/bin/cut -f2`
+		SERVER_OS=`$TIMEOUT 20 $NET ads search "(samaccountname=${DC_HOSTNAME}\$)" 'operatingSystem' -P 2>/dev/null | $BIN_GREP operatingSystem | $BIN_SED -e 's/operatingSystem: //'`
+	fi
+	echo -n ",\"DC_OS\":\"$SERVER_OS\""
+	DOMAIN_USER_NUM=`/usr/syno/sbin/synouser --enum domain 2>/dev/null | /usr/bin/wc -l`
+	DOMAIN_USER_NUM=`expr $DOMAIN_USER_NUM - 1`
+	echo -n ",\"domain_user_num\":$DOMAIN_USER_NUM"
+	DOMAIN_GROUP_NUM=`/usr/syno/sbin/synogroup --enum domain 2>/dev/null | /usr/bin/wc -l`
+	DOMAIN_GROUP_NUM=`expr $DOMAIN_GROUP_NUM - 1`
+	echo -n ",\"domain_group_num\":$DOMAIN_GROUP_NUM"
+}
+COMMA_1=""
+echo -n "{"
+	echo -n "$COMMA_1\"collector_version\":3"
+	COMMA_1=","
+	echo -n "$COMMA_1\"domain\":{"
+    TRUST_DOMAIN=`GETKEY $SYNOINFO_CONF "supporttrustdomain"`
+    echo -n \"trust_domain\":\"$TRUST_DOMAIN\",
+
+    ADVANCED_DOMAIN_OPTION=`GETKEY $SMBINFO_CONF "advanced_domain_option"`
+    echo -n \"advanced_domain_option\":\"$ADVANCED_DOMAIN_OPTION\",
+    REGISTER_NIC=`GETKEY $SMBINFO_CONF "register nic"`
+    if [ "$REGISTER_NIC" == "" ]; then
+        echo -n \"register_nic\":\"ALL\",
+    else
+        echo -n \"register_nic\":\"OTHER\",
+    fi
+    
+    SCHEDULE_TYPE="None"
+    TASK_ID=`$BIN_SCHEDULE_TASK --get state=enabled | $BIN_GREP ID | $BIN_SED 's/^.*\[//g' | $BIN_SED 's/\].*$//g'`
+    for x in $TASK_ID 
+    do
+        RESULT=`$BIN_SCHEDULE_TASK --get id=$x`
+        IS_DOMAIN=`echo $RESULT | $BIN_GREP "updateDomain"`
+        if [ $? -eq 0 ]; then
+            SCHEDULE_TYPE=`echo $RESULT | $BIN_GREP "Type:" | $BIN_SED 's/^.*Type: \[//g' | $BIN_SED 's/\].*$//g'`
+        fi
+    done
+    echo -n \"schedule_type\":\"$SCHEDULE_TYPE\",
+
+    SYNO_SYNC_DCTIME=`GETKEY $SMB_CONF "syno sync dctime"`
+    echo -n \"syno_sync_dctime\":\"$SYNO_SYNC_DCTIME\",
+    SERVER_SIGNING=`GETKEY $SMBINFO_CONF "server signing"`
+    echo -n \"server_signing\":\"$SERVER_SIGNING\",
+    NT4_ENUM_ENABLE=`GETKEY $SMBINFO_CONF "enable nt4 enum"`
+    echo -n \"nt4_enum_enable\":\"$NT4_ENUM_ENABLE\",
+    DOMAIN_ADMINS_DISABLE=`GETKEY $SMBINFO_CONF "disable domain admins"`
+    echo -n \"domain_admins_disable\":\"$DOMAIN_ADMINS_DISABLE\",
+    WINBIND_EXPAND_GROUPS=`GETKEY $SMBINFO_CONF "winbind expand groups"`
+    if [ "$WINBIND_EXPAND_GROUPS" == "" ]; then
+        WINBIND_EXPAND_GROUPS=1
+    fi
+    echo -n \"winbind_expand_group\":$WINBIND_EXPAND_GROUPS
+
+	############# Domain ##############
+	SECURITY=`/usr/syno/bin/synogetkeyvalue $SMB_CONF security`
+	############# only collect ads domain #############
+	if [ "x$SECURITY" = "xads" ]; then
+		echo -n ",\"join_type\":\"ads\""
+		GETDOMAINBASICINFO
+		TOTAL_DOMAIN_NUM=`$WBINFO -e 2>/dev/null | /usr/bin/wc -l`
+		echo -n ",\"domain_num\":$TOTAL_DOMAIN_NUM"
+		echo -n ",\"response_time\":{"
+		COMMA_2=""
+		MAJOR=1
+		$WBINFO -m --verbose 2>/dev/null | while read Domain FQDN Line
+		do
+			if [ "x$FQDN" = "xName" -o "x$FQDN" = "xNone" ]; then
+				continue
+			fi
+			/bin/ping -w1 $FQDN 2>/dev/null > /dev/null
+			if [ "$?" = "0" ]; then
+				TIME=`/usr/bin/time -p $NET ads info -S $FQDN 2>&1 | grep real | cut -d' ' -f2`
+			else
+				TIME="\"fail\""
+			fi
+			if [ $MAJOR -eq 1 ]; then
+				echo -n "\"major\":$TIME,\"trust\":["
+				MAJOR=0
+				continue
+			fi
+			echo -n "${COMMA_2}${TIME}"
+			COMMA_2=","
+		done
+		echo -n "]"
+		echo -n "}"
+	elif [ "x$SECURITY" = "xdomain" ]; then
+		echo -n ",\"join_type\":\"nt4\""
+		GETDOMAINBASICINFO
+	fi
+	echo -n "}"
+
+	echo -n "$COMMA_1\"smb\":{"
+		COMMA_1=","
+		/usr/syno/sbin/synoservice --is-enabled samba 2>&1 > /dev/null
+		if [ $? = 1 ]; then
+			echo -n "\"is_enable\":\"yes\""
+		else
+			echo -n "\"is_enable\":\"no\""
+		fi
+		############# Samba #############
+        MAX_PROTOCOL=`GETKEY $SMB_CONF "max protocol"`
+        echo -n ,\"max_protocol\":\"$MAX_PROTOCOL\"
+        SMB_ENCRYPT=`GETKEY $SMBINFO_CONF "smb encrypt"`
+        if [ "$SMB_ENCRYPT" == "" ]; then 
+            SMB_ENCRYPT="auto"
+        fi
+        echo -n ,\"smb_encrypt\":\"$SMB_ENCRYPT\"
+
+		ENABLE_VETO_FILE=`GETKEY ${SMBINFO_CONF} "enable veto files"`
+                if [ "$ENABLE_VETO_FILE" = "yes" ] ; then
+		        VETO_FILE=`GETKEY ${SMBINFO_CONF} "veto files"`
+        		echo -n ",\"veto files\":\"$VETO_FILE\""
+                else
+        		echo -n ",\"veto files\":\"\""
+                fi
+        FOLLOW_SYMLINK=`GETKEY ${SMBINFO_CONF} "follow symlinks"`
+        if [ "$FOLLOW_SYMLINK" == "yes" ]; then
+            echo -n ,\"follow_symlink\":\"yes\"
+        else
+            echo -n ,\"follow_symlink\":\"no\"
+        fi
+        WIDELINK=`GETKEY ${SMBINFO_CONF} "wide links"`
+        INSECURE_WIDELINK=`GETKEY ${SMBINFO_CONF} "allow insecure widelinks"`
+        if [ "$WIDELINK" == "yes" -a "$INSECURE_WIDELINK" == "yes" ]; then
+            echo -n ,\"widelink\":\"yes\"
+        else
+            echo -n ,\"widelink\":\"no\"
+        fi
+        CREATE_MASK=`GETKEY ${SMBINFO_CONF} "create mask"`
+        DIR_MASK=`GETKEY ${SMBINFO_CONF} "directory mask"`
+        if [ "$CREATE_MASK" != "" -a "$DIR_MASK" != "" ]; then
+            echo -n ,\"smb_umask_enable\":\"yes\"
+        else
+            echo -n ,\"smb_umask_enable\":\"no\"
+        fi
+        MSDFS_ENABLE=`GETKEY ${SMBINFO_CONF} "msdfs root"`
+        if [ "$MSDFS_ENABLE" == "yes" ]; then
+            echo -n ,\"msdfs_enable\":\"yes\"
+        else
+            echo -n ,\"msdfs_enable\":\"no\"
+        fi
+        
+		############# use smbstatus to get current smb connection #############
+		SMB_CONN_NUM=`$SMBSTATUS -S 2> /dev/null | /usr/bin/wc -l`
+		## remove additional line from smbstatus ##
+		SMB_CONN_NUM=$(($SMB_CONN_NUM - 1))
+		echo -n ",\"connection_num\":$SMB_CONN_NUM"
+
+		declare -A SMBX_NUM
+		SMBX_NUM=( ["NT1"]=0 ["SMB2_02"]=0 ["SMB2_10"]=0 ["SMB3"]=0 )
+		SMB_CONN_VER=`$SMBSTATUS -S 2> /dev/null | /usr/bin/awk '{{print $6;}}'`
+		for ver in ${SMB_CONN_VER}
+		do
+			if [ $ver = "NT1" ]; then
+				SMBX_NUM["NT1"]=`expr ${SMBX_NUM["NT1"]} + 1`
+			elif [ $ver = "SMB2_02" ]; then
+				SMBX_NUM["SMB2_02"]=`expr ${SMBX_NUM["SMB2_02"]} + 1`
+			elif [ $ver = "SMB2_10" ]; then
+				SMBX_NUM["SMB2_10"]=`expr ${SMBX_NUM["SMB2_10"]} + 1`
+			elif [[ $ver =~ SMB3* ]]; then
+				SMBX_NUM["SMB3"]=`expr ${SMBX_NUM["SMB3"]} + 1`
+			fi
+		done
+		for key in ${!SMBX_NUM[@]}
+		do
+			echo -n ",\"${key}_num\":${SMBX_NUM[$key]}"
+		done
+	echo -n "}"
+
+	echo -n "$COMMA_1\"nfs\":{"
+		COMMA_1=","
+		/usr/syno/sbin/synoservice --is-enabled nfsd 2>&1 > /dev/null
+                RUN_NFS=$?
+		if [ "$RUN_NFS" = "1" ]; then
+			echo -n "\"is_enable\":\"yes\""
+		else
+			echo -n "\"is_enable\":\"no\""
+		fi
+		NFS_READ_SIZE=`GETKEYINT /etc/nfs/syno_nfs_conf udp_read_size`
+		echo -n ",\"udp_read_size\":\"$NFS_READ_SIZE\""
+		NFS_WRITE_SIZE=`GETKEYINT /etc/nfs/syno_nfs_conf udp_write_size`
+		echo -n ",\"udp_write_size\":\"$NFS_WRITE_SIZE\""
+		NFS_V4=`GETKEY /etc/nfs/syno_nfs_conf nfsv4_enable`
+		echo -n ",\"nfsv4_enable\":\"$NFS_V4\""
+		NFS_KERBEROS=`GETKEY /etc/nfs/syno_nfs_conf kerberos_principal`
+		if [ "x$NFS_KERBEROS" = "x" ]; then
+			echo -n ",\"nfs_kerberos_enable\":\"no\""
+		else
+			echo -n ",\"nfs_kerberos_enable\":\"yes\""
+		fi
+		if [ "$RUN_NFS" = "1" ] ; then
+			NFS_CONN_NUM=`cat /var/tmp/nfs_cur_con.log 2>/dev/null | /usr/bin/wc -l`
+			echo -n ",\"connection_num\":$NFS_CONN_NUM"
+		else
+			echo -n ",\"connection_num\":0"
+		fi
+        NFS_UMASK_ENABLE=`GETKEY /etc/nfs/syno_nfs_conf nfs_unix_pri_enable`
+        if [ "$NFS_UMASK_ENABLE" == "1" ]; then
+            echo -n ,\"nfs_umask_enable\":\"yes\"
+        else
+            echo -n ,\"nfs_umask_enable\":\"no\"
+        fi
+	echo -n "}"
+
+	echo -n "$COMMA_1\"afp\":{"
+		COMMA_1=","
+		/usr/syno/sbin/synoservice --is-enabled atalk 2>&1 > /dev/null
+		if [ $? = 1 ]; then
+			echo -n "\"is_enable\":\"yes\""
+		else
+			echo -n "\"is_enable\":\"no\""
+		fi
+        AFP_UMASK_ENABLE=`GETKEY /etc/synoinfo.conf afp_umask`
+        if [ "$AFP_UMASK_ENABLE" == "yes" ]; then
+            echo -n ,\"afp_umask_enable\":\"yes\"
+        else
+            echo -n ,\"afp_umask_enable\":\"no\"
+        fi
+		AFP_CONN_NUM=`cat /var/tmp/apple/AT_LOG 2>/dev/null | grep , | /usr/bin/wc -l`
+		echo -n ",\"connection_num\":$AFP_CONN_NUM"
+	echo -n "}"
+echo -n "}"

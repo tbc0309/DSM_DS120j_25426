@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Säkerhetskopiering & Replikering</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Synkronisera delade mappar</h2>
+<p>Synkronisera delade mappar låter användarna synkronisera delade mappar från en Synology-produkt (källan) till andra Synology NAS-enheter (målet) i LAN eller över Internet. Detta fungerar på grundval av delade mappar. Vid synkning, om det redan finns en mapp med samma namn (t.ex. Delad Mapp) på den Synology-produkt som är mål, kommer mappen på målet att döpas om till "DeladMapp_1. Om ingen sådan mapp finns skapas den på det motsvarande eller på det första säkerhetskopieringsmålet som är tillgängligt. Rättigheten för åtkomst till denna mapp på den Synology NAS som är målenhet ställs in som standard, vilket innebär att inga privilegier kommer att specificeras för denna mapp.</p>
+<p>Vid första synkroniseringen utför Synkronisera delade mappar en fullständig synkronisering av de vald delad mapp (valda delade mappar). Efteråt synkas bara filer som har ändrats. Filer som har tagits bort från källan tas även bort från destinationen.</p>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>
+Synkronisera delade mappar är en envägs synkroniseringslösning, vilket betyder att filerna på källan synkas till målet men inte åt andra hållet. Om du vill ha en 2-vägs synkroniseringslösning, vänligen använd <strong>Cloud Station</strong>.</li></ul></div>
+
+<h3>Aktivera tjänsten</h3>
+<h4>Att aktivera Synkronisera delade mappar:</h4>
+<p>Du måste aktivera tjänsten på den Synology NAS som är målenhet. För att göra detta, vänligen gå till <b>Säkerhetskopiering & Replikering</b> > <b>Synkronisera delade mappar</b>. På fliken <b>Server</b>, markera <b>Aktivera Synkronisera delade mappar</b> för att aktivera det.</p>
+<h4>För att ansluta delade mappar från källa till Synology-produkt som är mål:</h4> 
+<p>Du kan synkronisera delade mappar från en källa till många olika destinationsservrar. Dessutom, med start från DSM 4.1, tillhandahåller Synkronisera delade mappar funktionen Synkronisera delade mappar från flera källor, vilket låter flera klienter synkronisera deras delade mappar till en Synology NAS. Om olika klienter synkroniserar en identisk delad mapp samtidigt till en Synology NAS så uppstår en konflikt och du måste ta bort länken till den delade mappen innan någon annan klient kan synkronisera denna mapp till målet. Om du vill ta bort länken till den delade mappen, gå till <b>Synkronisera delade mappar</b> > <b>Server</b>, klicka på <b>Anslutningslista</b>, välj en anslutning och klicka på <b>Ta bort länk</b></b> på målsidan. </li>
+</ul>
+<p>Nu kan du börja synka delade mappar från källa till den Synology NAS som är mål. Följ anvisningarna nedan för att fortsätta.</p>
+
+<h3>Hantera synkuppgifter</h3>
+<p>Med Guiden Synkronisera delade mappar kan du enkelt skapa en synkuppgift.</p>
+<h4>Skapa en synkuppgift:</h4>
+<ol>
+<li>Gå till <b>Säkerhetskopiering & Replikering</b> > <b>Synkronisera delade mappar</b> > <strong>Klient</strong>.</li>
+<li>Klicka på <b>Skapa</b>.</li>
+<li>Ange ett namn för uppgiften.</li>
+<li>Markera den delade mappen som du vill synkronisera till målenheten. Markera kryssrutan nedanför för att bekräfta och klicka på <b>Nästa</b> för att fortsätta.</li>
+<li>Konfigurera målenheten och följande synkalternativ:</li>
+<ul>
+<li><b>Aktivera överföringskryptering:</b> Kryptera data vid överföring. Det ger högre säkerhet medan icke krypterad överföring ger bättre prestanda. Välj det som bäst passar dina behov.
+</li> 
+<li><b>Aktivera överföringskomprimering:</b> Komprimera data vid överföring. Det sparar nätverksbandbredd men ökar processorbelastningen.</li>
+<li><b>Aktivera synkronisering med blocknivå:</b> Överför enbart data som skiljer sig istället för hela filer. Det sparar nätverksbandbredd men ökar processorbelastningen.</li>
+</ul>
+<li>Konfigurera ett uppgiftsschema:</li>
+<ul>
+<li><b>Kör synkning var [antal] timme</b> eller <b>Kör synkronisering var [antal] minut</b>: Kör synkuppgiften med ett angivet intervall för minuter och timmar. Tidsräkningen börjar från midnatt. Intervallet får inte överstiga 24 timmar.</li>
+<li><b>Kör synkning automatiskt varje dag kl. (hh:mm)</b>: Kör synkningsuppgiften vid en viss tidpunkt varje dag.</li>
+<li><b>Kör synkning manuellt</b>: Kör bara synkronisering manuellt.</li>
+<li><b>Kör synk vid ändring</b>: Kör synkuppgift omedelbart när en förändring sker vid källan delade mappen.</li>
+</ul>
+<li>Klicka på <b>Tillämpa</b>. Nu kan du se synkuppgiften i uppgiftslistan, och den kommer att utföras enligt det schema du angav.</li></ol>
+<h4>Hantera en synkuppgift:</h4>
+<ol>
+<li>
+Välj uppgift från uppgiftslistan.
+</li>
+<li>
+Gör något av följande:
+</li>
+<ul>
+<li>
+Klicka på <b>Redigera</b> för att redigera uppgiften.
+</li>
+<li>
+Klicka på <b>Radera</b> för att radera uppgiften.
+</li> 
+<li>
+Om synkuppgiften inte pågår, klicka på <b>Synkronisera nu</b> för att utföra uppgiften omedelbart.
+</li>
+<li>
+Om synkuppgiften inte pågår, klicka på <b>Avbryt</b> för att stoppa den pågående uppgiften.
+</li>
+
+<div class="section">
+<h4>Obs:</h4>
+<p>
+Om schemat för en synkuppgift är inställd som <b>Kör synk vid ändring</b> stoppas den pågående synkuppgiften vid klick på <b>Avbryt</b>. Dock återupptas uppgiften igen av Synkronisera delade mappar om innehållet på någon delad mapp(några delade mappar) som bevakas av synkuppgiften skulle ändras.
+</p>
+</div>
+
+<li>
+Klicka på <b>Full synkning</b> för att synka alla data. Synkronisera delade mappar kör en fullständig synkronisering vid första tillfället, och synkar bara ändrade delar efter första synkningen. Om du klickar på den här knappen kan du få hjälp av manuellt synka alla data igen.
+</li>
+</ul>
+</ol>
+
+<div class="section disable-eds14">
+<h4>Mer information</h4>
+<ol>
+<li>Uppgiftens namn måste vara 1 till 32 Unicode-tecken och får inte innehålla följande tecken:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Om du synkar delade mappar från ext4- till ext3-filsystem kan du stöta på fel om uppgiften innehåller fler än 32 000 mappar.</li>
+<li>Om de delade mapparna på den Synology NAS som är mål har synkroniserats med en annan Synology NAS tidigare, utför Synkronisera delade mappar en fullständig synkronisering för uppgiften.</li>
+<li>För att utföra Synkronisera delade mappar-uppgifter behöver du admin-behörighet på den Synology NAS som är mål. Antingen har du lösenordet till dess admin-konto eller så tillhör du dess administratörsgrupp.</li>
+<li>Vid synkning av en Synology NAS över Internet kan du ange servernamnet i form av den externa IP-adressen eller dess värdnamn. Om du emellertid väljer att ange dess värdnamn måste det vara i formatet FQDN (Fully Qualified Domain Name), till exempel "www.synology.com".</li>
+<li>För vidarebefordran av portar använder Synkronisera delade mappar port 22 för krypterade överföringar och port 873 för okrypterade överföringar.</li>
+<li>Externa lagringsenheter stöds inte av Synkronisera delade mappar.</li>
+<li>Krypterade delade mappar måste monteras manuellt med krypteringsnyckel i målet.</li>
+<li>Schemalagd synkronisering av delad mapp kommer inte att köras vid specificerad tid om inga ändringar har gjorts i den valda delade mappen.</li>
+<li>För bästa prestanda rekommenderar vi att varje synkroniseringsuppgift inkluderar mindre än 200 delade mappar.</li>
+<li>Funktionen <strong>Användarhem</strong> kommer att bli avaktiverad på målet Synology NAS om de delade mapparna <strong>homes</strong> synkroniseras från källan Synology NAS till målet Synology NAS.</li>
+
+<li>För modeller med CPU:er som inte är Intel kan du synka upp till 100 000 delade mappar (inklusive undermappar) genom att använda Synkronisera delade mappar.</li>
+ <li>Synkronisera delade mappar kan säkerhetskopiera inställningar för Windows ACL målets filsystem är EXT4.</li>
+ 
+ <li>Synkronisera delade mappar kommer att misslyckas om du synkar till en målserver som har samma namn som din Synology NAS.</li>
+ 
+<li>Avancerade behörigheter för delade mappar på källan synkroniseras inte till målet. Dessutom kommer en endast läsbar regel för användare i gruppen administrators att skapas på målet. </li> 
+
+  </ol>
+</div>
+<div class="section enable-eds14">
+<h4>Mer information</h4>
+<ol>
+<li>Uppgiftens namn måste vara 1 till 32 Unicode-tecken och får inte innehålla följande tecken:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Om du synkar delade mappar från ext4- till ext3-filsystem kan du stöta på fel om uppgiften innehåller fler än 32 000 mappar.</li>
+<li>Om de delade mapparna på den Synology NAS som är mål har synkroniserats med en annan Synology NAS tidigare, utför Synkronisera delade mappar en fullständig synkronisering för uppgiften.</li>
+<li>För att utföra Synkronisera delade mappar-uppgifter behöver du admin-behörighet på den Synology NAS som är mål. Antingen har du lösenordet till dess admin-konto eller så tillhör du dess administratörsgrupp.</li>
+<li>Vid synkning av en Synology NAS över Internet kan du ange servernamnet i form av den externa IP-adressen eller dess värdnamn. Om du emellertid väljer att ange dess värdnamn måste det vara i formatet FQDN (Fully Qualified Domain Name), till exempel "www.synology.com".</li>
+<li>För vidarebefordran av portar använder Synkronisera delade mappar port 22 för krypterade överföringar och port 873 för okrypterade överföringar.</li>
+<li>Externa lagringsenheter stöds inte av Synkronisera delade mappar.</li>
+<li>Krypterade delade mappar måste monteras manuellt med krypteringsnyckel i målet.</li>
+<li>Schemalagd synkronisering av delad mapp kommer inte att köras vid specificerad tid om inga ändringar har gjorts i den valda delade mappen.</li>
+<li>För bästa prestanda rekommenderar vi att varje synkroniseringsuppgift inkluderar mindre än 200 delade mappar.</li>
+<li>Funktionen <strong>Användarhem</strong> kommer att bli avaktiverad på målet Synology NAS om de delade mapparna <strong>homes</strong> synkroniseras från källan Synology NAS till målet Synology NAS.</li>
+<li>För modeller med CPU:er som inte är Intel kan du synka upp till 100 000 delade mappar (inklusive undermappar) genom att använda Synkronisera delade mappar.</li>
+ 
+ <li>Synkronisera delade mappar kommer att misslyckas om du synkar till en målserver som har samma namn som din Synology NAS.</li>
+ 
+<li>Avancerade behörigheter för delade mappar på källan synkroniseras inte till målet. Dessutom kommer en endast läsbar regel för användare i gruppen administrators att skapas på målet. </li> 
+ 
+ </ol>
+</div>
+</body></html>

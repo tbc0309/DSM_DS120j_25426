@@ -1,0 +1,29 @@
+#author: Network Infrastructure Team
+
+# only for add/remove event
+ACTION!="add|remove", GOTO="ups_end"
+
+# do nothing, if no correct info
+ENV{MAJOR}=="", GOTO="ups_end"
+ENV{MINOR}=="", GOTO="ups_end"
+ENV{PRODUCT}=="", GOTO="ups_end"
+ENV{SYNO_SUPPORT_DUALHEAD}=="yes", GOTO="ups_end"
+ENV{SYNO_SUPPORT_XA}=="yes", GOTO="ups_end"
+
+# check UPS VID/PID by ENV{PRODUCT}
+PROGRAM="/lib/udev/script/ups-check.sh", RESULT=="unsupported", GOTO="ups_end"
+
+# check HA key
+PROGRAM="/usr/syno/bin/synogetkeyvalue /etc/synoinfo.conf runha", ENV{SYNO_RUN_HA}="%c"
+
+# run the driver for UPS device
+# HA Mode
+ACTION=="add", ENV{SYNO_RUN_HA}=="yes", RUN+="/var/packages/HighAvailability/target/etc/rc.ha hotplug-usb-ups /lib/udev/script/ups-util.sh start"
+ACTION=="remove", ENV{SYNO_RUN_HA}=="yes", RUN+="/var/packages/HighAvailability/target/etc/rc.ha hotplug-usb-ups /lib/udev/script/ups-util.sh stop"
+
+# Normal Mode
+ACTION=="add", ENV{SYNO_RUN_HA}!="yes", RUN+="/lib/udev/script/ups-util.sh start"
+ACTION=="remove", ENV{SYNO_RUN_HA}!="yes", RUN+="/lib/udev/script/ups-util.sh stop"
+
+LABEL="ups_end"
+

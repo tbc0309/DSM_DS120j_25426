@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Volume</h2>
+<p>Volumes zijn basisopslagruimtes waarop de gebruiker gedeelde mappen en iSCSI LUN (gewone bestanden) kan maken, gegevens kan opslaan en pakketten kan installeren. Voor u volumes kunt maken, moet u eerst een RAID Group maken. Voor meer informatie over RAID Groups zie <a href="raid.html">RAID Group</a>.
+</p>
+
+<h4>Om een volume te maken:</h4>
+<ol>
+	<li>Zorg dat uw Synology NAS een bestaande RAID Group met toewijsbare ruimte heeft.</li>
+	<li>Klik op de knop <strong>Maken</strong>.</li>
+	<li>Kies een RAID Group waarop u een volume wilt maken.</li>
+	<li>Wijzig de gewenste instellingen.</li>
+	<li>Stel de toewijzingsgrootte voor het volume in. (De instelling van de toewijzingsgrootte is niet beschikbaar voor volumes die in RAID Group voor enkele volumes of iSCSI LUN zijn gemaakt.)</li>
+    <li>Klik op de knop <B>Toepassen</B> om de instellingen te bevestigen.</li>
+
+
+</ol>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>het maximum toe te wijzen volume is 200 TB.</li>
+	<li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">De minimaal toegewezen grootte aan een Btrfs-volume moet minstens 10 GB bedragen.</li>
+    <li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Btrfs-volumes reserveren 4% van de ruimte voor metagegevens.</li>
+</ul>
+</div>
+
+<h4>Om een volume te verwijderen:</h4>
+<ol>
+	<li>Selecteer het volume dat u wilt verwijderen.</li>
+	<li>Klik op <B>Verwijderen</B> en volg de wizard om het proces te voltooien.</li>
+</ol>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>het verwijderen van een volume zullen de gegevens op het volume worden verwijderd.</li>
+</ul>
+</div>
+
+<h4>Om koppelen van een volume te forceren:</h4>
+<p>als de cache op een volume ontbreekt, zal het systeem bij het opnieuw opstarten niet het volume koppelen. Is de cache niet herstelbaar en wilt u toegang tot het volume, klik dan op <B>Koppelen forceren</B>. </p>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>deze functie is alleen beschikbaar voor bepaalde modellen.</li>
+</ul>
+</div>
+
+<h4>Om een volume te herstellen:</h4>
+<p>als de status van het volume <B>Beschadigd</B> aangeeft, gaat u naar het tabblad <B>RAID Group</B> en zoekt u de desbetreffende RAID Group. Volg vervolgens de aanbevolen instructies om het te herstellen.</p>
+
+<h4>Om de grootte van een volume uit te breiden</h4>
+<ul>
+	<li>Voor volumes gemaakt op een RAID Group voor meerdere volumes of iSCSI LUN's (blokniveau) 
+		<ol>
+			<li>Selecteer het volume dat u wilt uitbreiden.</li>
+			<li>Klik op <B>Bewerken</B>.</li>
+			<li>Voer de nieuwe grootte in en klik op <B>OK</B> om het volume uit te breiden.</li>
+		</ol>
+	</li>
+	<li>Voor volumes die gemaakt zijn op een RAID Group voor enkel volume/iSCSI LUN (blokniveau) raadpleegt u het gedeelte <B>De grootte van een RAID Group uitbreiden</B> van <a href="raid.html">RAID Group</a>. Nadat de onderliggende RAID Group is uitgebreid, zal de volumegrootte groter zijn.</li>
+</ul>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>worden volumes als gerepliceerde doelen van <B>Snapshot Replication</B>, dan kunnen de replicatieprestaties worden verbeterd door na het maken van de volumes de instellingen van <B>Frequentie bestandstoegangstijd registreren</B> aan te passen in het venster <B>Bewerken</B>:</p>
+<ul>
+	<li><B>Dagelijks</B>: de bestandstoegangstijd wordt dagelijks bijgewerkt of bij wijziging van het bestand, net zoals bij andere besturingssystemen. Bepaalde toepassingsfuncties zijn afhankelijk van de nauwkeurigheid van de bestandstoegangstijd. De selectie van deze optie <B>Dagelijks</B> is van invloed op de replicatieprestaties maar wordt niet aangeraden wanneer een van de volgende functies of toepassingen wordt gebruikt:
+		<ul>
+			<li><B>Minst recente toegangstijd</B> in <B>Opslag-analyser</B></li>
+			<li><B>SSD Cache Advisor</B> in <B>Opslagbeheer</B></li>
+			<li>Alle toepassingen van derden die afhankelijk zijn van <B>Bestandstoegangstijd registreren</B>.</li>
+		</ul>
+	<li><B>Maandelijks</B>: de bestandstoegangstijd wordt maandelijks bijgewerkt of bij wijziging van het bestand. Deze optie levert een kleine verbetering van de replicatieprestaties op terwijl toepassingen die <B>Bestandstoegangstijd registreren</B> gebruiken gewoon kunnen functioneren, alhoewel op een lagere nauwkeurigheid.
+	</li>
+	<li><B>Nooit</B>: aanbevolen voor gebruikers die zoeken naar de beste replicatieprestaties en geen toepassingen gebruiken die afhankelijk zijn van <B>Bestandstoegangstijd registreren</B>.</li>
+</ul>
+</div>
+
+<h3>SSD TRIM</h3>
+<p>Bestaat een volume volledig uit SSD's (Solid State Drives), dan raden wij u aan om SSD TRIM in te schakelen. Deze functie verbetert de lees- en schrijfprestaties van volumes gemaakt op basis van SSD's, verhoogt de efficiëntie en verlengt de levensduur van uw SSD's.</p>
+
+<h4>Om SSD TRIM in te schakelen:</h4>
+<ol>
+	<li>Open <B>Opslagbeheer</B> en ga naar <B>Volume</B>.</li>
+	<li>Selecteer een volume dat volledig uit SSD's bestaat en klik vervolgens op knop <B>Configureren</B>.</li>
+	<li>In het scherm dat verschijnt, gaat u naar tabblad <B>SSD TRIM</B> en schakelt u het selectievakje <B>TRIM inschakelen</B> in.</li>
+	<li>Klik op de knop <B>Schema instellen</B> om te kiezen wanneer het systeem SSD TRIM moet uitvoeren.</li>
+	<li>Klik op <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>SSD TRIM is alleen beschikbaar op bepaalde Synology NAS modellen en RAID-types. </li>
+	<li>Sommige SSD-modellen kunnen geen SSD TRIM op RAID 5-<span class="enable-grantley">,</span> <span class="disable-grantley"></span>RAID 6-<span class="enable-grantley"> en RAID F1-</span> volumes. Zie de compatibiliteitslijst op de <a href="https://www.synology.com/" target="_blank">officiële website</a> van Synology.</li>
+	<li>SSD TRIM kan niet worden ingeschakeld in de volgende situaties:
+		<ul>
+			<li>Het volume is gekoppeld met SSD-cache.</li>
+			<li>Het pakket <B>Time Backup</B> is geïnstalleerd.</li>
+		</ul>
+	</li>
+	<li>SSD TRIM kan niet worden ingeschakeld op blokniveau iSCSI LUN's.</li>
+	<li>Bij het uitvoeren van SSD TRIM zullen systeemprestaties negatief worden beïnvloed. De vereiste tijdsduur voor het voltooien van de TRIM-procedure is afhankelijk van de volumegrootte en het SSD-model.</li>
+	<li>Is TRIM op een volume ingeschakeld, dan is het ook ingeschakeld voor andere volumes van dezelfde schijfgroep of RAID Group.</li>
+</ul>
+</div>
+
+
+<h3>Bestandssysteemreiniging*</h3>
+<p>Bestandssysteemreiniging is een gegevensonderhoudsfunctie die volumes inspecteert. Detecteert de checksum inconsistente gegevens, dan wordt het bestandspad in Log Center opgeslagen en is het raadzaam om de gegevens met een back-up te repareren.</p>
+
+<p>Wij raden u aan om regelmatig de bestandssysteemreiniging uit te voeren om gegevensconsistentie te behouden.</p>
+
+<h4>De bestandssysteemreiniging uitvoeren:</h4>
+<ol>
+	<li>Open <B>Opslagbeheer</B> en ga naar <B>Volume</B>.</li>
+	<li>Selecteer het volume waarop u de bestandssysteemreiniging wilt uitvoeren.</li>
+	<li>Klik op <strong>Beheren</strong>.</li>
+	<li>Selecteer <B>Bestandssysteemreiniging</B>.</li>
+</ol>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>de bestandssysteemreiniging kan uitsluitend op volumes met een <B>Btrfs</B>-bestandssysteem worden uitgevoerd.</li>
+	<li>De bestandssysteemreiniging kan uitsluitend worden uitgevoerd op volumes waarvan de status <B>Normaal</B> is.</li>
+	<li>U mag het systeem niet afsluiten voor de bestandssysteemreiniging is voltooid. Als het systeem voor voltooiing wordt uitgeschakeld, moet u de bestandssysteemreiniging handmatig opnieuw opstarten.</li>
+</ul>
+</div>
+
+<h3>Bestandssysteemdefragmentatie*</h3>
+<p>Worden uw gegevens constant gewijzigd, dan zal de hoeveelheid gefragmenteerde bestanden in het bestandssysteem toenemen waardoor de prestaties van bestanden op schijven dalen. Door een bestandssysteemdefragmentatie uit te voeren, verbetert u de prestaties.</p>
+
+<h4>Defragmentatie van bestandssysteem uitvoeren:</h4>
+<ol>
+	<li>Open <B>Opslagbeheer</B> en ga naar <B>Volume</B>.</li>
+	<li>Selecteer het volume waarop u de bestandssysteemdefragmentatie wilt uitvoeren.</li>
+	<li>Klik op <strong>Beheren</strong>.</li>
+	<li>Selecteer <B>Bestandssysteemdefragmentatie</B>.</li>
+</ol>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>bestandssysteemdefragmentatie kan uitsluiten op volumes met een <B>Btrfs</B>-bestandssysteem worden uitgevoerd.</li>
+	<li>Bestandssysteemdefragmentatie kan uitsluitend worden uitgevoerd wanneer de status van het volume <B>Normaal</B> is.</li>
+	<li>U mag het systeem niet afsluiten voor de bestandssysteemdefragmentatie is voltooid. Als het systeem voor voltooiing wordt uitgeschakeld, moet u de bestandssysteemdefragmentatie handmatig opnieuw opstarten.</li>
+	<li>Volumegebruik kan toenemen wanneer het volume snapshots en gedeelde mappen bevat.</li>
+</ul>
+</div>
+
+<p>____<br />*Alleen beschikbaar op bepaalde modellen.</p>
+
+</body>
+</html>

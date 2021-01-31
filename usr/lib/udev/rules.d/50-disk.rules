@@ -1,0 +1,19 @@
+# author: Business Platform Team
+# only handel SATA, SAS, ESATA, EUNIT, CACHE
+ENV{SYNO_DEV_DISKPORTTYPE}!="SATA|SAS|ESATA|EUNIT|CACHE|SYS", GOTO="disk_end"
+
+# ignore partition, don't send hotplug event
+ENV{DEVTYPE}=="partition", GOTO="disk_end"
+
+# make a enclosure status snapshot for disk removal
+ACTION=="add|remove", ENV{SYNO_SUPPORT_SAS}=="yes", ENV{SYNO_DEV_DISKPORTTYPE}=="SAS|EUNIT|CACHE", RUN+="/lib/udev/script/sas-snapshot-update.sh"
+
+ACTION=="add", ENV{SYNO_SUPPORT_SAS}=="yes", ENV{SYNO_DEV_DISKPORTTYPE}=="SAS|EUNIT|CACHE", RUN+="/usr/syno/bin/sasdiskselftestinterrupt %k"
+ACTION=="add|remove", RUN+="/lib/udev/script/hotplugd-util.sh prepare_hotplug_event_file"
+ACTION=="add", ENV{SYNO_INFO_PLATFORM_NAME}=="kvmx64", RUN+="/lib/udev/script/hotplugd-util.sh tune-vdsm-disks %k"
+ACTION=="add", ENV{SYNO_INFO_PLATFORM_NAME}=="kvmx64", RUN+="/lib/udev/script/hotplugd-util.sh create-vdsm-volumes %k"
+
+ACTION=="add", ENV{SYNO_INFO_PLATFORM_NAME}=="nextkvmx64", RUN+="/lib/udev/script/hotplugd-util.sh tune-vdsm-disks %k"
+ACTION=="add", ENV{SYNO_INFO_PLATFORM_NAME}=="nextkvmx64", RUN+="/lib/udev/script/hotplugd-util.sh create-vdsm-volumes %k"
+
+LABEL="disk_end"

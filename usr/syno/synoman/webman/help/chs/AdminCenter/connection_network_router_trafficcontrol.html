@@ -1,0 +1,82 @@
+﻿
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>路由器流量控制</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name=""></a>路由器流量控制</h2>
+<p>
+当 Synology NAS 处于路由器模式时，路由器流量控制被启用。路由器流量控制 (位于<strong>控制面板</strong> &gt; <strong>网络</strong> &gt; <strong>路由器流量控制</strong>) 管理着 Synology NAS 专用网络中上传和下载的流量。在创建规则时，您需指定<strong>保障带宽</strong>和<b>最大带宽</b>来限制上传与下载流量。</p>
+
+
+<div class="section">
+<h4>名词解释</h4>
+<ul>
+<li><b>保障带宽</b>：代表整个系统带宽足够时，该服务保证取得的出站通信量。</li>
+<li><b>最大带宽</b>：代表整个系统带宽足够且有<b>系统剩余带宽</b>时，该服务可利用的出站通信量。建议您先计算<b>系统输出带宽</b>，并确认各项服务的<b>保障带宽</b>总量不大于<b>系统输出带宽</b>，否则该设置可能无法正常运作。</li>
+</ul>
+</div>
+<div class="section">
+<h4>设置公式</h4>
+<ul>
+<li><b>系统输出带宽</b> = 所有服务<b>保障带宽</b>的总量 + <b>系统剩余带宽</b></li>
+<li>各项服务的<b>保障带宽</b> ≤ 各项服务的<b>最大带宽</b>
+</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>注：</h4>
+<p>如果出站包与任何路由器流量控制规则不匹配，则默认行为没有限制。您可在所有规则的结尾添加自已的默认路由器流量控制规则，方法是选择<b>全部</b>端口，然后指定<b>保障带宽</b>和<b>最大带宽</b>。</p>
+</div>
+
+
+<h4>若要创建路由器流量控制规则：</h4>
+<ol>
+
+<li>请从右上角的下拉菜单中选择网络接口。</li>
+
+<li>单击<b>创建</b>。</li>
+<li>在<b>端口</b>区域，选择以下内容之一：
+	<ul>
+		<li>选择<b>全部</b>来将规则应用到所有端口。</li>
+		<li>选择<b>自定义</b>，然后单击<b>自定义</b>。最多可输入 15 个端口，并用逗号隔开或指定要对其应用该规则的端口范围。</li>
+		<li class="no">您也可指定端口的通讯协议。</li>
+	</ul>
+</li>
+<li>在<b>来源 IP</b> 区块，选择以下内容之一：
+	<ul>
+		<li>选择<b>全部</b>将此规则应用到所有 IP 地址。</li>
+		<li>选择<b>特定 IP 地址</b>，然后单击<strong>选择</strong>。您可以指定 IP 地址或要对其应用此规则的 IP 地址范围。</li>
+	</ul>
+</li>
+</ol>
+<p>
+现在您可以在规则列表中看到创建的路由器流量控制规则。</p>
+<h4>若要删除路由器流量控制规则，请执行以下任何操作：</h4>
+<ul>
+<li>请取消勾选列表<b>启用</b>栏中的规则复选框。</li>
+<li>删除路由器流量控制规则。</li>
+</ul>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>每个网络接口最多创建 100 项规则。</li>
+<li>您可通过拖放操作来重新排序列表中的规则。</li>
+<li>规则的优先顺序将根据在列表中排序的位置。</li>
+<li>指定的端口是指外网 Internet 服务的端口号。</li>
+<li>来源 IP 地址是指将 Synology NAS 用作路由器的设备 IP 地址。</li>
+</ul>
+</div>
+</body>
+</html>

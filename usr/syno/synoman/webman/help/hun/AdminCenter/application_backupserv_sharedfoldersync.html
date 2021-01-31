@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Biztonsági mentés és replikáció</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Megosztott mappa szinkronizálása</h2>
+<p>A Megosztott mappa szinkronizálása szolgáltatás lehetővé teszi, hogy a felhasználók megosztott mappákat szinkronizáljanak egyik Synology NAS eszközükről (forrás) egy másik Synology NAS eszközre (cél) a helyi vagy internetes hálózaton keresztül.</p>
+<p>Az első használatkor a Megosztott mappa szinkronizálása funkció teljes szinkronizálást végez a megosztott mappá(ko)n. Ezt követően mindig csak a módosított fájlok kerülnek szinkronizálásra. A forrásról eltávolított fájlok a célállomásról is eltávolításra kerülnek.</p>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>A Megosztott mappa szinkronizálása funkció egyirányú szinkronizálást biztosít, azaz a forráson található fájlokat szinkronizálja a céllal. Kérjük, használja a <strong>Cloud Station ShareSync</strong> alkalmazást, ha kétirányú szinkronizálásra van szüksége.</li>
+<li>Ha a célhelyen létezik egy megosztott mappa, melynek ugyanaz a neve, mint a forrásként használt megosztott mappának (pl. mindkettő neve MegosztottMappa), a célmappát a rendszer átnevezi „MegosztottMappa_1” névre.</li>
+<li>Ha a célhelyen nem létezik a forrásként használt megosztott mappával megegyező nevű megosztott mappa, a rendszer létrehoz egy ilyen nevű mappát a forrásnak megfelelő vagy az első elérhető köteten.</li>
+<li>A célhelyen lévő megosztott mappához alapértelmezés szerint egyetlen felhasználó sem fér hozzá. Jogosultságokért forduljon az <strong>admin</strong> felhasználóhoz.</li>
+</ul>
+</p>
+</div>
+
+<h3>A szolgáltatás engedélyezése</h3>
+<h4>A Megosztott mappa szinkronizálása funkció engedélyezése:</h4>
+<p>A szolgáltatást először a célként használt Synology NAS eszközön kell engedélyezni.</p>
+<ol>
+<li>Lépjen a <strong>Vezérlőpult</strong> > <strong>Fájlszolgáltatások</strong> > <strong>rsync</strong> menüpontra</li>
+<li>A Megosztott mappa szinkronizálása szolgáltatás engedélyezéséhez válassza az <strong>Rsync-szolgáltatás engedélyezése</strong> lehetőséget.</li>
+<li>Kattintson az <strong>Alkalmaz</strong> gombra.</li>
+</ol>
+
+
+<h4>Megosztott mappák leválasztása a célként használt Synology NAS eszközről:</h4>
+
+<p>Ha több különböző forrás egyszerre szinkronizálja ugyanazt a megosztott mappát egy célként használt Synology NAS eszközre, ütközés alakul ki. Egy másik forráson található mappát csak akkor szinkronizálhat a céllal, ha előbb leválasztja az aktuálisan csatolt megosztott mappát a forrásoldalon.<ol>
+<li>Jelentkezzen be a célként használt Synology NAS eszközre, majd lépjen a <strong>Vezérlőpult</strong> > <strong>Megosztott mappa szinkronizálása</strong> > <strong>Csatlakozási lista</strong> menüpontra.</li>
+<li>Válassza ki az ütköző kapcsolatot a hozzá tartozó forrásként használt Synology NAS eszközről, majd eltávolításához kattintson a <strong>Leválasztás</strong> elemre.</li>
+</ol>
+
+<p>Ezt követően a másik forráseszköz képes lesz a megosztott mappa szinkronizálására a célként használt Synology NAS eszközzel.</p>
+
+<h3>A szinkronizálási feladatok kezelése</h3>
+
+<h4>Szinkronizálási feladat létrehozása:</h4>
+<ol>
+<li>Jelentkezzen be a forrásként használt Synology NAS eszközre, majd lépjen a <b>Vezérlőpult</b> > <b>Megosztott mappa szinkronizálása</b> > <strong>Feladatlista</strong> menüpontra.</li>
+<li>Kattintson a <b>Létrehozás</b> gombra.</li>
+<li>Adja meg a feladat nevét.</li>
+<li>Válassza ki a célhelyre szinkronizálni kívánt megosztott mappát.</li>
+<li>Adja meg a célként használni kívánt Synology NAS eszközt, valamint az alábbi szinkronizálási beállításokat:</li>
+<ul>
+<li><strong>SSH titkosítási port testre szabása titkosított megosztott mappa szinkronizáláshoz</strong>: Az SSH-átvitel titkosításához használt titkosítási port kiválasztása.</li>
+<li><strong>SSH küldési titkosítás engedélyezése</strong>: Az adatok titkosítása az átvitel során. Ez a funkció biztonságosabb átvitelt tesz lehetővé, míg a titkosítás kihagyása esetén gyorsabb lesz az átvitel. Válassza ki az igényeinek megfelelő módot.</li> 
+<li><strong>Küldési tömörítés engedélyezése</strong>: Az adatok tömörítése az átvitel során. Alkalmazásakor kevesebb hálózati sávszélességre van szükség, azonban nő a processzor terhelése.</li>
+<li><strong>Blokkszintű szinkronizálás engedélyezése</strong>: Csak az eltérési adatok továbbítása a teljes fájlok helyett. Alkalmazásakor kevesebb hálózati sávszélességre van szükség, azonban nő a processzor terhelése.</li>
+</ul>
+<li>Ha a rendszer felkéri, az alábbi opciók valamelyikének kiválasztásával adja meg, hogy mikor történjen meg a forrás szinkronizálása a céllal:</li>
+<ul>
+<li><strong>Szinkronizálás futtatása módosításkor</strong>: Azonnal végbemegy a szinkronizálási feladat, amint változás következik be a forrásként használt megosztott mappában.</li>
+<li><strong>Manuális szinkronizálás</strong>: Szinkronizálási feladat manuális futtatása a forrásként használt megosztott mappából.</li>
+<li><strong>Speciális ütemezés</strong>: A szinkronizálási feladat elvégzésének időpontjának megadásához kattintson az <strong>Ütemezési terv</strong> elemre.</li>
+
+</ul>
+<li>Kattintson az <strong>Alkalmaz</strong> gombra. Ezt követően megtekintheti a szinkronizálási feladatot a feladatlistán. Ezt a beállított ütemezés alapján végzi el a rendszer.</li></ol>
+<h4>Szinkronizálási feladat kezelése:</h4>
+<ol>
+<li>A forrásként használt Synology NAS eszközön lépjen a <strong>Vezérlőpult</strong> > <strong>Megosztott mappa szinkronizálása</strong> menüpontra, kattintson a <strong>Feladatlista</strong> elemre, majd válassza ki a kívánt feladatot.</li>
+<li>Tegye a következők valamelyikét:</li>
+<ul>
+<li>A feladat szerkesztéséhez kattintson a <b>Szerkesztés</b> gombra.</li>
+<li>A feladat törléséhez kattintson a <b>Törlés</b> gombra.</li> 
+<li>Ha a szinkronizálási feladat nincs folyamatban, kattintson a <b>Szinkronizálás Most</b> opcióra a feladat azonnali elvégzéséhez.</li>
+<li>Ha a szinkronizálási feladat folyamatban van, kattintson a <b>Mégse</b> gombra a folyamatban lévő feladat leállításához.</li>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>Ha a szinkronizálás feladat ütemezése <b>Szinkronizálás futtatása módosításkor</b>, a <b>Mégse</b> gombra kattintva leállíthatja a folyamatban lévő szinkronizálási feladatot. Ha azonban a szinkronizálási feladat által figyelt bármelyik megosztott mappa tartalma módosul, a Megosztott mappa szinkronizálása funkció folytatja a feladat végrehajtását.</p>
+</div>
+
+<li>Kattintson a <b>Teljes szink.</b> lehetőségre az összes adat szinkronizálásához. A Megosztott mappa szinkronizálása funkció első alkalommal teljes szinkronizálást végez. Ezt követően kizárólag a módosított részek kerülnek szinkronizálásra. Erre a gombra kattintva manuálisan ismét szinkronizálhatja az összes adatot.</li>
+</ul>
+</ol>
+
+<div class="section disable-eds14">
+<h4>További információk</h4>
+<ol>
+<li>A feladat neve 1–32 Unicode karakterből állhat, illetve nem tartalmazhatja a következő karaktereket:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Amennyiben megosztott mappákat szinkronizál ext4 fájlrendszerből ext3 fájlrendszerbe, hiba léphet fel, amennyiben egy adott feladatban 32 000 mappánál több található.</li>
+<li>Amennyiben a célként használt Synology NAS megosztott mappáit korábban már szinkronizálta egy másik Synology NAS eszközzel, a Megosztott mappa szinkronizálása funkció teljes szinkronizálást hajt végre.</li>
+<li>A Megosztott mappa szinkronizálása funkcióhoz kapcsolódó feladatok végrehajtásához admin jogosultsággal kell rendelkeznie a célként beállított Synology NAS eszközön. Vagy ismernie kell az admin fiók jelszavát, vagy a rendszergazdai csoport tagjának kell lennie.</li>
+<li>Ha az Interneten keresztül végez szinkronizálást a célként használt Synology NAS eszközzel, a szerver neve külső IP-címmel és állomásnévvel is megadható. Ha az állomásnév megadása mellett dönt, használja az FQDN (teljes tartománynév) formátumot, azaz pl. „www.synology.hu”.</li>
+<li>Porttovábbítás esetén a Megosztott mappa szinkronizálása funkció titkosított átvitelhez a 22-es portot, nem titkosított átvitelhez a 873-as portot használja.</li>
+<li>A Megosztott mappa szinkronizálása nem támogatja a külső tárolóeszközöket.</li>
+<li>Amikor elindítja a Megosztott mappa szinkronizálása feladatot, a rendszer automatikusan csatlakoztatja a célhelyen lévő titkosított megosztott mappát/mappákat. Azonban az ezekben tárolt adatokhoz való hozzáférés érdekében először csatlakoztassa a célhelyen található titkosított megosztott mappát/mappákat.</li>
+<li>Az Időzített megosztott mappa szinkronizálása nem indul el a megadott időben, amennyiben a kijelölt megosztott mappákban nem történt változás.</li>
+<li>A lehető legjobb teljesítmény érdekében javasoljuk, hogy a szinkronizálási feladatok ne tartalmazzanak 200 megosztott mappánál többet.</li>
+<li>A <strong>Felhasználói kezdőlap</strong> funkció letiltásra kerül a célként beállított Synology NAS eszközön, ha a <strong>homes</strong> megosztott mappa a forrásként használt Synology NAS eszközről a célként használt Synology NAS eszközre kerül szinkronizálásra.</li>
+
+<li>A nem az Intel által gyártott processzorral rendelkező típusok esetén maximum 100 000 megosztott mappa (almappákkal együtt) szinkronizálható a Megosztott mappa szinkronizálása funkció használatával.</li>
+ <li>A Megosztott mappa szinkronizálása funkció használatával biztonsági mentést készíthet a Windows ACL beállításairól, amennyiben a célhely ext4/Btrfs fájlrendszert használ.</li>
+ 
+ <li>A Megosztott mappa szinkronizálása sikertelen lesz, ha olyan célszerverre próbál szinkronizálást végezni, melynek neve megegyezik a(z) Synology NAS eszközével.</li>
+ 
+<li>A rendszer nem szinkronizálja a forrásban megadott speciális megosztottmappa-engedélyeket a célhelyre. Ezenfelül a rendszer a célhelyen csak olvasható szabályt hoz létre az administrators csoport számára. </li> 
+
+  </ol>
+</div>
+<div class="section enable-eds14">
+<h4>További információk</h4>
+<ol>
+<li>A feladat neve 1–32 Unicode karakterből állhat, illetve nem tartalmazhatja a következő karaktereket:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Amennyiben megosztott mappákat szinkronizál ext4 fájlrendszerből ext3 fájlrendszerbe, hiba léphet fel, amennyiben egy adott feladatban 32 000 mappánál több található.</li>
+<li>Amennyiben a célként használt Synology NAS megosztott mappáit korábban már szinkronizálta egy másik Synology NAS eszközzel, a Megosztott mappa szinkronizálása funkció teljes szinkronizálást hajt végre.</li>
+<li>A Megosztott mappa szinkronizálása funkcióhoz kapcsolódó feladatok végrehajtásához admin jogosultsággal kell rendelkeznie a célként beállított Synology NAS eszközön. Vagy ismernie kell az admin fiók jelszavát, vagy a rendszergazdai csoport tagjának kell lennie.</li>
+<li>Ha az Interneten keresztül végez szinkronizálást a célként használt Synology NAS eszközzel, a szerver neve külső IP-címmel és állomásnévvel is megadható. Ha az állomásnév megadása mellett dönt, használja az FQDN (teljes tartománynév) formátumot, azaz pl. „www.synology.hu”.</li>
+<li>Porttovábbítás esetén a Megosztott mappa szinkronizálása funkció titkosított átvitelhez a 22-es portot, nem titkosított átvitelhez a 873-as portot használja.</li>
+<li>A Megosztott mappa szinkronizálása nem támogatja a külső tárolóeszközöket.</li>
+<li>Amikor elindítja a Megosztott mappa szinkronizálása feladatot, a rendszer automatikusan csatlakoztatja a célhelyen lévő titkosított megosztott mappát/mappákat. Azonban az ezekben tárolt adatokhoz való hozzáférés érdekében először csatlakoztassa a célhelyen található titkosított megosztott mappát/mappákat.</li>
+<li>Az Időzített megosztott mappa szinkronizálása nem indul el a megadott időben, amennyiben a kijelölt megosztott mappákban nem történt változás.</li>
+<li>A lehető legjobb teljesítmény érdekében javasoljuk, hogy a szinkronizálási feladatok ne tartalmazzanak 200 megosztott mappánál többet.</li>
+<li>A <strong>Felhasználói kezdőlap</strong> funkció letiltásra kerül a célként beállított Synology NAS eszközön, ha a <strong>homes</strong> megosztott mappa a forrásként használt Synology NAS eszközről a célként használt Synology NAS eszközre kerül szinkronizálásra.</li>
+<li>A nem az Intel által gyártott processzorral rendelkező típusok esetén maximum 100 000 megosztott mappa (almappákkal együtt) szinkronizálható a Megosztott mappa szinkronizálása funkció használatával.</li>
+ 
+ <li>A Megosztott mappa szinkronizálása sikertelen lesz, ha olyan célszerverre próbál szinkronizálást végezni, melynek neve megegyezik a(z) Synology NAS eszközével.</li>
+ 
+<li>A rendszer nem szinkronizálja a forrásban megadott speciális megosztottmappa-engedélyeket a célhelyre. Ezenfelül a rendszer a célhelyen csak olvasható szabályt hoz létre az administrators csoport tagjai számára. </li> 
+ 
+ </ol>
+</div>
+</body></html>

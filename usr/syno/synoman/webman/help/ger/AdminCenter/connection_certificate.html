@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="certificate"></a>Zertifikat</h2>
+
+<p>Ein Zertifikat kann verwendet werden, um SSL-Dienste aus der Synology NAS zu sichern, z. B. Web (alle HTTPS Dienste), E-Mail oder FTP. Der Besitz eines Zertifikats ermöglicht es Benutzern, die Identität eines Servers und des Administrators zu validieren, bevor vertrauliche Informationen gesendet werden.</p>
+
+<p>Unter <strong>Systemsteuerung</strong> > <strong>Sicherheit</strong> > <strong>Zertifikat</strong> können Sie Folgendes tun:</p>
+
+<ul>
+<li>Zertifikate von Let's Encrypt abrufen</li>
+<li>Selbst signierte Zertifikate erstellen.</li>
+<li>Zertifikatsignierungsanforderungen für andere Zertifizierungsstellen erstellen.</li>
+<li>Die Zertifikatsignierungsanforderungen anderer signieren.</li>
+<li>Zertifikate auf der Synology NAS verwalten.</li>
+</ul>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Ab DSM 6.0 können Sie mehrere Zertifikate erstellen und in die Synology NAS importieren.</li>
+<li>Wenn Sie auf <strong>Als Standardzertifikat festlegen</strong> klicken, wird das derzeit bearbeitete Zertifikat als Standardzertifikat verwendet. Das ursprüngliche Standardzertifikat verliert seinen Standard-Status.</li>
+</ul>
+</div>
+
+
+<h3>Zertifikate von Let's Encrypt</h3>
+
+<h4>Zertifikate von Let's Encrypt erhalten:</h4>
+<p>Von der offenen und vertrauenswürdigen Zertifizierungsstelle <a href="https://letsencrypt.org/" target="_blank">Let's Encrypt</a> können Sie automatisch kostenlose und sichere SSL/TLS-Zertifikate abrufen.</p>
+
+<ol>
+<li>Klicken Sie auf <strong>Hinzufügen</strong>.</li>
+<li>Wählen Sie <strong>Neues Zertifikat hinzufügen</strong> aus und klicken Sie auf <strong>Weiter</strong>.</li>
+<li>Wählen Sie <strong>Zertifikat von Let's Encrypt abrufen</strong> aus.</li>
+<li>Geben Sie die folgenden Informationen an:
+<ul>
+<li><strong>Domainname</strong>: Geben Sie die beim Domainanbieter registrierte Domain ein.</li>
+<li><strong>E-Mail</strong>: Geben Sie hier die für die Registrierung des Zertifikats verwendete E-Mail-Adresse ein.</li>
+<li><strong>Betreff Alternativer Name</strong>: Um ein Zertifikat für mehrere Domains zuzulassen, können Sie hier die anderen Domainnamen eingeben. Sie können auch ein Wildcard-Zertifikat beantragen, indem Sie die Domainnamen von Synology DDNS im folgenden Format eingeben:
+		<div class="code_div">
+		<code>*.SYNOLOGY_DDNS_DOMAIN_NAME</code>
+		</div></li>
+</ul>
+</li>
+<li>Klicken Sie auf <strong>Übernehmen</strong>, um die Einstellungen zu speichern. Nach der Bestätigung wird das Zertifikat sofort in Ihr Synology NAS importiert.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Sie können bei Let's Encrypt Zertifikate nur mit einer begrenzten Anzahl von E-Mail-Konten beantragen. Ist die Höchstzahl überschritten, verwenden Sie ein bereits registriertes E-Mail-Konto, um weitere Zertifikate abzurufen.</li>
+<li>Sie können bei Let's Encrypt pro Domain nur eine begrenzte Anzahl von Zertifikaten beantragen. Wenn das Limit überschritten wurde, haben Sie folgende Möglichkeiten:
+	<ul>
+		<li>Geben Sie den aktuellen Domainnamen als Betreff alternativer Name (SAN) ein und verwenden Sie einen anderen Domainnamen für die Zertifikatsanfrage.</li> 
+		<li>Geben Sie <code>*.SYNOLOGY_DDNS_DOMAIN_NAME</code> als SAN ein, um ein Wildcard-Zertifikat zu beantragen.</li>
+	</ul>
+<li>Bevor die Zertifikate für Ihre Domains ausgestellt werden, führt Let's Encrypt eine Domainüberprüfung durch. Bitte stellen Sie sicher, dass auf Ihrem Synology NAS und Ihrem Router Port 80 für die Domainüberprüfung aus dem Internet geöffnet ist. Jegliche sonstige Netzwerkkommunikation mit Let's Encrypt erfolgt zum Schutz Ihres Synology NAS über HTTPS.</li>
+<li>Von Let's Encrypt ausgestellte Zertifikate sind 90 Tage lang gültig. Bevor die Zertifikate ablaufen, erneuert DSM sie nach erfolgreicher Domainüberprüfung automatisch. Bitte stellen Sie sicher, dass auf Ihrem Synology NAS und Ihrem Router Port 80 für die Erneuerung des Zertifikats geöffnet ist.</li>
+<li>Wildcard-Zertifikate werden nur für Synology DDNS unterstützt.</li>
+</ul>
+</div>
+
+<h3>Selbst unterzeichnete Zertifikate</h3>
+
+<p>Ein selbst signiertes Zertifikat ist ein Zertifikat, das von der Stelle erstellt und signiert wird, deren Identität es zertifiziert (in diesem Fall die Synology NAS). Selbst unterzeichnete Zertifikate werden mit dem von der Synology NAS erzeugten privaten Schlüssel unterzeichnet. Da selbst unterzeichnete Zertifikate nicht von Drittstellen ausgegeben werden, bieten sie weniger Beweiskraft über die Identität des Servers und werden normalerweise nur für sichere Kanäle zwischen dem Server und einer Gruppe von bekannten Benutzern verwendet.</p>
+
+
+<h4>Selbst signierte Zertifikate erstellen:</h4>
+<ol>
+	<li>Klicken Sie auf <strong>Hinzufügen</strong>.</li>
+<li>Wählen Sie <strong>Neues Zertifikat hinzufügen</strong> aus und klicken Sie auf <strong>Weiter</strong>.</li>
+<li>Wählen Sie <strong>Selbst signiertes Zertifikat erstellen</strong> aus.</li>
+	<li>Folgen Sie den Anweisungen des Setup-Assistenten.</li>
+</ol>
+
+
+<h3>Zertifikatsignierungsanforderungen (CSR)</h3>
+
+<p>Neben von Let's Encrypt ausgestellten und selbst signierten Zertifikaten können Sie Zertifikate auch bei anderen kommerziellen und Drittanbieter-Zertifizierungsstellen beantragen. Um ein Zertifikat zu erhalten, müssen Sie möglicherweise die beiden nachstehenden Maßnahmen durchführen:</p>
+
+<ul>
+<li>Zertifikatsignierungsanforderung (CSR) erstellen: Ein von der Synology NAS erzeugter verschlüsselter Text, der Informationen enthält, die in Ihr Zertifikat aufgenommen werden, z. B. der Domainname, der Name des Unternehmens, der allgemeine Standort und die E-Mail-Adresse.</li>
+<li>Identifizieren Sie sich oder Ihr Unternehmen gegenüber der Zertifizierungsstelle und weisen Sie nach, dass Sie der Besitzer des Domainnamens sind, der in das Feld „Common Name“ der Zertifikatsignierungsanforderung eingegeben wurde.</li>
+</ul>
+
+
+<h4>Zertifikatsignierungsanforderungen erstellen:</h4>
+
+<ol>
+	<li>Klicken Sie auf <strong>CSR</strong>.</li>
+    <li>Wählen Sie <strong>Zertifikatsignierungsanforderung (CSR) erstellen</strong> aus.</li>
+	<li>Folgen Sie den Anweisungen des Setup-Assistenten, um die Zertifikatsignierungsanforderung zu erstellen und herunterzuladen.</li>
+    <li>Senden Sie die CSR und die erforderlichen Informationen zur Bestätigung an die Zertifizierungsstelle.</li>
+</ol>
+
+<p>Wenn Sie das angeforderte und von der Zertifizierungsstelle ausgestellte Zertifikat erhalten, können Sie es zusammen mit Ihrem privaten Schlüssel importieren.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<p>Neben der Zertifikatsignierungsanforderung muss auch ein privater Schlüssel erzeugt werden. Zertifikatsstellen benötigen diesen privaten Schlüssel nicht. Bewahren Sie den privaten Schlüssel für Ihre Synology NAS an einem sicheren und geheimen Ort auf.</p>
+</div>
+
+<h4>Zertifikatsignierungsanforderungen signieren:</h4>
+
+<p>Benutzer von anderen Geräten können Zertifikatsignierungsanforderungen senden, um zertifizierten Zugriff auf Ihre Synology NAS zu erhalten. Sie können deren Anforderungen unter Verwendung des Root-Zertifikats der Synology NAS signieren und die erzeugten Zertifikate an die Absender der Anforderungen übermitteln.</p>
+
+<ol>
+	<li>Klicken Sie auf <b>CSR</b>.</li>
+	<li>Klicken Sie auf <b>Zertifikatsignierungsanforderung (CSR) signieren</b>.</li>
+	<li>Laden Sie die Zertifikatsignierungsanforderung hoch und geben Sie die entsprechenden Informationen ein. </li>
+	<li>Klicken Sie auf <b>Weiter</b>. Das System unterzeichnet die Zertifikatanforderung und erstellt ein entsprechendes Zertifikat.</li>
+</ol>
+
+
+
+<h3>Zertifikatverwaltung</h3>
+
+
+<h4>Zertifikate importieren:</h4>
+<p>Sie können ein zuvor exportiertes Zertifikat oder ein Zertifikat von einer kommerziellen oder einer Drittanbieter-Zertifizierungsstelle zusammen mit einem privaten Schlüssel importieren, damit Ihre Synology NAS für andere Geräte vertrauenswürdig ist.</p>
+
+<ol>
+<li>Klicken Sie auf <strong>Hinzufügen</strong>.</li>
+<li>Wählen Sie <strong>Neues Zertifikat hinzufügen</strong> und <strong>Zertifikat importieren</strong> aus.</li>
+<li>Befolgen Sie die Anweisungen des Assistenten, um das Importieren des Zertifikats abzuschließen.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Zwischenzertifikate sind für einige von Zertifizierungsstellen ausgegebene Zertifikate optional.</li>
+<li>Die Zertifikate müssen im X.509 PEM-Format vorliegen.</li>
+<li>Private Schlüssel müssen im RSA-Format vorliegen und dürfen nicht kennwortgeschützt sein.</li>
+</ul>
+</div>
+
+
+<h4>Zertifikate exportieren:</h4>
+
+<p>Vorhandene Zertifikate können zwecks Verwaltung oder Archivierung heruntergeladen und sie können von den Geräten anderer importiert werden, um Vertrauenswürdigkeit zwischen Ihrer Synology NAS und deren Geräten herzustellen. Die exportierte Datei enthält das Zertifikat, den privaten Schlüssel und das selbst unterzeichnete Zertifikat der Synology NAS. </p>
+
+<ol>
+<li>Wählen Sie das gewünschte Zertifikat aus.</li>
+<li>Klicken Sie auf <strong>Zertifikat exportieren</strong>.</li>
+</ol>
+
+<h4>Zertifikate erneuern:</h4>
+
+<p>Wenn Ihr Zertifikat bald abläuft, kann es mit dieser Option erneuert werden.</p>
+
+<ol>
+	<li>Klicken Sie auf <b>CSR</b>.</li>
+	<li>Wählen Sie <b>Zertifikat erneuern</b> aus und klicken Sie auf <b>Weiter</b>.</li>
+	<li>Laden Sie den erzeugten privaten Schlüssel und die Zertifikatsignierungsanforderung herunter.</li>
+    <li>Senden Sie die CSR zur Erneuerung des Zertifikats an die gewünschte Zertifizierungsstelle.</li>
+</ol>
+
+
+<h4>Zertifikate ersetzen:</h4>
+<p>Wenn Sie keine vorhandenen Zertifikate verwenden möchten, können Sie sie durch alternative Zertifikate ersetzen.</p>
+
+<ol>
+<li>Klicken Sie auf <strong>Hinzufügen</strong>.</li>
+<li>Wählen Sie <strong>Vorhandenes Zertifikat ersetzen</strong> und das unerwünschte Zertifikat aus dem Dropdown-Menü aus.</li>
+<li>Befolgen Sie die Anweisungen des Assistenten, um das Ersetzen des Zertifikats abzuschließen.</li>
+</ol>
+
+
+<h4>Zertifikate bearbeiten:</h4>
+<p>Sie können die Beschreibung eines Zertifikats bearbeiten oder ein anderes Zertifikat als Standardzertifikat festlegen.</p>
+
+<ol>
+<li>Wählen Sie das gewünschte Zertifikat aus.</li>
+<li>Klicken Sie auf <strong>Bearbeiten</strong> und führen Sie eine der folgenden Maßnahmen durch:
+
+<ul>
+<li>Ändern Sie die Beschreibung des Zertifikats und klicken Sie auf <strong>OK</strong>.</li>
+<li>Wählen Sie <strong>Als Standardzertifikat festlegen</strong> aus, um ihm den Status „Standard“ zuzuweisen, und klicken Sie auf <strong>Übernehmen</strong>.</li>
+</ul>
+</ol>
+
+
+
+<h4>Zertifikate konfigurieren:</h4>
+<p>Bei Bedarf können Sie ein Zertifikat für einen Dienst in ein anderes Zertifikat umwandeln.</p>
+
+<ol>
+<li>Klicken Sie auf <strong>Konfigurieren</strong>, um alle Dienste und die entsprechenden Zertifikate anzuzeigen.</li>
+<li>Klicken Sie auf das aktuelle Zertifikat des betreffenden Dienstes.</li>
+<li>Wählen Sie das richtige Zertifikat aus dem Dropdown-Menü aus.</li>
+<li>Klicken Sie auf <strong>OK</strong>.</li>
+</ol>
+
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Das <strong>System-Standardzertifikat</strong> wird für Verbindungen angewendet, die nicht in der Liste der Dienste angeführt sind.</li>
+</ul>
+</div>
+
+
+
+
+<h4>Zertifikate löschen:</h4>
+
+<ol>
+<li>Wählen Sie das unerwünschte Zertifikat aus.</li>
+<li>Klicken Sie auf <strong>Löschen</strong>, um das Löschen des Zertifikats abzuschließen.</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Das Standardzertifikat kann nicht gelöscht werden.</li>
+<li>Wenn Sie ein Nicht-Standardzertifikat löschen, werden die entsprechenden Dienste vom Standardzertifikat übernommen. Beachten Sie, dass das Standardzertifikat mit diesen Diensten möglicherweise nicht uneingeschränkt kompatibel ist.</li>
+</ul>
+
+<p></p>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Yedekleme ve Çoğaltma</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Paylaşımlı Klasör Senkronizasyonu</h2>
+<p>Paylaşımlı Klasör Senkronizasyonu hizmeti, kullanıcıların paylaşımlı klasörleri bir Synology NAS cihazından (kaynak) diğer Synology NAS cihazına (hedef) LAN ortamında veya Internet üzerinden senkronize etmelerine olanak sağlar.</p>
+<p>İlk seferinde, Paylaşımlı Klasör Senkronizasyonu seçilen paylaşımlı klasör(ler) için tam senkronizasyon yapacaktır. Ardından, sadece değiştirilen dosyalar senkronize edilecektir. Kaynaktan çıkarılan dosyalar hedeften de çıkarılacaktır.</p>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Paylaşımlı Klasör Senkronizasyonu, kaynaktaki dosyaları hedefe senkronize eden tek yönlü senkronizasyon çözümüdür. 2 yönlü senkronizasyon çözümü için, lütfen <strong>Cloud Station ShareSync</strong>'i kullanın.</li>
+<li>Eğer hedef üzerinde kaynak paylaşımlı klasör ile aynı ada (ör. PaylaşımlıKlasör) sahip bir paylaşımlı klasör varsa, hedef klasör &quot;SharedFolder_1&quot; olarak adlandırılır.</li>
+<li>Eğer hedef üzerinde kaynak paylaşımlı klasör ile aynı ada sahip hiçbir paylaşımlı klasör yoksa, ilgili veya müsait ilk birimdeki ad kullanılarak bir klasör oluşturulur.</li>
+<li>Varsayılan olarak, hiçbir kullanıcı hedefteki paylaşımlı klasöre erişme ayrıcalığına sahip olmaz. Lütfen ayrıcalıklar için hedef <strong>admin</strong>'e başvurun.</li>
+</ul>
+</p>
+</div>
+
+<h3>Hizmeti Etkinleştirme</h3>
+<h4>Paylaşımlı Klasör Senkronizasyonunu etkinleştirmek için:</h4>
+<p>Önce hedef Synology NAS'da hizmeti etkinleştirmeniz gereklidir.</p>
+<ol>
+<li><strong>Denetim Masası</strong> > <strong>Dosya Hizmeti</strong> > <strong>rsync</strong>'ye gidin.</li>
+<li>Paylaşımlı Klasör Senkronizasyonu hizmetini etkinleştirmek için <strong>Rsync hizmetini etkinleştir</strong> öğesini seçin.</li>
+<li><strong>Uygula</strong>'ya tıklayın.</li>
+</ol>
+
+
+<h4>Hedef Synology NAS'tan paylaşımlı klasörlerin bağlantısını kaldırmak için:</h4>
+
+<p>Eğer farklı kaynaklar eş zamanlı olarak benzer bir paylaşımlı klasörü tek hedef Synology NAS sunucusuna senkronize ediyorsa bir ihtilaf olabilir. Başka bir kaynak klasörünü hedefe senkronize etmeden önce kaynak tarafta paylaşımlı klasörün bağlantısını kaldırmanız gerekecektir. 
+
+<ol>
+<li>Hedef Synology NAS'ta oturum açın ve <strong>Denetim Masası</strong> > <strong>Paylaşımlı Klasör Senkronizasyonu</strong> > <strong>Bağlantı Listesi</strong>'ne gidin.</li>
+<li>Kaynak Synology NAS'tan ihtilaflı bir bağlantıyı seçin ve kaldırmak için <strong>Bağlantıyı kaldır</strong> üzerine tıklayın.</li>
+</ol>
+
+<p>Şimdi başka bir kaynak paylaşımlı klasörü hedef Synology NAS sunucusuna senkronize edebilir.</p>
+
+<h3>Senkronizasyon Görevlerini Yönetme</h3>
+
+<h4>Bir senk görevi oluşturmak için:</h4>
+<ol>
+<li>Kaynak Synology NAS'ta oturum açın ve <b>Denetim Masası</b> > <b>Paylaşımlı Klasör Senkronizasyonu</b> > <strong>Görev Listesi</strong>'ne gidin.</li>
+<li><b>Oluştur</b>'a tıklayın.</li>
+<li>Görev için bir ad girin.</li>
+<li>Hedefte senkronize etmek istediğiniz paylaşımlı klasörü seçin.</li>
+<li>Hedef Synology NAS'ı ve aşağıdaki senkronizasyon seçeneklerini belirleyin:</li>
+<ul>
+<li><strong>Şifreli klasör senkronizasyonu için SSH şifreleme bağlantı noktasını özelleştir</strong>: SSH aktarım şifrelemesi için istenilen şifreleme portunu belirtin.</li>
+<li><strong>SSH Aktarım şifrelemesini etkinleştir</strong>: Aktarma sırasında verileri şifreleyin. Bu daha iyi güvenlik sağlarken şifresiz aktarım daha iyi performans sağlar. Gereksinimlerinize göre seçim yapabilirsiniz.
+</li> 
+<li><strong>Aktarım sıkıştırmasını etkinleştir</strong>: Aktarma sırasında verileri sıkıştırın. Ağ bant genişliğinden tasarruf sağlayacak, fakat CPU yükünü artıracaktır.</li>
+<li><strong>Blok düzey senkronizasyonu etkinleştir</strong>: Tüm dosyaların yerine sadece farklı olan verileri aktarın. Ağ bant genişliğinden tasarruf sağlayacak, fakat CPU yükünü artıracaktır.</li>
+</ul>
+<li>İstendiğinde, kaynaktan hedefe ne zaman senkronize edeceğinizi belirlemek için aşağıdaki seçeneklerden birisini seçin:</li>
+<ul>
+<li><strong>Değiştirme senkronizasyonunu çalıştır</strong>: Paylaşımlı kaynak klasörde herhangi bir değişiklik yapıldığında senkronizasyon görevini derhal çalıştırın.</li>
+<li><strong>Senki manüel çalıştır</strong>: Kaynak paylaşımlı klasörden senkronizasyon görevini manuel olarak çalıştırın.</li>
+<li><strong>Gelişmiş zaman çizelgesi</strong>: Senkronizasyon görevini ne zaman yapacağınızı belirlemek için <strong>Zaman Çizelgesi Planı</strong>'na tıklayın.</li>
+
+</ul>
+<li><strong>Uygula</strong>'ya tıklayın. Artık görev listesinde belirtilen çizelgeye göre yürütülecek olan senk görevini görebilirsiniz.</li></ol>
+<h4>Bir senk görevi yönetmek için:</h4>
+<ol>
+<li>Kaynak Synology NAS üzerinde, <strong>Denetim Masası</strong> > <strong>Paylaşımlı Klasör Senkronizasyonu</strong>'na gidin ve <strong>Görev Listesi</strong>'ne tıklayın ve istediğiniz görevi seçin.</li>
+<li>Aşağıdakilerden birini yapın:</li>
+<ul>
+<li>
+Görevi düzenlemek için <b>Düzenle</b> üzerine tıklayın.
+</li>
+<li>
+Görevi silmek için <b>Sil</b> üzerine tıklayın.
+</li> 
+<li>
+Senk görevi yürütülmüyorsa, görevi derhal yerine getirmek için <b>Şimdi Senk</b> üzerine tıklayın.
+</li>
+<li>
+Görev senkronizasyonu yapılıyorsa, <b>İptal</b> üzerine tıklayarak devam eden görevi durdurun.
+</li>
+
+<div class="section">
+<h4>Not:</h4>
+<p>
+Bir görev senkronizasyonu için olan çizelge <b>Senkronizasyonu değiştirmede çalıştır</b> olarak ayarlanmışsa, <b>İptal</b>'e tıklanması devam eden senk görevini durdurabilir. Ancak, herhangi bir paylaşımlı klasörün içeriğinde bir değişiklik yapılmışsa, Paylaşımlı Klasör Senkronizasyonu görevi sürdürür.</p>
+</div>
+
+<li>
+Tüm verileri senkronize etmek için <b>Tam Senk</b> üzerine tıklayın. Paylaşımlı Klasör Senkronizasyonu ilk kez tam bir tarama yapacak ve ilk senkronizasyonun ardından sadece değiştirilen parçaları senkronize edecektir. Bu düğmeye tıklanması tüm verilerinizi tekrar manuel olarak senkronize etmenize yardım edebilir.
+</li>
+</ul>
+</ol>
+
+<div class="section disable-eds14">
+<h4>Daha Fazla Bilgi</h4>
+<ol>
+<li>Görev en az 1 ila 32 Unicode karakter arasında olmalı ve aşağıdaki karakterleri içermelidir:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Eğer ext4'den ext3'e dosya sistemindeki paylaşımlı klasörleri senkronize ederseniz, testte 32.000'den fazla klasör bulunduğunda hata ile karşılaşabilirsiniz.</li>
+<li>Eğer Synology NAS hedefinde paylaşımlı klasörler diğer Synology NAS ile daha önceden senkronize edilmişse, Paylaşımlı Klasör Senkronizasyonu görev için tam bir senkronizasyon yapacaktır.</li>
+<li>Paylaşımlı Klasör Senkronizasyonu görevlerini yerine getirmek için, Synology NAS hedefinin admin önceliğine sahip olmanız gereklidir. Ya admin hesabı parolasına sahipsinizdir ya da bu idari grupta yer alıyorsunuz.</li>
+<li>Hedef Synology NAS ile internet üzerinden senkronize ederken, harici IP adresi ya da ana bilgisayar ile sunucu adını girebilirsiniz. Ancak, bir ana makine adı girmeyi tercih ederseniz, ad FQDN (Tam Tanımlanmış Alan Adı) biçiminde olmalıdır, örneğin &quot;www.synology.&quot; gibi.</li>
+<li>Bağlantı noktası yönlendirmek için Paylaşımlı Klasör Senkronizasyonu şifreli aktarım için 22 bağlantı noktasını kullanırken şifresiz aktarım için 873 bağlantı noktasını kullanır.</li>
+<li>Harici depolama aygıtları Paylaşımlı Klasör Senkronizasyonu ile desteklenmemektedir.</li>
+<li>Paylaşımlı Klasör Senkronizasyonu görevi çalışırken, hedefteki şifrelenen paylaşımlı klasör(ler) otomatik olarak tanıtılacaktır; ancak, içerideki veriye erişmek için, öncelikle şifrelenen paylaşımlı klasörleri hedefte tanıtmanız gerekir.</li>
+<li>Seçilen paylaşımlı klasörde hiçbir değişiklik yapılmamışsa, Programlanmış Paylaşımlı Klasör Senkronizasyonu, belirlenen zamanda çalışmayacaktır.</li>
+<li>En iyi performans için, her senkronizasyon görevinin 200 paylaşımlı klasörden daha azını içermesini öneririz.</li>
+<li><strong>Kullanıcı ana sayfa</strong> işlevi, <strong>homes</strong> paylaşımlı klasörü Synology NAS kaynağından Synology NAS hedefine senkronize edilirse Synology NAS hedefinde devre dışı bırakılacaktır.</li>
+
+<li>Intel CPU'su bulunmayan modeller için, Paylaşımlı Klasör Senkronizasyonunu kullanarak 100.000 paylaşımlı klasöre (alt klasörler dahil) kadar senkronizasyon yapabilirsiniz.</li>
+ <li>Hedef dosya sistemi ext4/Btrfs olduğunda Paylaşımlı Klasör Senkronizasyonu Windows ACL ayarlarını senkronize edebilir.</li>
+ 
+ <li>Paylaşımlı Klasör Senkronizasyonu, Synology NAS sunucunuz ile aynı adı paylaşan bir hedef sunucuya senkronize ediyorsanız başarısız olur.</li>
+ 
+<li>Kaynaktaki Gelişmiş Paylaşımlı Klasör İzinleri hedefle senkronize edilmeyecektir. Ayrıca, hedefte yöneticiler grubu için bir salt okunur kuralı oluşturulacaktır. </li> 
+
+  </ol>
+</div>
+<div class="section enable-eds14">
+<h4>Daha Fazla Bilgi</h4>
+<ol>
+<li>Görev en az 1 ila 32 Unicode karakter arasında olmalı ve aşağıdaki karakterleri içermelidir:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Eğer ext4'den ext3'e dosya sistemindeki paylaşımlı klasörleri senkronize ederseniz, testte 32.000'den fazla klasör bulunduğunda hata ile karşılaşabilirsiniz.</li>
+<li>Eğer Synology NAS hedefinde paylaşımlı klasörler diğer Synology NAS ile daha önceden senkronize edilmişse, Paylaşımlı Klasör Senkronizasyonu görev için tam bir senkronizasyon yapacaktır.</li>
+<li>Paylaşımlı Klasör Senkronizasyonu görevlerini yerine getirmek için, Synology NAS hedefinin admin önceliğine sahip olmanız gereklidir. Ya admin hesabı parolasına sahipsinizdir ya da bu idari grupta yer alıyorsunuz.</li>
+<li>Hedef Synology NAS ile internet üzerinden senkronize ederken, harici IP adresi ya da ana bilgisayar ile sunucu adını girebilirsiniz. Ancak, bir ana makine adı girmeyi tercih ederseniz, ad FQDN (Tam Tanımlanmış Alan Adı) biçiminde olmalıdır, örneğin &quot;www.synology.&quot; gibi.</li>
+<li>Bağlantı noktası yönlendirmek için Paylaşımlı Klasör Senkronizasyonu şifreli aktarım için 22 bağlantı noktasını kullanırken şifresiz aktarım için 873 bağlantı noktasını kullanır.</li>
+<li>Harici depolama aygıtları Paylaşımlı Klasör Senkronizasyonu ile desteklenmemektedir.</li>
+<li>Paylaşımlı Klasör Senkronizasyonu görevi çalışırken, hedefteki şifrelenen paylaşımlı klasör(ler) otomatik olarak tanıtılacaktır; ancak, içerideki veriye erişmek için, öncelikle şifrelenen paylaşımlı klasörleri hedefte tanıtmanız gerekir.</li>
+<li>Seçilen paylaşımlı klasörde hiçbir değişiklik yapılmamışsa, Programlanmış Paylaşımlı Klasör Senkronizasyonu, belirlenen zamanda çalışmayacaktır.</li>
+<li>En iyi performans için, her senkronizasyon görevinin 200 paylaşımlı klasörden daha azını içermesini öneririz.</li>
+<li><strong>Kullanıcı ana sayfa</strong> işlevi, <strong>homes</strong> paylaşımlı klasörü Synology NAS kaynağından Synology NAS hedefine senkronize edilirse Synology NAS hedefinde devre dışı bırakılacaktır.</li>
+<li>Intel CPU'su bulunmayan modeller için, Paylaşımlı Klasör Senkronizasyonunu kullanarak 100.000 paylaşımlı klasöre (alt klasörler dahil) kadar senkronizasyon yapabilirsiniz.</li>
+ 
+ <li>Paylaşımlı Klasör Senkronizasyonu, Synology NAS sunucunuz ile aynı adı paylaşan bir hedef sunucuya senkronize ediyorsanız başarısız olur.</li>
+ 
+<li>Kaynaktaki Gelişmiş Paylaşımlı Klasör İzinleri hedefle senkronize edilmeyecektir. Ayrıca, hedefte yöneticiler grubu için bir salt okunur kuralı oluşturulacaktır. </li> 
+ 
+ </ol>
+</div>
+</body></html>

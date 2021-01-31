@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Backup de dados</title>
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Backup</h2>
+<p><strong>Backup e restaura&ccedil;&atilde;o</strong> permite que voc&ecirc; fa&ccedil;a backup de v&aacute;rios tipos de dados (configura&ccedil;&otilde;es do sistema, pastas compartilhadas e aplicativos/pacotes) em seu Synology NAS, manualmente ou por programa&ccedil;&atilde;o. Voc&ecirc; pode armazenar os dados de backup nas pastas locais compartilhadas, servidores remotos e nuvens p&uacute;blicas (Amazon S3, Microsoft Azure, hicloud S3 e SFR NAS BACKUP). Com o <strong>Backup e restaura&ccedil;&atilde;o</strong>, cada tarefa de backup pode reter v&aacute;rias vers&otilde;es de backup e gir&aacute;-las com pol&iacute;ticas de reciclagem inteligente.</p>
+<h3>Backup de dados</h3>
+<p>O <strong>Backup e restaura&ccedil;&atilde;o</strong> oferece v&aacute;rias op&ccedil;&otilde;es de destinos de backup e maneiras de configurar uma tarefa de backup de dados.</p>
+<h4>Para criar uma tarefa de backup de dados:</h4>
+<ol>
+<li>Clique em <strong>+</strong> no canto inferior esquerdo e selecione <strong>Tarefa de backup de dados</strong> para abrir o Assistente de backup.</li>
+<li>Selecione o tipo desejado de destino de backup:
+<ul>
+<li>Pastas compartilhadas locais/remotas ou dispositivos de armazenamento externo</li>
+<li>Servidores rsync remotos</li>
+<li>Nuvens p&uacute;blicas (ex.: Amazon S3 e Microsoft Azure)</li>
+</ul>
+</li>
+<li>Configure o tipo desejado de sua tarefa de backup:
+  <ul>
+<li>Para criar uma tarefa totalmente nova, selecione <strong>Criar tarefa de backup</strong>.</li>
+<li>Para reutilizar os dados de backup em qualquer destino, selecione <strong>Revincular &agrave; tarefa existente</strong>. Revincular ajuda voc&ecirc; a aproveitar diretamente os dados do backup de uma tarefa diferente.</li>
+</ul>
+</li>
+<li>Siga as instru&ccedil;&otilde;es do assistente para concluir as configura&ccedil;&otilde;es. Selecione <strong>Habilitar a criptografia do lado do cliente</strong> para criptografar os dados antes da transmiss&atilde;o para garantir a seguran&ccedil;a deles no destino do backup.</li>
+</ol>
+<div class="section">
+<h4>Notas:</h4>
+<ul>
+<li>Os nomes das tarefas podem incluir de 1 a 32 caracteres Unicode, mas n&atilde;o podem conter os seguintes caracteres:<br> <span class="letterSpace5">! &quot; # $ % &amp; ' ( ) * + , / : ; &lt; = &gt; ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>O comprimento m&aacute;ximo do caminho completo da pasta para backup &eacute; de 2048 caracteres.</li>
+<li>Se mais de 32.000 arquivos ou pastas forem carregados para uma pasta compartilhada EXT3 via AFP, todas as tarefas de backup que incluem a pasta compartilhada falhar&atilde;o.</li>
+<li>Uma pasta compartilhada criptografada pode ter seu backup feito quando montada e ele pode ser restaurado em uma pasta criptografada/descriptografada. Entretanto, ela ser&aacute; sempre restaurada como descriptografada /////////e n&atilde;o ser&aacute; montada automaticamente na inicializa&ccedil;&atilde;o. O sistema solicitar&aacute; que voc&ecirc; digite ou importe a chave de criptografia da pasta compartilhada criptografada para mont&aacute;-la.</li>
+<li>N&atilde;o &eacute; suportado fazer backup de uma pasta criptografada para outra pasta criptografada.</li>
+<li>N&atilde;o &eacute; suportado usar pastas remotas como fonte ou destino de backup.</li>
+<li>O backup de determinados aplicativos &eacute; suportado. Para saber se um pacote espec&iacute;fico suporta o backup e conhecer o conte&uacute;do do backup e suas limita&ccedil;&otilde;es, consulte a ajuda de cada aplicativo.</li>
+<li class="enable-eds14">O Synology NAS n&atilde;o suporta o backup de aplicativos sem um dispositivo externo EXT3/EXT4 grav&aacute;vel.</li>
+<li class="enable-eds14">O Synology NAS s&oacute; pode fazer backup de pastas compartilhadas criadas em dispositivos externos EXT3/EXT4.</li>
+</ul>
+</div>
+<div class="section disable-eds14">
+<h4>Para fazer backup de configura&ccedil;&otilde;es de ACL do Windows:</h4>
+<p>Tamb&eacute;m &eacute; poss&iacute;vel fazer o backup das configura&ccedil;&otilde;es de ACL do Windows dos arquivos no Synology NAS, dependendo dos sistemas de arquivos do destino:</p>
+<ul>
+<li>Todos os destinos de backup podem fazer o backup das configura&ccedil;&otilde;es do Windows ACL independentemente do sistema de arquivos de destino</li>
+</ul>
+</div>
+<h4>Para exportar os dados de backup para nuvens p&uacute;blicas ou Synology NAS remoto:</h4>
+<p>Quando fizer backup de uma grande quantidade de dados para uma nuvem p&uacute;blica, recomendamos que voc&ecirc; exporte a vers&atilde;o inicial para um dispositivo de armazenamento externo (ex: unidade USB) e entregue o dispositivo ao fornecedor de servi&ccedil;os de nuvem. L&aacute; o dispositivo poder&aacute; ser conectado e os dados, carregados diretamente na nuvem. Desse modo voc&ecirc; pode reduzir significativamente o tempo do primeiro backup.</p>
+<ol>
+<li>Clique em <strong>+</strong> no canto inferior esquerdo e selecione <strong>Synology NAS remoto</strong> ou o fornecedor de servi&ccedil;o de nuvem desejado.</li>
+<li>Selecione <strong>Exportar para uma pasta compartilhada local (incluindo um dispositivo de armazenamento externo)</strong> e conclua as configura&ccedil;&otilde;es. Quando solicitado, selecione <strong>Habilitar criptografia do lado do cliente</strong> para obter um backup de dados protegido.</li>
+<li>Entregue o dispositivo de armazenamento externo para o Synology NAS remoto ou fornecedor de servi&ccedil;os de nuvem. Importe os dados exportados do dispositivo de armazenamento externo.</li>
+<li>Depois de confirmado, volte para <strong>Backup e restaura&ccedil;&atilde;o</strong> e clique em <strong>Revincular agora</strong>.</li>
+<li>Siga as instru&ccedil;&otilde;es do Assistente de revincula&ccedil;&atilde;o para vincular seu Synology NAS ao reposit&oacute;rio. &Eacute; necess&aacute;ria uma senha/chave de criptografia se os dados foram exportados criptografados.</li>
+</ol>
+<div class="section">
+	<h4>Observa&ccedil;&atilde;o:</h4>
+	<ul>
+		<li>A criptografia do lado do cliente n&atilde;o pode ser desabilitada quando a tarefa for configurada, nem a senha pode ser alterada.</li>
+		<li>Um reposit&oacute;rio de backup pode ser vinculado apenas a uma tarefa de backup.</li>
+		<li>Se a pasta de origem do backup for uma pasta compartilhada criptografada ou sua subpasta, a pasta de origem pode ser montada ou desmontada quando voc&ecirc; estiver criando a tarefa de backup.</li>
+		<li>As pastas compartilhadas criptografadas n&atilde;o podem ser destino de backup.</li>
+		<li>Se voc&ecirc; selecionar <strong>Habilitar criptografia no lado do cliente</strong> sua senha/chave de criptografia ser&aacute; exigida para restaurar dados nessa tarefa. <strong>Perder a senha/chave de criptografia causar&aacute; perda permanente de dados</strong>.</li>
+	</ul>
+</div>
+<h4>Para gerenciar as tarefas de backup:</h4>
+<p>Selecione uma tarefa de backup deseja no painel esquerdo e clique nos bot&otilde;es abaixo para obter o gerenciamento correspondente:</p>
+<ul>
+<li><strong>Fazer backup agora</strong>: Faz o backup da tarefa selecionada imediatamente.</li>
+<li><strong>Explorador de backup</strong> (o &iacute;cone da lupa): Visualize todas as vers&otilde;es de backup dispon&iacute;veis e copie/restaure/baixe os arquivos contidos.</li>
+<li><strong>Lista de vers&otilde;es</strong>: Visualize o tempo e o status de cria&ccedil;&atilde;o de todas as vers&otilde;es de backup, exclua vers&otilde;es espec&iacute;ficas de backup ou bloqueie as espec&iacute;ficas para reserva for&ccedil;ada.</li>
+<li><strong>Editar</strong>: Modifique a origem do backup, o destino, a programa&ccedil;&atilde;o e outras configura&ccedil;&otilde;es.</li>
+<li><strong>Excluir</strong>: Exclua a tarefa de backup.</li>
+<li><strong>Cancelar</strong>: Interrompa a tarefa de backup em execu&ccedil;&atilde;o atualmente.</li>
+</ul>
+<h4>Para rotacionar as vers&otilde;es:</h4>
+<p>A rota&ccedil;&atilde;o de backup &eacute; um mecanismo de gerenciamento de vers&atilde;o. Ela ajuda a gerenciar as vers&otilde;es de backup excluindo automaticamente a mais antiga, as vers&otilde;es desnecess&aacute;rias e liberando espa&ccedil;o de armazenamento em potencial. Voc&ecirc; pode habilitar essa fun&ccedil;&atilde;o em <strong>Configura&ccedil;&otilde;es de tarefas</strong> ou configur&aacute;-la quando criar uma tarefa de backup.</p>
+<ol>
+<li>Selecione a tarefa de backup desejada no painel esquerdo e clique em <strong>Editar</strong> ou em <strong>Configura&ccedil;&otilde;es</strong> &gt; <strong>Configura&ccedil;&otilde;es de tarefa</strong>.</li>
+<li>Selecione <strong>Habilitar rota&ccedil;&atilde;o do backup</strong> e selecione o modo de rota&ccedil;&atilde;o desejado:
+<ul>
+<li><strong>Das vers&otilde;es mais antigas</strong>: Exclua as vers&otilde;es de backup mais antigas quando vers&otilde;es dispon&iacute;veis ultrapassarem o n&uacute;mero definido.</li>
+<li><strong>Smart Recycle</strong>: Mantenha as vers&otilde;es de backup de acordo com essas pol&iacute;ticas:
+  <ul>
+<li><strong>Vers&otilde;es hor&aacute;rias das &uacute;ltimas 24 horas</strong>: Mant&eacute;m a vers&atilde;o mais antiga criada a cada hora.</li>
+<li><strong>Vers&otilde;es di&aacute;rias de 1 dia passado a 1 m&ecirc;s</strong>: Mant&eacute;m a vers&atilde;o mais antiga criada a cada dia.</li>
+<li><strong>Vers&atilde;o semanal com mais de 1 m&ecirc;s</strong>: Mant&eacute;m a vers&atilde;o mais antiga criada a cada semana.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Especifique o <strong>n&uacute;mero m&aacute;ximo de vers&otilde;es</strong>. Quando o n&uacute;mero de vers&otilde;es ultrapassar esse n&uacute;mero, a vers&atilde;o mais antiga ser&aacute; rotacionada.</li>
+<li>Se voc&ecirc; configurou um programa de backup repetido em <strong>Programa</strong>, pode visualizar como suas vers&otilde;es de backup ser&atilde;o mantidas e o ponto de recupera&ccedil;&atilde;o mais antigo na linha do tempo.</li>
+<li>Clique em <strong>OK</strong> para salvar as configura&ccedil;&otilde;es.</li>
+</ol>
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>As vers&otilde;es bloqueadas nunca ser&atilde;o removidas.</li>
+<li>Apenas as tarefas de backup multivers&atilde;o fornecem fun&ccedil;&otilde;es de rota&ccedil;&atilde;o de vers&atilde;o.</li>
+<li>A rota&ccedil;&atilde;o de vers&atilde;o n&atilde;o &eacute; suportada no DSM 5.1 ou inferior.</li>
+<li>A rota&ccedil;&atilde;o ser&aacute; disparada logo ap&oacute;s a configura&ccedil;&atilde;o ser alterada ou a tarefa de backup conclu&iacute;da.</li>
+<li>As vers&otilde;es bloqueadas s&atilde;o exclu&iacute;das ao se calcular o n&uacute;mero m&aacute;ximo de vers&otilde;es.</li>
+</ul>
+</div>
+<h3>Notas em tarefas de backups de dados</h3>
+<p>Para cada tipo de tarefa de backup, leia as notas a seguir para obter detalhes importantes de configura&ccedil;&atilde;o e dicas de solu&ccedil;&atilde;o de problemas.</p>
+<h4>Tarefas de backup local:</h4>
+<ul>
+<li>Se os dados do destino forem removidos enquanto a tarefa de backup est&aacute; sendo executada, um backup integral ser&aacute; executado na pr&oacute;xima vez em que a tarefa for executada.</li>
+<li>Novas unidades externas podem precisar de formata&ccedil;&atilde;o antes de servirem como destino de backup. </li>
+<li>Antes de criar uma tarefa de backup, certifique-se de j&aacute; ter anexado as unidades externas adequadamente para o seu Synology NAS. Voc&ecirc; pode ir para <b>Painel de controle</b> &gt; <b>Dispositivos Externos</b> para verificar o estado das unidades USB/eSATA. Unidades externas n&atilde;o podem ser selecionadas como destino de backup se a unidade externa estiver sendo inicializada, formatada ou estiver funcionando incorretamente.</li>
+<li>Pastas compartilhadas montadas remotamente n&atilde;o podem ser selecionadas como origem ou destino de backup.</li>
+<li>Se uma pasta compartilhada criptografada estiver desmontada, ela n&atilde;o poder&aacute; ser escolhida como o destino do backup.</li>
+<li>N&atilde;o &eacute; poss&iacute;vel fazer o backup de miniaturas de imagem quando o sistema de arquivos do destino for NTFS/FAT.</li>
+</ul>
+<h4>Tarefas de backup de rsync remoto:</h4>
+<ul>
+<li>Os modos a seguir est&atilde;o dispon&iacute;veis ao criar uma tarefa de backup com servidores compat&iacute;veis com rsync como o destino do backup em rede: <b>modo de daemon rsync,</b> que &eacute; usado quando voc&ecirc; seleciona um m&oacute;dulo de backup (pasta compartilhada no servidor compat&iacute;vel com rsync) do menu suspenso pr&oacute;ximo a <b>M&oacute;dulo de backup</b>; e <b>modo de shell remoto,</b> que &eacute; usado somente quando voc&ecirc; digita um caminho absoluto (iniciando por &quot;/&quot;) no <b>M&oacute;dulo de backup</b>.</li>
+<li>Para usu&aacute;rios de Linux, somente as contas <strong>admin</strong>, <strong>root</strong> e <strong>rsync</strong> s&atilde;o autorizadas a executar tarefas de backup.</li>
+<li>Para acessar o servidor de destino pela Internet usando o nome do host, o nome do host deve ser um FQDN (Fully Qualified Domain Name &ndash; Nome de dom&iacute;nio completamente qualificado), por exemplo <strong>abc.bcd.com</strong>.</li>
+<li>Ao fazer backup de um dispositivo Synology NAS para outro, voc&ecirc; ser&aacute; solicitado a inserir o nome de usu&aacute;rio e a senha de uma conta no destino. Ao fazer backup de pastas compartilhadas em outro Synology NAS, &eacute; poss&iacute;vel faz&ecirc;-lo de acordo com as configura&ccedil;&otilde;es de privil&eacute;gios de acesso das pastas. Somente pastas compartilhadas para as quais a conta de usu&aacute;rio especificada possui privil&eacute;gios de acesso estar&atilde;o vis&iacute;veis. Se voc&ecirc; n&atilde;o localizar a pasta compartilhada desejada no destino, verifique seus privil&eacute;gios de acesso.</li>
+<li>A criptografia de transfer&ecirc;ncia &eacute; suportada apenas se o servidor de destino suportar backup criptografado em rede e se a senha de autentica&ccedil;&atilde;o n&atilde;o estiver vazia.</li>
+<li>O modo shell remoto suporta somente a criptografia de transfer&ecirc;ncia.</li>
+<li>Se voc&ecirc; estiver fazendo backup de arquivos para um Synology NAS por meio de um cliente rsync, os nomes dos arquivos devem estar em codifica&ccedil;&atilde;o UTF-8.</li>
+<li>Se voc&ecirc; estiver fazendo backup de arquivos em um Synology NAS por meio de um cliente compat&iacute;vel com rsync, s&oacute; pode executar a tarefa com contas de <strong>admin</strong>, <strong>root</strong> e <strong>rsync</strong> do Synology NAS.</li>
+<li>Se voc&ecirc; estiver fazendo backup de arquivos de seu Synology NAS para um servidor compat&iacute;vel com rsync, voc&ecirc; precisar&aacute; digitar a senha e o nome da conta de backup rsync corretos. Voc&ecirc; tamb&eacute;m precisar&aacute; escolher o m&oacute;dulo de backup correto com o privil&eacute;gio de Grava&ccedil;&atilde;o.</li>
+</ul>
+<h4>Tarefas de backup Amazon S3:</h4>
+<ul>
+  <li>Ao criar tarefas de backup em rede com um servidor Amazon S3 como destino de backup em rede, v&aacute;rias op&ccedil;&otilde;es est&atilde;o dispon&iacute;veis, como criptografia de transfer&ecirc;ncia, backup para Amazon S3 RSS (Reduced Redundancy Storage) e outras. Observe que algumas op&ccedil;&otilde;es, como criptografia de transfer&ecirc;ncia, podem reduzir a velocidade das tarefas de backup.</li>
+  <li>Os arquivos de backup s&atilde;o armazenados no <strong>Bucket</strong> que voc&ecirc; selecionou no servidor Amazon S3 e o Valor Set KEY come&ccedil;a com um nome de diret&oacute;rio de sua escolha e termina com o caminho do arquivo completo.</li>
+  <li>A estrutura de dados do Amazon S3 inclui um par de Bucket e KEY sem nenhuma estrutura de pastas. N&atilde;o h&aacute; suporte para backup em pasta vazia.</li>
+  <li>Se um arquivo do qual foi feito backup foi alterado, seu backup n&atilde;o ser&aacute; feito novamente no mesmo Bucket para o servidor Amazon S3.</li>
+  <li>Cada Bucket no Amazon S3 deve ter um nome exclusivo. Al&eacute;m disso, o nome deve:</li>
+<ul>
+  <li>ter entre 3 e 63 caracteres.</li>
+  <li>conter letras min&uacute;sculas, n&uacute;meros, pontos (.) e tra&ccedil;os (-).</li><li>comece com um n&uacute;mero ou letra, n&atilde;o podendo terminar com um h&iacute;fen (-) ou conter duas frases adjacentes ou tra&ccedil;os ap&oacute;s pontos (por exemplo: &quot;my-.bucket.com&quot; e &quot;my.-bucket&quot; s&atilde;o nomes inv&aacute;lidos).</li>
+</ul>
+<li>O comprimento m&aacute;ximo de um KEY Amazon S3 &eacute; de 1024 caracteres. Para assegurar um backup bem-sucedido para o Amazon S3, o comprimento m&aacute;ximo do caminho &eacute; 1024 menos o nome de pasta de destino especificado durante a cria&ccedil;&atilde;o da tarefa.</li>
+<li>Se voc&ecirc; habilitar o suporte a RRS (Armazenamento de Redund&acirc;ncia Reduzida) do Amazon S3, ser&aacute; feito backup no armazenamento RRS apenas dos dados modificados ap&oacute;s a op&ccedil;&atilde;o ser habilitada, o que significa que n&atilde;o ser&aacute; feito backup no RRS novamente dos dados j&aacute; copiados para o armazenamento padr&atilde;o do Amazon S3. </li>
+<li>Mover os arquivos de backup do Amazon S3 para o Amazon Glacier n&atilde;o &eacute; suportado. Se os arquivos forem movidos do Amazon S3 para o Amazon Glacier por meio do console de Gerenciamento do AWS, as tarefas de backup relacionadas poder&atilde;o falhar.</li>
+<li>N&atilde;o h&aacute; suporte para o backup de arquivos para buckets de estilo em host virtual com SSL.</li>
+<li>Ao transferir um arquivo, o arquivo ser&aacute; dividido em partes. O tamanho de cada parte pode ser definido pela op&ccedil;&atilde;o <strong>Tamanho das partes para upload com diversas partes</strong> nas configura&ccedil;&otilde;es de tarefa, com o valor padr&atilde;o de 512 MB. Se o ambiente de rede n&atilde;o for est&aacute;vel, recomenda-se que essa op&ccedil;&atilde;o seja um n&uacute;mero menor.</li>
+<li>O n&uacute;mero m&aacute;ximo de partes por carregamento &eacute; 10000. O tamanho m&aacute;ximo de um arquivo &eacute; o <strong>Tamanho das partes para upload com diversas partes</strong> multiplicado por 10000.</li>
+<li>Os nomes dos arquivos n&atilde;o devem conter nenhum caractere que n&atilde;o seja UTF-8 ou de controle.</li>
+</ul>
+<h4>Tarefas de backup Microsoft Azure:</h4>
+<ul>
+<li>Ao criar tarefas de backup com o servidor Microsoft Azure como o destino de backup de rede, v&aacute;rias op&ccedil;&otilde;es est&atilde;o dispon&iacute;veis (por exemplo: criptografia de transfer&ecirc;ncia). Observe que algumas op&ccedil;&otilde;es, como criptografia de transfer&ecirc;ncia, podem reduzir a velocidade das tarefas de backup.</li>
+<li>Os arquivos de backup s&atilde;o armazenados no <strong>Cont&ecirc;iner</strong> que voc&ecirc; selecionou no servidor Microsoft Azure e o nome de configura&ccedil;&atilde;o do Blob come&ccedil;a com um nome de diret&oacute;rio de sua escolha e termina com o caminho do arquivo completo.</li>
+<li>A estrutura de dados do Microsoft Azure inclui um par de Cont&ecirc;iner e Blob sem nenhuma estrutura de pastas. N&atilde;o h&aacute; suporte para backup em pasta vazia.</li>
+<li>Se um arquivo do qual foi feito backup n&atilde;o foi alterado, seu backup n&atilde;o ser&aacute; feito novamente no mesmo Cont&ecirc;iner para o servidor Microsoft Azure.</li>
+<li>Cada Cont&ecirc;iner no Microsoft Azure deve ter um nome exclusivo. Al&eacute;m disso, o nome deve:</li>
+<ul>
+<li>ter entre 3 e 63 caracteres.</li>
+<li>conter letras min&uacute;sculas, n&uacute;meros e tra&ccedil;os (-).</li>
+<li>come&ccedil;ar e terminar com um n&uacute;mero ou uma letra e n&atilde;o pode conter dois tra&ccedil;os adjacentes.</li>
+</ul>
+<li>O comprimento m&aacute;ximo de um Nome Blob do Microsoft Azure &eacute; de 1024 caracteres. Para assegurar uma tarefa de backup bem-sucedida para o Microsoft Azure, o comprimento m&aacute;ximo do caminho &eacute; 1024 menos o nome de pasta de destino especificado durante a cria&ccedil;&atilde;o da tarefa.</li>
+<li>Os nomes dos arquivos n&atilde;o devem conter nenhum caractere que n&atilde;o seja UTF-8 ou de controle.</li>
+<li>A mensagem de aviso de falha de autentica&ccedil;&atilde;o pode ser gerada por informa&ccedil;&otilde;es de autentica&ccedil;&atilde;o incorretas, problemas de conex&atilde;o de rede, ou a hora em seu Synology NAS e o servidor remoto n&atilde;o coincidem. Para verificar a configura&ccedil;&atilde;o de hora em seu Synology NAS, v&aacute; para <strong>Painel de Controle</strong> &gt; <strong>Op&ccedil;&otilde;es Regionais</strong> &gt; <strong>Hora</strong> para sincronizar a hora com o servidor NTP.</li>
+</ul>
+<h4>Tarefas de backup hicloud S3:</h4>
+<ul>
+<li>Ao criar tarefas de backup com o servidor hicloud S3 como o destino de backup de rede, v&aacute;rias op&ccedil;&otilde;es est&atilde;o dispon&iacute;veis (por exemplo: criptografia de transfer&ecirc;ncia). Observe que algumas op&ccedil;&otilde;es, como criptografia de transfer&ecirc;ncia, podem reduzir a velocidade das tarefas de backup.</li>
+<li>Os arquivos de backup s&atilde;o armazenados no <strong>Bucket</strong> que voc&ecirc; selecionou no servidor hicloud S3 e o Valor Set KEY come&ccedil;a com um nome de diret&oacute;rio de sua escolha e termina com o caminho do arquivo completo.</li>
+<li>A estrutura de dados do hicloud S3 inclui um emparelhamento de Bucket e KEY sem uma estrutura de pastas. N&atilde;o h&aacute; suporte para backup em pasta vazia.</li>
+<li>Se um arquivo do qual foi feito backup n&atilde;o foi alterado, seu backup n&atilde;o ser&aacute; feito novamente no mesmo Bucket para o servidor hicloud S3.</li>
+<li>Cada Bucket no hicloud S3 deve ter um nome exclusivo. Al&eacute;m disso, o nome deve:</li>
+<ul>
+<li>ter entre 3 e 63 caracteres.</li>
+<li>conter letras min&uacute;sculas, n&uacute;meros, pontos (.) e tra&ccedil;os (-).</li>
+<li>comece com um n&uacute;mero ou letra, n&atilde;o podendo terminar com um h&iacute;fen (-) ou conter duas frases adjacentes ou tra&ccedil;os ap&oacute;s pontos (por exemplo: &quot;my-.bucket.com&quot; e &quot;my.-bucket&quot; s&atilde;o nomes inv&aacute;lidos).</li>
+</ul>
+<li>O comprimento m&aacute;ximo de um KEY hicloud S3 &eacute; de 255 caracteres. Para assegurar um backup bem-sucedido para o hicloud S3, o comprimento m&aacute;ximo do caminho &eacute; 255 menos o nome de pasta de destino especificado durante a cria&ccedil;&atilde;o da tarefa.</li>
+<li>Ao transferir um arquivo, o arquivo ser&aacute; dividido em partes. O tamanho de cada parte pode ser definido pela op&ccedil;&atilde;o <strong>Tamanho das partes para upload com diversas partes</strong> nas configura&ccedil;&otilde;es de tarefa, com o valor padr&atilde;o de 512 MB. Se o ambiente de rede n&atilde;o for est&aacute;vel, recomenda-se selecionar um n&uacute;mero menor.</li>
+<li>O Hicloud suporta apenas 1000 partes por transfer&ecirc;ncia no m&aacute;ximo. Isso significa que o tamanho total do arquivo n&atilde;o pode ultrapassar 1000 multiplicado pelo tamanho da parte. Por exemplo, se o tamanho da parte de carregamento multiparte for definido em 8MB, um &uacute;nico arquivo acima de 8000 MB n&atilde;o ser&aacute; carregado. </li>
+<li>O backup de pastas compartilhadas criptografadas n&atilde;o &eacute; suportado.</li> 
+<li>Os nomes dos arquivos n&atilde;o devem conter nenhum caractere que n&atilde;o seja UTF-8 ou de controle.</li>
+</ul>
+  
+<h4>Tarefas de backup SFR NAS BACKUP:</h4>
+<ul>
+<li>Ao criar tarefas de backup com o servidor SFR NAS BACKUP como o destino de backup de rede, v&aacute;rias op&ccedil;&otilde;es est&atilde;o dispon&iacute;veis, como criptografia de transfer&ecirc;ncia e outros. Observe que algumas op&ccedil;&otilde;es, como criptografia de transfer&ecirc;ncia, podem reduzir a velocidade das tarefas de backup.</li>
+<li>Os arquivos de backup s&atilde;o armazenados no <strong>Bucket</strong> que voc&ecirc; selecionou no servidor SFR NAS BACKUP e o Valor Set Key come&ccedil;a com um nome de diret&oacute;rio de sua escolha e termina com o caminho do arquivo completo.</li>
+<li>A estrutura de dados do SFR NAS BACKUP inclui um emparelhamento de Bucket e KEY com uma estrutura de pastas. N&atilde;o h&aacute; suporte para backup em pasta vazia.</li>
+<li>Se um arquivo do qual foi feito backup n&atilde;o foi alterado, seu backup n&atilde;o ser&aacute; feito no servidor SFR NAS BACKUP no mesmo Bucket novamente.</li>
+<li>Cada Bucket no servidor SFR NAS BACKUP deve ter um nome exclusivo. Al&eacute;m disso, o nome deve:</li>
+<ul>
+<li>ter entre 3 e 63 caracteres.</li>
+<li>conter letras min&uacute;sculas, n&uacute;meros, pontos (.) e tra&ccedil;os (-).</li>
+<li>comece com um n&uacute;mero ou letra, n&atilde;o podendo terminar com um h&iacute;fen (-) ou conter duas frases adjacentes ou tra&ccedil;os ap&oacute;s pontos (por exemplo: &quot;my-.bucket.com&quot; e &quot;my.-bucket&quot; s&atilde;o nomes inv&aacute;lidos).</li>
+</ul>
+<li>O comprimento m&aacute;ximo de uma CHAVE DE BACKUP SFR NAS &eacute; de 1024 caracteres. Para assegurar um backup bem-sucedido para o SFR NAS BACKUP, o comprimento m&aacute;ximo do caminho &eacute; 1024 menos o nome de pasta de destino especificado durante a cria&ccedil;&atilde;o da tarefa.</li>
+<li>Ao transferir um arquivo, o arquivo ser&aacute; dividido em partes. O tamanho de cada parte pode ser definido pela op&ccedil;&atilde;o <strong>Tamanho das partes para upload com diversas partes</strong> nas configura&ccedil;&otilde;es de tarefa, com o valor padr&atilde;o de 64MB. Se o ambiente de rede n&atilde;o for est&aacute;vel, recomenda-se selecionar um n&uacute;mero menor.</li>
+<li>Os nomes dos arquivos n&atilde;o devem conter nenhum caractere que n&atilde;o seja UTF-8 ou de controle.</li> 
+</ul>
+<h4>Outras tarefas de backup compat&iacute;veis com S3:</h4>
+<ul>
+<li>Para usar outras nuvens compat&iacute;veis com S3, digite o endere&ccedil;o IP/dom&iacute;nio da nuvem compat&iacute;vel com S3 desejada no campo <strong>Servidor S3</strong> quando solicitado.</li>
+<li>Se houver algum problema de uso, consulte a documenta&ccedil;&atilde;o relevante ou entre em contato com o fornecedor de servi&ccedil;o na nuvem compat&iacute;vel com S3.</li>
+</ul>
+<h3>Backup do LUN*</h3>
+<p>Voc&ecirc; pode usar <b>Backup de LUN local</b> para fazer o backup de iSCSI LUNs em seu Synology NAS em pastas compartilhadas locais. Voc&ecirc; tamb&eacute;m pode usar <b>Backup de LUN de Rede (servidor Synology)</b> para fazer backup em outro Synology NAS.</p>
+<h4>Para fazer backup do iSCSI LUN:</h4>
+<ol>
+<li>Clique em <strong>+</strong> no canto inferior esquerdo e selecione <strong>Tarefa de backup de LUN</strong>.
+</li>
+<li>
+Quando solicitado, selecione um tipo de destino, selecione uma das seguintes op&ccedil;&otilde;es:
+</li>
+<ul>
+<li>
+<b>Backup de LUN Local</b>: Selecione essa op&ccedil;&atilde;o para fazer backup do LUN do Synology NAS para uma pasta compartilhada local ou uma unidade de armazenamento externa conectada &agrave; porta USB ou eSATA de seu Synology NAS.
+</li>
+<li><b>Backup de LUN de Rede (servidor Synology)</b>: Selecione essa op&ccedil;&atilde;o para fazer backup do LUN de seu Synology NAS para outro Synology NAS.
+</li>
+</ul>
+<li>
+Quando solicitado, especifique o destino do backup e o LUN de origem e defina a programa&ccedil;&atilde;o de backup.
+</li>
+<li>
+Siga o assistente para concluir a configura&ccedil;&atilde;o.
+</li>
+</ol>
+<p>Depois da cria&ccedil;&atilde;o da tarefa de backup, o Synology NAS executar&aacute; a tarefa de backup de acordo com a programa&ccedil;&atilde;o e armazenar&aacute; o backup do LUN no destino. O backup do LUN &eacute; usado apenas para fins de backup. Para acessar o backup do LUN, consulte <a href="restore.html">Para restaurar o backup do LUN</a> para obter mais informa&ccedil;&otilde;es.</p>
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Os LUNs normais de arquivo e de n&iacute;vel de bloco ser&atilde;o inclu&iacute;dos no backup como imagens de arquivo no destino. Se restaurados, os LUNs de N&iacute;vel de Bloco ser&atilde;o alterados para LUNs de Arquivo.</li>
+<li>Cada tarefa de backup pode incluir apenas um LUN como origem de backup.</li>
+<li>O backup dos LUNs n&atilde;o pode ser feito em um disco externo com o formato FAT, FAT32, HFS, HFS Plus ou NTFS.</li>
+<li>Antes de executar o Backup do LUN da rede, fa&ccedil;a login no Synology NAS de destino para certificar-se de que o Servi&ccedil;o de backup de rede esteja habilitado em <b>Painel de controle</b> &gt; <b>Servi&ccedil;os de Backup</b>.</li>
+<li>Se o Synology NAS se conecta a outra rede atrav&eacute;s de um roteador, certifique-se de ter especificado uma regra de encaminhamento de porta para o servi&ccedil;o iSCSI (porta TCP 3260) no roteador antes de realizar o backup do LUN da rede.</li>
+</ul>
+</div>
+<div class="section">
+<h4>Sobre o backup completo e o backup incremental:</h4>
+<p>
+O Synology NAS executar&aacute; um backup completo do LUN selecionado pela primeira vez e posteriormente realizar&aacute; backups incrementais. Entretanto, se o nome da pasta compartilhada ou o nome do diret&oacute;rio do destino do backup for alterado, o Synology NAS realizar&aacute; um backup completo da tarefa novamente.
+</p>
+</div>
+<p>____<br /> * Dispon&iacute;vel apenas em modelos espec&iacute;ficos.</p>
+</body></html>

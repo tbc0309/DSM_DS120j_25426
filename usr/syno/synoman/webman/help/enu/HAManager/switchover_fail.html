@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Switchover</h2>
+  
+ <p>In order to ensure continuous performance and minimize service downtime, services can be switched from the active server of a high-availability cluster to the redundant, passive server. This feature is called "Switchover," or in some cases "Failover." This section explains the basics of these two concepts.</p>
+  
+  <h3>Switchover</h3>
+  	<p>Switchover refers to a switch from the active server to the redundant, passive server of a high-availability cluster. Under normal conditions, the active server manages all services. However, in the event the active server malfunctions, you can initiate a switchover and transfer all services to the passive server, assuming the passive server is functioning normally. In this case, the active server assumes the role of the passive server, and the passive server assumes the role of the active server.</p>
+    
+<h4>To manually initiate a switchover:</h4>
+ <ol>
+  <li>Go to the <b>Overview</b> tab.</li>
+  <li>Click <b>Management</b> > <b>Switchover</b>.</li>
+ </ol>
+<div class="section">
+<h4>Note:</h4>
+   <p>When a switchover is initiated, the active server first assumes the role of passive server, and then the passive server becomes the active server. Thus, there will be a short period of time when both servers become passive and will not be able to provide services normally. The time to complete a switchover varies depending on the number and size of volumes or iSCSI LUNs (Block-Level), or the number and total load of services on the high-availability cluster.</p>
+</div>
+   
+<h3>Failover</h3>
+    
+     <p>When certain errors occur, the system can automatically initiate a switchover of services in order to maintain performance. This event is called "failover." The system might initiate failover in the following situations:</p>
+    
+     <ul>
+      <li><b>Crashed storage space:</b> A storage space (e.g. volume, Disk Group, RAID Group, SSD cache, etc.) on the active server has crashed, but the corresponding storage space on the passive server is functioning normally. Please note the system will not initiate a failover if no volumes or iSCSI LUN (Block-Level) exist on the crashed storage space.</li>
+      <li><b>Service Error:</b> An error occurred on a monitored service.</li>
+      <li><b>Power Failure:</b> The active server is shut down or rebooted; both power units on the active server have failed; or power is lost.</li>      
+     </ul>    
+     
+    
+<h3>Switchover Failure</h3>
+    
+		<p>Switchover or failover might not succeed in the following situations:</p>
+  			<ul>
+   				<li><b>Incomplete data replication:</b> When you first combine two servers to create a high-availability cluster, the system requires time to replicate all data from the active server to the passive server.</li>
+   				<li><b>Storage space on passive server crashed:</b> A storage space (e.g. volume, Disk Group, RAID Group, etc.) on the passive server has crashed.</li>
+                <li><b>Power Failure:</b> The passive server is shut down or rebooted; both power units on the passive server have failed; or power is lost.</li>
+                <li><b>DSM update:</b> When installing DSM updates, all services will be stopped, and will resume after DSM update installation is completed.</li>      
+ </ul>
+
+  <p>If you manually initiate a switchover, but services cannot be switched to the passive server, then the system will attempt to switch services back to the active server.</p>
+ <p>In the event failover is initiated, but neither server is able to assume the role of active server due to errors, the high-availability cluster will not be able to provide service normally. If the servers do not automatically return to <b>Standalone</b> status, please press the <b>Reset</b> button on both servers to restore default settings. Once default settings have been restored you can combine the servers and create a high-availability cluster again.</p>
+ 
+ <h3>Uninterruptible Power Supply</h3>
+  <p>High-availability clusters can be connected to uninterruptible power supply (UPS) units in order to reduce the risk of unexpected power loss. If power is lost, servers will receive backup power from any UPS units connected to them. When the UPS unit connected to the active server begins running low on power, the system will attempt to switch over services to the passive server. Please see the guidelines below.</p>
+   <ul>
+
+<li>If the active and passive servers are attached to the same network switch, it is recommended to connect both servers to the same power source as the network switch.</li>
+<li>If the active and passive servers are attached to different network switches that use different power sources (e.g. electricity from different power companies), it is recommended to connect the active and passive servers to corresponding power sources same as their attached network switches.</li>
+<li>If the active and passive servers are attached to different network switches that use different UPS units, it is recommended to connect both servers to one of the UPS units rather than to different UPS units. When the UPS unit loses power, the active server will be notified and enter safe mode, and the passive server will be turned off properly. If the servers are connected to different UPS units otherwise, the active server will not be able to detect whether the UPS of the passive server is running low on power and thus the passive server may be unexpectedly shut down.</li>
+   </ul>
+
+   
+<div class="section">
+<h4>Note:</h4>
+<p>Synology NAS supports connecting to local and SNMP UPS devices. For more information, please see the help for <strong>Control Panel</strong> > <strong>Hardware</strong> > <strong>UPS</strong></p>
+</div>  
+ </body>
+</html>

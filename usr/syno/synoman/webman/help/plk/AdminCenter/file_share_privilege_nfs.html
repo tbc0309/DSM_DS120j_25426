@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Folder współdzielony</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Przypisywanie uprawnień NFS</h2>
+<p>Do każdego folderu współdzielonego można przypisać uprawnienia NFS, dając do niego dostęp klientom z systemami Linux.</p>
+<h4>Aby przypisać uprawnienia NFS do folderu współdzielonego:</h4>
+<ol>
+<li>Wybierz folder współdzielony do edycji z listy folderów współdzielonych.</li>
+<li>Kliknij przycisk <strong>Edytuj</strong> > <strong>Uprawnienia NFS</strong>.</li>
+<li>Kliknij <b>Utwórz</b>, aby dodać regułę NFS.</li>
+<li>Pojawi się wyskakujące okienko. Określ poniższe opcje.</li>
+<li><strong>Nazwa hosta lub IP:</strong> wprowadź adres IP klienta NFS, który będzie używany do uzyskiwania dostępu do udostępnionego folderu. Hosta można określić na trzy sposoby:<ul>
+<li><strong>Pojedynczy Host:</strong> w pełni kwalifikowana nazwa domeny lub adres IP.</li>
+<li><strong>Symbol maski:</strong> *, *.synology.com</li>
+<li><strong>Sieci IP:</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>Uprawnienia:</strong> zaznacz uprawnienia odczytu i zapisu, które mają być przypisane klientowi NFS.</li>
+<li> <strong> Bezpieczeństwo:</strong> Określ poziom zabezpieczeń do wdrożenia.<ul>
+  <li><strong>AUTH_SYS:</strong> Użyj numeru UID (identyfikatora użytkownika) i GID (identyfikatora grupy) klienta NFS do sprawdzania uprawnień dostępu.</li>
+<li><strong>Uwierzytelnienie Kerberos:</strong> Przeprowadzaj uwierzytelnienie Kerberos, kiedy klient NFS łączy się z folderem współdzielonym. Klient może uzyskać dostęp do folderu współdzielonego dopiero po przejściu uwierzytelniania Kerberos.</li>
+<li><strong>Integralność Kerberos:</strong> Przeprowadź uwierzytelnienie Kerberos i sprawdź integralność pakietów podczas przesyłania danych.</li>
+<li><strong>Prywatność Kerberos:</strong> Przeprowadź uwierzytelnienie Kerberos i zaszyfruj pakiety NFS podczas przesyłania danych, zapobiegając atakom złośliwego oprogramowania na ruch NFS.</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>: To pole umożliwia kontrolowanie uprawnień użytkownika root przypisywanych klientowi NFS. Wybierz jedno z poniższych ustawień:<ul>
+    <li><strong>Brak mapowania:</strong> umożliwia wszystkim użytkownikom klienta NFS, w tym użytkownikom root, zachowanie pierwotnych uprawnień dostępu.</li>
+    <li><strong>Mapuj root do admin:</strong> pozwala przypisać użytkownikom root klienta NFS uprawnienia równe uprawnieniom użytkownika admin określonym w systemie.</li>
+    <li><strong>Mapuj root do guest:</strong> pozwala przypisać użytkownikom root klienta NFS uprawnienia równe uprawnieniom użytkownika guest określonym w systemie.</li>
+    <li><strong>Mapuj wszystkich użytkowników do admin:</strong> pozwala przypisać wszystkim użytkownikom klienta NFS uprawnienia równe uprawnieniom użytkownika admin określonym w systemie.</li>
+	<li><strong>Mapuj wszystkich użytkowników do guest:</strong> pozwala przypisać wszystkim użytkownikom klienta NFS uprawnienia równe uprawnieniom użytkownika guest określonym w systemie.</li>
+  </ul>
+</li>
+
+<li><strong>Włącz asynchroniczne:</strong> zaznacz tę opcję, aby odpowiedzi Synology NAS na żądania klienta NFS były realizowane przed zakończeniem zapisywania zmian plików, co pozwala uzyskać lepszą wydajność.</li>
+<li><strong>Zezwalaj na połączenia z nieuprzywilejowanych portów (portów wyższych od 1024):</strong> Zaznaczenie tej opcji pozwala klientom NFS na używanie nieuprzywilejowanych portów (tzn. portów wyższych od 1024) podczas łączenia z Synology NAS. </li>
+<li><strong>Zezwalaj użytkownikom na dostęp do zamontowanych podfolderów:</strong> Zaznaczenie tej opcji pozwala klientom NFS na dostęp do zamontowanych podfolderów.</li>
+<li>Kliknij <b>OK</b>, aby zakończyć.</li>
+  <li>Kliknij <b>OK</b>, aby zastosować uprawnienia NFS.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Kiedy format nazwy serwera to <strong>*.domena</strong>, adres IP klienta NFS musi posiadać odpowiedni rekord PTR domeny DNS, aby umożliwić Synology NAS znalezienie nazwy *.domena poprzez wyszukanie odpowiadającego jej adresu IP.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Poziomy zabezpieczeń:</h4>
+<p> W przypadku uzyskiwania dostępu do folderu współdzielonego poprzez NFS przy użyciu określonego konta użytkownika: </p>
+<ul>
+<li>Jeżeli wdrożony zostanie poziom zabezpieczeń <strong>AUTH_SYS</strong>: Klient musi posiadać dokładnie taki sam numeryczny UID (identyfikator użytkownika) i GID (identyfikator grupy) na kliencie NFS i Synology NAS, gdyż w przeciwnym wypadku klientowi zostaną przypisane uprawnienia <strong>others</strong> podczas uzyskiwania dostępu do folderu współdzielonego. Aby uniknąć konfliktu uprawnień, możesz wybrać opcję <strong>Mapuj wszystkich użytkowników do admin</strong> z obszaru <strong>Squash</strong> lub nadać folderowi współdzielonemu uprawnienia „Everyone”.</li>
+<li>Jeżeli wdrożony jest poziom zabezpieczeń <strong>Kerberos (krb5, krb5i, krb5p)</strong>: Należy przejść do <strong>Win/Mac/NFS</strong> > <strong>Usługa NFS</strong> > <strong>Ustawienia Kerberos</strong> > <strong>Mapowanie identyfikatorów</strong>, aby zmapować klienta NFS do określonego użytkownika, lub połączyć domenę Windows /LDAP z odpowiednim kontem użytkownika, gdyż w przeciwnym wypadku klientowi zostaną przypisane uprawnienia <strong>guest</strong> podczas uzyskiwania dostępu do folderu współdzielonego.</li>
+<li>Jeśli system plików urządzenia zewnętrznego, na którym tworzone są foldery współdzielone, to NTFS lub FAT, zostanie wymuszona opcja <strong>Mapuj wszystkich użytkowników do admin</strong>.</li>
+</ul>
+<p>Aby użyć poziomów zabezpieczeń Kerberos do łączenia z Synology NAS, należy skonfigurować uwierzytelnienie Kerberos, przechodząc do <strong>Win/Mac/NFS</strong> > <strong>Usługa NFS</strong> > <strong>Ustawienia Kerberos</strong>.</p>
+</div>
+
+</body>
+</html>

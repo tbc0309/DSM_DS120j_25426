@@ -1,0 +1,84 @@
+# ----------------------------------------------------------------------------
+#
+#    Copyright (C) 2000-2014 Synology Inc. All rights reserved.
+#
+# ----------------------------------------------------------------------------
+
+
+  #include <abstractions/fast-wakeup>
+  #include <abstractions/lttng>
+  #include <abstractions/libsynow3>
+  #include <abstractions/libc>
+
+  /bin/**                        rix,
+  /dev/null                      rw,
+  /dev/full                      rw,
+  /dev/log                       w,
+  /dev/random                    r,
+  /dev/urandom                   r,
+  /dev/sd*                       rw,
+  /dev/sata*                     rw,
+  /dev/sas*                      rw,
+  /dev/nvc*                      rw,
+  /dev/nvme*                     rw,
+  /dev/shm                       rw,
+  /dev/zero                      rw,
+  /etc/TZ                        r,
+  /etc.defaults/{,**}            r,
+  /etc/synoinfo.conf		 r,
+  /etc/localtime                 r,
+  /run/{,**}                     mrwkl,
+  /tmp/{,**}                     rwkl,
+  /usr/bin/**                    rix,
+  /usr/share/icu/**              mr,
+  /usr/share/terminfo/**         r,
+  /usr/share/zoneinfo/**         r,
+  /usr/syno/bin/**               rix,
+  /usr/syno/locale/{,**}         r,
+  /usr/syno/synoman/**           mr,
+  /usr/syno/synosdk/**           mr,
+  /usr/syno/var/run              rwkl,
+  /var/lock/{,**}                rwkl,
+  /var/run/{,**}                 rwkl,
+  /var/tmp/{,**}                 rwkl,
+  /var/services/tmp/{,**}        rwkl,
+  /var/services/tmp.static/{,**}        rwkl,
+  /volume*/@tmp/{,**}                   rwkl,
+  /volumeUSB*/usbshare*/@tmp/{,**}      rwkl,
+  /var/crash/@*.core             rw,
+  /volume*/@*.core               rw,
+  /volume*/usbshare*/@*.core     rw,
+  @{PROC}/{,**}                  r,
+  /sys/**                        r,
+  /usr/syno/etc.defaults/token.whitelist	r,
+  /volumeUSB*/usbshare*/@sharebin/@tmp/{,**}                     rwkl,
+
+  # ld.so.cache and ld are used to load shared libraries; they are best
+  # available everywhere
+  /etc/ld.so.cache                    mr,
+  /lib{,32,64}/ld{,32,64}-*.so        mrix,
+  /lib{,32,64}/**/ld{,32,64}-*.so     mrix,
+
+  # we might as well allow everything to use common libraries
+  /lib{,32,64}/**                mr,
+  /usr/lib{,32,64}/**            mr,
+  # cgi may be executed by non-root user.
+  capability fsetid,
+
+  # read sn/mac in sha mode
+  /usr/syno/etc/synoha/ha.conf  r,
+
+  # read sn/man in Site Recover mode.
+  /usr/syno/etc/synosystemdr/sysdr.conf  r,
+
+  # read web related settings
+  /usr/syno/etc.defaults/www/SSLProfile.json                  r,
+
+  # sharing related binary
+  /usr/syno/bin/synosharingurl        px,
+  /usr/syno/bin/synosharingchecker    px,
+
+  #ldpreload
+  /etc/ld.so.preload        mr,
+
+# vim:ft=apparmor

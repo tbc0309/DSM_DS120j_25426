@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h2>Übergabe</h2>
+  
+ <p>Um den fortlaufenden Betrieb zu gewährleisten und die Ausfallzeit zu minimieren, können Dienste vom aktiven Server eines High Availability-Clusters an den passiven Standby-Server übergeben werden. Die Funktion nennt sich "Übergabe" oder in einigen Fällen "Failover". Dieser Abschnitt enthält grundlegende Informationen zu diesen beiden Konzepten.</p>
+  
+  <h3>Übergabe</h3>
+  	<p>Als Übergabe wird die Umschaltung vom aktiven Server auf den passiven Standby-Server eines High Availability-Clusters bezeichnet. Unter normalen Umständen verwaltet der aktive Server sämtliche Dienste. Wenn der aktive Server allerdings ausfällt, können Sie oder das System eine Übergabe an den passiven Server einleiten und sämtliche Dienste übertragen, vorausgesetzt, dass der passive normal funktioniert. In diesem Fall übernimmt der aktive Server die Funktion des passiven Servers und umgekehrt.</p>
+    
+<h4>Manuelle Einleitung einer Übergabe:</h4>
+ <ol>
+  <li>Gehen Sie zur Seite <b>Übersicht</b>.</li>
+  <li>Klicken Sie auf <b>Verwalten</b> > <b>Übergabe</b>.</li>
+ </ol>
+
+<div class="section">
+<h4>Hinweis:</h4>
+   <p>Vor der manuellen Übergabe sollten Sie eine statische IP festlegen und sich mit dieser bei DSM anmelden, um den DSM-Seitenverlust infolge einer IP-Verschiebung nach der Übergabe zu vermeiden.</p>
+</div>
+
+<div class="section">
+<h4>Hinweis:</h4>
+   <p>Wenn Sie eine Übergabe einleiten, wird der aktive Server die Rolle des passiven Servers und der passive Server die Rolle des aktiven Servers einnehmen. Es wird daher ein kurzes Zeitintervall geben, in dem beide Server passiv sind und keine Dienste anbieten können. Die Dauer einer Übergabe hängt von der Anzahl und Größe der Volumes oder iSCSI LUNs (Block-Ebene) oder der Anzahl und der Gesamtlast der Dienste und Pakete auf dem High Availability-Cluster ab.</p>
+</div>
+
+<h3>Failover</h3>
+    
+     <p>Wenn bestimmte Fehler auftreten, kann das System automatisch eine Übergabe von Diensten einleiten, um die Ausfallzeit zu minimieren. Dieses Ereignis wird als "Failover" bezeichnet. In den folgenden Situationen könnte das System einen Failover einleiten, vorausgesetzt, der passive Server funktioniert normal:</p>
+    
+    <ul>
+      <li><b>Stromausfall:</b> 
+        <ul>
+      	<li>Der aktive Server wurde heruntergefahren oder neu gestartet.</li>
+        <li>Beide Stromversorgungen des aktiven Servers sind ausgefallen.</li>
+        <li>Keine Stromversorgung.</li>
+      </ul></li>
+      <li><b>Laufwerksfehler:</b> Die Anzahl der Laufwerkspfade auf dem aktiven Server ist kleiner als die auf dem passiven Server.</li>
+      <li><b>Dienstfehler:</b> Bei einem überwachten Dienst ist ein Fehler aufgetreten.</li>
+      <li><b>Verbindungsfehler:</b> Bei einer überwachten Schnittstelle ist ein Verbindungsfehler aufgetreten.</li>
+    </ul>    
+     
+    
+<h3>Übergabefehler</h3>
+    
+		<p>Die Übergabe oder das Failover von Diensten könnte in den folgenden Situationen fehlschlagen:</p>
+  	<ul>
+  	  <li><b>Abnormale Heartbeat-Verbindung:</b> Der Status der Verbindung zwischen dem aktiven und dem passiven Server ist nicht normal.</li>
+  	  <li><b>Nicht übereinstimmende Speichergröße:</b> Die RAM-Größe des aktiven Servers stimmt nicht mit der des passiven Servers überein.</li>
+  	  <li><b>Stromausfall:</b><ul>
+      	<li>Der passive Server wurde heruntergefahren oder neu gestartet.</li>
+        <li>Beide Stromversorgungen des passiven Servers sind ausgefallen.</li>
+        <li>Keine Stromversorgung.</li>
+      </ul></li>
+  	  <li><b>Verbindungsfehler:</b> Bei einer überwachten Schnittstelle des passiven Servers ist ein Verbindungsfehler aufgetreten.</li>
+  	  <li><b>Dienstfehler:</b> Überwachte Dienste des passiven Servers weisen Fehler auf.</li>
+  	  <li><b>Expansionseinheit-Verbindungsfehler:</b> Die Expansionseinheiten sind nicht in derselben Reihenfolge an den beiden Servern angeschlossen.</li>
+  	  <li><b>Laufwerksfehler:</b> Die Anzahl der Laufwerkspfade auf dem passiven Server ist kleiner als die auf dem aktiven Server.</li>
+      <li><b>DSM Aktualisierung:</b> Bei der Installation einer DSM-Aktualisierung werden alle Dienste gestoppt und erst nach Abschluss der DSM-Aktualisierung fortgesetzt.</li>      
+ </ul>
+
+  <p>Wenn Sie eine Übergabe manuell einleiten, aber Dienste nicht an den passiven Server übergeben werden können, wird das System versuchen, die Dienste wieder zurück an den aktiven Server zu übergeben.</p>
+
+ <h3>Unterbrechungsfreie Stromversorgung</h3>
+  <p>High Availability-Cluster können an eine unterbrechungsfreie Netzwerk-Stromversorgung (USV) angeschlossen werden, um das Risiko eines unvorhergesehenen Stromausfalls zu verringern. Bei einem Stromausfall werden die Server Reservestrom von den jeweils angeschlossenen USV-Geräten erhalten. Wenn die Kapazität der an den aktiven Server angeschlossenen USV fast erschöpft ist, wird der passive Server heruntergefahren und der aktive Server in den sicheren Modus geschaltet. Nach Wiederherstellung der Stromversorgung wird der aktive Server neu gestartet. Durch Senden einer WOL-Meldung (Aufwachen bei LAN-Verbindung) versucht er dann, den anderen Server einzuschalten.</p>
+   <ul>
+	   <li>Es wird empfohlen, beide Server und Expansionseinheiten an dieselbe USV anzuschließen wie die Netzwerk-Switches, mit denen sie verbunden sind.</li>
+   </ul>
+
+<div class="section">
+<h4>Hinweis:</h4>
+<p>Synology NAS unterstützt nur den Anschluss an Netzwerk-USV-Geräte. Weitere Informationen finden Sie in der Hilfe für <strong>Systemsteuerung</strong> > <strong>Hardware</strong> > <strong>USV</strong>.</p>
+</div>  
+ </body>
+</html>

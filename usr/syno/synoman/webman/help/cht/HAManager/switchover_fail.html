@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>轉移</h2>
+  
+ <p>為確保連續效能並降低服務中斷時間，high-availability 叢集上的服務可以從主伺服器轉移至備援的副伺服器。此功能稱為「轉移」，在某些情況下又稱為「故障轉移」。此部份將介紹以上兩者的基礎概念。</p>
+  
+  <h3>轉移</h3>
+  	<p>轉移是指 high-availability 叢集中主伺服器將服務轉移至副伺服器的情形。在正常情況下，主伺服器負責提供所有服務。然而，當主伺服器狀態異常時，您可以啟動服務轉移、將所有服務轉移至副伺服器 (假設副伺服器運作正常)。在這樣的情況下，主伺服器成為新的副伺服器，而副伺服器會成為新的主伺服器。</p>
+    
+<h4>若要手動啟動轉移：</h4>
+ <ol>
+  <li>前往<b>總覽</b>頁面。</li>
+  <li>按一下<b>管理</b> &gt; <b>轉移</b>。</li>
+ </ol>
+<div class="section">
+<h4>注意：</h4>
+   <p>當您啟動轉移後，主伺服器會先成為新的副伺服器，而後副伺服器才會成為新的主伺服器。因此，將會有一小段時間兩台伺服器都是副伺服器，無法正常提供服務。隨著 high-availability 叢集儲存空間或 iSCSI LUN (段落分塊) 數量及大小、服務的數量及總負載不同，轉移所需時間也會有所不同。</p>
+</div>
+   
+<h3>故障轉移</h3>
+    
+     <p>系統在特定狀況下會自動啟動服務轉移，以維持效能穩定。此種情形稱為「故障轉移」。在下列狀況下，系統可能會啟動故障轉移：</p>
+    
+     <ul>
+      <li><b>儲存空間損毀：</b>主伺服器上的儲存空間 (例如儲存空間、磁碟群組、RAID Group、SSD 快取等) 損毀，但副伺服器上相對應的儲存空間運作正常。請注意，若損毀的儲存空間上沒有建立儲存空間或 iSCSI LUN (段落分塊)，則系統不會啟動故障轉移。</li>
+      <li><b>服務發生錯誤：</b>監控的服務發生錯誤。</li>
+      <li><b>電源故障：</b>主伺服器關機或重新開機；主伺服器上的雙電源均故障；電源中斷。</li>      
+     </ul>    
+     
+    
+<h3>轉移失敗</h3>
+    
+		<p>在下列情形下，服務轉移或故障轉移可能會失敗：</p>
+  			<ul>
+   				<li><b>資料複製未完成：</b>在剛組成 high-availability 叢集時，系統需要一段時間來將主伺服器所有資料複製至副伺服器。</li>
+   				<li><b>副伺服器儲存空間損毀：</b>副伺服器儲存空間 (例如儲存空間、磁碟群組、RAID Group 等) 損毀。</li>
+                <li><b>電源故障：</b>副伺服器關機或重新開機；副伺服器上的雙電源均故障；電源中斷。</li>
+                <li><b>DSM 更新：</b>安裝 DSM 更新時，所有服務將停止，並待 DSM 更新完成後才會重新開啟。</li>      
+ </ul>
+
+  <p>若您手動啟動服務轉移，但無法將服務轉移至副伺服器，此時系統會嘗試將服務轉移回主伺服器。</p>
+ <p>故障轉移啟動後，若兩台伺服器都因狀態異常而無法成為主伺服器，high-availability 叢集將無法正常提供服務。如果兩台伺服器都沒有回復到<b>獨立運作</b>的狀態，請按住伺服器上的 <b>Reset</b> 按鈕來回復預設值。回復預設值後您可以重新建立 high-availability 叢集。</p>
+ 
+ <h3>不斷電系統</h3>
+  <p>High-availability 叢集可以連接至不斷電系統 (UPS)，降低電源意外中斷帶來的風險。若電源中斷，伺服器會從其所連接的不斷電系統接收備用電源。當主伺服器的不斷電系統電力開始不足時，系統會嘗試將服務轉移至副伺服器。請參見以下指南。</p>
+   <ul>
+   
+    <li>如果連接主伺服器與副伺服器的網路交換器相同，建議您將兩台伺服器連接至與網路交換器相同的電源來源。</li>
+    <li>如果連接主伺服器與副伺服器的網路交換器不同，且兩台網路交換器所使用的電源來源也不同 (例如來自不同電力公司的電源)，建議您將主伺服器與副伺服器分別連接至與各自的網路交換器相同的電源來源。</li>
+    <li>如果連接主伺服器與副伺服器的網路交換器不同，且兩台網路交換器所使用的不斷電系統也不同，建議您將兩台伺服器同時連接至其中一台不斷電系統，而非兩台不同的不斷電系統。當不斷電系統電力不足時，主伺服器會接收到通知並進入安全模式，副伺服器則會正常關機。反之，若您將兩台伺服器分別連接至不同的不斷電系統，主伺服器將無法偵測副伺服器的不斷電系統電力是否充足，因此副伺服器可能會不預警地被關機。</li>
+   </ul>
+   
+<div class="section">
+<h4>注意：</h4>
+<p>Synology NAS 支援連接至本機或 SNMP UPS 裝置。如需更多資訊，請參見<strong>控制台</strong> &gt; <strong>硬體</strong> &gt; <strong>不斷電系統</strong>說明。</p>
+</div>  
+ </body>
+</html>

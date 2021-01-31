@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Een gedeelde map maken - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Shared folders are the basic directories where you can store and manage files and folders on your Synology NAS. This article shows you how to create a shared folder.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Een gedeelde map maken</h2>
+<p>Gedeelde mappen zijn basismappen waar u bestanden en mappen op uw Synology NAS kunt opslaan en beheren. Voor u bestanden opslaat, moet u minstens één gedeelde map in DSM maken. </p>
+
+<h4>Om een gedeelde map te maken:</h4>
+<ol>
+	<li>Ga naar <strong>Configuratiescherm</strong> > <strong>Gedeelde map</strong> en klik op <strong>Maken</strong>.<br /><img src="about:blank" class="help_image"/></li>
+	<li>Voer de naam en beschrijving voor de gedeelde map in.<br /><img src="about:blank" class="help_image "/></li>
+	<li>Selecteer een locatie waarin u de gedeelde map kunt maken (sla deze stap over als er slechts een opslag bestaat).<br /><img src="about:blank" class="help_image"/></li>
+	<li>Wijzig indien nodig de volgende opties:<br /><img src="about:blank" class="help_image"/>
+		<ul>
+			<li><strong>Verberg deze gedeelde map in "Mijn netwerklocaties":</strong> voorkomt dat de gedeelde map wordt weergegeven onder "Netwerk" in Windows File Explorer. Deze optie heeft geen invloed op de toegangsrechten van de gedeelde map.
+				<div class="section"><h4>Opmerking:</h4>
+				<ul>
+				<li>een gedeelde map verbergen in &quot;Mijn netwerklocatie&quot; heeft geen invloed op de toegangsrechten. Het toegangsrecht van de verborgen gedeelde map blijft ongewijzigd. Gebruikers met de correcte toegangsrechten tot de gedeelde map krijgen nog steeds toegang door &quot;\\servernaam\naam gedeelde map&quot; in te voeren.</li>
+				</ul>
+				</div>
+			</li>
+			<li><strong>Submappen en bestanden verbergen voor gebruikers zonder rechten:</strong> Als <strong>Submappen en bestanden verbergen voor gebruikers zonder rechten</strong> is ingeschakeld, zullen gebruikers zonder leesrechten bij pogingen om toegang te krijgen tot de gedeelde map via het Windows Bestanden delen-protocol de submappen of bestanden niet kunnen zien. Hiermee voorkomt men dat gebruikers in de war raken wanneer ze een verbinding maken met hun Synology-producten en een groot aantal bestanden en submappen te zien krijgen die ze niet kunnen openen.
+				<div class="section"><h4>Opmerking:</h4>
+				<ul>
+					<li>deze functie wordt alleen ondersteund met Windows Bestanden delen-protocol.</li>
+					<li>U kunt de instellingen voor toegangsrechten tot elke map en elk bestand in File Station wijzigen door er met de rechtermuisknop op te klikken. Kies in de vervolgkeuzelijst de optie <strong>Eigenschappen</strong> en klik op het tabblad <strong>Machtiging</strong>.</li>
+					<li>Door het selectievakje <strong>Submappen en bestanden verbergen voor gebruikers zonder rechten</strong> in te schakelen, zal de gedeelde map zelf niet worden verborgen voor gebruikers zonder rechten. Alle de submappen en bestanden in deze gedeelde map worden verborgen.</li>
+				</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li><strong>Prullenbak inschakelen:</strong> als bestanden in de gedeelde map worden verwijderd, worden ze verplaatst naar de map met de naam <strong>#recycled</strong>. De toegang tot de prullenbak kan worden beperkt tot gebruikers van de groep <strong>administrators</strong>.</li>
+	<a name="sharequota"></a><li class=""><strong>Gedeelde-mapquota inschakelen:</strong> om de maximale opslagcapaciteit voor elke gedeelde map op te geven, schakelt u het selectievakje <strong>Gedeelde-mapquota inschakelen</strong> in en voert u de maximale capaciteit in het veld in (bijv. 10 GB).
+		<div class="section"><h4>Opmerking:</h4>
+		<ul>
+			<li>Alleen wanneer de opslag het btrfs-bestandssysteem gebruikt, zullen de opties <strong>Gedeelde-mapquota inschakelen</strong> beschikbaar zijn voor gedeelde mappen.</li>
+			<li>Het gecombineerde opslaggebruik van alle <strong>home</strong>-directories van gebruikers mag niet groter zijn dan de “<strong>homes</strong>"-quota.</li>
+		</ul>
+		</div>
+	</li>
+	<a name="integrity_protection"></a>
+	<li><strong>Gegevens-checksum voor geavanceerde gegevensintegriteit inschakelen:</strong> Om een gedeelde map met <strong>CRC32 checksum</strong> en <strong>copy-on-write</strong>-strategieën te beschermen, kunt u tijdens het maken van de map de optie gegevens-checksum voor geavanceerde gegevensintegriteit inschakelen. CRC32 checksum wordt toegepast om te controleren of de gegevens identiek zijn met het tijdstip waarop ze oorspronkelijk zijn geschreven. Het systeem gebruikt automatisch RAID-redundantie om beschadigde gegevens te repareren. Met Copy-on-write wordt de gegevensconsistentie verbeters bij ongebruikelijke systeemuitschakelingen.
+		<div class="section"><h4>Opmerking:</h4>
+		<ul>
+			<li>Deze optie is alleen beschikbaar voor volumes die Btrfs-bestandssysteem gebruiken.</li>
+			<li>U kunt deze optie in- of uitschakelen voor elke gedeelde map tijdens het maken. Deze optie kan niet worden gewijzigd nadat de gedeelde map is aangemaakt.</li>
+			
+			<li>Door deze optie in te schakelen kan het systeem een complete gegevensreinigingsproces uitvoeren. <a href="../StorageManager/storage_pool_data_scrubbing.html">Meer weten over gegevens opschonen</a></li>
+			<li>Om de servicekwaliteit te garanderen, raden we aan om de gegevenscontrolesom niet in te schakelen wanneer de gedeelde map voor de volgende services wordt gebruikt:
+			<ul>
+				<li>Hosting van databases of virtuele machines</li>
+				<li>Opslag van video-opnames van Surveillance Station</li>
+				<li>Uitvoeren van services die een klein en willekeurig schrijfpatroon vereisen</li>
+			</ul>
+			</li>
+			
+		</ul>
+		</div>
+	</li>
+    <a name="btrfs_compression"></a><li><strong>Bestandscompressie inschakelen</strong>: de gegevens in de gemaakte gedeelde map worden automatisch gecomprimeerd door het Btrfs-bestandssysteem om opslagruimte te besparen. Zodra de gegevens voor gebruik worden opgehaald, worden ze automatisch gedecomprimeerd.
+		<div class="section"><h4>Opmerking:</h4>
+		<ul>
+			<li>deze optie is alleen beschikbaar wanneer u een gedeelde map in een Btrfs-volume hebt gemaakt of wanneer u <strong>Geavanceerde gegevensintegriteitsbescherming</strong> hebt ingeschakeld.</li>
+			<li>Deze optie kan niet worden gewijzigd nadat de gedeelde map is aangemaakt.</li>
+			<li>De compressiesnelheid is afhankelijk van het type gegevens: tekstbestanden hebben de hoogste compressiesnelheid, terwijl multimediabestanden (zoals afbeeldingen, muziek of video's) niet veel meer worden gecomprimeerd omdat ze voor output al worden gecomprimeerd.</li>
+            <li>Deze optie kan niet worden ingeschakeld wanneer codering van gedeelde mappen is ingeschakeld.</li>
+		</ul>
+		</div>
+	</li>
+	<li><strong>Deze gedeelde map coderen:</strong> ga als volgt te werk als u de gedeelde map wilt coderen:
+		<ol>
+			<li>Specificeer en bevestig een nieuwe coderingssleutel. De coderingssleutel mag geen komma's (,) of gelijktekens (=) bevatten. </li>
+			<li>Schakel indien nodig het selectievakje <strong>Coderingssleutel aan sleutelbeheerder toevoegen</strong> in om de gecodeerde map automatisch te koppelen bij het starten van het systeem. AIs deze optie is uitgeschakeld, zal de volgende keer dat Synology NAS wordt opgestart de gecodeerde map ontkoppeld worden. Om een ontkoppelde gedeelde map weer te geven of er toegang toe te krijgen, moet u de map handmatig koppelen door de coderingssleutel te importeren of in te voeren.</li>
+		</ol>
+	</li>
+	<li>Klik op <strong>OK</strong> om te voltooien.</li>
+	
+	
+<div class="section"><h4>Opmerking:</h4>
+	<ul>
+	<li>bepaalde functies en optie van gedeelde map worden alleen ondersteund door VDSM en modellen met de volgende pakketarchitecturen: Apollo Lake, Avoton, Braswell, Broadwell, Bromolow, Cedarview en Grantley. Raadpleeg <a href="https://www.synology.com/en-us/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">dit artikel</a> om te weten over welk pakketarchitectuur door uw model wordt ondersteund.</li>
+	</ul>
+</div>
+	
+</ol>
+
+<div class="section"><h4>Naamgevingsregels voor gedeelde mappen:</h4>
+<ul>
+	<li>de namen voor de gedeelde mappen zijn hoofdlettergevoelig en kunnen 1 tot 32 tekens bevatten. Namen mogen echter niet de volgende tekens bevatten: <strong>! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~</strong></li>
+	<li>De volgende namen zijn gereserveerd voor gebruik door het systeem: <strong>.</strong>, <strong>.</strong>, <strong>global</strong>, <strong>home</strong>, <strong>homes</strong>, <strong>printers</strong>, <strong>public</strong>, <strong>satashare</strong>, <strong>surveillance</strong>, <strong>usbbackup</strong>, <strong>usbshare</strong>. </li>
+	<li>Het eerste teken van een gedeelde mapnaam mag geen min-teken of spatie zijn, en het laatste teken mag ook geen spatie zijn.</li>
+	<li>De <strong>beschrijving</strong> van de gedeelde map is hoofdlettergevoelig en beperkt tot 64 weer te geven Unicode-tekens.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>Gedeelde mappen coderen:</h4>
+<p>AES 256-bitcodering beschermt gegevens door alle niet-gemachtigde toegangspogingen te blokkeren. Na de codering van een gedeelde map hebben gebruikers zonder een coderingssleutel geen toegang tot de gecodeerde gegevens, zelfs niet als ze de harde schijven uit uw Synology NAS halen en in een ander apparaat plaatsen.</p>
+</div>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>de naam van bestanden of mappen in een gecodeerde gedeelde map mag niet meer dan 143 Engelse of 47 Aziatische (CJK) tekens bevatten; maakt u via Mac OS toegang met uw gedeelde mappen, dan mogen namen van bestanden of mappen in een gecodeerde gedeelde map niet meer dan 130 Engelse of 43 Aziatische (CJK) tekens bevatten.</li>
+	<li>Het is onmogelijk om toegang te krijgen tot gecodeerde gedeelde mappen via NFS.</li>
+	<li>Als de standaardwachtwoorden met de resetknop op Synology NAS worden hersteld, zullen gecodeerde gedeelde mappen ontkoppeld worden en zal de optie om gecodeerde gedeelde mappen automatisch te koppelen uitgeschakeld worden.</li>
+	<li>Gecodeerde gedeelde mappen worden alleen ondersteund in de modus hoge machtiging (alleen van toepassing voor Dockerx64). Om deze functie te gebruiken, ga naar het Docker-pakket op uw host-DSM, selecteer de <strong>Docker DSM</strong> waarvoor u gecodeerde gedeelde mappen wilt inschakelen, klik op <strong>Bewerken</strong> en schakel het selectievakje naast <strong>Container uitvoeren met hoge machtigingen</strong> in.</li>
+</ul>
+</div>
+
+</body>
+</html>

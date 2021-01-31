@@ -1,0 +1,29 @@
+#!/bin/sh
+
+echo `date`": mount all file system"
+
+[ ! -d /sys ] && /bin/mkdir /sys
+/bin/mount -ft sysfs /sys /sys
+
+[ ! -d /dev/pts ] && /bin/mkdir /dev/pts
+/bin/mount -vft devpts -o gid=4,mode=620 none /dev/pts
+
+[ ! -d /tmp ] && /bin/mkdir /tmp
+/bin/mount -t tmpfs /tmp /tmp
+
+[ ! -d /run ] && /bin/mkdir /run
+/bin/mount -t tmpfs /run /run -o rw,nosuid,nodev,relatime,mode=755
+
+[ ! -d /dev/shm ] && /bin/mkdir /dev/shm
+/bin/mount -t tmpfs /dev/shm /dev/shm -o rw,nosuid,nodev,relatime
+
+## cgroup
+if cat /proc/filesystems | grep -q cgroup; then
+	mount -t tmpfs -o uid=0,gid=0,mode=0755,size=4k none /sys/fs/cgroup
+	/sbin/initctl start cgmanager
+	for name in $(awk '!/^#/ { if ($4 == 1) print $1 }' /proc/cgroups); do
+		full="/sys/fs/cgroup/$name"
+		mkdir -p "$full"
+		mount -n -t cgroup -o "$name" cgroup "$full" || rmdir "$full"
+	done
+fi

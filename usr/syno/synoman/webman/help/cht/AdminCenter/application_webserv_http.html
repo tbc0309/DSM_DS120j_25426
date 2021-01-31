@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>網頁服務</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>網頁應用程式</h2>
+
+<p>透過內建的 Web Station 功能及 PHP 支援，您可以輕鬆地在 Synology NAS 上架設、開發雙向互動的網站來因應企業需求或個人興趣。此外，套件中心提供您眾多的第三方套件，例如內容管理、客戶關係管理及電子商務系統。系統會建立一個預設的共用資料夾「<b>web</b>」來讓您儲存您的網頁檔案。</p>
+<h4>若要啟動 Web Station：</h4>
+<ol>
+<li>請前往<strong>控制台</strong> &gt; <strong>網頁服務</strong>。</li>
+<li>勾選<b>啟動 Web Station</b>。
+</li>
+<li>按一下<b>套用</b>。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>為提升使用上的彈性及安全性，Web Station 使用 <strong>http</strong> 使用者群組來執行任務。因此，若要控制網頁的存取權限，請變更 <strong>http</strong> 群組對於各個相對應資料夾及檔案的存取權限。例如，如果您想讓使用者透過 Web Station 存取 <strong>web</strong> 共用資料夾中的 <strong>sample.htm</strong> 檔案，您需確認 <strong>http</strong> 群組對於 <strong>web</strong> 共用資料夾及 <strong>sample.htm</strong> 檔案具有足夠的讀寫權限。</li>
+
+<li>網站首頁檔案應命名為 <strong>index.htm</strong>、<strong>index.html</strong> 或 <strong>index.php</strong>。</li>
+
+<li>當您使用 PHP mail() 功能時，系統會自動擷取並使用<strong>通知設定</strong>頁面的 SMTP 伺服器資訊。請確認您已啟動電子郵件通知並輸入正確的 SMTP 伺服器資訊。</li>
+
+<li><b>web</b> 共用資料夾的實際路徑為 <b>/volume1/web</b>。有些應用程式會要求使用者在設定檔設定這個路徑。</li>
+
+
+<li><strong>blog</strong>、<strong>photo</strong>、<strong>photosrc</strong> 及 <strong>webdefault</strong> 為系統保留的資料夾名稱。因為這些目錄下的檔案將無法被 Web Station 使用，所以請避免在 <b>web</b> 共用資料夾內建立這些目錄名稱。</li>
+
+<li>您可以建立 <b>missing.html</b>、<b>missing.htm</b> 或 <b>missing.php</b> 等檔案來自訂錯誤頁面。只要啟動Web Station，建立一個檔名為「missing」的<b>.html</b>、<b>.htm</b>、或是<b>.php</b>檔案，並上傳到 <b>web</b> 共用資料夾中，則當使用者嘗試連結到一個不存在的頁面時，即會看見您個人化的錯誤頁面。</li>
+
+<li>執行中的 HTTP 連線上限數：256</li>
+
+<li>虛擬主機上限數：30</li>
+</ul>
+</div>
+
+<h3>啟動虛擬主機來架設許多網站</h3>
+<p>透過虛擬主機的功能，您可以在同一台伺服器上架設多個網站。首先，您需依照以下步驟來註冊數個網域名稱及設定虛擬主機。</p>
+<h4>若要啟動虛擬主機：</h4>
+<ol>
+<li>按一下<b>虛擬主機</b>。</li>
+<li>按一下<b>新增</b>。</li>
+<li>輸入 <b>web</b> 共用資料夾的子資料夾名稱，該子資料夾將用來存放網站檔案。</li>
+<li>輸入網站的主機名稱。</li>
+<li>輸入網站的連接埠。</li>
+<li>
+按一下<b>確定</b>。
+</li>
+</ol>
+<h3>啟動個人網站</h3>
+<P>個人網站功能允許本機、網域及 LDAP 使用者方便地建立個人網站，並擁有個人專屬的網址。</p>
+<h4>針對本機使用者</h4><p>每位本機使用者將會擁有專屬的網址，其格式為<strong>伺服器 IP/~使用者帳號</strong>或<strong>伺服器名稱/~使用者帳號</strong>。例如：</p>
+<ol>
+<li>192.168.1.1/~ken</li>
+<li>SynologyNAS/~ken</li>
+</ol>
+<h4 class="section disable-eds14">針對網域使用者</h4>
+<p class="section disable-eds14">每位網域使用者將會擁有專屬的網址，其格式為<strong>伺服器 IP/~網域名稱%5c使用者帳號</strong>或<strong>伺服器名稱/~網域名稱%5c使用者帳號</strong>。例如：</P>
+<ol  class="section disable-eds14">
+<li>192.168.1.1/~testdomain<b>%5c</b>ken</li>
+<li>SynologyNAS/~testdomain<b>%5c</b>ken</li>
+</ol>
+<h4  class="section disable-eds14">針對 LDAP 使用者</h4>
+<p  class="section disable-eds14">每位 LDAP 使用者將會擁有專屬的網址，其格式為<strong>伺服器 IP/~使用者帳號@網域名稱</strong>或<strong>伺服器名稱/~使用者帳號@網域名稱</strong>。例如：</P>
+<ol  class="section disable-eds14">
+<li>192.168.1.1/~ken<b>@</b>testdomain</li>
+<li>SynologyNAS/~ken<b>@</b>testdomain</li>
+</ol>
+
+<div class="section disable-eds14">
+<h4>注意：</h4>
+<p>在啟動此功能前，請先確定您已啟動<strong>使用者家目錄</strong>。本機使用者請至<b>控制台</b> &gt; <b>使用者帳號</b> &gt; <b>進階設定</b>啟動家目錄；網域使用者請至<b>控制台</b> &gt; <b>目錄服務</b> &gt; <b>網域使用者</b> &gt; <b>家目錄</b>啟動；LDAP 使用者請至<b>控制台</b> &gt; <b>目錄服務</b> &gt; <b>LDAP 使用者</b> &gt; <b>家目錄</b>啟動。</p>
+</div>
+
+<div class="section enable-eds14">
+<h4>注意：</h4>
+<p>在啟動此功能前，請先確定您已啟動<strong>使用者家目錄</strong>。本機使用者請至<b>控制台</b> &gt; <b>使用者帳號</b> &gt; <b>進階設定</b>啟動家目錄。</p>
+</div>
+
+<h4>若要建立個人網站：</h4>
+<ol>
+<li>若您已勾選<strong>啟動個人網站</strong>，個人家目錄中便會自動新增一個名為 <strong>www</strong> 的資料夾。</li>
+<li>使用者便可上傳網站相關檔案 (例如網頁及音效檔) 至 <strong>www</strong> 資料夾中。</li>
+<li>務必確認使用者擁有適當的權限，可存取上傳的檔案。</li>
+</ol>
+
+
+<h4>若要個人化錯誤頁面：</h4>
+<ol>
+<li>將錯誤頁面存成 <b>missing.html</b>、<b>missing.htm</b> 或 <b>missing.php</b>。</li>
+<li>上傳至 <strong>www</strong> 資料夾。</li>
+</ol>
+<p>當使用者嘗試連結到個人網站裡頭一個不存在的頁面時，即會看見本機使用者個人化的錯誤頁面。<strong></strong></p>
+<h4>支援及限制：</h4>
+<p>本機使用者僅允許存取以下資料：</p>
+<ul>
+<li>個人家目錄</li>
+<li>/var/tmp</li>
+<li>/tmp</li>
+<li>/volumeX/@tmp</li>
+</ul>
+
+<h2>HTTP 服務</h2>
+
+<p>除了預設的連接埠 80 (供 HTTP 用) 或 443 (供 HTTPS 用)，您也可以加入其他連接埠號碼來存取 Photo Station 及 Web Station。 您可以額外增加連接埠號碼 (1 到 65535) 供 HTTP 或 HTTPS 連線使用。</p>
+<h4>若要新增額外的 HTTP 或 HTTPS 連接埠：</h4>
+<ol>
+<li>勾選<b>新增額外的 HTTP 連接埠</b>或<b>新增額外的 HTTPS 連接埠</b> (須先勾選<strong>啟動網頁服務的 HTTPS 安全連線</strong>才能新增 HTTPS 連接埠)。</li>
+<li>在欄位中輸入想要的連接埠號碼。 </li>
+</ol>
+
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>您不應使用下列埠：20, 21, 22, 23, 25, 110, 137, 138, 139, 143, 199, 443, 445, 515, 543, 548, 587, 873, 993, 995, 3306, 3689, 5000, 5001, 5005, 5006, 5335, 5432, 6881, 8080, 7000, 7001, 8081, 9997, 9998, 9999, 50001, 50002, 預設的 eMule 埠：4662 (TCP), 4672 (UDP), 以及預設的 FTP 埠範圍：實際範圍視機種而有所不同。</li>
+</ul>
+</div>
+</body>
+</html>

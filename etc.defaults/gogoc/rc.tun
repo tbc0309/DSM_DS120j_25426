@@ -1,0 +1,29 @@
+#!/bin/sh
+# Copyright (c) 2000-2007 Synology Inc. All rights reserved.
+
+GOGOC_BIN_DIR="/usr/bin"
+GOGOC_CONF_DIR="/etc/gogoc"
+GOGOC_BIN="gogoc"
+GOGOC_CONF="gogoc.conf"
+TUN_MODULE="/lib/modules/tun.ko"
+
+case $1 in
+start)
+	echo "Starting tunnel"
+	/sbin/insmod $TUN_MODULE > /dev/null 2>&1
+	$GOGOC_BIN_DIR"/"$GOGOC_BIN -y -f $GOGOC_CONF_DIR"/"$GOGOC_CONF > /dev/null 2>&1
+	;;
+stop)
+	echo "Stop tunnel"
+	/usr/bin/killall -HUP $GOGOC_BIN > /dev/null 2>&1
+	sleep 1
+	/sbin/rmmod $TUN_MODULE > /dev/null 2>&1
+	;;
+restart)
+	$0 stop
+	$0 start
+	;;
+*)
+	echo "Usages: $0 [start|stop|restart]"
+	;;
+esac

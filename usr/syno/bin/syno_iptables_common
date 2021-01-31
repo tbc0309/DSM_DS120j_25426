@@ -1,0 +1,383 @@
+#!/bin/sh
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/syno/sbin:/usr/syno/bin
+IPTABLES="iptables"
+MODULES_BASE="/lib/modules"
+RULES_IPTABLES="/etc/firewall_rules.dump"
+RULES_6_IPTABLES="/etc/firewall_6_rules.dump"
+KERNEL_VERSION=`uname -r`
+PROC_IPTABLES_NAMES="/proc/net/ip_tables_names"
+PROC_6_IPTABLES_NAMES="/proc/net/ip6_tables_names"
+V4ONLY=`get_key_value /etc.defaults/synoinfo.conf ipv4only`
+WIRELESS_INFO="/tmp/wireless.info"
+WIRELESS_AP="/usr/syno/etc/wireless_ap.conf"
+KERNEL_FW_STATUS_FILE="/proc/sys/kernel/syno_firewall_status"
+SZD_FW_SECURITY_ROOT="/etc/fw_security"
+FW_SECURITY_SCRIPT="$SZD_FW_SECURITY_ROOT/sysconf/iptables_security.sh"
+NAT="nat"
+NATTEST="nattest"
+PORTFW="portfw"
+HAS_PORTFW_RULE=0
+TIME_CTRL_SCRIPT="/usr/syno/etc/iptables_time_ctrl.sh"
+# For guest wifi
+RC_NETWORK=/etc/rc.network
+LOCK_FILE="/tmp/iptables_scripts.lock"
+
+## Get module list
+source /usr/syno/etc.defaults/iptables_modules_list
+
+success() {
+	[ -n $1 ] && echo "success" || echo "$1: success"
+}
+
+failure() {
+	[ -n $1 ] && echo "failed" || echo "$1: failed"
+}
+
+reverse_syno() {
+	local modules=$1
+	local mod
+	local ret=""
+
+	for mod in $modules; do
+	    ret="$mod $ret"
+	done
+
+	echo $ret
+}
+
+dump_portfwd_rules()
+{
+	local PF_FILTER_DUMP="/etc/portforward/routerpf/filter_rules.dump"
+	local RULE_FILE="$1"
+	local TMP_IPTABLES_RULE="$1.saved"
+
+	rm ${PF_FILTER_DUMP} &> /dev/null
+	synorouterportfwd
+	if [ -f "$PF_FILTER_DUMP" ]; then
+		echo "*filter" > ${TMP_IPTABLES_RULE}
+		if [ -f "$RULE_FILE" ]; then
+			 grep -v "COMMIT" "$RULE_FILE" | grep -v "*filter" >> ${TMP_IPTABLES_RULE}
+		fi
+		cat ${PF_FILTER_DUMP} >> ${TMP_IPTABLES_RULE}
+		echo "COMMIT" >> ${TMP_IPTABLES_RULE}
+		mv ${TMP_IPTABLES_RULE} ${RULE_FILE}
+		rm ${PF_FILTER_DUMP}
+		HAS_PORTFW_RULE=1
+		return 0
+	fi
+	return 1
+}
+
+#ipv6 ip6tables
+ipv6_start() {
+	local RULES_FILE=$1
+	local services=''
+	local service=''
+
+	# platform dont support ipv6
+	if [ -z "${IPV6_MODULES}" ]; then
+		return
+	fi
+
+	shift
+	services=$@
+
+	for service in $services; do
+		/usr/syno/bin/iptablestool --insmod $service ${IPV6_MODULES} ${KERNEL_MODULES_COMMON} ${GEOIP_MODULES}
+	done
+
+	# if ipv6 iptable rules not exist, we skip
+	if [ -e ${RULES_FILE} ]; then
+		/sbin/ip6tables-restore < ${RULES_FILE}
+	else
+		/sbin/ip6tables -F
+	fi
+}
+
+#ipv4 iptables, ipv4 modules must been loaded, because of following ipv6 firewall may use those modules
+ipv4_start() {
+	local RULES_FILE=$1
+	local services=''
+	local service=''
+
+	shift
+	services=$@
+
+	for service in $services; do
+		/usr/syno/bin/iptablestool --insmod $service ${KERNEL_MODULES_CORE} ${KERNEL_MODULES_COMMON} ${GEOIP_MODULES}
+	done
+
+	if [ -e ${RULES_FILE} ]; then
+		/sbin/iptables-restore < ${RULES_FILE}
+	else
+		/sbin/iptables -F
+	fi
+}
+
+load_nat_module()
+{
+	local port_forward="$1"
+
+	/usr/syno/bin/iptablestool --checkap
+	local ret_checkap=$?
+
+	if [ "${port_forward}" = "forwarding_test" ]; then
+		/usr/syno/bin/iptablestool --insmod $NATTEST ${KERNEL_MODULES_CORE} ${KERNEL_MODULES_NAT} ${KERNEL_MODULES_COMMON}
+	elif [ 1 -eq $ret_checkap ]; then
+		/usr/syno/bin/iptablestool --insmod $NAT ${KERNEL_MODULES_CORE} ${KERNEL_MODULES_NAT}
+	fi
+
+	return 0
+}
+
+unload_nat_module()
+{
+	local port_forward="$1"
+	local modules_reverse=`reverse_syno "${KERNEL_MODULES_NAT}"`
+	local fw_has_rules=0
+	local portfw_has_rules=0
+
+	fw_has_rules=$?
+	dump_portfwd_rules ${RULES_IPTABLES}
+	portfw_has_rules=$?
+
+	if [ "${port_forward}" = "forwarding_test" ]; then
+		if [ 0 -eq $fw_has_rules -o 0 -eq $portfw_has_rules ]; then
+			stop_kernel $NATTEST
+		else
+			stop $NATTEST 1
+		fi
+	else
+		#Run AP mode
+		if [ 0 -eq $fw_has_rules -o 0 -eq $portfw_has_rules ]; then
+			stop_kernel $NAT
+		else
+			stop $NAT 1
+		fi
+	fi
+}
+
+start() {
+	local is_no_rec=0
+
+	is_no_rec=1
+
+	dump_portfwd_rules ${RULES_IPTABLES}
+	if [ 0 -ne $? ]; then
+		if [ 1 -eq $is_no_rec ]; then
+			stop $PORTFW 1
+			return 0
+		else
+			stop $PORTFW 0
+		fi
+	fi
+
+	[ -f ${RULES_IPTABLES} ] && ipv4_start ${RULES_IPTABLES} ${service}
+	[ -f ${RULES_6_IPTABLES} ] && ipv6_start ${RULES_6_IPTABLES} ${service}
+
+	return 0
+}
+
+ipv6_stop_kernel() {
+	local modules_reverse=""
+
+	# ipv6 Firewall modules not exists
+	if [ ! -e "$PROC_6_IPTABLES_NAMES" ];then
+		return 1;
+	fi
+
+	echo ""
+	echo "Unloading kernel ipv6 netfilter modules... "
+	modules_reverse=`reverse_syno "$IPV6_MODULES $KERNEL_MODULES_COMMON ${GEOIP_MODULES}"`
+	/usr/syno/bin/iptablestool --rmmod $1 $modules_reverse
+}
+
+#ipv6 ip6tables -F
+ipv6_stop() {
+	local modules_reverse=""
+	local rmcfg=$2
+
+	# ipv6 Firewall modules not exists
+	if [ ! -e "$PROC_6_IPTABLES_NAMES" ];then
+		return 1;
+	fi
+
+	/sbin/ip6tables -F
+	[ $? -eq 0 ] && success || failure
+
+	ipv6_stop_kernel $1
+
+	if [ 1 -eq $rmcfg ]; then
+		rm -f $RULES_6_IPTABLES &> /dev/null
+	fi
+}
+
+ipv4_stop_kernel() {
+	local modules_reverse=""
+
+	if [ ! -e "$PROC_IPTABLES_NAMES" ];then
+		return 1
+	fi
+
+	if [ $NAT == $1 ]; then
+		echo ""
+		echo "Unloading kernel ipv4 netfilter NAT modules... "
+		modules_reverse=`reverse_syno "$KERNEL_MODULES_NAT"`
+		/usr/syno/bin/iptablestool --rmmod $1 $modules_reverse
+	elif [ $NATTEST == $1 ]; then
+		echo ""
+		echo "Unloading kernel ipv4 netfilter NAT & Common modules... "
+		modules_reverse=`reverse_syno "$KERNEL_MODULES_COMMON $KERNEL_MODULES_NAT"`
+		/usr/syno/bin/iptablestool --rmmod $1 $modules_reverse
+	else #$PORTFW
+		echo ""
+		echo "Unloading kernel ipv4 netfilter common modules... "
+		modules_reverse=`reverse_syno "$KERNEL_MODULES_COMMON ${GEOIP_MODULES}"`
+		/usr/syno/bin/iptablestool --rmmod $1 $modules_reverse
+	fi
+
+	echo ""
+	echo "Unloading kernel ipv4 netfilter core modules... "
+	modules_reverse=`reverse_syno "$KERNEL_MODULES_CORE"`
+	/usr/syno/bin/iptablestool --rmmod $1 $modules_reverse
+}
+
+#ipv4 iptables -F
+ipv4_stop() {
+	local modules_reverse=""
+	local rmcfg=$2
+
+	if [ ! -e "$PROC_IPTABLES_NAMES" ];then
+		return 1
+	fi
+
+	/sbin/iptables -F
+	[ $? -eq 0 ] && success || failure
+
+	ipv4_stop_kernel $1
+
+	if [ 1 -eq $rmcfg ]; then
+		rm -f $RULES_IPTABLES &> /dev/null
+	fi
+}
+
+stop_kernel() {
+	# stop ipv6 first then ipv4 ~ because of the modules loaded sequence
+
+	[ "yes" != "${V4ONLY}" ] && ipv6_stop_kernel $1
+	ipv4_stop_kernel $1
+
+	return $ret
+}
+
+stop() {
+	# stop ipv6 first then ipv4 ~ because of the modules loaded sequence
+	local services=''
+	local serv=''
+	local rmcfg=1
+
+	if [ -z $1 ];then
+		services="$NAT $NATTEST $PORTFW"
+	else
+		services=$1
+	fi
+
+	if [ -z $2 ];then
+		rmcfg=1
+	else
+		rmcfg=$2
+	fi
+
+	for serv in $services; do
+		[ "yes" != "${V4ONLY}" ] && ipv6_stop $serv $rmcfg
+		ipv4_stop $serv $rmcfg
+	done
+
+	return $ret
+}
+
+help() {
+	echo $"Usage: ${0##*/} {start|stop|restart|force-reload|load_nat_mod|unload_nat_mod}"
+}
+
+get_lock()
+{
+	local timeout=30
+	local i=0
+
+	exec 100>$LOCK_FILE
+	for i in `seq 1 $timeout`; do
+		flock -x -n 100
+		if [ 0 -eq $? ]; then
+			return 0
+		fi
+		sleep 1
+	done
+	return 1
+}
+
+free_lock()
+{
+	flock -u 100
+}
+
+get_lock
+if [ 0 -ne $? ]; then
+	echo "lock fail"
+	exit 1
+fi
+
+case "$1" in
+	start)
+		start
+		RETVAL=$?
+		${RC_NETWORK} start-guest-net-access-rule
+		$TIME_CTRL_SCRIPT start
+		$FW_SECURITY_SCRIPT start
+		;;
+	force-reload)
+		start
+		RETVAL=$?
+		${RC_NETWORK} start-guest-net-access-rule
+		$TIME_CTRL_SCRIPT start
+		$FW_SECURITY_SCRIPT start
+		;;
+	stop)
+		stop
+		RETVAL=$?
+		${RC_NETWORK} stop-guest-net-access-rule
+		$TIME_CTRL_SCRIPT stop
+		$FW_SECURITY_SCRIPT stop
+		;;
+	restart)
+		stop
+		${RC_NETWORK} stop-guest-net-access-rule
+		$TIME_CTRL_SCRIPT stop
+		$FW_SECURITY_SCRIPT stop
+		start
+		RETVAL=$?
+		${RC_NETWORK} start-guest-net-access-rule
+		$TIME_CTRL_SCRIPT start
+		$FW_SECURITY_SCRIPT start
+		;;
+	load_nat_mod)
+		load_nat_module $2
+		RETVAL=$?
+		;;
+	unload_nat_mod)
+		unload_nat_module $2
+		${RC_NETWORK} stop-guest-net-access-rule
+		${RC_NETWORK} start-guest-net-access-rule
+		$TIME_CTRL_SCRIPT stop
+		$TIME_CTRL_SCRIPT start
+		;;
+	*)
+		help
+		exit 1
+		;;
+esac
+
+free_lock
+
+exit $RETVAL

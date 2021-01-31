@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Ağ</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="link_aggr"></a>Link Aggregation*</h2>
+<p>Synology NAS çoklu-LAN desteği sayesinde bu LAN arabirimlerini Link Aggregation teknolojisini kullanarak birleştirmenize izin verir. Link Aggregation, birden çok ağ arabirimini birleştirerek Synology NAS sunucunuzun bant genişliğini artırır ve bağlantının kesilmesi durumunda ağ bağlantısını korumak için trafik üstlenmesi sunar.</p>
+<p>LAN arabirimleriniz birleştirildiğinde, <b>Bond</b> adında yeni bir arabirimi <b>Denetim Masası</b> > <b>Ağ</b> > <b>Ağ Arabirimi</b> öğesine göreceksiniz; bu diğer arabirimlerde (LAN veya PPPoE gibi) yaptığınız gibi yapılandırılabilir.</p>
+
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Link Aggregation etkinken, ağ trafiği bağlanan her cihaz için otomatik olarak ayarlanır ve dengelenir.</li>
+<li>Ağ arabirimleri birden çok svice bağlanırsa, sviç portlarının aynı LAN veya VLAN içinde yer aldığından emin olun.</li>
+</ul>
+</div>
+
+
+<h4>Birden fazla LAN arabirimini Link Aggregation ile birleştirmek için:</h4>
+<ol>
+<li><strong>Denetim Masası</strong> > <strong>Ağ</strong> > <strong>Ağ Arabirimi</strong>'ne gidin. <strong>Oluştur</strong> > <strong>Bond Oluştur</strong> üzerine tıklayın.</li>
+
+<img src="about:blank" class="help_image"/>
+
+
+<li>İstediğiniz modu seçin.
+
+<div class="section">
+<h4>Mod tanımları:</h4>
+<ul>
+<li><strong>Adaptif Yük Dengeleme</strong>: Bu mod sviç Link Aggregation desteklese de desteklemese de Synology NAS sunucunuz tarafından alınan ve gönderilen ağ trafiğini optimize eder. Beklenmedik hatalardan kaçınmak için, desteklenmediğinde bile Link Aggregation özelliğini etkinleştirmeyin.</li>
+<li><strong>IEEE 802.3ad Dynamic Link Aggregation</strong>: Bu mod Synology NAS sunucunuz tarafından alınan ve gönderilen ağ trafiğini optimize eder ve sviçler üzerinde IEEE 802.3ad (Dinamik) Link Aggregation (LACP, 802.1AX) özelliğinin etkinleştirilmesini gerektirir. Birden çok sviç kullanılıyorsa, bu sviçler istiflenebilir ve uygun şekilde yapılandırılmış olmalıdır.</li>
+<li><strong>Denge XOR</strong>: Bu mod Synology NAS sunucunuz tarafından alınan ve gönderilen ağ trafiğini dengeler ve sviçler üzerinde Statik Link Aggregation özelliğinin etkinleştirilmesini gerektirir. Birden çok sviç kullanılıyorsa, bu sviçler istiflenebilir ve uygun şekilde yapılandırılmış olmalıdır. Link Aggregation sviç tarafından desteklenmiyorsa, Synology NAS sunucunuz tarafından gönderilen trafik yine de dengelenebilir. Bu kod ile kaybolan bağlantılar algılanabilir ancak sebep algılanamaz (ör. Ethernet kabloları yerinden çıktığından veya sviç yanlış yapılandırıldığında).</li>
+<li><strong>Aktif/Bekleme</strong>: Bu mod Synology NAS sunucunuza ağ hata toleransını sunar. Bu, aktif ağ arabirimi kapandığında, diğer LAN portlarından bir tanesinin ağ bağlantısını korumak için üstlenmesidir. Svici yapılandırmadan veya IEEE 802.3ad Link Aggregation destekleyen bir sviç ile bu modu seçebilirsiniz.</li>
+</ul>
+</div>
+</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Link Aggregation oluşturmak için arabirimleri seçin.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>IP ayarlarını yapılandırın. Gerekirse VLAN'ı da etkinleştirebilirsiniz. <b>Uygula</b>'ya tıklayarak kurulumu tamamlayın.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Tamamladığınızda, <b>Ağ Arabirimi</b> listesinde <b>Bond 1</b> adlı yeni arabirimi görebilirsiniz.</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+<h4>Link aggregation ayarlarını düzenlemek için.</h4>
+<ol>
+<li>Link Aggregation modunu değiştirmek veya fiziksel aygıtların bilgilerini görüntülemek için, <b>Denetim Masası</b> > <b>Ağ</b> > <b>Ağ Arabirimi</b> öğesine gidin.</li>
+<li><b>Bond 1</b> arabirimini seçin ve <b>Düzenle</b> düğmesine tıklayın.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>İstenen ayarları değiştirmek için ilgili sekmelere gidin.</li>
+</ol>
+
+<h4>Link Aggregation'ı kaldırmak için:</h4>
+<ol>
+<li><b>Denetim Masası</b> > <b>Ağ</b> > <b>Ağ Arabirimi</b>'ne gidin.</li>
+<li><b>Bond 1</b> arabirimini seçin ve <b>Sil</b> düğmesine tıklayın.</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Tamamladığınızda, <b>Bond 1</b>'in iki LAN arabirimi ile değiştirildiğini göreceksiniz.</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+<p>____<br> * Sadece belirli modellerde vardır.</p>
+
+</body>
+</html>
+

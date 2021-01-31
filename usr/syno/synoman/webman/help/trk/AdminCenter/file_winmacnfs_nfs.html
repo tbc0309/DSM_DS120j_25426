@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>NFS Hizmeti</h2>
+<p>NFS hizmeti Linux istemcilerinin Synology NAS &uuml;zerindeki verilere erişmesine izin verir.</p>
+<h4>NFS hizmetini etkinleştirmek i&ccedil;in:</h4>
+<ol>
+<li><strong>Denetim Masası</strong> &gt; <strong>Dosya Hizmetleri</strong> &gt; <strong>SMB/AFP/NFS</strong> b&ouml;l&uuml;m&uuml;ne giderek <b>NFS'i Etkinleştir</b>'i işaretleyin.</li>
+<li><b>Uygula</b>'ya tıklayın.</li>
+</ol>
+
+
+<div class="section">
+  <h4>Not:</h4>
+<ul>
+<li> Synology NAS şu anda NFSv2, NFSv3 ve NFSv4 desteklemektedir.</li>
+<li>Tanıtırken, hangi NFS versiyonunun kullanılması gerektiğini belirlemek i&ccedil;in <strong>-o vers=2</strong>, <strong>-o vers=3</strong> veya <strong>-o vers=4</strong> parametresi tanıtma komutuna eklenebilir.</li>
+<li>Aşağıdaki paylaşımlı klas&ouml;rler NFS yoluyla erişime izin vermez:
+	<ul>
+    <li>Şifrelenmiş paylaşımlı klas&ouml;rler</li>
+    <li>PetaSpace paylaşımlı klas&ouml;rler</li>
+    <li>HFS, HFS Plus ve exFAT dosya sistemlerini kullanan paylaşımlı klas&ouml;rler</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>Linux istemcilerinin paylaşımlı klas&ouml;rlere erişimini yapılandırmak i&ccedil;in:</h4>
+<p><b>Denetim Masası</b> &gt; <b>Paylaşımlı Klas&ouml;r</b> &ouml;ğesine gidin. NFS kurallarını y&ouml;netmek ve Linux istemcilerinin o paylaşımlı klas&ouml;re erişim hakkını d&uuml;zenlemek i&ccedil;in paylaşımlı bir klas&ouml;r se&ccedil;erek <strong>D&uuml;zenle</strong>'ye tıklayın.</p>
+
+
+<h3>NFSv4 Desteğini Ayarlama</h3>
+<p>NFS sunucunuzun NFSv4 destekleyip desteklemeyeceğini belirleyebilirsiniz. Bu se&ccedil;enek etkinleştirildiğinde, NFS sunucusu NFSv2, NFSv3 ve NFSv4 destekler; aksi taktirde, sadece NFSv2 ve NFSv3 desteklenecektir.</p>
+
+<h4>NFSv4 desteğini etkinleştirmek i&ccedil;in:</h4>
+<ol>
+<li><b>NFSv4 desteğini etkinleştir</b> &ouml;ğesini işaretleyin.
+</li>
+<li>
+<b>NFSv4 etki alanı</b> alanında, kullanmak istediğiniz NFSv4 etki alanının adını girin. Bu alan isteğe bağlıdır ve boş bırakılabilir.</li>
+<li>
+<b>Uygula</b>'ya tıklayın.
+</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<p>Paylaşımlı klas&ouml;r&uuml; tanıtmak i&ccedil;in NFSv4 kullandığınızda, l&uuml;tfen aşağıdakilere dikkat edin. Aksi taktirde, kullanıcı adı ile ilişkili dosya işlemleri başarısız olacaktır.</p>
+<ul>
+<li>NFS istemcisi idmapd etkinleştirmelidir.</li>
+<li>NFS istemcinizdeki idmapd.conf dosyasında yer alan NFSv4 etki alanı ayarları Synology NAS sunucunuzdaki <b>NFSv4 etki alanı</b> alanı ile uyumlu olmalıdır.</li>
+</ul>
+
+</div>
+
+
+<h3>Gelişmiş Ayarlar</h3>
+
+<h4>Varsayılan UNIX izinlerini uygulama</h4>
+<p> <strong>Varsayılan UNIX izinlerini uygula</strong> işaretlendiğinde, dosyaların ve klas&ouml;rlerin karşıya y&uuml;klenmesi veya oluşturulması sırasında Linux istemcisinde ayarlanan varsayılan UNIX izinleri Windows ACL izinleri yerine uygulanır. Uygulanan izinler UNIX komutu <strong>umask</strong> tarafından uygulanan izinlerin aynısıdır.  Varsayılan umask değeri 022'dir.</p><div class="section">
+<h4>Not :</h4>
+<ul>
+  <li>Windows ACL etkin paylaşımlı klas&ouml;rler (harici s&uuml;r&uuml;c&uuml;lerde bulunan &quot;photo&quot; ve paylaşımlar hari&ccedil; t&uuml;m paylaşımlar) i&ccedil;in, klas&ouml;r ve dosya izni tiplerini Windows ACL'den UNIX'e değiştirmek amacıyla <strong>chmod</strong> komutunu Linux veya FTP istemcinizde &ccedil;alıştırın.</li>
+  <li>Bu se&ccedil;eneğin etkinleştirilmesi farklı protokoller arasında tutarsız izin sorunlarına neden olabilir. Tutarsızlıkları &ouml;nlemek i&ccedil;in, bu se&ccedil;eneği devre dışı bırakmanızı &ouml;neririz.</li>
+</ul>
+</div>
+
+<h4>&Ouml;zel bağlantı noktası</h4>
+<p>Statd ve nlockmgr hizmetleri i&ccedil;in bağlantı noktası numaralarını &ouml;zelleştirebilirsiniz.</p>
+
+<ol>
+<li><strong>&Ouml;zelleştirilen bağlantı noktaları</strong> &ouml;ğesini se&ccedil;in.</li>
+<li><strong>statd bağlantı noktası </strong>ve<strong> nlockmgr bağlantı noktası</strong> &ouml;ğesine bağlantı noktası numaralarını girin.</li>
+<li>
+<b>Uygula</b>'ya tıklayın.
+</li>
+</ol>
+
+<div class="section">
+<h4>Not :</h4>
+<ul>
+<li>NFSv3 hizmetlerini kullanmak istiyorsanız, <strong>Denetim Masası</strong> &gt; <strong>G&uuml;venlik</strong> &gt; <strong>G&uuml;venlik Duvarı</strong> &ouml;ğesine gidin ve kurulu uygulamalar listesinden &quot;Mac/Linux dosya sunucusu&quot; &ouml;ğesini etkinleştiren bir g&uuml;venlik duvarı kuralını oluşturun.</li>
+</ul>
+</div>
+<h4>Okuma/Yazma Paketi Boyutunu Ayarlama</h4>
+<p>Okuma/yazma paketi boyutu NFS sunucunuzda ayarlanamadığında, varsayılan değeri bu alanda belirleyebilirsiniz.</p>
+
+<ol>
+<li><strong>Okuma paketi boyutu</strong> ve <strong>Yazma paketi boyutu</strong> alanlarından istenen paket boyutunu se&ccedil;in.</li>
+<li>
+<b>Uygula</b>'ya tıklayın.
+</li>
+<li>
+Paylaşımı yeniden tanıtın.
+</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Okuma/yazma paketi boyutunu değiştirdikten sonra, paylaşımlı klas&ouml;r yeni ayarların etkin olması &ouml;ncesinde yeniden tanıtılmalıdır.</li>
+<li>Bu ayarlar UDP (Kullanıcı Datagram Protokol&uuml;) yoluyla bağlanan NFS istemcilerini etkiler.</li>
+</ul>
+</div>
+
+
+
+
+<h3>Kerberos Ayarları*</h3>
+<p>Kerberos bir ağ doğrulama protokol&uuml;d&uuml;r. G&uuml;venli olmayan bir ağ &uuml;zerinden iletişim kuran istemcilerin ve sunucuların g&uuml;venli bir şekilde kendi kimliklerini doğrulamalarına ve kanıtlamalarına olanak tanır. Synology NAS mevcut bir Kerberos anahtarının alınması i&ccedil;in se&ccedil;enekler sunar. Başarıyla alındığında, NFS istemcileri Synology NAS sunucusuna bağlanmak i&ccedil;in Kerberos doğrulama protokol&uuml;n&uuml; kullanabilirler.</p>
+
+<h4> Bir Kerberos anahtarını i&ccedil;eri aktarmak i&ccedil;in: </h4>
+<ol>
+<li><strong>Kerberos Ayarları</strong> &uuml;zerine tıklayın.</li>
+<li><b>İ&ccedil;eri Aktar</b> d&uuml;ğmesine tıklayın.</li>
+<li>İ&ccedil;eri aktarmak istediğiniz Kerberos anahtarını se&ccedil;in.</li>
+<li><b>Tamam</b>'a tıklayın.</li>
+</ol>
+
+<h3><a name="idmap"></a>Kerberos ID Haritalama</h3>
+<p>M&uuml;nferit Kerberos ilkelerini yerel DSM kullanıcı hesaplarına haritalayabilirsiniz.</p>
+<h4> Kerberos ilkelerini ve yerel kullanıcı hesaplarını haritalamak i&ccedil;in: </h4>
+<ol>
+<li><strong>Kerberos Ayarları</strong> &uuml;zerine tıklayın.</li>
+<li><strong>ID Haritalama</strong> sekmesine gidin.</li>
+<li> <b>Ekle</b> d&uuml;ğmesine tıklayın. Aşağıdakilerden birisini se&ccedil;in.</li>
+<ul>
+<li><strong>ID Haritalama:</strong> Kerberos ilkesini ve haritalanması gereken yerel kullanıcı hesabını girin.</li>
+<li><strong>&Ouml;nerilen Haritalama Listesi:</strong> Bu se&ccedil;enek sistem tarafından oluşturulmuş &ouml;nerilen Kerberos ilkesi/yerel kullanıcı haritalama se&ccedil;eneklerinin bir listesini g&ouml;r&uuml;nt&uuml;ler.</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> Not: </h4>
+<ul>
+<li>Kerberos yoluyla mevcut bir Etki Alanı/LDAP kullanıcı hesabına bağlanan bir NFS istemcisini haritalamak istiyorsanız, dizin hizmetine katıldığınızdan emin olun. Ayrıca, dizin sunucusunun ilgili Kerberos ilkesini i&ccedil;eren bir &ouml;zniteliğe sahip olması gerekir.</li>
+<ul>
+<li><strong>Etki Alanı Kullanıcısı:</strong> İlgili &ouml;zniteliğin formatı <strong>userPrincipalName</strong> olmalıdır.</li>
+<li><strong>LDAP Kullanıcısı:</strong> İlgili &ouml;zniteliğin formatı <strong>GSSAuthName</strong> olmalıdır.</li>
+</ul>
+<li>Kullanıcı yerel bir kullanıcıya veya etki alanı/LDAP kullanıcısına başarıyla haritalanamazsa, kullanıcının &quot;guest&quot;e haritalanması gerekir.
+<li>Haritalanmış &ouml;ncelik şu şekildedir: Yerel kullanıcı &gt; Etki alanı/LDAP kullanıcısı &gt; Guest. </li>
+<li>NFS istemcilerinin erişim izinlerini değiştirmek istiyorsanız, l&uuml;tfen Windows Erişim Kontrol Listesini (ACL) kullanın. <strong>Denetim Masası</strong> &gt; <strong>Kullanıcı</strong> konumundaki ayrıcalıklar se&ccedil;enekleri NFS istemcileri i&ccedil;in uygulanamaz.</li>
+</ul>
+</div>
+<p>
+<br>____<br> * Yalnızca bazı modellerde mevcuttur.
+
+</p>
+
+
+
+</body>
+</html>

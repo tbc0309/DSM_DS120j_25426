@@ -1,0 +1,77 @@
+check_is_pppoe ()
+{
+	if  [ -z $1 ]; then
+		return 1;
+	fi
+
+	/bin/grep pppoe /proc/$1/cmdline  > /dev/null 2>&1
+	if [ 0 -eq $? ]; then
+		return 0;
+	fi
+
+	return 1;
+}
+
+check_is_usbmodem ()
+{
+	local IPPARAM="$1"
+	local PEERWVDIAL_PATH='/etc/ppp/peers/wvdial'
+
+	# if this ppp called wvdial, it will pass addition parameter
+	if [ -z $IPPARAM ]; then
+		return 0
+	fi
+
+	# if file is not readable
+	if [ ! -r $PEERWVDIAL_PATH ]; then
+		return 0
+	fi
+
+	# the parameter should same as ipparam in wvdial
+	local WVDIAL_IPPARAM=`grep ipparam $PEERWVDIAL_PATH | cut -d' ' -f2`
+	if [ "x$WVDIAL_IPPARAM" != "x$IPPARAM" ]; then
+		return 0
+	fi
+
+	return 1
+}
+
+check_usbmodem_is_defaultroute ()
+{
+	local WVDIAL_NODEFAULTROUTE=`grep nodefaultroute /etc/ppp/peers/wvdial`
+
+	# check if default route set
+	if [ ! -z $WVDIAL_NODEFAULTROUTE ]; then
+		return 0
+	fi
+
+	return 1
+}
+
+check_is_vpnclient_pptp ()
+{
+	if  [ -z $1 ]; then
+		return 1;
+	fi
+
+	/bin/grep connect_p /proc/$1/cmdline  > /dev/null 2>&1
+	if [ 0 -eq $? ]; then
+		return 0;
+	fi
+
+	return 1;
+}
+
+check_is_vpnclient_l2tp ()
+{
+	if  [ -z $1 ]; then
+		return 1;
+	fi
+
+	/bin/grep synovpnclient /proc/$1/cmdline  > /dev/null 2>&1
+	if [ 0 -eq $? ]; then
+		return 0;
+	fi
+
+	return 1;
+}

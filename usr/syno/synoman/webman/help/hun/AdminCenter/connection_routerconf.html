@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Router beállítása</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="router"></a>Router beállítása</h2>
+<p>Ha a(z) Synology NAS eszköz helyi hálózaton található, egyéb internetes eszközök nem tudnak hozzá csatlakozni. Synology NAS eszközének interneten keresztül történő elérését lehetővé tevő porttovábbítási szabályokat a <strong>Vezérlőpult</strong> > <strong>Külső hozzáférés</strong> > <strong>Router beállítása</strong> menüpontban állíthat be.</p>
+
+
+
+<h3><a name="leaf_routerconf"></a>A router beállítása</h3>
+
+<p>Porttovábbítási szabályok hozzáadása előtt kapcsolatot kell létrehoznia routere és Synology NAS eszköze között.</p>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ol>
+<li>A porttovábbítási szabályok beállításához és statikus IP-cím hozzárendeléséhez rendszergazdai jogosultságokkal kell rendelkeznie a routerhez.</li>
+<li>Mielőtt kapcsolatot hoz létre a(z) Synology NAS eszköz és egy UPnP router között, ellenőrizze, hogy a DSM sikeresen visszakereste-e a(z) Synology NAS külső IP-címét (a <b>Vezérlőpult</b> > <b>Külső hozzáférés</b> > <strong>DDNS</strong> menüpontban). Ha nem, ellenőrizze a(z) Synology NAS és az UPnP router hálózati és tűzfalbeállításait.</li>
+</ol>
+</div>
+
+<p>A(z) Synology NAS eszköz és a router közötti kapcsolat beállítása:<ol>
+  <li>A Telepítés varázsló indításához kattintson a <b>Router beállítása</b> lehetőségre. A DSM a következő lépés előtt teszteli az alábbi hálózati összetevőket/beállításokat:<ul>
+    <li>Hálózati interfész</li>
+    <li>Átjárókapcsolat</li>
+    <li>Internetkapcsolat</li>
+    <li>Porttovábbítás</li>
+    <li>DNS</li>
+  </ul>
+  </li>
+  <li>A router típusától függően tegye az alábbiak egyikét:</li>
+<ul>
+<li>Ha a router nem támogatja az UPnP-protokollt, kezdje a 3. lépéssel.</li>
+<li>Ha az UPnP router az elvégzett tesztek alapján kompatibilis a(z) Synology NAS eszközzel, kattintson az <b>Alkalmazás</b> opcióra, amikor a router adatainak összegzését látja. Ekkor létrejön a(z) Synology NAS eszköz és a router közötti kapcsolat.</li>
+<li>Ha az UPnP router és a(z) Synology NAS eszköz kompatibilitását nem tesztelték, tegye az alábbiak egyikét:</li>
+
+<ul>
+<li>Ha szeretné, hogy a rendszer automatikusan beállítsa a kapcsolatot a routerrel, válassza az <b>Automatikus</b> opciót, majd kattintson a <b>Tovább</b> gombra. Ezt követően a rendszer elvégzi a kompatibilitási tesztet:</li>
+<ul>
+<li>Ha a teszt megállapítja, hogy a router kompatibilis a(z) Synology NAS eszköz routerbeállítási szolgáltatásával, jelölje be a tesztjelentés elküldésére vonatkozó jelölőnégyzetet (ezzel segít a Synology routerkompatibilitási adatbázisának frissítésében), majd kattintson az <b>Alkalmazás</b> lehetőségre. Ekkor létrejön a(z) Synology NAS eszköz és a router közötti kapcsolat.</li>
+<li>Ha a teszt megállapítja, hogy a router nem kompatibilis a(z) Synology NAS eszköz routerbeállítási szolgáltatásával, jelölje be a tesztjelentés elküldésére vonatkozó jelölőnégyzetet (ezzel segít a Synology routerkompatibilitási adatbázisának frissítésében), majd kattintson a <b>Bezárás</b> lehetőségre a Telepítés varázsló elhagyásához.</li>
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>Ha a teszt során kiderül, hogy a router nem kompatibilis, a porttovábbítási szabályokat a router kezelési felületén akkor is beállíthatja. További információkért kattintson <a href="http://www.synology.com/tutorials/how_to_internet.php?#t3.10" target="_blank">ide</a>.</a></p> 
+</div>
+</ul>
+
+<li>Ha manuálisan szeretné létrehozni a kapcsolatot a routerrel, válassza a <b>Manuális</b> opciót, majd kattintson a <b>Tovább</b> gombra, és kövesse a 3. lépésben leírtakat.</li>
+</ul>
+
+</ul>
+
+<li>Ha manuálisan kell létrehoznia a(z) Synology NAS eszköz és a router közötti kapcsolatot, tegye a következőt:</li>
+<ol>
+<li>Válassza ki a routert a <b>Router</b> legördülő menüből.</li>
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>Ha nem találja a routert, kattintson a <b>Lista frissítése</b> lehetőségre a legfrissebb lista lekéréséhez a Synologytól.</p>
+</div>
+
+<li>Állítsa be a router protokollját és portját. A protokoll és a port a router típusától függően változhat. Ha az alapértelmezett <b>Protokoll</b> (HTTP) és <b>Port</b> (80) használatával nem tud csatlakozni, akkor tekintse át a routerhez mellékelt dokumentációt, és keresse meg a helyes beállításokat.</li>
+<li>Ha a routerhez egyéni fiókra van szükség, jelölje be az <b>Egyéni router-fiók használata</b> jelölőnégyzetet, és töltse ki a <b>Fiók</b> és a <b>Jelszó</b> mezőket.</li>
+<li>A befejezéshez kattintson az <b>Alkalmaz</b> gombra.</li>
+</ol>
+</ol>
+
+
+
+
+<h3>Porttovábbítási szabályok kezelése</h3>
+<p>A porttovábbítási szabályok révén megadhatja a(z) Synology NAS eszköz azon célportjait, amelyek csomagokat kapnak a router meghatározott portjaitól.</p>
+<p>Ha a(z) Synology NAS eszköz routeren keresztül csatlakozik az internethez, a <b>Létrehozás</b> gombra kattintva nyissa meg a porttovábbítás-beállító varázslót.</p>
+<p>Porttovábbítási szabályok kétféleképpen állíthatók be:</p>
+<ul>
+<li>Ha rendszerszolgáltatások (például FTP, Web Station stb.) számára szeretne porttovábbítási szabályokat létrehozni, válassza a <b>Beépített alkalmazás</b> lehetőséget.</li>
+<li>Ha egyéb szolgáltatások számára szeretne porttovábbítási szabályokat létrehozni, válassza az <b>Egyedi port</b> lehetőséget.</li>
+</ul>
+<p>A portszámok és a tartomány meghatározásához a következő sablont is használhatja:</p>
+<ul>
+<li>A porttartomány leírásához használja a „-” jelet, például: 6881-6890.</li>
+<li>A portok elválasztásához használja a „,” jelet, például: „21,22”, „21,55536-55663”.</li>
+</ul>
+
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Az átjáró-router minden egyes portja csak egy átirányítási szabályhoz használható. Ütközéshez vezet, amennyiben egy routerportot kettő vagy több szabályhoz használ fel. Ebben az esetben figyelmeztető üzenet jelenik meg a képernyőn. Az ütközések elkerülése érdekében újabb portot kell felvenni a szabályba.</li>
+<li>Egyes routerek nem engedik egyéni portok használatát rendszerszolgáltatások átirányításához. </li>
+</ul>
+</div>
+
+<h4>Szabályok mentése:</h4>
+<p>A szabályok létrehozása után kattintson a <b>Mentés</b> lehetőségre. Ellenkező esetben a szabályok nem kerülnek alkalmazásra.</p>
+<p>A router típusától függően előfordulhat, hogy a mentést követően várnia kell néhány percet a szabályok működésbe lépésére.</p>
+<h4>Szabályok működésének tesztelése:</h4>
+<p>Válassza ki a tesztelni kívánt szabályokat, majd kattintson a <b>Csatlakozás ellenőrzése</b> gombra. Az eredmények a <b>Csatlakozás ellenőrzésének eredménye</b> oszlopban jelennek meg.</p>
+<h3>Vezeték nélküli routerként történő használat esetén*</h3>
+<p>Ha Synology NAS eszköze vezeték nélküli routerként működik, a porttovábbítási szabályokat közvetlenül a(z) Synology NAS hajtja végre.</p>
+<h4>Porttovábbítási szabályok hozzáadása:</h4>
+<ol>
+<li>Kattintson a <b>Létrehozás</b> lehetőségre a beállítások ablak megnyitásához. </p>
+<li>Töltse ki a következő mezőket: <strong>Szolgáltatás</strong> neve, <strong>Protokoll</strong> (TCP vagy UDP), <strong>Privát IP-cím</strong>,<strong> Privát port</strong> és <strong>Nyilvános port</strong>. A portszámok és a tartomány meghatározásához a következő sablont is használhatja:<ul>
+<li>A porttartomány leírásához használja a „-” jelet, például: 6881-6890.</li>
+<li>A portok elválasztásához használja a „,” jelet, például: „21,22”, „21,55536-55663”.</li>
+</ul>
+<li>A beállítások befejezéséhez kattintson az alul található <strong>Létrehozás</strong> lehetőségre.</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>A legtöbb router engedélyezi, hogy a porttovábbítási szabályok beállításánál a helyi számítógép portjai és a router portjai különbözzenek. Amennyiben az Ön routere is támogatja ezt a funkciót:</p>
+<ul>
+<li>Amennyiben szabály mentésénél egy routerportot egy már létező szabály használ, a rendszer új routerportot oszt ki a szabályhoz.</li>
+<li>Szabályok hozzáadása és módosítása esetén közvetlenül megadhatja a router portszámát.</li>
+</ul>
+</div>
+<h3>DMZ*</h3>
+<p>A DMZ funkciót akkor kapcsolhatja be a(z) Synology NAS eszközön, ha a Hálózati térkép beállítása Vezeték nélküli router. A DMZ-ben (Demilitarizált zónában) található gazdagépek közvetlenül csatlakozhatnak a külső hálózathoz, a tűzfal védelme és korlátozásai nélkül. A funkció rendszerint szerverek üzemeltetéséhez használatos.</p>
+<h4>A DMZ engedélyezése:</h4>
+<ol>
+<li>Kattintson a <strong>DMZ-beállítások</strong> lehetőségre a beállítások ablak megnyitásához.</li>
+<li>Jelölje be a <strong>DMZ engedélyezése</strong> jelölőnégyzetet.</li>
+<li>Adja DMZ hostjának IP-címét.</li>
+<li>Kattintson az <strong>Alkalmaz</strong> gombra.</li>
+</ol>
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>Külső hálózatból a DMZ-ben található gazdagéphez való csatlakozáshoz a(z) Synology NAS által lekért külső IP-címre lesz szüksége.</p>
+</div>
+
+
+<p>____<br> * Csak bizonyos modelleken, illetve környezete függvényében érhető el.</p>
+
+
+</body>
+</html>

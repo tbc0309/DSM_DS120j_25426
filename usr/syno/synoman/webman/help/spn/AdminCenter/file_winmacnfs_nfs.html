@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" charset="utf-8">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Servicio NFS</h2>
+<p>El servicio NFS permite a los clientes de Linux acceder al dispositivo Synology NAS.</p>
+<h4>Para habilitar el servicio NFS:</h4>
+<ol>
+<li>Vaya a <strong>Panel de control</strong> &gt; <strong>Servicios de archivos</strong> &gt; <strong>SMB/AFP/NFS</strong> y marque <b>Habilitar NFS</b>.</li>
+<li>Haga clic en <b>Aplicar</b>.</li>
+</ol>
+
+
+<div class="section">
+  <h4>Observaci&oacute;n:</h4>
+<ul>
+<li> Synology NAS admite actualmente NFSv2, NFSv3 y NFSv4.</li>
+<li>Durante el montaje, los par&aacute;metros <strong>-o vers=2</strong>, <strong>-o vers=3</strong> o <strong>-o vers=4</strong> se pueden a&ntilde;adir al comando de montaje a fin de especificar qu&eacute; versi&oacute;n de NFS se deber&iacute;a utilizar.</li>
+<li>Las siguientes carpetas compartidas no permiten el acceso a trav&eacute;s de NFS:<ul>
+    <li>Carpetas compartidas cifradas</li>
+    <li>Carpetas compartidas PetaSpace</li>
+    <li>Carpetas compartidas mediante HFS, HFS Plus y sistemas de archivos exFAT</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>Para configurar los privilegios de acceso de los clientes de Linux a carpetas compartidas:</h4>
+<p>Vaya a <b>Panel de control</b> &gt; <b>Carpeta compartida</b>. Seleccione una carpeta compartida y haga clic en <strong>Editar</strong> para administrar las reglas de NFS y regular los derechos de acceso de clientes Linux a esta carpeta compartida.</p>
+
+
+<h3>Configuraci&oacute;n de la compatibilidad NFSv4 y NFSv4.1</h3>
+<p>Synology NAS es compatible con NFSv2 y NFSv3 de forma predeterminada. Puede decidir si se debe habilitar NFSv4 o NFSv4.1.</p>
+
+<h4>Para habilitar la compatibilidad NFSv4 o NFSv4.1:</h4>
+<ol>
+<li>Marque <b>Habilitar la compatibilidad NFSv4</b> o <b>Habilitar la compatibilidad NFSv4.1</b>.</li>
+<li>En el campo de <b>Dominio NFSv4</b>, introduzca el nombre del dominio NFSv4 que desea utilizar. Este campo es opcional y se puede dejar en blanco.</li>
+<li>Haga clic en <b>Aplicar</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<p>Cuando utilice NFSv4 para montar la carpeta compartida, observe lo siguiente. De lo contrario, se producir&aacute;n errores en las operaciones de archivos asociadas al nombre de usuario.</p>
+<ul>
+<li>El cliente NFS debe habilitar idmapd.</li>
+<li>La configuraci&oacute;n del dominio NFSv4 en el archivo idmapd.conf en su cliente NFS debe ser coherente con el campo <b>Dominio NFSv4</b> en Synology NAS.</li>
+</ul>
+
+</div>
+<p>NFSv4 se habilitar&aacute; autom&aacute;ticamente si NFSv4.1 est&aacute; habilitado.</li>
+
+<h4>M&uacute;ltiples rutas</h4>
+<p>NFSv4.1 es compatible con m&uacute;ltiples rutas. Los clientes pueden acceder a un servidor NFS mediante varias conexiones de red al mismo tiempo. El uso de m&uacute;ltiples rutas aumenta el ancho de banda y proporciona la funci&oacute;n de conmutaci&oacute;n por error para el tr&aacute;fico para que la conexi&oacute;n a la red se mantenga en casos de fallo de conexi&oacute;n. Por el momento, solo VMware ESXi versi&oacute;n 6.0 o posterior admite clientes NFSv4.1. Para obtener m&aacute;s informaci&oacute;n sobre la compatibilidad NFSv4.1 de VMware, consulte el <a target="_blank" href="https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.storage.doc/GUID-8A929FE4-1207-4CC5-A086-7016D73C328F.html">documento de VMware</a>.</p>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+<li>El uso de m&uacute;ltiples rutas est&aacute; limitado a los modelos compatibles con NFSv4.1.</li>
+</ul>
+</div>
+
+
+
+<h3>Configuraci&oacute;n avanzada</h3>
+
+<h4>Aplicar permisos UNIX predeterminados</h4>
+<p> Cuando se marca <strong>Aplicar permisos UNIX predeterminados</strong>, se aplican los permisos UNIX predeterminados configurados en el cliente Linux en lugar de los permisos Windows ACL al cargar o crear archivos y carpetas. Los permisos aplicados son los mismos que se aplican con el comando UNIX <strong>umask</strong>. El valor predeterminado de umask es 022.</p><div class="section">
+<h4>Nota:</h4>
+<ul>
+  <li>Para las carpetas compartidas con Windows ACL (todos los recursos compartidos excepto &apos;photo&apos; y los recursos compartidos en discos externos), ejecute el comando <strong>chmod</strong> en el cliente Linux o FTP para cambiar los tipos de permisos de carpeta y de archivo de Windows ACL a UNIX.</li>
+  <li>Si se habilita esta opci&oacute;n se pueden provocar problemas de permisos que no mantienen la consistencia entre protocolos diferentes. Para evitar inconsistencias, sugerimos no habilitar esta opci&oacute;n.</li>
+</ul>
+</div>
+
+<h4>Puerto personalizado</h4>
+<p>Puede personalizar n&uacute;meros de puerto para los servicios statd y nlockmgr.</p>
+
+<ol>
+<li>Seleccione <strong>Puertos personalizados</strong>.</li>
+<li>Introduzca los n&uacute;meros de puertos en <strong>puerto statd </strong>y<strong> puerto nlockmgr</strong>.</li>
+<li>Haga clic en <b>Aplicar</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Si desea utilizar los servicios NFSv3, vaya a <strong>Panel de control</strong> &gt; <strong>Seguridad</strong> &gt; <strong>Cortafuegos</strong> y cree una regla de cortafuegos que habilite &quot;Servidor de archivos Mac/Linux&quot; de la lista de aplicaciones incorporadas.</li>
+</ul>
+</div>
+<h4>Configurar el tama&ntilde;o del paquete de lectura/escritura</h4>
+<p>Cuando el tama&ntilde;o de paquete de lectura/escritura no se puede configurar en el cliente NFS, puede especificar el valor predeterminado en este campo.</p>
+
+<ol>
+<li>Seleccione el tama&ntilde;o de paquete deseado de los campos <strong>Leer el tama&ntilde;o de paquete</strong> y <strong>Escribir el tama&ntilde;o de paquete</strong>.</li>
+<li>Haga clic en <b>Aplicar</b>.</li>
+<li>Volver a montar el recurso compartido.</li>
+</ol>
+
+<div class="section">
+<h4>Observaci&oacute;n:</h4>
+<ul>
+<li>Tras cambiar el tama&ntilde;o del paquete de lectura/escritura, la carpeta compartida se debe volver a montar antes de que la nueva configuraci&oacute;n pueda aplicarse.</li>
+<li>Estas configuraciones s&oacute;lo afectar&aacute;n a clientes NFS que se conecten a trav&eacute;s de UDP (Protocolo de datagrama de usuario).</li>
+</ul>
+</div>
+
+<h3>Configuraci&oacute;n Kerberos</h3>
+<p>Kerberos es un protocolo de autenticaci&oacute;n de redes. Permite a clientes y servidores comunicarse a trav&eacute;s de una red no segura para autenticar y demostrar sus identidades los unos a los otros de manera segura. Synology NAS proporciona opciones para importar una clave Kerberos existente. Cuando se haya importado correctamente, los clientes NFS podr&aacute;n utilizar el protocolo de autenticaci&oacute;n Kerberos para conectarse a Synology NAS.</p>
+
+<h4> Para importar una clave Kerberos: </h4>
+<ol>
+<li>Hacer clic en <strong>Configuraci&oacute;n Kerberos</strong>.</li>
+<li>Haga clic en el bot&oacute;n <b>Importar</b>.</li>
+<li>Elija la clave Kerberos que desea importar.</li>
+<li>Haga clic en <b>OK</b>.</li>
+</ol>
+
+<h3><a name="idmap"></a>Asignaci&oacute;n de ID Kerberos</h3>
+<p>Puede asignar nombres de principales individuales de Kerberos a las cuentas de usuarios DSM locales.</p>
+<h4> Para asignar nombres de principales de Kerberos y cuentas de usuarios locales: </h4>
+<ol>
+<li>Hacer clic en <strong>Configuraci&oacute;n Kerberos</strong>.</li>
+<li>Vaya a la pesta&ntilde;a <strong>Asignaci&oacute;n de ID</strong>.</li>
+<li> Haga clic en el bot&oacute;n <b>Agregar</b>. Seleccione una de las siguientes opciones.</li>
+<ul>
+<li><strong>Asignaci&oacute;n de ID:</strong> Introduzca el nombre de principal de Kerberos y la cuenta de usuario local a la que lo desea asignar.</li>
+<li><strong>Lista de asignaciones sugerida:</strong> Esta opci&oacute;n muestra una lista de opciones de asignaci&oacute;n sugeridas para nombres de principales de Kerberos/usuarios locales generadas por el sistema.</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> Observaci&oacute;n: </h4>
+<ul>
+	<li>Kerberos solo est&aacute; disponible en los modelos con discos duros internos.</li>
+	<li>Si desea asignar un cliente NFS que se conecta a trav&eacute;s de Kerberos a una cuenta de usuario de dominio/LDAP existente, aseg&uacute;rese de haberse unido al servicio de directorio. Adem&aacute;s, el servidor de directorio debe tener un atributo que incluya el nombre principal de Kerberos correspondiente.<ul>
+		<li><strong>Usuario del dominio:</strong> El formato del atributo correspondiente debe ser <strong>userPrincipalName</strong>.</li>
+		<li><strong>Usuario de LDAP:</strong> El formato del atributo correspondiente debe ser <strong>GSSAuthName</strong>.</li>
+		</ul></li>
+	<li>Si el usuario no se puede asignar correctamente a un usuario local o a un usuario de dominio/LDAP, entonces se debe asignar a &quot;guest.&quot;<li>La prioridad de las asignaciones es la siguiente: Usuario local &gt; Usuario de Dominio/LDAP &gt; Guest. </li>
+	<li>Si desea modificar los permisos de acceso de clientes NFS, utilice la Lista de control de acceso de Windows (ACL). Las opciones de privilegios situadas en <strong>Panel de control</strong> &gt; <strong>Usuario</strong> no son relevantes para clientes NFS.</li>
+</ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/webapi/entry.cgi?api=SYNO.Core.Desktop.JSUIString&version=1&method=getjs"></script>
+<script type="text/javascript" src="/scripts/ext-3/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="/scripts/ext-3/ext-all.js"></script>
+<script type="text/javascript" src="/scripts/ext-3/ux/ux-all.js"></script>
+<script type="text/javascript">
+var handler = (function() {
+    function post_message(message, origin) {
+        try {
+            var obj = (Ext.isString(message)) ? Ext.decode(message) : message;
+            opener.postMessage(obj, origin);
+        } catch (e) {
+            alert(JSON.stringify(message));
+        }
+    }
+    function relay() {
+        var params = {};
+        location.hash.substring(1).split('&').forEach(function(item) {
+            var pair = item.split('=');
+            params[pair[0]] = decodeURIComponent(pair[1]);
+        });
+
+        if ('success' in params) {
+            var origin = ('origin' in params) ? params['origin'] : location.origin;
+            var reason = null;
+            if ('reason' in params) {
+                reason = params['reason'];
+            }
+            post_message({success: (params['success'] === 'true'), reason: reason}, origin);
+            return;
+        }
+        if ('error' in params) {
+            post_message(params);
+            return;
+        }
+        window.close();
+    }
+    return {relay: relay};
+}());
+</script>
+</head>
+<body onload="handler.relay()"></body>
+</html>

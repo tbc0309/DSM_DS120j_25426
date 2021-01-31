@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Stroom</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Slaapstand</h2>
+<p>U kunt de niet-actieve tijdsduur opgeven voordat de harde schijven in HDD-slaapstand gaan. Tijdens de HDD-slaapstand stoppen de harde schijven met draaien, waardoor het stroomverbruik daalt en de levensduur van de harde schijven wordt verlengd. U kunt voor interne harde schijven en externe eSATA/USB-harde schijven verschillende tijdsintervallen opgeven.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>HDD-slaapstand stopt bij activering.</li>
+<li>Alleen bepaalde externe USB-opslagapparaten ondersteunen HDD-slaapstand.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Waarom gaat mijn Synology NAS niet in de slaapstand?</h4>
+
+<p>Denk eraan dat de volgende services verhinderen dat Synology NAS in slaapstand gaat. Voorts zal het systeem twee minuten voor een geplande taak uit de slaapstand ontwaken.</p>
+
+<p><strong>Pakketten:</strong></p>
+<ul>
+  <li>Download Station: Synology NAS kan niet in slaapstand schakelen als Download Station bezig is met de uitvoering van eMule, RSS-geplande downloads of actieve taken.</li>
+  <li>Mail Station: Synology NAS kan niet in slaapstand schakelen als Mail Station e-mails ophaalt via POP3.</li>
+  <li>Surveillance Station: Synology NAS kan niet in slaapstand schakelen als Surveillance Station aan het opnemen is.</li>
+  <li>Mediaserver: Synology NAS kan niet in slaapstand schakelen als DMA logboek ingeschakeld is in de Mediaserverinstellingen (ga naar <strong>Hoofdmenu</strong> > <strong>Mediaserver</strong> > <strong>Mediaserver</strong> > <strong>Diagnose</strong>).</li>
+  <li>LDAP Server</li>
+  <li>Webalizer</li>
+  <li>Logitech<sup>®</sup> Media Server</li>
+  <li>Plex Media Server</li>
+  <li>andere software van derden of optware zoals SABnzbd</li>
+</ul>
+<p><strong>Processen:</strong></p>
+<ul>
+  <li>Miniaturen en indexering: Synology NAS kan niet in slaapstand schakelen tijdens het genereren van miniaturen of herindexeren van multimediabestanden na bijwerken. Gedurende deze periode staat het “synoindexd”-proces aangegeven als "Ingeschakeld" (Ga naar <strong>Hoofdmenu</strong> > <strong>Broncontrole</strong> > <strong>Proces</strong>).</li>
+  <li>Local Master Browser: Synology NAS kan niet in slaapstand schakelen als Local Master Browser is ingeschakeld (ga naar <strong>Configuratiescherm</strong> > <strong>Win/Mac/NFS</strong> > <strong>Windows-bestandsservice</strong> > <strong>Local Master Browser inschakelen</strong>).</li>
+  <li>Windows Media Player: Synology NAS kan niet in slaapstand schakelen als Network Sharing Service van Windows Media Player in het LAN is ingeschakeld.</li>
+  <li>Synology NAS kan niet in slaapstand schakelen als een aantal gelijktijdige processen wisselen vereisen, terwijl de RAM-capaciteit is overschreden en HDD's tijdelijk worden gebruikt voor lees/schrijfbewerkingen.</li>
+</ul>
+<p><strong>Andere</strong></p>
+<ul>
+  <li>USB-apparaten: Synology NAS kan niet in de slaapstand gaan als er een USB-apparaat op de unit is aangesloten. </li>
+</ul>
+
+</div>
+
+
+<h3>Systeemslaapstand</h3>
+<p>U kunt Synology NAS zo instellen dat systeemslaapstand wordt ingeschakeld een minuut nadat de harde schijven in slaapstand zijn gegaan. De systeemslaapstand beperkt het stroomverbruik van de Synology NAS.  </p>
+<p>Tijdens de systeemslaapstand:</p>
+
+<ol>
+  <li>knippert de aan/uitknop langzaam (trage aan/uit-cyclus), worden andere LED's uitgeschakeld,</li>
+  <li>wordt de voeding van de harde schijven uitgeschakeld,</li>
+  <li>stopt de CPU,</li>
+  <li>stopt de externe ventilator,</li>
+  <li>worden LED's van de LAN-poorten uitgeschakeld.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>elk SMB/CIFS-pakket kan de server verhinderen om in systeemslaapstand te gaan, met inbegrip van Windows bestandsbrowsers die actief zijn in het netwerk. Selecteer <strong>Verzenden van pakketten van Windows Verkenner negeren</strong> als u de CIFS broadcasting-pakketten wilt negeren bij inschakelen van de systeemslaapstand. Na selectie van deze optie kunnen SMB/CIFS-pakketten niet worden gebruikt om de systeemslaapstand te beëindigen. Het aansluiten van een USB-apparaat voorkomt ook dat de server in de systeemslaapstand gaat.</li>
+</ul>
+</div>
+
+<h2>Diepe slaap</h2>
+<p>Diepe slaap voor uitbreidingseenheden kan worden ingeschakeld via de gekoppelde Synology NAS-interface. U kunt verschillende niet-actieve tijdsperioden instellen voor de uitbreidingseenheid en de gekoppelde Synology NAS. Hierdoor is het mogelijk dat uitbreidingseenheden in de diepe-slaapmodus gaan, terwijl de gekoppelde Synology NAS ingeschakeld blijft.</p>
+<p>Tijdens diepe-slaapstand:</p>
+<ul>
+  <li>gaan alle leds van de uitbreidingseenheid uit,
+</li>
+<li>wordt de voeding van de harde schijven van de uitbreidingseenheid afgebroken,
+</li>
+<li>stopt de ventilator van de uitbreidingseenheid.</li>
+</ul>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>de diepe-slaapstand stopt bij activering.</li>
+<li>Om ervoor te zorgen dat alles normaal werkt als u de diepe-slaapfunctie op een uitbreidingseenheid gebruikt, moet u de <b>Auto/Manual</b>-schakelaar op het achterpaneel verschuiven naar <b>Auto</b>.</li>
+</ul>
+</div>
+
+<h2>Automatische uitschakeling</h2>
+<p>U kunt een bepaalde tijdsduur opgeven gedurende welke uw Synology NAS in de slaapstand blijft alvorens automatisch uit te schakelen.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>eerst moet u de slaapstand van de interne HDD inschakelen.</li>
+<li>Om uw Synology NAS extern op te starten, moet u eerst de WOL-service inschakelen.</li>
+</ul>
+</div>
+
+</body>
+</html>
+

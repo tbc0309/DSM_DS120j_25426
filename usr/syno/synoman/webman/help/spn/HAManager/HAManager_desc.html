@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Administrador de High Availability - Ayuda de Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>Administrador de High Availability</h1>
+
+  <p>High Availability se refiere a una soluci&oacute;n de distribuci&oacute;n de servidores dise&ntilde;ada para reducir las interrupciones de servicio causadas por fallos de funcionamiento del servidor. Synology High Availability utiliza dos servidores para formar un &quot;cl&uacute;ster de high-availability&quot; en el que un servidor asume el papel de &quot;servidor activo&quot; y otro servidor act&uacute;a como &quot;servidor pasivo&quot; en espera. Para crear e implementar un cl&uacute;ster de high-availability, necesitar&aacute; dos servidores Synology compatibles.</p>
+  <p>Un cl&uacute;ster high-availability utiliza los siguientes componentes y conceptos:</p>
+
+  <ul>
+   <li><b>Concepto: </b>la implementaci&oacute;n de Synology High Availability requiere dos servidores de Synology para crear un cl&uacute;ster high-availability. Un servidor act&uacute;a como &quot;servidor activo&quot; y el otro act&uacute;a como &quot;servidor pasivo&quot;. Una vez que se crea el cl&uacute;ster high-availability, los datos est&aacute;n replic&aacute;ndose continuamente desde el servidor activo al servidor pasivo. Todos los archivos del servidor activo se duplicar&aacute;n en el servidor pasivo. En caso de que falle el servidor activo, el servidor pasivo estar&aacute; listo para tomar el control de todos los servicios con una copia espejo de los datos del servidor activo. Por tanto, el cl&uacute;ster high-availability seguir&aacute; ofreciendo servicios normalmente, minimizando el tiempo de inactividad del servidor. Para m&aacute;s informaci&oacute;n sobre el cambio, consulte <a href="switchover_fail.html">Cambio</a></li>
+   <li><b>Servidor activo:</b> el servidor activo gestiona el suministro de todos los servicios. En caso de que se produzcan errores en el servidor activo, usted o el sistema pueden iniciar un cambio al servidor pasivo. En ese caso, el suministro de servicios se transferir&aacute; al servidor pasivo y el servidor activo se convertir&aacute; en servidor pasivo.</li>
+   <li><b>Servidor pasivo:</b> en condiciones normales, el servidor pasivo permanece en modo de espera. Los datos del servidor activo est&aacute;n replic&aacute;ndose continuamente en el servidor pasivo. En caso de que el servidor activo no pueda prestar servicios, usted o el sistema puede iniciar un cambio al servidor pasivo. </li>
+   <li><b>Conexi&oacute;n Heartbeat:</b> los servidores activo y pasivo de un cl&uacute;ster high-availability est&aacute;n conectados entre s&iacute; mediante una conexi&oacute;n de red privada dedicada llamada &quot;conexi&oacute;n Heartbeat&quot;. Una vez que se haya creado el cl&uacute;ster high-availability, la conexi&oacute;n Heartbeat facilita la sincronizaci&oacute;n de los datos y la replicaci&oacute;n entre los servidores activo y pasivo. Si se pierde el contacto entre los servidores durante un periodo de tiempo concreto, el sistema determinar&aacute; si es necesario un cambio.</li>
+   <li><b>Volumen de almacenamiento principal del cl&uacute;ster high-availability:</b> el volumen de almacenamiento del servidor activo se convertir&aacute; en el volumen de almacenamiento principal del cl&uacute;ster high-availability. Los datos se replicar&aacute;n en el volumen de almacenamiento del servidor pasivo a trav&eacute;s de la conexi&oacute;n Heartbeat.</li>
+   <li><b>Volumen de almacenamiento de recambio del cl&uacute;ster high-availability: </b>el volumen de almacenamiento del servidor pasivo se convertir&aacute; en el volumen de almacenamiento de recambio del cl&uacute;ster high-availability. Los datos se replicar&aacute;n continuamente desde el volumen de almacenamiento del servidor activo al volumen de almacenamiento del servidor pasivo a trav&eacute;s de la conexi&oacute;n Heartbeat. Esto garantiza la coherencia del contenido de archivos cuando se produce el cambio.</li>
+   <li><b>Nombre de servidor del cl&uacute;ster high-availability:</b> los servidores del cl&uacute;ster high-availability compartir&aacute;n un nombre de servidor. En la red, puede conectarse utilizando este nombre de servidor y los servicios ser&aacute;n suministrados por el servidor activo. </li>
+   <li><b>IP del cl&uacute;ster high-availability: </b>dado que los servidores activo y pasivo del cl&uacute;ster high-availability tienen cada uno su propia direcci&oacute;n IP, para evitar tener que cambiar la direcci&oacute;n IP cuando se realice un cambio, el cl&uacute;ster high-availability generar&aacute; direcciones IP comunes para el acceso. Para acceder a cualquier servicio de DSM, sea cual sea el servidor de Synology que est&eacute; actuando como servidor activo, puede conectarse a trav&eacute;s de estas direcciones IP. </li>
+  </ul>
+
+
+
+
+ </body>
+</html>

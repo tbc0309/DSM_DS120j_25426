@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Laufwerke zum Erweitern der Speicherkapazität ersetzen</h2>
+
+<p>Bei bestimmten RAID-Typen kann die Speicherkapazität eines Speicherpools durch Ersetzen alter Festplatten durch größere erweitert werden. Dieser Artikel enthält wichtige Informationen zur Erweiterung sowie ein Beispiel für den Austausch vorhandener Festplatten zum Erweitern der Speicherkapazität.</p>
+
+<div class="section"><h4>Anmerkung:</h4>
+<ul>
+	<li>Die in diesem Artikel beschriebene Vorgehensweise gilt nur für folgende RAID-Typen: SHR, RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</li>
+	<li>SHR (Synology Hybrid RAID) ist nur bei bestimmten Modellen verfügbar. Weitere Informationen erhalten Sie auf der <a href="https://www.synology.com/" target="_blank">Synology-Website</a>.</li>
+	<li>RAID F1 ist nur bei bestimmten Modellen verfügbar. Weitere Informationen erhalten Sie auf der <a href="https://www.synology.com/" target="_blank">Synology-Website</a>.</li>
+	<li>Wenn Ihr Speicherpool Datenbereinigung unterstützt, empfehlen wir, die Datenbereinigung durchzuführen, um zu überprüfen, dass Volume und Speicherpool normal sind, bevor Sie Festplatten ersetzen.</li>
+	<li>Wir empfehlen, Laufwerke aus der <a href="https://www.synology.com/compatibility" target=blank>Synology-Kompatibilitätsliste</a> zu verwenden, um Probleme zu vermeiden. Die Verwendung nicht kompatibler Festplatten kann die Systemleistung verringern oder sogar Datenverluste auf Ihrem Synology NAS verursachen.</li>
+</ul>
+</div>
+
+<p>Wenn Sie mehrere Festplatten ersetzen möchten, müssen Sie vorsichtig eine Festplatte nach der anderen ersetzen. Nach dem Austausch einer Festplatte muss der Speicherpool vor dem Ersetzen der nächsten repariert werden. Bei den folgenden RAID-Typen wird die Kapazität des Speicherpools nach dem Austausch aller Laufwerke erweitert: RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</p>
+
+<h3 class="list_head"><a id="t1"></a>Bevor Sie beginnen</h3>
+<p>Lesen Sie vor dem Austausch einer Festplatte die folgenden Hinweise:</p>
+<ul>
+	<li><strong>Datensicherung:</strong> Wir empfehlen das Sichern Ihrer Daten, bevor Sie fortfahren, obwohl die Volume-Erweiterung keine vorhandenen Daten löscht.</li>
+	<li><strong>Status des Speicherpools:</strong> Bevor Sie beginnen, muss der Status des Speicherpools <strong>In Ordnung</strong> sein. Falls dies nicht der Fall ist, müssen Sie ihn zuerst reparieren.</li>
+	<li><strong>Sind die Daten auch während der Erweiterung zugänglich?</strong> Die Daten auf Ihrem System sind während der Erweiterung von Speicherpools verfügbar. Das System kann jedoch zu Beginn des Prozesses vorübergehend Verbindungen unterbrechen.</li>
+	<li><strong>Laufwerke mit 3 TB oder mehr verwenden:</strong> Um einen Speicherpool mit Laufwerken mit 3 TB oder mehr zu erweitern, muss Ihr Speicherpool mit DSM 3.0 oder später erstellt worden sein.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>Da SHR-Speicherpools die Speicherkapazität basierend auf der Anzahl und Größe der eingebauten Festplatten optimieren, müssen Sie bei der Erweiterung der Kapazität die folgenden Richtlinien beachten:</p>
+<ul>
+	<li>Wenn die Kapazität der vorhandenen Festplatten gleich ist, müssen Sie mindestens zwei Festplatten durch größere ersetzen, um die Speicherkapazität zu erweitern. Wenn Ihr SHR-Speicherpool z. B. aus drei 2 TB-Festplatten besteht, müssen Sie mindestens zwei Festplatten austauschen, um die Kapazität des Speicherpools zu erhöhen.</li>
+	<li>Ist die Kapazität der vorhandenen Festplatten unterschiedlich, müssen die neuen Festplatten gleich oder größer als die Festplatten sein, die durch sie ersetzt werden. Darüber hinaus müssen die kleineren vorhandenen Festplatten zuerst ausgetauscht werden, um die Kapazitätsauslastung zu optimieren. Wenn Ihr SHR-Speicherpool z. B. drei Festplatten mit einer Größe von 4 TB, 3 TB und 2 TB umfasst, müssen die neuen Festplatten eine Größe von mindestens 4 TB haben. Darüber hinaus sollten Sie die 3 TB- oder 2 TB-Laufwerke zuerst austauschen.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID 5/RAID 6/RAID 10/RAID F1</h4>
+<p>Beim Austausch von Festplatten von RAID 5/RAID 6/RAID 10/RAID F1-Speicherpools sollte die kleinste Festplatte immer zuerst ausgetauscht werden, um die Festplattennutzung zu maximieren. Die Speicherkapazität der einzelnen RAID-Typen lautet wie folgt:
+	<ul>
+		<li>RAID 5: (Anzahl Laufwerke – 1) x (Größe des kleinsten Laufwerks)</li>
+		<li>RAID 6: (Anzahl Laufwerke – 2) x (Größe des kleinsten Laufwerks)</li>
+		<li>RAID 10: (Anzahl Laufwerke – 2) x (Größe des kleinsten Laufwerks)</li>
+		<li>RAID F1: (Anzahl Laufwerke – 1) x (Größe des kleinsten Laufwerks)</li>
+	</ul>
+</p>
+
+<p>Wenn Ihr RAID 5-Speicherpool z. B. drei Festplatten mit einer Größe von 4 TB, 3 TB und 2 TB umfasst, beträgt die verfügbare Kapazität des Speicherpools 4 TB. Wenn Sie die 4 TB- oder 3 TB-Festplatten austauschen, ändert sich die Kapazität des Speicherpools nicht. Um die Kapazität des Speicherpools zu erhöhen, müssen Sie erst die 2 TB-Festplatte austauschen.</p>
+</div>
+
+
+<h3>Festplatten zum Erweitern der Speicherkapazität ersetzen</h3>
+<p>Die nachfolgenden Schritte beschreiben ein Beispiel für den Austausch von Festplatten eines SHR-Speicherpools.</p>
+<h4>Festplatten austauschen:</h4>
+<ol>
+	<li>Starten Sie den <strong>Speicher-Manager</strong>.<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li>Gehen Sie zu <strong>Speicherpool</strong>, um zu überprüfen, welche vorhandene Festplatte die kleinste ist.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>Schalten Sie Ihr Synology NAS aus. (Sie können diesen Schritt auslassen, wenn Ihre Synology NAS Hot-Swapping unterstützt.)</li>
+	<li>Entfernen Sie die kleinste Festplatte des Speicherpools und setzen Sie eine neue, größere ein.<br /><span class="note_head">Anmerkung: </span>Um Verletzungen oder Schäden an der Synology NAS zu vermeiden, folgen Sie bitte den Anweisungen für den Festplatteneinbau in der <em>Hardware-Installationsanleitung</em> für Ihr Synology-Produkt.</li>
+	<li>Schalten Sie Ihre Synology NAS ein.</li>
+	<li>Starten Sie den <strong>Speicher-Manager</strong> erneut.</li>
+	<li>Gehen Sie zu <strong>HDD/SSD</strong>, um sicherzustellen, dass die neue Festplatte erkannt wird.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>Der Speicherpool muss den Status <strong>Fehlerhaft</strong> haben. Wählen Sie den Speicherpool aus und klicken Sie im Dropdown-Menü <strong>Aktion</strong> auf <strong>Reparieren</strong>.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>Wählen Sie die Ersatzfestplatte aus, die zum Speicherpool hinzugefügt werden soll. Folgen Sie den Anweisungen des Assistenten, um den Vorgang abzuschließen.</li>
+	<li>Wiederholen Sie den obigen Vorgang, bis alle gewünschten Festplatten durch größere ersetzt sind.</li>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Säkerhetskopieringstjänster - Synology DSM hjälp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology NAS or rsync-compatible clients to your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>rsync</h2>
+
+<p>Du kan tillåta att andra användare säkerhetskopierar data via rsync från en Synology NAS eller rsync-kompatibel klient till din Synology NAS.</p>
+
+<h3>Aktivera rsync-säkerhetskopieringstjänst</h3>
+
+<h4>Att aktivera rsync-tjänst:</h4>
+
+<p>Gå till <strong>Kontrollpanel</strong> > <strong>Filtjänster</strong> > <strong>rsync</strong> och välj <strong>Aktivera rsync-tjänst</strong>.</p>
+
+
+<h4>Att tilldela privilegier för rsync-säkerhetskopiering:</h4>
+
+
+<p>Tilldela rätt privilegier för rsync-säkerhetskopiering till användare så att dessa användare kan säkerhetskopiera data från en Synology NAS-källa till ett Synology NAS-mål.</p>
+
+<ol>
+<li>Gå till <b>Kontrollpanel</b> > <b>Privilegier</b>.</li>
+<li>Välj <strong>rsync (Synkronisera delade mappar, LUN-säkerhetskopiering på modeller där detta stöds)</strong> och klicka på <strong>Redigera</strong> för att tilldela privilegier.</li>
+<li>Tilldela privilegie <strong>Tillåt</strong> till önskade användare (DSM-användare för krypterad rsync eller rsync-konton för okrypterad rsync) eller specificera vidare de tillåtna IP-adresserna för specifika användare.</li>
+</ol>
+
+
+
+<div class="section">
+<h4>Obs:</h4>
+<p>För att utföra en rsync-säkerhetskopiering från en Synology NAS med en version av DSM tidigare än 3.0, eller en klient som inte är Synology NAS, och för att bevara källans <b>ägare</b> till data och informationen för <b>grupp</b>, måste du lägga till kontot för rsync-säkerhetskopiering till gruppen <b>administrators</b> och säkerhetskopiera data till den delade mappen <b>NetBackup</b> i läget för deamon.</p>
+</div>
+
+<h3>Aktivering av rsync-konton</h3>
+<p>Om du utför en rsync-säkerhetskopiering från en klient som inte är en Synology NAS måste du skapa rsync-konton på den Synology NAS som är målet så att rsync-användare kan säkerhetskopiera data till din Synology NAS.</p>
+
+<h4>Att aktivera rsync-konton:</h4>
+<ol>
+<li>Gå till <b>Kontrollpanel</b> > <b>Filtjänster</b> > <strong>rsync</strong> och välj <b>Aktivera rsync-konto</b>.</li>
+<li>Klicka på <b>Redigera rsync-konto</b> för att ställa in användare och motsvarande lösenord för autentisering.</li>
+<li>Klicka på <b>Tillämpa</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Om rsync-tjänsten är krypterad (har en specificerad SSH-krypteringsport) tillämpar systemet direkt DSM-användares användarnamn och lösenord som deras rsync-konton.</li>
+<li>Om rsync-tjänsten är okrypterad måste du skapa motsvarande rsync-konton för dem.</li>
+</ul>
+</div>
+
+
+<h3>Använda en anpassad rsync-konfiguration</h3>
+
+<p>Du kan använda en anpassad rsync-konfiguration och konfigurera användarprivilegier och säkerhetskopieringsmål på din Synology NAS. Andra människor kan på så sätt utföra rsync-säkerhetskopiering från sina Synology NAS-enheter eller rsync-kompatibla klienter till de delade målmapparna (eller ”säkerhetskopieringsmodulerna”) på din Synology NAS.</p>
+
+<h4>Att använda en anpassad rsync-konfiguration:</h4>
+
+<ol>
+<li>Logga in på din Synology NAS-enhet via Telnet eller SSH.</li>
+<li>Specificera säkerhetskopieringsmodul och auktoriserade användare i konfigureringsfilen för rsync ”<b><code>/etc/rsyncd.conf</code></b>”. Du hittar detaljerad information i handbokens sida <b>rsyncd.conf</b> på din rsync-klient eller <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">här</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<p>Om säkerhetskopieringsmodulen och den delade mappen har samma namn används inställningarna för säkerhetskopieringsmodulen.</p>
+</div>
+
+
+<h3>Aktivering av hastighetsbegränsning</h3>
+<p>Du kan styra den maximala användbara bandbredden för rsync-säkerhetskopiering för användare och grupper.</p>
+
+<h4>Att aktivera hastighetsgräns:</h4>
+<ol>
+  <li>Gå till <b>Kontrollpanel</b> > <b>Filtjänster</b> > <strong>rsync</strong>. Välj något av följande:
+  <ul>
+  <li><strong>Ingen hastighetsbegränsning</strong></li>
+  <li><strong>Aktivera hastighetsbegränsning</strong></li>
+  <li><strong>Aktivera hastighetsbegränsning i enlighet med ett schema</strong> (Klicka på <strong>Lägg till schema</strong> för vidare modifiering.)</li>
+  </ul>
+  
+<div class="section">
+<h4>Obs:</h4>
+<p>Detta är en inställning som får genomslagskraft över hela servern och kommer att åsidosätta inställningar för enskilda användare och grupper. Till exempel så avaktiverar valet <strong>Ingen hastighetsbegränsning</strong> inställningarna för hastighetsbegränsning, för alla användare och grupper.</p>
+</div>
+  </li>
+
+  <li>Om du har aktiverat hastighetsbegränsning, klicka på <strong>Inställningar för hastighetsbegränsning</strong> och klicka på den önskade användaren/gruppen för att ändra inställningarna:
+    <ul>
+       <li><strong>Ingen:</strong> Ingen hastighetsbegränsning kommer att tillämpas när gruppmedlemmar överför filer med tjänsten.</li>
+      <li><strong>Tillämpa gruppinställningar</strong>: Användaren delar samma inställningar för hastighetsbegränsning som den tillhörande gruppen.</li>
+      <li><strong>Konstant</strong>: En fast, konstant hastighetsbegränsning kommer att tillämpas för användaren eller gruppmedlemmarna. Hastighetsbegränsning för uppladdning och nedladdning kan specificeras i fälten till vänster.</li>
+      <li><strong>Anpassat</strong>: Två olika hastighetsbegränsningar kan specificeras och tillämpas på användaren eller gruppmedlemmar, i enlighet med ett schema. Klicka på <strong>Anpassa</strong> för att ändra inställningarna för hastighetsbegränsning och ställa in ett schema.</li>
+    </ul>
+  </li>
+ <li>Klicka på <b>Tillämpa</b>.</li> 
+
+</ol>
+<div class="section">
+  <h4>Obs:</h4>
+    <p>Avsnittet <strong>Resultat (UL/DL)</strong> visar användarens faktiska gräns för uppladdning och nedladdning enligt hans individuella och gruppinställningar. Om användaren ”Achilles” till exempel har en individuell nedladdningsgräns på 100 KB/s men hör till en grupp med en nedladdningsgräns på 500 KB/s, kommer avsnittet <strong>Resultat (UL/DL)</strong> att visa ”0/500”.</p>
+</div>
+
+</body>
+</html>

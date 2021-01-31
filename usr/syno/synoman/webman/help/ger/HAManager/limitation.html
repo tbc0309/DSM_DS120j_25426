@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Einschränkungen und Systemanforderungen - Hilfe zu Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>Einschränkungen und Systemanforderungen</h1>
+
+ <p>Der Einsatz von Synology High Availability erfordert zwei identische Synology-Server, die als aktiver und passiver Server dienen. Bevor die beiden Server zu einem High Availability-Cluster kombiniert werden, wird der Synology High Availability-Assistent die folgenden Hardware- und Software-Anforderungen überprüfen, um zu gewährleisten, dass ein High Availability-Cluster erstellt werden kann.</p>
+ 
+  
+ <h3>Systemanforderungen</h3>
+ 
+  <p>Beachten Sie die folgenden Leitlinien hinsichtlich Software und Hardware:</p>
+  <ul>
+   <li><b>Synology Server:</b> Der aktive und der passive Server müssen identische Modelle sein und Synology High Availability unterstützen. Beachten Sie, dass sich der Name des High Availability-Clusters vom Namen des aktiven und des passiven Servers unterscheiden muss.</li>
+   <li><b>DSM-Version:</b> Auf dem aktiven und dem passiven Server muss dieselbe DSM-Version installiert sein. </li>
+   <li><b>Paketversion:</b> Auf beiden Synology-Servern muss dieselbe Version von Synology High Availability installiert sein.</li>
+  </ul>
+
+  
+ <h3>Volume und Laufwerk</h3>
+ 
+  <p>Beachten Sie die folgenden Richtlinien zu den Speichermedien (Volumes, Diskgruppen, RAID-Gruppen usw.) und zur Festplattenverwaltung.</p>
+  <ul>
+   <li><b>Speicherkapazität des Laufwerks:</b> Um die vollständige Datenreplikation zu gewährleisten, muss die Laufwerkspeicherkapazität des passiven Servers gleich oder größer als die Kapazität des aktiven Servers sein. Um das Risiko von Abweichungen zu verringern, sollte die Laufwerkskapazität beider Server unbedingt identisch sein. </li>
+   <li><b>Anzahl und Typ der Laufwerke:</b> Der aktive und der passive Server müssen über dieselbe Anzahl von Laufwerken verfügen. Darüber hinaus muss die Laufwerksposition in beiden Servern gleich sein. Auch die Laufwerktypen (z. B. SSD/HDD, SAS/SATA) und Spezifikationen (z. B. 4K- oder 512-Byte-Sektorgröße) müssen in beiden Servern identisch sein. Beachten Sie, dass externe Geräte, wie etwa USB-Festplatten, bei der Zählung der Laufwerke nicht berücksichtigt werden.</li>
+   <li><b>Hot Spare-Reparatur:</b> Fehlerhafte Volumes auf dem passiven Server lösen keine Hot Spare-Reparatur aus. Sind dagegen die Volumes auf dem aktiven Server fehlerhaft, wird eine Hot Spare-Reparatur ausgelöst. Außerdem sind auch die Volumes auf dem passiven Server fehlerhaft, weil das System eine einwandfreie Festplatte aus den RAID-Volumes auf dem passiven Server entfernt, um eine Hot Spare-Reparatur zu erzwingen.</li>
+   <li><b>SHR-Format nicht unterstützt:</b> Volumes im SHR-Format werden nicht unterstützt. Stellen Sie sicher, dass der Synology-Server, der als aktiver Server fungieren soll, keine SHR-Volumes enthält. </li>
+  </ul>
+
+    <div class="section">
+    <h4>Anmerkung:</h4>
+    <ul>
+    <li>Die Geschwindigkeit der Festplatten des passiven Servers beeinträchtigt auch die Schreibleistung des High Availability-Clusters, weil Daten über die Heartbeat-Verbindung mit dem passiven Server synchronisiert werden. Es wird empfohlen, auf dem aktiven und dem passiven Server identische Festplatten zu verwenden.</li>
+    <li>Wenn der passive Server heruntergefahren oder die Heartbeat-Verbindung getrennt ist, sind die Volumes vorübergehend nicht verfügbar und die iSCSI-Übertragung wird etwa für 10 Sekunden unterbrochen.</li>
+    </ul>
+    </div>
+
+  
+  <h3>Netzwerkumgebung</h3>
+  <p>Beachten Sie bei der Erstellung eines High Availability-Clusters die folgenden Richtlinien zu den Netzwerkeinstellungen.</p>
+  <ul>
+    <li><b>Netzwerkeinstellungen:</b> Beide Server müssen statische IP-Adressen besitzen, die zum selben Subnetz gehören.</li>
+    <li><b>Anzahl der LAN-Ports:</b> Beide Server müssen über dieselbe Anzahl von LAN-Ports verfügen. Wenn Ihr Synology NAS mit zusätzlichen Netzwerkkarten ausgestattet ist, zählen diese ebenfalls als zusätzliche LAN-Ports. </li>
+        <li><b>Verbindungsumgebungseinschränkungen:</b> Die Verbindungsumgebung zwischen den beiden Servern muss Multicast unterstützen und die vom High Availability-Cluster genutzten Ports dürfen nicht durch Firewall-Regeln blockiert sein. Wenn die Heartbeat-Verbindung über Switches führt, muss sichergestellt sein, dass sie Multicast und Jumbo Frame unterstützen.</li>
+    <li><b>Verbindungseinschränkungen:</b> Die Server dürfen die Verbindung zum Netzwerk nicht über DHCP, IPv6, PPPoE und WLAN herstellen. Stellen Sie sicher, dass diese Funktionen deaktiviert sind, bevor Sie versuchen, einen High Availability-Cluster zu erstellen.</li>
+    <li><strong>Kein DHCP-Dienst:</strong> Die Server können die integrierten DHCP Server-Optionen nicht verwenden, wenn sie sich in einem Cluster befinden.</li>
+   <li><strong>Einstellungen Link Aggregation:</strong> Beide Server müssen dieselben Einstellungen für Link Aggregation für das Datennetzwerk und die Heartbeat-Verbindung besitzen. Nach der Erstellung des High Availability-Clusters können die Einstellungen von Link Aggregation nicht mehr geändert werden.</li>
+   <li><b>Open vSwitch-Einstellungen:</b> Der Status von Open vSwitch muss auf beiden Servern derselbe sein (entweder aktiviert oder deaktiviert). Nach der Erstellung des High Availability-Clusters können die Open vSwitch-Einstellungen nicht mehr geändert werden.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Anmerkung:</h4>
+    <ul>
+      <li>Der NTP-Dienst wird automatisch auf dem aktiven Server aktiviert, wenn der High Availability-Cluster erstellt wird.</li>
+    </ul>
+  </div>
+  <h3>Einschränkungen des Speicher-Managers</h3>
+  <p>Sobald ein High Availability-Cluster erstellt wurde, ist die Option zum Ändern des RAID-Typs im Speicher-Manager nicht mehr verfügbar. Jedoch stehen dann folgende Optionen zur Verfügung:
+<ul>
+<li>Speicherplätze (Volumes, iSCSI LUNs auf Block-Ebene, Diskgruppen, RAID-Gruppen usw.) erweitern.</li>
+    <li>Volumes, iSCSI LUNs, Nur-Lese-SSD- und Schreib-Lese-Cache erstellen, löschen oder reparieren.</li>
+    <li>Größe und Ort von iSCSI LUNs ändern (Dateiebene).</li>
+    <li>iSCSI LUN-Ziel ändern.   </li>
+  </ul>
+
+  <div class="section">
+    <h4>Anmerkung:</h4>
+    <ul>
+      <li>Ändern Sie nicht die Laufwerksposition, nachdem der High Availability-Cluster erstellt wurde, da andernfalls Speicherplatz fehlt.</li>
+      <li>Um sicherzustellen, dass an Ihrem mit Synology iSCSI Target verbundenen Server während des Failover kein Timeout eintritt, sollten Sie die Timeout-Einstellungen des iSCSI-Clients und des Initiators auf 120 Sekunden oder mehr einstellen.</li>
+    </ul>
+  </div>
+
+ 
+<h3>Paket- und Software-Einschränkungen</h3> 
+
+<p>Sobald der High Availability-Cluster erstellt wurde, werden die folgenden Pakete und Funktionen nicht mehr unterstützt:</p>
+	<ul>
+
+    <li>Virtual Machine Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>Die Funktion zum Neustarten/Herunterfahren des High Availability-Clusters in CMS</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>Anmerkung:</h4>
+    <ul>
+    <li>Damit Docker DSM in High Availability unterstützt wird, müssen Sie Open vSwitch aktivieren, bevor Sie den Cluster erstellen.</li>
+    </ul>
+   </div>
+
+<h3>Hinzufügen von Expansionseinheiten</h3>
+  <p>Nach Erstellen eines High Availability-Clusters können Expansionseinheiten zu Ihrer existierenden High Availability-Cluster-Konfiguration hinzugefügt werden, um die Speicherkapazität zu erweitern. Wie auch bei anderen Hardwareanforderungen sind identische Expansionseinheiten für den aktiven und passiven Server nötig. Um Fehler durch Abweichungen zu vermeiden, müssen Expansionseinheiten gemäß den nachstehenden Anweisungen hinzugefügt werden.</p>
+  
+  <h4>Expansionseinheiten hinzufügen:</h4>
+   <ol>
+    <li>Fügen Sie nur identische Expansionseinheiten und Festplatten zum aktiven und zum passiven Server hinzu. Wie bereits erwähnt, muss die Hardware des aktiven und des passiven Servers in Bezug auf Hardwaremodell und -typen sowie Festplattengröße und -position identisch sein.</li>
+    <li>Löschen Sie alle existierenden Daten und Volumes auf den Festplatten der Expansionseinheiten.</li>
+    <li>Schließen Sie Expansionseinheiten an den aktiven und passiven Server an, wenn beide Server eingeschaltet sind und laufen.</li>
+    <li>Erstellen Sie auf der Expansionseinheit einen neuen Speicherplatz (Volumes, Diskgruppen, RAID-Gruppen usw.), bevor Sie einen der Server ausschalten.</li>
+   </ol>
+<div class="section">
+<h4>Hinweise:</h4>
+<p>Grundlegende Informationen zur Installation von Expansionseinheiten finden Sie im Handbuch der Expansionseinheit.</p>
+</div>
+
+
+<h3>Einschränkungen für USB-Geräte</h3>
+   <p>Übergabe/Failover von USB-Geräten wird nicht unterstützt. Von USB-Geräten bereitgestellte Dienste oder Anwendungen funktionieren nach einer Übergabe bzw. einem Failover möglicherweise nicht mehr korrekt.</p>
+
+   
+ </body>
+</html>

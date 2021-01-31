@@ -1,0 +1,101 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>스토리지 풀 복구 - Synology DSM 도움말</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to repair a storage pool on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>스토리지 풀 복구</h2>
+
+<p>드라이브 충돌과 같은 다양한 원인으로 인해 스토리지 풀 오류가 발생할 수 있습니다. 일부의 경우 아래 지침을 수행하여 오류를 진단하고 해결할 수 있습니다.</p>
+	
+<p>데이터 중복 기능을 지원하는 RAID 유형의 스토리지 풀에서만 이 문서에서 언급한 <strong>복구</strong> 기능을 사용할 수 있습니다(즉, 드라이브 최소 2개 이상으로 구성된 SHR, RAID 1, RAID 5, RAID 6, RAID F1 및 RAID 10). 이 기능은 스토리지 풀을 복구할 수 있지만 결함 있는 장치를 복구할 수 없다는 점에 유의하십시오.</p>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>모든 문제를 방지하기 위해 <a href="https://www.synology.com/compatibility" target=blank>Synology 제품 호환 목록</a>에 있는 드라이브를 사용하는 것이 좋습니다. 호환되지 않는 드라이브를 사용하면 시스템 성능이 영향을 받고 데이터가 손실될 수 있습니다.</li>
+<li>특정 모델에서만 SHR(Synology Hybrid RAID)을 사용할 수 있습니다. SHR에 대한 자세한 내용은 <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">여기</a>를 참조하십시오.</li>
+</ul>
+</div>
+	
+<h3>실패한 시스템 파티션이 있는 스토리지 풀 복구</h3>
+
+<p>시스템 파티션이 손상되면 시스템 파티션에 액세스할 수 없음을 알리는 메시지가 표시됩니다. 다음 단계를 수행하여 문제를 해결하십시오.</p>
+
+<ol>
+<li><strong>저장소 관리자</strong>를 시작합니다.</li><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/><li><strong>개요</strong> 페이지로 이동하고 <strong>복구</strong> 링크를 클릭합니다. 시스템에서 시스템 파티션 복구를 시작합니다.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/fail_system_partitions.png" class="help_image"/></ol>
+
+<h3>저하된 스토리지 풀 복구</h4>
+
+<p>드라이브의 데이터에 액세스할 수 없지만 아직 데이터가 손실되지 않은 경우 스토리지 풀은 <strong>저하됨</strong> 상태가 됩니다. 이 문제는 데이터 중복 기능을 제공하는 RAID 유형의 스토리지 풀에서만 발생합니다(즉, 드라이브 최소 2개 이상으로 구성된 SHR, RAID 1, RAID 5, RAID 6, RAID F1 및 RAID 10). 저하된 스토리지 풀을 복구하기 전에 먼저 결함 있는 드라이브를 정상 드라이브로 교체한 후 결함 있는 드라이브를 제거하십시오. 또는 결함 있는 드라이브를 정상 드라이브로 교체하기만 하면 됩니다.</p>
+
+<h4>드라이브 요구 사항:</h4>
+<p>결함 있는 드라이브를 다음 기준과 일치하는 정상 드라이브로 교체하십시오.</p>
+	
+<ul>
+<li><b>RAID 1, RAID 5, RAID 6, RAID F1 및 RAID 10 스토리지 풀의 경우</b>: 교체 드라이브 크기는 스토리지 풀에서 가장 작은 드라이브 크기와 같거나 커야 합니다.</li>
+<li><b>SHR-1 스토리지 풀의 경우</b>: 교체 드라이브는 다음 기준 중 하나를 충족해야 합니다.<ul>
+<li>교체 드라이브 크기는 결함 있는 드라이브 크기와 같거나 커야 합니다.</li>
+<li>교체 드라이브 크기는 스토리지 풀의 가장 큰 드라이브를 제외하고 남아 있는 가장 큰 드라이브 크기와 같거나 커야 합니다. <br><span class="note_head">예:</span><ul>
+<li>예 1: SHR-1은 3TB, 2TB, 2TB 및 1TB 드라이브로 구성되어 있습니다. 3TB 드라이브에서 오류가 발생한 경우, 크기가 같거나 2TB보다 큰 드라이브를 사용하여 복구할 수 있습니다.</li>
+<li>예 2: SHR-1은 4TB, 4TB, 2TB 및 2TB 드라이브로 구성되어 있습니다. 4TB 드라이브에서 오류가 발생한 경우, 크기가 같거나 4TB보다 큰 드라이브를 사용하여 복구할 수 있습니다.</li>
+<li>예 3: SHR-1은 4TB, 4TB, 2TB 및 2TB 드라이브로 구성되어 있습니다. 2TB 드라이브에서 오류가 발생한 경우, 크기가 같거나 2TB보다 큰 드라이브를 사용하여 복구할 수 있습니다.</li>
+</ul>	
+</li>
+			
+</ul>
+</li>
+<li><b>SHR-2 스토리지 풀의 경우</b>: 교체 드라이브는 다음 기준 중 하나를 충족해야 합니다.<ul>
+<li>교체 드라이브 크기는 결함 있는 드라이브 크기와 같거나 커야 합니다.</li>
+<li>교체 드라이브 크기는 스토리지 풀의 가장 큰 드라이브 두 개를 제외하고 남아 있는 가장 큰 드라이브 크기와 같거나 커야 합니다.</li>
+</ul>	
+</li>
+</ul>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>사용 가능한 드라이브를 Hot Spare 드라이브로 할당하여 스토리지 풀 한 개 이상을 보호하는 경우 Hot Spare 드라이브는 자동으로 저하된 스토리지 풀을 복구합니다. 자세한 내용은 <a href="hotspare.html" target="_blank">Hot Spare</a>를 참조하십시오.</li>
+</ul>
+</div>
+
+
+<h4>저하된 스토리지 풀 복구하기:</h4>
+
+<p>다음 단계를 수행하여 저하된 스토리지 풀을 복구합니다.</p>	
+<ol>
+<li><strong>저장소 관리자</strong> &gt; <strong>스토리지 풀</strong>로 이동하고 <strong>저하됨</strong> 상태의 스토리지 풀을 찾습니다.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/volume_degraded.png" class="help_image"/><li>스토리지 풀 정보와 드라이브 상태를 확인합니다.</li>
+<li>그런 다음 <strong>HDD/SSD</strong> 페이지로 이동하여 결함 있는 드라이브를 확인합니다.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/hdd_ssd.png" class="help_image"/><li>Synology NAS에서 결함 있는 드라이브를 제거하고 새 드라이브로 교체합니다. Synology NAS이(가) 핫 스와핑을 지원하지 않으면 전원을 끈 후에 드라이브를 제거 및 설치하십시오.<br><span class="note_head">참고:</span> 교체 드라이브의 모든 기존 데이터는 지워집니다.</li>
+<li>교체 드라이브를 설치한 후 <strong>스토리지 풀</strong> 페이지로 돌아가 저하된 스토리지 풀을 선택합니다.</li>
+<li><b>동작</b> 드롭다운 메뉴에서 <b>복구</b>를 클릭합니다.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/manage_repair.png" class="help_image"/><li>스토리지 풀에 추가할 교체 드라이브를 선택하고 마법사를 수행하여 완료합니다.</li>
+</ol>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>스토리지 풀을 복구하는 데 시간이 오래 걸리면 <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Why_does_it_take_a_long_time_to_repair_a_storage_pool" target="_blank">여기</a>에 나열된 원인과 관련될 수 있습니다.</li>
+</ul>
+</div>
+
+
+<h3>충돌한 스토리지 풀 해결</h3>
+
+<p>스토리지 풀 상태가 <strong>충돌함</strong>이 되면 사용자가 더 이상 스토리지 풀을 직접 복구할 수 없습니다. 볼륨 충돌 일반 원인과 문제 해결 방법에 대한 자세한 내용은 다음 문서를 참조하십시오.<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_are_the_reasons_of_volume_crash" target="_blank">볼륨이 충돌하는 원인은 무엇입니까?</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_do_I_do_when_a_volume_crashes" target="_blank">볼륨이 충돌하는 경우에는 무엇을 해야 합니까?</a></li>
+	</ul>
+</p>
+
+
+</body>
+</html>

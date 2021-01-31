@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>RAID Tipi Se&ccedil;</h2>
+
+<p>RAID (Yedek Bağımsız Diskler Dizisi) &ccedil;ok sayıda s&uuml;r&uuml;c&uuml;n&uuml;n tek bir depolama alanına kombine edilmesini sağlayan bir veri depolama teknolojisidir. Her biri farklı seviyelerde performans, depolama kapasitesi ve g&uuml;venilirlik sunan farklı tiplerde RAID vardır.</p>
+
+<p>Bu yazı, uygulama gereksinimleri ile birlikte avantajlar ve dezavantajlar dahil olmak &uuml;zere Synology NAS tarafından desteklenen RAID tiplerinin kısa bir &ouml;zetini sunar.</p>
+
+<!--1-->
+
+<h3>Desteklenen RAID Tipleri</h3>
+
+<p>Bu tablo, depolama kapasitesi, RAID tipi i&ccedil;in gerekli s&uuml;r&uuml;c&uuml;lerin minimum sayısı, veri kaybı olmadan &ouml;nce tolere edilebilecek s&uuml;r&uuml;c&uuml; arızalarının sayısı dahil olmak &uuml;zere Synology NAS tarafından desteklenen farklı RAID tiplerinin kısa bir &ouml;zetini sunar. </p>
+
+<table>
+	<tr>
+		<th>Birim Tipi</th>
+		<th>HDD Sayısı</th>
+		<th>Tolere Edilebilir S&uuml;r&uuml;c&uuml; Arızaları</th>
+		<th>A&ccedil;ıklama</th>
+		<th>Birim Kapasitesi</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>Farklı boyutlardaki s&uuml;r&uuml;c&uuml;leri birleştirirken birim boyutunu optimize eder.</li>
+				<li>Birim iki veya daha fazla s&uuml;r&uuml;c&uuml;den oluşursa veri yedeklemesi sunar.</li>
+				<li>Yeni başlayan kullanıcılar i&ccedil;in &ouml;nerilir.</li>
+			</ul>
+		</td>
+		<td>1 x (HDD boyutu)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">Sistem tarafından optimize edilir.</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Basic</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Bağımsız bir &uuml;nite olarak bir s&uuml;r&uuml;c&uuml;den oluşur.</li>
+				<li>Veri yedeklemesi sunmaz.</li>
+			</ul>
+		</td>
+		<td>1 x (HDD boyutu)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>T&uuml;m s&uuml;r&uuml;c&uuml;lerin kapasitesinin toplamına eşit kapasite ile bir s&uuml;r&uuml;c&uuml; koleksiyonunu tek bir depolama alanında birleştirir.</li>
+				<li>Veri yedeklemesi sunmaz.</li>
+			</ul>
+		</td>
+		<td>T&uuml;m HDD boyutlarının toplamı</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Performansı arttırmak i&ccedil;in verinin bloklara b&ouml;l&uuml;nmesi ve veri bloklarının birka&ccedil; s&uuml;r&uuml;c&uuml; &uuml;zerine dağıtılması işlemi olan &quot;striping&quot; &ouml;zelliğini i&ccedil;erir.</li>
+				<li>Veri yedeklemesi sunmaz.</li>
+			</ul>
+	    </td>
+		<td>T&uuml;m HDD boyutlarının toplamı</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>Benzer verileri her iki s&uuml;r&uuml;c&uuml;ye eşzamanlı olarak yazar.</li>
+				<li>Veri yedeklemesi sunar.</li>
+			</ul>
+		</td>
+		<td rowspan="3">En k&uuml;&ccedil;&uuml;k HDD boyutu</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Parite verilerinin t&uuml;m &uuml;ye s&uuml;r&uuml;c&uuml;lere dağıtıldığı blok seviyesi striping &ouml;zelliğini uygular ve bu sayede veri yedeklemesini RAID 1'den daha etkin bir şekilde sunar.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (En k&uuml;&ccedil;&uuml;k HDD boyutu)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>İki s&uuml;r&uuml;c&uuml;n&uuml;n boyutuna eşit yedek verileri saklamak i&ccedil;in iki katman halinde veri paritesi uygulayarak RAID 5'e g&ouml;re daha y&uuml;ksek derecede veri yedeklemesi sunar.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 2) x (En k&uuml;&ccedil;&uuml;k HDD boyutu)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br /> (&ccedil;ift sayı)</td>
+		<td>Toplam HDD'nin yarısı</td>
+		<td>
+			<ul>
+				<li>S&uuml;r&uuml;c&uuml;leri verilerin ikizlendiği iki grup halinde birleştirerek RAID 0 performansını ve RAID 1 veri koruma seviyesini sunar.</li>
+			</ul>
+		</td>
+		<td>(N / 2) x (En k&uuml;&ccedil;&uuml;k HDD boyutu)</td>
+	</tr>
+	<tr class="enable-grantley">
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Parite verileri t&uuml;m &uuml;ye s&uuml;r&uuml;c&uuml;lere dağıtılmış halde blok seviyesi b&ouml;l&uuml;mlemeyi uygular.</li>
+				<li>Belirli bir s&uuml;r&uuml;c&uuml; &uuml;zerine diğer parite bilgilerini yazar.</li>
+				<li>T&uuml;m&uuml; flash olan dizi i&ccedil;in &ouml;nerilir.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (En k&uuml;&ccedil;&uuml;k HDD boyutu)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>Not:</h4>
+<ul>
+	<li>&quot;Basic&quot; haricindeki RAID tipleri s&uuml;r&uuml;c&uuml; yuvalarına ve kurulu s&uuml;r&uuml;c&uuml;lerin sayısına bağlı olarak sadece belirli modellerde mevcuttur.</li>
+	<li>&quot;N&quot;, birim i&ccedil;indeki toplam s&uuml;r&uuml;c&uuml; sayısını temsil eder.</li>
+</ul>
+</div>
+
+<!--2-->
+
+<h3>Synology Hybrid RAID (SHR)</h3>
+<p>Synology Hybrid RAID (SHR), depolama y&ouml;netimini basitleştirmek ve RAID tiplerine alışık olmayan yeni kullanıcıların ihtiya&ccedil;larını karşılamak i&ccedil;in tasarlanan otomatik bir RAID y&ouml;netim sistemidir. </p>
+<p>SHR, daha az s&uuml;r&uuml;c&uuml; alanı t&uuml;keten ve daha esnek bir depolama &ccedil;&ouml;z&uuml;m&uuml; sunacak şekilde optimize edilmiş kapasite ve performansa sahip bir depolama birimini oluşturmak i&ccedil;in farklı boyutta s&uuml;r&uuml;c&uuml;leri birleştirebilir.  Yeterli s&uuml;r&uuml;c&uuml;ler dahil edildiğinde, SHR 1 veya 2 diskli yedeklemeye olanak tanır - yani SHR Birimi veri kaybı yaşamadan bir veya iki adede kadar arızalı s&uuml;r&uuml;c&uuml;y&uuml; kaldırabilir.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--3-->
+
+<h3>RAID 0</h3>
+<p>RAID 0 performansı ve kapasiteyi arttırmak i&ccedil;in iki veya daha fazla s&uuml;r&uuml;c&uuml;y&uuml; birleştirir ancak arıza toleransı sunmaz. Tek bir s&uuml;r&uuml;c&uuml; arızası dizideki t&uuml;m verinin kaybolmasına yol a&ccedil;ar. RAID 0 y&uuml;ksek bir fiyat/performans dengesinin gerekli olduğu kritik olmayan sistemler i&ccedil;in faydalıdır.<img src="about:blank" class="help_image" /></p>
+
+<!--4-->
+
+<h3>RAID 1</h3>
+<p>RAID 1 genellikle iki s&uuml;r&uuml;c&uuml;yle uygulanır. S&uuml;r&uuml;c&uuml;lerdeki veriler ikizlenir, bu sayede s&uuml;r&uuml;c&uuml; arızası durumunda arıza toleransı sunar. Okuma performansı arttırılırken yazma performansı tekli s&uuml;r&uuml;c&uuml;ye benzerdir. Tekli bir s&uuml;r&uuml;c&uuml; arızası veri kaybı olmadan kaldırılabilir. RAID 1 genellikle arıza toleransı &ouml;nemli iken, alan ve performans kritik gereksinimler olmadığında kullanılır.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--5-->
+
+<h3>RAID 5</h3>
+<p>RAID 5 arıza toleransı ve arttırılan okuma performansı sunar. Asgari &uuml;&ccedil; s&uuml;r&uuml;c&uuml; gereklidir. RAID 5 tek bir s&uuml;r&uuml;c&uuml;n&uuml;n kaybını kaldırabilir. Bir s&uuml;r&uuml;c&uuml; arızası durumunda, arızalı s&uuml;r&uuml;c&uuml; verileri kalan s&uuml;r&uuml;c&uuml;lerden edinilen pariteden yeniden yapılandırılır. Sonu&ccedil; olarak, bir RAID 5 dizisi kapasitesi d&uuml;şm&uuml;ş bir durumda iken hem okuma hem de yazma performansı ciddi derecede etkilenir. RAID 5 alan ve maliyetin performanstan daha &ouml;nemli olduğu durumlarda idealdir.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--6-->
+
+<h3>RAID 6</h3>
+<p>RAID 6, başka bir striping katmanı sunması ve iki s&uuml;r&uuml;c&uuml; arızasını kaldırabilmesi dışında RAID 5 ile benzerdir. Asgari d&ouml;rt s&uuml;r&uuml;c&uuml; gereklidir. RAID 6'nın performansı ilave arıza toleransı nedeniyle RAID 5'in performansından daha d&uuml;ş&uuml;kt&uuml;r. RAID 6 alan ve maliyet &ouml;nemli olduğunda ve &ccedil;ok sayıda s&uuml;r&uuml;c&uuml; arızasının kaldırılması gerekli olduğunda &ccedil;ekici hale gelir.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--7-->
+
+<h3>RAID 10</h3>
+<p>RAID 10, RAID 1 ve RAID 0'ın avantajlarını bir araya getirir. Okuma veya yazma performansı arttırılır ancak sadece toplam alanın yarısı veri depolaması i&ccedil;in kullanılabilir. Maliyeti g&ouml;receli olarak y&uuml;kseltecek şekilde d&ouml;rt veya daha fazla s&uuml;r&uuml;c&uuml; gerekir ancak aynı zamanda arıza toleransı da sunulurken performans harikadır. Ger&ccedil;ekte, bir RAID 10 &ccedil;ok sayıda s&uuml;r&uuml;c&uuml; arızasını kaldırabilir -- arızaların aynı alt grup dahilinde olmaması koşuluyla. RAID 10 veritabanı sunucuları gibi y&uuml;ksek giriş/&ccedil;ıkış talebine sahip uygulamalar i&ccedil;in idealdir.<br /><img src="about:blank" class="help_image" /></p>
+
+
+<!--8-->
+
+<h3 class="enable-grantley">RAID F1</h3>
+<p class="enable-grantley">RAID F1, RAID 5 mekanizmasını uygulayarak, arıza toleransı ve arttırılan okuma performansı sunar. Ancak, RAID F1 ile birlikte sistem, eskimesini hızlandırmak &uuml;zere belirli bir s&uuml;r&uuml;c&uuml;ye daha fazla parite bilgisi yazar ve b&ouml;ylece t&uuml;m s&uuml;r&uuml;c&uuml;lerin aynı anda &ouml;m&uuml;rlerinin bitmesini &ouml;nler. Bu durum RAID 5 ile kıyaslandığında performansını az da olsa etkileyebilir. Asgari &uuml;&ccedil; s&uuml;r&uuml;c&uuml; gereklidir. RAID F1 tek bir s&uuml;r&uuml;c&uuml;n&uuml;n kaybını kaldırabilir. Bir s&uuml;r&uuml;c&uuml; arızası durumunda, arızalı s&uuml;r&uuml;c&uuml; verileri kalan s&uuml;r&uuml;c&uuml;lerden edinilen pariteden yeniden yapılandırılır. Sonu&ccedil; olarak, bir RAID F1 dizisi kapasitesi d&uuml;şm&uuml;ş bir durumda iken hem okuma hem de yazma performansı ciddi derecede etkilenir. RAID F1 t&uuml;m&uuml; flash olan dizi i&ccedil;in idealdir.<br /><img src="about:blank" class="help_image" /></p>
+
+</body>
+</html>

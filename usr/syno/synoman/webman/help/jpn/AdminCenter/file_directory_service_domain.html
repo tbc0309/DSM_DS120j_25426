@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>ドメイン</h2>
+
+<p>Synology NAS を Windows ドメインに加えることができます。ドメインに加えると、わざわざ別のユーザー名とパスワードの組み合わせを覚えなくても、ドメイン ユーザーは各自のドメイン アカウントとパスワードを使って Synology NAS にサインインし、ファイルにアクセスしたり、DSM アプリケーションを使用したりすることができます。</p>
+
+<h4>ドメインに加入する：</h4>
+<ol>
+	<li><strong>[コントロール パネル]</strong> &gt; <strong>[ドメイン/LDAP]</strong> &gt; <strong>[ドメイン]</strong> を選択します。</li>
+	<li><strong>[ドメインに参加]</strong> ボックスにチェックマークを付けます。</li>
+	<li>相当する欄にドメイン名を入力し、DNS Server を指定します。</li>
+	<li>必要であれば、<strong>[詳細ドメインオプション]</strong> ボックスにチェックマークを付けます。（詳細は、次の説明をお読みください）。</li>
+	<li><strong>[適用]</strong>をクリックします。</li>
+	<li>開いたウィンドウで、ドメインの管理者用ユーザー名とパスワードを入力します。</li>
+	<li><strong>[OK]</strong> をクリックします。</li>
+</ol>
+
+<div class="section"><h4>DNS Server</h4>
+<p>Synology NAS でドメイン検索をできるようにするため、DNS Server を指定するよう推奨しています。ただし、ドメインが DNS Server に登録されていない場合は、ドメイン加入処理ができない場合があります。</p>
+
+<h4>ドメインサーバーの種類</h4>
+<p>Synology NAS がドメインに加入すると、この欄にはドメイン タイプが表示されます。ドメインタイプは「AD ドメイン」になります。</p>
+
+<h4>管理モード</h4>
+<p>このオプションは、ドメイン ユーザーとグループの権限を管理する方法を決定します。</p>
+<ul>
+	<li><strong>信頼できるドメイン</strong>：結合したドメインのユーザーとグループと信頼できるドメインを管理できます。ユーザーとグループのリストをドメイン別にフィルタできます。</li>
+	<li><strong>OU のシングルドメイン</strong>：このモードでは、結合したドメインのユーザーとグループのみ表示されます。このモードでは、組織単位 (OU) 別にユーザーとグループの一覧をフィルタできます。</li>
+</ul>
+
+<h4>詳細ドメイン オプション</h4>
+<p>ほとんどの場合、詳細ドメインオプションの設定は必要ありません。詳細ドメインオプションは、特定のドメイン環境でのみ必要です。</p>
+<ul>
+	<li><strong>DC IP/FQDN</strong>：DC（ドメインコントローラー）IP アドレスまたは FQDN を指定すると、Synology NAS がその情報を使用して通信しようとします。複数の IP アドレスまたは FQDN が存在する場合は、IP の間にコンマを入力します。必要に応じて最後の DC IP アドレスまたは FQDN の後にアスタリスク(*)を追加すると、指定したすべての IP アドレスで失敗したときに Synology NAS が別の DC との通信を試みます。このとき、最後の IP アドレスまたは FQDN とアスタリスクの間には必ずコンマを追加してください。</li>
+	<li><strong>ドメイン NetBIOS 名</strong>：ドメインの NetBIOS 名を指定します。</li>
+	<li><strong>Domain FQDN (DNS 名)</strong>：ドメインの FQDN (DNS名)を指定します。</li>
+	<li><strong>DNS インターフェイスの登録</strong>：ドメインを加えると、ここで指定した NIC (Network Interface Card) は DNS Server に登録されます。Synology NAS のホスト名にアンダースコア（_）が含まれていると、DNS にはアンダースコア（_）は使用できないため、登録できません。</li>
+	<li><strong>ユーザー/グループ リストを更新</strong>：Synology NAS がドメイン ユーザー／グループ リストを自動更新する間隔を指定します。これは、毎日、毎週、毎月のいずれかで設定できます。また、<strong>[ドメイン ユーザー]</strong> タブを選択し、<strong>[ドメインデータを更新]</strong> をクリックすると、ドメイン ユーザー／グループ リストを手動で更新できます。自動更新はシステムのハイバネーションに影響しますのでご注意ください。</li>
+</ul>
+
+<h4>読み取り専用ドメイン コントローラに加入する</h4>
+<p>Synology NAS を読み取り専用ドメイン コントローラ (RODC) に加入するには、<strong>DC IP/FQDN</strong> 欄で読み書き可能ドメイン コントローラ (RWDC) の「コンピュータのフルネーム」(FQDN) を指定することができます。フルコンピュータ名は次のフォーマットに従う必要があります。<strong>コンピューター名.ドメイン</strong>、例：「ad01.synology.com」。</p>
+</div>
+
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>ドメイン ユーザー名に % や $ が含まれていると、home フォルダにアクセスできない場合があります。その場合は、ドメイン管理者に新しいユーザー名を要請してください。</li>
+	<li>ドメイングループ「<strong>Domain Admins</strong>」と「<strong>Enterprise Admins</strong>」は、自動的に「<strong>administrators</strong>」という名前のローカルグループに追加されます。要するに、これらのグループのドメイン ユーザーは、CIFS/FTP/AFP/WebDAV、その他の DSM アプリケーションなどのファイル サービスへのアクセスをはじめ、Synology NAS についての管理権を有することになります。</li>
+	<li>また、Synology NAS の共有フォルダへアクセスする権限をドメインユーザーに設定することもできます。詳しくは、<a href="file_directory_service_user_group.html">こちら</a>を参照してください。</li>
+</ul>
+</div>
+
+<h3>ドメイン オプション</h3>
+
+<p>このセクションには、次のようなドメインの追加オプションがあります。</p>
+<ul>
+	<li><strong>DiskStation はドメイン ユーザーがログインすると、毎回 NTP サーバーと同期を取る</strong>：このオプションを有効にすると、Synology NAS と NTP サーバー間を強制的に同期させます。</li>
+	<li><strong>NT4 対応モードでユーザー/グループ リストを取得</strong>：NT4 RPC モードでシステムにユーザー／グループ リストを取得させます。このオプションは、デフォルトの設定であるドメイン ユーザー／グループ リストを取得できないときに有効にしてください。</li>
+	<li><strong>サーバーの署名を有効にする</strong>：クライアントでクライアントの署名を有効にしてある場合は、サーバーの署名を Synology NAS で有効にして、ユーザーがドメインサービスを正常に使用できるようにする必要があります。</li>
+	<li><strong>ネスト構造のグループレベルを列挙する</strong>：ネスト構造の数と番号を付けられるドメイン グループのメンバーを指定します。</li>
+	<li><strong>ドメイン管理者</strong>：管理者権限を与える先のユーザーを最大で10グループまで指定できます。管理者権限を持つユーザーには、Synology NAS およびそれに保存されたファイルを管理する権限があります。</li>
+	<li><strong>統合 Windows 認証を有効にする</strong>：このオプションを有効化すると、ドメイン アカウントからコンピュータにすでにサインインしているユーザーが、ユーザー名とパスワードの入力なしでインターネット ブラウザ経由で DSM にサインインできるようになります。</li>
+</ul>
+
+<div class="section"><h4>統合 Windows 認証の使用</h4>
+<ul>
+	<li>クライアント コンピュータは Windows のオペレーティング システムを実行している必要があります。また、バージョンは Windows 7 以上でなければなりません。</li>
+	<li>クライアント コンピュータは Synology NAS として同じドメインに参加する必要があります。</li>
+	<li>Windows の <b>[コントロール パネル]</b> > <b>[インターネット オプション]</b> > <b>[詳細設定]</b> の順に進み、<b>[セキュリティ]</b> セクションの下の <b>[統合 Windows 認証を有効にする]</b> のチェックボックスにチェックが入っていることを確かめます。</li>
+	<li>統合 Windows 認証は、すべてのブラウザで動作します。Firefox については、さらに数ステップがセットアップに必要です。
+		<ul>
+			<li>Firefox ブラウザを開き、URL バーに <b>about:config</b> を入力します。</li>
+			<li><b>network.automatic-ntlm-auth.trusted-uris</b> を検索します。</li>
+			<li><b>[値]</b> 欄をダブルクリックし、ドメイン の IP アドレスを入力します。</li>
+		</ul>
+	</li>
+	<li>Synology NAS を Synology Directory Server で作成されたドメインに参加させる場合は、統合 Windows 認証を使用するために追加の構成が必要です。
+		<ol>
+			<li>DSM で <b>[コントロール パネル]</b> > <b>[ファイルサービス]</b> > <b>[SMB/AFP/NFS]</b> の順に選択します。</li>
+			<li><b>[SMB]</b> セクション下で、<b>[詳細設定]</b> をクリックします。</li>
+			<li><b>[最小 SMB プロトコル]</b> ドロップダウン メニューから <b>[SMB1]</b> を選択し、<b>[保存]</b> をクリックします。</li>
+		</ol>
+	</li>
+
+</ul>
+</div>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>統合 Windows 認証によってサインインすることは DSM 6.2.2 以降でのみ利用可能です。</li>
+		</ul></li>
+</ul>
+</div>
+
+<h3>ドメイン ステータス チェック</h3>
+
+<p><strong>[ドメイン ステータス チェック]</strong> をクリックすると、お使いの DSM および加わったドメイン サーバー間の接続ステータスをチェックできます。トラブルシューティングについての詳細は、次のチェック項目を参照してください。</p>
+<ul>
+	<li><strong>Synology NAS および<font>ドメイン コントローラ</font>間で適切な接続が行われているかを確認する</strong>：Synology NAS は、<font>ドメイン コントローラ</font>との通信に失敗しました。
+		<ul>
+			<li>ポート 389、139、445 が<font>ドメイン コントローラ</font>で適切に動作していることを確認してください。</li>
+			<li>NTDS サービスが<font>ドメイン コントローラ</font>で適切に動作していることを確認してください。</li>
+		</ul>
+	</li>
+	<li><strong>競合したホスト名がサブネットに存在しているかを確認する</strong>：Synology NAS には、サブネットに既に存在するホスト名があります。
+		<ul>
+			<li>お使いの Synology NAS が複数のネットワーク インターフェイスを持つサブネットに接続されている場合は、DSM が適切に動作します。</li>
+			<li>お使いの Synology NAS が、単一のネットワーク インターフェイスでサブネットに接続されている場合、Synology NAS のホスト名を変更し、再びそのドメインに参加してください。</li>
+		</ul>
+	</li>
+	<li><strong>Synology NAS および Kerberos サーバー間で適切な接続が行われているか確認する</strong>：Synology NAS は、Kerberos サーバーとの通信に失敗しました。
+		<ul>
+			<li>適切な Kerberos DNS SRV 記録や関連した A 記録が DSN Server に存在していることを確認してください。</li>
+			<li>ポート 88 が、KDC サーバーで利用できることを確認します。</li>
+		</ul>
+	</li>
+	<li><strong>Synology NAS および LDAP Server 間で適切な接続が行われているか確認する</strong>Synology NAS は、LDAP Server との通信に失敗しました。
+		<ul>
+			<li>適切な LDAP DNS SRV 記録や関連した A 記録が DSN Server に存在していることを確認してください。</li>
+			<li>ポート 389 が、LDAP Server で適切に動作することを確認します。</li>
+		</ul>
+	</li>
+	<li><strong>Synology NAS およびドメイン コントローラー間で接続が適切に動作するために、MTU が適切に構成されているかを確認する</strong>：1 つ以上のスイッチがパケットの無効な MTU サイズにより、Synology NAS および<font>ドメイン コントローラ</font>間で転送されるパケットが低下しています。
+		<ul>
+			<li>Synology NAS および <font>ドメイン コントローラ</font>間のスイッチのインターフェイスの設定を確認してください。</li>
+		</ul>
+	</li>
+	<li><strong>Synology NAS およびドメイン間で時間が同期されているかを確認する</strong>：Synology NAS の時間は、ドメイン サーバーと同期していません。
+		<ul>
+			<li>Synology NAS で NTP サービスをセットアップすることで、ドメイン サーバーと時間を同期することや、<strong>ドメイン オプション</strong>で <strong>[ドメインユーザーがログインしたときに、Synology NAS は NTP サーバー時間と同期する]</strong> を有効化することができます。</li>
+		</ul>
+	</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+#!/usr/bin/python
+from __future__ import (
+    division, absolute_import, print_function, unicode_literals)
+from sys import version_info
+import json
+from subprocess import check_output
+
+
+iteritems = dict.iteritems if version_info.major == 2 else dict.items
+dumps = lambda x: json.dumps(x, separators=(',', ':'))
+
+
+def webapi(api, version, method, **kwargs):
+    cmd = (
+        '/usr/syno/bin/synowebapi', '--exec',
+        'api=' + api,
+        'version=' + str(version),
+        'method=' + method
+    ) + tuple(
+        '{}={}'.format(k, v) for k, v in iteritems(kwargs)
+    )
+    try:
+        with open('/dev/null', 'w') as null:
+            raw_resp = check_output(cmd, stderr=null)
+        return json.loads(raw_resp)
+    except:
+        return {}
+
+
+def setting():
+    data = webapi('SYNO.Core.SmartBlock', 1, 'get').get('data', {})
+    return {
+        'enabled':        data.get('enabled', False),
+        'trust_lock':     data.get('trust_lock', 30),
+        'trust_minute':   data.get('trust_minute', 1),
+        'trust_try':      data.get('trust_try', 10),
+        'untrust_lock':   data.get('untrust_lock', 30),
+        'untrust_minute': data.get('untrust_minute', 1),
+        'untrust_try':    data.get('untrust_try', 5),
+    }
+
+print(dumps({
+    'collector_version': 1,
+    'setting': setting(),
+}))

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Тома</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the difference between volumes and disk groups, which are used to manage the storage space and capacity of Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Тома</h2>
+
+<p>Тома представляют собой базовое хранилище на Synology NAS. Все ваши материалы — папки общего доступа, документы и данные пакетов — хранятся в томах. Поэтому перед тем как начать сохранение данных на сервере Synology NAS, необходимо создать по крайней мере один том.</p>
+
+<div class="section">
+<h4>Примечание.</h4>
+<p>Если тома используются в качестве реплицированных целевых объектов инструмента <strong>Snapshot Replication</strong>, после создания томов можно повысить производительность репликации, изменив настройки параметра <strong>Частота записи времени доступа к файлам</strong> в окне <strong>Редактирование</strong>:</p>
+<ul>
+	<li><strong>Ежедневно</strong>: время доступа к файлам обновляется ежедневно или при изменении файла (как в большинстве операционных систем). Некоторые функции приложений используют точные данные о времени доступа к файлам. Выбор параметра <strong>Ежедневно</strong> повлияет на производительность репликации. Тем не менее, рекомендуется выбирать именно этот параметр, если вы часто пользуетесь любыми из нижеперечисленных функций или приложений:<ul>
+			<li><strong>Редко используемые</strong> в инструменте <strong>Анализатор хранилища</strong></li>
+			<li><strong>Справка по твердотельным кэш-накопителям</strong> в инструменте <strong>Диспетчер хранения</strong></li>
+			<li>Любые сторонние приложения, использующие <strong>Запись времени доступа к файлам</strong></li>
+		</ul>
+	<li><strong>Ежемесячно</strong>: время доступа к файлам обновляется ежемесячно или при изменении файла. При выборе этого параметра производительность репликации немного повышается, а приложения, использующие <strong>Запись времени доступа к файлам</strong>, работают, но с меньшей точностью.</li>
+	<li><strong>Никогда</strong>: рекомендуется выбрать этот параметр, если вам требуется максимальная производительность репликации и вы не работаете в приложениях, использующих <strong>Запись времени доступа к файлам</strong>, каждый день.</li>
+</ul>
+</div>
+
+
+<h4>Формат тома</h4>
+<p>В зависимости от используемой файловой системы есть два формата томов.</p>
+<ul>
+	<li><strong>Новый формат тома</strong>: Этот формат использует файловую систему <strong>Btrfs</strong>. Минимальный размер тома в этом формате должен быть не менее 10 ГБ. Формат поддерживает следующие новые функции, упрощающие управление данными.<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">Фотоснимок общей папки</a>.</strong> Фотоснимок записывает все состояния данных на момент съемки. Если пользователь случайно изменит или удалит данные в томе со снимками, вы сможете быстро восстановить данные на тот момент, когда был сделан снимок.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">Квота общей папки</a>.</strong> Позволяет задать максимальную емкость для каждой папки.</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">Квота пользователя</a> на основе общей папки.</strong> Позволяет управлять тем, сколько места в общей папке может использовать каждый пользователь.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">Усиленная защита целостности данных</a>.</strong> Общая папка защищена контрольной суммой CRC32 и стратегиями копирования при записи.</li>
+		</ul>
+	</li>
+	<li><strong>Традиционный формат тома</strong>. Этот формат использует файловую систему <strong>ext4</strong>. Минимальный размер тома в этом формате должен быть не менее 10 ГБ. Так как файловая система ext4 поддерживается в большинстве продуктов Synology, вы можете с легкостью переносить том в этом формате в другой продукт Synology.</li>
+</ul>
+
+<div class="section"><h4>Примечание.</h4>
+<ul>
+	<li>Btrfs поддерживается только в некоторых моделях. Сведения о наличии поддержки Btrfs в вашей модели см. в <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">данной статье</a>.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

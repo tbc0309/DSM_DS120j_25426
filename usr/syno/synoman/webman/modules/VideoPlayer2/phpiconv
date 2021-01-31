@@ -1,0 +1,32 @@
+#!/usr/bin/php
+<?php
+
+function Usage()
+{
+	echo basename(__FILE__)." --from from_encoding --to to_encoding file \n";
+}
+
+function main($fromEncoding, $toEncoding, $inputPath)
+{
+	echo iconv($fromEncoding, "{$toEncoding}//IGNORE", file_get_contents($inputPath));
+}
+
+$opts = '';
+$longOpts = array('to:', 'from:');
+$inputOptions = getopt($opts, $longOpts);
+
+if (empty($inputOptions['to']) || empty($inputOptions['from'])) {
+	Usage();
+	exit(1);
+}
+
+$leftArray = array_slice($argv, 5);
+if (count($leftArray) === 0) {
+	Usage();
+	exit(1);
+}
+
+main($inputOptions['from'], $inputOptions['to'], $leftArray[0]);
+
+?>
+

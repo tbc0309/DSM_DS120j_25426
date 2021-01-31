@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Backup & Replication</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>LUN Backup</h2>
+<p>Under the <b>Backup</b> tab of <b>Backup &amp; Replication</b>, you can use <b>Local LUN Backup</b> to back up the iSCSI LUNs on your Synology NAS to local shared folders. You can also use <b>Network LUN Backup</b> to back up to another Synology NAS.</p>
+
+<h4>To back up an iSCSI LUN:</h4>
+<ol>
+<li>
+Choose <b>Create</b> > <b>LUN backup task</b> to open the <b>LUN Backup Wizard</b>, and click <b>Next</b>.
+</li>
+<li>
+When you are prompted to choose a destination type, choose either of the following:
+</li>
+<ul>
+<li>
+<b>Local LUN Backup</b>: Choose this option to back up the LUN from your Synology NAS to a local shared folder or an external storage that is connected to the USB or eSATA port of your Synology NAS.
+</li>
+<li><b>Network LUN Backup</b>: Choose this option to back up the LUN from your Synology NAS to another Synology NAS.
+</li>
+</ul>
+<li>
+When prompted, specify the backup destination and source LUN, and set the backup schedule.
+</li>
+<li>
+Follow the wizard to complete the setup.
+</li>
+</ol>
+<p>After the backup task is created, the Synology NAS will perform the backup task according to the schedule and store the backed up LUN at the destination. The backed up LUN is used for backup purpose only. To access the backup LUN, see <a href="restore.html">To restore the backup LUN</a>  for more information.</p>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>Both Regular File and Block-Level LUNs will be backed up as file images at the destination. If restored, all Block-Level LUNs will be changed to File LUNs.</li>
+<li>Each backup task can only include one LUN as the backup source.</li>
+<li>LUNs cannot be backed up to an external disk with FAT, FAT32, HFS, HFS Plus or NTFS format.</li>
+<li>Before performing Network LUN Backup, please log into the destination Synology NAS to make sure its Network Backup service is enabled at <b>Backup & Replication</b> > <b>Back Services</b>.</li>
+<li>If your Synology NAS connects to the network through a router, make sure you have specified a port forwarding rule for the iSCSI service (TCP port 3260) on the router before performing Network LUN Backup.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>About Full Backup and Incremental Backup:</h4>
+<p>
+Synology NAS will perform a full backup of the selected LUN for the first time, and then perform incremental backup afterwards. However, if the shared folder name or directory name of the backup destination is changed, Synology NAS will perform a full backup for the task again.
+</p>
+</div>
+</body></html>

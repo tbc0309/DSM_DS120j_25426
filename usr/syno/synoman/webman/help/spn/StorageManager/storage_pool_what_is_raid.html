@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Elegir un Tipo de RAID</h2>
+
+<p>RAID (matriz redundante de discos independientes) es una tecnolog&iacute;a de almacenamiento de datos que permite combinar varias unidades en un espacio de almacenamiento &uacute;nico. Existen diferentes tipos de RAID, cada uno con diferentes niveles de rendimiento, capacidad de almacenamiento y fiabilidad.</p>
+
+<p>Este art&iacute;culo proporciona una breve visi&oacute;n general de los tipos de RAID compatibles con Synology NAS e incluye los requisitos de implementaci&oacute;n, adem&aacute;s de sus ventajas y desventajas.</p><!--1--><h3>Tipos de RAID compatibles</h3>
+
+<p>Esta tabla proporciona una breve visi&oacute;n general de diferentes tipos de RAID compatibles con Synology NAS e incluye la capacidad de almacenamiento, el n&uacute;mero m&iacute;nimo de unidades necesarias para cada tipo de RAID y el n&uacute;mero de aver&iacute;as de unidades que se pueden tolerar antes de que se produzca una p&eacute;rdida de datos.</p>
+
+<table>
+	<tr>
+		<th>Tipo de volumen</th>
+		<th>N&uacute;mero de HDD</th>
+		<th>Aver&iacute;as de unidades tolerables</th>
+		<th>Descripci&oacute;n</th>
+		<th>Capacidad del volumen</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>Optimiza el tama&ntilde;o del volumen al combinar unidades de distintos tama&ntilde;os.</li>
+				<li>Proporciona redundancia de datos si el volumen est&aacute; compuesto de dos o m&aacute;s unidades.</li>
+				<li>Recomendado para usuarios principiantes.</li>
+			</ul>
+		</td>
+		<td>1 x (tama&ntilde;o de HDD)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">Optimizada por el sistema.</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Basic</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Compuesto de una unidad como unidad independiente.</li>
+				<li>No proporciona redundancia de datos.</li>
+			</ul>
+		</td>
+		<td>1 x (tama&ntilde;o de HDD)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Combina una colecci&oacute;n de unidades en un espacio de almacenamiento &uacute;nico, con una capacidad igual a la suma de las capacidades de todas las unidades.</li>
+				<li>No proporciona redundancia de datos.</li>
+			</ul>
+		</td>
+		<td>Suma de tama&ntilde;os de todos los HDD</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Ofrece &quot;striping&quot;, un proceso por el cual los datos se dividen en bloques y se distribuyen por distintas unidades para mejorar el rendimiento.</li>
+				<li>No proporciona redundancia de datos.</li>
+			</ul>
+	    </td>
+		<td>Suma de tama&ntilde;os de todos los HDD</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>Escribe datos id&eacute;nticos en todas las unidades simult&aacute;neamente.</li>
+				<li>Proporciona redundancia de datos.</li>
+			</ul>
+		</td>
+		<td rowspan="3">Tama&ntilde;o del menor HDD</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Utiliza striping a nivel de bloque con paridad de datos distribuidos por todas las unidades integrantes, lo que proporciona una redundancia de datos m&aacute;s eficiente que RAID 1.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (tama&ntilde;o del HDD m&aacute;s peque&ntilde;o)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>Utiliza la paridad de dos capas de datos para almacenar datos redundantes en un espacio igual al tama&ntilde;o de dos unidades, proporcionando un mayor grado de redundancia de datos que RAID 5.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 2) x (tama&ntilde;o del HDD m&aacute;s peque&ntilde;o)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br />(n&uacute;mero par)</td>
+		<td>La mitad del n.º total de HDD</td>
+		<td>
+			<ul>
+				<li>Proporciona el rendimiento de RAID 0 y el nivel de protecci&oacute;n de datos de RAID 1, mediante la combinaci&oacute;n de unidades en grupos de dos, en los que se copian los datos.</li>
+			</ul>
+		</td>
+		<td>(N / 2) x (tama&ntilde;o del HDD m&aacute;s peque&ntilde;o)</td>
+	</tr>
+	<tr>
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Utiliza striping a nivel de bloque con paridad de datos distribuidos por todas las unidades integrantes.</li>
+				<li>Una unidad determinada tendr&aacute; m&aacute;s informaci&oacute;n de paridad.</li>
+				<li>Se recomienda su uso para las matrices completamente Flash.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (tama&ntilde;o del HDD m&aacute;s peque&ntilde;o)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>Observaci&oacute;n:</h4>
+<ul>
+	<li>Los tipos de RAID, excepto &quot;Basic&quot;, solo est&aacute;n disponibles en ciertos modelos, dependiendo del n&uacute;mero de ranuras de unidades y del n&uacute;mero de unidades instaladas.</li>
+	<li>RAID F1 solo est&aacute; disponible en modelos espec&iacute;ficos. Para obtener m&aacute;s informaci&oacute;n, visite el <a href="https://www.synology.com/" target="_blank">sitio web de Synology</a>.</li>
+	<li>&quot;N&quot; representa el n&uacute;mero total de unidades en el volumen.</li>
+</ul>
+</div><!--2--><h3>Synology Hybrid RAID (SHR)</h3>
+<p>Synology Hybrid RAID (SHR) es un sistema de administraci&oacute;n RAID automatizado, dise&ntilde;ado para simplificar la administraci&oacute;n del almacenamiento y satisfacer las necesidades de nuevos usuarios que no est&eacute;n familiarizados con los tipos de RAID.</p>
+<p>SHR puede combinar unidades diferentes tama&ntilde;os para crear un volumen de almacenamiento con una capacidad y un rendimiento optimizados, malgastando menos espacio de las unidades y ofreciendo una soluci&oacute;n de almacenamiento m&aacute;s flexible. Cuando se incluyen suficientes unidades, SHR permite la redundancia de 1 o 2 unidades, lo cual significa que el volumen de SHR puede soportar hasta una o dos unidades averiadas sin que se produzca ninguna p&eacute;rdida de datos.<br /><img src="about:blank" class="help_image"/></p><!--3--><h3>RAID 0</h3>
+<p>RAID 0 combina dos o m&aacute;s unidades para aumentar el rendimiento y la capacidad, pero no ofrece tolerancia a los fallos. Una aver&iacute;a &uacute;nica en una unidad resultar&aacute; en la p&eacute;rdida de todos los datos de la serie. RAID 0 es &uacute;til en sistemas no cr&iacute;ticos, donde se necesita un equilibrio entre precio/rendimiento elevado.<br /><img src="about:blank" class="help_image"/></p><!--4--><h3>RAID 1</h3>
+<p>RAID 1 es el sistema utilizado m&aacute;s a menudo, con dos unidades. Los datos de las unidades se copian, proporcionando una tolerancia a fallos en caso de aver&iacute;a en las unidades. El rendimiento de lectura se aumenta, mientras que el de escritura es similar al de una unidad. Se puede sufrir un fallo &uacute;nico de unidad sin p&eacute;rdida de datos. RAID 1 se utiliza a menudo cuando la tolerancia a errores es importante y el espacio y el rendimiento no son requisitos fundamentales.<br /><img src="about:blank" class="help_image"/></p><!--5--><h3>RAID 5</h3>
+<p>RAID 5 proporciona tolerancia a fallos y un mayor rendimiento de lectura. Se necesita un m&iacute;nimo de tres unidades. RAID 5 puede soportar la p&eacute;rdida de una unidad. En caso de producirse un fallo de unidad, los datos de la unidad averiada se reconstruyen a partir de la paridad guardada (mediante striping) en las unidades restantes. Como resultado de ello, el rendimiento tanto de lectura como de escritura sufre un gran impacto mientras la matriz RAID 5 se encuentra en un estado degradado. RAID 5 es ideal cuando el espacio y el coste son m&aacute;s importantes que el rendimiento.<br /><img src="about:blank" class="help_image"/></p><!--6--><h3>RAID 6</h3>
+<p>RAID 6 es similar a RAID 5, con la diferencia de que proporciona una capa adicional de striping y puede tolerar el fallo de dos unidades. Se necesita un m&iacute;nimo de cuatro unidades. El rendimiento de RAID 6 es menor que el de RAID 5 debido a esta tolerancia a fallos adicional. RAID 6 resulta atractivo cuando el espacio y el coste son importantes y cuando se necesita poder soportar varios fallos de unidades.<br /><img src="about:blank" class="help_image"/></p><!--7--><h3>RAID 10</h3>
+<p>RAID 10 combina los beneficios de RAID 1 y RAID 0. El rendimiento de lectura y escritura aumentan, pero solo la mitad del espacio total est&aacute; disponible para almacenar datos. Se necesitan cuatro o m&aacute;s unidades, por lo que el coste es relativamente elevado, pero el rendimiento es muy grande, a la vez que se proporciona tolerancia a los fallos. De hecho, RAID 10 puede hacer frente a varias aver&iacute;as de unidades, siempre y cuando estas no ocurran en el mismo subgrupo. RAID 10 es ideal para aplicaciones con una gran demanda de salida y entrada, como en el caso de servidores de bases de datos.<br /><img src="about:blank" class="help_image"/></p><!--8--><h3>RAID F1</h3>
+<p>RAID F1 aplica el mecanismo de RAID 5, lo que proporciona tolerancia a fallos y un mayor rendimiento de lectura. Sin embargo, con RAID F1 una unidad determinada tendr&aacute; m&aacute;s informaci&oacute;n de paridad para acelerar su envejecimiento y, por tanto, evitar que todas las unidades lleguen al final de su vida &uacute;til al mismo tiempo. Esto puede afectar sutilmente a su rendimiento si se compara con RAID 5. Se necesita un m&iacute;nimo de tres unidades. RAID F1 puede soportar la p&eacute;rdida de una unidad. En caso de producirse un fallo de unidad, los datos de la unidad averiada se reconstruyen a partir de la paridad guardada (mediante striping) en las unidades restantes. Como resultado de ello, el rendimiento tanto de lectura como de escritura sufre un gran impacto mientras la matriz RAID F1 se encuentra en un estado degradado. RAID F1 es ideal para las matrices completamente Flash.<br /><img src="about:blank" class="help_image"/></p>
+
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="certificate"></a>Certificado</h2>
+
+<p>Pode ser utilizado um certificado para proteger serviços SSL de Synology NAS, como web (todos os serviços HTTPS), correio ou FTP. Ter um certificado permite aos utilizadores validar a identidade de um servidor e do administrador antes de enviar qualquer tipo de informação confidencial.</p>
+
+<p>No <strong>Painel de Controlo</strong> > <strong>Segurança</strong> > <strong>Certificado</strong>, pode fazer o seguinte:</p>
+
+<ul>
+<li>Receber certificados de Let's Encrypt.</li>
+<li>Criar certificado auto-assinados</li>
+<li>Criar pedidos de assinatura de certificados para outras autoridades de certificados (CA).</li>
+<li>Assinar os pedidos de assinatura de certificados de outros candidatos.</li>
+<li>Gerir os certificados do seu Synology NAS.</li>
+</ul>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Em DSM 6.0, pode criar e importar múltiplos certificados para o seu Synology NAS.</li>
+<li>Se clicar em <strong>Predefinir certificado</strong>, o certificado processado será utilizado como certificado predefinido. O certificado predefinido original perderá o seu estado de predefinido.</li>
+</ul>
+</div>
+
+
+<h3>Certificados de Let's Encrypt</h3>
+
+<h4>Para receber certificados de Let's Encrypt:</h4>
+<p>Pode obter automaticamente certificados SSL/TLS grátis e seguros de <a href="https://letsencrypt.org/" target="_blank">Let's Encrypt</a>, uma autoridade de certificados aberta e de confiança.</p>
+
+<ol>
+<li>Clique em <strong>Adicionar</strong>.</li>
+<li>Selecione <strong>Adicionar um novo certificado</strong> e clique em <strong>Seguinte</strong>.</li>
+<li>Selecione <strong>Obter um certificado de Let's Encrypt</strong>.</li>
+<li>Especifique as seguintes informações:
+<ul>
+<li><strong>Nome de domínio</strong>: Introduza o domínio registado por si no fornecedor de domínio.</li>
+<li><strong>E-mail</strong>: Introduza o endereço de e-mail utilizado para registar o certificado.</li>
+<li><strong>Nome alternativo do assunto</strong>: Para que um certificado cubra vários domínios, introduza os outros nomes de domínio aqui.</li>
+</ul>
+</li>
+<li>Clique em <strong>Aplicar</strong> para guardar as definições. Depois de confirmar, o certificado será instantaneamente importado para o seu Synology NAS.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Só pode registar certificados de Let's Encrypt com um número limitado de contas de e-mail. Se exceder o limite, utilize uma conta de e-mail anteriormente registada para obter mais certificados.</li>
+<li>Só pode registar um número limitado de certificados de Let's Encrypt por domínio. Se exceder o limite, introduza o atual nome do domínio como Nome Alternativo do Assunto (SAN) e utilize outro nome de domínio para pedido do certificado.</li>
+<li>Let's Encrypt irá realizar a validação do domínio antes de emitir certificados para os seus domínios. Certifique-se que o seu Synology NAS e router têm a porta 80 aberta para validação do domínio da Internet. Todas as outras comunicações com Let's Encrypt passam por HTTPS e mantêm o seu Synology NAS protegido.</li>
+<li>Certificados emitidos por Let's Encrypt são válidos durante 90 dias. Antes que os certificados expirem, DSM irá renová-los automaticamente uma vez validada com êxito o domínio. Certifique-se que o seu Synology NAS e router têm a porta 80 aberta para renovação do certificado.</li>
+</ul>
+</div>
+
+<h3>Certificados auto-assinados</h3>
+
+<p>Um certificado auto-assinado refere-se a um certificado criado e assinado pela mesma entidade cuja entidade é certificada, (neste caso o Synology NAS). Os certificados auto-assinados são assinados com a chave privada gerada por Synology NAS. Uma vez que os certificados auto-assinados não são emitidos por autoridades de certificação terceiras, contêm menos prova de identidade do servidor e são normalmente apenas utilizados para proteger canais entre o servidor e um grupo de utilizadores conhecidos.</p>
+
+
+<h4>Para criar certificados auto-assinados:</h4>
+<ol>
+	<li>Clique em <strong>Adicionar</strong>.</li>
+<li>Selecione <strong>Adicionar um novo certificado</strong> e clique em <strong>Seguinte</strong>.</li>
+<li>Selecione <strong>Criar certificado auto-assinado</strong>.</li>
+	<li>Siga as instruções do assistente de configuração.</li>
+</ol>
+
+
+<h3>Pedidos de Assinatura de Certificados (CSR)</h3>
+
+<p>Para além de certificados emitidos de Let's Encrypt e de certificados auto-assinados, pode também solicitar certificados de outras autoridades de certificados comerciais e externas. Para obter um certificado, poderá ter que escolher uma das duas seguintes opções:</p>
+
+<ul>
+<li>Criar um pedido de assinatura de certificado (CSR): Um corpo de texto encriptado gerado por Synology NAS contendo informações incluídas no seu certificado como nome de domínio, nome de organização, localização geral e endereço de e-mail.</li>
+<li>Apresentar a sua identificação pessoal ou da empresa à autoridade de certificados e fazer prova que é o proprietário do nome de domínio introduzido no campo nome comum do pedido de assinatura do certificado.</li>
+</ul>
+
+
+<h4>Para criar pedidos de assinatura de certificados:</h4>
+
+<ol>
+	<li>Clique em <strong>CSR</strong>.</li>
+    <li>Selecione <strong>Criar pedido de assinatura de certificado (CSR)</strong>.</li>
+	<li>Siga as instruções do assistente de configuração para criar e transferir o pedido de assinatura de certificado.</li>
+    <li>Envie o CSR e a informação solicitada à autoridade de certificados para confirmação.</li>
+</ol>
+
+<p>Quando receber o certificado solicitado emitido pela autoridade de certificados, pode importá-lo juntamente com a sua chave privada.</p>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Uma chave privada será também gerada juntamente com o pedido de assinatura de certificado. As autoridades de certificação não necessitam desta chave privada. Mantenha a chave privada de Synology NAS num local seguro e secreto.</p>
+</div>
+
+<h4>Para assinar pedidos de assinatura de certificados:</h4>
+
+<p>Os utilizadores de outros dispositivos podem enviar pedidos de assinatura de certificados para receber acesso certificado ao seu Synology NAS. Pode assinar os seus pedidos utilizando o certificado raiz de Synology NAS, e enviar os certificados gerados aos candidatos.</p>
+
+<ol>
+	<li>Clique em <b>CSR</b>.</li>
+	<li>Clique em <b>Assinar um pedido de assinatura de certificado (CSR)</b>.</li>
+	<li>Carregue o pedido de assinatura de certificado e introduza as informações relevantes. </li>
+	<li>Clique em <b>Seguinte</b> e o sistema irá assinar o pedido de certificado e criar um certificado correspondente.</li>
+</ol>
+
+
+
+<h3>Gestão de Certificados</h3>
+
+
+<h4>Para importar certificados:</h4>
+<p>Pode importar um certificado exportado anteriormente ou um certificado de uma autoridade de certificados comercial ou externa, juntamente com uma chave privada, para que os outros dispositivos confiem no seu Synology NAS.</p>
+
+<ol>
+<li>Clique em <strong>Adicionar</strong>.</li>
+<li>Selecione <strong>Adicionar um novo certificado</strong> e clique em <strong>Importar certificado</strong>.</li>
+<li>Siga as instruções do assistente para concluir a importação do certificado.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Os certificados intermédios são opcionais para alguns certificados emitidos por autoridades de certificação.</li>
+<li>Os certificados têm de ter o formato PEM X.509.</li>
+<li>As chaves privadas têm de estar no formato RSA e não podem estar protegidas por frase de acesso.</li>
+</ul>
+</div>
+
+
+<h4>Para exportar certificados:</h4>
+
+<p>Os certificados existentes podem ser transferidos para efeitos de gestão ou de arquivamento, e também podem ser importados para outros dispositivos de utilizadores para criar confiança entre o seu Synology NAS e o dispositivos deles. O ficheiro exportado contém o certificado, a chave privada e o certificado raiz auto-assinado de Synology NAS. </p>
+
+<ol>
+<li>Selecione o certificado pretendido.</li>
+<li>Clique em <strong>Exportar certificado</strong>.</li>
+</ol>
+
+<h4>Para renovar certificados:</h4>
+
+<p>Quando o seu certificado está prestes a expirar, pode ser renovado utilizando esta opção.</p>
+
+<ol>
+	<li>Clique em <b>CSR</b>.</li>
+	<li>Selecione <b>Renovar certificado</b> e clique em <b>Seguinte</b>.</li>
+	<li>Transfira a chave privada gerada e o pedido de assinatura do certificado.</li>
+    <li>Envie o CSR para a autoridade de certificados pretendida para receber um certificado renovado.</li>
+</ol>
+
+
+<h4>Para substituir certificados:</h4>
+<p>Se não pretender utilizar os certificados existentes, pode substituí-los por certificados alternativos.</p>
+
+<ol>
+<li>Clique em <strong>Adicionar</strong>.</li>
+<li>Selecione <strong>Substituir um certificado existente</strong> e o certificado não desejado do menu pendente.</li>
+<li>Siga as instruções do assistente para concluir a substituição do certificado.</li>
+</ol>
+
+
+<h4>Para editar certificados:</h4>
+<p>Pode editar a descrição do certificado ou definir outro certificado como certificado predefinido.</p>
+
+<ol>
+<li>Selecione o certificado pretendido.</li>
+<li>Clique em <strong>Editar</strong> e pode escolher uma das seguintes opções:
+
+<ul>
+<li>Altere a descrição do certificado e clique em <strong>OK</strong>.</li>
+<li>Selecione <strong>Predefinir certificado</strong> para lhe atribuir o estado de predefinido, e clique em <strong>Aplicar</strong>.</li>
+</ul>
+</ol>
+
+
+
+<h4>Para configurar certificados:</h4>
+<p>Pode alterar um certificado de um serviço para outro certificado consoante as suas necessidades.</p>
+
+<ol>
+<li>Clique em <strong>Configurar</strong> para mostrar todos os serviços e os certificados correspondentes.</li>
+<li>Clique no atual certificado do serviço pretendido.</li>
+<li>Selecione o certificado correto do menu pendente.</li>
+<li>Clique em <strong>OK</strong>.</li>
+</ol>
+
+<h4>Para eliminar certificados:</h4>
+
+<ol>
+<li>Selecione o certificado não desejado.</li>
+<li>Clique em <strong>Eliminar</strong> para concluir a eliminação do certificado.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>O certificado predefinido não pode ser eliminado.</li>
+<li>Se eliminar um certificado não predefinido, o certificado predefinido será utilizado para os serviços correspondentes. Cuidado que o certificado predefinido pode não ser totalmente compatível com estes serviços.</li>
+</ul>
+
+<p></p>
+</div>
+
+</body>
+</html>
+

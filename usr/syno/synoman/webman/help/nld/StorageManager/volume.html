@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Volumes</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the difference between volumes and disk groups, which are used to manage the storage space and capacity of Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Volumes</h2>
+
+<p>Volumes bieden basisopslagruimte op uw Synology NAS. Al uw materiaal -- zoals gedeelde mappen, documenten en pakketgegevens -- wordt opgeslagen op volumes. Voor u de opslagruimte op uw Synology NAS kunt gebruiken, moet u daarom minstens een volume maken.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>worden volumes als gerepliceerde doelen van <strong>Snapshot Replication</strong>, dan kunnen de replicatieprestaties worden verbeterd door na het maken van de volumes de instellingen van <strong>Frequentie bestandstoegangstijd registreren</strong> aan te passen in het venster <strong>Bewerken</strong>:</p>
+<ul>
+	<li><strong>Dagelijks</strong>: de bestandstoegangstijd wordt dagelijks bijgewerkt of bij wijziging van het bestand, net zoals bij andere besturingssystemen. Bepaalde toepassingsfuncties zijn afhankelijk van de nauwkeurigheid van de bestandstoegangstijd. De selectie van deze optie <strong>Dagelijks</strong> is van invloed op de replicatieprestaties maar wordt niet aangeraden wanneer een van de volgende functies of toepassingen wordt gebruikt:
+		<ul>
+			<li><strong>Minst recente toegangstijd</strong> in <strong>Opslag-analyser</strong></li>
+			<li><strong>SSD Cache Advisor</strong> in <strong>Opslagbeheer</strong></li>
+			<li>Alle toepassingen van derden die afhankelijk zijn van <strong>Bestandstoegangstijd registreren</strong>.</li>
+		</ul>
+	<li><strong>Maandelijks</strong>: de bestandstoegangstijd wordt maandelijks bijgewerkt of bij wijziging van het bestand. Deze optie levert een kleine verbetering van de replicatieprestaties op terwijl toepassingen die <strong>Bestandstoegangstijd registreren</strong> gebruiken gewoon kunnen functioneren, alhoewel op een lagere nauwkeurigheid.
+	</li>
+	<li><strong>Nooit</strong>: aanbevolen voor gebruikers die zoeken naar de beste replicatieprestaties en geen toepassingen gebruiken die afhankelijk zijn van <strong>Bestandstoegangstijd registreren</strong>.</li>
+</ul>
+</div>
+
+
+<h4>Volume-indeling</h4>
+<p>Afhankelijk van het gebruikte bestandssysteem zijn twee volume-indelingen mogelijk:</p>
+<ul>
+	<li><strong>Nieuwe volume-indeling</strong>: Deze indeling gebruikt het bestandssysteem <strong>Btrfs</strong>. De minimale volumegrootte in deze indeling moet minstens 10 GB bedragen. De indeling ondersteunt de volgende nieuwe functies waarmee u uw gegevens nog gemakkelijker kunt beheren:
+		<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">Gedeelde map snapshot</a>:</strong> de snaphot maakt een momentopname van de status van alle gegevens op een bepaald tijdstip. Als een gebruiker accidenteel gegevens wijzigt of verwijdert op een volume met snapshots, kunt u dankzij de snapshots de gegevens snel terugzetten naar het momentopname van een eerdere snapshot.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">Gedeelde map quota</a>:</strong> u kunt de maximale capaciteit instellen voor elke map.</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">Gebruikersquota</a> gebaseerd op gedeelde map:</strong> u kunt bepalen hoeveel ruimte in een gedeelde map elke gebruiker mag gebruiken.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">Geavanceerde gegevensintegriteitsbescherming</a>:</strong> de gedeelde map wordt beschermd met CRC32 checksum en copy-on-write-strategieën.</li>
+		</ul>
+	</li>
+	<li><strong>Traditionele volume-indeling</strong>: deze indeling gebruikt het bestandssysteem <strong>ext4</strong>. De minimale volumegrootte in deze indeling moet minstens 10 GB bedragen. Aangezien het bestandssysteem ext4 file door de meeste Synology-producten wordt ondersteund, kunt u eenvoudig uw volume in deze indeling migreren naar een ander Synology-product.</li>
+</ul>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>Btrfs is uitsluitend beschikbaar op specifieke modellen. Raadpleeg <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">dit artikel</a> om te weten of uw model Btrfs ondersteunt.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

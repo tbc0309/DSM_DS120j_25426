@@ -1,0 +1,15 @@
+{{#alias}}
+location ~ \.cgi {
+    rewrite             ^/{{alias}}/(.*)$ /$1 break;
+    scgi_read_timeout   3600s;
+    scgi_param          REWRITE_APP {{id}};
+    {{> /usr/syno/share/nginx/cgi.pass}}
+}
+{{/alias}}
+{{#server}}
+location ~ \.cgi {
+    scgi_read_timeout   3600s;
+    scgi_param          REWRITE_APP {{id}};
+    {{> /usr/syno/share/nginx/cgi.pass}}
+}
+{{/server}}

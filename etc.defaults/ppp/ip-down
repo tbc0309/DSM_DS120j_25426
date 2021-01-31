@@ -1,0 +1,38 @@
+#!/bin/sh
+
+VPN_IP_DOWN="/usr/syno/etc.defaults/synovpnclient/scripts/ip-down"
+RELAYDAEMON="/usr/syno/sbin/synorelayd"
+UPNP_TOOL="/usr/syno/bin/miniupnp-tool.sh"
+SYNONETD_TOOL="/usr/syno/sbin/synonetdtool"
+DEFAULT_GATEWAY_FILE="/etc/iproute2/config/default-gateway"
+
+. /etc/ppp/ip-function
+
+logger -p user.err -t "/etc/ppp/ip-down" "${IFNAME} is down"
+
+if [ -n "${LINKNAME}" -a -x "${VPN_IP_DOWN}" ]; then
+	${VPN_IP_DOWN}
+fi
+
+TC_SCRIPT="/usr/syno/bin/synotc_common"
+
+if [ -x "${TC_SCRIPT}" ]; then
+	${TC_SCRIPT} restart /etc/tc
+fi
+${RELAYDAEMON} -U
+
+default_gateway=`/usr/syno/bin/synogetkeyvalue ${DEFAULT_GATEWAY_FILE} DEVICE`
+if [ "x${default_gateway}" = "x${IFNAME}" ]; then
+	/usr/syno/bin/synosetkeyvalue ${DEFAULT_GATEWAY_FILE} DEVICE ""
+fi
+
+${SYNONETD_TOOL} --del-gateway-info -4 ${IFNAME}
+${SYNONETD_TOOL} --refresh-gateway -4
+
+enable_multi_gateway=`/bin/get_key_value /etc/synoinfo.conf multi_gateway`
+if [ "xyes" = "x${enable_multi_gateway}" ]; then
+	${SYNONETD_TOOL} --del-policy-route-rule -4 multi-gateway ${IFNAME}
+	${SYNONETD_TOOL} --disable-route-table -4 ${IFNAME}
+fi
+
+${UPNP_TOOL} sync-ppp

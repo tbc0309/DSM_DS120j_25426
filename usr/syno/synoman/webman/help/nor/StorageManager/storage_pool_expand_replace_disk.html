@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Erstatt disker for &aring; utvide lagringskapasiteten</h2>
+
+<p>Ved bruk av bestemte RAID-typer, kan du utvide lagringskapasiteten til et volum eller en diskgruppe ved &aring; erstatte gamle disker med st&oslash;rre disker. Denne artikkelen gir deg viktig informasjon om utvidelsesprosessen, samt et eksempel p&aring; hvordan du erstatter eksisterende disker for &aring; utvide lagringskapasiteten.</p>
+
+<div class="section"><h4>Merk:</h4>
+<ul>
+	<li>Prosedyren som er beskrevet i denne artikkelen fungerer kun med SHR, RAID 1, RAID 5, <span class="disable-grantley"></span>RAID 6<span class="enable-grantley"> og RAID F1</span>. Hvis du vil erstatte flere disker, m&aring; du huske &aring; erstatte diskene &eacute;n etter &eacute;n. N&aring;r du har erstattet &eacute;n disk, m&aring; du reparere volumet eller diskgruppen f&oslash;r du erstatter den neste. For RAID 1, RAID 5, <span class="disable-grantley"></span>RAID 6<span class="enable-grantley"> og RAID F1</span> vil volumkapasiteten v&aelig;re utvidet n&aring;r alle diskene er erstattet.</li>
+</ul>
+</div>
+
+<h3 class="list_head"><a id="t1"></a>F&oslash;r du starter</h3>
+<p>F&oslash;r du erstatter en disk, m&aring; du se f&oslash;lgende merknader:</p>
+<ul>
+	<li><strong>Sikkerhetskopiere data:</strong> Selv om utvidelsesprosessen ikke vil slette eksisterende data, anbefaler vi sterkt &aring; sikkerhetskopiere dataene dine f&oslash;r du fortsetter.</li>
+	<li><strong>Volum- eller diskgruppestatus:</strong> F&oslash;r du starter, m&aring; du kontrollere at statusen til volumet eller diskgruppen er <strong>Normal</strong>. Hvis ikke, m&aring; du f&oslash;rst reparere det/den.</li>
+	<li><strong>Er data fortsatt tilgjengelig under utvidelsen?</strong> Data p&aring; systemet ditt vil v&aelig;re tilgjengelig under utvidelse av volum eller diskgrupper, men systemet kan midlertidig innstille tilkoblinger n&aring;r du f&oslash;rst starter prosessen.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>Siden SHR-volum optimaliserer lagringskapasiteten basert p&aring; antall installerte disker og st&oslash;rrelsen p&aring; dem, m&aring; du f&oslash;lge retningslinjene nedenfor for &aring; utvide kapasiteten p&aring; korrekt m&aring;te:</p>
+<ul>
+	<li>Hvis kapasiteten p&aring; alle eksisterende disker er lik, m&aring; du erstatte minst to harddisker med st&oslash;rre disker for &aring; utvide lagringskapasiteten. For eksempel, hvis SHR-volumet dtt best&aring;r av tre disker p&aring; 2 TB, m&aring; du erstatte minst to disker for &aring; utvide volumkapasiteten.</li>
+	<li>Hvis kapasiteten p&aring; eksisterende disker er ulik, m&aring; den nye erstatningsdisken v&aelig;re lik eller st&oslash;rre enn den st&oslash;rste eksisterende disken. I tillegg m&aring; du erstatte mindre disker f&oslash;rst for &aring; optimalisere kapasitetsbruken. For eksempel, hvis SHR-volumet ditt best&aring;r av tre disker som er p&aring; 4 TB, 3 TB, og 2 TB, m&aring; den nye erstatningsdisken v&aelig;re p&aring; minst 4 TB. I tillegg b&oslash;r du erstatte diskene p&aring; 3 TB eller 2 TB f&oslash;rst.</li>
+</ul>
+</div>
+
+<div class="section"><h4>RAID 5<span class="enable-grantley">,</span> <span class="disable-grantley"></span>RAID 6<span class="enable-grantley"> og RAID F1</span></h4>
+<p>N&aring;r du erstatter disker p&aring; RAID 5-<span class="enable-grantley">,</span> <span class="disable-grantley"></span>RAID 6-<span class="enable-grantley"> eller RAID F1-</span>-volum eller -diskgrupper, m&aring; den minste disken alltid erstattes f&oslash;rst. Lagringskapasiteten p&aring; RAID 5- <span class="enable-grantley">og RAID F1-</span>volum er (antall disker - 1) x (minste diskst&oslash;rrelse), og p&aring; RAID 6-volum er den (antall disker - 2) x (minste diskst&oslash;rrelse). Derfor b&oslash;r den minste disken alltid erstattes f&oslash;rst for &aring; maksimere diskbruken.</p>
+<p>For eksempel, hvis RAID 5-volumet ditt inneholder tre disker som er p&aring; 4 TB, 3 TB, og 2 TB, vil den tilgjengelige kapasiteten p&aring; volumet ditt v&aelig;re 4 TB. Hvis du erstatter diskene p&aring; 4 TB eller 3 TB, vil ikke kapasiteten p&aring; volumet endre seg. For &aring; &oslash;ke kapasiteten p&aring; volumet ditt m&aring; disken p&aring; 2 TB erstattes f&oslash;rst.</p>
+</div>
+
+<h3>Erstatt disk for &aring; utvide lagringskapasiteten</h3>
+<p>I trinnene nedenfor gir vi deg et eksempel p&aring; &aring; erstatte diskene i et SHR-volum.</p>
+<h4>Slik erstatter du disker:</h4>
+<ol>
+	<li>&Aring;pne <strong>Lagringsh&aring;ndtering</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>G&aring; til <strong>Volum</strong> for &aring; se hvilken eksisterende disk som er minst.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Skru av din Synology NAS. (Hopp over dette trinnet hvis din Synology NAS st&oslash;tter hot-swapping.)</li>
+	<li>Fjern den minste av medlemsharddiskene og installer en ny, st&oslash;rre disk.<br /><span class="note_head">Merk: </span>For &aring; unng&aring; &aring; gj&oslash;re skade p&aring; deg selv eller din Synology NAS, m&aring; du f&oslash;lge instruksjonene for diskinstallering i <em>Installasjonsveiledning for maskinvare</em> for ditt Synology-produkt.</li>
+	<li>Skru p&aring; din Synology NAS.</li>
+	<li>&Aring;pne <strong>Lagringsh&aring;ndtering</strong> igjen.</li>
+	<li>G&aring; til <strong>HDD/SSD</strong> for &aring; kontrollere at den nye disken er gjenkjent.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Statusen til volumet ditt skal v&aelig;re <strong>Degradert</strong>. Velg volumet og klikk p&aring; <strong>Administrer</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Velg <strong>Reparer</strong>.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Velg erstatningsdisken som skal legges til i volumet. Deretter f&oslash;lger du trinnene i veiviseren for &aring; fullf&oslash;re.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Gjenta prosessen ovenfor til alle &oslash;nskede harddisker er erstattet med st&oslash;rre disker.</li>
+</ol>
+
+</body>
+</html>

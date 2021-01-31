@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>LDAP</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>LDAP</h2>
+<p>O LDAP permite que seu Synology NAS participe de um serviço de diretório existente como um cliente LDAP e recupere informações do usuário e do grupo de um servidor LDAP (ou "directory server"). Você pode gerenciar os privilégios de acesso dos usuários ou grupos do LDAP para aplicativos DSM e pastas compartilhadas, do mesmo modo que você faria com usuários ou grupos locais de DSM. Para obter mais informações sobre o LDAP, consulte <a href="http://en.wikipedia.org/wiki/LDAP" target="_blank">aqui</a>.</p>
+
+<p>O padrão LDAP suportado é o LDAP versão 3 (RFC 2251).</p>
+<h4>Para ingressar no Synology NAS para um serviço de diretório diferente:</h4>
+<ol>
+<li>Vá para <b>Painel de controle</b> &gt; <b>Serviço de diretório</b></li>
+<img src="about:blank" class="help_image"/>
+<li>Vá para a guia <b>LDAP</b> e marque <b>Habilitar Cliente LDAP</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Digite o endereço IP ou nome de domínio do servidor LDAP no campo <b>Endereço do servidor LDAP</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Selecione um tipo de criptografia do menu suspenso <b>Criptografia</b> para criptografar a conexão do LDAP no servidor LDAP.</li>
+<img src="about:blank" class="help_image"/>
+<li>Digite o Base DN do servidor LDAP no campo <b>Base DN</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Selecione o <b>Perfil</b> adequado, de acordo com seu servidor LDAP. Por exemplo, escolha <b>Padrão</b> se estiver usando o Synology Directory Server ou Mac Open Directory.</li>
+<img src="about:blank" class="help_image"/>
+<li>Para permitir que os usuários de um servidor LDAP incompatível com o esquema Samba acessem os arquivos do Synology NAS através do CIFS, marque <b>Habilitar autenticação de senha de sem formatação CIFS</b>. Consulte a seção abaixo para garantir que os usuários do LDAP possam usar seus computadores para acessar os arquivos do Synology NAS com êxito através do CIFS.</li>
+<img src="about:blank" class="help_image"/>
+<li>Clique em <b>Aplicar</b>.</li>
+<li>
+  Digite o Bind DN (ou conta de administrador LDAP) e a senha nos campos e clique em <b>OK</b>.
+</li>
+<img src="about:blank" class="help_image"/>
+</ol>
+
+
+<div class="section">
+<h4>Sobre o Suporte do CIFS e as Configurações do computador do cliente</h4>
+<p>
+Depois que a autenticação de senha sem formatação CIFS for habilitada, os usuários do LDAP talvez precisem modificar as configurações de seus computadores para poder acessar os arquivos do Synology NAS através do CIFS:
+</p>
+<ul>
+<li>
+Se o seu Synology NAS ingressar no serviço de diretório fornecido por um servidor LDAP da Synology (ou outro Synology NAS que tem instalado e executa o pacote <b>Directory Server</b>) ou servidor LDAP compatível com o esquema Samba e todos os usuários do LDAP tiverem atributos sambaNTPassword corretos, eles poderão acessar seus arquivos do Synology NAS através do CIFS sem marcar a opção <b>Habilitar autenticação de senha de sem formatação CIFS</b> ou modificar as configurações de seus computadores. Caso contrário, os usuários do LDAP precisarão habilitar o suporte a <a href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" target="_blank">PAM</a> no seus computadores para poderem acessar os arquivos do Synology NAS através do CIFS. Entretanto, fazer isso transferirá a senha dos usuários do LDAP para o Synology NAS em texto sem formatação (sem criptografia), diminuindo assim o nível de segurança.
+</li>
+
+</ul>
+<h4>Para modificar as configurações do Windows:</h4>
+<ol>
+<li>Vá para <b>Iniciar</b> > <b>Executar</b>, digite <b>regedit</b> no campo e clique em <b>OK</b> para abrir o Editor de Registro.</li>
+<li>
+Dependendo de sua versão do Windows, encontre ou crie o seguinte registro:
+</li>
+<ul>
+<li>
+<b>Windows 2000, XP, Vista e Windows 7:</b><br> [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkStation\Parameters]
+</li>
+<li>
+<b>Windows NT:</b><br> [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Rdr\Parameters]
+</li>
+<li>
+<b>Windows 95 (SP1), 98 e Me:</b><br> [HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\VxD\VNETSUP]
+</li>
+</ul>
+<li>
+Criar ou modificar o valor DWORD <b>EnablePlainTextPassword</b> e altere seu valor de <b>0</b> para <b>1</b>.
+</li>
+<li>
+Reinicie o Windows para que a alteração entre em vigor.
+</li>
+</ol>
+<h4>Para modificar as configurações no Mac OS X:</h4>
+<ol>
+<li>Vá até <b>Aplicativos</b> > <b>Utilitários</b> para abrir <b>Terminal</b>.
+</li>
+<li>
+Crie um arquivo vazio em <b>/etc/nsmb.conf</b>:
+<pre>
+sudo touch /etc/nsmb.conf
+</pre>
+</li>
+<li>
+Abra <b>/etc/nsmb.conf</b> com o vi:
+<pre>
+sudo vi /etc/nsmb.conf
+</pre>
+</li>
+<li>
+Digite "<b>i</b>" para inserir texto e cole o seguinte:
+<pre>
+[default]<br / >
+minauth=none
+</pre>
+</li>
+<li>
+Pressione a tecla Esc e digite "<b>ZZ</b>" para salvar as alterações e sair do vi.
+</li>
+</ol>
+<h4>Para modificar as configurações do Linux:</h4>
+<p>Se o <b>smbclient</b> estiver sendo usado, adicione as chaves a seguir na seção <b>[global]</b> do <b>smb.conf</b>:
+
+<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;"> encrypt passwords = no <br> client plaintext auth = yes <br> client lanman auth = yes <br> client ntlmv2 auth = no </p>
+<p>Se estiver usando o <b>mount.cifs</b> execute o comando a seguir:</b>
+<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">echo 0x30030 > /proc/fs/cifs/SecurityFlags</p>
+<p>Para mais informações, consulte <a href="https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README" target=_blank>https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README</a></p>
+
+</p>
+</div>
+<div class="section">
+<h4>Sobre os perfis</h4>
+
+<p>Diferentes servidores LDAP podem usar diferentes atributos para nomes de conta e de grupo, ou para diferenciar contas de grupos. A opção <b>Perfil</b> permite especificar ou personalizar como as informações do usuário e do grupo são mapeadas para os atributos do LDAP. Um dos seguintes perfis pode ser selecionado dependendo do seu servidor LDAP:</p>
+
+<ul>
+<li><b>Padrão:</b> Para servidores executando o Synology Directory Server ou Mac Open Directory.</li>
+<li><b>IBM Lotus Domino:</b> Para servidores executando o IBM Lotus Domino 8.5.</li>
+<li><b>Personalizado:</b> Permite personalizar os mapeamentos. Consulte os detalhes na seção abaixo.</li>
+</ul>
+
+<p>Antes de personalizar os mapeamentos do atributo LDAP, você precisa de um conhecimento básico. O Synology DSM e o editor do <strong>Perfil</strong> seguem o RFC 2307. Por exemplo, você pode especificar <b>filter</b> > <b>passwd</b> como <b>userFilter</b>, e nesse caso o Synology NAS interpreta os registros com <b>objectClass=userFilter</b> no seu servidor LDAP como contas LDAP. Se você especificar <b>passwd</b> > <b>uid</b> como <b>username</b>, o Synology NAS interpreta <b>username</b> no seu servidor LDAP como um nome de conta. Deixar o mapeamento vazio aplica as regras RFC 2307.</p>
+<p>O Synology NAS exige que um número inteiro fixo sirva como identificador da conta LDAP (<strong>uidNumber</strong>) ou identificador de grupo (<strong>gidNumber</strong>). No entanto, nem todos os servidores LDAP utilizam números inteiros para representar esses atributos. Portanto, uma palavra-chave <b>HASH()</b> é fornecida para converter esses atributos em inteiros. Por exemplo, seu servidor LDAP pode usar o atributo <b>userid</b> com um valor hexadecimal como identificador único de uma conta LDAP. Neste caso, você pode configurar <b>passwd</b> > <b>uidNumber</b> como <b>HASH(userid)</b>, e o Synology NAS irá convertê-lo em um inteiro.</p>
+
+<p>A seguir está um resumo dos atributos personalizáveis:</p>
+
+<ul>
+	<li><b>filter</b></li>
+	<ul>
+		<li><b>group</b>: objectClass exigido para o grupo.</li>
+		<li><b>passwd</b>: objectClass exigido para o usuário.</li>
+		<li><b>shadow</b>: objectClass exigido para senhas do usuário.</li>
+	</ul>
+	<li><b>group</b></li>
+	<ul>
+		<li><b>cn</b>: nome do grupo.</li>
+		<li><b>gidNumber</b>: número GID deste grupo.</li>
+		<li><b>memberUid</b>: membros deste grupo.</li>
+	</ul>
+	<li><b>passwd</b></li>
+	<ul>
+		<li><b>uidNumber</b>: número UID deste usuário.</li>
+		<li><b>uid</b>: nome de usuário.</li>
+		<li><b>gidNumber</b>: número GID primário deste usuário.</li>
+	</ul>
+	<li><b>shadow</b></li>
+	<ul>
+		<li><b>uid</b>: nome de usuário.</li>
+		<li><b>userPassword</b>: senha do usuário.</li>
+	</ul>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Sobre a troca de UID/GID</h4>
+<p>Para evitar conflitos UID/GID entre usuários/grupos LDAP e usuários/grupos locais, você pode habilitar a mudança UID/GID para mudar o UID/GID dos usuários/grupos LDAP por 1000000. Essa opção é apenas para servidores LDAP que não são servidores Synology LDAP e têm um atributo de ID numérico exclusivo para cada usuário/grupo.</p>
+</div>
+<div class="section">
+	<h4>Sobre a expansão de grupos aninhados</h4>
+	<p>Em um grupo aninhado, um membro do grupo LDAP pertence a outro grupo LDAP, em que a hierarquia de uma organização é representada. Quando os usuários procurarem a qual grupo um membro específico pertence ou a lista de nomes de um grupo específico, o Synology NAS expandirá um grupo aninhado de acordo com os atributos <strong>member</strong> do grupo LDAP, em que o DN (nome diferenciado) de um grupo filho é referenciado pelo atributo. A expansão de um grupo aninhado pode ser muito demorada dependendo das circunstâncias: por exemplo, quando o servidor não indexa o atributo <strong>membro</strong> ou o grupo está aninhado muito profundamente. Você pode optar por não expandir um grupo aninhado para evitar que isso ocorra.
+	</p>
+</div>
+</body>
+</html>

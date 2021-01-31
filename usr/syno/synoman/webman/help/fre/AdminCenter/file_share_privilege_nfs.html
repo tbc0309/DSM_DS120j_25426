@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Dossier partagé</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Attribuer les permissions NFS</h2>
+<p>Vous pouvez attribuer des privilèges NFS sur n'importe quel dossier partagé, permettant ainsi aux clients Linux d'y accéder.</p>
+<h4>
+Pour attribuer des privilèges NFS à un dossier partagé :
+</h4>
+<ol>
+<li>Sélectionnez le dossier partagé que vous souhaitez modifier dans la liste de dossiers partagés.</li>
+<li>Cliquez sur <strong>Modifier</strong> > <strong>Permissions NFS</strong>.</li>
+<li>Cliquez sur <b>Créer</b>pour ajouter une règle NFS.</li>
+<li>Une fenêtre popup apparaît. Définissez les options ci-dessous.</li>
+<li><strong>Nom d'hôte ou IP :</strong> Entrez l'adresse IP du client NFS qui accédera au dossier partagé. Vous pouvez nommer un hôte de trois manières :
+<ul>
+<li><strong>Hôte unique :</strong> Le nom de domaine complet ou une adresse IP.</li>
+<li><strong>Les caractères de remplacement :</strong> *,* .synology.com</li>
+<li><strong>Les réseaux IP :</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>Privilèges :</strong> Sélectionne les privilèges de lecture/écriture pour le client NFS.</li>
+<li> <strong> Sécurité :</strong> Spécifie le parfum de sécurité à appliquer.
+  <ul>
+  <li><strong>AUTH_SYS :</strong> Utilise l'UID (identifiant utilisateur) du client NFS et le GID (identifiant du groupe) pour vérifier les permissions d'accès.</li>
+<li><strong>Authentification Kerberos :</strong> Effectue l'authentification Kerberos lorsque le client NFS se connecte au dossier partagé. Le client ne peut accéder au dossier partagé qu'après avoir réussi l'authentification Kerberos.</li>
+<li><strong>Intégrité de Kerberos :</strong> Effectue l'authentification Kerberos et assure l'intégrité des paquets pendant le transfert de données.</li>
+<li><strong>Confidentialité de Kerberos :</strong> Effectue l'authentification de Kerberos et crypte les paquets NFS pendant le transfert de données, empêchant ainsi des personnes mal intentionnées de falsifier le trafic NFS trafic.</li>
+</ul>
+</li>
+
+<li><strong>Squash :</strong> Ce champ vous permet de contrôler les privilèges d'accès des utilisateurs root du client NFS. Veuillez sélectionner l'une des options suivantes :
+  <ul>
+    <li><strong>Pas de mappage :</strong> Permet à tous les utilisateurs du client NFS, y compris les utilisateurs root, de maintenir les privilèges d'accès originaux.</li>
+    <li><strong>Mapper root sur admin :</strong> Attribue des privilèges d'accès aux utilisateurs root du client NFS équivalents aux privilèges d'accès des utilisateurs admin sur votre système.</li>
+    <li><strong>Mapper root sur guest :</strong> Attribue des privilèges d'accès aux utilisateurs root du client NFS équivalents aux privilèges d'accès des utilisateurs admin sur votre système.</li>
+    <li><strong>Mapper tous les utilisateurs sur admin :</strong> Attribue des privilèges d'accès aux utilisateurs root du client NFS équivalents aux privilèges d'accès des utilisateurs admin sur votre système.</li>
+	<li><strong>Mapper tous les utilisateurs sur invité :</strong> Attribue des privilèges d'accès à tous les utilisateurs du client NFS équivalents aux privilèges d'accès des utilisateurs invité sur votre système.</li>
+  </ul>
+</li>
+
+<li><strong>Activer le mode asynchrone :</strong> Cocher cette option permet à votre Synology NAS de répondre aux demandes des clients NFS avant que les modifications des fichiers ne soient terminées, ce qui procure une meilleure performance.</li>
+<li><strong>Permettre les connexions à partir des ports non privilégiés (ports supérieurs à 1024) :</strong> Si cette option est cochée, les clients NFS peuvent utiliser des ports sans privilèges (à savoir les ports supérieurs à 1024) lorsqu'ils se connectent au Synology NAS. </li>
+<li><strong>Autoriser les utilisateurs à accéder aux sous-dossiers montés：</strong> Cocher cette option permet aux clients NFS d'accéder aux sous-dossiers montés.</li>
+<li>Cliquez sur <b>OK</b> pour terminer.</li>
+  <li>Cliquez sur <b>OK</b> pour appliquer les privilèges NFS.</li>
+</ol>
+
+<div class="section">
+<h4>Remarque :</h4>
+<ul>
+<li>Lorsque le format du nom de serveur est <strong>*.domain</strong>, l'adresse IP du client NFS doit avoir un enregistrement DNS PTR correspondant, afin d'autoriser le Synology NAS à trouver le nom *.domain en recherchant l'adresse IP correspondante.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Parfums de sécurité :</h4>
+<p> Lorsque l'on accède à un dossier partagé via NFS avec un compte utilisateur spécifique : </p>
+<ul>
+<li>Si le parfum de sécurité <strong>AUTH_SYS</strong> est implémenté : Le client doit posséder exactement le même UID (identifiant utilisateur) et GID (identifiant groupe) sur le client NFS et le Synology NAS, sinon le client se verra affecter les permissions de <strong>autres</strong> lorsqu'il accède au dossier partagé. Afin d'éviter tout conflit de permissions, vous pouvez sélectionner <strong>Regrouper tous les utilisateurs vers admin</strong> à partir de <strong>Squash</strong> ou donner à « Tout le monde » les permissions pour accéder au dossier partagé.</li>
+<li>Si le parfum de sécurité <strong>Kerberos (krb5, krb5i, krb5p)</strong> est implémenté : Vous devez aller dans <strong>Win/Mac/NFS</strong> > <strong>Service NFS</strong> > <strong>Paramètres Kerberos</strong> > <strong>Mappage ID </strong> pour mapper le client NFS sur un utilisateur spécifique, ou pour joindre un domaine Windows/LDAP avec le compte utilisateur correspondant, sinon le client se verra affecter les permissions de <strong>Invité</strong> lorsqu'il accède au dossier partagé.</li>
+<li>Si le système de fichiers de l'appareil externe sur lequel les dossiers partagés sont créés est NTFS ou FAT, l'option <strong>Mapper tous les utilisateurs sur admin</strong> sera appliquée d'office.</li>
+</ul>
+<p>Pour pouvoir se connecter au Synology NAS avec les parfums de sécurité Kerberos, l'authentification Kerberos doit être configurée dans <strong>Win/Mac/NFS</strong> > <strong>Service NFS</strong> > <strong>Paramètres Kerberos</strong>.</p>
+</div>
+
+</body>
+</html>

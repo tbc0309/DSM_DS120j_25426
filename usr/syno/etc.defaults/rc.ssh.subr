@@ -1,0 +1,66 @@
+#!/bin/sh
+# Copyright (c) 2000-2012 Synology Inc. All rights reserved.
+
+SSHPidFile='/var/run/sshd.pid'
+SupportSSH=`/bin/get_key_value /etc.defaults/synoinfo.conf supportssh` || true
+SSHKEYGEN="/usr/bin/ssh-keygen"
+SSHDUtils="/usr/syno/bin/synosshdutils"
+SSHD="/usr/bin/sshd"
+SSHDefaultPort=22
+
+ReferKeyShell="shell"
+ReferProcShell="pts"
+ReferKeySFTP="sftpd"
+ReferProcSFTP="internal-sftp"
+ReferKeyRsync="rsync"
+ReferProcRsync="rsync"
+
+GenerateSSHKey() 
+{                                                              
+        if [ -x "$SSHKEYGEN" ]; then
+        	if [ ! -d /etc/ssh ]; then
+        		mkdir -p /etc/ssh
+        	fi
+        	if [ ! -f /etc/ssh/ssh_host_key ]; then
+        		echo ' creating ssh1 RSA host key';
+        		$SSHKEYGEN -t rsa1 -N "" -f /etc/ssh/ssh_host_key || true
+        	fi
+        	if [ ! -f /etc/ssh/ssh_host_rsa_key ]; then
+        		echo ' creating ssh2 RSA host key';
+        		$SSHKEYGEN -t rsa -N "" -f /etc/ssh/ssh_host_rsa_key || true
+        	fi
+        	if [ ! -f /etc/ssh/ssh_host_dsa_key ]; then
+        		echo ' creating ssh2 DSA host key';
+        		$SSHKEYGEN -t dsa -N "" -f /etc/ssh/ssh_host_dsa_key || true
+        	fi
+        	if [ ! -f /etc/ssh/ssh_host_ecdsa_key ]; then
+        		echo ' creating ssh2 ECDSA host key';
+        		$SSHKEYGEN -t ecdsa -N "" -f /etc/ssh/ssh_host_ecdsa_key || true
+        	fi
+        	if [ ! -f /etc/ssh/ssh_host_ed25519_key ]; then
+        		echo ' creating ssh2 Ed25519 host key';
+        		$SSHKEYGEN -t ed25519 -N "" -f /etc/ssh/ssh_host_ed25519_key || true
+        	fi
+        fi
+}      
+
+
+IsPidRunning() 
+{                                                              
+	if [ -f "$1" ]; then
+		kill -0 `cat $1` || true
+		if [ $? = 0 ]; then
+			return 1;
+		fi
+	fi
+        return 0;
+}
+
+IsSSHDAlive()
+{
+	if [ "0" != "`ps | grep /usr/bin/sshd | grep -vc grep`" ] ; then
+		return $LSB_STAT_RUNNING
+	else
+		return $LSB_STAT_NOT_RUNNING
+	fi
+}

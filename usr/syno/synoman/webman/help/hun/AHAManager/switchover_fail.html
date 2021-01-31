@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ <meta charset="utf-8">
+</head>
+ <body>
+  <h2>&Aacute;tkapcsol&aacute;s</h2>
+  
+ <p>A folyamatos teljes&iacute;tm&eacute;ny biztos&iacute;t&aacute;sa &eacute;s a szolg&aacute;ltat&aacute;s-kimarad&aacute;s minimaliz&aacute;l&aacute;sa &eacute;rdek&eacute;ben a szolg&aacute;ltat&aacute;sok &aacute;tkapcsolhat&oacute;k egy high-availability klaszter akt&iacute;v kiszolg&aacute;l&oacute;j&aacute;r&oacute;l a redund&aacute;ns, passz&iacute;v kiszolg&aacute;l&oacute;ra. A funkci&oacute; neve &bdquo;&aacute;tkapcsol&aacute;s,&rdquo; illetve egyes esetekben &bdquo;&aacute;tterhel&eacute;s.&rdquo; Ebben a szakaszban elmagyar&aacute;zzuk ennek a k&eacute;t elvnek az alapjait.</p>
+  
+  <h3>&Aacute;tkapcsol&aacute;s</h3>
+  	<p>Az &aacute;tkapcsol&aacute;s kifejez&eacute;s a high-availability klaszter akt&iacute;v kiszolg&aacute;l&oacute;j&aacute;r&oacute;l a redund&aacute;ns, passz&iacute;v kiszolg&aacute;l&oacute;j&aacute;ra t&ouml;rt&eacute;nő &aacute;tkapcsol&aacute;sra vonatkozik. Rendes k&ouml;r&uuml;lm&eacute;nyek k&ouml;z&ouml;tt az akt&iacute;v kiszolg&aacute;l&oacute; kezeli az &ouml;sszes szolg&aacute;ltat&aacute;st. Amennyiben azonban az akt&iacute;v kiszolg&aacute;l&oacute; meghib&aacute;sodik, &ouml;n kezdem&eacute;nyezheti az &aacute;tkapcsol&aacute;st, &eacute;s az &ouml;sszes szolg&aacute;ltat&aacute;s passz&iacute;v kiszolg&aacute;l&oacute;ra t&ouml;rt&eacute;nő &aacute;tir&aacute;ny&iacute;t&aacute;s&aacute;t, felt&eacute;ve, hogy a passz&iacute;v kiszolg&aacute;l&oacute; rendesen műk&ouml;dik. Ebben az esetben az akt&iacute;v kiszolg&aacute;l&oacute; &aacute;tveszi a passz&iacute;v kiszolg&aacute;l&oacute; szerep&eacute;t, &eacute;s ford&iacute;tva.</p>
+    
+<h4>Az &aacute;tkapcsol&aacute;s manu&aacute;lis kezdem&eacute;nyez&eacute;se:</h4>
+ <ol>
+  <li>Menjen az <b>&Aacute;ttekint&eacute;s</b> oldalra.</li>
+  <li>Kattintson a <b>Kezel&eacute;s</b> &gt; <b>&Aacute;tkapcsol&aacute;s</b> lehetős&eacute;gre.</li>
+ </ol>
+
+<div class="section">
+<h4>Megjegyz&eacute;s:</h4>
+   <p>A k&eacute;zi &aacute;tv&aacute;lt&aacute;s előtt javasoljuk, hogy &aacute;ll&iacute;tson be egy statikus IP-c&iacute;met, &eacute;s jelentkezzen be azzal a DSM-be. &Iacute;gy megelőzheti, hogy a DSM oldal elvesszen az &aacute;tv&aacute;lt&aacute;s sor&aacute;n az IP-c&iacute;m v&aacute;lt&aacute;sa miatt.</p>
+</div>
+
+<div class="section">
+<h4>Megjegyz&eacute;s:</h4>
+   <p>&Aacute;tkapcsol&aacute;s kezdem&eacute;nyez&eacute;sekor az akt&iacute;v kiszolg&aacute;l&oacute; elősz&ouml;r &aacute;tveszi a passz&iacute;v kiszolg&aacute;l&oacute; szerep&eacute;t, majd a passz&iacute;v kiszolg&aacute;l&oacute;b&oacute;l akt&iacute;v kiszolg&aacute;l&oacute; lesz. &Iacute;gy teh&aacute;t lesz egy r&ouml;vid időszak, amikor mindk&eacute;t kiszolg&aacute;l&oacute; passz&iacute;v, &eacute;s nem lesz k&eacute;pes a szolg&aacute;ltat&aacute;sok rendes ny&uacute;jt&aacute;s&aacute;ra. Az &aacute;tkapcsol&aacute;s v&eacute;grehajt&aacute;s&aacute;hoz sz&uuml;ks&eacute;ges idő f&uuml;gg a k&ouml;tetek vagy iSCSI LUN-ok (t&ouml;mbszint) sz&aacute;m&aacute;t&oacute;l &eacute;s m&eacute;ret&eacute;től, illetve a high-availability klaszteren tal&aacute;lhat&oacute; szolg&aacute;ltat&aacute;sok sz&aacute;m&aacute;t&oacute;l &eacute;s &ouml;sszm&eacute;ret&eacute;től.</p>
+</div>
+
+<h3>&Aacute;tterhel&eacute;s</h3>
+    
+     <p>Bizonyos hib&aacute;k előfordul&aacute;sakor a rendszer a szolg&aacute;ltat&aacute;s-le&aacute;ll&aacute;si idő minimaliz&aacute;l&aacute;sa &eacute;rdek&eacute;ben automatikusan kezdem&eacute;nyezheti a szolg&aacute;ltat&aacute;sok &aacute;tkapcsol&aacute;s&aacute;t. Az esem&eacute;ny neve &bdquo;&aacute;tterhel&eacute;s.&rdquo; A rendszer az al&aacute;bbi helyzetekben kezdem&eacute;nyezhet &aacute;tkapcsol&aacute;st, felt&eacute;ve, hogy a passz&iacute;v kiszolg&aacute;l&oacute; megfelelően műk&ouml;dik:</p>
+    
+    <ul>
+      <li><b>&Aacute;ramkimarad&aacute;s:</b><ul>
+      	<li>Az akt&iacute;v kiszolg&aacute;l&oacute; le&aacute;llt vagy &uacute;jraindult.</li>
+        <li>Az akt&iacute;v kiszolg&aacute;l&oacute; mindk&eacute;t t&aacute;pegys&eacute;ge meghib&aacute;sodott.</li>
+        <li>Nincs t&aacute;pegys&eacute;g.</li>
+      </ul></li>
+      <li><b>Meghajt&oacute;hiba:</b> A meghajt&oacute;&uacute;tvonalak sz&aacute;ma kevesebb az akt&iacute;v mint a passz&iacute;v kiszolg&aacute;l&oacute;n.</li>
+      <li><b>Szolg&aacute;ltat&aacute;shiba:</b> Egy fel&uuml;gyelt szolg&aacute;ltat&aacute;sban hiba t&ouml;rt&eacute;nt.</li>
+      <li><b>Csatlakoz&aacute;si hiba:</b> Egy fel&uuml;gyelt interf&eacute;szben csatlakoz&aacute;si hiba t&ouml;rt&eacute;nt.</li>
+    </ul>    
+     
+    
+<h3>Sikertelen &aacute;tkapcsol&aacute;s</h3>
+    
+		<p>A k&ouml;vetkező helyzetekben az &aacute;tkapcsol&aacute;s vagy &aacute;tterhel&eacute;s esetleg sikertelen lehet:</p>
+  	<ul>
+  	  <li><b>Hib&aacute;s heartbeat kapcsolat:</b> Az akt&iacute;v-passz&iacute;v kiszolg&aacute;l&oacute; kapcsolati &aacute;llapota hib&aacute;s.</li>
+  	  <li><b>Nem megfelelő m&eacute;retű gyors&iacute;t&oacute;t&aacute;r-mem&oacute;ria:</b> Az akt&iacute;v &eacute;s a passz&iacute;v kiszolg&aacute;l&oacute; elt&eacute;rő mem&oacute;riam&eacute;rettel rendelkezik.</li>
+  	  <li><b>&Aacute;ramkimarad&aacute;s:</b><ul>
+      	<li>A passz&iacute;v kiszolg&aacute;l&oacute; le&aacute;llt vagy &uacute;jraindult.</li>
+        <li>A passz&iacute;v kiszolg&aacute;l&oacute; mindk&eacute;t t&aacute;pegys&eacute;ge meghib&aacute;sodott.</li>
+        <li>Nincs t&aacute;pegys&eacute;g.</li>
+      </ul></li>
+  	  <li><b>Csatlakoz&aacute;si hiba:</b> Egy fel&uuml;gyelt interf&eacute;szben csatlakoz&aacute;si hiba t&ouml;rt&eacute;nt a passz&iacute;v kiszolg&aacute;l&oacute;n.</li>
+  	  <li><b>Szolg&aacute;ltat&aacute;shiba:</b> Hib&aacute;k vannak a passz&iacute;v kiszolg&aacute;l&oacute; fel&uuml;gyelt szolg&aacute;ltat&aacute;saiban.</li>
+  	  <li><b>Bőv&iacute;tőegys&eacute;g csatlakoz&aacute;si hib&aacute;ja:</b> A bőv&iacute;tőegys&eacute;gek csatlakoz&aacute;si sorrendje elt&eacute;rő a k&eacute;t kiszolg&aacute;l&oacute;n.</li>
+  	  <li><b>Meghajt&oacute;hiba:</b> A meghajt&oacute;&uacute;tvonalak sz&aacute;ma kevesebb a passz&iacute;v mint az akt&iacute;v kiszolg&aacute;l&oacute;n.</li>
+      <li><b>DSM friss&iacute;t&eacute;se:</b> A DSM friss&iacute;t&eacute;sekor valamennyi szolg&aacute;ltat&aacute;s le&aacute;ll, majd a DSM friss&iacute;t&eacute;s telep&iacute;t&eacute;s&eacute;nek befejeződ&eacute;se ut&aacute;n t&ouml;rt&eacute;nik meg &uacute;jraind&iacute;t&aacute;suk.</li>      
+ </ul>
+
+  <p>Ha &ouml;n manu&aacute;lisan &aacute;tkapcsol&aacute;st kezdem&eacute;nyez, &aacute;m a szolg&aacute;ltat&aacute;sokat nem lehet &aacute;tkapcsolni a passz&iacute;v kiszolg&aacute;l&oacute;ra, akkor a rendszer megk&iacute;s&eacute;rli a szolg&aacute;ltat&aacute;sokat visszakapcsolni az akt&iacute;v kiszolg&aacute;l&oacute;ra.</p>
+
+ <h3>Sz&uuml;netmentes t&aacute;pell&aacute;t&aacute;s</h3>
+  <p>A high-availability klaszterek a v&aacute;ratlan &aacute;ramkimarad&aacute;sok kock&aacute;zat&aacute;nak cs&ouml;kkent&eacute;se &eacute;rdek&eacute;ben sz&uuml;netmentes t&aacute;pell&aacute;t&aacute;st biztos&iacute;t&oacute; (UPS) egys&eacute;gekhez csatlakoztathat&oacute;k. &Aacute;ramkimarad&aacute;s eset&eacute;n a kiszolg&aacute;l&oacute;k b&aacute;rmelyik hozz&aacute;juk csatlakoztatott UPS egys&eacute;gtől h&aacute;tt&eacute;r-&aacute;ramell&aacute;t&aacute;st kapnak. Ha az akt&iacute;v kiszolg&aacute;l&oacute;hoz csatlakoztatott UPS-egys&eacute;g kezd lemer&uuml;lni, a passz&iacute;v kiszolg&aacute;l&oacute; le&aacute;ll &eacute;s az akt&iacute;v kiszolg&aacute;l&oacute; biztons&aacute;gi &uuml;zemm&oacute;dra v&aacute;lt. A t&aacute;pell&aacute;t&aacute;s helyre&aacute;ll&aacute;sa ut&aacute;n az akt&iacute;v kiszolg&aacute;l&oacute; &uacute;jraindul, &eacute;s megk&iacute;s&eacute;rli &aacute;rammal ell&aacute;tni a m&aacute;sik kiszolg&aacute;l&oacute;t Wake-On-LAN &uuml;zenet sug&aacute;rz&aacute;s&aacute;val.</p>
+   <ul>
+	   <li>Javasoljuk, hogy kapcsolja mindk&eacute;t kiszolg&aacute;l&oacute;t &eacute;s a bőv&iacute;tőegys&eacute;geket ugyanahhoz a UPS egys&eacute;ghez, amelyhez a h&aacute;l&oacute;zati kapcsol&oacute;k vannak csatlakoztatva.</li>
+   </ul>
+
+<div class="section">
+<h4>Megjegyz&eacute;s:</h4>
+<p>A(z) Synology NAS csak a UPS egys&eacute;gekhez val&oacute; csatlakoz&aacute;st t&aacute;mogatja. Tov&aacute;bbi inform&aacute;ci&oacute;k&eacute;rt l&aacute;sd a <strong>Vez&eacute;rlőpult</strong> &gt; <strong>Hardver</strong> &gt; <strong>UPS</strong> men&uuml;pont s&uacute;g&oacute;j&aacute;t.</p>
+</div>  
+ </body>
+</html>

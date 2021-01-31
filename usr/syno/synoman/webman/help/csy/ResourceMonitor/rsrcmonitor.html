@@ -1,0 +1,157 @@
+﻿
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Sledování zdrojů</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h1><a name="leaf_update"></a>Sledování zdrojů</h1>
+<p class="disable-dockerx64">Funkce Sledování zdrojů umožňuje sledovat využití procesoru, paměti, disku a síťový provoz. Volit je možné mezi sledováním v reálném čase nebo prohlížením dat z minulosti.</p>
+<p class="enable-dockerx64">Sledování zdrojů umožňuje sledovat využití procesoru CPU, využití paměti a síťový provoz. Volit je možné mezi sledováním v reálném čase nebo prohlížením dat z minulosti.</p>
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Data z minulosti je možné zobrazit zaškrtnutím možnosti <strong>Povolit historii využití</strong> na kartě <strong>Nastavení</strong>.</li>
+<li class="enable-dockerx64">V případě aplikace Docker DSM obsahuje část <strong>Procesor a paměť</strong> informace o využití <strong>hostitele dockeru</strong>.</li>
+</ul>
+</div>
+<h2>Výkon</h2>
+<p>Kliknutím na kartu <strong>Výkon</strong> je možné zobrazit data o využití zdrojů. Přesunutím myši nad graf se zobrazí podrobné datum, čas a údaje.</p>
+
+<h3>CPU</h3>
+<p>Celkové využití procesoru zjistíte v části <strong>Uživatel</strong>, <strong>Systém</strong> a <strong>Čekání I/O</strong>. Při prvním spuštění Sledování zdrojů může být vytížení procesoru CPU vysoké, protože systém musí shromáždit data o zdrojích a současně načíst stránku uživatelského rozhraní.</p>
+<p>Kategorie <strong>Uživatel</strong> zobrazuje procentuální hodnoty využití procesoru CPU při spouštění uživatelských aplikací. Kategorie <strong>Systém</strong> zobrazuje procentuální hodnoty využití procesoru CPU v jádru systému, požadavky IRQ hardwaru/softwaru. Kategorie <strong>Čekání I/O</strong> zobrazuje procentuální hodnotu využití procesoru CPU při čekání I/O.</p>
+<p><strong>Využití</strong> je součet využití procesoru CPU v kategoriích <strong>Uživatel</strong> a <strong>Systém</strong>.</p>
+<p>Průměrná hodnota zatížení, ukazující délku fronty spouštění (tj. součet aktuálně spuštěných procesů plus počet procesů čekajících na spuštění), se zobrazuje v intervalu 1, 5 a 15 minut. </p>
+<div class="section">
+<h4>Vysvětlení pojmů</h4>
+<ul>
+<li><b>Čekání I/O</b>: Čekání I/O znamená, že je procesor CPU nečinný a nevyužívá ho žádný program. </li>
+<p>Čekání I/O představuje normální chování. Jelikož je rychlost procesoru CPU mnohem vyšší než rychlost I/O, je běžné, že procesor CPU na dokončení přenosů na discích nebo po síti čeká. Pokud je ale procentuální hodnota čekání I/O mimořádně velká, znamená to, že procesor stráví většinu doby čekáním na I/O a není tedy dobře využívaný. Lepšího výkonu systému dosáhnete efektivnější konfigurací diskových skupin (např. SHR nebo RAID 5) nebo konfigurací sítě (např. funkcí Bonding).</p> 
+</ul>
+</div>
+<h3>Paměť</h3>
+<p>Zobrazuje celkové využití fyzické paměti a odkládacího prostoru. Využití paměti zůstává vysoké, protože systém do mezipaměti ukládá data, ke kterým se často přistupuje. Data jsou tak rychle k dispozici, aniž by byl nutný přístup k pevnému disku. V případě nedostatku paměti se data z mezipaměti uvolní.</p>
+<p>Vysoká míra využívání odkládacího prostoru znamená nedostatek systémové paměti a bude mít vliv také na výkon systému. Frekvenci vstupu do odkládacího prostoru a výstupu z něj zobrazíte volbou <strong>Přepnout</strong> v rozevírací nabídce nahoře. </p>
+
+<h3>Síť</h3>
+<p>Graf síťového provozu zobrazuje odeslaná a přijatá data v kB za sekundu. Pokud je aktivní připojení PPPoE, je v grafu uvedena také přenosová rychlost připojení.</p>
+
+<h3 class="disable-dockerx64">Disk</h3>
+<p class="disable-dockerx64">Kliknutím na rozevírací nabídku v horní části grafu je možné zobrazit celkové využití disku, přenosovou rychlost nebo hodnoty IOPS. Kliknutím na možnost <strong>Zobrazit vše</strong> dole vyberete zaškrtnutím políček více disků a přidáte tak do grafu jejich data.</p>
+
+
+<h3 class="disable-eds14 disable-dockerx64">Svazek</h3>
+<p class="disable-eds14 disable-dockerx64">Na této stránce se zobrazuje celkový stav přenosu u svazků. Kliknutím na rozevírací nabídku nad grafem si můžete prohlédnout využití přenosů, přenosovou rychlost a IOPS. Kliknutím na tlačítko <strong>Zobrazit vše</strong> je možné vybrat jednotlivé svazky a přidat je do grafu.</p>
+
+<h3 class="disable-eds14 disable-dockerx64">iSCSI</h3>
+<p class="disable-eds14 dixable-dockerx64">Na této stránce se zobrazuje celkový stav aktuálně spuštěných jednotek iSCSI LUN. Kliknutím na rozevírací nabídku nad grafem vyberete jednotku LUN a zobrazíte její stav. Podle výchozího nastavení se zobrazují tři grafy, a to <strong>Propustnost</strong>, <strong>IOPS</strong> a <strong>Latence</strong>. Podrobnější informace získáte po kliknutí na tlačítko <strong>Vybrat grafy</strong> a výběru dalších grafů, které chcete zobrazit.</p>
+
+
+<h2>Proces</h2>
+<p>Kliknutím na kartu <strong>Proces</strong> zobrazíte využití procesoru CPU a paměti u každého procesu, abyste mohli snížit zatížení procesoru CPU.</p>
+<p>Mezi <strong>stavy</strong> procesu patří <strong>Spuštěno</strong>, <strong>Pozastaveno</strong> a <strong>Zastaveno</strong>. Ekvivalenty stavů procesu v systému Linux jsou stavy <strong>running</strong>, <strong>stopped/tracing</strong>, <strong>sleeping</strong>. </p>
+<p>Za stavem <strong>Pozastaveno</strong> může následovat písmeno označující podrobné informace, například „D“ jako spánek disku, „Z“ jako zombie a „X“ jako mrtvý.</p>
+
+<h2>Připojení uživatelé</h2>
+<p> Na této kartě je možné zobrazit a spravovat klienty, kteří jsou v daném okamžiku připojení k systému a přistupují ke zdrojům. V této části se zobrazují klienti připojení prostřednictvím protokolů HTTP, TELNET, SSH, SMB/CIFS, AFP, FTP a NFS.</p>
+<h4>Chcete-li spravovat seznam aktuálních připojení, postupujte jedním z těchto způsobů:</h4>
+<ul>
+<li>Kliknutím na možnost <b>Uložit</b> vyexportujete aktuální seznam do souboru HTML.</li>
+<li>Kliknutím na možnost <b>Aktualizovat</b> provedete aktualizaci seznamu.</li>
+<li>Kliknutím na možnost <b>Deaktivovat připojení</b> zabráníte uživateli v přístupu ke zdroji. Než bude ke zdroji moci opět přistupovat, bude se muset uživatel opět autorizovat.</li>
+<li>Kliknutím na tlačítko <b>Deaktivovat uživatele</b> tohoto uživatele deaktivujete. Pokud chcete uživatele opět aktivovat, přejděte do části <b>Hlavní nabídka</b> > <b>Ovládací panel</b> > <b>Uživatel</b>.</li>
+</ul>
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Možnost <strong>Deaktivovat připojení</strong> nefunguje u klientů NFS.</li>
+<li>Pokud klienti NFS řádně neodpojí sdílené složky, mohou se v seznamu připojených uživatelů i nadále zobrazovat.</li>
+<li>Pokud dojde k restartování zařízení Synology NAS, nebudou se dříve připojení klienti NFS již v seznamu připojených uživatelů zobrazovat.</li>
+</ul>
+</div>
+
+
+<h2>Omezení rychlosti</h2>
+<p>Na kartě <strong>Omezení rychlosti</strong> je možné zobrazit nebo spravovat seznam procesů přenosu souborů, u kterých se na zařízení Synology NAS uplatňuje omezení rychlosti.</p>
+<h4>Aktualizace seznamu:</h4>
+<p>Kliknutím na možnost <strong>Aktualizovat</strong> stránku znovu načtete a získáte aktuální záznamy.</p>
+<h4>Zastavení procesu přenosu souborů:</h4>
+<p>Kliknutím na možnost <b>Deaktivovat připojení</b> zastavíte přenos souborů. Chcete-li proces úspěšně dokončit, je potřeba přenos souborů znovu spustit.</p>
+
+
+<h2>Nastavení</h2>
+<p>Kliknutím na možnost <strong>Nastavení</strong> je možné nastavit následující možnosti:</p>
+<ul>
+<li>Vyberte v rozevírací nabídce hodnotu <strong>Trvání reálného času</strong> (v minutách).</li>
+<li>Chcete-li zobrazit data z minulosti, zaškrtněte možnost <strong>Povolit historii využití</strong>. Je-li připojena, můžete při prohlížení grafů výkonu přepínat v rozevírací nabídce v pravém horním rohu mezi možnostmi <strong>Reálný čas</strong>, <strong>1 den</strong>, <strong>1 týden</strong>, <strong>1 měsíc</strong> a <strong>1 rok</strong>.</li> 
+<li>Chcete-li monitorovat výkon systému, zaškrtněte položku <strong>Povolit událost výkonu</strong>.</li>
+</ul>
+
+<p>Nastavení uložíte kliknutím na možnost <strong>Použít</strong>.</p>
+
+<h2>Alarmy výkonu</h2>
+<h4>Vytvoření alarmu výkonu:</h4>
+<ol>
+<li>Přejděte do části <strong>Nastavení</strong> > <strong>Pravidlo alarmu výkonu</strong>.</li>
+<li>Klikněte na tlačítko <b>Vytvořit</b>.</li>
+<li>K dispozici jsou následující nastavení pravidel:</li>
+<ul>
+<li><strong>Zdroj</strong>: Vyberte zdroj, na který chcete pravidlo použít.</li>
+<li><strong>Typ</strong>: Vyberte typ pravidla, které chcete vytvořit.</li>
+<li><strong>Úroveň</strong>: Vyberte úroveň alarmu.</li>
+<li><strong>Větší než</strong>: Nastavte maximální procento typu pravidla, kdy vás systém upozorní na jeho překročení.</li>
+</ul>
+<li>Chcete-li toto pravidlo okamžitě povolit, zaškrtněte políčko <strong>Povoleno</strong>.</li>
+<li>Pravidlo přidáte kliknutím na možnost <strong>OK</strong>.</li>
+</ol>
+
+
+<div class="section">
+<h4>Mechanizmus alarmů výkonu:</h4>
+<p>Pomocí následujícího mechanizmu minimalizují alarmy výkonu falešné alarmy a předcházejí nadměrné spotřebě systémových zdrojů v krátkém časovém období.</p>
+<ol>
+	<li>Služba alarmů výkonu bude všechna pravidla kontrolovat každých pět minut. Pokud jsou všechny sledované hodnoty nižší než nastavené prahové hodnoty, neaktivuje se žádná akce.</li>
+	<li>Pokud sledovaná hodnota překročí prahovou hodnotu, neaktivuje se alarm okamžitě. Místo toho systém toto pravidlo zkontroluje pětkrát po sobě v 30sekundových intervalech.</li>
+	<li>Pokud po změně délky intervalu sledovaná hodnota překročí prahovou hodnotu pětkrát po sobě, aktivuje se alarm. Pokud ale sledovaná hodnota alespoň při jedné z této pěti kontrol poklesne pod prahovou hodnotu, vrátí se délka intervalu zpět na pět minut.</li>
+</ol>
+<p>Proto se u jedné události alarm aktivuje nejpozději 450 sekund po prvním zjištění události.</p>
+
+<h4>Úrovně alarmů:</h4>
+<p>Alarmy výkonu aktivují podle úrovní alarmů různé akce.</p>
+<ul>
+	<li><strong>Upozornění</strong>: Vygeneruje zprávu upozornění v systémovém protokolu, ale neaktivuje upozornění systému.</li>
+	<li><strong>Naléhavé</strong>: Vygeneruje zprávu upozornění v systémovém protokolu a navíc aktivuje upozornění systému.</li>
+</ul>
+<p>Protokoly alarmů výkonu můžete zobrazit na kartě <strong>Alarm výkonu</strong> nebo v <strong>Centru protokolů</strong> systému DSM.</p>
+</div>
+
+
+<h4>Zobrazení alarmů výkonu:</h4>
+<ul>
+<li>Kliknutím na kartu <strong>Alarm výkonu</strong> zobrazíte všechny aktivované alarmy výkonu.</li> 
+<li>Kliknutím na možnost <strong>Aktualizovat</strong> se zobrazí nejaktuálnější alarmy.</li>
+</ul>
+
+<h4>Export alarmů výkonu:</h4>
+<ol>
+<li>Klikněte na šipku vedle tlačítka <strong>Export</strong>.</li>
+<li>Alarmy je možné exportovat ve formátu <strong>HTML</strong> nebo <strong>CSV</strong>.</li>
+</ol>
+<div class="section"><h4>Poznámka:</h4>
+<ul>
+<li>Podpora funkce <strong>Alarmy výkonu</strong> se u jednotlivých modelů zařízení Synology NAS liší. Další informace se nacházejí na stránkách <a href="http://www.synology.com/" target="_b
++lank">www.synology.com</a>.</li>
+</ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Limitations et exigences du système - Aide Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>Limites et configuration système requise</h1>
+
+ <p>La mise en place de la technologie Synology High Availability nécessite deux serveurs Synology identiques agissant en tant que serveur actif et serveur passif. Avant que les deux serveurs Synology ne soient combinés dans un cluster high-availability, l'assistant Synology High Availability vérifiera les conditions matérielles et logicielles suivantes afin de vérifier qu'un cluster high-availability peut être créé.</p>
+ 
+  
+ <h3>Configuration système requise</h3>
+ 
+  <p>Veuillez noter les consignes suivantes concernant le logiciel et le matériel :</p>
+  <ul>
+   <li><b>Serveur Synology :</b> Le serveur actif et le serveur passif doivent tous les deux être des modèles identiques et prendre en charge Synology High Availability. Veuillez noter que le nom du cluster high-availability doit être différent du nom des serveurs actif et passif.</li>
+   <li><b>Version de DSM :</b> La même version de DSM doit être installée à la fois sur le serveur actif et le serveur passif. </li>
+   <li><b>Version du paquet :</b> La même version de Synology High Availability doit être installée sur les deux serveurs Synology.</li>
+  </ul>
+
+  
+ <h3>Volume et Disque</h3>
+ 
+  <p>Veuillez noter les consignes suivantes concernant les espaces de stockage (p.ex. volumes, groupes de disques, RAID Groups, etc.) et la gestion des disques durs.</p>
+  <ul>
+   <li><b>Capacité du disque :</b> Afin de pouvoir assurer la réplication des données, la capacité du disque du serveur passif doit être égale ou supérieure à la capacité du serveur actif. Il est fortement recommandé que la capacité du disque des deux serveurs soit totalement identique pour réduire les risques d'incohérences. </li>
+   <li><b>Nombre et type de disques :</b> Le serveur actif et le serveur passif doivent tous les deux contenir la même quantité de disques. De plus, la position du disque dur doit correspondre dans les deux serveurs et les types de disques durs (par ex. SSD/HDD, SAS/SATA) et les spécifications (par ex. taille de secteur de 4K ou 512-octets) dans les deux serveurs doivent être identiques. Veuillez noter que les périphériques externes tels que les disques durs USB ne seront pas inclus dans le calcul du nombre de disques.</li>
+   <li><b>Réparation à chaud :</b> Les volumes dégradés du serveur passif ne déclenchent pas de réparation à chaud. Toutefois, si les volumes du serveur actif sont dégradés, une réparation à chaud est déclenchée, et les volumes du serveur passif sont également dégradés car le système supprime un disque dur sain des volumesn RAID sur le serveur passif afin de mettre en oeuvre une réparation à chaud.</li>
+   <li><b>Format SHR non pris en charge :</b> Les volumes avec format SHR ne sont pas pris en charge. Veuillez vous assurer que le serveur Synology qui agira comme serveur actif ne contient pas de volumes SHR. </li>
+  </ul>
+
+    <div class="section">
+    <h4>Remarque :</h4>
+    <ul>
+    <li>La vitesse des disques durs sur le serveur passif a également une incidence sur les performances en écriture du cluster high-availability car les données sont synchronisées sur le serveur passif via la connexion Heartbeat. Il est recommandé d'utiliser des disques durs identiques sur les serveurs actif et passif.</li>
+    <li>Si le serveur passif est immobilisé ou que la connexion Heartbeat est interrompue, les volumes seront temporairement indisponibles et le transfert iSCSI est mis en pause pendant environ 10 secondes.</li>
+    </ul>
+    </div>
+
+  
+  <h3>Environnement réseau</h3>
+  <p>Veuillez prendre note des directives suivantes concernant la configuration du réseau lorsque que vous tentez de former un cluster high-availability.</p>
+  <ul>
+    <li><b>Paramètres réseau :</b> Les deux serveurs doivent posséder des adresses IP statiques appartenant au même sous-réseau.</li>
+    <li><b>Nombres de ports de réseau local :</b> Les deux serveurs doivent disposer des mêmes nombres de ports de réseau local. Si votre Synology NAS est équipé d'interfaces de carte réseau supplémentaires, ces cartes réseau sont également considérées comme des ports de réseau local supplémentaires. </li>
+        <li><b>Limites de l'environnement de connexion :</b> L'environnement de connexion entre les deux serveurs doit prendre en charge la multidiffusion et il ne doit pas exister de règles de pare-feu bloquant les ports utilisés par le cluster high-availability. Si la connexion Heartbeat passe par des commutateurs, vous devez vous assurer qu'ils prennent en charge la multidiffusion et Jumbo Frame.</li>
+    <li><b>Limites de connexion :</b> Les serveurs ne peuvent pas se connecter au réseau via DHCP, IPv6, PPPoE et Wi-Fi. Veuillez vous assurer que ces fonctions sont désactivées avant de tenter de former un cluster high-availability.</li>
+    <li><strong>Pas de service DHCP :</strong> Les serveurs ne peuvent pas utiliser les options de serveur DHCP intégrées lorsqu'ils sont combinés en cluster.</li>
+   <li><strong>Paramètres Link Aggregation :</strong> Les deux serveurs devront avoir les mêmes paramètres link aggregation pour le réseau de données et la connexion heartbeat. Dès que le cluster high-availability est créé, les paramètres link aggregation ne peuvent pas être modifiés.</li>
+   <li><b>Paramètres d'Open vSwitch :</b> L'état d'Open vSwitch sur les deux serveurs doit être identique (activé ou désactivé). Dès que le cluster high-availability est créé, les paramètres d'Open vSwitch ne peuvent pas être modifiés.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Remarque :</h4>
+    <ul>
+      <li>Le service NTP est désactivé automatiquement sur le serveur actif dès la création du cluster high-availability.</li>
+    </ul>
+  </div>
+  <h3>Limites du Gestionnaire de stockage</h3>
+  <p>Une fois que le cluster high-availability a été formé, l'option de modifier le type de RAID ne sera plus disponible dans le Gestionnaire de stockage. Cependant les options suivantes sont disponibles :
+<ul>
+<li>Étendre les espaces de stockage (par ex. les volumes, les iSCSI LUN au niveau bloc, les groupes de disques, les RAID Group, etc.).</li>
+    <li>Créer, supprimer ou réparer des volumes, les iSCSI LUN, le SSD en lecture seule et les caches lecture/écriture.</li>
+    <li>Changer la taille et l'emplacement d'iSCSI LUN (niveau fichier).</li>
+    <li>Changer l'iSCSI LUN cible.   </li>
+  </ul>
+
+  <div class="section">
+    <h4>Remarque :</h4>
+    <ul>
+      <li>Veuillez ne pas changer la position des disques durs une fois le cluster high-availability créé ; sinon, l'espace de stockage sera manquant.</li>
+      <li>Pour vous assurer que votre serveur connecté au iSCSI target Synology n'est victime d'aucun délai expiration pendant une prise en charge, il est recommandé d'ajuster les paramètres du délai d'expiration du client iSCSI et de l'initiateur sur 120 secondes au moins.</li>
+    </ul>
+  </div>
+
+ 
+<h3>Limitations du paquet et du logiciel</h3> 
+
+<p>Une fois que le cluster high-availability a été formé, les paquets et les propriétés suivants ne sont pas pris en charge :</p>
+	<ul>
+
+    <li>Virtual Machine Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>La propriété pour redémarrer/arrêter le cluster high-availability dans CMS</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>Remarque :</h4>
+    <ul>
+    <li>Pour autoriser le support de Docker DSM dans High Availability, vous devez activer Open vSwitch avant de créer le cluster.</li>
+    </ul>
+   </div>
+
+<h3>Ajouter des unités d'expansion</h3>
+  <p>Une fois un cluster high-availability créé, les unités d'expansion peuvent être ajoutées à la configuration de votre cluster high-availability existant afin d'étendre la capacité de stockage. Comme pour les autres exigences matérielles, des unités d'expansion identiques sont nécessaires à la fois sur le serveur actif et le serveur passif. Pour éviter des erreurs d'incohérence, soyez prudent et suivez les instructions ci-dessous lors de l'ajout des unités d'expansion.</p>
+  
+  <h4>Pour ajouter des unités d'expansion :</h4>
+   <ol>
+    <li>N'ajoutez que des unités d'extension et des disques durs identiques au serveur actif et au serveur passif. Comme indiqué plus haut, le matériel doit être identique à la fois sur le serveur actif et le serveur passif, y compris le modèle de matériel, et la taille et position et le type de des disques durs.</li>
+    <li>Assurez-vous de supprimer toutes les données existantes et volumes sur les disques durs dans les unités d'expansion.</li>
+    <li>Connectez les unités d'expansion au serveur actif et au serveur passif lorsque les deux serveurs sont allumés et en fonction.</li>
+    <li>Créez un nouvel espace de stockage (p.ex. volumes, groupes de disques, groupes RAID, etc.) sur l'unité d'expansion avant d'éteindre l'un ou l'autre des serveurs.</li>
+   </ol>
+<div class="section">
+<h4>Remarques :</h4>
+<p>Pour des informations de base concernant l'installation de l'unité d'expansion, n'oubliez pas de consultez le guide de l'utilisateur de votre unité d'expansion.</p>
+</div>
+
+
+<h3>Limitation des périphériques USB</h3>
+   <p>Le basculement/la prise en charge des périphériques USB n'est pas prise en charge. Les services ou applications fournis par les périphériques USB peuvent ne pas fonctionner correctement après un basculement/une prise en charge.</p>
+
+   
+ </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Services de sauvegarde - Aide Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Services de sauvegarde</h2>
+<p>Les options dans <strong>Sauvegarde et réplication</strong> > <strong>Services de sauvegarde</strong> permettent aux autres utilisateurs de sauvegarder les données depuis leurs machines Synology NAS ou clients compatibles rsync vers votre Synology NAS.</p>
+<h3>Activation du service de sauvegarde réseau</h3>
+<p>Si vous voulez sauvegarder des données à partir d'un Synology NAS ou un serveur compatible rsync vers un autre Synology NAS ou autoriser un appareil Synology NAS à effectuer les tâches de sauvegarde à distance et stocker des données de sauvegarde sur un volume de votre appareil Synology NAS, vous devez d'abord activer le service de sauvegarde réseau sur le serveur de destination avant de créer une tâche de sauvegarde réseau. Vous pouvez le faire en accédant à <b>Panneau de configuration</b> > <b>Privilèges</b> et accepter le privilège de <b>Destination de Sauvegarde Réseau</b> à un utilisateur.Vous pouvez ensuite créer un utilisateur DSM avec sa propre application et les privilèges de dossier partagé sur votre Synology NAS. Quand la configuration est terminée, d'autres personnes peuvent utiliser les privilèges utilisateur pour effectuer une sauvegarde réseau depuis leur Synology NAS vers les dossiers partagés de destination sur votre Synology NAS.</p>
+<h4>Pour activer le service de sauvegarde version seule :</h4>
+<ol>
+<li>Accédez à <b>Services de sauvegarde</b> > <b>Destination de sauvegarde réseau</b>, et ensuite cochez <b>Activer le service de sauvegarde réseau</b>.</li>
+<li>Cliquez sur <b>Appliquer</b>.</li>
+<li>Accédez à <b>Panneau de configuration</b> > <b>Dossier partagé</b>, sélectionnez un dossier partagé, cliquez sur <b>Modifier</b> > <b>Permissions</b> et attribuez le privilège <b>Lecture/écriture</b> à un utilisateur. Répétez cette étape pour inclure davantage de dossiers partagés qui pourraient être utilisés comme destinations de sauvegarde.</li>
+</ol>
+<h4>Pour activer le service de sauvegarde multi version :</h4>
+<ol>
+  <li>Allez à <strong>Services de sauvegarde</strong> > <b>Volume de destination de la sauvegarde sur réseau</b> et cochez la case à côté de <strong>Activer le volume de destination de la sauvegarde réseau</strong>.</li>
+  <li>Accédez à <b>Destination de la sauvegarde</b> et sélectionnez une destination de sauvegarde associée avec un volume local.</li>
+<li>Cliquez sur <b>Modifier</b> > <b>Liste des permissions</b> >  <strong>Ajouter</strong> pour ajouter l'utilisateur ou le groupe dans la liste.</li>
+</ol>
+<div class="section">
+<h4>Remarque :</h4>
+<ul>
+<li>Si d'autres personnes veulent effectuer une sauvegarde réseau depuis un client qui n'est pas un Synology NAS, ils ne peuvent le faire que s'ils disposent des privilèges <b>admin</b> ou <b>rsync</b> sur votre Synology NAS. Si vous ne voulez pas partager vos identifiants <b>admin</b> avec d'autres personnes, vous pouvez accéder à <b>Panneau de configuration</b> > <strong>Utilisateur </strong> pour créer un utilisateur appelé <b>rsync</b>, modifier ses privilèges, puis partager ses identifiants utilisateur avec d'autres personnes.</li><li>Si vous effectuez une sauvegarde réseau à partir d'un  Synology NAS exécutant une version de DSM avant 3.0 ou un client qui n'est pas Synology NAS et que vous voulez mémoriser le <b>propriétaire</b> des données source et l'information du <b>groupe</b>, vous devez ajouter le <b>compte de sauvegarde</b> au groupe <b>administrateurs</b> et sauvegardez les données vers le dossier partagé <b>NetBackup</b>.</li>
+</ul>
+</div>
+<h3>Activation du service de sauvegarde réseau à l'aide de la configuration Rsync personnalisée</h3>
+<p> Vous pouvez activer le service de sauvegarde réseau à l'aide de la configuration rsync personnalisée, et configurer les privilèges utilisateur et la destination de sauvegarde sur votre Synology NAS. Quand la configuration est terminée, d'autres personnes peuvent effectuer une sauvegarde rsync depuis leur Synology NAS ou leur client compatible rsync sur les dossiers partagés de destination (ou « modules de sauvegarde ») sur votre Synology NAS.</p>
+<h4>Pour activer le service de sauvegarde réseau à l'aide de la configuration rsync personnalisée :</h4>
+<ol>
+<li>Accédez à <b>Services de sauvegarde</b> > <b>Destination de sauvegarde réseau</b>.</li>
+<li>Cochez <b>Activer le service de sauvegarde réseau</b>.</li>
+<li>Cochez <b>Utiliser la configuration rsync personnalisée</b>.</li>
+<li>Cliquez sur <b>Appliquer</b>.</li>
+<img src="about:blank" class="help_image"/>
+</ol>
+<h4>Pour configurer les privilèges utilisateur et les modules de sauvegarde sur votre Synology NAS :</h4>
+<ol>
+<li>
+Connectez-vous avec votre machine Synology NAS via Telnet ou SSH.
+</li>
+<li>Spécifiez le module de sauvegarde et les utilisateur(s) autorisé(s) dans le fichier de configuration rsync « <b>/etc/rsyncd.conf</b> ». Pour des informations détaillées, consultez la page du manuel <b>rsyncd.conf</b> sur votre rsync client ou <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">ici</a>.</li>
+</ol>
+<div class="section">
+<h4>Remarque :</h4>
+<ul>
+<li>Si la configuration rsync personnalisée est utilisée, le Synology NAS ne pourra plus servir de serveur de destination pour <b>Synchro du dossier partagé</b>, <b>Time Backup</b> et <b>Sauvegarde du LUN</b>.</li>
+</ul>
+</div>
+<h3>Activation de la limite de vitesse</h3>
+<p>Vous pouvez limiter la vitesse pour contrôler le débit maximal utilisable par les utilisateurs et les groupes qui transfèrent des données via la sauvegarde réseau.</p>
+<h4>Pour activer la limite de vitesse :</h4>
+<ol>
+  <li>Accédez à <b>Services de sauvegarde</b> > <b>Destination de sauvegarde réseau</b>. Cochez la case <b>Activer la limite de vitesse</b>, ou <strong>Activer la limite de vitesse selon un programme</strong> si vous désirez appliquer une limite de vitesse à certaines heures seulement. Ceci est un paramétrage à l'échelle du serveur qui remplace les paramétrages des utilisateurs individuels et groupes. L'option <strong>Pas de limite de vitesse</strong> désactive les paramétrages de limite de vitesse de tous les utilisateurs et groupes.</li>
+  <li>Cliquez sur <strong>Paramètres de limite de vitesse</strong> pour modifier les paramètres des utilisateurs individuels ou groupes. Pour chaque utilisateur et groupe, vous pouvez sélectionner l'une des options suivantes :
+    <ul>
+      <li><strong>Appliquer les paramètres de groupe :</strong> Les paramètres de limite de vitesse sont les mêmes que ceux du groupe auquel l'utilisateur appartient. </li>
+      <li><strong>Aucune :</strong> Aucune limite de vitesse ne sera appliquée lorsque les membres du groupe transfèrent les fichiers avec le service.</li>
+      <li><strong>Constante :</strong> Une limite de vitesse fixe, constante sera appliquée à l'utilisateur ou aux membres du groupe. Les vitesses de chargement et de téléchargement peuvent être spécifiées dans les champs sur la gauche.</li>
+      <li><strong>Variable :</strong> Deux limites de vitesse différentes peuvent être spécifiées et appliquées à l'utilisateur ou aux membres du groupe en fonction d'un horaire. Cliquez sur le bouton <strong>Personnaliser</strong> pour modifier les paramètres de limite de vitesse et définir un planning.</li>
+    </ul>
+  </li>
+ <li>Cliquez sur <b>Appliquer</b>.</li> 
+<img src="about:blank" class="help_image"/>
+</ol>
+<div class="section">
+  <h4>Remarque :</h4>
+    <p>Lorsqu'une limite de vitesse est définie pour un utilisateur, la section <strong>Résultat</strong> affiche la limite de vitesse réelle de l'utilisateur selon les paramètres individuels et de groupe. Par exemple, si un utilisateur « Achille » est affecté d'une limite de vitesse de téléchargement de 100 Ko/s, mais qu'il appartient à un groupe d'utilisateurs affecté d'une limite de téléchargement de 500 Ko/s, la section <strong>Résultats</strong> affiche alors « 0/500 ».</p>
+</div>
+<h3>Activation du service Time Backup</h3>
+<p>Le service Time Backup permet aux utilisateurs de sauvegarder plusieurs versions des dossiers depuis un autre Synology NAS vers ce Synology NAS à distance. Cela requiert que le service de sauvegarde réseau et Time Backup soient tous deux activés.</p>
+<h4>Pour activer les services sauvegarde réseau et Time Backup :</h4>
+<p>Accédez à <strong>Services de sauvegarde</strong> > <b>Time Backup</b>. Cochez les cases appropriées.</p>
+<img src="about:blank" class="help_image"/>
+<div class="section">
+<h4>Remarque :</h4>
+<p>Seul le compte admin est autorisé à créer la connexion de sauvegarde pour Time Backup à distance.</p>
+</div>
+</body>
+</html>

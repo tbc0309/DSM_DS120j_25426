@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Router forgalomvezérlése</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name=""></a>Router forgalomvezérlése</h2>
+<p>A router forgalomvezérlés funkciója engedélyezve van, amennyiben a(z) Synology NAS eszköz router üzemmódban van. A router forgalomvezérlés funkciója (elérése: <strong>Vezérlőpult</strong> > <strong>Hálózat</strong> > <strong>Adatútválasztó forgalomvezérlés</strong>) a(z) Synology NAS eszköz privát hálózatán áthaladó feltöltési és letöltési forgalmaz szabályozza. Szabályok létrehozásakor meg kell határoznia a <strong>Garantált sávszélesség</strong> és a <b>Maximális sávszélesség</b> mezőket, ezzel leszabályozva a feltöltési és letöltési forgalmat.</p>
+
+
+<div class="section">
+<h4>Szómagyarázat</h4>
+<ul>
+<li><b>Garantált sávszélesség</b>: A szolgáltatás által garantáltan szolgáltatott kimenő forgalmat határozza meg, amikor a teljes rendszer sávszélessége elég széles.</li>
+<li><b>Maximális sávszélesség</b>: Azt a kimenő forgalmat határozza meg, melyet egy szolgáltatás felhasználhat, amikor a rendszer elegendő sávszélességgel rendelkezik, illetve van <b>Fennmaradó rendszer-sávszélesség</b>. Javasoljuk, hogy először számolja ki a <b>Kimenő rendszer-sávszélesség</b> értékét. Ezt követően biztosítsa, hogy a <b>Garantált sávszélesség</b> egyes szolgáltatásokhoz tartozó értékének összege ne haladja meg a <b>Kimenő rendszer-sávszélesség</b> értékét. Ellenkező esetben előfordulhat, hogy a beállítások nem fognak megfelelően működni.</li>
+</ul>
+</div>
+<div class="section">
+<h4>Beállító képlet</h4>
+<ul>
+<li><b>Kimenő rendszer-sávszélesség</b> = Az egyes szolgáltatások <b>Garantált sávszélességeinek</b> összege + <b>Fennmaradó rendszer-sávszélesség</b></li>
+<li>Az egyes szolgáltatások <b>Garantált sávszélessége</b> ≤ Az egyes szolgáltatások <b>Maximális sávszélessége</b></li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<p>Ha a kimenő csomagok nem felelnek meg semmilyen routeren áthaladó forgalmat vezérlő szabálynak, az alapértelmezésként nem lesz korlátozás. Az összes szabályhoz ön is hozzáadhatja a saját alapértelmezett forgalomvezérlő szabályát, ha kiválasztja az <b>Összes</b> portot, és meghatározza a <b>Garantált sávszélességet</b> és a <b>Maximális sávszélességet</b>.</p>
+</div>
+
+
+<h4>Router-forgalomvezérlési szabály létrehozása:</h4>
+<ol>
+
+<li>Válasszon egy hálózati interfészt a jobb felső sarokban található legördülő menüből.</li>
+
+<li>Kattintson a <b>Létrehozás</b> gombra.</li>
+<li>A <b>Portok</b> résznél válassza az alábbiak egyikét:<ul>
+		<li>Ha az összes porthoz hozzá szeretné rendelni a szabályt, válassza az <b>Összes</b> lehetőséget.</li>
+		<li>Válassza az <b>Egyedi</b> lehetőséget, majd kattintson az <b>Egyedi</b> gombra. Vesszővel elválasztja írjon be legfeljebb 15 portot, vagy határozzon meg egy porttartományt a szabály számára.</li>
+		<li class="no">Ezenfelül a protokollokat is meghatározhatja.</li>
+	</ul>
+</li>
+<li>A <b>Forrás IP-címe</b> résznél válassza az alábbiak egyikét:<ul>
+		<li>Válassza a <b>Mind</b> lehetőséget, ha az összes IP-címre szeretné alkalmazni a szabályt.</li>
+		<li>Válassza a <b>Különleges IP</b> lehetőséget, majd kattintson a <strong>Kiválasztás</strong> lehetőségre. IP-címeket vagy egy IP-cím tartományt is meghatározhat a szabályhoz.</li>
+	</ul>
+</li>
+</ol>
+<p>Ekkor meg kell jelennie a létrehozott router-forgalomvezérlési szabálynak a szabálylistában. </p>
+<h4>Router-forgalomvezérlési szabályok törléséhez tegye a következők bármelyikét:</h4>
+<ul>
+<li>Törölje a szabályhoz tartozó jelölőnégyzet bejelölését az <b>Engedélyezett</b> oszlopban.</li>
+<li>Törölje a router-forgalomvezérlési szabályt.</li>
+</ul>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>Az egyes hálózati interfészekhez maximum 100 szabályt hozhat létre. </li>
+<li>A listában szereplő szabályokat húzással rendezheti át.</li>
+<li>A szabályok prioritását a listában való pozíciójuk határozza meg.</li>
+<li>A meghatározott portok a helyi hálózaton kívüli internetes szolgáltatások portszámait jelentik.</li>
+<li>A forrás IP-címe azon eszközök IP-címeit jelenti, amelyek a Synology NAS eszközt routerként használják.</li>
+</ul>
+</div>
+</body>
+</html>

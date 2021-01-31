@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Begrænsninger og systemkrav - Synology DSM - Hjælp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+ 
+ 
+<h2>Begrænsninger og systemkrav</h2>
+
+ <p>Implementering af Synology High Availability kræver to identiske Synology-servere, der kan være aktiv og passiv server. Før de to servere kombineres til en high-availability-klynge, vil systemet kontrollere følgende hardware- og softwarebegrænsninger for at sikre, at en high-availability-klynge kan oprettes.</p>
+ 
+  
+ <h3>Systemkrav</h3>
+ 
+  <p>Bemærk følgende retningslinjer vedrørende software og hardware:</p>
+  <ul>
+   <li><b>Synology-server:</b> Både aktiv og passiv server skal være identiske modeller.</li>
+   <li><b>Udvidelsesenhed(er):</b> Både aktiv og passiv server skal være korrekt tilsluttet til samme udvidelsesenheder.</li>
+   <li><b>Antal og disktype:</b> Disktype kan kun være SAS. Før installation af DSM skal du installere mindst 3 diske på dine udvidelsesenhed(er).</li>
+   <li><b>Ekstern USB-enhed:</b> Kun USB-lager understøttes. Andre eksterne USB-enheder (f.eks. UPS, Wi-Fi dongle, Højttaler, Printer, Bluetooth-dongle og DVB-dongle) understøttes ikke. USB-lager kan kun bruges på den aktive server og kan ikke skiftes over til den passive server.</li>
+
+  </ul>
+
+  <h3>Netværksmiljø</h3>
+  <p>Bemærk følgende retningslinjer vedrørende netværksindstillinger ved forsøg på at danne en high-availability-klynge.</p>
+  <ul>
+    <li><b>Netværksindstillinger:</b> Heartbeat-forbindelsen mellem de to servere skal være konfigureret korrekt. Begge servere skal høre til samme undernet, og det kræves, at der konfigureres statiske IP-adresser efter installation.</li>
+    <li><b>Antal LAN-porte:</b> Begge servere skal have samme antal LAN-porte. Hvis en af dine Synology NAS-modeller er udstyret med yderligere netværkskortinterfacer, skal det andet udstyres med samme netværkskortinterfacer. </li>
+    <li><b>Forbindelsesbegrænsninger:</b> Wi-Fi-netværk understøttes ikke af high-availability-klyngen.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Bemærk:</h4>
+    <ul>
+      <li>NTP-server bliver automatisk aktiveret på den aktive server.</li>
+    </ul>
+  </div>
+
+<h3>Pakke- og softwarebegrænsninger</h3> 
+
+<p>Se nedenstående pakke- og softwarerelaterede begrænsninger:</p>
+	<ul>
+	<li>High-availiability-klyngen understøtter ikke følgende pakker og funktioner:
+		<ul><li>DVBLink Server</li>
+		<li>Funktionen til genstart/nedlukning af high-availability-klyngen i CMS</li>
+		<li>Time Backup</li>
+		</ul>
+	</li>
+	<li>High-availability-klynge med delt lager kan ikke konfigureres som eller bruges sammen med en kopieringsbaseret high-availability-klynge.</li>
+    </ul>
+
+<h3>Særlige udvidelsesenheder</h3>
+  <p>Både aktiv og passiv server skal være tilsluttet til de særlige udvidelsesenheder. Der er to moduler på hver udvidelsesenhed.</p>
+  <h4>Sådan konfigurerer/tilføjer du en udvidelsesenhed:</h4>
+  <ul>
+    <li>Et modul indeholder to porte: Input-porten til venstre og output-porten til højre. Tilslut et SAS-kabel fra output-porten på modulet til input-porten for den næste udvidelsesenheds modul.</li>
+	<li>Udvidelsesenhederne skal være tilsluttet serielt med modulerne på tilsvarende sider for hver server.</li>
+    <li>Både aktiv og passiv server skal være tilsluttet til de delte udvidelsesenheder i samme rækkefølge.</li>
+  </ul>
+
+
+<div class="section">
+<h4>Noter:</h4>
+<p>Få detaljerede oplysninger om udvidelsesenheders installation ved at se i kvikinstallationsvejledningen til dine servere og udvidelsesenheder.</p>
+</div>
+
+   
+ </body>
+</html>

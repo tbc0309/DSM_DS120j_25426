@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>LDAP</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>LDAP</h2>
+<p>Az LDAP lehetővé teszi, hogy a(z) Synology NAS egy meglévő könyvtárszolgáltatáshoz csatlakozzon LDAP-kliensként, majd lekérje a felhasználói vagy csoportinformációkat az LDAP-szerverről (avagy „címtárszerverről”). Az LDAP felhasználóinak vagy csoportjainak DSM alkalmazásokhoz és megosztott mappákhoz való hozzáférési jogosultságait ugyanúgy kezelheti, mint a DSM helyi felhasználóiét vagy csoportjaiét. Az LDAP protokollról további információkat talál <a href="http://en.wikipedia.org/wiki/LDAP" target="_blank">itt</a>.</p>
+
+<p>A támogatott LDAP-szabvány az LDAP 3-as verzió (RFC 2251).</p>
+<h4>A(z) Synology NAS összekapcsolása egy könyvtárszolgáltatással:</h4>
+<ol>
+<li>Lépjen a <b>Vezérlőpult</b> > <b>Könyvtárszolgáltatás</b> menüpontra</li><img src="about:blank" class="help_image"/><li>Lépjen az <b>LDAP</b> lapra, ahol jelölje be az <b>LDAP kliens engedélyezése</b> jelölőnégyzetet.</li><img src="about:blank" class="help_image"/><li>Adja meg az LDAP-szerver IP-címét vagy tartománynevét az <b>LDAP-szerver címe</b> mezőben.</li><img src="about:blank" class="help_image"/><li>Válasszon titkosítási típust a <b>Titkosítás</b> legördülő menüből az LDAP-szerverhez való LDAP-kapcsolódás titkosításához.</li><img src="about:blank" class="help_image"/><li>Adja meg az LDAP szerver Base DN-jét a <b>Base DN</b> mezőben.</li><img src="about:blank" class="help_image"/><li>Válassza ki az LDAP-szervernek megfelelő <b>Profil</b> beállítást. Synology Directory Server vagy Mac Open Directory használata esetén például válassza a <b>Normál</b> lehetőséget.</li><img src="about:blank" class="help_image"/><li>Amennyiben szeretné engedélyezni, hogy a Samba sémát nem támogató LDAP-szerver felhasználói is hozzáférhessenek a(z) Synology NAS eszközön tárolt fájlokhoz CIFS-en keresztül, jelölj be a <b>CIFS egyszerű szöveges jelszó-hitelesítés engedélyezése</b> jelölőnégyzetet. Olvassa el az alábbi részt, ha engedélyezni szeretné, hogy az LDAP-felhasználók számítógépükről CIFS-en keresztül elérjék a(z) Synology NAS fájljait.</li><img src="about:blank" class="help_image"/><li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+<li>Adja meg a Bind DN értéket (vagy az LDAP-rendszergazdai fiókot) és a jelszót a mezőkben, majd kattintson az <b>OK</b> gombra.</li><img src="about:blank" class="help_image"/></ol>
+
+
+<div class="section">
+<h4>A CIFS támogatásról és a kliens számítógépének beállításairól</h4>
+<p>A CIFS egyszerű szöveges jelszó-hitelesítés engedélyezését követően előfordulhat, hogy az LDAP felhasználóinak módosítaniuk kell számítógépük beállítását, hogy CIFS-en keresztül elérhessék a(z) Synology NAS fájljait:</p>
+<ul>
+<li>Amennyiben Synology NAS eszköze csatlakozik egy Synology LDAP-szerver (vagy egy másik, a <b>Directory Server</b> csomagot futtató Synology NAS eszköz) által biztosított könyvtárszolgáltatáshoz, illetve egy, a Samba sémát támogató LDAP-szerverhez, és az összes LDAP-felhasználó megfelelő sambaNTPassword attribútumokkal rendelkezik, az LDAP-felhasználók akkor is hozzáférhetnek a(z) Synology NAS eszközön tárolt fájlokhoz, ha nem jelölték be a <b>CIFS egyszerű szöveges jelszó-hitelesítés engedélyezése</b> jelölőnégyzetet, illetve nem módosították számítógépük beállításait. Ellenkező esetben az LDAP-felhasználóknak engedélyezniük kell a számítógépük <a href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" target="_blank">PAM</a> támogatását, hogy CIFS-en keresztül hozzáférjenek a(z) Synology NAS fájljaihoz. Ez azonban azzal jár, hogy egyszerű szövegként (titkosítás nélkül) elküldik LDAP-felhasználói jelszavukat a(z) Synology NAS eszköznek, ami alacsonyabb biztonsági szinthez vezet.</li>
+
+</ul>
+<h4>A Windows beállításainak módosítása:</h4>
+<ol>
+<li>Lépjen a <b>Start</b> > <b>Futtatás</b> menübe, írja be a mezőbe, hogy <b>regedit</b>, majd kattintson az <b>OK</b> gombra a Regisztráció szerkesztő megnyitásához.</li>
+<li>A Windows verziójától függően keresse meg vagy hozza létre a következő regisztrációt:</li>
+<ul>
+<li><b>Windows 2000, XP, Vista és Windows 7:</b><br> [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkStation\Parameters]</li>
+<li><b>Windows NT:</b><br> [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Rdr\Parameters]</li>
+<li><b>Windows 95 (SP1), 98 és Me:</b><br> [HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\VxD\VNETSUP]</li>
+</ul>
+<li>Hozza létre vagy módosítsa a DWORD értéket az <b>EnablePlainTextPassword</b> alatt, és módosítsa az adatot <b>0</b> és <b>1</b> között.</li>
+<li>Indítsa újra a Windows rendszert a változtatások érvényesítéséhez.</li>
+</ol>
+<h4>A Mac OS X beállításainak módosítása:</h4>
+<ol>
+<li>Lépjen az <b>Alkalmazások</b> > <b>Segédeszközök</b> oldalra, és nyissa meg a <b>Terminál</b> menüpontot.</li>
+<li>Hozzon létre egy üres fájlt: <b>/etc/nsmb.conf</b>:<pre>sudo touch /etc/nsmb.conf</pre>
+</li>
+<li>Nyissa meg az <b>/etc/nsmb.conf</b> fájlt a vi-vel:<pre>sudo vi /etc/nsmb.conf</pre>
+</li>
+<li>Írja be: „<b>i</b>“ a szöveg beillesztéséhez, majd illessze be a következőt:<pre>[default]<br />> minauth=none</pre>
+</li>
+<li>Nyomja meg az Esc gombot, majd írja be: „<b>ZZ</b>”, hogy mentse a módosításokat és kilépjen a vi-ből.</li>
+</ol>
+<h4>A Linux beállításainak módosítása:</h4>
+<p><b>smbclient</b> használata esetén adja hozzá az alábbi kódot az <b>smb.conf</b> <b>[global]</b> szakaszához:<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;"> encrypt passwords = no <br> client plaintext auth = yes <br> client lanman auth = yes <br> client ntlmv2 auth = no </p>
+<p><b>mount.cifs</b> használata esetén adja ki az alábbi parancsot:</b>
+<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">echo 0x30030 > /proc/fs/cifs/SecurityFlags</p>
+<p>További információkért tekintse meg az alábbi oldalt: <a href="https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README" target=_blank>https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README</a></p>
+
+</p>
+</div>
+<div class="section">
+<h4>Profilok bemutatása</h4>
+
+<p>Előfordulhat, hogy a különböző LDAP-szerverek különböző attribútumokat használnak a fióknevekre vagy csoportnevekre, illetve a fiókok vagy csoportok megkülönböztetésére. A <b>Profil</b> opció segítségével megadhatja, hogy a rendszer hogyan képezze le a felhasználó- és csoportadatokat LDAP-attribútumokká. Az LDAP-szerver típusától függően az alábbiak közül választhat:</p>
+
+<ul>
+<li><b>Normál:</b> Synology Directory Server vagy Mac Open Directory csomagot futtató szerverek esetén.</li>
+<li><b>IBM Lotus Domino:</b> Az IBM Lotus Domino 8.5-ös verzióját futtató szerverek esetén.</li>
+<li><b>Egyedi:</b> Egyedi leképezések adhatók meg. A részleteket az alábbi szakaszokban találja.</li>
+</ul>
+
+<p>Az LDAP-attribútumleképezések testreszabása előtt némi háttértudásra lesz szüksége. A Synology DSM és a <strong>Profi</strong> szerkesztő egyaránt az RFC 2307 szabvány előírásait követi. A <b>userFilter</b> lehetőségnél például megadhatja a következőt: <b>filter</b> > <b>passwd</b>. Ebben az esetben a(z) Synology NAS eszköz az <b>objectClass=userFilter</b> szöveggel rendelkező bejegyzéseket LDAP-fiókokként fogja kezelni az LDAP-szerveren. Amennyiben a <b>passwd</b> > <b>uid</b> lehetőségnél a <b>username</b> értéket adja meg, a(z) Synology NAS eszköz a <b>username</b> szöveget fióknévként fogja értelmezni az LDAP-szerveren. A leképezés üresen hagyása esetén a rendszer az RFC 2307 szabályait alkalmazza.</p>
+<p>A(z) Synology NAS esetében rögzített egész számot kell használnia az LDAP-fiók azonosítójaként (<strong>uidNumber</strong>) vagy a csoport azonosítójaként (<strong>gidNumber</strong>). Ezeket az attribútumokat azonban nem minden LDAP-szerver képezi le egész számokként. Ezért ezen attribútumok egész számmá való konvertálásához egy kulcsszót (<b>HASH()</b>) biztosítunk. Előfordulhat például, hogy az Ön által használt LDAP-szerver hexadecimális értéket ad meg a <b>userid</b> változónál az LDAP-fiók egyedi azonosítójaként. Ebben az esetben állítsa <b>HASH(userid)</b> értékre a <b>passwd</b> > <b>uidNumber</b> lehetőséget, így a(z) Synology NAS eszköz egész számmá konvertálja azt.</p>
+
+<p>Az alábbiakban a testre szabható attribútumokat soroljuk fel:</p>
+
+<ul>
+	<li><b>filter</b></li>
+	<ul>
+		<li><b>group</b>: a csoporthoz szükséges objectClass.</li>
+		<li><b>passwd</b>: a felhasználóhoz szükséges objectClass.</li>
+		<li><b>shadow</b>: a felhasználói jelszavakhoz szükséges objectClass.</li>
+	</ul>
+	<li><b>group</b></li>
+	<ul>
+		<li><b>cn</b>: csoportnév.</li>
+		<li><b>gidNumber</b>: A csoport GID-száma.</li>
+		<li><b>memberUid</b>: a csoport tagjai.</li>
+	</ul>
+	<li><b>passwd</b></li>
+	<ul>
+		<li><b>uidNumber</b>: A felhasználó UID-száma.</li>
+		<li><b>uid</b>: felhasználónév.</li>
+		<li><b>gidNumber</b>: a felhasználó elsődleges GID-száma.</li>
+	</ul>
+	<li><b>shadow</b></li>
+	<ul>
+		<li><b>uid</b>: felhasználónév.</li>
+		<li><b>userPassword</b>: felhasználói jelszó.</li>
+	</ul>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>UID-/GID-eltolás</h4>
+<p>Az LDAP-felhasználók/-csoportok és a helyi felhasználók/csoportok közötti ütközések elkerülése érdekében bekapcsolja az UID-/GID-eltolást, így a rendszer 1000000-val eltolja az LDAP-felhasználók/-csoportok UID-/GID-értékeit. Ez az opció kizárólag azon nem-Synology LDAP-szerverek számára áll rendelkezésre, melyek numerikus azonosítóattribútummal rendelkeznek az egyes felhasználók/csoportok számára.</p>
+</div>
+<div class="section">
+	<h4>A beágyazott csoportok kibontásáról</h4>
+	<p>Beágyazott csoportról beszélünk, ha egy LDAP-csoporttag a vállalati hierarchia szerint egy másik LDAP-csoporthoz tartozik. Amikor a felhasználók megnézik, hogy egy adott tag mely csoporthoz tartozik, illetve megnyitják egy adott csoport névlistáját, a(z) Synology NAS az LDAP-csoport <strong>member</strong> attribútuma szerint kibontja a beágyazott csoportot, ahol az alárendelt csoport DN-jére (megkülönböztető nevére) az attribútum hivatkozik. A beágyazott csoport kibontása rendkívül időigényes lehet, ha például a szerver nem indexeli a <strong>member</strong> attribútumot, vagy a csoport mélyre van ágyazva. Ennek elkerüléséhez megadhatja, hogy a rendszer ne bontsa ki a beágyazott csoportot.</p>
+</div>
+</body>
+</html>

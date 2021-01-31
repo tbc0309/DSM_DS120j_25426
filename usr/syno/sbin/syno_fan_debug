@@ -1,0 +1,144 @@
+#!/bin/bash
+fan_cpu_debug=/tmp/cputmp.txt
+fan_disk_debug=/tmp/disktmp.txt
+
+SUPPORT_SAS=`get_key_value /etc.defaults/synoinfo.conf supportsas`
+FAN_DEBUG_MODE=`get_key_value /etc/synoinfo.conf enable_fan_debug`
+
+set_multiple_ebox_debug()
+{
+        IFS=',' read -ra ARR <<< "$1"
+        for ebox in "${ARR[@]}"
+        do
+                echo -1 > /tmp/ebox_$ebox.txt
+        done
+}
+
+set_singal_ebox_debug()
+{
+        ebox_portmap=`synogetkeyvalue /etc.defaults/synoinfo.conf esataportcfg`
+        # remove 0x
+        ebox_map_hex=`echo $ebox_portmap | awk -F "0x" '{print $2}'`
+        if [ -z $ebox_map_hex ] || [ 0 -eq $ebox_map_hex ]; then
+                exit 1
+        fi
+
+        #Get eunit position
+        pos=0
+        ebox_map_dec=$((16#$ebox_map_hex))
+        while [ $ebox_map_dec -gt 0 ]
+        do
+                if [ `expr $ebox_map_dec % 2` -eq 1 ]; then
+                        break
+                fi
+                count=`expr $count + 1`
+                ebox_map_dec=`expr $ebox_map_dec / 2`
+        done
+
+        # 'a' ascii is 97 in decimal
+        count=`expr $count + 97`
+        count_hex=`printf "%x\n" $count`
+        scsi_port=`echo -e "\x$count_hex"`
+        echo -1 > /tmp/ebox_sd${scsi_port}.txt
+}
+
+enable_ebox_fan_debug()
+{
+        support_port_mapping_v2=`synogetkeyvalue /etc.defaults/synoinfo.conf supportportmappingv2`
+        if [ "yes" == "$support_port_mapping_v2" ]; then
+                esata_port_count=`syno_slot_mapping | grep "Esata port count:" | awk {'print $4'}`
+                for i in `seq 1 $esata_port_count`
+                do
+                        echo -1 > /tmp/ebox_${i}.txt
+                done
+        else
+                #More than 1 eunit
+                ebox_list=`synogetkeyvalue /etc.defaults/synoinfo.conf eunitseq`
+                if [ ! -z "$ebox_list" ]; then
+                        set_multiple_ebox_debug $ebox_list
+                else
+                        #Only 1 eunit
+                        set_singal_ebox_debug
+                fi
+        fi
+}
+
+disable_ebox_fan_debug()
+{
+        for file in /tmp/ebox_sd?.txt
+        do
+                if [ -f $file ]; then
+                        rm $file
+                fi
+        done
+}
+
+enable_expansion_fan_debug()
+{
+        max_expansion_num=`synogetkeyvalue /etc.defaults/synoinfo.conf sas_enclosure_max`
+        for i in `seq 1 $max_expansion_num`
+        do
+                echo -1 > /tmp/enclosure_${i}.txt
+        done
+}
+
+disable_expansion_fan_debug()
+{
+        for file in /tmp/enclosure_*.txt
+        do
+                if [ -f $file ]; then
+                        rm $file
+                fi
+        done
+}
+
+enable_internal_fan_debug()
+{
+        echo -1 > $fan_cpu_debug
+        echo -1 > $fan_disk_debug
+}
+
+disable_internal_fan_debug()
+{
+        if [ -f $fan_cpu_debug ]; then
+                rm $fan_cpu_debug
+        fi
+        if [ -f $fan_disk_debug ]; then
+                rm $fan_disk_debug
+        fi
+}
+
+if [ -z "$FAN_DEBUG_MODE" ]; then
+        exit 0
+fi
+
+# remove 0x
+fan_debug_mode_hex=`echo $FAN_DEBUG_MODE | awk -F "0x" '{print $2}'`
+if [ -z $fan_debug_mode_hex ]; then
+        exit 0
+fi
+fan_debug_mode_dec=$((16#$fan_debug_mode_hex))
+
+fan_debug_internal=$(($fan_debug_mode_dec&1))
+fan_debug_external=$(($fan_debug_mode_dec&2))
+
+
+if [ $fan_debug_internal -gt 0 ]; then
+        enable_internal_fan_debug
+else
+        disable_internal_fan_debug
+fi
+
+if [ $fan_debug_external -gt 0 ]; then
+        if [ "yes" == "$SUPPORT_SAS" ]; then
+                enable_expansion_fan_debug
+        else
+                enable_ebox_fan_debug
+        fi
+else
+        if [ "yes" == "$SUPPORT_SAS" ]; then
+                disable_expansion_fan_debug
+        else
+                disable_ebox_fan_debug
+        fi
+fi

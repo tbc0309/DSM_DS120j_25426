@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>FTP/FTPS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>FTP/FTPS</h2>
+
+<p>Under <strong>Kontrolpanel</strong> > <strong>Filtjenester</strong> > <strong>FTP</strong> kan du aktivere FTP-tjenester for at sætte klienter i stand til at få adgang til mapper og data på systemet. Før du aktiverer FTP, skal du sørge for, at følgende TCP-porte på din router videresendes til Synology NAS-enhed: 21 (standard kontrolforbindelse), 20 (dataforbindelse til aktiv tilstand) og 55536-55567 (dataforbindelse til passiv tilstand).</p>
+
+<h4>Sådan aktiverer du FTP-service:</h4>
+<ol>
+<li>Aktiver en af følgende:
+	<ul>
+		<li><b>Aktiver FTP-tjeneste (ingen kryptering):</b> Dette er standard netværksprotokollen, der anvendes til at overføre filer. FTP yder ingen kryptering til beskyttelse af oplysninger under overførselssessioner, f.eks. adgangskoder, brugernavne eller filer. Transferhastigheder er dog hurtigere og kræver mindre systemressourcer.</li>
+		<li><b>Aktiver FTP SSL/TLS-krypteringstjeneste (FTPS):</b> En fortsættelse af standard FTP med yderligere support af Transport Layer Security (TLS) og Secure Sockets Layer (SSL)-kryptografiske protokoller, der beskytter oplysninger under overførselssession, f.eks. adgangskoder, brugernavne eller filer. Overførselshastighederne er dog langsommere og forbruger flere systemressourcer på grund af kryptering.</li>
+	</ul>
+</li>
+<li>Klik på <b>Anvend</b>.</li>
+</ol>
+
+
+<h3>Timeout</h3>
+<p>FTP-server vil afbryde inaktive brugere efter en bestemt periode.</p>
+
+
+<h3>Portnummerindstilling for FTP-tjeneste</h3>
+<p>Dette afsnit sætter dig i stand til at angive den port, der bruges til FTP-kontrolkanal.</p>
+<div class="section">
+<h4>Bemærk:</h4>
+<p>Standardportnummeret for FTP-kontrolkanalen er 21. Du kan angive fra 1 til 65535 bortset fra følgende numre: 20, 22, 23, 25, 80, 110, 137, 138, 139, 143, 199, 443, 445, 515, 543, 548, 587, 873, 993, 995, 3306, 3689, 5000, 5001, 5005, 5006, 5335, 5432, 6881, 8080, 7000, 7001, 8081, 9997, 9998, 9999, 50001, 50002 og eMule-standardporte: 4662 (TCP), 4672(UDP).</p>
+</div>
+
+
+<h3>Portinterval for passiv FTP</h3>
+<p>Dette afsnit sætter dig i stand til at angive det portinterval, der bruges til passive FTP-forbindelser. Du kan bruge standardportintervallet eller angive et tilpasset interval. Portintervallet kan angives fra 1025 til 65535 og kan indeholder op til 128 porte.</li>
+</p>
+
+
+<h3>Rapporter ekstern IP i PASV-tilstand</h3>
+<p>Ved at aktivere denne indstilling vil serveren rapportere sin eksterne IP-adresse til FTP-klienterne. Den rapporterede IP-adresse vises i FTP-klientens forbindelseslogfil. Når den er aktiveret, kan du vælge den automatisk registrerede eksterne IP-adresse eller manuelt indtaste den eksterne IP-adresse for Synology NAS.</p>
+<p>Denne mulighed fungerer kun, når Synology NAS er bag en NAT, og FTP-klienterne hører til et andet undernet end Synology NAS‹s. I de fleste tilfælde er denne mulighed unødvendigt, men hvis FTP-klienter ikke kan oprette forbindelse til Synology NAS, så kan du aktivere denne mulighed og prøve igen.</p>
+<h3>Aktivering af FXP</h3>
+<p>FXP står for File eXchange Protocol. Ved at aktivere denne mulighed vil FTP-tjenesten understøtter server-til-server-filoverførselsfunktionen.</p>
+
+<h3>Aktivering af FIPS-kryptografisk modul</h3>
+<p>FIPS understøttes på FTPS-tjenesten med OpenSSL FIPS 140-2 validerede kryptografisk modul (certifikat #1747). Ved at aktivere denne mulighed bruges yderligere sikkerheds kryptografiske algoritmer af FTPS-tjenesten til at yde mere sikre sessioner.</p>
+
+
+<h3>Understøttelse af ASCII-overførselstilstand </h3>
+<p>Aktiver denne mulighed for at understøtte ASCII-overførselstilstand, så Synology NAS kan korrekt overføre ASCII-formaterede almindelige tekstfiler via FTP.</p>
+
+
+<h3>UTF-8-kodning</h3>
+<p>Denne valgmulighed kan anvendes til at hjælpe FTP-klienter med korrekt at vise og håndtere filer med flersproglige filnavne. Følgende tre valgmuligheder findes til at opfylde kravene for forskellige FTP-klienter:
+<ul>
+<li><strong>Deaktiver</strong>: UTF-8-kodning anvendes ikke. Denne valgmulighed skal bruges til klienter, der bruger Windows Stifinder som FTP-klient til upload/download af filer med flersproglige filnavne. Den anbefales ikke til normal brug.</li>
+<li><strong>Auto</strong>: Lad DSM automatisk bestemme, hvordan UTF-8-kodning håndteres. Den valgmulighed anbefales til normal brug.</li>
+<li><strong>Gennemtving</strong>: Gennemtving brug af UTF-8-kodning. Hvis du har aktiveret UTF-8-kodning på din FTP-klient, og den stadig ikke kan vise og håndtere filer med flersproglige filnavne, skal du vælge denne mulighed.</li>
+</ul>
+
+<h3>Forbindelsesbegrænsning</h3>
+<p>Dette afsnit omfatter følgende muligheder.</p>
+
+<ul>
+<li><strong>Begræns forbindelser pr. IP:</strong> Når denne funktion er aktiveret, vil serveren begrænse maks. forbindelser pr. IP. Aktiver denne funktion og <b>FTP-båndbreddebegrænsning</b> for at få effektiv båndbreddestyring.</li>
+<li><strong>Aktiver FTP-båndbreddebegrænsning:</strong> Aktiver denne funktion for at begrænse båndbredden for enkelt FTP-forbindelse.</li>
+</ul>
+
+<div class="section">
+
+<h4>Bemærk:</h4>
+<ul>
+<li>Kontoen "guest" kan ikke logge ind på serveren via FTP.</li>
+<li>Tegntabelindstillingerne for FTP-klientcomputeren skal være de samme som på Synology NAS for at få korrekt adgang til data.</li>
+<li>På nogle modeller understøtter FTP-service tilslutning via SSL eller TLS.</li>
+<li>Firewallindstillingerne på din FTP-klient og to FTP-servere skal konfigureres korrekt, ellers kan FXP-funktionen ikke køre korrekt.</li>
+<li>Visse FTP-klienter, f.eks. dem som bruger Internet Explorer 8/9, skal logge ind med deres brugernavn og adgangskode. F.eks. <i>ftp://username:password@your.ftp.com</i>.</li>
+</ul>
+</div>
+
+
+
+
+</body>
+</html>

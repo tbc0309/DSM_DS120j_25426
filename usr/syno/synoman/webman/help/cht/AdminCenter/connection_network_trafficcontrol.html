@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>流量控制</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name=""></a>流量控制</h2>
+<p>
+流量控制 (位於<strong>控制台</strong> &gt; <strong>網路</strong> &gt; <strong>流量控制</strong>) 的功能主在管理 Synology NAS 上所執行之服務的對外流量。在選取服務後，需要設定該服務之<strong>保證頻寬</strong>與<b>最大頻寬</b>，以限制其對外流量。 </p>
+
+
+<div class="section">
+<h4>名詞解釋</h4>
+<ul>
+<li><b>保證頻寬</b>：當系統整體頻寬足夠時，服務保證得到的對外輸出量。</li>
+<li><b>最大頻寬</b>：當系統整體頻寬足夠且有<b>系統剩餘頻寬</b>時，服務可以借用到的對外輸出量。建議您先行計算<b>系統對外頻寬</b>。然後，確保各服務所設定之<b>保證頻寬</b>總和不大於<b>系統對外頻寬</b>，否則設定可能無法正常運作。</li>
+</ul>
+</div>
+<div class="section">
+<h4>設定公式</h4>
+<ul>
+<li><b>系統對外頻寬</b> = 各服務<b>保證頻寬</b>之總和 + <b>系統剩餘頻寬</b></li>
+<li>各服務之<b>保證頻寬</b> ≤ 各服務之<b>最大頻寬</b>
+</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>注意：</h4>
+<p>若對外封包不符合任何流量控制規則，則預設是不限制流量。您可以自行加上最後一筆流量控制規則，選擇<b>所有</b>連接埠，並設定<b>保證頻寬</b>與<b>最大頻寬</b>以當作您預設的流量控制規則。</p>
+</div>
+
+
+<h4>若要新增流量控制規則：</h4>
+<ol>
+
+<li>從右上角的下拉式選單中選擇一項網路介面。</li>
+
+<li>按一下<b>新增</b>。</li>
+<li>在<b>連接埠</b>區塊中，請點選以下其一作為流量控制的規則設定：</li>
+<ul>
+<li>選擇<b>所有</b>來將規則套用到所有連接埠。</li>
+<li>選擇<b>從內建服務的清單選取連接埠</b>。</li>
+<li>選擇<b>自訂</b>並按一下<b>自訂</b>，然後最多輸入 15 個連接埠 (用逗號分隔)，或指定連接埠範圍。</li>
+<li class="no">
+您也可指定連接埠的通訊協定。
+</li>
+</ul>
+</ol>
+<p>
+現在您可以在規則列表中看到新增的流量控制規則。
+</p>
+<h4>若要刪除流量控制規則，請進行下列其一：</h4>
+<ul>
+<li>在流量控制規則清單中，取消勾選<b>已啟動</b>欄位的核取方塊。</li>
+<li>刪除流量控制規則。</li>
+</ul>
+
+<div class="section">
+<h4>注意：</h4>
+<ol>
+<li>您最多可以為一網路介面新增 100 項規則。 </li>
+<li>以拖拉的方式來調整規則順序。</li>
+<li>規則的順序越前面則優先權越高。</li>
+<li>如果您的系統有多個連接至相同子網路的網路埠，則防火牆規則可能無法正常運作。*</li>
+<li>若您的 Synology NAS 裝置透過 PPPoE 連線至網際網路，則相關的流量控制規則必須設定於相對應的 PPPoE 介面上。</li>
+</ol>
+</div>
+
+<p>____<br> * 僅適用於特定機型。</p>
+</body>
+</html>

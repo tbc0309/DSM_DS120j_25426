@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Choose a RAID Type</h2>
+
+<p>RAID (Redundant Array of Independent Disks) is a data storage technology that allows multiple drives to be combined into a single storage space. There are different types of RAID, each providing different levels of performance, storage capacity, and reliability.</p>
+
+<p>This article provides a brief overview of the RAID types supported by Synology NAS, including implementation requirements as well as the advantages and disadvantages.</p>
+
+<!--1-->
+
+<h3>Supported RAID Types</h3>
+
+<p>This table provides a brief overview of the different RAID types supported by Synology NAS, including storage capacity, the minimum number of drives required for the RAID type, and the number of drive failures that can be tolerated before data loss occurs. </p>
+
+<table>
+	<tr>
+		<th>Volume Type</th>
+		<th>Number of HDD</th>
+		<th>Tolerable Drive Failures</th>
+		<th>Description</th>
+		<th>Volume Capacity</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>Optimizes volume size when combining drives of different sizes.</li>
+				<li>Provides data redundancy if the volume is composed of two or more drives.</li>
+				<li>Recommended for beginner users.</li>
+			</ul>
+		</td>
+		<td>1 x (HDD size)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">Optimized by the system.</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Basic</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Composed of one drive as an independent unit.</li>
+				<li>Does not provide data redundancy.</li>
+			</ul>
+		</td>
+		<td>1 x (HDD size)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Combines a collection of drives into a single storage space, with a capacity equal to the sum of all drives' capacity.</li>
+				<li>Does not provide data redundancy.</li>
+			</ul>
+		</td>
+		<td>Sum of all HDD sizes</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Features "striping," a process of dividing data into blocks and spreading the data blocks across several drives in order to enhance performance.</li>
+				<li>Does not provide data redundancy.</li>
+			</ul>
+	    </td>
+		<td>Sum of all HDD sizes</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>Writes identical data to all drives simultaneously.</li>
+				<li>Provides data redundancy.</li>
+			</ul>
+		</td>
+		<td rowspan="3">Smallest HDD size</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Implements block-level striping with parity data distributed across all member drives, thus providing data redundancy more efficiently than RAID 1.</li>
+			</ul>
+		</td>
+		<td>(N – 1) x (Smallest HDD size)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>Implements two layers of data parity to store redundant data equal to the size of two drives, providing a greater degree of data redundancy than RAID 5.</li>
+			</ul>
+		</td>
+		<td>(N – 2) x (Smallest HDD size)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br />(even number)</td>
+		<td>Half of the total HDD</td>
+		<td>
+			<ul>
+				<li>Provides the performance of RAID 0 and data protection level of RAID 1, combining  drives into groups of two in which data is mirrored.</li>
+			</ul>
+		</td>
+		<td>(N / 2) x (Smallest HDD size)</td>
+	</tr>
+	<tr>
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Implements block-level striping with parity data distributed across all member drives.</li>
+				<li>A certain drive will have more parity information.</li>
+				<li>Recommended for an all-flash array.</li>
+			</ul>
+		</td>
+		<td>(N – 1) x (Smallest SSD size)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>RAID types except for &quot;Basic&quot; are only available on certain models depending on the number of drive slots and number of installed drives.</li>
+	<li>RAID F1 is available on specific models only. For more information, please visit <a href="https://www.synology.com/" target="_blank">Synology website</a>.</li>
+	<li>"N" represents the total number of drives within the volume.</li>
+</ul>
+</div>
+
+<!--2-->
+
+<h3>Synology Hybrid RAID (SHR)</h3>
+<p>Synology Hybrid RAID (SHR) is an automated RAID management system, designed to simplify storage  management and meet the needs of new users who are unfamiliar with RAID types. </p>
+<p>SHR can combine different sized drives to create a storage volume with optimized capacity and performance, wasting less drive space and providing a more flexible storage solution.  When sufficient drives are included,  SHR allows for 1- or 2-drive redundancy - meaning the SHR Volume can suffer up to one or two failed drives without experiencing data loss.<br /><img src="about:blank" class="help_image"/></p>
+
+<!--3-->
+
+<h3>RAID 0</h3>
+<p>RAID 0 combines two or more drives to increase performance and capacity but provides no fault tolerance. A single drive failure will result in the loss of all data on the array. RAID 0 is useful  for non-critical systems  where a high price/performance balance is required.<br /><img src="about:blank" class="help_image"/></p>
+
+<!--4-->
+
+<h3>RAID 1</h3>
+<p>RAID 1 is most often implemented with two drives. Data on the drives are mirrored, providing fault tolerance in case of drive failure. Read performance is increased while write performance will be similar to a single drive. A single drive failure can be sustained without data loss. RAID 1 is often used when fault tolerance is key, while  space and performance are not critical requirements.<br /><img src="about:blank" class="help_image"/></p>
+
+<!--5-->
+
+<h3>RAID 5</h3>
+<p>RAID 5 provides fault tolerance and increased read performance. A minimum of three drives is required. RAID 5 can sustain the loss of a single drive. In the event of a drive failure, data from the failed drive is reconstructed from parity striped across the remaining drives. As a result, both read and write performance is severely impacted while a RAID 5 array is in a degraded state. RAID 5 is ideal when space and cost are more important than performance.<br /><img src="about:blank" class="help_image"/></p>
+
+<!--6-->
+
+<h3>RAID 6</h3>
+<p>RAID 6 is similar to RAID 5, except it provides another layer of striping and can sustain two drive failure. A minimum of four drives is required. The performance of RAID 6 is lower than that of RAID 5 due to this additional fault tolerance. RAID 6 becomes attractive when space and cost are important and sustaining multiple drive failures is required.<br /><img src="about:blank" class="help_image"/></p>
+
+<!--7-->
+
+<h3>RAID 10</h3>
+<p>RAID 10 combines the benefits of RAID 1 and RAID 0. Read and write performance is increased, but only half of the total space is available for data storage. Four or more drives are required making the cost relatively high, but the performance is great while providing fault tolerance at the same time. In fact, a RAID 10 can sustain multiple drive failures -- provided the failures are not within the same sub-group. RAID 10 is ideal for applications with a high input/output demand such as database servers.<br /><img src="about:blank" class="help_image"/></p>
+
+
+<!--8-->
+<h3>RAID F1</h3>
+<p>RAID F1 applies the mechanism of RAID 5, providing fault tolerance and increased read performance. With RAID F1, however, a certain drive will have more parity information to accelerate its aging, thus preventing all the drives from coming to their end of lifespan at the same time. This may subtly affect its performance when compared to RAID 5. A minimum of three drives is required. RAID F1 can sustain the loss of a single drive. In the event of a drive failure, data from the failed drive is reconstructed from parity striped across the remaining drives. As a result, both read and write performance is severely impacted while a RAID F1 array is in a degraded state. RAID F1 is ideal for an all-flash array.<br /><img src="about:blank" class="help_image"/></p>
+
+</body>
+</html>

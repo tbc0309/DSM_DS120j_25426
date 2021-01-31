@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>V&auml;lj en typ av RAID</h2>
+
+<p>RAID (Redundant Array of Independent Disks) &auml;r en teknologi f&ouml;r datalagring som till&aring;ter flera diskar att kombineras till ett enda lagringsutrymme. Det finns olika typer av RAID, varav alla ger olika niv&aring;er av prestanda, lagringskapacitet och tillf&ouml;rlitlighet.</p>
+
+<p>Denna artikel tillhandah&aring;ller en kortfattad &ouml;versikt &ouml;ver RAID-typer som st&ouml;ds av Synology NAS, inklusive krav f&ouml;r implementering s&aring;v&auml;l som f&ouml;r- och nackdelar.</p>
+
+<!--1-->
+
+<h3>RAID-typer som st&ouml;ds</h3>
+
+<p>Den h&auml;r tabellen tillhandah&aring;ller en kortfattad &ouml;versikt &ouml;ver olika RAID-typer som har st&ouml;d av Synology NAS, inklusive lagringskapacitet, minsta antal diskar som kr&auml;vs f&ouml;r RAID-typen och det antal fel p&aring; diskar som tolereras innan det uppst&aring;r dataf&ouml;rlust. </p>
+
+<table>
+	<tr>
+		<th>Volymtyp</th>
+		<th>Antal HDD</th>
+		<th>Tolererbart antal fel p&aring; disk</th>
+		<th>Beskrivning</th>
+		<th>Volymkapacitet</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>Optimerar volymstorleken n&auml;r diskar med olika storlekar kombineras.</li>
+				<li>Tillhandah&aring;ller dataredundans om volymen best&aring;r av tv&aring; eller fler diskar.</li>
+				<li>Rekommenderas f&ouml;r nyb&ouml;rjare.</li>
+			</ul>
+		</td>
+		<td>1 x (h&aring;rddiskstorlek)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">Optimerat av systemet.</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Basic</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Best&aring;r av en disk som en oberoende enhet.</li>
+				<li>Tillhandah&aring;ller inte dataredundans.</li>
+			</ul>
+		</td>
+		<td>1 x (h&aring;rddiskstorlek)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Kombinerar en samling diskar till ett enda lagringsutrymme, med en kapacitet som den sammanlagda kapaciteten f&ouml;r alla diskar.</li>
+				<li>Tillhandah&aring;ller inte dataredundans.</li>
+			</ul>
+		</td>
+		<td>Summan av alla h&aring;rddiskstorlekar</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Erbjuder &rdquo;striping&rdquo;, en process f&ouml;r uppdelning av data i block och spridning av datablocken &ouml;ver flera diskar, f&ouml;r att &ouml;ka prestandan.</li>
+				<li>Tillhandah&aring;ller inte dataredundans.</li>
+			</ul>
+	    </td>
+		<td>Summan av alla h&aring;rddiskstorlekar</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>Skriver identiska data samtidigt till b&aring;da diskarna.</li>
+				<li>Tillhandah&aring;ller dataredundans.</li>
+			</ul>
+		</td>
+		<td rowspan="3">Minsta h&aring;rddiskstorlek</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Implementerar striping p&aring; blockniv&aring; med paritetsdata distribuerat &ouml;ver alla medlemsdiskar och tillhandah&aring;ller d&auml;rf&ouml;r dataredundans mer effektivt &auml;n RAID 1.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (minsta h&aring;rddiskstorlek)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>Implementerar tv&aring; lager av dataparitet f&ouml;r att lagra redundant data motsvarande storleken av tv&aring; diskar, vilket ger en h&ouml;gre grad av dataredundans &auml;n RAID 5.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 2) x (minsta h&aring;rddiskstorlek)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br /> (j&auml;mnt nummer)</td>
+		<td>H&auml;lften av den totala h&aring;rddisken</td>
+		<td>
+			<ul>
+				<li>Tillhandah&aring;ller prestanda som RAID 0 och en niv&aring; p&aring; dataskydd som RAID 1, kombinerar diskar i grupper om tv&aring; i vilka data speglas.</li>
+			</ul>
+		</td>
+		<td>(N / 2) x (minsta h&aring;rddiskstorlek)</td>
+	</tr>
+	<tr class="enable-grantley">
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Implementerar striping p&aring; blockniv&aring; med paritetsdata som distribueras &ouml;ver alla medlemsdiskar.</li>
+				<li>Skriver mer paritetsinformation p&aring; en viss disk.</li>
+				<li>Rekommenderas f&ouml;r alla flash-arrays.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (minsta h&aring;rddiskstorlek)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>Obs:</h4>
+<ul>
+	<li>RAID-typer, f&ouml;rutom &rdquo;Basic&rdquo;, finns bara tillg&auml;ngligt p&aring; vissa modeller, beroende p&aring; antal diskfack och antal installerade diskar.</li>
+	<li>&rdquo;N&rdquo; representerar det totala antalet diskar i volymen.</li>
+</ul>
+</div>
+
+<!--2-->
+
+<h3>Synology Hybrid RAID (SHR)</h3>
+<p>Synology Hybrid RAID (SHR) &auml;r ett automatiserat hanteringssystem f&ouml;r RAID, utformat f&ouml;r att f&ouml;renkla lagringshantering och tillgodose behoven hos nya anv&auml;ndare som &auml;r obekanta med RAID-typer. </p>
+<p>SHR kan kombinera diskar i olika storlekar f&ouml;r att skapa en lagringsvolym med optimerad kapacitet och prestanda, vilket f&ouml;rspiller mindre diskutrymme och tillhandah&aring;ller en mer flexibel lagringsl&ouml;sning.  N&auml;r tillr&auml;ckligt med diskar &auml;r inkluderade medger SHR redundans f&ouml;r 1 eller 2 diskar - vilket betyder att Volymen SHR kan klara av fel p&aring; upp till en eller tv&aring; diskar utan att det uppst&aring;r dataf&ouml;rlust.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--3-->
+
+<h3>RAID 0</h3>
+<p>RAID 0 kombinerar tv&aring; eller fler diskar f&ouml;r att &ouml;ka prestandan och kapaciteten, men tillhandah&aring;ller ingen feltolerans. Ett fel p&aring; en enda disk kommer att resultera i f&ouml;rlust av all data i denna array. RAID 0 &auml;r anv&auml;ndbar f&ouml;r icke-kritiska system d&auml;r en balans f&ouml;r h&ouml;gt pris/prestanda kr&auml;vs.<img src="about:blank" class="help_image" /></p>
+
+<!--4-->
+
+<h3>RAID 1</h3>
+<p>RAID 1 &auml;r oftast implementerad med tv&aring; diskar. Data p&aring; diskarna speglas och tillhandah&aring;ller feltolerans i h&auml;ndelse av fel p&aring; disk. L&auml;sprestanda &ouml;kas medan skrivprestanda &auml;r likadan som f&ouml;r en enkel disk. Ett fel p&aring; en enda disk kan tolereras utan dataf&ouml;rlust. RAID 1 anv&auml;nds ofta n&auml;r det &auml;r viktigt med feltolerans, medan utrymme och prestanda inte &auml;r kritiska krav.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--5-->
+
+<h3>RAID 5</h3>
+<p>RAID 5 tillhandah&aring;ller feltolerans och &ouml;kad l&auml;sprestanda. Ett minimum om tre diskar kr&auml;vs. RAID 5 kan tolerera f&ouml;rlusten av en enda disk. I h&auml;ndelse av fel p&aring; disk rekonstrueras data p&aring; den felaktiga disken fr&aring;n paritet stripad &ouml;ver de kvarvarande diskarna. Som ett resultat p&aring;verkas b&aring;de l&auml;s- och skrivprestanda betydligt n&auml;r en RAID 5-array &auml;r i l&auml;get trasig. RAID 5 &auml;r idealiskt n&auml;r utrymme och kostnad &auml;r mer viktigt &auml;n prestanda.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--6-->
+
+<h3>RAID 6</h3>
+<p>RAID 6 &auml;r liknande RAID 5 f&ouml;rutom att det tillhandah&aring;ller ett till lager av striping och kan t&aring;la fel p&aring; tv&aring; h&aring;rddiskar. Ett minimum om fyra diskar kr&auml;vs. Prestandan f&ouml;r RAID 6 &auml;r l&auml;gre &auml;n f&ouml;r RAID 5, beroende p&aring; denna ytterligare feltolerans. RAID 6 blir attraktivt n&auml;r utrymme och kostnad &auml;r viktigt och f&ouml;rm&aring;ga att t&aring;la fel p&aring; flertalet diskar kr&auml;vs.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--7-->
+
+<h3>RAID 10</h3>
+<p>RAID 10 kombinerar f&ouml;rdelarna fr&aring;n RAID 1 och RAID 0. L&auml;s- och skrivprestanda &auml;r &ouml;kad, men bara h&auml;lften av det totala utrymmet &auml;r tillg&auml;ngligt f&ouml;r datalagring. Fyra eller fler diskar kr&auml;vs och g&ouml;r kostnaden relativ h&ouml;g men prestandan &auml;r utm&auml;rkt och p&aring; samma g&aring;ng tillhandah&aring;lls feltolerans. Faktum &auml;r att RAID 10 kan tolerera fel p&aring; flera diskar -- f&ouml;rutsatt att felen inte &auml;r inom samma undergrupp. RAID 10 &auml;r idealiskt f&ouml;r applikationen med h&ouml;ga krav p&aring; indata/utdata, s&aring;som databasservrar.<br /><img src="about:blank" class="help_image" /></p>
+
+
+<!--8-->
+
+<h3 class="enable-grantley">RAID F1</h3>
+<p class="enable-grantley">RAID F1 till&auml;mpar den mekanism f&ouml;r RAID 5 som tillhandah&aring;ller feltolerans och &ouml;kad l&auml;sprestanda. Med RAID F1 skriver dock systemet mer paritetsinformation till en viss disk f&ouml;r att p&aring;skynda dess &aring;ldrande och d&auml;rmed f&ouml;rhindra att alla diskar n&aring;r slutet av sin livsl&auml;ngd samtidigt. Det h&auml;r kan i l&aring;g utstr&auml;ckning p&aring;verka dess prestanda i j&auml;mf&ouml;relse med RAID 5. Ett minimum om tre diskar kr&auml;vs. RAID F1 kan tolerera f&ouml;rlusten av en enda disk. I h&auml;ndelse av fel p&aring; disk rekonstrueras data p&aring; den felaktiga disken fr&aring;n paritet stripad &ouml;ver de kvarvarande diskarna. Som ett resultat p&aring;verkas b&aring;de l&auml;s- och skrivprestanda betydligt n&auml;r en RAID F1-array &auml;r i l&auml;get trasig. RAID F1 &auml;r idealisk f&ouml;r alla flash-arrays.<br /><img src="about:blank" class="help_image" /></p>
+
+</body>
+</html>

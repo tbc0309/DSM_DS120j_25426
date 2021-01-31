@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Copia de seguridad de datos</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Copia de seguridad</h2>
+
+<p><strong>Copia de seguridad y restauración</strong> permite realizar copias de seguridad de diversos tipos de datos (configuraciones del sistema, carpetas compartidas y aplicaciones/paquetes) en su Synology NAS, de forma manual o programada. Puede almacenar los datos de copia de seguridad en carpetas compartidas locales, servidores remotos y nubes públicas (Amazon S3, Microsoft Azure, hicloud S3 y SFR NAS BACKUP). Gracias a <strong>Copia de seguridad y restauración</strong>, cada tarea de copia de seguridad puede conservar varias versiones de copia de seguridad y rotarlas según las políticas de reciclado de Smart Recycle.</p>
+
+
+<h3>Copia de seguridad de datos</h3>
+<p><strong>Copia de seguridad y restauración</strong> ofrece varias opciones de destino de copia de seguridad y formas de configurar una tarea de copia de seguridad de datos.</p>
+
+<h4>Para crear una tarea de copia de seguridad de datos:</h4>
+
+<ol>
+<li>Haga clic en <strong>+</strong> en la esquina inferior izquierda y, a continuación, seleccione <strong>Tarea de copia de seguridad de datos</strong> para iniciar el asistente de copia de seguridad.</li>
+<li>Seleccione el tipo de destino de copia de seguridad que desee:<ul>
+<li>Carpetas compartidas locales/remotas o dispositivos de almacenamiento externo</li>
+<li>Servidores rsync remotos</li>
+<li>Nubes públicas (p. ej., Amazon S3 y Microsoft Azure)</li>
+</ul>
+</li>
+<li>Configure el tipo de tarea de copia de seguridad que desee:<ul>
+<li>Para crear una tarea completamente nueva, seleccione <strong>Crear tarea de copia de seguridad</strong>.</li>
+<li>Para volver a utilizar los datos de una copia de seguridad existente en cualquier destino, seleccione <strong>Volver a vincular a tarea existente</strong>. Esto le ayuda a aprovechar directamente los datos de la copia de seguridad de una tarea distinta.</li>
+</ul>
+</li>
+
+<li>Siga las instrucciones del asistente para finalizar la configuración. Seleccione <strong>Habilitar cifrado del lado cliente</strong> para cifrar los datos antes de la transmisión y así garantizar la seguridad de los datos en la copia de seguridad de destino.</li>
+</ol>
+
+
+<div class="section">
+<h4>Notas:</h4>
+<ul>
+<li>Los nombres de tareas pueden incluir entre 1 y 32 caracteres Unicode, pero no pueden contener los siguientes caracteres:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; < = > ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>La longitud máxima de la ruta de carpeta completa para copias de seguridad es de 2048 caracteres.</li>
+<li>Si se cargan más de 32 000 archivos o carpetas en una carpeta compartida EXT3 mediante AFP, todas las tareas de copia de seguridad, incluida la carpeta compartida, producirán errores.</li>
+<li>Se puede realizar la copia de seguridad de una carpeta compartida cifrada si se encuentra montada, y se puede restaurar en una carpeta cifrada o sin cifrar. Sin embargo, siempre se restaurará como no cifrada /////////y no se montará automáticamente al arrancar. Deberá introducir o importar la clave de cifrado de la carpeta compartida cifrada para que se monte.</li>
+<li>Realizar copias de seguridad de una carpeta cifrada a otra carpeta cifrada no es compatible.</li>
+<li>Utilizar carpetas remotas como origen o como destino de copia de seguridad no es compatible.</li>
+<li>La realización de copias de seguridad en algunas aplicaciones es compatible. Para comprobar si un paquete específico es compatible con la realización de copias de seguridad, además del contenido de dichas copias y sus limitaciones, consulte la sección de ayuda de cada aplicación.</li>
+<li class="enable-eds14">Synology NAS no es compatible con la realización de copias de seguridad para aplicaciones sin un dispositivo externo EXT3/EXT4 grabable.</li>
+<li class="enable-eds14">Synology NAS solo puede realizar copias de seguridad de carpetas compartidas creadas en dispositivos externos EXT3/EXT4.</li>
+</ul>
+</div>
+
+
+<div class="section disable-eds14">
+<h4>Copias de seguridad de la configuración ACL de Windows:</h4>
+<p>También se pueden realizar copias de seguridad de la configuración ACL de Windows de los archivos en Synology NAS dependiendo de los sistemas de archivos en el destino:</p>
+
+<ul>
+<li>Todos los destinos de copia de seguridad pueden realizar una copia de seguridad de la configuración ACL de Windows, independientemente del sistema de archivos del destino</li>
+</ul>
+</div>
+
+<h4>Para exportar los datos de copia de seguridad a nubes públicas o Synology NAS remotos:</h4>
+<p>Al realizar una copia de seguridad de una gran cantidad de datos a una nube pública, se recomienda exportar la versión inicial a un dispositivo de almacenamiento externo (p. ej., una unidad USB) y vincular el dispositivo con el proveedor de servicios en la nube. De este modo, dispositivo se puede conectar y cargar los datos directamente a la nube. De este modo, se puede reducir significativamente el tiempo de la primera copia de seguridad.</p>
+<ol>
+<li>Haga clic en <strong>+</strong> en la esquina inferior izquierda y, a continuación, seleccione <strong>Synology NAS remoto</strong> o el proveedor de servicios en la nube que desee.</li>
+<li>Seleccione <strong>Exportar a una carpeta compartida local (incluido un dispositivo de almacenamiento externo)</strong> y finalice la configuración. Cuando se le solicite, seleccione <strong>Habilitar cifrado del lado cliente</strong> para los datos de copia de seguridad protegidos.</li>
+<li>Entregue el dispositivo de almacenamiento externo al Synology NAS remoto o al proveedor de servicios en la nube. Importe los datos exportados desde el dispositivo de almacenamiento externo.</li>
+<li>Una vez obtenida la confirmación, vuelva a <strong>Copia de seguridad y restauración</strong> y haga clic en <strong> Volver a vincular ahora</strong>.</li>
+<li>Siga las instrucciones del asistente para volver a vincular para vincular su Synology NAS al repositorio. Será necesaria una contraseña o clave de cifrado si los datos se exportaron cifrados.</li>
+</ol>
+
+<div class="section">
+	<h4>Nota:</h4>
+	<ul>
+		<li>Una vez configurada la tarea no se puede desactivar el cifrado del lado cliente ni se puede cambiar la contraseña.</li>
+		<li>Un repositorio de copias de seguridad solo se puede vincular a una tarea de copia de seguridad.</li>
+		<li>Si la carpeta de origen de copia de seguridad es una carpeta compartida cifrada o su subcarpeta, la carpeta de origen se podrá montar o desmontar durante la creación de la tarea de copia de seguridad.</li>
+		<li>Las carpetas compartidas cifradas no pueden ser el destino de copia de seguridad.</li>
+		<li>Si selecciona <strong>Habilitar cifrado del lado cliente</strong>, necesitará su contraseña o clave de cifrado para restaurar los datos en esta tarea. <strong>La pérdida de la contraseña o clave de cifrado provocará la pérdida permanente de los datos</strong>.</li>
+	</ul>
+</div>
+
+<h4>Para administrar tareas de copia de seguridad:</h4>
+<p>Seleccione la tarea de copia de seguridad que desee en el panel izquierdo y, a continuación, haga clic en los botones siguientes para la tarea de gestión correspondiente:</p>
+<ul>
+<li><strong>Copia de seguridad ahora</strong>: se realiza una copia de seguridad de los datos de la tarea seleccionada de forma inmediata.</li>
+<li><strong>Explorador de copia de seguridad</strong> (el icono de lupa): permite ver todas las versiones de copia de seguridad disponibles y copiar/restaurar/descargar los archivos que contienen.</li>
+<li><strong>Lista de versiones</strong>: permite ver la hora de creación y el estado de todas las versiones de copia de seguridad, eliminar versiones de copia de seguridad específicas o bloquear algunas concretas para reservas forzosas.</li>
+<li><strong>Editar</strong>: permite modificar el origen de copia de seguridad, el destino y la programación, entre otros ajustes.</li>
+<li><strong>Eliminar</strong>: permite eliminar la tarea de copia de seguridad.</li>
+<li><strong>Cancelar</strong>: permite detener la tarea de copia de seguridad actualmente en ejecución.</li>
+</ul>
+
+
+<h4>Para rotar versiones:</h4>
+<p>La rotación de copia de seguridad es un mecanismo de administración de versiones. Ayuda a administrar las versiones de copias de seguridad mediante la eliminación automática de versiones anteriores no necesarias y poder liberar así espacio de almacenamiento. Puede habilitar esta función en <strong>Configuración de tarea</strong> o configurarla cuando cree una tarea de copia de seguridad.</p>
+<ol>
+<li>Seleccione la tarea de copia de seguridad que desee en el panel izquierdo y, a continuación, haga clic en <strong>Editar</strong> o <strong>Configuración</strong> > <strong>Configuración de tarea</strong>.</li>
+<li>Seleccione <strong>Habilitar la rotación de copias de seguridad</strong> y escoja el modo de rotación que desee:<ul>
+<li><strong>A partir de las versiones más recientes</strong>: elimina las primeras versiones de copia de seguridad cuando las versiones disponibles superan el número definido.</li>
+<li><strong>Smart Recycle</strong>: mantiene las versiones de copia de seguridad según las siguientes políticas:<ul>
+<li><strong>Versiones cada hora desde las últimas 24 horas</strong>: se conserva la versión más reciente creada cada hora.</li>
+<li><strong>Versiones diarias desde hace 1 día a hace 1 mes</strong>: se conserva la versión más reciente creada cada día.</li>
+<li><strong>Versión semanal después de 1 mes</strong>: se conserva la versión más reciente creada cada semana.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Indique el <strong>número máximo de versiones</strong>. Cuando el número de versiones supera este número, la versión más antigua se rota.</li>
+<li>Si ha configurado un programa de copia de seguridad repetitivo en <strong>Programa</strong>, puede obtener una vista previa de la forma en que se conservarán las versiones de copia de seguridad y el punto de recuperación más antiguo en la línea temporal.</li>
+<li>Haga clic en <strong>OK</strong> para guardar la configuración.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Las versiones bloqueadas no se eliminarán nunca.</li>
+<li>Solo las tareas de copia de seguridad de varias versiones ofrecen rotación de versiones.</li>
+<li>La rotación de versiones no es compatible con DSM 5.1 o versiones anteriores.</li>
+<li>La rotación se activará inmediatamente después de que la configuración se cambie o de que se complete la tarea de copia de seguridad.</li>
+<li>Las versiones bloqueadas quedan excluidas cuando se calcula el número máximo de versiones.</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Notas sobre las tareas copia de seguridad de datos</h3>
+<p>Para cada tipo de tarea de copia de seguridad, lea las siguientes notas para conocer detalles importantes de configuración y sugerencias para la resolución de problemas.</p>
+
+<h4>Tareas de copia de seguridad locales:</h4>
+<ul>
+<li>Si los datos en el destino se eliminan mientras se está completando la tarea de copia de seguridad, se realizará una copia de seguridad completa cuando la tarea se vuelva a llevar a cabo.</li>
+<li>Tal vez sea necesario formatear unidades externas nuevas antes de utilizarlas como destinos de copias de seguridad. </li>
+<li>Antes de crear una tarea de copia de seguridad, asegúrese de haber conectado correctamente los discos externos a su Synology NAS. Puede ir a <b>Panel de control</b> > <b>Dispositivos externos</b> para comprobar el estado de los discos USB/eSATA. Los discos externos no se pueden seleccionar como destino de copias de seguridad si dichos discos se están inicializando, formateando o si tienen alguna avería.</li>
+<li>Las carpetas compartidas remotas no se pueden seleccionar como origen ni como destino de copias de seguridad.</li>
+<li>Si se desmonta una carpeta compartida cifrada, no se podrá elegir como destino de la copia de seguridad.</li>
+<li>No se pueden realizar copias de seguridad de miniaturas de imágenes cuando el sistema de archivos del destino es NTFS/FAT.</li>
+</ul>
+
+
+
+
+
+<h4>Tareas de copia de seguridad de rsync remotos:</h4>
+<ul>
+<li>Los siguientes modos están disponibles al crear tareas de copias de seguridad con servidores compatibles con rsync como destino de copias de seguridad de red: <b>modo rsync daemon,</b> que se usa si se selecciona un módulo de copia de seguridad (carpeta compartida en el servidor compatible con rsync) desde el menú desplegable situado junto a <b>Módulo de copia de seguridad</b>; y <b>modo shell remoto,</b> que se habilita solo cuando se introduce una ruta (que comience por "/") en <b>Módulo de copia de seguridad</b>.</li>
+<li>Para usuarios de Linux, sólo pueden realizar una copia de seguridad de red las cuentas <strong>admin</strong>, <strong>root</strong> y <strong>rsync</strong>.</li>
+<li>Si desea acceder al servidor de destino a través de Internet con el nombre de host, este debe ser FQDN (Nombre de dominio totalmente cualificado), por ejemplo, <strong>abc.bcd.com</strong>.</li>
+<li>Al hacer copias de seguridad de un dispositivo Synology NAS a otro, se le pedirá que introduzca un nombre de usuario y una contraseña para una cuenta en el servidor de destino. Cuando realice copias de seguridad de carpetas compartidas en otro Synology NAS, podrá hacerlo de acuerdo con la configuración de privilegios de acceso de las carpetas. Solo serán visibles carpetas compartidas en las que las cuentas de usuarios especificadas tienen privilegios de acceso. Si no puede encontrar la carpeta compartida deseada en el destino, compruebe sus privilegios de acceso.</li>
+<li>El cifrado de transferencia solo se admite si el servidor de destino admite la copia de seguridad cifrada en red y la contraseña de autenticación no está vacía.</li>
+<li>El modo de shell remoto solo admite el cifrado de transferencia.</li>
+<li>Si desea realizar copias de seguridad a un dispositivo Synology NAS a través de un cliente con rsync, los nombres de los archivos deben tener formato UTF-8.</li>
+<li>Si realiza copias de seguridad en un dispositivo Synology NAS a través de un cliente compatible con rsync, sólo puede realizar la tarea mediante cuentas <strong>admin</strong>, <strong>root</strong> y <strong>rsync</strong> de Synology NAS.</li>
+<li>Si realiza copias de seguridad desde su Synology NAS a un servidor compatible con rsync, deberá introducir la contraseña y el nombre de cuenta rsync de copias de seguridad correctos. También deberá elegir el módulo de copia de seguridad correcto con privilegios de escritura.</li>
+</ul>
+
+
+
+<h4>Tareas de copia de seguridad de Amazon S3:</h4>
+<ul>
+  <li>Al crear tareas de copia de seguridad con Amazon S3 como destino de las copias de seguridad, existen varias opciones disponibles, como el cifrado de transferencia, copia de seguridad a Amazon S3 RRS (almacenamiento de redundancia reducida), entre otras. Tenga en cuenta que algunas opciones, como el cifrado de transferencia, pueden reducir la velocidad de las tareas de copia de seguridad.</li>
+  <li>Los archivos de copia de seguridad en el <strong>Bucket</strong> seleccionado en el servidor Amazon S3 y el valor Set KEY empiezan con un nombre de directorio de su elección y terminan con la ruta completa del archivo.</li>
+  <li>La estructura de datos de Amazon S3 incluye un par de Bucket y KEY sin ninguna estructura de carpeta. La realización de copias de seguridad de carpetas vacías no es compatible.</li>
+  <li>Si no se ha modificado un archivo del que se ha realizado una copia de seguridad, no se realizará una copia de seguridad en el servidor de Amazon S3 de nuevo en el mismo Bucket.</li>
+  <li>Cada Bucket de Amazon S3 debe tener un nombre único. Además, el nombre deberá:</li>
+<ul>
+  <li>Tener entre 3 y 63 caracteres.</li>
+  <li>Contener letras en minúscula, números, puntos (.) y guiones (-).</li><li>Comenzar y finalizar con un número o una letra, no podrá terminar en guión (-), contener dos espacios adyacentes ni contener guiones junto a puntos (por ejemplo, "my-.bucket.com" y "my.-bucket" no son válidos).</li>
+</ul>
+<li>La longitud máxima de un Amazon S3 KEY es de 1024 caracteres. Para garantizar una tarea de copia de seguridad correcta a Amazon S3, la longitud máxima de la ruta es: 1024 menos la longitud del nombre de la carpeta de destino especificada durante la creación de la tarea.</li>
+<li>Si habilita la compatibilidad con S3 RRS (Almacenamiento de redundancia reducida), solo se copiarán en el almacenamiento RRS los datos modificados después de que se habilite la opción, lo cual significa que los datos ya copiados en el almacenamiento estándar de Amazon S3 no se volverán a copiar en el almacenamiento RRS. </li>
+<li>Pasar archivos de los que se han realizado copias de seguridad de Amazon S3 a Amazon Glacier no es compatible. Si los archivos se pasan de Amazon S3 a Amazon Glacier con la consola de Administración de AWS, es posible que la tarea de copia de seguridad relacionada produzca errores.</li>
+<li>Realizar copias de seguridad de archivos a buckets tipo host virtual con SSL no es compatible.</li>
+<li>Al transferir un archivo será necesario dividirlo en partes. El tamaño de las partes se puede ajustar con la opción <strong>Tamaño de parte de Multipart Upload</strong> en la configuración de tareas, cuyo valor predeterminado es 512 MB. Si el entorno de red no es estable, la opción recomendada es utilizar un número menor.</li>
+
+<li>El número máximo de partes por carga es 10 000. El tamaño máximo de un archivo es el <strong>Tamaño de parte de Multipart Upload</strong> multiplicado por 10 000.</li>
+<li>Los nombres de los archivos no deben contener ningún carácter que no sea UTF-8 o de control.</li>
+</ul>
+
+
+
+<h4>Tareas de copia de seguridad de Microsoft Azure:</h4>
+<ul>
+<li>Durante la creación de tareas de copia de seguridad con el servidor Microsoft Azure como destino de copia de seguridad de red, existen varias opciones disponibles (por ejemplo, el cifrado de transferencia). Tenga en cuenta que algunas opciones, como el cifrado de transferencia, pueden reducir la velocidad de las tareas de copia de seguridad.</li>
+<li>Los archivos de copia de seguridad en el <strong>Contenedor</strong> seleccionado en el servidor Microsoft Azure y el nombre Blob definido empiezan con un nombre de directorio de su elección y terminan con la ruta completa del archivo.</li>
+<li>La estructura de datos de Microsoft Azure incluye un par de Contenedor y Blob sin ninguna estructura de carpeta. La realización de copias de seguridad de carpetas vacías no es compatible.</li>
+<li>Si no se ha modificado un archivo del que se ha realizado una copia de seguridad, no se realizará una copia de seguridad en el servidor de Microsoft Azure de nuevo en el mismo Contenedor.</li>
+<li>Cada Contenedor de Microsoft Azure debe tener un nombre único. Además, el nombre deberá:</li>
+<ul>
+<li>Tener entre 3 y 63 caracteres.</li>
+<li>Contener letras en minúscula, números y guiones (-).</li>
+<li>Empezar y terminar por un número o una letra y no contener dos guiones adyacentes.</li>
+</ul>
+<li>La longitud máxima de un nombre Blob de Microsoft Azure es de 1024 caracteres. Para garantizar una copia de seguridad correcta a Microsoft Azure, la longitud máxima de la ruta es: 1024 menos la longitud del nombre de la carpeta de destino especificada durante la creación de la tarea.</li>
+
+<li>Los nombres de los archivos no deben contener ningún carácter que no sea UTF-8 o de control.</li>
+<li>El mensaje de aviso de error de autenticación puede ser debido a que se ha introducido la información de autenticación incorrecta, a un problema de conexión con la red o a que la hora en Synology NAS y en el servidor remoto no coinciden. Para comprobar la configuración de la hora en Synology NAS, vaya a <strong>Panel de control</strong> > <strong>Opciones regionales</strong> ><strong> Hora</strong> para sincronizar la hora con el servidor NTP.</li>
+</ul>
+
+
+
+<h4>Tareas de copia de seguridad de hicloud S3:</h4>
+<ul>
+<li>Durante la creación de tareas de copia de seguridad con el servidor hicloud S3 como destino de copia de seguridad de red, existen varias opciones disponibles (por ejemplo, el cifrado de transferencia). Tenga en cuenta que algunas opciones, como el cifrado de transferencia, pueden reducir la velocidad de las tareas de copia de seguridad.</li>
+<li>Los archivos de copia de seguridad en el <strong>Bucket</strong> seleccionado en el servidor hicloud S3 y el valor Set KEY empiezan con un nombre de directorio de su elección y terminan con la ruta completa del archivo.</li>
+<li>La estructura de datos de hicloud S3 incluye un emparejamiento de Bucket y KEY sin ninguna estructura de carpeta. La realización de copias de seguridad de carpetas vacías no es compatible.</li>
+<li>Si no se ha modificado un archivo del que se ha realizado una copia de seguridad, no se realizará una copia de seguridad en el servidor de hicloud S3 de nuevo en el mismo Bucket.</li>
+<li>Cada Bucket de hicloud S3 debe tener un nombre único. Además, el nombre deberá:</li>
+<ul>
+<li>Tener entre 3 y 63 caracteres.</li>
+<li>Contener letras en minúscula, números, puntos (.) y guiones (-).</li>
+<li>Comenzar y finalizar con un número o una letra, no podrá terminar en guión (-), contener dos espacios adyacentes ni contener guiones junto a puntos (por ejemplo, "my-.bucket.com" y "my.-bucket" no son válidos).</li>
+</ul>
+<li>La longitud máxima de una KEY de hicloud S3 es de 255 caracteres. Para garantizar una copia de seguridad correcta a hicloud S3, la longitud máxima de la ruta es: 255 menos la longitud del nombre de la carpeta de destino especificada durante la creación de la tarea.</li>
+<li>Al transferir un archivo será necesario dividirlo en partes. El tamaño de las partes se puede ajustar con la opción <strong>Tamaño de parte de Multipart Upload</strong> en la configuración de tareas, cuyo valor predeterminado es 512 MB. Si el entorno de red no es estable, se recomienda utilizar un número menor.</li>
+
+<li>Hicloud sólo admite un máximo de 1000 partes por transferencia. Esto significa que el tamaño total del archivo no puede ser superior a 1000 por el tamaño de parte. Por ejemplo, si el tamaño de parte de Multipart Upload se fija en 8 MB, no se podrán cargar archivos únicos cuyo tamaño supere los 8000 MB. </li>
+
+<li>La realización de copias de seguridad de carpetas compartidas cifradas no es compatible.</li> 
+
+<li>Los nombres de los archivos no deben contener ningún carácter que no sea UTF-8 o de control.</li>
+</ul>
+
+
+  
+
+<h4>Tareas de copia de seguridad de SFR NAS BACKUP:</h4>
+<ul>
+<li>Durante la creación de tareas de copia de seguridad con el servidor SFR NAS BACKUP como destino de copia de seguridad de red, existen varias opciones disponibles, como por ejemplo, el cifrado de transferencia y otros. Tenga en cuenta que algunas opciones, como el cifrado de transferencia, pueden reducir la velocidad de las tareas de copia de seguridad.</li>
+<li>Los archivos de copia de seguridad en el <strong>Bucket</strong> seleccionado en el servidor SFR NAS BACKUP y el valor Set KEY empiezan con un nombre de directorio de su elección y terminan con la ruta completa del archivo.</li>
+<li>La estructura de datos de SFR NAS BACKUP incluye un emparejamiento de Bucket y Key a una estructura de carpeta. La realización de copias de seguridad de carpetas vacías no es compatible.</li>
+<li>Si no se ha modificado un archivo del que se ha realizado una copia de seguridad, no se realizará una copia de seguridad en el servidor de SFR NAS BACKUP de nuevo en el mismo Bucket.</li>
+<li>Cada Bucket en el servidor SFR NAS BACKUP debe tener un nombre único. Además, el nombre deberá:</li>
+<ul>
+<li>Tener entre 3 y 63 caracteres.</li>
+<li>Contener letras en minúscula, números, puntos (.) y guiones (-).</li>
+<li>Comenzar y finalizar con un número o una letra, no podrá terminar en guión (-), contener dos espacios adyacentes ni contener guiones junto a puntos (por ejemplo, "my-.bucket.com" y "my.-bucket" no son válidos).</li>
+</ul>
+<li>La longitud máxima de una SFR NAS BACKUP KEY es de 1024 caracteres. Para garantizar una copia de seguridad correcta a SFR NAS BACKUP, la longitud máxima de la ruta es: 1024 menos la longitud del nombre de la carpeta de destino especificada durante la creación de la tarea.</li>
+<li>Al transferir un archivo será necesario dividirlo en partes. El tamaño de las partes se puede ajustar con la opción <strong>Tamaño de parte de Multipart Upload</strong> en la configuración de tareas, cuyo valor predeterminado es 64MB. Si el entorno de red no es estable, se recomienda utilizar un número menor.</li>
+
+<li>Los nombres de los archivos no deben contener ningún carácter que no sea UTF-8 o de control.</li> 
+
+</ul>
+
+<h4>Otras tareas de copia de seguridad compatibles con S3:</h4>
+<ul>
+<li>Para utilizar otras nubes compatibles con S3, introduzca el dominio o la dirección IP de la nube compatible con S3 correspondiente en el campo <strong>Servidor S3</strong> cuando se le solicite.</li>
+<li>Si se produce algún problema de uso, consulte la documentación correspondiente o póngase en contacto con el proveedor de servicios en la nube compatible con S3.</li>
+</ul>
+
+<h3>Copia de seguridad LUN*</h3>
+
+<p>Puede utilizar <b>Copia de seguridad LUN local</b> para realizar la copia de seguridad de los iSCSI LUN de su Synology NAS en carpetas locales compartidas. También puede utilizar <b>Copia de seguridad de red (Synology server)</b> para realizar la copia de seguridad en otro Synology NAS.</p>
+
+<h4>Para realizar una copia de seguridad de un iSCSI LUN:</h4>
+<ol>
+<li>Haga clic en <strong>+</strong> en la esquina inferior izquierda y seleccione <strong>Tarea de copia de seguridad del LUN</strong>.</li>
+<li>Cuando se le pida que elija un tipo de destino, elija cualquiera de los siguientes:</li>
+<ul>
+<li><b>Copia de seguridad de LUN local</b>: elija esta opción para realizar la copia de seguridad del LUN desde su Synology NAS en una carpeta compartida o un almacenamiento externo conectado al puerto USB o eSATA de su Synology NAS.</li>
+<li><b>Copia de seguridad de red (Synology server)</b>: elija esta opción para realizar la copia de seguridad del LUN desde su Synology NAS en otro Synology NAS.</li>
+</ul>
+<li>Cuando se le pregunte, especifique el LUN de destino y origen de la copia de seguridad y configure el programa de copia de seguridad.</li>
+<li>Siga el asistente para completar la configuración.</li>
+</ol>
+<p>Después de crear la tarea de copia de seguridad, Synology NAS realizará la tarea de copia de seguridad de acuerdo con el programa y restaurará el LUN de copia de seguridad en el destino. El LUN de copia de seguridad se utilizará sólo para fines de copia de seguridad. Para acceder al LUN de copia de seguridad, consulte <a href="restore.html">Para restaurar el LUN de copia de seguridad</a> a fin de obtener más información.</p>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Se realizarán copias de seguridad tanto de los archivos normales como de los LUN de nivel de bloques, en forma de archivos de imágenes en el destino. Si se restauran, todos los LUN a nivel de bloque cambiarán a LUN de archivo.</li>
+<li>Cada tarea de copia de seguridad puede incluir sólo un LUN como origen de la copia de seguridad.</li>
+<li>No se pueden realizar copias de seguridad de los LUN a discos externos con formatos FAT, FAT32, HFS, HFS Plus ni NTFS.</li>
+<li>Antes de ejecutar Copia de seguridad del LUN de la red, inicie sesión en el Synology NAS de destino para asegurarse de que su servicio de copia de seguridad de red está habilitado en <b>Panel de control</b> > <b>Servicio de copia de seguridad</b>.</li>
+<li>Si su Synology NAS se conecta a la red a través de un enrutador, compruebe que ha especificado una regla de reenvío de puerto para el servicio iSCSI (puerto TCP 3260) en el enrutador antes de realizar la copia de seguridad del LUN de la red.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Acerca de la copia de seguridad completa y copia de seguridad por incrementos:</h4>
+<p>Synology NAS realizará una copia de seguridad completa del LUN seleccionado por primera vez y luego realizará copias de seguridad por incrementos. Sin embargo, si el nombre de la carpeta compartida o el nombre del directorio del destino de la copia de seguridad se modifica, Synology NAS realizará de nuevo una copia de seguridad completa de la tarea.</p>
+</div>
+
+<p>____<br /> * Solo disponible en determinados modelos.</p>
+
+</body></html>

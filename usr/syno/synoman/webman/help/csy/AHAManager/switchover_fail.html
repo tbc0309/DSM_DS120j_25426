@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ <meta charset="utf-8">
+</head>
+ <body>
+  <h2>Přepnut&iacute;</h2>
+  
+ <p>Chcete-li zajistit nepřetržit&yacute; provoz a&nbsp;minimalizovat v&yacute;padky služeb, lze služby aktivn&iacute;ho serveru clusteru high-availability přepnout na z&aacute;ložn&iacute;, pasivn&iacute; server. Tato funkce se naz&yacute;v&aacute; &bdquo;Přepnut&iacute;&ldquo;, někdy tak&eacute; &bdquo;Převzet&iacute; služeb při poru&scaron;e&ldquo; neboli &bdquo;Failover&ldquo;. Tato č&aacute;st obsahuje z&aacute;kladn&iacute; &uacute;daje o těchto dvou konceptech.</p>
+  
+  <h3>Přepnut&iacute;</h3>
+  	<p>Funkce přepnut&iacute; označuje možnost přep&iacute;n&aacute;n&iacute; mezi aktivn&iacute;m a&nbsp;z&aacute;ložn&iacute;m, pasivn&iacute;m serverem clusteru high-availability. Za běžn&yacute;ch podm&iacute;nek prov&aacute;d&iacute; aktivn&iacute; server spr&aacute;vu v&scaron;ech služeb. V&nbsp;př&iacute;padě, že aktivn&iacute; server nefunguje spr&aacute;vně, můžete zah&aacute;jit proces přepnut&iacute; a&nbsp;přenosu v&scaron;ech služeb na pasivn&iacute; server, a&nbsp;to za předpokladu, že pasivn&iacute; server je v&nbsp;poř&aacute;dku. V takov&eacute;m př&iacute;padě aktivn&iacute; server převezme roli z&aacute;ložn&iacute;ho serveru a obr&aacute;ceně.</p>
+    
+<h4>Postup ručn&iacute;ho spu&scaron;těn&iacute; procesu přepnut&iacute;:</h4>
+ <ol>
+  <li>Přejděte na str&aacute;nku <b>Přehled</b>.</li>
+  <li>Klikněte na možnost <b>Spr&aacute;va</b> &gt; <b>Přepnut&iacute;</b>.</li>
+ </ol>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+   <p>Před ručn&iacute;m přepnut&iacute;m v&aacute;m doporučujeme nastavit statickou IP adresu a přihl&aacute;sit se do DSM s touto statickou IP adresou, aby nedo&scaron;lo ke ztr&aacute;tě DSM str&aacute;nky v důsledku změny IP adresy po přepnut&iacute;.</p>
+</div>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+   <p>Během procesu přepnut&iacute; bude nejdř&iacute;ve aktivn&iacute; server plnit funkci pasivn&iacute;ho serveru a&nbsp;pasivn&iacute; server bude fungovat jako aktivn&iacute; server. V&yacute;sledkem bude krat&scaron;&iacute; časov&yacute; &uacute;sek, kdy budou oba servery pasivn&iacute; a&nbsp;nebudou zaji&scaron;ťovat běžn&yacute; provoz služeb. Čas potřebn&yacute; k&nbsp;dokončen&iacute; procesu přepnut&iacute; z&aacute;vis&iacute; na počtu a&nbsp;velikosti svazků nebo jednotek iSCSI LUN (na &uacute;rovni bloků) nebo na počtu a&nbsp;celkov&eacute;m zat&iacute;žen&iacute; služeb a bal&iacute;čků clusteru high-availability.</p>
+</div>
+
+<h3>Převzet&iacute; služeb při poru&scaron;e</h3>
+    
+     <p>Dojde-li k&nbsp;určit&yacute;m chyb&aacute;m, syst&eacute;m automaticky zah&aacute;j&iacute; proces přepnut&iacute; služeb za &uacute;čelem minimalizace jejich v&yacute;padku. Tato ud&aacute;lost se naz&yacute;v&aacute; &bdquo;převzet&iacute; služeb při poru&scaron;e&ldquo; neboli &bdquo;failover&ldquo;. Syst&eacute;m může zah&aacute;jit převzet&iacute; při poru&scaron;e v těchto situac&iacute;ch za předpokladu, že pasivn&iacute; server pracuje spr&aacute;vně:</p>
+    
+    <ul>
+      <li><b>Porucha nap&aacute;jen&iacute;:</b><ul>
+      	<li>Aktivn&iacute; server byl vypnut nebo restartov&aacute;n.</li>
+        <li>Do&scaron;lo k poru&scaron;e na obou nap&aacute;jec&iacute;ch jednotk&aacute;ch aktivn&iacute;ho serveru.</li>
+        <li>Ž&aacute;dn&yacute; zdroj nap&aacute;jen&iacute;</li>
+      </ul></li>
+      <li><b>Chyba disku:</b> Počet diskov&yacute;ch cest na aktivn&iacute;m serveru je niž&scaron;&iacute; než na pasivn&iacute;m serveru.</li>
+      <li><b>Chyba služby:</b> U&nbsp;sledovan&eacute; služby do&scaron;lo k&nbsp;chybě.</li>
+      <li><b>Chyba připojen&iacute;:</b> U&nbsp;sledovan&eacute;ho rozhran&iacute; do&scaron;lo k&nbsp;chybě připojen&iacute;.</li>
+    </ul>    
+     
+    
+<h3>Porucha přepnut&iacute;</h3>
+    
+		<p>Funkci přepnut&iacute; nebo převzet&iacute; služeb při poru&scaron;e nemus&iacute; fungovat v&nbsp;n&aacute;sleduj&iacute;c&iacute;ch situac&iacute;ch:</p>
+  	<ul>
+  	  <li><b>Abnorm&aacute;ln&iacute; Heartbeat připojen&iacute;:</b> Stav připojen&iacute; mezi aktivn&iacute;m a pasivn&iacute;m serverem nen&iacute; v poř&aacute;dku.</li>
+  	  <li><b>Nespr&aacute;vn&aacute; velikost paměti:</b> Aktivn&iacute; a pasivn&iacute; servery nemaj&iacute; stejnou velikost RAM.</li>
+  	  <li><b>Porucha nap&aacute;jen&iacute;:</b><ul>
+      	<li>Pasivn&iacute; server byl vypnut nebo restartov&aacute;n.</li>
+        <li>Do&scaron;lo k poru&scaron;e na obou nap&aacute;jec&iacute;ch jednotk&aacute;ch pasivn&iacute;ho serveru.</li>
+        <li>Ž&aacute;dn&yacute; zdroj nap&aacute;jen&iacute;</li>
+      </ul></li>
+  	  <li><b>Chyba připojen&iacute;:</b> U&nbsp;sledovan&eacute;ho rozhran&iacute; na pasivn&iacute;m serveru do&scaron;lo k&nbsp;chybě připojen&iacute;.</li>
+  	  <li><b>Chyba služby:</b> Na pasivn&iacute;m serveru do&scaron;lo k&nbsp;chybě sledovan&yacute;ch služeb.</li>
+  	  <li><b>Chyba připojen&iacute; roz&scaron;iřovac&iacute; jednotky:</b> Roz&scaron;iřovac&iacute; jednotky na obou serverech nejsou připojeny ve stejn&eacute;m pořad&iacute;.</li>
+  	  <li><b>Chyba disku:</b> Počet diskov&yacute;ch cest na pasivn&iacute;m serveru je niž&scaron;&iacute; než na aktivn&iacute;m serveru.</li>
+      <li><b>Aktualizace DSM:</b> Při instalaci aktualizace DSM budou zastaveny v&scaron;echny služby a&nbsp;budou obnoveny po dokončen&iacute; instalace aktualizac&iacute; syst&eacute;mu DSM.</li>      
+ </ul>
+
+  <p>Pokud převzet&iacute; zah&aacute;j&iacute;te ručně, ale služby nelze přepnout na pasivn&iacute; server, pokus&iacute; se syst&eacute;m přepnout služby zpět na aktivn&iacute; server.</p>
+
+ <h3>Nepřeru&scaron;iteln&yacute; zdroj nap&aacute;jen&iacute;</h3>
+  <p>Cluster high-availability lze připojit k&nbsp;s&iacute;ťov&yacute;m jednotk&aacute;m nepřeru&scaron;iteln&eacute;ho zdroje nap&aacute;jen&iacute; (UPS) a&nbsp;sn&iacute;žit riziko nečekan&yacute;ch v&yacute;padků nap&aacute;jen&iacute;. Dojde-li k&nbsp;v&yacute;padku nap&aacute;jen&iacute;, bude serverům zaji&scaron;těno z&aacute;lohov&eacute; nap&aacute;jen&iacute; pomoc&iacute; připojen&yacute;ch jednotek UPS. Pokud UPS jednotce připojen&eacute; k aktivn&iacute;mu serveru začne doch&aacute;zet energie, pasivn&iacute; server se vypne a aktivn&iacute; server se přepne do nouzov&eacute;ho režimu. Po obnově nap&aacute;jen&iacute; dojde k restartu aktivn&iacute;ho serveru a pokusu o zapnut&iacute; druh&eacute;ho serveru odesl&aacute;n&iacute;m zpr&aacute;vy Probuzen&iacute; přes LAN.</p>
+   <ul>
+	   <li>Doporučujeme připojit oba servery a roz&scaron;iřovac&iacute; jednotky k stejn&eacute; UPS jednotce, k n&iacute;ž jsou připojeny s&iacute;ťov&eacute; přep&iacute;nače.</li>
+   </ul>
+
+<div class="section">
+<h4>Pozn&aacute;mka:</h4>
+<p>Synology NAS podporuje připojen&iacute; pouze k s&iacute;ťov&yacute;m UPS zař&iacute;zen&iacute;m. Dal&scaron;&iacute; informace z&iacute;sk&aacute;te v&nbsp;č&aacute;sti <strong>Ovl&aacute;dac&iacute; panel</strong> &gt; <strong>Hardware</strong> &gt; <strong>UPS</strong>.</p>
+</div>  
+ </body>
+</html>

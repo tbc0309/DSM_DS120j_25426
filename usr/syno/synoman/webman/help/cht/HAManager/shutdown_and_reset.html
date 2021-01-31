@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>關機及重新設定</h2>
+  <p>下方指示將會分別介紹 high-availability 叢集的關機、移除以及重新設定的流程。</p>
+
+  <h4> 若要透過 Synology High Availability 將 high-availability 叢集關機：</h4>
+  <p>若您要將 high-availability 叢集關機以便將伺服器搬移至新的地點或進行維護，而又不希望移除 high-availability 叢集設定，請跟隨下列指示。</p>
+  <ol>
+   <li>請登入 DSM。</li>
+   <li>開啟 Synology High Availability。</li>
+   <li>按一下標示<b>管理</b>的按鈕。</li>
+   <li>選擇<b>關閉 HA 叢集</b>。</li>
+   <li>接著會出現確認訊息視窗。按一下<b>是</b>來確認。</li>
+  </ol>
+
+  <h4>若要手動將 high-availability 叢集關機：</h4>
+  <p> 您也可以使用伺服器上的電源按鈕來手動關閉 high-availability 叢集。 </p>
+  <ol>
+   <li>按住其中一台 (主或副) 伺服器的電源按鈕，直到機器發出嗶聲。</li>
+   <li>伺服器完全關閉後，請先等待 30 秒 (仍在線上的伺服器需要時間儲存設定)。</li>
+   <li>按住另一台伺服器的電源按鈕，直到機器發出嗶聲。</li>
+   <li>等待伺服器完全關機。</li>
+  </ol>
+<div class="section">
+<h4>將伺服器開機：</h4>   
+<p>當您要再將伺服器開機時，必須同時 (或間隔五分鐘內) 開啟主、副伺服器。如果您只開啟其中一台伺服器，該伺服器會發送網路喚醒訊號來試圖開啟另一台伺服器。</p>
+<h4>異常關機：</h4>
+<p>建立 high-availability 叢集後，控制台中的電源自動回復選項會自動啟動。如果伺服器因電力故障而異常關機，在電力回復後將會自動開機。</p>
+</div>
+
+<h4>若要移除 high-availability 叢集：</h4>
+ <p>若您要解除兩台伺服器並移除 high-availability 叢集，以便連結其它伺服器，請跟隨下列指示。</p>
+  <ol>
+   <li>請前往<b>總覽</b>頁面。</li>
+   <li>按一下<b>管理</b>按鈕。</li> 
+   <li>選擇<b>移除 HA 叢集</b>。</li>
+  </ol>
+  <p>確認完畢後，系統會移除 high-availability 叢集。狀態欄位會顯示移除進度。High-availability 叢集移除完成後，您會被導引至主伺服器的原始 IP 位址。兩台伺服器的狀態將變更為<b>獨立作業</b>。</li>
+  
+<div class="section">
+<h4>注意：</h4>
+<ul>
+	<li>移除 high-availability 叢集的過程中，可能會有未完成的資料寫入動作。由於副伺服器可能會缺少某些資料更新，為確保資料完整性，請使用主伺服器上的資料來執行資料複製。</li>
+</ul>	
+</div>  
+  
+ <h4>若要重新設定異常的 high-availability 叢集：</h4>
+  <p>若因為 split-brain 錯誤或其他異常狀態造成無法存取 DSM 或 Synology High Availability，您可嘗試透過伺服器上的 <b>Reset</b> 按鈕來強制解除 high-availability 叢集。</p>
+  <ol>
+   <li>按住 <b>Reset</b> 按鈕 (通常位於伺服器後方面板)，直到機器發出嗶聲。
+   <li>系統會移除 high-availability 叢集，且此台伺服器的狀態將變更為<b>獨立作業</b>。</li>
+   <li><b>Reset</b> 按鈕也會將 IP 位址、DNS 和 admin 密碼回復到預設值，詳細 Reset 按鈕功能如下：</li>
+   <ul>
+    <li>Admin 密碼重置為空白。</li>
+    <li>停用 Guest 帳號。</li>
+    <li>IP, DNS, Gateway 及其它網路介面將啟動 DHCP。</li>
+    <li>關閉 JumboFrames，MTU 將設為 1500。</li>
+    <li>管理連接埠重置為 5000/5001。</li>
+    <li>PPPoE 重置為預設值。</li>
+    <li>停用 IP 自動封鎖 (已封鎖之 IP 位址不會被清除)。</li>
+    <li>停用 Link Aggregation。</li>
+    <li>停用防火牆規則 (規則不會被清除)。</li>
+   </ul>
+  </ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+	<li>若按下其中一台伺服器的 <b>Reset</b> 按鈕，僅有此伺服器會移除 high-availability 叢集。若要將兩台伺服器移除 high-availability 叢集，兩台伺服器上的 <b>Reset</b> 按鈕都必須按下。</li>
+</ul>
+</div>
+ </body>
+</html>

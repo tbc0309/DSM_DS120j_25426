@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Vypnutí a reset</h2>
+  <p>Níže uvedené pokyny obsahují popis vypnutí, odebrání nebo resetu clusteru high-availability.</p>
+
+  <h4> Vypnutí clusteru high-availability pomocí nástroje Synology High Availability:</h4>
+  <p>Chcete-li vypnout cluster high-availability kvůli přemístění serverů nové fyzické místo nebo provedení údržby, ale nechcete odebrat konfigurace clusteru high-availability, postupujte podle následujících pokynů.</p>
+  <ol>
+   <li>Přihlaste se do systému DSM.</li>
+   <li>Otevřete nástroj Synology High Availability.</li>
+   <li>Klikněte na tlačítko s označením <b>Správa</b>.</li>
+   <li>Vyberte možnost <b>Vypnout cluster HA</b>.</li>
+   <li>Zobrazí se zpráva s potvrzením. Potvrďte kliknutím na možnost <b>Ano</b>.</li>
+  </ol>
+
+  <h4>Ruční vypnutí clusteru high-availability:</h4>
+  <p> Cluster high-availability lze vypnout také ručně pomocí tlačítek napájení nacházejících se na obou serverech. </p>
+  <ol>
+   <li>Na jednom serveru (aktivním nebo pasivním) stiskněte a podržte tlačítko napájení, dokud nezazní zvukový signál.</li>
+   <li>Až se jeden server úplně vypne, počkejte alespoň 30 sekund (server, který je stále online, potřebuje čas na uložení nastavení).</li>
+   <li>Na druhém serveru stiskněte a podržte tlačítko napájení, dokud nezazní zvukový signál.</li>
+   <li>Počkejte, až se server zcela vypne.</li>
+  </ol>
+<div class="section">
+<h4>Zapnutí serverů:</h4>   
+<p>Pokud chcete servery opět zapnout, je potřeba zapnout aktivní i pasivní server současně (případně s rozestupem do pěti minut). Pokud zapnete pouze jeden ze serverů, pokusí se zapnout druhý server odesláním zprávy Probuzení přes LAN.</p>
+<h4>Nenormální vypnutí:</h4>
+<p>Při vytvoření clusteru high-availability je možnost restartování po selhání napájení v části Ovládací panel automaticky povolená. Pokud dojde k vypnutí serverů z důvodu poruchy napájení, servery se po obnovení napájení automaticky zapnou.</p>
+</div>
+
+<h4>Odebrání clusteru high-availability:</h4>
+ <p>Chcete-li odpojit oba servery a odebrat cluster high-availability, aby bylo možné připojit jiný server, postupujte podle následujících pokynů.</p>
+  <ol>
+   <li>Přejděte na kartu <b>Přehled</b>.</li>
+   <li>Klikněte na tlačítko <b>Správa</b>.</li> 
+   <li>Vyberte možnost <b>Odebrat cluster HA</b>.</li>
+  </ol>
+  <p>Po potvrzení systém cluster high-availability odebere. V poli stavu se zobrazuje průběh procesu odebrání. Po úspěšném odebrání clusteru high-availability budete přesměrováni na původní IP adresu aktivního serveru. Stav obou serverů se změní na <b>Samostatný</b>.</li>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+	<li>V průběhu procesu odebírání clusteru high-availability může dojít k nedokončeným operacím zápisu dat. Chcete-li zajistit úplnost dat, proveďte replikaci dat založenou na aktivním serveru, protože pasivní server nemusí obsahovat některé aktualizace dat.</li>
+</ul>
+</div>  
+ 
+ <h4>Obnovení nefunkčního clusteru high-availability:</h4>
+  <p>V případě, že není možný přístup do systému DSM nebo do clusteru Synology High Availability z důvodu chyby split brain nebo jiných závad, můžete se pokusit o vynucení odpojení clusteru high-availability stisknutím tlačítka <b>Obnovit</b> nacházejícího se na serverech.</p>
+  <ol>
+   <li>Stiskněte a podržte tlačítko <b>Obnovit</b> (obvykle se nachází na zadním panelu serveru), dokud nezazní zvukový signál serveru.<li>Tento systém bude odebrán z clusteru high-availability a stav serveru se změní na <b>Samostatný</b>.</li>
+   <li>Stisknutím tlačítka <b>Obnovit</b> rovněž obnovíte na výchozí hodnoty některá nastavení, například IP adresu, DNS a heslo uživatele admin. Dále se provedou následující akce:</li>
+   <ul>
+    <li>Heslo správce bude obnoveno jako prázdné.</li>
+    <li>Účet typu guest se zakáže.</li>
+    <li>U síťových rozhraní IP, DNS, brány a dalších se aktivuje protokol DHCP.</li>
+    <li>Rámce JumboFrame budou zakázány a hodnota MTU se nastaví na 1500.</li>
+    <li>Port pro správu bude obnoven jako 5000/5001.</li>
+    <li>Protokol PPPoE se vyresetuje na výchozí hodnoty.</li>
+    <li>Automatické blokování IP bude zakázáno (blokovaná IP adresa se nevymaže).</li>
+    <li>Funkce Link Aggregation bude zakázána.</li>
+    <li>Pravidla brány firewall budou zakázána (pravidla se nevymažou).</li>
+   </ul>
+  </ol>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+	<li>Stisknutím tlačítka <b>Obnovit</b> na serveru odeberete z clusteru high-availability pouze tento server. Chcete-li odebrat z clusteru high-availability oba servery, stiskněte tlačítko <b>Obnovit</b> na obou serverech.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

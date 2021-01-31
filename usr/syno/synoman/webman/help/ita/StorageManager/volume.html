@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Volumi</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the difference between volumes and disk groups, which are used to manage the storage space and capacity of Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Volumi</h2>
+
+<p>I volumi forniscono lo spazio di archiviazione di base per Synology NAS. Tutti gli elementi dell'utente -- come cartelle condivise, documenti e dati pacchetto -- sono archiviate sui volumi. Quindi, prima di iniziare ad archiviare elementi su Synology NAS, è necessario creare almeno un volume.</p>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Se i volumi sono usati come target replicati di <strong>Snapshot Replication</strong>, le prestazioni di replica possono essere migliorate regolando le impostazioni di <strong>Frequenza di registrazione ora di accesso file</strong> nella finestra <strong>Modifica</strong> dopo la creazione dei volumi:</p>
+<ul>
+	<li><strong>Giornalmente</strong>: l'ora di accesso al file viene aggiornata ogni giorno oppure quando il file viene modificato, proprio come nella maggior parte dei sistemi operativi. Le funzionalità di alcune applicazioni si basano sulla precisione dell'ora di accesso al file. Selezionando <strong>Giornaliero</strong> si influirà sulle prestazioni di replica; tuttavia, quest'opzione è consigliata se si utilizza una delle seguenti funzioni o applicazioni frequentemente:
+		<ul>
+			<li><strong>Ora di accesso meno recente</strong> in <strong>Storage Analyzer</strong></li>
+			<li><strong>SSD Cache Advisor</strong> in <strong>Storage Manager</strong></li>
+			<li>Qualsiasi applicazione di terzi basata su <strong>Registrazione ora di accesso file</strong>.</li>
+		</ul>
+	<li><strong>Mensile</strong>: l'ora di accesso al file viene aggiornata mensilmente oppure quando il file viene modificato. Quest'opzione comporta un piccolo miglioramento nelle prestazioni di replica, mentre le applicazioni che si basano su <strong>Registrazione ora di accesso file</strong> saranno in grado di funzionare, anche se con minore precisione.
+	</li>
+	<li><strong>Mai</strong>: consigliato per ottenere le migliori prestazioni di replica e non sono necessarie applicazioni che si basano su <strong>Registrazione ora di accesso file</strong> nell'uso quotidiano.</li>
+</ul>
+</div>
+
+
+<h4>Formato volume</h4>
+<p>A seconda del file system in uso, sono presenti due formati di volume:</p>
+<ul>
+	<li><strong>Formato nuovo volume</strong>: questo formato utilizza il file system <strong>Btrfs</strong>. Le dimensioni minime di un volume in questo formato devono essere di almeno 10 GB. Supporta le seguenti nuove funzioni con cui è possibile gestire i dati in modo più semplice:
+		<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">Elenco cartella condivisa</a>:</strong> l'istantanea registra lo stato di tutti i dati nel momento in cui viene acquisita. Se un utente modifica o elimina accidentalmente i dati in un volume con istantanee, sarà possibile ripristinare rapidamente i dati al periodo precedente, in cui è stata acquisita l'istantanea.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">Quota cartella condivisa</a>:</strong> è possibile impostare la capacità massima per ogni cartella.</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">Quota utente</a> in base alla cartella condivisa:</strong> è possibile controllare la quantità di spazio utilizzabile in una cartella condivisa da ogni utente.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">Protezione dell'integrità dei dati avanzata</a>:</strong> la cartella condivisa è protetta con le strategie somma di controllo CRC32 e copy-on-write.</li>
+		</ul>
+	</li>
+	<li><strong>Formato volume tradizionale</strong>: questo formato utilizza il file system <strong>ext4</strong>. Le dimensioni minime di un volume in questo formato devono essere di almeno 10 GB. Il file system ext4 non è supportato dalla maggior parte dei prodotti Synology, quindi sarà possibile migrare facilmente il volume in uso in questo formato in un altro prodotto Synology.</li>
+</ul>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Btrfs è disponibile solo su alcuni modelli. Per verificare se il proprio modello supporta Btrfs, consultare <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">questo articolo</a>.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

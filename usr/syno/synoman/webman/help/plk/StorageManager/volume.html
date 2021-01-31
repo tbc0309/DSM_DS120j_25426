@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Wolumeny</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the difference between volumes and disk groups, which are used to manage the storage space and capacity of Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Wolumeny</h2>
+
+<p>Wolumeny służą do organizowania miejsca w urządzeniu Synology NAS. Wszystkie dane, takie jak foldery współdzielone, dokumenty i dane pakietów, są przechowywane w wolumenach. Dlatego też przed zapisaniem danych w urządzeniu Synology NAS należy utworzyć przynajmniej jeden wolumen.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>Jeżeli wolumeny używane są jako zreplikowane cele pakietu <strong>Snapshot Replication</strong>, wydajność replikacji można poprawić, dostosowując ustawienie <strong>Zarejestruj czas dostępu do plików</strong> w oknie <strong>Edycja</strong> po utworzeniu wolumenów:</p>
+<ul>
+	<li><strong>Codziennie</strong>: Czas dostępu do plików aktualizowany jest codziennie lub w przypadku modyfikacji pliku tak, jak w przypadku większości systemów operacyjnych. Niektóre funkcje aplikacji polegają na dokładności czasu dostępu do pliku. Wybranie opcji <strong>Codziennie</strong> spowoduje zmniejszenie wydajności replikacji, ale jest zalecane w przypadku częstego korzystania z dowolnej z następujących funkcji lub aplikacji:<ul>
+			<li>Funkcja <strong>Czas najdawniejszego dostępu do plików</strong> w aplikacji <strong>Analizator pamięci masowej</strong></li>
+			<li>Funkcja <strong>Inspektor pamięci podręcznej SSD</strong> w aplikacji <strong>Zarządzanie przechowywaniem</strong></li>
+			<li>Dowolna aplikacja innego producenta zależna od funkcji <strong>Zarejestruj czas dostępu do plików</strong>.</li>
+		</ul>
+	<li><strong>Co miesiąc</strong>: Czas dostępu do plików jest aktualizowany co miesiąc lub gdy pliki zostaną zmodyfikowane. Opcja powoduje niewielką poprawę wydajności replikacji, a aplikacje zależne od funkcji <strong>Zarejestruj czas dostępu do plików</strong> będą w stanie działać przy obniżonej dokładności.</li>
+	<li><strong>Nigdy</strong>: opcja zalecana w celu osiągnięcia najwyższej wydajności replikacji oraz gdy aplikacje zależne od funkcji <strong>Zarejestruj czas dostępu do plików</strong> zazwyczaj nie są używane.</li>
+</ul>
+</div>
+
+
+<h4>Format wolumenu</h4>
+<p>W zależności od używanego systemu plików, wyróżniamy dwa formaty wolumenów:</p>
+<ul>
+	<li><strong>Nowy format wolumenów</strong>: Ten format korzysta z systemu plików <strong>Btrfs</strong> . Minimalna wielkość przydzielona do wolumenu w tym formacie wynosi 10 GB. Obsługuje następujące nowe funkcje, które ułatwiają zarządzanie danymi:<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">Migawka folderu współdzielonego</a>:</strong> Funkcja migawki zapisuje status wszystkich danych w momencie wykonania. Jeśli użytkownik przypadkowo zmodyfikuje lub usunie dane na wolumenie z migawkami, może szybko przywrócić dane, aby były takie, jak w momencie zrobienia migawki.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">Limit folderu współdzielonego</a>:</strong> możesz ustawić maksymalną wielkość każdego folderu.</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">Limit użytkownika</a> w oparciu o folder udostępniony:</strong> możesz kontrolować, jak dużo miejsca w folderze udostępnionym będzie przeznaczone dla każdego użytkownika.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">Zaawansowana ochrona integralności danych</a>:</strong> folder udostępniony jest chroniony sumą kontrolną CRC32 i strategią kopia-przy-zapisywaniu.</li>
+		</ul>
+	</li>
+	<li><strong>Tradycyjny format wolumenów</strong>: Ten format korzysta z systemu plików <strong>ext4</strong>. Minimalna wielkość przydzielona do wolumenu w tym formacie wynosi 10 GB. Ponieważ system plików ext4 jest obsługiwany przez większość urządzeń Synology, swoje wolumeny możesz łatwo przenieść w tym formacie do innego urządzenia Synology.</li>
+</ul>
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+	<li>Format Btrfs jest dostępny tylko w niektórych modelach. Informacje o modelach obsługujących Btrfs można znaleźć w <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">tym artykule</a>.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

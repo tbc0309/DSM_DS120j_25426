@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Split-brain</h2>
+
+<p>當 high-availability 叢集正常運作時，只有一台成員伺服器會扮演主伺服器的角色。在此情況下，副伺服器會透過 Heartbeat 連線及資料連線偵測主伺服器的目前狀態。</p>
+
+<p>若所有 Heartbeat 及資料連線均中斷，這兩台伺服器都可能會試圖擔任主伺服器。此情形稱為「split-brain」錯誤。在此情況下，若連線到 high-availability 叢集的 IP 位址將會被重新導向至兩台伺服器中的其中一台，而可能造成兩台伺服器上有不一致的資料更新或寫入。</p>
+<p>當您重新連結任一個 Heartbeat 或資料連線時，系統會偵測到 split-brain 錯誤以及兩台伺服器上不一致的資料，並進入 high-availability 安全模式。</p>
+        
+<h4>若發生 split-brain 錯誤：</h4>
+	<ol>
+	<li>在 split-brain 錯誤修復之前，兩台伺服器上的服務以及 high-availability 叢集的 IP 位址皆無法使用。</li>
+	<li>兩台伺服器皆進入 high-availability 安全模式後，左側面板會出現一個名為 <strong>Split-brain</strong> 的新頁籤。此頁籤會列出以下資訊：兩台伺服器上共用資料夾中的檔案差異、伺服器成為主伺服器的時間，以及 iSCSI Target 的最後連線資訊。其餘頁籤則為唯讀。</li>
+<li>在 high-availability 安全模式下，File Station 會處於唯讀狀態，您可以下載或檢視檔案。</li>
+       <li>在<b>總覽</b>頁籤下，您僅能解決 split-brain 錯誤或是將目前登入的伺服器關機。若要解決 split-brain 錯誤，請執行下列任一操作：
+       <ul>
+       <li>選擇一台伺服器作為 high-availability 叢集的主伺服器，另一台則作為副伺服器。將兩台伺服器重新開機後，主伺服器會將相異資料與設定同步至副伺服器。請注意，副伺服器在 split-brain 錯誤發生期間的更新資料將會遺失。</li>
+       <li>選擇一台伺服器作為 high-availability 叢集的主伺服器，並解除另一台伺服器的連結。將兩台伺服器重新開機後，主伺服器將留在 high-availability 叢集中，而解除連結的伺服器將會保留其資料並回復到<strong>獨立運作</strong>的狀態。請注意，日後若要重新連結新的副伺服器，則需再次進行完整的資料複製。</li>
+       <li>解除兩台伺服器的連結，保留各自的資料，讓兩台伺服器皆回復到<b>獨立運作</b>的狀態。</li>
+       </ul>
+       </li>
+	</ol>
+    
+    <div class="section">
+<h4>Notes:</h4>
+    <ul>
+    <li>共用資料夾中的檔案越多，列出差異所需的時間越長。</li>
+    <li>在選擇哪台伺服器要作為您的主/副伺服器之前，請先確認兩台伺服器皆已開機。</li>
+    </ul>
+    </div>
+    
+ </body>
+</html>

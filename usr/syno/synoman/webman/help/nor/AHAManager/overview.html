@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Oversikt</h2>
+	<p>Denne siden viser grunnleggende informasjon om high-availability-skyen og medlemsserverne. I tillegg gir denne siden deg verktøy for å utføre vedlikehold på high-availability-skyer og medlemsservere.</p>
+
+<h3>Status for high-availability-sky</h3>
+  <p>Dette feltet viser den generelle statusen til din high-availability-sky og varsler deg om eventuelle feil. Det følgende er en tabell med mulige forhold som vises i dette feltet:</p>
+    <table>
+     <tr>
+      <th width="12%">Status</th>
+      <th width="88%">Beskrivelse</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fungerende</strong></td>
+      <td>Den generelle tilstanden til din high-availability-sky er god.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Laster</strong></td>
+	  <td>Systemet laster skystatusen. <strong>Overføre</strong> kan ikke utføres før lastingen av statusen er fullført. Vennligst se <a href="switchover_fail.html">Overføre</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Konfigurerer</strong></td>
+	  <td>Systemet blir konfigurert. <b>Overføre</b> kan ikke utføres før konfigureringen er fullført.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Advarsel</strong></td>
+      <td>Statusen til HA-skyen er unormal, men tjenestene fungerer fortsatt. <strong>Overføre</strong> kan ikke utføres i denne situasjonen.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fare</strong></td>
+	  <td>Både den aktive og den passive serveren svikter, eller lagringsområdet krasjet. High-availability-skyen kan ikke fungere som normalt. Kontroller statusen til alle lagringsområder (f.eks. RAID Group, diskgruppe, volum og iSCSI LUN). <b>Overføre</b> kan ikke utføres i denne situasjonen.</td>
+     </tr>
+    </table>
+<h3>Advarselmeldinger</h3>
+   <p>Følgende tabell viser advarselmeldinger som kan dukke opp når en feil oppstår i systemet. Når flere enn en advarselmelding vises, kan du navigere mellom dem med knappene frem/tilbake. </p>
+    <table>
+     <tr>
+      <th width="21%">Advarsel/Feil</th>
+      <th width="79%">Beskrivelse</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Det finnes ikke noen passiv server i denne high-availability-skyen</strong></td>
+	  <td>Informasjon om passiv server er ikke tilgjengelig. Kontroller at den passive serveren er riktig tilkoblet. I dette tilfellet vil overføring være utilgjengelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Finner ikke den passive serveren</strong></td>
+      <td>Denne feilen kan oppstå fordi den passive serveren ikke er tilkoblet, eller fordi den aktive og den passive serveren ikke kan kommunisere gjennom Heartbeat-tilkoblingen. I dette tilfellet vil overføring være utilgjengelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Kan ikke utføre feiloverføring</strong></td>
+      <td>En feiloverføring ble utløst på den aktive serveren men mislyktes. I dette tilfellet vil ikke den aktive serveren prøve å feiloverføre på nytt. Følg trinnene nedenfor for å fjerne denne feilen:
+		<ol>
+		  <li>Prøv å reparere problemene i high-availability-skyen.</li>
+		  <li>Start den passive serveren på nytt.</li>
+		  <li>Utfør en overføring av tjenester ved å klikke på <strong>Administrer</strong> > <strong>Overføre</strong>.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Feil i overvåket mål</strong></td>
+      <td>Det oppsto en feil i ett eller flere overvåkede mål, inkludert systemstatus, tjeneste eller nettverksgrensesnitt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Feil oppsto i tilkoblingen mellom utvidelsesenhetene og den aktive/passive serveren</strong></td>
+      <td>Utvidelsesenhetene er ikke riktig tilkoblet på den aktive eller den passive serveren. Kontroller at tilkoblingen til den aktive serveren er riktig, og sett opp den samme tilkoblingen til den passive serveren. I dette tilfellet vil overføring være utilgjengelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Et volum er degradert</strong></td>
+      <td>Et lagringsområde (f.eks. RAID Group, diskgruppe, volum, iSCSI LUN eller SSD-hurtigbuffer) er degradert. Se siden <b>Lagringsstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Et volum har krasjet</strong></td>
+      <td>Et lagringsområde (f.eks. RAID Group, diskgruppe, volum, iSCSI LUN eller SSD-hurtigbuffer) har krasjet. Se siden <b>Lagringsstatus</b>. Feiloverføring vil bli utført automatisk dersom den passive serveren klarer å gjenkjenne diskene som den aktive serveren ikke får tilgang til. Ellers vil ikke overføring være tilgjengelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Heartbeat-tilkoblingen er brutt</strong></td>
+      <td>Denne feilen kan oppstå som følge av Heartbeat-tilkoblingssvikt. I dette tilfellet vil overføring være utilgjengelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Maskinvarefeil</strong></td>
+      <td>Denne feilen kan oppstå som følge av maskinvaresvikt (f.eks. strømenhet eller systemvifte) på den aktive eller den passive serveren.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ulik fysisk RAM-størrelse</strong></td>
+      <td>Denne feilen kan oppstå som følge av ulik fysisk RAM-størrelse på den aktive og den passive serveren. I dette tilfellet vil overføring være utilgjengelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ingen statisk IP er tildelt denne high-availability-skyen</strong></td>
+      <td>Denne feilen kan oppstå som følge av mangel av statisk IP for high-availability-skyen. I dette tilfellet vil overføring være utilgjengelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ingen statisk IP på overvåket grensesnitt</strong></td>
+      <td>Denne feilen kan oppstå som følge av mangel av statisk IP for det overvåkede grensesnittet. I dette tilfellet vil overføring være utilgjengelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Gjenoppretter passiv server</strong></td>
+      <td>Gjenoppretting av passiv server pågår. I dette tilfellet vil overføring være utilgjengelig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Oppgraderer passiv server</strong></td>
+      <td>Systemet oppgraderer den passive serveren. I dette tilfellet vil overføring være utilgjengelig.</td>
+     </tr>
+
+    </table>
+
+<h3>&quot;Administrer&quot;-knapp for high-availability-sky</h3>
+
+<p>Denne knappen finner du under informasjonen om high-availability-skyen. Den inkluderer følgende operasjoner:</p>
+<ul>
+<li><b>Overføre:</b> Starter en overføring av tjenester fra den aktive serveren til den passive serveren. Under denne prosessen, slutter den aktive serveren å styre tjenester og blir den nye passive serveren. Deretter blir den gamle passive serveren til den nye aktive serveren og begynner å styre alle tjenester i high-availability-skyen. Dette alternativet er utilgjengelig når den passive serveren har statusen <b>feil</b> eller ikke er valgt.</li>
+<li><b>Oppdater DSM:</b> Åpner siden <strong>Oppdater DSM</strong> i <strong>Kontrollpanel</strong>. Herfra kan begge serverne oppdateres.</li>
+<li><b>Slå av high-availability-skyen:</b> Slår av både den aktive og den passive serveren.</li>
+<li><b>Slå av aktiv server:</b> Slår av den aktive serveren. Tjenester vil bli overført hvis den passive serveren fungerer som den skal.</li>
+<li><b>Slå av passiv server:</b> Slår av den passive serveren.</li>
+<li><b>Start aktiv server på nytt:</b> Starter den aktive serveren på nytt. Tjenester vil bli overført hvis den passive serveren fungerer som den skal.</li>
+<li><b>Start passiv server på nytt:</b> Starter den passive serveren på nytt.</li>
+<li><b>Gjenopprett ukjent server:</b> Gjenopprett den passive serveren hvis den er erstattet eller fortsatt blir registrert som ukjent.</li>
+<li><b>Lydsignal for system av:</b> Stanser pipelyden på den aktive og den passive serveren når det oppstår en feil. Systemet vil fortsatt pipe på aktiv server eller passiv server hvis det oppstår en annen feil senere.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Hvis du slår av den passive serveren, eller om det ikke finnes noen passiv server, kan ikke tjenester overføres når det oppstår feil på den aktive serveren.</li>
+</ul>
+</div>
+
+<h3>Serverdiagram og informasjon</h3>
+ <p>Serverdiagrammet viser serverstatusen. Plasseringen korresponderer med modulsiden hvor serveren er tilkoblet. Hold musen over det for flere detaljer.</p>
+<p>Det inkluderer følgende situasjoner:</p>
+<ul>
+  <li><b>Det finnes ikke noen passiv server i denne high-availability-skyen:</b> Viser et tomt bilde.</li>
+  <li><b>Finner ikke den passive serveren:</b> Viser et ufokusert serverbilde.</li>
+  <li><b>Utropstegn:</b> Maskinvarefeil, eller serverinformasjon er ikke tilgjengelig pga. en Heartbeat-tilkoblingsfeil.</li>
+</ul>
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Hvis "ukjent" vises på den andre serveren, betyr det at serveren ikke tilhører high-availability-skyen. Klikk på <b>Administrer</b> og velg <b>Gjenopprett ukjent server</b> for å reparere dette problemet.</li>
+</ul>
+</div>
+
+<p>Serverinformasjon inkluderer følgende oppføringer. Den viser <b>N/A</b> hvis ingen passiv server registreres.</p>
+
+  <ul>
+   <li><b>Serienummer:</b> Serienummer på Synology-serveren.</li>
+   <li><b>Viftestatus:</b> Status på serverens nedkjølingsvifter. Hvis en av viftene svikter, vil det vises en advarsel. I dette tilfellet må du kontakte din lokale forhandler for hjelp.</li>
+   <li><b>Temperatur:</b> Temperatur på Synology-serveren. </li>
+   <li><b>Strømstatus:</b> Indikerer om serverens strømkilder fungerer som normalt. Hvis serveren er utstyrt med redundante strømkilder, vil det vises en advarsel hvis en av dem svikter.</li>
+    <li><b>Fysisk minne:</b> Fysisk RAM-størrelse på Synology-serveren. Overføring kan ikke utføres hvis de to serverne ikke har lik fysisk RAM-størrelse.</li>
+  </ul>
+
+<h3>Tilkoblingsstatus mellom servere</h3>
+<p>Denne seksjonen inneholder bilder mellom den aktive og passive serveren. Det inkluderer følgende situasjoner:</p>
+<ul>
+  <li><b>Ingen bilde:</b> Indikerer at ingen passiv server er registrert.</li>
+  <li><b>Stillbilde:</b> Indikerer feil ved Heartbeat-tilkobling.</li>
+  <li><b>Utropstegn:</b> Indikerer unormal kommunikasjon mellom de to serverne, eller feil ved Heartbeat-tilkobling.</li>
+</ul>
+
+<h3>Status for nettverksgrensesnitt</h3>
+<p>Denne seksjonen inneholder bilder mellom servere og datanettverk. Det inkluderer følgende situasjoner:</p>
+<ul>
+  <li><b>Ingen utropstegn:</b> Indikerer at ingen nettverksfeil er registrert.</li>
+  <li><b>Utropstegn:</b> Indikerer at det har oppstått en feil ved det overvåkede nettverksgrensesnittet.</li>
+</ul>
+
+<h3> Delt lagringsdiagram og informasjon</h3>
+ <p>Delt lagringsdiagram viser tilkoblingsstatusen mellom serverne og det delte lagringsområdet. Hold musen over det for grunnleggende informasjon.</p>
+<p>Det inkluderer følgende situasjoner:</p>
+<ul>
+  <li><b>Ingen utropstegn:</b> Indikerer at ingen feil er registrert.</li>
+  <li><b>Utropstegn:</b> Indikerer unormal tilkoblingsstatus for utvidelsesenheter.</li>
+</ul>
+
+<p>Grunnleggende informasjon for delt lagringsområde inkluderer følgende oppføringer. Gå til <b>Lagringshåndtering</b> for mer detaljert informasjon.</p>
+
+  <ul>
+   <li><b>Viftestatus:</b> Viser statusen til viftene i utvidelsesenhetene dine. Hvis en vifte svikter, vil det vises en advarsel. I dette tilfellet må du kontakte din lokale forhandler for hjelp.</li>
+   <li><b>Strømstatus:</b> Indikerer om serverens strømkilder fungerer som normalt. En advarsel vil vises dersom en av dem svikter.</li>
+   </ul>
+ </body>
+</html>

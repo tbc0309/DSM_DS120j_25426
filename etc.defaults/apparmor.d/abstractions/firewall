@@ -1,0 +1,36 @@
+# ----------------------------------------------------------------------------
+#
+#    Copyright (C) 2000-2014 Synology Inc. All rights reserved.
+#
+# ----------------------------------------------------------------------------
+
+## Firewall
+capability net_admin,
+capability sys_module,
+capability net_raw,
+/usr/syno/etc.defaults/rc.d/S01iptables.sh				rix,
+/usr/syno/bin/syno_iptables_common						rix,
+/usr/syno/bin/synofirewall								rix,
+
+## Network related
+/etc/rc.network                                         rix,
+/usr/syno/sbin/synonet                                  ix,
+/etc/sysconfig/network-scripts/{,**}					rwk,
+/etc/dhclient/ipv4/{,**}		                        r,
+/etc/protocols                                          r,
+/etc/resolv.conf                                        r,
+
+## Firewall rules
+/usr/syno/etc/iptables_modules_list						r,
+/usr/syno/etc/iptables_chain_list						r,
+/usr/share/xt_geoip/{,**}                               r,
+/usr/syno/etc/firewall.d/{,**}							rw,
+/etc/fw_security/{,**}						            rix,
+/usr/syno/etc/iptables_time_ctrl.sh                     rix,
+
+## Ports
+/usr/syno/etc/services.d/{,**}							r,
+/usr/local/etc/services.d/{,**}							r,
+/usr/syno/etc.defaults/firewall_service_mapping_table	r,
+
+# vim:ft=apparmor

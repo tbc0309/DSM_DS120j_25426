@@ -1,0 +1,101 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>R&eacute;parer un groupe de stockage - Aide de Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to repair a storage pool on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>R&eacute;parer un groupe de stockage</h2>
+
+<p>Des erreurs de groupe de stockage peuvent se produire pour diff&eacute;rentes raisons, par exemple &agrave; cause de disques qui ont plant&eacute;. Dans certains cas, vous pouvez suivre les instructions ci-dessous pour diagnostiquer et r&eacute;soudre ces erreurs.</p>
+	
+<p>La fonction <strong>R&eacute;parer</strong> mentionn&eacute;e dans cet article est uniquement disponible pour les groupes de stockage avec des types de RAID qui prennent en charge la redondance des donn&eacute;es (c&apos;est-&agrave;-dire un SHR comprenant au moins 2&nbsp;disques, RAID&nbsp;1, RAID&nbsp;5, RAID&nbsp;6, RAID&nbsp;F1 et RAID&nbsp;10). Veuillez noter que cette fonctionnalit&eacute; peut r&eacute;parer un groupe de stockage, mais pas les disques d&eacute;fectueux.</p>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<ul>
+<li>Nous vous recommandons d&apos;utiliser des disques figurant dans la <a href="https://www.synology.com/compatibility" target=blank>Liste de compatibilit&eacute; des produits Synology</a> pour &eacute;viter tout probl&egrave;me. L&apos;utilisation de disques non compatibles pourrait avoir une incidence sur les performances syst&egrave;me, voire provoquer une perte de donn&eacute;es.</li>
+<li>SHR (Synology Hybrid RAID) n&apos;est disponible que sur certains mod&egrave;les. Cliquez <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">ici</a> pour plus d&apos;informations sur SHR.</li>
+</ul>
+</div>
+	
+<h3>R&eacute;parer un groupe de stockage avec des partitions syst&egrave;me d&eacute;faillantes</h3>
+
+<p>En cas d&apos;&eacute;chec de partitions syst&egrave;me, un message vous informera que les partitions syst&egrave;me ne sont pas accessibles. Veuillez suivre les &eacute;tapes ci-dessous pour r&eacute;soudre le probl&egrave;me&nbsp;:</p>
+
+<ol>
+<li>Lancez le <strong>Gestionnaire de stockage</strong>.</li><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/><li>Acc&eacute;dez &agrave; la page <strong>Vue d&apos;ensemble</strong> et cliquez sur le lien <strong>R&eacute;parer</strong>. Le syst&egrave;me proc&egrave;de alors &agrave; la r&eacute;paration des partitions syst&egrave;me.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/fail_system_partitions.png" class="help_image"/></ol>
+
+<h3>R&eacute;parer un groupe de stockage d&eacute;grad&eacute;</h4>
+
+<p>Un groupe de stockage passe &agrave; l&apos;&eacute;tat <strong>D&eacute;grad&eacute;</strong> lorsqu&apos;il ne peut pas acc&eacute;der aux donn&eacute;es d&apos;un disque, mais qu&apos;aucune perte de donn&eacute;es n&apos;a eu lieu pour le moment. Cela ne se produit que pour les groupes de stockage avec des types de RAID qui fournissent une redondance des donn&eacute;es (c&apos;est-&agrave;-dire un SHR comprenant au moins 2&nbsp;disques, RAID&nbsp;1, RAID&nbsp;5, RAID&nbsp;6, RAID&nbsp;F1 et RAID&nbsp;10). Avant de commencer &agrave; r&eacute;parer un groupe de stockage d&eacute;grad&eacute;, veuillez d&apos;abord remplacer les disques d&eacute;fectueux avec des disques en bon &eacute;tat, puis retirez les disques d&eacute;fectueux ou remplacez-les simplement par des disques en bon &eacute;tat.</p>
+
+<h4>Conditions requises pour le disque&nbsp;:</h4>
+<p>Veuillez remplacer les disques d&eacute;fectueux par des disques en bon &eacute;tat qui respectent les crit&egrave;res suivants&nbsp;:</p>
+	
+<ul>
+<li><b>Pour les groupes de stockage RAID&nbsp;1, RAID&nbsp;5, RAID&nbsp;6, RAID&nbsp;F1 et RAID&nbsp;10</b>&nbsp;: la taille du disque de remplacement doit &ecirc;tre &eacute;gale ou sup&eacute;rieure &agrave; la taille du plus petit disque du groupe de stockage.</li>
+<li><b>Pour les groupes de stockage&nbsp;SHR-1</b>&nbsp;: le disque de remplacement doit r&eacute;pondre &agrave; l&apos;un des crit&egrave;res suivants.<ul>
+<li>La taille du disque de remplacement doit &ecirc;tre &eacute;gale ou sup&eacute;rieure &agrave; la taille du disque d&eacute;fectueux.</li>
+<li>Mis &agrave; part le disque le plus volumineux du groupe de stockage, la taille du disque de remplacement doit &ecirc;tre &eacute;gale ou sup&eacute;rieure &agrave; la taille du disque restant qui est le plus volumineux. <br><span class="note_head">Exemples&nbsp;:</span><ul>
+<li>Exemple&nbsp;1&nbsp;: SHR-1 se compose de disques de 3&nbsp;To, 2&nbsp;To, 2&nbsp;To et 1&nbsp;To. Si le disque de 3&nbsp;To est d&eacute;fectueux, il peut &ecirc;tre r&eacute;par&eacute; par un disque dont la taille est &eacute;gale ou sup&eacute;rieure &agrave; 2&nbsp;To.</li>
+<li>Exemple&nbsp;2&nbsp;: SHR-1 se compose de disques de 4&nbsp;To, 4&nbsp;To, 2&nbsp;To et 2&nbsp;To. Si le disque de 4&nbsp;To est d&eacute;fectueux, il peut &ecirc;tre r&eacute;par&eacute; par un disque dont la taille est &eacute;gale ou sup&eacute;rieure &agrave; 4&nbsp;To.</li>
+<li>Exemple&nbsp;3&nbsp;: SHR-1 se compose de disques de 4&nbsp;To, 4&nbsp;To, 2&nbsp;To et 2&nbsp;To. Si le disque de 2&nbsp;To est d&eacute;fectueux, il peut &ecirc;tre r&eacute;par&eacute; par un disque dont la taille est &eacute;gale ou sup&eacute;rieure &agrave; 2&nbsp;To.</li>
+</ul>	
+</li>
+			
+</ul>
+</li>
+<li><b>Pour les groupes de stockage&nbsp;SHR-2</b>&nbsp;: le disque de remplacement doit r&eacute;pondre &agrave; l&apos;un des crit&egrave;res suivants.<ul>
+<li>La taille du disque de remplacement doit &ecirc;tre &eacute;gale ou sup&eacute;rieure &agrave; la taille du disque d&eacute;fectueux.</li>
+<li>Mis &agrave; part les deux disques les plus volumineux du groupe de stockage, la taille du disque de remplacement doit &ecirc;tre &eacute;gale ou sup&eacute;rieure &agrave; celle du disque restant qui est le plus volumineux.</li>
+</ul>	
+</li>
+</ul>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<ul>
+<li>Si les disques disponibles ont &eacute;t&eacute; affect&eacute;s en tant que disques Hot&nbsp;Spare pour prot&eacute;ger un ou plusieurs groupes de stockage, alors les disques Hot&nbsp;Spare r&eacute;pareront automatiquement les groupes de stockage d&eacute;grad&eacute;s. Veuillez consulter la section <a href="hotspare.html" target="_blank">Hot&nbsp;Spare</a> pour plus d&apos;informations.</li>
+</ul>
+</div>
+
+
+<h4>Pour r&eacute;parer un groupe de stockage d&eacute;grad&eacute;&nbsp;:</h4>
+
+<p>Veuillez suivre les &eacute;tapes ci-dessous pour r&eacute;parer un groupe de stockage d&eacute;grad&eacute;&nbsp;:</p>	
+<ol>
+<li>Acc&eacute;dez &agrave; la page <strong>Gestionnaire de stockage</strong> &gt; <strong>Groupe de stockage</strong> et recherchez le groupe de stockage qui est &agrave; l&apos;&eacute;tat <strong>D&eacute;grad&eacute;</strong>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/volume_degraded.png" class="help_image"/><li>Affichez les informations du groupe de stockage et v&eacute;rifiez l&apos;&eacute;tat du disque.</li>
+<li>Ensuite, acc&eacute;dez &agrave; la page <strong>HDD/SSD</strong> pour v&eacute;rifier quel disque est d&eacute;fectueux.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/hdd_ssd.png" class="help_image"/><li>Retirez le disque d&eacute;fectueux de votre Synology NAS et remplacez-le par un nouveau. Si votre Synology NAS ne prend pas en charge le remplacement &agrave; chaud, veuillez &eacute;teindre votre p&eacute;riph&eacute;rique avant de retirer et d&apos;installer des disques.<br><span class="note_head">Remarque&nbsp;:</span> toutes les donn&eacute;es existantes sur le disque de remplacement seront effac&eacute;es.</li>
+<li>Une fois le disque de remplacement install&eacute;, revenez &agrave; la page <strong>Groupe de stockage</strong> et s&eacute;lectionnez le groupe de stockage d&eacute;grad&eacute;.</li>
+<li>Cliquez sur <b>R&eacute;parer</b> dans le menu d&eacute;roulant <b>Action</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/manage_repair.png" class="help_image"/><li>S&eacute;lectionnez le disque de remplacement que vous souhaitez ajouter au groupe de stockage et suivez les instructions de l&apos;assistant pour terminer.</li>
+</ol>
+
+<div class="section">
+<h4>Remarque&nbsp;:</h4>
+<ul>
+<li>Si la r&eacute;paration d&apos;un groupe de stockage prend beaucoup de temps, cela peut venir des raisons r&eacute;pertori&eacute;es <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Why_does_it_take_a_long_time_to_repair_a_storage_pool" target="_blank">ici</a>.</li>
+</ul>
+</div>
+
+
+<h3>R&eacute;parer des groupes de stockage plant&eacute;s</h3>
+
+<p>Lorsque l&apos;&eacute;tat d&apos;un groupe de stockage devient <strong>Plant&eacute;</strong>, vous ne pouvez plus le r&eacute;parer vous-m&ecirc;me. Reportez-vous aux articles suivants pour plus d&apos;informations sur les causes courantes de plantage des volumes et leur m&eacute;thode de d&eacute;pannage&nbsp;:<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_are_the_reasons_of_volume_crash" target="_blank">Qu&apos;est-ce qui provoque le plantage d&apos;un volume&nbsp;?</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_do_I_do_when_a_volume_crashes" target="_blank">Que dois-je faire lorsqu&apos;un volume plante&nbsp;?</a></li>
+	</ul>
+</p>
+
+
+</body>
+</html>

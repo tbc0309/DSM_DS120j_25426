@@ -1,0 +1,24 @@
+#!/bin/sh
+
+BIN_SED="/bin/sed"
+BIN_GREP="/bin/grep"
+BIN_SCHEDULE_TASK="/usr/syno/bin/synoschedtask"
+AUTOUPDATE_TYPE=$(/usr/bin/jq -j .autoupdate_type /usr/syno/etc/update.conf)
+
+ENABLE="false"
+TASK_ID=$($BIN_SCHEDULE_TASK --get state=enabled | $BIN_GREP ID | $BIN_SED 's/^.*\[//g' | $BIN_SED 's/\].*$//g')
+for x in $TASK_ID
+do
+	RESULT=$($BIN_SCHEDULE_TASK --get id=$x)
+	IS_AUTOUPDATE=$(echo $RESULT | $BIN_GREP "DSM\ Auto\ Update")
+	if [ $? -eq 0 ]; then
+		ENABLE="true"
+	fi
+done
+
+/usr/bin/jq -n \
+	--argjson collector_version 2 \
+	--arg upgradetype hotfix \
+	--arg dsm_autoupdate_type "${AUTOUPDATE_TYPE:-unknown}" \
+	--argjson dsm_autoupdate_enable "${ENABLE}" \
+	'{$collector_version, $upgradetype, $dsm_autoupdate_type, $dsm_autoupdate_enable}'

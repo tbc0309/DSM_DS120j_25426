@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+from subprocess import Popen, PIPE, STDOUT
+import json
+import sys
+
+COLLECTOR_VERSION_KEY = "collector_version"
+COLLECTOR_VERSION = 1
+
+
+def get_bonjour_devices_num():
+    device_num = 0
+    services = set()
+
+    cmd = '/usr/sbin/avahi-browse -t -a -l -p'
+    process = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
+    output = process.stdout.read()
+    process.communicate()
+    if process.returncode != 0:
+        return device_num, services
+
+    result = {}
+    for line in output.split('\n'):
+        # +;ovs_eth1;IPv4;dada-3614;_afpovertcp._tcp;local
+        line = line.strip().split(';')
+        if len(line) < 6:
+            continue
+        _, _, _, dev_name, service, _ = line
+        if dev_name not in result:
+            result[dev_name] = []
+        result[dev_name].append(service)
+
+    device_num = len(result)
+    for servs in result.values():
+        for serv in servs:
+            services.add(serv)
+
+    return device_num, services
+
+
+def main():
+    ''' Result output
+    {
+        COLLECTOR_VERSION_KEY: COLLECTOR_VERSION
+        bonjour_device_num: int
+        bonjour_services: []
+    }
+    '''
+    result = {
+        COLLECTOR_VERSION_KEY: COLLECTOR_VERSION,
+        'bonjour_device_num': 0,
+        'bonjour_services': []
+    }
+    result['bonjour_device_num'], result['bonjour_services'] = get_bonjour_devices_num()
+    result['bonjour_services'] = list(result['bonjour_services'])
+
+    sys.stdout.write(json.dumps(result))
+
+
+if __name__ == '__main__':
+    main()

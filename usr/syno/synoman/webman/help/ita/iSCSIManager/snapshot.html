@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>iSCSI Manager</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_snapshot"></a>Istantanea</h2>
+
+<h4>Per acquisire un'istantanea LUN:</h4>
+<p>Un'istantanea LUN è una copia in sola lettura in un punto nel tempo di un LUN.</p>
+<ol>
+	<li>Selezionare il LUN del quale scattare le istantanee.</li>
+	<li>Fare clic su <strong>Istantanea</strong> e scegliere <strong>Scatta istantanea</strong>.</li>
+	<li>Immettere la descrizione per questa istantanea.</li>
+	<li>Scegliere uno dei seguenti tipi di istantanea in base alle proprie necessità:
+		<ul>
+			<li><strong>Consistente all'applicazione</strong>: questo tipo di istantanea può essere acquisita solo quando Synology Storage Console o Synology Snapshot Manager è installato sul server Windows o VMware vCenter Server, a seconda dell'ambiente operativo per comunicare con DSM. Quando istantanee consistenti all'applicazione sono effettuate su DSM, le applicazioni saranno notificate e passeranno tutti i dati dalla memoria al LUN su cui l'istantanea è effettuata per garantire la consistenza di dati.</li>
+			<li><strong>Consistente al blocco</strong>: se nessun Synology Storage Console o Synology Snapshot Manager è installato in alcun client, è possibile acquisire solo istantanee di LUN consistenti al blocco. Quando sono attivate, le applicazioni non saranno notificate per il flusso dei dati dalla memoria alla LUN, quindi non sarà possibile garantire alcuna coerenza dei dati.</li>
+		</ul>
+	</li>
+	<li>Fare clic su <strong>OK</strong>.</li>
+</ol>
+<div class="section">
+	<h4>Nota:</h4>
+	<ul>
+		<li>si consiglia di installare <b>Synology Storage Console</b> o <b>Snapshot Manager</b> per evitare possibili inconsistenze dei dati. </li>
+	</ul>
+</div>
+<div class="section">
+	<h4>Terminologie:</h4>
+	<ul>
+	<li><b>Synology Storage Console:</b> Synology Storage Console è un plugin di gestione dell'archiviazione in VMware vSphere Client o Windows Server che semplifica la gestione e il monitoraggio di più sistemi di archiviazione Synology. Consente inoltre di acquisire istantanee coerenti con l'applicazione direttamente da DSM.
+		<ul>
+			<li>Per gli ambienti VMware, il plugin è compatibile solo con VMware vCenter Server Appliance 6.5 U2 o versioni successive.</li>
+			<li>È possibile scaricare il plugin tramite il <a href="https://www.synology.com/support/download" target="_blank">Download Center</a> e ottenere maggiori informazioni su <a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforVMware/storageconsoleforvmware" target="_blank">Synology Storage Console for VMware</a> e <a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforWindows/storageconsoleforwindows" target="_blank">Synology Storage Console for Windows</a>.</li>
+		</ul></li>
+	<li><b>Synology Snapshot Manager:</b> Synology Snapshot Manager è un plug-in software, che consente di effettuare istantanee consistenti all'applicazione direttamente da DSM.
+		<ul>
+			<li>Per gli ambienti VMware, il plugin è compatibile solo con VMware vCenter Server 6.0 o versioni successive.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>Per eliminare un'istantanea:</h4>
+<ol>
+	<li>Selezionare il LUN del quale scattare le istantanee.</li>
+	<li>Fare clic su <b>Istantanea</b> > <b>Elenco istantanee</b>.</li>
+	<li>Selezionare l'istantanea da eliminare e fare clic su <b>Rimuovi</b>.</li>
+</ol>
+<div class="section">
+	<h4>Nota:</h4>
+	<ul>
+		<li>la richiesta di spazio necessita di tempo per l'elaborazione dopo l'eliminazione delle istantanee.</li>
+	</ul>
+</div>
+
+<h4>Per ripristinare un LUN:</h4>
+<p>Selezionare un'istantanea di un punto nel tempo per ripristinare i dati su un LUN.</p>
+<ol>
+	<li>Selezionare il LUN da ripristinare.</li>
+	<li>Fare clic su <strong>Istantanea</strong> e scegliere <strong>Elenco istantanee</strong>.</li>
+	<li>Selezionare un'istantanea da ripristinare e fare clic su <strong>Ripristina</strong>.</li>
+</ol>
+
+<h4>Per creare un clone del LUN dalle istantanee:</h4>
+<p>Creare una copia scrivibile di un LUN o un'istantanea del LUN.</p>
+<ul>
+	<li>Selezionare un'istantanea LUN da <strong>Elenco istantanee</strong> e fare clic su <strong>Clona</strong>.</li>
+</ul>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Le funzioni di ripristino e clonazione dell'istantanea LUN sono disponibili solo su LUN con comandi di accelerazione dell'archiviazione.</li>
+	<li>Se viene scattata un'istantanea o creato un clone, e lo stato è su <strong>Anomalo</strong>/<strong>Bloccato</strong>, eliminare l'istantanea/clone e crearne uno nuovo.</li>
+	<li>Tutte le modifiche apportate a un LUN dopo la creazione dell'istantanea andranno perse quando il LUN viene ripristinato dall'istantanea.</li>
+	<li>Le funzioni comprendenti il ripristino di LUN, la clonazione di LUN e l'acquisizione e la clonazione di istantanee LUN non sono disponibili quando un volume presenta meno di 1GB di spazio libero.</li>
+</ul>
+</div>
+<div class="section"><h4><a id="smart_retention"></a>Politica di conservazione</h4>
+<p>Quest'opzione fornisce una soluzione ideale per contribuire a specificare le quantità massime delle versioni di istantanee per salvare lo spazio su volume, ma potrebbe essere necessario conservare le istantanee per periodi di tempo più lunghi. Per la politica di conservazione, occorre considerare quanto segue:</p>
+<ul>
+<li>Synology impiega la politica di conservazione GFS (Grandfather-Father-Son). È possibile configurare le quantità massime di versioni di istantanee da conservare per i seguenti intervalli di tempo rispettivamente: <strong>orario</strong>, <strong>giornaliero</strong>, <strong>settimanale</strong>, <strong>mensile</strong> e <strong>annuale</strong>.</li>
+<li>Un'istantanea può soddisfare varie regole di conservazione contemporaneamente. Ad esempio, un'istantanea può soddisfare le regole giornaliere, settimanali e mensili.</li>
+<li>Le istantanee meno recenti saranno conservate se si acquisiscono molte istantanee entro un determinato periodo. Ad esempio, se si imposta una regola di conservazione su <strong>10 istantanee settimanali</strong>, è la pianificazione delle istantanee è impostata sull'acquisizione di un'istantanea al giorno, Snapshot Replication conserverà l'istantanea meno recente di ciascuna settimana per le ultime 10 settimane.</li>
+<li>Se non sono state acquisite istantanee per un determinato periodo, il sistema conserverà le istantanee più recenti. Ad esempio, se la regola istantanea giornaliera è impostata su 15 e non sono state acquisite istantanee negli ultimi 30 giorni, il sistema conserverà le istantanee acquisite da 30 a 45 giorni prima.</li>
+<li>Tutte le versioni di istantanee entro un'ora dall'acquisizione dell'istantanea più recente verranno conservate per impostazione predefinita, per semplificare la ricerca e il ripristino da versioni di istantanee recenti. È anche possibile bloccare un'istantanea per evitarne la rimozione automatica prevista dalle regole di conservazione in uso.</li>
+</ul>
+
+<p>Esempio 1:<br/> per conservare le istantanee giornaliere per gli ultimi 3 mesi, le istantanee settimanali per gli ultimi 4-6 mesi e le istantanee per gli ultimi 7-9 mesi, è necessario inserire 0 per le istantanee orarie, 90 per le istantanee giornaliere, 24 per le istantanee settimanali, 9 per le istantanee mensili e 0 per le istantanee annuali.</p>
+
+<p>Esempio 2:<br/> per conservare le istantanee orarie per gli ultimi 2 giorni, le istantanee giornaliere per l'ultima settimana, le istantanee settimanali per l'ultimo mese e le istantanee mensili per l'ultimo anno, è necessario inserire 48 per le istantanee orarie, 7 per le istantanee giornaliere, 4 per le istantanee settimanali, 12 per le istantanee mensili e 0 per le istantanee annuali.</p>
+
+
+<img class="help_image" src="../../images/iSCSIManager/retention_policy.png">
+</div>
+</body>
+</html>

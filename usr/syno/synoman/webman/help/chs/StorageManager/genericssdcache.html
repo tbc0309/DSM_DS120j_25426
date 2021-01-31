@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>SSD 缓存</h2>
+<p>SSD 缓存可通过将经常访问的数据存储在 SSD 缓存上来提高随机访问的性能。SSD 缓存可装载到存储空间或 iSCSI LUN（块级）上。</p>
+
+<p>启用 SSD 缓存的目的是提高存储空间中经常访问的小部分数据的随机访问性能。例如，大量连续读取或写入操作（例如，高清视频串流）和完全随机数据读取模式都没有重读模式，这样就不会从 SSD 缓存获益太多。对于一般的应用程序，建议启用<b>跳过连续 I/O</b> 选项，这样连续 I/O 就仍可到达存储空间所在的硬盘。</p>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>仅特定型号支持 SSD 缓存。若要查看您的型号是否支持 SSD 缓存，请参阅<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_SSD_cache" target="_blank">本文</a>。</li>
+	<li>建议选择兼容硬盘用作 SSD 缓存，以防止 Synology NAS 出现任何问题。</li>
+	<li>请参阅 <a href="http://www.synology.com/" target=_blank>Synology 网站</a>中您所购产品型号的规格以了解 Synology NAS 中允许的 SSD 缓存大小上限。</li>
+</ul>
+</div>
+
+<h3>SSD 缓存类型</h3>
+<p>SSD 缓存有两种类型，这两种缓存都实施了 LRU（最近最少使用）算法以交换缓存中的数据：</p>
+<ul>
+	<li>在 Basic 或 RAID 0 配置中，<strong>只读缓存</strong>可含有 1 至 12 个 SSD，以提高其所在存储空间的随机读取性能。</li>
+	<li><strong>读写缓存</strong>可装载在 RAID 1/RAID 5/RAID 6 配置中，具体取决于 SSD 数量（最多 12 个 SSD），以提高其所在存储空间的随机读取和写入性能。</li>
+</ul>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>SSD 只读缓存存储了存储空间的数据副本；因此，即便只读缓存损毁也不会有数据丢失。</li>
+	<li>当 SSD 读写缓存降级时，<b>自动保护机制</b>将会激活。该机制将会停止缓存新 IO 并开始将已有新数据从 SSD 写入（即同步）到 HDD。在数据同步完成后，即便读写缓存损毁也不会有数据丢失。</li>
+	<li>在正常情况下，SSD 读写缓存包含尚未同步到 HDD 的新数据。在从存储管理器删除缓存之前，请勿从 Synology NAS 移除 SSD（即使系统关机）。否则，存储空间可能会损毁。</li>
+</ul>
+</div>
+
+<h3>内存要求</h3>
+<p>内存要求取决于 Synology NAS 的 CPU。若要查看 Synology NAS 中使用的 CPU，请参阅<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">本文</a>。</p> 
+
+<h4>对于使用 Alpine CPU 的型号：</h4>
+	<p>每 1 GB 的 SSD 缓存需要约 416 KB 的系统内存（可算上可扩展内存），缓存大小上限为 930 GB。因此，如果只读缓存配置为 2 个 128 GB SSD，则缓存总大小将为 256 GB，并且至少需要 104 MB 的内存；如果读写缓存配置为 2 个 128 GB SSD，则缓存总大小将为 128 GB，并且至少需要 52 MB 的内存。如果内存不足，则 SSD 缓存的创建或 SSD 缓存大小将受限。</p>
+
+<h4>对于所有其他型号：</h4>
+	<p>SSD 缓存需要一定量的系统内存（取决于缓存大小），因此当您装载较大的 SSD 缓存时，可能需要升级 Synology NAS 的内存。为保持系统运作稳定且快速，仅四分之一的预安装系统内存可以作为 SSD 缓存之用。</p>
+	
+	<p>1 GB 的 SSD 缓存需要约 416 KB 的系统内存（可算上扩展内存）。<br><span class="note_head">注：</span>此功能不适用于 DSM 5.1 或更早版本上创建的读写 SSD 缓存。即，在早于 DSM 5.2 的版本上创建每 1 GB 的 SSD 缓存仍需要 4 MB 的系统内存，即便在 DSM 5.2 环境下使用也是一样。</p>
+	
+	<p>因此，如果只读缓存配置为 2 个 128 GB SSD，则缓存总大小将为 256 GB，并且至少需要 104 MB 的内存；如果读写缓存配置为 2 个 128 GB SSD，则缓存总大小将为 128 GB，并且至少需要 52 MB 的内存。如果内存不足，则 SSD 缓存的创建或 SSD 缓存大小将受限。</p>
+
+<h3>缓存命中率</h3>
+<p>默认情况下，SSD 缓存仅加速随机 I/O，而不加速连续 I/O。SSD 缓存的缓存命中率可以根据以下公式进行计算：</p>
+<ul>
+	<li>SSD 只读缓存的命中率 = 加速的随机读取计数/总随机读取计数 * 100%</li>
+	<li>SSD 读写缓存的命中率 = 加速的随机读写计数/总随机读写计数 * 100%</li>
+</ul>
+
+<h3>管理 SSD 缓存</h3>
+<h4>若要装载 SSD 缓存：</h4>
+	<ol>
+	  <li>将 SSD 安装到 Synology NAS 中。安装前请先参阅上述注意事项。</li>
+	  <li>进入<strong>存储管理器</strong> &gt; <strong>SSD 缓存</strong>。单击<b>创建</b>。</li>
+	<li>选择缓存模式（仅适用于支持读写缓存的型号）。</li>
+	<li>找到下拉菜单，选择您要装载 SSD 缓存的存储空间或 iSCSI LUN（块级）。</li>
+	<li>从列表中选择 SSD。SSD 上的数据将被删除，因此请确认不会删除重要的数据。</li>
+	<li>单击<b>应用</b>。</li>
+	</ol>
+
+<h4>若要停止缓存连续 I/O：</h4>
+	<p>如果目标存储空间或 iSCSI LUN（块级）具有出色的连续 I/O 性能，您可以让 SSD 缓存停止缓存连续 I/O 并直接从硬盘访问数据，以获取更高的速度和更好的性能。</p>
+	<ol>
+	<li>单击<strong>配置</strong>来打开配置窗口。</li>
+	<li>勾选<strong>跳过连续 I/O</strong>。</li>
+	</ol>
+
+<h4>若要删除 SSD 缓存：</h4>
+	<ol>
+	<li>单击<b>删除</b>可从 Synology NAS 中永久删除此 SSD 缓存。</li>
+	</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+    <li>对于读写缓存，您必须通过此流程删除它（即使 Synology NAS 关机同样如此），否则由于部分数据只驻留于缓存中将造成存储空间损毁。</li>
+	<li>在装载或删除 SSD 缓存的过程中，系统将停止所有相关服务（如共享文件夹、安装的套件、当前连接等）</li>
+	<li>如果开机时未检测到存储空间中的读写缓存，则系统不会装载该存储空间。请在 Synology NAS 中找到并重新安装 SSD，然后重新启动以装载该存储空间。</li>
+	<li>请先确认正确删除读写 SSD 缓存，方可拔出其相应的 SSD。不当拔下 SSD（如当缓存仍在使用或当系统关机时）会造成目标存储空间或 iSCSI LUN 中存储的数据损毁。</ul>
+</div>
+ 
+<h4>若要取消移除 SSD 缓存：</h4> 
+<ol>
+    <li>单击<b>取消移除</b>以取消缓存移除操作。</li>
+    </ol>    
+
+<h4>若要修复 SSD 缓存：</h4>
+	<ul>
+		<li><strong>对于读写缓存：</strong>如果有一个 SSD 损毁，请按照下列步骤进行修复。<ol>
+			<li>用新 SSD 更换故障 SSD。（新 SSD 的型号和容量必须与旧的相同）。</li>
+			<li>单击<b>修复</b>按钮。</li>
+			<li>从列表中选择 SSD。</li>
+			<li>单击<b>应用</b>。</li>
+			</ol></li>
+		<li><strong>对于只读缓存：</strong>当其中一个 SSD 损毁时，请移除缓存并更换故障 SSD。然后单击<strong>创建</strong>以配置新缓存。</li>
+	</ul>
+
+<h3>SSD 缓存建议</h3>
+<p>此功能可让您计算及查看特定存储空间中最近访问文件的总大小和数量。如果您尚未在所选存储空间上创建任何 SSD 缓存，可参考这些信息来估算适合您系统的 SSD 缓存容量。如果您之前已在所选存储空间上创建了 SSD 缓存，缓存的分析和使用情况也将显示在此处。</p>
+
+<h4>若要使用 SSD 缓存建议：</h4>
+	<ol>
+	<li>单击 <b>SSD 缓存建议</b>打开向导。</li>
+	<li>选择要进行计算的存储空间，然后单击<b>下一步</b>。</li>
+	<li>向导将自动开始计算所选存储空间中最近访问文件的总大小和数量。计算时间将根据具体环境而有所不同。</li>
+	</ol>

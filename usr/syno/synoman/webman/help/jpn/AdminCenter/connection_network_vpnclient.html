@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>VPN への接続 - Synology DSM ヘルプ</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Turn your Synology NAS into a VPN client and create profiles to connect your Synology NAS to a VPN server.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h1>VPN への接続</h1>
+<p>Synology NAS を VPN クライアントにして、PPTP、OpenVPN、または L2TP/IPSec プロトコルを介して既存の VPN (Virtual Private Network) サーバーに接続することができます。複数の VPN サーバーがある場合は、ワンクリックで簡単に別の VPN サーバーに接続できるように、各サーバーに特定の VPN プロファイルを作成することができます。</p>
+
+
+<div class="section">
+<h4>VPN って何でしょう？</h4>
+<p>VPN (Virtual Private Network) とは、インターネットからプライベート ネットワーク上のリソースに安全にアクセスするためのソリューションです。ネットワーキング機能の拡大に伴い、企業や個人にとっては、この物理的ネットワーキング システムとテクニカル サポートのコストも急激に増加します。コスト効率が高く、長期的な維持費を考慮すると、VPN は賢く非常に魅力的なソリューションであると言えます。暗号化とその他のセキュリティ メカニズムを駆使した VPN テクノロジーは、社員が企業の中央ネットワークに簡単に接続し、LAN 接続の場合と同様にそのリソースを活用できるようにします。個人ユーザーも外出先から自宅の LAN 上のリソースにアクセスすることがきます。</p>
+</div>
+
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li> Synology NAS はレイヤー 3 で tun 方式のトンネルをサポートする OpenVPN サーバーに接続できます。</li>
+<li>VPN パッケージをインストールする前に、接続する VPN サーバーに接続してください。互換性を高めるには、<strong>VPN Server</strong> パッケージが起動された Synology NAS でホストされる VPN サービスに接続するようお薦めします。別の Synology NAS を VPN Serverとして設定するには、[<b>DSM ヘルプ</b>] > [<b>VPN Server</b>] > [<b>VPN Serverの設定</b>] を選択してください。</li>
+</ul>
+</div>
+
+
+<h4>VPN プロファイルを作成する：</h4>
+<ol>
+<li>[<b>コントロール パネル</b>] > [<b>ネットワーク</b>] の順に選択します。</li>
+
+  <img src="about:blank" class="help_image"/>
+  
+<li>[<b>ネットワーク インターフェイス</b>] タブで [<b>作成</b>]をクリックし、[<b>VPN プロファイルの作成</b>]を選択します。</li>
+
+  <img src="about:blank" class="help_image"/>
+  
+<li>新しい VPN プロファイルを作成する場合、次の接続タイプの中から1つを選択することができます。
+	<ul>
+		<li><b>PPTP</b>：PPTP (Point-to-Point Tunneling Protocol) はほとんどのクライアント（Windows、Mac、Linux、モバイルデバイスを含みます）によりサポートされ、一般的に使用されている VPN ソリューションです。</li>
+		<li><b>OpenVPN</b>：OpenVPN は VPN サービスを導入するためのオープンソース ソリューションです。これは VPN 接続を SSL/TLS 暗号化メカニズムで保護します。</li>
+		<li><b>L2TP/IPSec</b>：L2TP (Layer 2 Tunneling Protocol) over IPSec は、高いセキュリティを備えた仮想プライベート ネットワークを実現し、ほとんどのクライアント（Windows、Mac、Linux、その他のモバイル デバイス）でサポートされます。</li>
+	</ul>
+</li>
+
+  <img src="about:blank" class="help_image"/>
+
+<li>3 つの VPN 接続タイプを設定する手順については、次のセクションを参照してください。</li>
+</ul>
+</ol>
+
+<h4>PPTP プロファイルを作成する：</h4>
+
+  <ol>
+  <li>VPN 接続方式を選択するよう要求されたら、<b>[PPTP]</b> を選択した後で <b>[次へ]</b> をクリックしてください。</li>
+  <li>プロファイルに名前を付けて、接続を確立したい VPN サーバーのアドレスを指定した後、サーバーのユーザー名とパスワードを入力します。<b>[次へ]</b> をクリックして続行します。</li>
+
+<div class="section">
+<h4>注：</h4>
+
+<ul>
+<li>VPN サーバーのユーザー名、パスワード、アドレスは、VPN サーバーの管理者が設定します。</li>
+</ul>
+</div>
+
+  <li>次の認証プロトコルを <b>[認証]</b> メニューから選択して、認証中に VPN クライアントのパスワードを保護します：
+	<ul>
+		<li><b>PAP</b>：認証中にパスワードは暗号化されません。</li>
+		<li><b>CHAP</b>：パスワードは CHAP (Challenge-Handshake Authentication Protocol) を使って暗号化されます。</li>
+		<li><b>MS CHAP</b>：パスワードは Microsoft CHAP バージョン 1 を使って暗号化されます。</li>
+		<li><b>MS CHAP v2</b>：パスワードは Microsoft CHAP バージョン 2 を使って暗号化されます。</li>
+	</ul>
+  </li>
+  <li><b>[MS CHAP]</b> または <b>[MS CHAP v2]</b> を選択した場合は、<b>[暗号化]</b> メニューから次のいずれかを選択して VPN 接続を暗号化してください：
+	<ul>
+		<li><b>MPPE なし</b>：Microsoft Point to Point 暗号化で VPN 接続が保護されません。</li>
+		<li><b>MPPE (40/128 ビット) 必須</b>：VPN 接続は 40 ビットまたは 128 ビット Microsoft Point to Point 暗号化で保護されます。</li>
+		<li><b>最大 MPPE (128 ビット)</b>：VPN 接続は最高レベルにセキュリティを実現する、128 ビット Microsoft Point to Point 暗号化メカニズムで保護されます。</li>
+	</ul>
+  </li>
+    <div class="section">
+    <h4>注：</h4>
+  
+    <ul>
+    <li>ここでの認証と暗号化の設定は、VPN サーバーで指定した設定と同じになるようにしてください。詳しくは、VPN サーバーの管理者にお尋ねください。</li>
+    </ul>
+    </div>
+   
+<li>必要に応じて、次のオプションにチェックマークを付けてください：
+	<ul>
+		<li><b>リモート ネットワークのデフォルトのゲートウェイを使用する</b>：Synology NAS のネットワークのトラフィックが指定した VPN サーバーを通るようにします。</li>
+		<li><b>この Synology サーバーのインターネット接続を介して他のネットワーク デバイスに接続させる</b>：同じローカル ネットワーク内のネットワーク デバイスに Synology NAS が同一の VPN サーバーに接続するようにさせます。</li>
+		<li><b>VPN 接続が解除された場合は再接続する</b>：VPN 接続が突然失われた場合、システムは 30 秒おきに 5 回再接続を試みます。</li>
+	</ul>
+</li>
+
+<li>[<b>適用</b>] をクリックします。</li>
+</ol>
+
+
+
+
+<h4>OpenVPN (.ovpn 経由) プロファイルを作成する：</h4>
+<ol>
+<li>VPN 接続方式を選択するよう要求されたら、[<b>OpenVPN</b>] を選択した後で（.ovpn ファイルをインポート）、[<b>次へ</b>] をクリックしてください。</li>
+<li>新しいプロファイルの名前を指定し、<strong>[.ovpn ファイルをインポート]</strong> 欄で <strong>[参照]</strong> をクリックして VPN サーバーからエクスポートされた .ovpn ファイルをインポートします。</li>
+<li>VPN サーバーの管理者が提供する次の情報を入力してください。あなたの<strong>ユーザー名</strong>、<strong>パスワード</strong>、<b>CA 証明書</b>ファイル（例：ca.crt）をインポートします。</li>
+<li>VPN のサービス プロバイダーが <b>TLS-auth キー</b>、<b>クライアントキー</b>、<b>クライアント証明書</b>、<b>証明書取り消しリスト</b>を提供する場合は、<strong>[詳細オプション]</strong> をクリックしてそれらをそれぞれの欄にインポートしてください。</li>
+<li><b>[次へ]</b> をクリックして続行します。 </li>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>ユーザー名、パスワード、アドレス、証明書やキーなどの追加ファイルは、VPN サーバーの管理者が提供します。</li>
+</ul>
+</div>
+
+<li>必要に応じて、次のオプションにチェックマークを付けてください：</li>
+<ul>
+<li><b>リモート ネットワークのデフォルトのゲートウェイを使用する</b>：Synology NAS のネットワークのトラフィックが指定した VPN サーバーを通るようにします。</li>
+<li><b>この Synology サーバーのインターネット接続を介して他のネットワーク デバイスに接続させる</b>：同じローカル ネットワーク内のネットワーク デバイスに Synology NAS が同一の VPN サーバーに接続するようにさせます。</li>
+<li><b>VPN 接続が解除された場合は再接続する</b>：VPN 接続が突然失われた場合、システムは 30 秒おきに 5 回再接続を試みます。</li>
+</ul>
+<li>[<b>適用</b>] をクリックします。</li>
+</ol>
+
+
+
+
+
+<h4>L2TP/IPSec プロファイルを作成する：</h4>
+<ol>
+<li>VPN 接続方式を選択するよう要求されたら、<b>[L2TP/IPSec]</b> を選択した後で <b>[次へ]</b> をクリックしてください。</li>
+<li>プロファイルに名前を付けて、接続を確立したい VPN サーバーのアドレスを指定した後、サーバーのユーザー名とパスワードを入力します。また、あらかじめ共有した VPN サーバーのキーを入力する必要があります。次に、<strong>[次へ]</strong> をクリックします。</li>
+
+<div class="section">
+<h4>注：</h4>
+
+<ul>
+<li>VPN サーバーのユーザー名、パスワード、アドレス、あらかじめ共有しておいた VPN サーバーのキーは、VPN サーバーの管理者が設定します。</li>
+</ul>
+</div>
+
+<li>次の認証プロトコルを <b>[認証]</b> メニューから選択して、認証中に VPN クライアントのパスワードを保護します：
+	<ul>
+		<li><b>PAP</b>：パスワードは暗号化されません。</li>
+		<li><b>CHAP</b>：パスワードは CHAP (Challenge-Handshake Authentication Protocol) を使って暗号化されます。</li>
+		<li><b>MS CHAP</b>：パスワードは Microsoft CHAP バージョン 1 を使って暗号化されます。</li>
+		<li><b>MS CHAP v2</b>：パスワードは Microsoft CHAP バージョン 2 を使って暗号化されます。</li>
+	</ul>
+</li>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>ここでの認証と暗号化の設定は、VPN サーバーで指定した設定と同じになるようにしてください。詳しくは、VPN サーバーの管理者にお尋ねください。</li>
+</ul>
+</div>
+
+<li>必要に応じて、次のオプションにチェックマークを付けてください：
+	<ul>
+		<li><b>リモート ネットワークのデフォルトのゲートウェイを使用する</b>：Synology NAS のネットワークのトラフィックが指定した VPN サーバーを通るようにします。</li>
+		<li><b>この Synology サーバーのインターネット接続を介して他のネットワーク デバイスに接続させる</b>：同じローカル ネットワーク内のネットワーク デバイスに Synology NAS が同一の VPN サーバーに接続するようにさせます。</li>
+		<li><strong>サーバーが NAT デバイスの背後にある</strong>：デフォルトでは、L2TP/IPSec プロトコルは NAT デバイスの背後にある VPN サーバーには接続できません。このオプションを有効にすることによって、Synology NAS が NAT デバイスの背後にある L2TP/IPSec VPN サーバーに接続できるように、この制限を省略することができます。</li>
+		<li><b>VPN 接続が解除された場合は再接続する</b>：VPN 接続が突然失われた場合、システムは 30 秒おきに 5 回再接続を試みます。</li>
+	</ul>
+</li>
+<li>
+  [<b>適用</b>] をクリックします。
+</li>
+</ol>
+
+
+<h4>VPN サーバーに接続または解除するには：</h4>
+
+<ol>
+<li>VPN プロファイルを選択します。</li>
+<li>[<b>接続</b>] または [<b>接続解除</b>] をクリックします。</li>
+
+  <img src="about:blank" class="help_image"/>
+  
+</ol>
+
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>一度に 1 つのプロファイルしか接続できません。</li>
+</ul>
+</div>
+
+<h4>VPN プロファイルを編集する：</h4>
+
+<ol>
+<li>VPN プロファイルを選択します。</li>
+<li><strong>[編集]</strong> をクリックします。</li>
+
+</ol>
+
+
+</body>
+</html>

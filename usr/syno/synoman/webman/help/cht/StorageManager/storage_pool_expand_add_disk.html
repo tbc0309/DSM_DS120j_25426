@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" charset="utf-8">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>新增硬碟以擴充儲存集區容量</h2>
+
+<p>若您的 Synology NAS 上有未使用的硬碟插槽，您可以安裝更多硬碟並將其新增至現有的儲存集區。本文章將引導您如何安裝更多硬碟來擴充現有的儲存集區容量。</p>
+
+<p>您可以新增硬碟至下列 RAID 配置的儲存集區：</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID 5</li>
+	<li>RAID 6</li>
+	<li>RAID F1</li>
+	<li>至少由兩顆硬碟組成的 Synology Hybrid RAID (SHR)</li>
+</ul>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>新增硬碟的狀態必須為<strong>已初始化</strong>或<strong>未初始化</strong>。</li>
+</ul>
+</div>
+	
+<h4>硬碟必要條件：</h4>
+
+<p>請確認您要新增至 Synology NAS 的硬碟符合以下條件：</p>
+<ul>
+	<li>RAID 或 SHR 配置須使用相同類型的硬碟，不同的硬碟類型會影響系統可靠性及效能。RAID 或 SHR 配置不支援同時使用下方列出的不同類型硬碟：<ul>
+	<li>SATA 硬碟與 SAS 硬碟</li>
+	<li>4K Native 及非 4K Native 硬碟</li>
+	</ul>
+	</li>
+	<li><strong>針對 SHR</strong>：您要新增的硬碟容量必須大於或等於儲存集區中容量最大的硬碟，或是等於儲存集區中任一硬碟的容量。</br><span class="note_head">例如：</span>若 SHR 配置的儲存集區由三顆硬碟組成 (2 TB、1.5 TB、1 TB)，建議新增容量至少 2 TB 的硬碟以善用容量。您也可以選擇新增 1.5 TB 或 1 TB 的硬碟，但 2 TB 硬碟的部分容量會無法被妥善使用。</li>
+	<li><strong>針對 RAID 5、RAID 6、RAID F1</strong>：您要新增的硬碟容量必須大於或等於儲存集區中容量最小的硬碟。</br><span class="note_head">例如：</span>若 RAID 5、RAID 6、RAID F1 配置的儲存集區由三顆硬碟組成 (2 TB、1.5 TB、1 TB)，則新硬碟的容量至少需有 1 TB。</li>
+</ul>
+
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>SHR (Synology Hybrid RAID) 僅適用於特定機種。請參閱<a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">此處</a>來查看您的機種是否對 SHR 的支援有限。</li>
+	<li>RAID F1 僅適用於特定機種。請參閱<a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank">此處</a>來查看您的機種是否支援 RAID F1。</li>
+	<li>建議您使用<a href="https://www.synology.com/compatibility" target="_blank"> Synology 產品相容性清單</a>內所列的硬碟以避免產生問題。使用不相容的硬碟可能降低系統效能，甚至造成資料遺失。</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">若要新增硬碟至儲存集區：</a></h4>
+<p>開始進行之前，請確認欲擴充的儲存集區狀態為<strong>良好</strong>；若狀態非良好，請先依照建議事項來解決硬碟問題。問題解決後，再依照下列步驟來將硬碟新增至儲存集區：</p>
+	
+<ol>
+	<li>將 Synology NAS 關機。</br><span class="note_head">注意：</span>若您的 Synology NAS 支援硬碟熱插拔，可略過此步驟。</li>
+	<li>將新的硬碟插進空的硬碟插槽中。</br><span class="note_head">注意：</span>為避免傷及自身或毀損 Synology NAS，請前往<a href="https://www.synology.com/support/download" target="_blank">下載中心</a>並選擇您的 Synology 產品，您可以在<strong>文件</strong> &gt; <strong>硬體安裝指南</strong>中，選擇偏好的語言並下載硬體安裝指南，然後依照指示來安裝硬碟。</li>
+
+	<li>將 Synology NAS 開機，並開啟<strong>儲存空間管理員</strong>。</li>
+	<li>前往<b>儲存集區</b>頁面並選擇欲擴充的儲存集區。按一下<strong>動作</strong>下拉式選單中的<strong>新增硬碟</strong>。</li>
+	<li>從清單中選擇您欲新增的硬碟。清單中只會列出符合類型及容量需求的硬碟。</li>
+	<li>依照精靈的指示來完成操作。</li>
+</ol>
+
+<h4>若要擴充儲存空間容量：</h4>
+<p>若儲存集區尚有可配置的容量，您可以依據儲存集區的類型，自動或手動擴充對應儲存空間的容量。</p>
+<ul>
+<li><b>支援單一儲存空間的儲存集區：</b>針對支援單一儲存空間的儲存集區，當儲存集區容量擴充後，對應儲存空間的容量將會自動被擴充。請參閱<a href="#t1">若要新增硬碟至儲存集區</a>段落以了解詳細資訊。</li>
+<li><b>支援多個儲存空間的儲存集區：</b>針對支援多個儲存空間的儲存集區，當儲存集區尚有可配置的容量時，即可手動擴充對應儲存空間的容量。請參閱<a href="volume_expand_volume.html" target="_blank">擴充儲存空間容量</a>以了解詳細資訊。</li>
+</ul>
+
+</body>
+</html>

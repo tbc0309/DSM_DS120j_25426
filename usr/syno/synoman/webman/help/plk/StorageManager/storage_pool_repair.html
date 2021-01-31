@@ -1,0 +1,101 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Naprawa puli pamięci &mdash; Pomoc Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to repair a storage pool on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Naprawa puli pamięci</h2>
+
+<p>Błędy puli pamięci mogą wystąpić z r&oacute;żnych przyczyn, takich jak uszkodzenie dysk&oacute;w. W niekt&oacute;rych przypadkach błędy można zdiagnozować i rozwiązać, wykonując poniższe czynności.</p>
+	
+<p>Opisana w tym artykule funkcja <strong>Reperuj</strong> jest dostępna tylko dla pul pamięci masowej o typach RAID obsługujących nadmiarowość danych (np. SHR składający się z co najmniej 2 dysk&oacute;w, RAID 1, RAID 5, RAID 6, RAID F1 i RAID 10). Należy pamiętać, że ta funkcja może naprawić pulę pamięci, ale nie może naprawić uszkodzonych dysk&oacute;w.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Zalecamy korzystanie z dysk&oacute;w wymienionych na <a href="https://www.synology.com/compatibility" target=blank>liście zgodności produkt&oacute;w firmy Synology</a>, aby uniknąć wszelkich problem&oacute;w. Użycie niezgodnych dysk&oacute;w może negatywnie wpłynąć na wydajność systemu, a nawet spowodować utratę danych.</li>
+<li>Typ SHR (Synology Hybrid RAID) jest dostępny tylko w określonych modelach. Więcej informacji na temat SHR można znaleźć w <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">tutaj</a>.</li>
+</ul>
+</div>
+	
+<h3>Naprawa puli pamięci masowej z uszkodzonymi partycjami systemowymi</h3>
+
+<p>Jeśli dojdzie do uszkodzenia partycji systemowych, wyświetlony zostanie komunikat informujący o braku dostępu do partycji systemowych. Aby zdiagnozować i rozwiązać ten problem wykonaj poniższe kroki:</p>
+
+<ol>
+<li>Uruchom aplikację <strong>Zarządzanie przechowywaniem</strong>.</li><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/><li>Przejdź do strony <strong>Przegląd</strong>, a następnie kliknij łącze <strong>Napraw</strong>. System powinien rozpocząć naprawę partycji systemowych.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/fail_system_partitions.png" class="help_image"/></ol>
+
+<h3>Naprawa zdegradowanej puli pamięci</h4>
+
+<p>Pula pamięci masowej przyjmuje status <strong>Zdegradowany</strong>, gdy nie ma dostępu do danych na dysku, ale nie nastąpiła jeszcze utrata danych. Dzieje się tak tylko w przypadku pul pamięci masowej o typie RAID obsługującym nadmiarowość danych (np. SHR składający się z co najmniej 2 dysk&oacute;w, RAID 1, RAID 5, RAID 6, RAID F1 i RAID 10). Przed rozpoczęciem naprawy zdegradowanej puli pamięci masowej należy najpierw zastąpić uszkodzone dyski sprawnymi, a następnie usunąć uszkodzone dyski, albo po prostu wymienić je na sprawne dyski.</p>
+
+<h4>Wymagania dotyczące dysk&oacute;w:</h4>
+<p>Wymień uszkodzone dyski na sprawne spełniające następujące kryteria:</p>
+	
+<ul>
+<li><b>W przypadku pul pamięci masowej RAID 1, RAID 5, RAID 6, RAID F1 i RAID 10</b>: Rozmiar dysku na wymianę musi być większy lub r&oacute;wny rozmiarowi najmniejszego dysku w puli pamięci.</li>
+<li><b>W przypadku pul pamięci masowej SHR-1</b>: Dysk na wymianę musi spełniać jedno z następujących kryteri&oacute;w.<ul>
+<li>Rozmiar dysku na wymianę musi być większy lub r&oacute;wny rozmiarowi uszkodzonego dysku.</li>
+<li>Po wykluczeniu największego dysku w puli pamięci masowej rozmiar dysku na wymianę musi być większy lub r&oacute;wny rozmiarowi największego z pozostałych dysk&oacute;w. <br><span class="note_head">Przykłady:</span><ul>
+<li>Przykład 1: Wolumen SHR-1 składa się z dysk&oacute;w o pojemności 3&nbsp;TB, 2&nbsp;TB, 2&nbsp;TB i 1&nbsp;TB. Jeżeli dysk o pojemności 3&nbsp;TB ulegnie uszkodzeniu, można go wymienić na dysk o pojemności r&oacute;wnej lub większej niż 2&nbsp;TB.</li>
+<li>Przykład 2: Wolumen SHR-1 składa się z dysk&oacute;w o pojemności 4TB, 4TB, 2&nbsp;TB i 2TB. Jeżeli dysk o pojemności 4TB ulegnie uszkodzeniu, można go wymienić na dysk o pojemności r&oacute;wnej lub większej niż 4TB.</li>
+<li>Przykład 3: Wolumen SHR-1 składa się z dysk&oacute;w o pojemności 4TB, 4TB, 2&nbsp;TB i 2TB. Jeżeli dysk o pojemności 2TB ulegnie uszkodzeniu, można go wymienić na dysk o pojemności r&oacute;wnej lub większej niż 2&nbsp;TB.</li>
+</ul>	
+</li>
+			
+</ul>
+</li>
+<li><b>W przypadku pul pamięci masowej SHR-2</b>: Dysk na wymianę musi spełniać jedno z następujących kryteri&oacute;w.<ul>
+<li>Rozmiar dysku na wymianę musi być większy lub r&oacute;wny rozmiarowi uszkodzonego dysku.</li>
+<li>Po wykluczeniu dw&oacute;ch największych dysk&oacute;w w puli pamięci masowej rozmiar dysku na wymianę musi być większy lub r&oacute;wny rozmiarowi największego z pozostałych dysk&oacute;w.</li>
+</ul>	
+</li>
+</ul>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Jeśli dostępne dyski zostały przypisane jako dyski hot spare w celu ochrony jednej lub kilku pul pamięci masowej, dyski hot spare automatycznie naprawią zdegradowane pule pamięci masowej. Więcej informacji można znaleźć w sekcji <a href="hotspare.html" target="_blank">Hot spare</a>.</li>
+</ul>
+</div>
+
+
+<h4>Aby naprawić zdegradowaną pulę pamięci:</h4>
+
+<p>Aby naprawić zdegradowaną pulę pamięci masowej, wykonaj opisane poniżej czynności:</p>	
+<ol>
+<li>Przejdź do obszaru <strong>Zarządzanie przechowywaniem</strong> &gt; <strong>Pula pamięci</strong> i znajdź pulę pamięci masowej w stanie <strong>Zdegradowany</strong>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/volume_degraded.png" class="help_image"/><li>Wyświetl informacje o puli pamięci masowej i sprawdź stan dysku.</li>
+<li>Następnie przejdź do strony <strong>HDD/SSD</strong>, aby sprawdzić, kt&oacute;ry dysk jest uszkodzony.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/hdd_ssd.png" class="help_image"/><li>Wymontuj uszkodzony dysk z urządzenia Synology NAS, a następnie wymień go na nowy. Jeśli urządzenie Synology NAS nie obsługuje funkcji wymiany dysk&oacute;w podczas pracy, wyłączyć zasilanie urządzenia przed wymontowaniem i zamontowaniem dysk&oacute;w.<br><span class="note_head">Uwaga:</span> Wszystkie istniejące dane na dysku na wymianę zostają usunięte.</li>
+<li>Po zainstalowaniu nowego dysku wr&oacute;ć do strony <strong>Pula pamięci</strong> i wybierz zdegradowaną pulę pamięci masowej.</li>
+<li>Kliknij <b>Napraw</b> w menu rozwijanym <b>Akcja</b>.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_repair/manage_repair.png" class="help_image"/><li>Wybierz dysk zastępczy, kt&oacute;ry chcesz dodać do puli pamięci masowej, a następnie postępuj zgodnie z instrukcjami kreatora, aby dokończyć.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Jeśli naprawa puli pamięci masowej zajmuje dużo czasu, może to być powiązane z przyczynami wymienionymi <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Why_does_it_take_a_long_time_to_repair_a_storage_pool" target="_blank">tutaj</a>.</li>
+</ul>
+</div>
+
+
+<h3>Rozwiązywanie problem&oacute;w z uszkodzonymi pulami pamięci</h3>
+
+<p>Gdy stan puli pamięci masowej zmieni się na <strong>Awaria</strong>, nie będzie można jej naprawić samodzielnie. Więcej informacji na temat typowych przyczyn awarii wolumenu i metod rozwiązywania problem&oacute;w można znaleźć w następujących artykułach:<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_are_the_reasons_of_volume_crash" target="_blank">Co powoduje awarię wolumenu?</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_do_I_do_when_a_volume_crashes" target="_blank">Co zrobić w przypadku awarii wolumenu?</a></li>
+	</ul>
+</p>
+
+
+</body>
+</html>

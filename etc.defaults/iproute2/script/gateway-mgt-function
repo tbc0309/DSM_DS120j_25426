@@ -1,0 +1,57 @@
+#!/bin/sh
+
+is_wired_interface()
+{
+	local IFNAME="$1"
+
+	echo ${IFNAME} | grep -q "^eth"
+	if [ $? -eq 0 ]; then
+		return 0
+	fi
+	echo ${IFNAME} | grep -q "^br0"
+	if [ $? -eq 0 ]; then
+		return 0
+	fi
+	echo ${IFNAME} | grep -q "^bond"
+	if [ $? -eq 0 ]; then
+		return 0
+	fi
+	echo ${IFNAME} | grep -q "^ovs"
+	if [ $? -eq 0 ]; then
+		return 0
+	fi
+	return 1
+}
+
+is_6in4_interface()
+{
+	local IFNAME="$1"
+
+	echo ${IFNAME} | grep -q "^6in4-"
+	if [ $? -eq 0 ]; then
+		return 0
+	fi
+	return 1
+}
+
+set_default_gateway_interface()
+{
+	local DEVICE=`/bin/get_key_value /etc/iproute2/config/default-gateway DEVICE`
+	for ifn in `/usr/syno/sbin/synonetdtool --get-interface-by-class -4 wan | sed -e 's/,/\n/g'`
+	do
+		if [ "${DEVICE}" = "${ifn}" ]; then
+			/usr/syno/sbin/synonetdtool --add-gateway-info -4 0 ${DEVICE} NULL NULL
+			break
+		fi
+	done
+
+	local DEVICE_V6=`/bin/get_key_value /etc/iproute2/config/default-gateway-v6 DEVICE`
+	for ifn in `/usr/syno/sbin/synonetdtool --get-interface-by-class -6 wan | sed -e 's/,/\n/g'`
+	do
+		if [ "${DEVICE_V6}" = "${ifn}" ]; then
+			/usr/syno/sbin/synonetdtool --add-gateway-info -6 0 ${DEVICE_V6} NULL NULL
+			break
+		fi
+	done
+}
+

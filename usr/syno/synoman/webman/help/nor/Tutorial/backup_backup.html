@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Sikkerhetskopier dataene dine på Synology NAS for bedre datasikkerhet</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>Sikkerhetskopier din Synology NAS</h1>
+<div class="tutorials_content">
+<img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" />
+<h2>Oversikt</h2>
+<p>Datatap som følge av harddisksvikt eller naturkatastrofer er en potensiell trussel mot dine viktige data, spesielt hvis ingen pålitelige sikkerhetskopiløsninger er tilgjengelige. <strong>Hyper Backup</strong> gir deg en inuitiv og integrert sikkerhetskopierings- og gjenopprettingsløsning som hjelper deg med å bevare/gjenopprette kopier av viktige data og gjenopprette programmer og systemkonfigurasjoner fra bestemte tidspunkt. Følgende lagringsmål er støttet:</p>
+
+<ul>
+<li><strong>Lokale delte mapper (inkludert eksterne lagringsenheter tilkoblet din Synology NAS)</strong></li>
+<li><strong>Ekstern Synology NAS</strong></li>
+<li><strong>Eksterne rsync-servere</strong></li>
+<li><strong>Eksterne OpenStack Swift-servere</strong></li>
+<li><strong>Offentlige skyer (Amazon S3, Microsoft Azure og OpenStack Swift, osv.)</strong></li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Merk:</h4>
+<p>Hyper Backup sikkerhetskopierer kun spesifikke systemkonfigurasjoner og programmer. For mer informasjon, se hjelpedokumentene for Hyper Backup.</p>
+</div>
+
+
+<h3 class="list_head">1. Opprett lokale sikkerhetskopioppgaver til en lokal delt mappe/ekstern lagringsenhet</h3>
+<p><strong>Hyper Backup</strong> har relativt like prosedyrer for sikkerhetskopiering og gjenoppretting på tvers av ulike måltyper. Nedenfor viser vi hvordan du sikkerhetskopierer og gjenoppretter data lokalt, til referanse for andre oppgavetyper.</p>
+
+<ol>
+<li>Logg inn på DSM og finn pakken <strong>Hyper Backup</strong></li>
+<li>Klikk på <strong>+</strong> nederst til venstre og velg <strong>Datasikkerhetskopioppgave</strong>.</li>
+<li>For å sette opp en lokal sikkerhetskopioppgave, velger du <strong>Lokal delt mappe</strong>.</li>
+<img src="../../images/Backup/1x/Backup/1.png" width="600" alt=""/>
+<li>Velg <strong>Opprett sikkerhetskopioppgave</strong> og velg en lokal delt mappe eller en ekstern lagringsenhet som er tilkoblet din Synology NAS.</li>
+<img src="../../images/Backup/1x/Backup/2.png" width="600" alt=""/>
+<li>Velg kildemappen(e) for å sikkerhetskopiere iboende data. Krypterte delte mapper må, om valgt, forbli montert under sikkerhetskopiprosessen. Hvis kilden og målet er på samme volum, vil systemet merke kildemappene med oransje utropstegn.</li>
+<img src="../../images/Backup/1x/Backup/3.png" width="600" alt=""/>
+<li>Velg programmene som skal sikkerhetskopieres.</li>
+<img src="../../images/Backup/1x/Backup/4.png" width="600" alt=""/>
+<li>Spesifiser sikkerhetskopiinnstillingene nedenfor:
+  <ul>
+  <li><strong>Oppgave</strong>: Gi navn til sikkerhetskopioppgaven.</li>
+  <li><strong>Aktiver oppgavevarsling</strong>: Få informasjon om oppgavestatus via e-post, SMS eller push-tjeneste.</li>
+  <li><strong>Aktiver sikkerhetskopi av konfigurasjonen</strong>: Sikkerhetskopier systemkonfigurasjoner (f.eks. brukerinformasjon). Denne innstillingen er obligatorisk for alle sikkerhetskopioppgaver som standard.</li>
+  <li><strong>Komprimer sikkerhetskopidata</strong>: Komprimer sikkerhetskopidata for å redusere påkrevd lagringsplass. Sikkerhetskopieringen tar noe lenger tid når dette er valgt.</li>
+  <li><strong>Aktiver overføringskryptering</strong> (kun for ekstern sikkerhetskopiering): Krypter sikkerhetskopidataene under overføringen til en ekstern plassering (f.eks. en rsync-server eller offentlig sky).</li>
+  <li><strong>Multipart Upload-delstørrelse</strong> (kun for S3-kompatible servere): Del opp sikkerhetskopidataene i spesifiserte segmentstørrelser.</li>
+  <li><strong>Aktiver kryptering på klientsiden</strong>: Beskytt sikkerhetskopidataene mot uønsket tilgang på målsiden med passord.</li>
+    
+  <li><strong>Aktiver tidsplan for sikkerhetskopiering</strong>: Planlegg når automatiske sikkerhetskopioppgaver skal utføres.</li>
+  </ul>
+  </li>
+  
+<img src="../../images/Backup/1x/Backup/5.png" width="600" alt=""/>
+<li>Velg <strong>Aktiver sikkerhetskopirotasjon</strong> for å sette opp en rotasjonsplan:
+  
+  <ul>
+  <li><strong>Fra tidligste versjoner</strong>: Slett eldste sikkerhetskopiversjoner når spesifisert <strong>Antall versjoner</strong> er overskredet.</li>
+  <li><strong>Smart Recycle</strong>: Systemet vil bevare alle sikkerhetskopiversjoner inntil det spesifiserte antallet versjoner er overskredet. Når rotasjon utløses, vil systemet først rotere versjonene som ikke samsvarer med noen av betingelsene. Hvis alle eksisterende versjoner samsvarer med betingelsene nedenfor, vil systemet rotere den eldste versjonen:
+  <ul>
+  <li><strong>Timeversjoner fra de siste 24 timer</strong>: Systemet beholder den tidligste versjonen som blir opprettet hver time.</li>
+  <li><strong>Daglige versjoner fra siste 1 dag til 1 måned</strong>: Systemet beholder den tidligste versjonen som blir opprettet hver dag.</li>
+  <li><strong>Ukentlige versjoner eldre enn 1 måned</strong>: Systemet beholder den tidligste versjonen som blir opprettet hver uke.</li>
+  </ul>
+  
+  </li>
+  <li><strong>Antall versjoner</strong>: Angi øvre grense for bevarte sikkerhetskopiversjoner.</li>
+  <li>Tidslinje: Vis det mulige resultatet av sikkerhetskopibevaring i henhold til din sikkerhetskopiplan og rotasjonsplan.</li>
+  </ul>
+</li>
+
+<img src="../../images/Backup/1x/Backup/6.png" width="600" alt=""/>
+<li>Klikk på <strong>Bruk</strong> for å fullføre oppsettet.</li>
+<li>For å utføre sikkerhetskopioppgaven umiddelbart, følger du Veiviser for sikkerhetskopiering og klikker på <strong>Ja</strong>.</li>
+</ol>
+
+
+<h3 class="list_head">2. Gjenopprett enkeltfiler fra en lokal delt mappe/ekstern lagringsenhet</h3>
+
+
+<ol>
+<li>Gå til <strong>Hyper Backup</strong>, velg ønsket sikkerhetskopioppgave i panelet til venstre og klikk på <strong>Sikkerhetskopiutforsker</strong> (forstørrelsesglassikonet). Angi passord hvis oppgaven er beskyttet av kryptering på klientsiden.</li>
+<img src="../../images/Backup/1x/Backup/Single_1.png" width="600" alt=""/>
+<li>Finn og velg filen du vil gjenopprette. Du kan også velge versjonen du vil gjenopprette med tidslinjen.</li>
+<img src="../../images/Backup/1x/Backup/Single_2.png" width="600" alt=""/>
+<li>Klikk på <strong>Gjenopprett</strong> for å gjenopprette valgt fil/mappe.</li>
+
+</ol>
+
+
+
+<h3 class="list_head">3. Gjenopprett fullstendig oppgaver på ønsket tidspunkt</h3>
+
+<ol>
+<li>Klikk på <strong>Gjenopprett</strong> nederst til venstre og klikk på <strong>Data</strong>. Angi passord hvis oppgaven er beskyttet av kryptering på klientsiden.</li>
+
+<img src="../../images/Backup/1x/Backup/Restore_1.png" width="600" alt=""/>
+<li>Velg en oppgave du vil gjenopprette. For å gjenopprette data fra andre arkiv, velger du <strong>Gjenopprett fra andre arkiv</strong> og lokaliserer oppgaven du vil gjenopprette.</li>
+<img src="../../images/Backup/1x/Backup/Restore_2.png" width="600" alt=""/>
+<li>Velg om du vil gjenopprette systemkonfigurasjonene. Hvis du velger <strong>Gjenopprett systemkonfigurasjoner</strong>, velger du spesifikke konfigurasjoner på listen nedenfor for å gjenopprette dem.</li>
+<img src="../../images/Backup/1x/Backup/Restore_3.png" width="600" alt=""/>
+
+<li>Finn og velg målfilen(e)/oppgaven du vil gjenopprette. Du kan også velge versjonen du vil gjenopprette med tidslinjen.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.png" width="600" alt=""/>
+<li>Velg programmer for gjenoppretting.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.5.png" width="600" alt=""/>
+<li>Grunnleggende gjenopprettingsinformasjon vil bli vist.</li>
+<img src="../../images/Backup/1x/Backup/Restore_5.png" width="600" alt=""/>
+<li>Klikk på <strong>Bruk</strong> for å starte gjenopprettingen.</li>
+</ol>
+
+
+
+
+
+
+<div class="page-info">
+  <ul>
+    <li>Forrige i dette emnet: <a href="backup_from_computer.html">Sikkerhetskopiere data på din PC/Mac med Cloud Station</a> </li>
+  </ul>
+</div>
+</body>
+
+</html>

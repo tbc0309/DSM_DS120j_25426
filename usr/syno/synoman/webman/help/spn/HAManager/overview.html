@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Información general</h2>
+	<p>Esta página muestra información básica sobre el clúster high-availability y sus servidores. Además, esta página ofrece herramientas para crear, eliminar o realizar tareas de mantenimiento en clústeres high-availability y en sus servidores.</p>
+
+<h3>Estado de clúster High Availability</h3>
+  <p>Este campo muestra el estado general de su clúster High-Availability y le avisa de cualquier error. A continuación se muestra una tabla de los estados que pueden aparecer en este campo:</p>
+    <table>
+     <tr>
+      <th>Estado</th>
+      <th>Descripción</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Independiente</strong></td>
+      <td>Los servidores no están combinados en un clúster high-availability.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>En buen estado</strong></td>
+      <td>El estado general de su clúster High-Availability es bueno. La replicación de datos del servidor activo al servidor pasivo funciona normalmente.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Preparando</strong></td>
+	  <td>Los servidores se han combinado correctamente en un clúster high-availability, pero aún no ha finalizado la replicación de datos inicial. El cambio no se puede realizar en este momento. Para más información, consulte <a href="switchover_fail.html">Cambio</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Cargando</strong></td>
+	  <td>El sistema está cargando el estado del clúster. No se puede realizar un <b>Cambio</b> hasta que no se haya completado la carga del estado.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Advertencia</strong></td>
+      <td>El estado del clúster HA es anormal, pero los servicios siguen funcionando.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Peligro</strong></td>
+	  <td>Tanto el servidor activo como el pasivo funcionan mal. El clúster High-Availability no puede funcionar normalmente. Compruebe el estado de todos los espacios de almacenamiento (p. ej., RAID Group, grupos de discos, volúmenes e iSCSI LUN).</td>
+     </tr>
+    </table>
+<h3>Mensajes de advertencia</h3>
+   <p>La siguiente tabla muestra los mensajes de advertencia que pueden aparecer cuando se produce un error en el sistema. Cuando aparezca más de un mensaje de advertencia, puede desplazarse entre ellos con los botones de avance/retroceso. </p>
+    <table>
+     <tr>
+      <th>Advertencia/Error</th>
+      <th>Descripción</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Error de servicio controlado</strong></td>
+      <td>Se ha producido un error en uno o más servicios controlados.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Espacio de almacenamiento degradado</strong></td>
+      <td>Un espacio de almacenamiento (p. ej., RAID Group, Grupo de discos, volumen, iSCSI LUN y caché de SSD) del servidor activo o pasivo está degradado. Consulte la página <b>Estado de almacenamiento</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Espacio de almacenamiento averiado</strong></td>
+      <td>Un espacio de almacenamiento (p. ej., RAID Group, Grupo de discos, volumen, iSCSI LUN y caché de SSD) del servidor activo o pasivo está averiado. Consulte la página <b>Estado de almacenamiento</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>No se ha podido detectar el servidor pasivo</strong></td>
+      <td>Este error podría producirse porque el servidor pasivo está desconectado o los servidores activo y pasivo no se pueden conectar a través de la conexión Heartbeat. En este caso, el cambio no estará disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Los datos no se pueden replicar en el servidor pasivo</strong></td>
+      <td>Este error podría deberse a un fallo en el volumen de almacenamiento o en el disco. En este caso, el cambio no estará disponible. Consulte la página <b>Estado de almacenamiento</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>El servidor pasivo no se ha seleccionado</strong></td>
+	  <td>Si el servidor pasivo no está vinculado al clúster high-availability, se mostrará este estado. En este caso, el cambio no estará disponible. Si desea volver a vincular el servidor pasivo, haga clic en el menú desplegable <b>Mantener</b> y luego haga clic en <b>Vincular</b>. Cuando vuelva a vincular el servidor pasivo, será necesaria una replicación completa de los datos.</td>
+     </tr>
+    </table>
+
+
+<h3>Información del clúster High Availability</h3>
+	<p>Este campo se encuentra debajo del estado del clúster high-availability y muestra información básica sobre el clúster. Si no existe un clúster high-availability, este campo solo mostrará una explicación de la función de los clústeres high-availability.</p>
+    <p>En esta campo se muestra la siguiente información:</p>
+ <ul>
+    	<li><b>Nombre de servidor de clúster:</b> el nombre de servidor que usa el clúster high-availability. </li>
+   <li><b>Dirección IP de clúster:</b> la dirección IP que usa el clúster high-availability. Independientemente del servidor que esté ejecutando los servicios, los usuarios pueden conectarse al clúster high-availability utilizando esta dirección IP.</li>
+        <li><b>Tiempo acumulado:</b> la fecha cuando se creó el clúster high-availability.</li>
+ </ul>
+
+
+<h3>Botones de funcionamiento del clúster High Availability</h3>
+
+<p>Los tres botones siguientes se encuentran debajo de la información del clúster high-availability:</p>
+
+<ol>
+	<li><b>Crear clúster HA:</b> cuando no existe ningún clúster high-availability, puede hacer clic en este botón para combinar dos servidores y crear un clúster high-availability. Para más información sobre cómo crear un clúster High Availability, consulte el <a href="wizard.html">Asistente de Synology High Availability</a>.</li>
+	<li><b>Gestión:</b> este botón solo está disponible cuando ya existe un clúster high-availability. Incluye las siguientes opciones:<ul>
+	<li><b>Asistente de gestión:</b> Abre un asistente que incluye instrucciones para distintos procedimientos de gestión.</li>
+	<li><b>Cambio:</b> inicia un cambio de servicios del servidor activo al servidor pasivo. Durante este proceso, el servidor activo deja de suministrar servicios y se convierte en el nuevo servidor pasivo. Entonces, el servidor pasivo anterior pasa a ser el nuevo servidor activo y empieza a suministrar todos los servicios del clúster High-Availability. Esta opción no está disponible cuando el estado del servidor pasivo es <b>error</b> o cuando no hay ningún servidor pasivo seleccionado.</li>
+	<li><b>Actualizar DSM:</b> abre la página <strong>Actualizar DSM</strong> en el <strong>Panel de control</strong>. Desde aquí se pueden actualizar ambos servidores.</li>
+	<li><b>Apagar el clúster HA:</b> apaga los servidores activos y pasivos.</li></ul>
+	<li><b>Desactivar el pitido:</b> esta opción solo está disponible cuando se produce un error en el servidor activo o pasivo. Detiene el sonido del pitido de cualquiera de los servidores cuando se produce un error. Los servidores volverán a pitar si se producen otros errores más tarde.</li>
+</ol>
+	
+<h3>Asistente de gestión</h3>
+<p>El asistente de gestión le guiará a través de los siguientes procesos de gestión.</p>
+<ul>
+	<li><b>Administrar clúster:</b><ul>
+			<li><b>Cambiar el servidor activo al servidor pasivo:</b> inicia un cambio de servicios del servidor activo al servidor pasivo. Durante este proceso, el servidor activo deja de suministrar servicios y se convierte en el nuevo servidor pasivo. Entonces, el servidor pasivo anterior pasa a ser el nuevo servidor activo y empieza a suministrar todos los servicios del clúster High-Availability. Esta opción no está disponible cuando el estado del servidor pasivo es <b>error</b> o cuando no hay ningún servidor pasivo seleccionado.</li>
+			<li><b>Actualizar DSM en los servidores activos y pasivos:</b> abre la página <strong>Actualizar DSM</strong> en el <strong>Panel de control</strong>. Desde aquí se pueden actualizar ambos servidores.</li>
+			<li><b>Eliminar clúster HA:</b> desvincula el clúster. Los dos servidores trabajarán de manera independiente después del reinicio.</li>
+			<li><b>Agregar un nuevo servidor pasivo:</b> agrega un servidor pasivo al clúster. Esta opción solo está disponible cuando no hay un servidor pasivo en el clúster de high-availability.</li>
+			<li><b>Desvincular el servidor pasivo del clúster high-availability:</b> desvincula el servidor pasivo del clúster. Cuando se vuelva a añadir el servidor al clúster high-availability después de desvincularlo, será necesario llevar a cabo una replicación de todos los datos. Por tanto, le recomendamos que únicamente utilice esta opción cuando quiera sustituir el servidor pasivo existente por uno nuevo.</li>
+			<li><b>Mover ambos servidores a otra ubicación:</b> seleccione esta opción si desea mover el clúster. Ambos servidores se apagarán tras la operación.</li>
+		</ul></li>
+	<li><b>Administrar el servidor activo:</b><ul>
+			<li>Apagar el servidor activo.</li>
+			<li>Reiniciar el servidor activo.</li>
+			<li>Actualizar/sustituir los componentes dañados en el servidor activo: esta opción apagará el servidor activo.</li>
+		</ul></li>
+	<li><b>Administrar el servidor pasivo:</b><ul>
+			<li>Apagar el servidor pasivo.</li>
+			<li>Reiniciar el servidor pasivo.</li>
+			<li>Actualizar/sustituir los componentes dañados en el servidor pasivo: Esta opción apagará el servidor pasivo.</li>
+		</ul></li>
+</ul>
+	
+<div class="section">
+<h4>Observación:</h4>
+<ul>
+<li>Una vez que se elimina un clúster high-availability, será necesario realizar una replicación de los todos datos cuando desee crear uno nuevo.</li>
+<li>Si apaga o desvincula el servidor pasivo, los servicios no se pueden cambiar si se produce un error en el servidor activo.</li>
+</ul>
+</div>
+
+<h3>Estado de los servidores y de la replicación de los datos</h3>
+<p>Esta sección contiene imágenes que indican el estado de los servidores activo y pasivo, así como el flujo de la replicación de los datos entre los servidores.</p>
+<p>La imagen de la replicación de los datos indica los posibles estados:</p>
+	<ul>
+    	<li><b>La replicación de los datos funciona normalmente:</b> lo indica el paso de los datos del servidor activo al servidor pasivo.</li>
+    	<li><b>Sin replicación de datos:</b> lo indica la ausencia de la imagen del flujo de datos.</li>
+    </ul>
+
+
+<h3> Información del servidor</h3>
+ <p>Esta sección se encuentra debajo de las imágenes de los servidores. En esta sección se muestra información sobre los servidores activo y pasivo. Si no se ha seleccionado ningún servidor pasivo, en esta sección aparecerá <b>N/A</b>.</p>
+  <ul>
+   <li><b>Nombre del servidor:</b> nombre del servidor de Synology.</li>
+   <li><b>Nombre de modelo:</b> modelo del servidor de Synology.</li>
+   <li><b>Número de serie:</b> número de serie del servidor de Synology.</li>
+   <li><b>Estado del ventilador:</b> estado de los ventiladores de refrigeración de un servidor. Si un ventilador falla, aparecerá una advertencia. En este caso, póngase en contacto con su distribuidor local para obtener ayuda.</li>
+   <li><b>Temperatura:</b> temperatura del servidor de Synology. </li>
+   <li><b>Estado de energía:</b> indica si todas las fuentes de alimentación de un servidor funcionan normalmente o no. Si el modelo del servidor cuenta con fuentes de alimentación redundantes, aparecerá una advertencia si una de ellas no funciona correctamente.</li>
+  </ul>
+
+ </body>
+</html>

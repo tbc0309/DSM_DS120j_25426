@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Split-brain</h2>
+
+<p>When a high-availability cluster is functioning normally, only one of the member servers should assume the role of active server. In this case, the passive server detects the presence of the active server via both the Heartbeat connection and data connection.</p>
+
+<p>If all Heartbeat and data connections are lost, both servers might attempt to assume the role of active server. This situation is referred to as a "split-brain" error. In this case, connections to the IP addresses of the high-availability cluster will be redirected to either of the two servers, and inconsistent data might be updated or written on the two servers.</p>
+        
+<p>When any one of the Heartbeat or data connections is reconnected, the system will detect the split-brain error and data inconsistency between the two servers, and will enter high-availability safe mode.</p> 
+
+       
+<h4>In the event a split-brain error occurs:</h4>
+	<ol>
+    <li>The services on both servers and the IP addresses of the high-availability cluster will be unavailable until the split-brain error is resolved.</li>
+	<li>Once both servers enter high-availability safe mode, a new tab named <strong>Split-brain</strong> will appear on the left panel. In this tab, the following information will be listed: the difference between the files in the shared folders on the two servers, the time the servers became the active servers, as well as the last iSCSI Target connection information. All the other tabs will remain read-only.</li>
+<li>In high-availability safe mode, File Station will be in read-only mode, and you will be able to download or view the files.</li>
+       <li>In the <b>Overview</b> tab, you are only allowed to either resolve split-brain errors or shut down the current login server. To resolve split-brain errors, do any of the following:
+       <ul>
+       <li>Choose one server as the active server of the high-availability cluster and the other as the passive server. Once both servers are rebooted, all the different data and settings on the active server will be synced to the passive server. Please note that the updated data on the passive server during the split-brain error will be lost.</li>
+       <li>Choose one server as the active server of the high-availability cluster, and unbind the other. Once both servers are rebooted, the active server will remain in the high-availability cluster, and the unbound server will reserve its data and return to <b>Standalone</b> status. Please note that a full replication will be required to bind a new passive server in the future.</li>
+       <li>Unbind both servers, reserve their individual data, and let them return to <b>Standalone</b> status.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Notes:</h4>
+    <ul>
+    <li>The more files there are in your shared folders, the longer it will take to list the differences.</li>
+    <li>Before choosing which server as your active/passive server, please make sure both servers are powered on.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

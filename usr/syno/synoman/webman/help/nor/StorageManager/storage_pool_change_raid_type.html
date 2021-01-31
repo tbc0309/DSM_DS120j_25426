@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Endre RAID-typen til et volum eller en diskgruppe - Synology DSM Hjelp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing volumes and disk groups on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Endre RAID-typen til et volum eller en diskgruppe</h2>
+
+<p>Volum og diskgrupper kan endres fra en RAID-type til en annen uten &aring; miste eksisterende data. For eksempel, du kan opprette et RAID 1-volum p&aring; Synology NAS og senere endre det til RAID 5, hvis du installerer flere harddisker. Denne artikkelen gir deg instruksjoner for hvordan du skal endre RAID-typen til eksisterende diskgrupper p&aring; din Synology NAS.</p>
+<h3>RAID-typebegrensninger</h3>
+
+<p>Kun enkelte RAID-typer kan endres til enkelte andre RAID-typer. Se tabellen nedenfor for detaljer.</p>
+
+<table>
+  <tr>
+    <th width="50%">RAID-type</th>
+    <th width="50%">Kan endres til...</th>
+  </tr>
+  <tr>
+    <td>Grunnleggende</td>
+    <td>RAID 1<br /> RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>Eksempel:</h4>
+<p>RAID 1 kan endres til RAID 5, men RAID 5 kan ikke endres til RAID 1.</p>
+</div>
+
+
+<h3>Krav til harddisker</h3>
+
+<p>For &aring; endre RAID-typen for et volum eller en diskgruppe, m&aring; du ha et tilstrekkelig antall tilgjengelige harddisker installert p&aring; din Synology NAS. Se nedenfor for minimum antall harddisker som kreves for hver RAID-type.</p>
+
+<table>
+  <tr>
+    <th width="50%">&Oslash;nsket RAID-type</th>
+    <th width="50%">P&aring;krevde harddisker</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2 eller 4</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 eller 5 (avhengig av disktilstanden til SHR-1)</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>Eksempel:</h4>
+<p>Hvis du vil endre et RAID 1-volum til RAID 5, m&aring; du ha totalt minst tre harddisker (dvs. de to harddiskene som tilh&oslash;rer RAID 1-volumet, pluss en ledig harddisk som skal legges til i volumet).</p>
+</div>
+
+<div class="section">
+<h4>Merk:</h4>
+
+<p>SHR-1 med f&oslash;lgende diskkonfigurasjon kan kreve ytterligere to disker ved endring til SHR-2:</p>
+<ul>
+<li>Den har kun 2 disker,</li>
+<li>Alle diskene har ulik kapasitet.</li>
+<li>Tre eller flere disker i RAID Array inneholder to disker med h&oslash;yere kapasitet i forhold til de andre diskene i RAID Array.</li>
+</ul>
+</div>
+
+<h3>Endre RAID-type</h3>
+
+<p>I eksempelet nedenfor, vil vi endre et <strong>Basic</strong>-volum til et <strong>RAID 1</strong>-volum.</p>
+
+<div class="section">
+<h4>F&oslash;r du starter:</h4>
+<ul>
+<li>Kontroller at statusen til volumet eller diskgruppen er <b>Normal</b>.</li>
+<li>N&aring;r du legger til nye harddisker i et volum eller en diskgruppe, m&aring; de nye harddiskene v&aelig;re st&oslash;rre enn den minste harddisken i volumet eller diskgruppen.</li>
+<li>Statusen til nye harddisker m&aring; v&aelig;re <b>Startet</b> eller <b>Ikke startet</b>.</li></ul>
+</div>
+
+<h4>For &aring; endre RAID-type volum:</h4>
+
+<ol>
+<li>&Aring;pne <strong>Lagringsh&aring;ndtering</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>G&aring; til <b>Volum</b>.  (Hvis du vil endre RAID-typen til en diskgruppe, g&aring;r du til fanen <b>Diskgruppe</b>.)</li>
+<li>Velg volumet du &oslash;nsker &aring; endre og klikk p&aring; <b>Administrer</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>N&aring;r installasjonsveiviseren &aring;pnes, velger du <b>Endre RAID-type</b>. Deretter klikker du p&aring; <b>Neste</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>Velg RAID-typen du &oslash;nsker &aring; endre volumet til. Klikk p&aring; <b>Neste</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>Velg hvilke harddisker du vil legge til i det eksisterende volumet. Deretter klikker du p&aring; <b>Neste</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>F&oslash;lg instruksjonene i veiviseren for &aring; fullf&oslash;re. V&aelig;r oppmerksom p&aring; at eksisterende data p&aring; den tillagte harddisken vil bli slettet.</li></ol>
+
+</body>
+</html>

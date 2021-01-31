@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Descripción general</h2>
+	<p>Esta página muestra información básica sobre el clúster High-Availability y sus servidores. Además, esta página ofrece herramientas para realizar tareas de mantenimiento en clústeres High-Availability y en sus servidores.</p>
+
+<h3>Estado del clúster High-Availability</h3>
+  <p>Este campo muestra el estado general de su clúster High-Availability y le avisa de cualquier error. A continuación se muestra una tabla de los estados que pueden aparecer en este campo:</p>
+    <table>
+     <tr>
+      <th width="12%">Estado</th>
+      <th width="88%">Descripción</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>En buen estado</strong></td>
+      <td>El estado general de su clúster High-Availability es bueno.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Cargando</strong></td>
+	  <td>El sistema está cargando el estado del clúster. No se puede realizar un <strong>Cambio</strong> hasta que no se haya completado la carga del estado. Consulte <a href="switchover_fail.html">Cambio</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Configurando</strong></td>
+	  <td>El sistema se está configurando. No se puede realizar un <b>Cambio</b> hasta que no se haya completado la configuración.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Advertencia</strong></td>
+      <td>El estado del clúster HA es anormal, pero los servicios siguen funcionando. Tal vez no se pueda realizar el <strong>Cambio</strong> en esta situación.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Peligro</strong></td>
+	  <td>Tanto el servidor activo como el pasivo funcionan incorrectamente o el almacenamiento se ha averiado. El clúster High-Availability no puede funcionar normalmente. Compruebe el estado de todos los espacios de almacenamiento (p. ej., RAID Groups, grupos de discos, volúmenes e iSCSI LUNs). En esta situación no se pueda realizar el <b>Cambio</b>.</td>
+     </tr>
+    </table>
+<h3>Mensajes de advertencia</h3>
+   <p>La siguiente tabla muestra los mensajes de advertencia que pueden aparecer cuando se produce un error en el sistema. Cuando aparezca más de un mensaje de advertencia, puede desplazarse entre ellos con los botones de avance/retroceso. </p>
+    <table>
+     <tr>
+      <th width="21%">Advertencia/Error</th>
+      <th width="79%">Descripción</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>No hay ningún servidor pasivo en este clúster High-Availability</strong></td>
+	  <td>La información sobre el servidor pasivo no está disponible. Asegúrese de que el servidor pasivo esté conectado correctamente. En este caso, el cambio no estará disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>No se ha podido detectar el servidor pasivo</strong></td>
+      <td>Este error podría producirse porque el servidor pasivo está desconectado o los servidores activo y pasivo no se pueden comunicar a través de la conexión Heartbeat. En este caso, el cambio no estará disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>No se ha podido realizar la conmutación por error</strong></td>
+      <td>Se ha activado una conmutación por error en el servidor activo pero ha fallado. En este caso, el servidor activo no volverá a intentar otra conmutación por error. Para eliminar este error, siga estos pasos:<ol>
+		  <li>Intente resolver los problemas en el clúster High-Availability.</li>
+		  <li>Reiniciar el servidor pasivo.</li>
+		  <li>Realice una conmutación por error haciendo clic en <strong>Administrar</strong> > <strong>Cambio</strong>.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Error de destino supervisado</strong></td>
+      <td>Se ha producido un error en uno o más de los destinos supervisados, incluido el estado del sistema, servicio o interfaz de red.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Se han producido errores en la conexión entre las unidades de expansión y el servidor activo/pasivo</strong></td>
+      <td>Las unidades de expansión no están conectadas correctamente con el servidor pasivo o con el activo. Asegúrese de que su conexión con el servidor activo es correcta y configure la misma conexión con el servidor pasivo. En este caso, el cambio no estará disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Se ha degradado un volumen</strong></td>
+      <td>Un espacio de almacenamiento (p. ej., RAID Group, grupo de discos, volumen, iSCSI LUN y caché de SSD) está degradado. Consulte la página <b>Estado de almacenamiento</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Se ha averiado un volumen</strong></td>
+      <td>Un espacio de almacenamiento (p. ej., RAID Group, Grupo de discos, volumen, iSCSI LUN y caché de SSD) está averiado. Consulte la página <b>Estado de almacenamiento</b>. La conmutación por error se realizará automáticamente si el servidor pasivo consigue reconocer los discos a los que el servidor activo no ha conseguido acceder. De lo contrario, el cambio no estará disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Se ha perdido la conexión Heartbeat</strong></td>
+      <td>Este error podría deberse a un fallo en la conexión Heartbeat. En este caso, el cambio no estará disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Avería de hardware</strong></td>
+      <td>Este error se puede producir debido a un fallo de hardware (por ejemplo, la unidad de potencia o el ventilador del sistema) en el servidor activo o pasivo.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Diferente tamaño de RAM física</strong></td>
+      <td>Este error se puede deber a que el tamaño de RAM física del servidor activo no coincide con el del servidor pasivo. En este caso, el cambio no estará disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>No se ha asignado una IP estática a este clúster High-Availability</strong></td>
+      <td>Este error se puede producir por una falta de dirección IP estática para el clúster High-Availability. En este caso, el cambio no estará disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>No hay ninguna IP estática en la interfaz supervisada</strong></td>
+      <td>Este error se puede producir debido a la falta de una IP estática para la interfaz supervisada. En este caso, el cambio no estará disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Recuperación del servidor pasivo</strong></td>
+      <td>La recuperación del servidor pasivo está en curso. En este caso, el cambio no estará disponible.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Actualizando el servidor pasivo</strong></td>
+      <td>El sistema está actualizando el servidor pasivo. En este caso, el cambio no estará disponible.</td>
+     </tr>
+
+    </table>
+
+<h3>Botón "Administrar" del clúster High-Availability</h3>
+
+<p>Este botón está situado debajo de la información del clúster High-Availability. Incluye las siguientes operaciones:</p>
+<ul>
+<li><b>Cambio:</b> inicia un cambio de servicios del servidor activo al servidor pasivo. Durante este proceso, el servidor activo deja de suministrar servicios y se convierte en el nuevo servidor pasivo. Entonces, el servidor pasivo anterior pasa a ser el nuevo servidor activo y empieza a suministrar todos los servicios del clúster High-Availability. Esta opción no está disponible cuando el servidor pasivo está en estado de <b>error</b> o no está seleccionado.</li>
+<li><b>Actualizar DSM:</b> abre la página <strong>Actualizar DSM</strong> del <strong>Panel de control</strong>. Desde aquí se pueden actualizar ambos servidores.</li>
+<li><b>Apagar el clúster High-Availability:</b> apaga los servidores activos y pasivos.</li>
+<li><b>Apagar el servidor activo:</b> apaga el servidor activo. Los servicios cambiarán si el servidor pasivo está en buen estado.</li>
+<li><b>Apagar el servidor pasivo:</b> apaga el servidor pasivo.</li>
+<li><b>Reiniciar el servidor activo:</b> reinicia el servidor activo. Los servicios cambiarán si el servidor pasivo está en buen estado.</li>
+<li><b>Reiniciar el servidor pasivo:</b> reinicia el servidor pasivo.</li>
+<li><b>Recuperar el servidor desconocido:</b> recupera el servidor pasivo si se sustituye o si todavía está reconocido como desconocido.</li>
+<li><b>Pitido del sistema desactivado:</b> detiene el sonido del pitido del servidor activo y del servidor pasivo cuando se produce un error. El sistema seguirá emitiendo un pitido en el servidor activo o en el servidor pasivo si se produce otro error más tarde.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Si apaga el servidor pasivo o si no hay servidor pasivo, los servicios no se pueden cambiar cuando se produce un error en el servidor activo.</li>
+</ul>
+</div>
+
+<h3>Información y diagrama del servidor</h3>
+ <p>El diagrama del servidor muestra el estado del servidor. La ubicación se corresponde con el lado de los módulos a los que está conectado el servidor. Pase el cursor del ratón por encima para obtener más detalles.</p>
+<p>Incluye las siguientes situaciones:</p>
+<ul>
+  <li><b>No hay ningún servidor pasivo en este clúster high-availability:</b> muestra un marco en blanco.</li>
+  <li><b>No se ha podido detectar el servidor pasivo:</b> muestra una imagen borrosa del servidor.</li>
+  <li><b>Signo de exclamación:</b> puede haber una avería del hardware o la información del servidor no está disponible debido a un fallo de la conexión Heartbeat.</li>
+</ul>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Si muestra "desconocido" en el otro servidor, significa que el servidor no pertenece al clúster High-Availability. Haga clic en <b>Administrar</b> y seleccione <b>Recuperar el servidor desconocido</b> para resolver este problema.</li>
+</ul>
+</div>
+
+<p>La información del servidor incluye las siguientes entradas. Muestra <b>N/A</b> si no se detecta el servidor pasivo.</p>
+
+  <ul>
+   <li><b>Número de serie:</b> número de serie del servidor de Synology.</li>
+   <li><b>Estado del ventilador:</b> estado de los ventiladores de refrigeración del servidor. Si un ventilador falla, aparecerá una advertencia. En este caso, póngase en contacto con su distribuidor local para obtener ayuda.</li>
+   <li><b>Temperatura:</b> temperatura del servidor de Synology. </li>
+   <li><b>Estado de energía:</b> indica si los suministros de energía de los servidores funcionan con normalidad. Si el servidor cuenta con fuentes de alimentación redundantes, aparecerá una advertencia si una de ellas no funciona correctamente.</li>
+    <li><b>Memoria física:</b> tamaño de RAM física del servidor de Synology. El cambio no se puede realizar si los dos servidores no tienen el mismo tamaño de RAM física.</li>
+  </ul>
+
+<h3>Estado de conectividad entre servidores</h3>
+<p>Esta sección contiene imágenes entre el servidor activo y el servidor pasivo. Incluye las siguientes situaciones:</p>
+<ul>
+  <li><b>Sin imagen:</b> indica que no se detecta ningún servidor pasivo.</li>
+  <li><b>Imagen fija:</b> indica una conexión Heartbeat incorrecta.</li>
+  <li><b>Signo de exclamación:</b> indica una conexión anormal entre los dos servidores o una conexión Heartbeat incorrecta.</li>
+</ul>
+
+<h3>Estado de la interfaz de red</h3>
+<p>Esta sección contiene imágenes entre los servidores y la red de datos. Incluye las siguientes situaciones:</p>
+<ul>
+  <li><b>Sin signo de exclamación:</b> indica que no se ha detectado ningún fallo de red.</li>
+  <li><b>Signo de exclamación:</b> indica que existe un fallo en la interfaz de red supervisada.</li>
+</ul>
+
+<h3> Información y diagrama del almacenamiento compartido</h3>
+ <p>El diagrama de almacenamiento compartido muestra el estado de conectividad entre los servidores y el almacenamiento compartido. Pase el cursor del ratón por encima para obtener información básica.</p>
+<p>Incluye las siguientes situaciones:</p>
+<ul>
+  <li><b>Sin signo de exclamación:</b> indica que no se ha detectado ningún error.</li>
+  <li><b>Signo de exclamación:</b> indica un estado de conectividad anormal en las unidades de expansión.</li>
+</ul>
+
+<p>La información básica del almacenamiento compartido incluye las siguientes entradas. Vaya al <b>Administrador de almacenamiento</b> para obtener información más detallada.</p>
+
+  <ul>
+   <li><b>Estado del ventilador:</b> muestra el estado de los ventiladores de las unidades de expansión. Si un ventilador falla, aparecerá una advertencia. En este caso, póngase en contacto con su distribuidor local para obtener ayuda.</li>
+   <li><b>Estado de energía:</b> indica si los suministros de energía de los servidores funcionan con normalidad. Aparecerá una advertencia si alguno de ellos no funciona con normalidad.</li>
+   </ul>
+ </body>
+</html>

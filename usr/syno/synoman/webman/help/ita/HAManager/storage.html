@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Stato archiviazione</h2>
+	<p>Questa pagina offre le informazioni sullo stato dei volumi di archiviazione e iSCSI LUN (Livello blocco) sui server attivo e passivo del cluster high-availability.</p>
+    <p>Poich&eacute; la capacit&agrave; e le configurazioni dei volumi e iSCSI LUN (Livello blocco) corrispondenti ai server attivo e passivo devono essere identici, i volumi e gli iSCSI LUN (Livello blocco) su i due server vengono visualizzati insieme come singole unit&agrave;. Pertanto, per visualizzare i volumi e gli iSCSI LUN (Livello blocco) di entrambi i server attivo e passivo, &egrave; necessario andare sulla pagina <b>Stato archiviazione</b> [quando si accede al cluster high-availability, solamente i volumi e iSCSI LUN (Livello blocco) sul server attivo vengono visualizzati in <b>Gestione archiviazione</b>].</p>
+
+    <p>Questa pagina contiene le seguenti informazioni:</p>
+		<ul>
+			<li><b>Nome:</b> visualizza i nomi dei volumi e iSCSI LUN (Livello blocco).</li>
+			<li><b>Utilizzato:</b> visualizza la percentuale di capacit&agrave; utilizzata dei volumi e iSCSI LUN (Livello blocco).</li>
+			<li><b>Dimensioni Usate/Totali:</b>  visualizza la capacit&agrave; totale e utilizzata dei volumi e iSCSI LUN (Livello blocco).</li>
+            <li><b>Stato:</b> visualizza lo stato dei volumi, iSCSI LUN (Livello blocco) e cache SSD.</li>
+            <li><b>Descrizione:</b> visualizza una descrizione degli errori o delle altre informazioni sul volume, iSCSI LUN (Livello blocco) e cache SSD.</li>
+		</ul>
+<h4>Per riparare un volume o iSCSI LUN (Livello blocco) guasto:</h4>
+	<ul>
+		<li>in caso di crash di un disco in uno dei server, &egrave; possibile andare sulla pagina <a href="disk.html">Stato disco</a> per determinare quale disco rigido &egrave; in crash e deve essere sostituito. In questo caso, procedere come segue:
+        	<ol>
+            	<li>Sostituire il disco rigido in crash (per le procedure relative all'installazione del disco rigido, consultare la <i>Guida di installazione rapida</i> per il prodotto Synology).</li>
+                <li>Andare alla pagina <b>Stato archiviazione</b> e fare clic su <b>Ripara</b>.</li>
+            </ol>
+        </li>
+        <li>Se il server passivo &egrave; offline, lo stato dei volumi e iSCSI LUN (Livello blocco) indicher&agrave; la presenta di un errore e nessuno dei dischi sul server passivo sar&agrave; visualizzato nella pagina Stato disco. In questo caso, &egrave; possibile tentare di risolvere il problema nel seguente modo:
+        	<ol>
+            	<li>Assicurarsi che il server passivo sia acceso.</li>
+                <li>Verificare tutti gli alimentatori.</li>
+                <li>Controllare tutte le connessioni.</li>
+            </ol>
+        </li>
+        <li>In caso di errore di un file system su un volume o iSCSI LUN (Livello blocco) su uno dei server, procedere come segue:
+        	<ul>
+            	<li>Andare sulla pagina <b>Stato archiviazione</b>.</li>
+                <li>Fare clic su <b>Ripara.</b></li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">Nota:</span>  il limite di volumi e iSCSI LUN (Livello blocco) su un cluster high-availability &egrave; 64.</p>
+
+
+
+<h3>Server quorum</h3>
+<p>I server quorum consentono di ridurre la possibilit&agrave; di errori split-brain. Nelle impostazioni split-brain, &egrave; possibile assegnare un altro server come server di quorum, fino a quando si connette costantemente a entrambi i server, attivo e passivo. Ad esempio, un server gateway o un server DNS &egrave; una scelta idonea per il server quorum, in quanto consente di connettersi a entrambi i server, attivo e passivo. Il server quorum consente di fornire solo servizi Ping e non &egrave; necessario installare alcuna applicazione. Di seguito sono riportati dei casi se si verificano quando il server quorum &egrave; abilitato.</p>
+
+<ul>
+<li>Se il server passivo non &egrave; in grado di connettersi ai server attivo e quorum, il failover non sar&agrave; eseguito per evitare errori split-brain.</li>
+<li>Se il server attivo non &egrave; in grado di connettersi al server quorum, mentre il server passivo pu&ograve;, lo switchover sar&agrave; attivato per garantire una migliore disponibilit&agrave;.</li>
+</ul>
+
+ </body>
+</html>

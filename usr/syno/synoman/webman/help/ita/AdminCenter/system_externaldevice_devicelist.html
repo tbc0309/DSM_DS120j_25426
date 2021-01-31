@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Dispositivi esterni</h2>
+
+<p>Andare su <strong>Pannello di controllo</strong> &gt; <b>Dispositivi esterni</b> &gt; <b>Dispositivi esterni</b> per visualizzare un elenco di dispositivi di archiviazione esterni collegati a Synology NAS.</p>
+
+<h3><a name="usbdisk"></a><a name="esatadisk"></a>Dischi esterni</h3>
+<p>Connettendo un'unità esterna al sistema, sarà possibile condividere la relativa capacità di unità tramite una cartella condivisa creata dal sistema, denominata <b>usbshare[numero]</b> (per unità USB) oppure <b>satashare[numero]</b> (per unità eSATA, se applicabile). La cartella condivisa verrà rimossa automaticamente quando l'unità esterna viene estratta dal sistema.</p>
+
+<p>Synology NAS riconosce i seguenti formati: <strong>Btrfs</strong>, <strong>ext3</strong>, <strong>ext4</strong>, <strong>FAT</strong>, <strong>FAT32</strong>, <strong>exFAT</strong>, <strong>HFS</strong>, <strong>HFS Plus</strong> e <strong>NTFS</strong>. Qualsiasi unità esterna non riconosciuta dovrà essere formattata prima di poter essere usata dal sistema.</p>
+
+<div class="section"><h4>Nota:</h4>
+<ol>
+	<li>alcuni modelli supportano HFS/HFS Plus in sola lettura.</li>
+	<li>Il giornale non è supportato su HFS/HFS Plus.</li>
+	<li>Sarà necessario installare <strong>exFAT Access</strong> dal <strong>Centro pacchetti</strong> per consentire a Synology NAS di supportare exFAT. Per un elenco dei modelli dei prodotti Synology che supportano il formato exFAT, consultare <a href="https://www.synology.com/dsm/packages/exFAT" target="_blank">questa pagina</a>.</li>
+	<li>Verificare di avere estratto l'unità esterna prima di scollegarla.</li>
+	<li>Btrfs è disponibile solo su alcuni modelli. Per verificare se il modello in uso supporta Btrfs, consultare <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">questo articolo</a>.</li>
+</ol>
+</div>
+
+<h4>Per accedere alle immagini disco:</h4>
+<p>Synology NAS supporta il montaggio di unità virtuali per accedere ai contenuti delle immagini disco su dispositivi esterni con File Station. Per maggiori informazioni sul montaggio di unità virtuali, consultare <a href="https://www.synology.com/knowledgebase/DSM/help/FileStation/mountiso" target="_blank">questo articolo</a>.</p>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+<li>Formati immagine disco supportati: I file ".iso" che utilizzano il file system ISO 9960 e UDF.</li>
+</ul>
+</div>
+
+<h4>Per formattare l'unità:</h4>
+
+<p>Fare clic su <b>Formato</b> e seguire la procedura guidata. È possibile formattare le unità esterne su <b>ext4</b> e <b>FAT32</b> con Synology NAS.</p>
+
+<div class="section"><h4>Nota:</h4>
+<ol>
+	<li>Verificare di aver eseguito il backup dei dati prima di formattare l'unità esterna. Tutti i dati verranno eliminati durante la procedura e non potranno essere recuperati.</li>
+	<li>Per formattare l'unità esterna in formato EXT3 o EXT4, la capacità dell'unità deve essere superiore a 1 GB.</li>
+	<li>Se l'unità viene formattata in formato EXT3 o EXT4, verrà riconosciuta soltanto da Synology NAS. Per leggere i dati direttamente dall'unità esterna con un PC e Mac, scegliere la formattazione FAT32.</li>
+</ol>
+</div>
+
+<h4>Per eseguire un test S.M.A.R.T.:</h4>
+<p>Il test S.M.A.R.T. dell'unità consente di esaminare e riferire lo stato dei dischi rigidi, fornendo un preavviso di possibili guasti imminenti. In caso di errori, si consiglia di cambiare subito l'unità. <br /> Per eseguire il test S.M.A.R.T., è sufficiente fare clic sul pulsante <strong>Test S.M.A.R.T.</strong> e seguire la procedura guidata.<br /> Per controllare i risultati del test, è sufficiente fare clic su <strong>Informazioni su S.M.A.R.T.</strong>.</p>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>la durata del test varia in relazione all'ambiente di sistema.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Limiti</h4>
+
+<p>La formattazione dell'unità non è disponibile nelle seguenti situazioni:</p>
+
+<ul>
+	<li>Se l'unità esterna è in fase di inizializzazione, ad es. quando l'unità esterna è stata appena collegata.</li>
+	<li>La capacità dell'unità esterna è inferiore a 1 GB (formato ext3 o ext4).</li>
+	<li>L'unità esterna è in corso di formattazione.</li>
+	<li>Quando il sistema esegue il backup dei file su un'unità esterna.</li>
+	<li>L'unità esterna è danneggiata.</li>
+</ul>
+
+<h4>Risoluzione dei problemi</h4>
+<ol>
+	<li>Formattazione dell'unità esterna non riuscita. Perché?
+		<ul>
+			<li>Verificare che l'unità esterna sia inserita correttamente.</li>
+			<li>Verificare che l'unità esterna sia protetta da scrittura. Se è protetto, rimuoverlo prima di formattarlo. </li>
+		</ul>
+	</li>
+	<li>Il tipo di file system dell'unità esterna è identificato come <strong>Non Supportato</strong> o il sistema non crea la cartella condivisa <strong>usbshare[numero]</strong> o <strong>satashare[numero]</strong> per l'unità esterna. Come procedere?
+<ul>
+			<li>Il sistema corrente riconosce i formati Btrfs, ext3, ext4, FAT, FAT32, HFS, HFS Plus e NTFS. Tutte le unità esterne non formattate nel formato indicato sopra non verranno riconosciute e lo stato verrà identificato come <b>Non Supportato</b>.</li>
+		</ul>
+	</li>
+	<li>Impossibile accedere alla cartella condivisa <b>usbshare[numero]</b> o <b>satashare[numero]</b>. Come procedere?
+		<ul>
+			<li>Questa condizione può essere causata da un problema nel file system sull'unità esterna. Per correggere il problema, collegare l'unità esterna al PC ed eseguire un controllo del file system.</li>
+		</ul>
+	</li>
+	<li>L'unità esterna con formattazione ext3 o ext4 può essere collegata al PC e al Mac ed è possibile accedervi direttamente?
+		<ul>
+			<li>No, ext3 o ext4 è riconosciuto esclusivamente da Synology NAS. Per leggere i dati direttamente dall'unità esterna con un PC e Mac, scegliere la formattazione FAT32. </li>
+		</ul>
+	</li>
+	<li>Perché è presente una cartella dal nome "trovati" nell'unità esterna?
+		<ul>
+			<li>Si tratta di una cartella predefinita di sistema creata automaticamente dal file system ext3/ext4. La visualizzazione di questa cartella nell'unità esterna è normale. L'amministratore ha diritto di accesso e di gestione ai contenuti; tuttavia, si consiglia vivamente di lasciare invariata la cartella.</li>
+		</ul>
+	</li>
+</ol>
+</div>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Btrfs è disponibile solo su alcuni modelli. Per verificare se il modello in uso supporta Btrfs, consultare <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">questo articolo</a>.</li>
+</ul>
+</div>
+
+<h4>Per impostare le autorizzazioni predefinite per tutti i dispositivi esterni:</h4>
+<p>È possibile impostare le autorizzazioni predefinite facendo clic su <strong>Impostazioni</strong> > <strong>Autorizzazioni predefinite</strong> e specificare utenti e gruppi che possono accedere, visualizzare o modificare i dispositivi esterni e i relativi contenuti. Quando un dispositivo esterno è connesso a Synology NAS, le autorizzazioni specificate saranno assegnate a tale dispositivo esterno automaticamente.</p>
+
+<p>Nella finestra autorizzazioni, attenersi ai passaggi seguenti per le autorizzazioni predefinite:</p>
+<ol>
+	<li>Selezionare una delle seguenti opzioni dal menu a discesa:
+		<ul>
+			<li><b>Utente interno di sistema:</b> assegnare permessi per utenti di sistema predefiniti, come utente FTP/WebDAV anonimo.</li>
+			<li><b>Utenti locali:</b> assegnare permessi per gli utenti locali (incluso <b>guest</b>).</li>
+			<li><b>Gruppi locali:</b> assegnare permessi per i gruppi locali.</li>
+		</ul>
+	</li>
+	<li>Selezionare o deselezionare le caselle di controllo per personalizzare le autorizzazioni di accesso dei dispositivi esterni per ciascun utente o gruppo:
+		<ul>
+			<li><b>Lettura/Scrittura</b>: l'utente o il gruppo può accedere e apportare modifiche ai file e alle cartelle suoi dispositivi esterni.</li>
+			<li><b>Sola lettura</b>: l'utente o il gruppo può accedere ai file e alle cartelle suoi dispositivi esterni.</li>
+			<li><b>Nessun accesso</b>: l'utente o il gruppo non può accedere ai file e alle cartelle suoi dispositivi esterni.</li>
+		</ul>
+	</li>
+</ol>
+
+</body>
+</html>

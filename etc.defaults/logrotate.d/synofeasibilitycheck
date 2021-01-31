@@ -1,0 +1,13 @@
+/var/log/synofeasibilitycheck.log {
+	compress
+	compresscmd /usr/bin/xz
+	compressext .xz
+	compressoptions -3
+	notifempty
+	rotate 5
+	missingok
+	size 3M
+	postrotate
+		/usr/syno/sbin/synoservice --reload syslog-ng || true
+	endscript
+}

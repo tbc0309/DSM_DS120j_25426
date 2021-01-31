@@ -1,0 +1,105 @@
+#!/bin/sh
+# Copyright (c) 2000-2015 Synology Inc. All rights reserved.
+#
+# After umount and syno_poweroff_task end,
+# check which process does not release device(volume, lv, md)
+
+skip="^/usr/|^/proc/|^/run/|^/var/run/|^/tmp/|anon_inode:|socket:|pipe:|^/dev/|^/sys/|^/etc/|^/etc.defaults/|^/sbin/|^/bin/|/SYSV|^/lib/|^/lib64/|^/dual_glibc/|^/var/log/|^/var/lib/|^/var/cache/|^/$"
+LVM_CHECK_DONE=/tmp/.syno.lvm
+SZF_DEVICE_BUSY_ERR2="/tmp/.check_device_busy2_err"
+SZF_DEVICE_BUSY_LIST2="/var/log/DeviceBusyList2"
+SZF_CMD_BUST_LIST="/tmp/.syno.cmdline"
+SZF_CMD_BUST_LIST_TMP="${SZF_CMD_BUST_LIST}.tmp"
+
+rm -f $SZF_DEVICE_BUSY_ERR2
+ls -l /proc/*/fd 2>/dev/null | awk '{print $11}' | grep "^/" | grep -v -E "$skip" > /tmp/.syno.fd
+if [ "$?" = "0" ]; then
+	/usr/bin/logger -p err -s "fd check error:"
+	/usr/bin/logger -p err -s < /tmp/.syno.fd
+	touch $SZF_DEVICE_BUSY_ERR2
+fi
+
+
+rm -f $SZF_CMD_BUST_LIST_TMP
+for i in $(ls /proc/); do
+	cat /proc/$i/cmdline >> $SZF_CMD_BUST_LIST_TMP 2>/dev/null
+	echo >> $SZF_CMD_BUST_LIST_TMP
+done
+
+cat $SZF_CMD_BUST_LIST_TMP 2>/dev/null | grep -a "^/" | grep -a -v -E "$skip" > $SZF_CMD_BUST_LIST
+if [ "$?" = "0" ]; then
+	/usr/bin/logger -p err -s "cmdline check error:"
+	/usr/bin/logger -p err -s < $SZF_CMD_BUST_LIST
+	touch $SZF_DEVICE_BUSY_ERR2
+fi
+
+cat /proc/*/maps 2>/dev/null | awk '{print $6}' | grep "^/" | grep -v -E "$skip" > /tmp/.syno.maps
+if [ "$?" = "0" ]; then
+	/usr/bin/logger -p err -s "maps check error:"
+	/usr/bin/logger -p err -s < /tmp/.syno.maps
+	touch $SZF_DEVICE_BUSY_ERR2
+fi
+
+rm $LVM_CHECK_DONE
+{
+	if [ "yes" = "$(synogetkeyvalue /etc.defaults/synoinfo.conf dockerdsm)" ]; then
+		touch $LVM_CHECK_DONE
+		exit
+	fi
+
+	if [ "yes" = "$(synogetkeyvalue /etc.defaults/synoinfo.conf virtual_dsm)" ]; then
+		touch $LVM_CHECK_DONE
+		exit
+	fi
+
+	if [ "yes" = "$(synogetkeyvalue /etc.defaults/synoinfo.conf c2_dsm)" ]; then
+		touch $LVM_CHECK_DONE
+		exit
+	fi
+
+	[ -e /sbin/lvs ] && /sbin/lvs | grep ao > /tmp/.syno.lvs
+	if [ "$?" = "0" ]; then
+		/usr/bin/logger -p err -s "lvs check error:"
+		/usr/bin/logger -p err -s < /tmp/.syno.lvs
+		touch $SZF_DEVICE_BUSY_ERR2
+	fi
+
+	for md in `ls /dev/md*`; do
+		if [ "/dev/md0" = "$md" -o "/dev/md1" = "$md" ]; then
+			continue
+		fi
+		/sbin/pvs | grep -q $md
+		if [ "$?" = "1" ]; then
+			/sbin/mdadm --detail $md &> /dev/null
+			if [ "$?" = "0" ]; then
+				/sbin/mkfs.ext4 -n $md &>/dev/null
+				if [ "$?" != "0" ]; then
+					/usr/bin/logger -p err -s "$md is busy"
+					touch $SZF_DEVICE_BUSY_ERR2
+				fi
+			fi
+		fi
+	done
+
+	touch $LVM_CHECK_DONE
+}&
+
+count=60
+while [ $count -gt 0 ]; do
+	if [ -e $LVM_CHECK_DONE ]; then
+		break
+	fi
+	sleep 1
+	count=$((count-1))
+done
+
+if [ $count -eq 0 ]; then
+	/usr/bin/logger -p err -s "Failed to check LVM"
+fi
+
+if [ -f "$SZF_DEVICE_BUSY_ERR2" ]; then
+	ps axjfw > $SZF_DEVICE_BUSY_LIST2
+	/usr/bin/logger -p err "Check device busy2: error, refer: ${SZF_DEVICE_BUSY_LIST2}"
+fi
+
+exit 0

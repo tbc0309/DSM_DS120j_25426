@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Velg en RAID-type</h2>
+
+<p>RAID (Redundant Array of Independent Disks) er en datalagringsteknologi som kombinerer flere disker til ett enkelt lagringsomr&aring;de. Det finnes ulike typer RAID, som hver gir ulike niv&aring;er av ytelse, lagringskapasitet og p&aring;litelighet.</p>
+
+<p>Denne artikkelen gir deg en kort oversikt over RAID-typer som st&oslash;ttes av Synology NAS, inkludert krav til bruk og fordeler og bakdeler.</p>
+
+<!--1-->
+
+<h3>St&oslash;ttede RAID-typer</h3>
+
+<p>Denne tabellen gir deg en kort oversikt over ulike RAID-typer som st&oslash;ttes av Synology NAS, med informasjon om lagringskapasitet, minimum antall disker som kreves for RAID-typen og antall disksvikter som tolereres f&oslash;r tap av data inntreffer. </p>
+
+<table>
+	<tr>
+		<th>Volumtype</th>
+		<th>Antall HDD</th>
+		<th>Antall disksvikter tolerert</th>
+		<th>Beskrivelse</th>
+		<th>Volumkapasitet</th>
+	</tr>
+	<tr>
+		<td rowspan="3">SHR</td>
+		<td>1</td>
+		<td>0</td>
+		<td rowspan="3">
+			<ul>
+				<li>Optimaliserer volumst&oslash;rrelsen n&aring;r du kombinerer disker med forskjellige st&oslash;rrelser.</li>
+				<li>Yter dataredundans hvis volumet best&aring;r av to eller flere disker.</li>
+				<li>Anbefales for nybegynnere.</li>
+			</ul>
+		</td>
+		<td>1 x (HDD-st&oslash;rrelse)</td>
+	</tr>
+	<tr>
+		<td>2-3</td>
+		<td>1</td>
+		<td rowspan="2">Optimaliseres av systemet.</td>
+	</tr>
+	<tr>
+		<td>≧4</td>
+		<td>1-2</td>
+	</tr>
+	<tr>
+		<td>Grunnleggende</td>
+		<td>1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Best&aring;r av &eacute;n disk som en uavhengig enhet.</li>
+				<li>Yter ikke dataredundans.</li>
+			</ul>
+		</td>
+		<td>1 x (HDD-st&oslash;rrelse)</td>
+	</tr>
+	<tr>
+		<td>JBOD</td>
+		<td>≧1</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Kombinerer en samling av disker til ett enkelt lagringsomr&aring;de, med kapasitet som er lik summen av alle diskenes kapasitet.</li>
+				<li>Yter ikke dataredundans.</li>
+			</ul>
+		</td>
+		<td>Summen av alle HDD-st&oslash;rrelser</td>
+	</tr>
+	<tr>
+		<td>RAID 0</td>
+		<td>≧2</td>
+		<td>0</td>
+		<td>
+			<ul>
+				<li>Kommer med &quot;striping&quot;, en prosess for &aring; dele data inn i blokker og spre datablokker p&aring; tvers av flere disker for &aring; forbedre ytelsen.</li>
+				<li>Yter ikke dataredundans.</li>
+			</ul>
+	    </td>
+		<td>Summen av alle HDD-st&oslash;rrelser</td>
+	</tr>
+	<tr>
+		<td rowspan="3">RAID 1</td>
+		<td>2</td>
+		<td>1</td>
+		<td rowspan="3">
+			<ul>
+				<li>Skriver identiske data til begge diskene samtidig.</li>
+				<li>Yter dataredundans.</li>
+			</ul>
+		</td>
+		<td rowspan="3">Minste HDD-st&oslash;rrelse</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>3</td>
+	</tr>
+	<tr>
+		<td>RAID 5</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Tar i bruk blokkniv&aring;striping med paritetsdata fordelt p&aring; tvers av alle medlemsdiskene, og yter dermed mer effektiv dataredundans enn RAID 1.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (minste HDD-st&oslash;rrelse)</td>
+	</tr>
+	<tr>
+		<td>RAID 6</td>
+		<td>≧4</td>
+		<td>2</td>
+		<td>
+			<ul>
+				<li>Tar i bruk to lag med dataparitet for &aring; lagre redundant data lik st&oslash;rrelsen p&aring; de to diskene, og yter dermed en st&oslash;rre grad av dataredundans enn RAID 5.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 2) x (minste HDD-st&oslash;rrelse)</td>
+	</tr>
+	<tr>
+		<td>RAID 10</td>
+		<td>≧4<br /> (partall)</td>
+		<td>Halve totalen av HDD</td>
+		<td>
+			<ul>
+				<li>Gir deg ytelsen til RAID 0 og databeskyttelsesniv&aring;et til RAID 1 ved &aring; kombinere disker inn i grupper p&aring; to hvor data speiles. </li>
+			</ul>
+		</td>
+		<td>(N / 2) x (minste HDD-st&oslash;rrelse)</td>
+	</tr>
+	<tr class="enable-grantley">
+		<td>RAID F1</td>
+		<td>≧3</td>
+		<td>1</td>
+		<td>
+			<ul>
+				<li>Anvender blokkniv&aring;striping med fordeling av paritetsdata p&aring; tvers av alle medlemsdiskene.</li>
+				<li>Skriver mer paritetsinformasjon p&aring; &eacute;n bestemt disk.</li>
+				<li>Anbefalt for matriser som kun bruker flash.</li>
+			</ul>
+		</td>
+		<td>(N &ndash; 1) x (minste HDD-st&oslash;rrelse)</td>
+	</tr>
+</table>
+
+<div class="section"><h4>Merk:</h4>
+<ul>
+	<li>RAID-typer unntatt &quot;Basic&quot; er kun tilgjengelige p&aring; enkelte modeller avhengig av antall diskluker og antall installerte disker.</li>
+	<li>&quot;N&quot; representerer det totale antall disker i volumet.</li>
+</ul>
+</div>
+
+<!--2-->
+
+<h3>Synology Hybrid RAID (SHR)</h3>
+<p>Synology Hybrid RAID (SHR) er et automatisert RAID-administrasjonssystem, utviklet for &aring; forenkle lagringsadministrering og im&oslash;teg&aring; behovene til nye brukere som ikke er kjent med RAID-typer. </p>
+<p>SHR kan kombinere disker med ulike st&oslash;rrelser for &aring; opprette et lagringsvolum med optimalisert kapasitet og ytelse, slik at du kaster bort mindre diskplass og f&aring;r en mer fleksibel lagringsl&oslash;sning.  N&aring;r tilstrekkelige disker er inkludert, vil SHR yte 1- eller 2-disksredundans - hvilket betyr at SHR-volumet kan t&aring;le opp til &eacute;n eller to sviktede disker uten at tap av data oppst&aring;r.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--3-->
+
+<h3>RAID 0</h3>
+<p>RAID 0 kombinerer to eller flere disker for &aring; &oslash;ke ytelsen og kapasiteten, men yter ingen feiltoleranse. &Eacute;n enkel disksvikt vil resultere i tap av all data i matrisen. RAID 0 er nyttig for ikke-kritiske systemer som krever h&oslash;y ytelse i forhold til pris.<img src="about:blank" class="help_image" /></p>
+
+<!--4-->
+
+<h3>RAID 1</h3>
+<p>RAID 1 brukes mest med to disker. Data p&aring; diskene blir speilet, og du f&aring;r dermed feiltoleranse ved disksvikt.  Leseytelsen &oslash;kes, mens skriveytelsen vil v&aelig;re den samme som for &eacute;n enkel disk. &Eacute;n enkel disksvikt kan oppst&aring; uten at tap av data inntreffer. RAID 1 brukes som oftes n&aring;r feiltoleranse er viktig, men plass og ytelse ikke er viktige krav.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--5-->
+
+<h3>RAID 5</h3>
+<p>RAID 5 gir deg feiltoleranse og &oslash;kt leseytelse. Et minimum av tre disker kreves. RAID 5 t&aring;ler tap av &eacute;n enkel disk. Hvis en disksvikt oppst&aring;r, blir data fra den sviktede disken rekonstruert fra paritet som er stripet p&aring; tvers av de gjenst&aring;ende diskene. Som resultat vil b&aring;de lese- og skriveytelsen bli kraftig p&aring;virket mens en RAID 5-matrise er degradert. RAID 5 er ideell n&aring;r plass og kostnad er viktigere enn ytelse.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--6-->
+
+<h3>RAID 6</h3>
+<p>RAID 6 er lik RAID 5, med unntak av at den gir deg enda et lag med striping og kan tolerere to disksvikter. Et minimum av fire disker kreves. Ytelsen til RAID 6 er lavere enn RAID 5 pga. denne ytterligere feiltoleransen. RAID 6 er nyttig n&aring;r plass og kostnad er viktig og toleranse for flere disksvikter kreves.<br /><img src="about:blank" class="help_image" /></p>
+
+<!--7-->
+
+<h3>RAID 10</h3>
+<p>RAID 10 kombinerer fordelene ved RAID 1 og RAID 0. Lese- og skriveytelsen &oslash;kes, men kun halvparten av den totale plassen er tilgjengelig for datalagring. Fire eller flere disker kreves, s&aring; kostnaden er relativ h&oslash;y, men ytelsen er utmerket samtidig som den yter feiltoleranse. Faktisk kan en RAID 10 tolerere flere disksvikter - s&aring; sant sviktene ikke er innenfor den samme undergruppen. RAID 10 er ideell for programmer med h&oslash;ye krav til inndata/utdata, som databaseservere.<br /><img src="about:blank" class="help_image" /></p>
+
+
+<!--8-->
+
+<h3 class="enable-grantley">RAID F1</h3>
+<p class="enable-grantley">RAID F1 anvender mekanismen i RAID 5 og tilbyr feiltoleranse og bedre leseytelse. Men med RAID F1 vil systemet skrive mer paritetsinformasjon p&aring; en bestemt disk for &aring; akselerere aldringsprosessen, slik at ikke alle diskene n&aring;r enden av sin levetid samtidig. Dette kan ha en &oslash;rliten effekt p&aring; ytelsen sammenlignet med RAID 5. Minimum tre disker kreves. RAID F1 t&aring;ler tap av &eacute;n enkel disk. Hvis en disksvikt oppst&aring;r, blir data fra den sviktede disken rekonstruert fra paritet som er stripet p&aring; tvers av de gjenst&aring;ende diskene. Som resultat vil b&aring;de lese- og skriveytelsen bli kraftig p&aring;virket mens en RAID F1-matrise er degradert. RAID F1 er ideell for matriser som kun bruker flash.<br /><img src="about:blank" class="help_image" /></p>
+
+</body>
+</html>

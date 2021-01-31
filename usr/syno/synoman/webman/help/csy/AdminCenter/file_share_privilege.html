@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Přiřazení oprávnění ke sdíleným složkám – Nápověda Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="You can specify which users or groups can access, view, or modify a shared folder and its contents. This article shows you how to assign and customize shared folder permissions in DSM.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Přiřazení oprávnění ke sdíleným složkám</h2>
+
+<p>Můžete stanovit, kteří uživatelé nebo skupiny mohou získat přístup ke sdílené složce a obsahu a tuto složku tak zobrazovat a upravovat. Přístupová oprávnění sdílených složek, stejně jako jednotlivých souborů a podsložek, lze přizpůsobit pro jednotlivé uživatele nebo skupiny.</p>
+
+<div class="section disable-eds14">
+<h4>Windows ACL:</h4>
+
+<p>V systému DSM 5.0 nebo novějších verzích vycházejí přístupová oprávnění sdílených složek ve výchozím nastavení ze služby Windows ACL. Nově vytvořené sdílené složky využívají nastavení oprávnění služby Windows ACL, což také umožňuje přizpůsobit oprávnění jednotlivých souborů a podsložek. Kromě toho lze oprávnění přizpůsobit prostřednictvím služby File Station nebo v programu Průzkumník souborů v systému Windows.</p>
+<p>Následující sdílené složky nemohou využívat systém správy oprávnění služby Windows ACL: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+<div class="section disable-eds14">
+<h4>Poznámka:</h4>  
+<p>Vlastní složky <strong>home</strong> uživatele se nacházejí ve složce <strong>homes</strong>. Vzhledem k tomu, že služba ACL funguje na základě dědění oprávnění, nebudou mít uživatelé přístup k vlastní složce <strong>home</strong>, pokud pro uživatele nebo skupinu v rámci složky <strong>homes</strong> nastavíte oprávnění Neuvedeno. </p>
+</div>
+<h4>Úprava oprávnění sdílené složky:</h4>
+
+<ol>
+
+<li>Přejděte do části <strong>Ovládací panel</strong> > <strong>Sdílená složka</strong>.</li><img src="about:blank" class="help_image"/><li>Vyberte sdílenou složku, jejíž oprávnění chcete upravit. Klikněte na možnost <b>Upravit</b>.</li><img src="about:blank" class="help_image"/><li> Přejděte na kartu <strong>Oprávnění</strong>.</li><img src="about:blank" class="help_image"/><li>V rozevírací nabídce vyberte jednu z následujících možností:<ul>
+<li><b>Interní uživatel systému:</b> Přiřaďte oprávnění pro výchozí uživatele systému, například uživatele služby Anonymous FTP/WebDAV. Než uživatelům služby Anonymous FTP povolíte připojení ke sdílené složce, musíte tomuto uživateli přiřadit přístupová oprávnění.</li>
+<li><b>Místní uživatelé:</b> Přiřaďte oprávnění pro místní uživatele (včetně uživatele <b>guest</b>).</li>
+<li><b>Místní skupiny:</b> Přiřaďte oprávnění pro místní skupiny.</li>
+</ul>
+</li><img src="about:blank" class="help_image"/><li>Zaškrtnutím nebo zrušením zaškrtnutí příslušných políček pro jednotlivé uživatele nebo skupiny upravíte přístupová oprávnění ke sdílené složce:<ul>
+<li><b>Čtení/zápis</b>: Uživatel nebo skupina má přístup a může měnit soubory a podsložky sdílené složky.</li>
+<li><b>Jen pro čtení</b>: Uživatel nebo skupina bude mít přístup k souborům a podsložkám ve sdílené složce.</li>
+<li><b>Žádný přístup</b>: Uživatel nemá přístup k souborům a podsložkám ve sdílené složce.</li>
+</ul>
+</li><img src="about:blank" class="help_image"/><li>Postup dokončíte kliknutím na možnost <b>OK</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Poznámka:</h4>
+
+<ul>
+<li>V případě konfliktu oprávnění je priorita oprávnění následující: Žádný přístup > Čtení/zápis > Jen pro čtení.</li>
+<li>Pokud vytvoříte novou sdílenou složku a pokud jsou oprávnění pro uživatele ze skupiny <strong>administrators</strong> nastavena na možnost <b>Žádný přístup</b>, zobrazí se sdílená složka tomuto uživateli pouze v části <strong>Ovládací panel</strong> > <strong>Sdílená složka</strong>.</li>
+</ul>
+</div>
+
+<h3 class="disable-eds14">Přizpůsobení oprávnění služby Windows ACL</h3>
+
+<p class="disable-eds14">Kromě nastavení popsaných výše lze oprávnění přizpůsobit ještě podrobněji pomocí níže uvedeného postupu. </p>
+
+<div class="section disable-eds14">
+<h4>Poznámka:</h4>
+<p>Níže uvedená nastavení nelze používat s následujícími sdílenými složkami: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+
+<h4 class="disable-eds14">Přizpůsobení oprávnění:</h4>
+<ol class="disable-eds14">
+  <li>Na kartě <strong>Oprávnění</strong> vyberte uživatele, jehož oprávnění chcete přizpůsobit. Klikněte kamkoliv v rámci sloupce <strong>Vlastní</strong>.</li><img src="about:blank" class="help_image"/><li>Spravovat oprávnění služby ACL k souboru nebo složce je možné některým z následujících úkonů v okně <b>Editor oprávnění</b>:<ol>
+        <li><b>Uživatel nebo skupina:</b> Stanovte uživatele nebo skupinu, jejichž oprávnění chcete přizpůsobit.</li><img src="about:blank" class="help_image"/><div class="section disable-eds14">
+<h4>Poznámka:</h4>  
+<p>Možnosti <strong>Authenticated Users</strong> (Ověření uživatelé) a <strong>SYSTEM</strong> v rozevírací nabídce <strong>Uživatel nebo skupina</strong> slouží ke spárování nastavení oprávnění seznamu Windows ACL. Jejich rozsahy oprávnění jsou následující:</p>
+<ul>
+	<li>Možnost <strong>Authenticated Users</strong> (Ověření uživatelé) obsahuje účty vyloučené z účtů <strong>https</strong> a <strong>guest</strong>.</li>
+	<li>Možnost <strong>SYSTEM</strong> obsahuje účty <strong>https</strong> a <strong>anonymous</strong>.</li>
+</ul>
+</div>
+        
+        
+        
+        
+        <li><b>Zdědit od:</b> Pouze zobrazení. Pomocí této informace zjistíte, zda bylo oprávnění zděděno (od nadřazené složky) nebo je explicitní (zobrazuje se jako <b>Žádné</b>). </li><img src="about:blank" class="help_image"/><li><b>Typ:</b> Vyberte možnost <b>Povolit</b> nebo <b>Odepřít</b>, abyste uživateli nebo skupině udělili nebo zamítli oprávnění.</li><img src="about:blank" class="help_image"/><li><b>Použít pro:</b> Pokud vytváříte položku oprávnění pro složku, zaškrtněte políčko a použijte danou položku pro tuto složku, resp. složky (nebo <b>Podřízené složky</b>) či soubory (nebo <b>Podřízené soubory</b>) v této složce, nebo pro všechny soubory a složky obsažené v této složce (nebo ve složce <b>Všichni potomci</b>). </li><img src="about:blank" class="help_image"/><li><b>Správa:</b> Zaškrtnutím možnosti <b>Číst oprávnění</b>, <b>Změnit oprávnění</b> nebo <b>Převzít vlastnictví</b> stanovte nastavení přístupových oprávnění uživatele nebo skupiny k dané položce. </li>
+        <li><b>Čtení</b> nebo <b>Zápis:</b> Zaškrtnutím políček v těchto částech můžete upravit nastavení přístupových oprávnění uživatele nebo skupiny k souboru nebo složce. </li>
+      </ol>    
+  <li> Klikněte na možnost <b>OK</b>.</li>
+</ol>
+<div class="section disable-eds14">
+  <h4>Oprávnění ACL lze zařadit do těchto kategorií:</h4>
+  <ul>
+    <li><b>Správa:</b><ul>
+      <li><b>Změnit oprávnění</b>: Tato kategorie řídí, jestli uživatel může měnit oprávnění souboru nebo složky.</li>
+      <li><b>Převzít vlastnictví</b>: Tato kategorie řídí, jestli je uživatel vlastníkem souboru nebo složky.</li>
+    </ul></li>
+    <li><b>Čtení:</b><ul>
+      <li><b>Přesunout složky / Spustit soubory</b>: Tato kategorie řídí, jestli uživatel může spustit programový soubor.</li>
+      <li><b>Řadit složky / Načítat data</b>: Tato kategorie řídí, jestli uživatel může číst data ze souboru.</li>
+      <li><b>Číst atributy</b>: Tato kategorie řídí, jestli uživatel může prohlížet atributy souboru.</li>
+      <li><b>Číst rozšířené atributy</b>: Tato kategorie řídí, jestli uživatel může prohlížet rozšířené atributy souboru.</li>
+      <li><b>Číst oprávnění</b>: Tato kategorie řídí, jestli uživatel může číst oprávnění souboru nebo složky.</li>
+    </ul></li>
+    <li><b>Zápis:</b><ul>
+      <li><b>Vytvářet soubory / Zapisovat data</b>: Tato kategorie řídí, jestli uživatel může měnit obsah souboru.</li>
+      <li><b>Vytvářet složky / Připojovat data</b>: Tato kategorie řídí, jestli uživatel může přidávat data na konec souboru.</li>
+      <li><b>Zapisovat atributy</b>: Tato kategorie řídí, jestli uživatel může měnit atributy souboru.</li>
+      <li><b>Zapisovat rozšířené atributy</b>: Tato kategorie řídí, jestli uživatel může měnit rozšířené atributy souboru.</li>
+      <li><b>Odstraňovat podsložky a soubory</b>: Tato kategorie řídí, jestli uživatel může odstranit složku.</li>
+      <li><b>Odstranit</b>: Tato kategorie řídí, jestli uživatel může odstranit soubor.</li>
+    </ul></li>
+  </ul>
+  <h4>O dědičnosti oprávnění:</h4>
+  <p> Oprávnění služby ACL se dědí z rodičovského objektu na podřízené objekty. Pokud například položka ACL složky „prodej“ uděluje uživatelce „Amy“ oprávnění ke „čtení“, použije se položka ACL i na všechny soubory ve složce „prodej“ (např. „výroční zpráva.xls“) a umožní dané uživatelce tyto soubory otevírat. Zděděná oprávnění jsou označena šedě, vlastní oprávnění objektu (nebo „explicitní“ oprávnění) jsou označená černě. </p>
+</div>
+<div class="section disable-eds14">
+  <h4>Poznámka:</h4>
+  <ul>
+    <li>K souboru nebo složce můžete přidat maximálně 200 explicitních oprávnění služby ACL.</li>
+    <li>Služba Windows ACL nepodporují souborový systém ext3. Pro uživatele souborového systému ext3, kteří chtějí používat oprávnění služby Windows ACL, musíte vytvořit alespoň jeden svazek ext4 nebo Btrfs. To znamená, že musíte naformátovat alespoň jeden disk a znovu vytvořit svazek. Při formátování zařízení Synology NAS se vymažou veškerá uložená data a nastavení. Před zahájením postupu se přesvědčte, že máte všechna data zálohovaná.</li>
+    <li>Pokud chcete definovat nová oprávnění pro uživatele domény, přesvědčte se, že jsou klienti systému DSM a Windows ve stejné doméně.</li>
+    <li>Pokud provádíte změny oprávnění pomocí Průzkumníka souborů systému Windows, budou se pravidla typu <strong>Odepřít</strong> pro skupinu <strong>Domain Admins</strong> ignorovat.</li>
+  </ul>
+</div>
+
+
+</body>
+</html>

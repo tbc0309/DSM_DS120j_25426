@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>General</h2>
+
+<p>El Administrador de almacenamiento permite a los usuarios administrar todos los espacios de almacenamiento en sus productos de Synology. Para simplificar la gesti&oacute;n del almacenamiento y crear espacios de almacenamiento flexibles con protecci&oacute;n de datos, Synology DSM admite varios tipos de grupos de almacenamiento.</p>
+
+<h4><a href="storage_pool.html">Grupo de almacenamiento</a></h4>
+<p>Puede combinar varias unidades en una &uacute;nica unidad de almacenamiento llamada grupo de almacenamiento con Synology NAS. Synology NAS ofrece los siguientes tipos de grupos de almacenamiento:</p>
+<ul>
+	<li><strong>Grupo de almacenamiento para un mejor rendimiento</strong>:<ul>
+			<li>asigna toda la capacidad disponible a un solo volumen.</li>
+			<li>Ofrece un mejor rendimiento, pero una menor flexibilidad de administraci&oacute;n del almacenamiento.</li>
+			<li>Permite la creaci&oacute;n de varios iSCSI LUN (archivo normal) en vol&uacute;menes.</li>
+			<li>Admite una matriz RAID como m&aacute;ximo.</li>
+		</ul>
+	</li>
+	<li><strong>Grupo de almacenamiento para una mayor flexibilidad</strong>:<ul>
+			<li>admite la creaci&oacute;n de varios vol&uacute;menes en un grupo de almacenamiento.</li>
+			<li>Ofrece una mejor flexibilidad de administraci&oacute;n del almacenamiento.</li>
+			<li>Permite la creaci&oacute;n de varios iSCSI LUN (archivo normal) en vol&uacute;menes.</li>
+			<li>Permite combinar varias matrices RAID bajo un grupo de almacenamiento (cuando est&aacute; configurado como RAID 5, RAID 6 o RAID F1).</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>Tipo de RAID</h4>    
+<p>Cuando cree un grupo de almacenamiento, elija primero un tipo de RAID. Cada tipo de RAID ofrece unos niveles de protecci&oacute;n de datos, unas funciones de almacenamiento y un rendimiento diferentes. Actualmente, Synology NAS admite los siguientes tipos de RAID:</p>
+<ul>
+	<li><strong>B&aacute;sico</strong>: usa una unidad para crear un grupo de almacenamiento. Los grupos de almacenamiento b&aacute;sicos no ofrecen redundancia de datos.</li>
+	<li><strong>JBOD*</strong>: combina al menos dos unidades para crear un grupo de almacenamiento. Los grupos de almacenamiento JBOD no ofrecen redundancia de datos. La capacidad disponible de un grupo de almacenamiento JBOD equivale a la capacidad total de todas las unidades incluidas en el grupo de almacenamiento. JBOD permite combinar unidades de diferentes tama&ntilde;os.</li>
+	<li><strong>RAID 0*</strong>: combina al menos dos unidades para crear un grupo de almacenamiento. El tipo RAID 0 no ofrece redundancia de datos. Si falla una &uacute;nica unidad, se perder&aacute;n los datos del grupo de almacenamiento. La capacidad disponible en el grupo de almacenamiento RAID 0 es igual a la capacidad total de las unidades que lo forman. RAID 0 permite combinar unidades de diferentes tama&ntilde;os.</li>
+	<li><strong>RAID 1*</strong>: combina de 2 a 4 unidades para crear un grupo de almacenamiento. El sistema escribir&aacute; datos id&eacute;nticos en cada unidad. RAID 1 ofrece protecci&oacute;n de datos siempre que una unidad funcione normalmente. La capacidad disponible en el grupo de almacenamiento RAID 1 es igual al tama&ntilde;o de la unidad m&aacute;s peque&ntilde;a.</li>
+	<li><strong>RAID 5*</strong>: combina al menos tres unidades para crear un grupo de almacenamiento, guardando (mediante Striping) en todas las unidades tanto datos como informaci&oacute;n de paridad. RAID 5 ofrece redundancia de datos. Si una unidad falla, el sistema puede reconstruirse utilizando la informaci&oacute;n de paridad de las dem&aacute;s unidades. Admite la combinaci&oacute;n de varias matrices RAID cuando se crean en un grupo de almacenamiento para varios vol&uacute;menes. La capacidad disponible de un grupo de almacenamiento RAID 5 = <span class="note_content">Capacidad total de las matrices RAID combinadas. Capacidad de matriz RAID = (n&uacute;mero de unidades - 1) x (capacidad de la unidad m&aacute;s peque&ntilde;a)</span></li>
+	<li><strong>RAID 6*</strong>: combina al menos cuatro unidades para crear un grupo de almacenamiento, guardando (mediante Striping) en todas las unidades tanto datos como informaci&oacute;n de paridad. RAID 6 ofrece redundancia de datos. Aunque fallen dos unidades, el sistema puede reconstruirse utilizando la informaci&oacute;n de paridad de las dem&aacute;s unidades. Admite la combinaci&oacute;n de varias matrices RAID cuando se crean en un grupo de almacenamiento para varios vol&uacute;menes. La capacidad disponible de un grupo de almacenamiento RAID 6 = <span class="note_content">Capacidad total de las matrices RAID combinadas. Capacidad de matriz RAID = (n&uacute;mero de unidades - 2) x (capacidad de la unidad m&aacute;s peque&ntilde;a)</span></li>
+	<li><strong>RAID 10*</strong>: combina al menos cuatro unidades para crear un grupo de almacenamiento. El n&uacute;mero de unidades debe ser par. RAID 10 presenta el rendimiento de RAID 0 y el mismo nivel de protecci&oacute;n de datos de RAID 1. Capacidad disponible de un grupo de almacenamiento RAID 10 = <span class="note_content">(capacidad de la unidad m&aacute;s peque&ntilde;a) x (el n&uacute;mero de unidades/2)</span></li>
+	<li><strong>RAID F1*</strong>: Este tipo de RAID est&aacute; dise&ntilde;ado para unidades de estado s&oacute;lido (SSD). Combina al menos tres SSD para crear un grupo de almacenamiento, guardando (mediante Striping) en todos los discos SSD tanto datos como informaci&oacute;n de paridad, aunque escribiendo m&aacute;s bits de paridad en una SSD determinado para impedir que varias SSD fallen al mismo tiempo. RAID F1 ofrece redundancia de datos. Si una SSD falla, el sistema puede reconstruirse utilizando la informaci&oacute;n de paridad de las dem&aacute;s SSD. Admite la combinaci&oacute;n de varias matrices RAID cuando se crean en un grupo de almacenamiento para varios vol&uacute;menes. La capacidad disponible de un grupo de almacenamiento RAID F1 = <span class="note_content">Capacidad total de las matrices RAID combinadas. Capacidad de matriz RAID = (n&uacute;mero de unidades - 1) x (capacidad de la unidad m&aacute;s peque&ntilde;a)</span></li>
+</ul>
+
+<div class="section"><h4>Observaci&oacute;n:</h4>
+<ul>
+	<li>Los tipos de RAID con <strong>*</strong> solo est&aacute;n disponibles en modelos NAS con suficientes recept&aacute;culos de unidad. Para conocer los tipos de RAID compatibles con su modelo, vaya a <a href="https://www.synology.com" target="_blank">www.synology.com</a> y consulte las especificaciones de su modelo.</li>
+</ul>
+</div>
+
+</body>
+</html>

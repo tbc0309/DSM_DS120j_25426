@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Säkerhetskopieringsmål - Synology DSM hjälp</title>
+
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Define local, network or cloud backup destination for backup tasks.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Säkerhetskopieringsmål</h2>
+<p>På fliken <b>Säkerhetskopieringsmål</b> i <b>Säkerhetskopiering &amp; Replikering</b> kan du definiera ett säkerhetskopieringsmål lokalt, på nätverket eller i molnet, innan en säkerhetskopieringsuppgift skapas.</p>
+
+<h4><a name="local_backup"></a>För att skapa ett lokalt säkerhetskopieringsmål:</h4>
+<p>Ett lokalt säkerhetskopieringsmål krävs för att säkerhetskopiera data från Synology NAS till en lokalt delad mapp, volym eller en extern USB-/eSata-disk. Säkerhetskopieringsmålet måste skilja sig från källan och kapaciteten för målet måste vara större än den totala storleken av det data som ska säkerhetskopieras.</p>
+
+<ol>
+<li>Klicka på <b>Skapa</b>, välj <b>Lokalt säkerhetskopieringsmål</b> och klicka sedan på <b>Nästa</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Ge detta säkerhetskopieringsmål ett namn och välj målet där säkerhetskopierat data kommer att lagras och huruvida du vill behålla endast de senaste säkerhetskopiorna eller bevara alla versioner av säkerhetskopior.</li>
+</ol>
+
+<div class="section">
+<h4>Noteringar:</h4>
+<ul>
+<li>Om data på målet flyttas under tiden säkerhetskopieringsuppgiften utförs, kommer en fullständig säkerhetskopiering att utföras nästa gång uppgiften utförs.</li>
+<li>Nya externa enheter kan behöva formateras innan de kan tas i bruk som säkerhetskopieringsmål. </li>
+<li>Innan du skapar en säkerhetskopieringsuppgift, säkerställ att du redan har ordentligt har anslutit de externa diskarna till din Synology NAS. Du kan gå till <b>Kontrollpanel</b> > <b>Externa enheter</b> för att kontrollera status för USB/eSATA-diskar. Externa diskar kan inte väljas som säkerhetskopieringsmål om den externa disken håller på att initialiseras, formateras eller är felaktig.</li>
+<li>Fjärrmonterade utdelningar kan inte väljas som källa eller mål för säkerhetskopieringen.</li>
+<li>Om en krypterad delad mapp avmonteras kan den inte väljas som mål vid en säkerhetskopiering.</li>
+<li>Miniatyrbilder kan inte säkerhetskopieras när filsystemet på målet är NTFS/FAT.</li>
+</ul>
+</div>
+
+
+<h4><a name="network_backup"></a>För att skapa ett nätverksmål för säkerhetskopiering:</h4>
+<p>Ett nätverksmål för säkerhetskopiering krävs för säkerhetskopiering av data från Synology NAS till en annan Synology NAS eller rsync-kompatibel server över nätverket. Det finns flertalet alternativ tillgängliga när en säkerhetskopieringsuppgift med nätverksmål för säkerhetskopiering såsom överföringskryptering, komprimering, säkerhetskopiering på blocknivå med mera skapas. Vänligen observera att en del alternativ, såsom överföringskryptering kan minska hastigheten för säkerhetskopieringsuppgifter.</p>
+
+<ol>
+<li>Innan ett nätverksmål för säkerhetskopiering skapas, vänligen logga in på den server som är mål först, gå till <strong>Säkerhetskopiering & Replikering</strong> > <strong>Säkerhetskopieringstjänster</strong> och aktivera tjänsten nätverkssäkerhetskopiering och/eller volym som mål för nätverkssäkerhetskopiering.</li>
+<li>Tillbaka på din Synology NAS, gå till <strong>Säkerhetskopiering &amp; Replikering</strong> &gt; <strong>Säkerhetskopieringsmål</strong>. Klicka på <strong>Skapa</strong>, välj <strong>Nätverksmål för säkerhetskopiering</strong> och följ guiden för att slutföra.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Med <strong>Nätverksmål för säkerhetskopiering (Synology NAS-server)</strong> kan du lagra säkerhetskopierad data i en delad mapp för att behålla den aktuella säkerhetskopian eller lagra dina säkerhetskopierade data på en volym för att behålla flera versioner av säkerhetskopior. Med <strong>Nätverksmål för säkerhetskopiering (rsync-kompatibel server)</strong> kan du bara behålla den aktuella säkerhetskopian.</li>
+
+</ol>
+
+<div class="section">
+<h4>Noteringar:</h4>
+<ul>
+<li>Följande lägen finns tillgängliga vid skapande av en säkerhetskopieringsuppgift med rsync-kompatibla servrar som nätverksmål för säkerhetskopiering: <b>Läget rsync daemon</b> som används när du väljer en modul för säkerhetskopiering (delade mappar på den rsync-kompatibla servern) från rullgardinsmenyn bredvid <b>Säkerhetskopieringsmodul</b>; och <b>fjärrstyrt skalläge,</b> vilket endast är aktiverat när du anger en absolut sökväg (startar med "/") i <b>Säkerhetskopieringsmodul</b>.</li>
+<li>För Linux-användare är endast kontona <strong>admin</strong>, <strong>root</strong> och <strong>rsync</strong> tillåtna att utföra säkerhetskopieringsuppgifter.</li>
+<li>Om du vill ha åtkomst till målservern över Internet genom att använda dess värdnamn måste värdnamnet vara en FQDN (Fully Qualified Domain Name, på svenska fullt kvalificerat domännamn), till exempel <strong>abc.bcd.com</strong>.</li>
+<li>Vid säkerhetskopiering från en Synology NAS-enhet till en annan blir du uppmanad att ange användarnamnet och lösenordet för ett konto på målservern. Om du vill säkerhetskopiera till en volym på en annan Synology NAS behöver du särskilt specificera ett konto som hör till gruppen <strong>administrators</strong>. Vid säkerhetskopiering till delade mappar på en annan Synology NAS kan du göra så i enlighet med mappens åtkomsträttigheter. Endast delade mappar till vilka den specifika användaren har åtkomstprivilegier kommer att synas. Om du inte kan hitta de önskade delade mapparna på målet, vänligen kontrollera dina åtkomstprivilegier.</li>
+<li>Säkerhetskopieringskryptering har endast stöd när den server som är mål stöder krypterad nätverkssäkerhetskopiering och lösenordet för autentisering inte är tomt.</li>
+<li>Fjärrstyrt skalläge stöder endast krypterad säkerhetskopiering.</li>
+<li>Vid säkerhetskopiering till en rsync-kompatibel server kommer du inte längre att kunna ändra rsync-krypteringsläget efter att en säkerhetskopieringsuppgift för rsync skapats. För att ändra konfigurationen, vänligen skapa en ny rsync-uppgift. </li>
+<li>Om du säkerhetskopierar filer till en Synology NAS via en rsync-klient måste filnamnen vara i teckentabell UTF-8.</li>
+<li>Om du säkerhetskopierar filer till en Synology NAS via en rsync-kompatibel klient kan du endast utföra uppgiften med kontona <strong>admin</strong>, <strong>root</strong> och <strong>rsync</strong> på Synology NAS.</li>
+<li>Om du säkerhetskopierar filer till en Synology NAS TILL en rsync-kompatibel server, måste du också mata in korrekt kontonamn och lösenord för rsync backup-konto. Du måste också välja rätt kopieringsmodul med skrivprivilegier.</li>
+</ul>
+</div>
+
+<h4><a name="cloudservice_backup"></a>Att skapa ett Säkerhetskopieringsmål Amazon S3:</h4>
+<p>Ett Säkerhetskopieringsmål Amazon S3 krävs för säkerhetskopiering av data från Synology NAS till en Amazon S3-server.</p>
+  
+<ol>
+  <li>Klicka på <b>Skapa</b>, välj <b>Säkerhetskopieringsmål Gemensamt moln</b> och sedan <b>Säkerhetskopieringsmål Amazon S3</b> och klicka sedan på <b>Nästa</b>.</li>
+  
+  <img src="about:blank" class="help_image"/>
+  
+  <li>Ge detta säkerhetskopieringsmål ett namn, ange inloggningens autentiseringsuppgifter och fyll sedan i de obligatoriska fälten för att konfigurera en säkerhetskopieringsuppgift.</li>
+</ol>
+
+<div class="section">
+<h4> Noteringar:</h4>
+<ul>
+  <li>När uppgifter för säkerhetskopiering med Amazon S3-server som nätverksmål för säkerhetskopiering skapas finns flertalet alternativ tillgängliga, såsom överföringskryptering, säkerhetskopiering till Amazon S3 RRS (Reduced Redundancy Storage) och andra. Vänligen observera att en del alternativ, såsom överföringskryptering kan minska hastigheten för säkerhetskopieringsuppgiften.</li>
+  <li>Säkerhetskopieringsfiler sparas i den <strong>Bucket</strong> du valde på Amazon S3-servern och Set KEY-värdet börjar med ett katalognamn som du väljer och slutar med den kompletta filsökvägen för filen.</li>
+  <li>Datastrukturen på Amazon S3 inkluderar ett par Bucket och KEY utan någon mappstruktur. Säkerhetskopiering av tomma mappar stöds inte.</li>
+  <li>Om en säkerhetskopierad fil inte har ändrats kommer den inte att säkerhetskopieras till samma Bucket på Amazon S3-server igen.</li>
+  <li>Varje Bucket på Amazon S3 måste ha ett unikt namn. Dessutom ska varje namn:</li>
+<ul>
+  <li>vara mellan 3 och 63 tecken långt.</li>
+  <li>endast innehålla gemena bokstäver, siffror, punkter (.) och streck (-).</li><li>börja och sluta med en siffra eller en bokstav och inte ha ett (-) i slutet, innehålla två på varandra följande punkter eller innehålla streck bredvid punkter (t.ex. är "my-.bucket.com" och "my.-bucket" ogiltiga).</li>
+</ul>
+<li>En Amazon S3 KEY får inte överskrida 1024 tecken. För att säkerställa att det går att säkerhetskopiera till Amazon S3 är den längsta sökvägen 1024 minus namnet för målmappen som specificerades när uppgiften skapades.</li>
+<li>Om du aktiverar stöd för Amazon S3 RRS (Reduced Redundancy Storage) kommer endast data som ändrats efter att detta alternativ har valts att säkerhetskopieras till RRS-lagring. Det innebär att data som redan säkerhetskopierats till Amazon S3:s standardlagring inte kommer att säkerhetskopieras igen. </li>
+<li>Det finns inte stöd för att flytta säkerhetskopierade filer från Amazon S3 till Amazon Glacier. Om filer flyttas från Amazon S3 till Amazon Glacier via AWS hanteringskonsol, riskerar tillhörande säkerhetskopieringsuppgifter att misslyckas.</li>
+<li>Säkerhetskopiering med SSL av filer till buckets med virtuell värd-stil stöds inte.</li>
+<li>Vid överföring av en fil kommer filen att delas upp i delar. Storleken för delarna kan ställas in med alternativet <strong>Multipart Upload Part Size</strong> i uppgiftens inställning, vilket som standard är 512MB. Om nätverksmiljön inte är stabil rekommenderas att inställningen ställs in lägre.</li>
+
+<li>Max antal samtidiga delar vid uppladdning är 10000. Den största filstorleken för en fil är <strong>Multipart Upload delstorlek</strong> gånger 10000.</li>
+<li>Filnamnet får inte innehåll något tecken som inte är UTF-8 eller något kontrolltecken.</li>
+</ul>
+</div>
+<h4>Att skapa ett Säkerhetskopieringsmål Microsoft Azure:</h4>
+<p>Ett Säkerhetskopieringsmål Microsoft Azure krävs för säkerhetskopiering av data från Synology NAS till en Microsoft Azure blob-server.</p>
+  
+<ol>
+<li>Klicka på <b>Skapa</b>, välj <b>Säkerhetskopieringsmål Gemensamt moln</b> och sedan <b>Säkerhetskopieringsmål Microsoft Azure</b> och klicka sedan på <b>Nästa</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Ge ditt säkerhetskopieringsmål ett namn, ange inloggningens autentiseringsuppgifter och fyll sedan i de obligatoriska fälten för att konfigurera din säkerhetskopieringsuppgift.</li>
+</ol>
+
+<div class="section">
+<h4> Noteringar:</h4>
+<ul>
+<li>När säkerhetskopieringsuppgifter skapas med en Microsoft Azure-server som nätverksmål för säkerhetskopiering finns olika alternativ tillgängliga (t.ex. krypterad överföring). Vänligen observera att en del alternativ, såsom överföringskryptering kan minska hastigheten för säkerhetskopieringsuppgiften.</li>
+<li>Säkerhetskopieringsfiler sparas i den <strong>Container</strong> du valde på Microsoft Azure-servern och att det inställda Blob-värdet börjar med ett katalognamn som du väljer och slutar med den kompletta filsökvägen för filen.</li>
+<li>Datastrukturen på Microsoft Azure inkluderar ett par Container och Blob utan någon mappstruktur. Säkerhetskopiering av tomma mappar stöds inte.</li>
+<li>Om en säkerhetskopierad fil inte har ändrats kommer den inte att säkerhetskopieras till samma Container på Microsoft Azure-server igen.</li>
+<li>Varje Container på Microsoft Azure måste ha ett unikt namn. Dessutom ska varje namn:</li>
+<ul>
+<li>vara mellan 3 och 63 tecken långt.</li>
+<li>endast innehålla gemena bokstäver, siffror och streck (-).</li>
+<li>börja och sluta med en siffra eller en bokstav och det kan inte ha två på varandra följande streck.</li>
+</ul>
+<li>Maximal längd på ett Microsoft Azure Blob-namn är 1024 tecken. För att säkerställa att det går att säkerhetskopiera till Microsoft Azure är den längsta sökvägen 1024 minus namnet för målmappen som specificerades när uppgiften skapades.</li>
+
+<li>Filnamnet får inte innehåll något tecken som inte är UTF-8 eller något kontrolltecken.</li>
+<li>Meddelandet om misslyckad autentisering kan orsakas av oriktigt autentiseringsinformation, ett problem med nätverksanslutning eller att tiden på din Synology NAS och fjärrservern inte stämmer överens. För att kontrollera tidsinställningarna på din Synology NAS, vänligen gå till <strong>Kontrollpanel</strong> > <strong>Nationella inställningar</strong> ><strong> Tid</strong> för att synkronisera tiden med NTP-servern.</li>
+</ul>
+</div>
+
+<h4>Att skapa ett Säkerhetskopieringsmål hicloud S3:</h4>
+<p>Ett säkerhetskopieringsmål hicloud S3 krävs om du ska säkerhetskopiera data från Synology NAS till en hicloud S3-server.</p>
+  
+<ol>
+<li>Klicka på <b>Skapa</b>, välj <b>Säkerhetskopieringsmål Gemensamt moln</b> och sedan <b>Säkerhetskopieringsmål hicloud S3</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Ge detta säkerhetskopieringsmål ett namn, ange inloggningens autentiseringsuppgifter och fyll sedan i de obligatoriska fälten för att konfigurera en säkerhetskopieringsuppgift.</li>
+</ol>
+
+<div class="section">
+<h4> Noteringar:</h4>
+<ul>
+<li>När säkerhetskopieringsuppgifter skapas med en hicloud S3-server som nätverksmål för säkerhetskopiering finns olika alternativ tillgängliga (t.ex. krypterad överföring). Vänligen observera att en del alternativ, såsom överföringskryptering kan minska hastigheten för säkerhetskopieringsuppgiften.</li>
+<li>Säkerhetskopieringsfiler sparas i den <strong>Bucket</strong> du valde på hicloud S3-servern och Set KEY-värdet börjar med ett katalognamn som du väljer och slutar med den kompletta filsökvägen för filen.</li>
+<li>Datastrukturen på hicloud S3 inkluderar ett par Bucket och KEY utan någon mappstruktur. Säkerhetskopiering av tomma mappar stöds inte.</li>
+<li>Om en säkerhetskopierad fil inte har ändrats kommer den inte att säkerhetskopieras till samma Bucket på hicloud S3-server igen.</li>
+<li>Varje Bucket på hicloud S3 måste ha ett unikt namn. Dessutom ska varje namn:</li>
+<ul>
+<li>vara mellan 3 och 63 tecken långt.</li>
+<li>endast innehålla gemena bokstäver, siffror, punkter (.) och streck (-).</li>
+<li>börja och sluta med en siffra eller en bokstav och inte ha ett (-) i slutet, innehålla två på varandra följande punkter eller innehålla streck bredvid punkter (t.ex. är "my-.bucket.com" och "my.-bucket" ogiltiga).</li>
+</ul>
+<li>En hicloud S3 KEY får inte överskrida 255 tecken. För att säkerställa att det går att säkerhetskopiera till hicloud S3 är den längsta sökvägen 255 minus namnet för målmappen som specificerades när uppgiften skapades.</li>
+<li>Vid överföring av en fil kommer filen att delas upp i delar. Storleken för delarna kan ställas in med alternativet <strong>Multipart Upload Part Size</strong> i uppgiftens inställning, vilket som standard är 512MB. Om nätverksmiljön inte är stabil rekommenderas att du ställer in ett lägre nummer.</li>
+
+<li>Hicloud stöder endast de maximalt 1000 delarna per överföring. Det betyder att den totala storleken på filen inte kan överskrida 1000 multiplicerad med delstorlek. Om, till exempel, Multipart Upload Part Size är inställd på 8MB misslyckas uppladdning av en enstaka fil som är större 8000MB. </li>
+
+<li>Säkerhetskopiering av krypterade delade mappar stöds inte.</li> 
+
+<li>Filnamnet får inte innehåll något tecken som inte är UTF-8 eller något kontrolltecken.</li>
+</ul>
+</div>
+
+<h4>Att skapa ett Säkerhetskopieringsmål SFR NAS BACKUP:</h4>
+<p>Ett Säkerhetskopieringsmål SFR NAS BACKUP krävs om du ska säkerhetskopiera data från Synology NAS till en SFR NAS BACKUP-server.</p>
+  
+<ol>
+<li>Klicka på <b>Skapa</b>, välj <b>Säkerhetskopieringsmål Gemensamt moln</b> och sedan <b>Säkerhetskopieringsmål SFR NAS BACKUP</b> och klicka sedan på <b>Nästa</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Ge detta säkerhetskopieringsmål ett namn, ange inloggningens autentiseringsuppgifter och fyll sedan i de obligatoriska fälten för att konfigurera en säkerhetskopieringsuppgift.</li>
+</ol>
+
+<div class="section">
+<h4> Noteringar:</h4>
+<ul>
+<li>När säkerhetskopieringsuppgifter skapas med en SFR NAS BACKUP-server som nätverksmål för säkerhetskopiering finns olika alternativ tillgängliga, såsom krypterad överföring med mera. Vänligen observera att en del alternativ, såsom överföringskryptering kan minska hastigheten för säkerhetskopieringsuppgiften.</li>
+<li>Säkerhetskopieringsfiler sparas i den <strong>Bucket</strong> du valde på SFR NAS BACKUP-servern och Set KEY-värdet börjar med ett katalognamn som du väljer och slutar med den kompletta filsökvägen för filen.</li>
+<li>Datastrukturen på SFR NAS BACKUP inkluderar ett par Bucket och Key utan någon mappstruktur. Säkerhetskopiering av tomma mappar stöds inte.</li>
+<li>Om en säkerhetskopierad fil inte har ändrats kommer den inte att säkerhetskopieras till samma Bucket på SFR NAS BACKUP-server igen.</li>
+<li>Varje Bucket på SFR NAS BACKUP-server måste ha ett unikt namn. Dessutom ska varje namn:</li>
+<ul>
+<li>vara mellan 3 och 63 tecken långt.</li>
+<li>endast innehålla gemena bokstäver, siffror, punkter (.) och streck (-).</li>
+<li>börja och sluta med en siffra eller en bokstav och inte ha ett (-) i slutet, innehålla två på varandra följande punkter eller innehålla streck bredvid punkter (t.ex. är "my-.bucket.com" och "my.-bucket" ogiltiga).</li>
+</ul>
+<li>En SFR NAS BACKUP KEY får inte överskrida 1024 tecken. För att säkerställa att det går att säkerhetskopiera till SFR NAS BACKUP är den längsta sökvägen 1024 minus namnet för målmappen som specificerades när uppgiften skapades.</li>
+<li>Vid överföring av en fil kommer filen att delas upp i delar. Storleken för delarna kan ställas in med alternativet <strong>Multipart Upload delstorlek</strong> i uppgiftens inställning, vilket som standard är 64MB. Om nätverksmiljön inte är stabil rekommenderas att du ställer in ett lägre nummer.</li>
+
+<li>Filnamnet får inte innehåll något tecken som inte är UTF-8 eller något kontrolltecken.</li> 
+
+</ul>
+</div>
+<h4>Att hantera säkerhetskopieringsmål:</h4>
+<p>Välj ett befintlig säkerhetskopieringsmål och klicka på någon knapparna här nedanför:</p>
+<ul>
+<li><strong>Redigera:</strong> Ändra inställningar för det valt mål för säkerhetskopiering.</li>
+<li><strong>Radera:</strong> Radera valt mål för säkerhetskopiering.</li>
+</ul>
+
+<h3>Säkerhetskopiera till en Delad mapp</h3>
+<p>Detta typ av säkerhetskopieringsmål kommer endast att behålla den senaste säkerhetskopian. Som standard, efter att den initiala säkerhetskopieringen är slutförd, kommer filer som har tagits bort från källan att tas bort från målet när nästa uppgift utförs. Om du dock hellre vill behålla filerna på målet, även efter att de raderats från källan, vänligen aktivera alternativet <b>Spara de säkerhetskopierade filerna på målenheten</b>, när säkerhetskopieringsuppgifter skapas.</p>
+
+<h3>Säkerhetskopiera till volym</h3>
+<p>Den här typen av säkerhetskopieringsmål måste vara en lokal eller nätverksvolym på en Synology NAS-enhet (förutom externa lagringsenheter). Den kommer att arkivera flera versioner av säkerhetskopior så att du enkelt kan återställa mappar från vald tidpunkt.</p>
+
+<h4>För att radera lagrat data för en säkerhetskopieringsuppgift:</h4>
+<ol>
+<li>Gå till fliken <strong>Säkerhetskopieringsmål</strong> och expandera det säkerhetskopieringsmål som innehåller den uppgift som du vill radera.</li> 
+<li>Klicka på ikonen <b>Ta bort</b> på din valda<b> Säkerhetskopieringsuppgift</b> och sedan på <strong>Ta bort</strong> i dialogrutan.</li>
+</ol>
+<h4>För att radera det lagrade datat för en version av säkerhetskopia:</h4>
+<ol>
+<li>Gå till fliken <strong>Säkerhetskopieringsmål</strong> och expandera det säkerhetskopieringsmål som innehåller den versionen av uppgiften som du vill radera.</li> <li>Klicka på ikonen <strong>Versionsinformation</strong> för säkerhetskopiering för din valda <strong>Säkerhetskopieringsuppgift</strong>.</li>
+<li>Välj den version av säkerhetskopia som du vill radera och klicka på ikonen <b>Radera</b>.</li>
+</ol>
+
+<h4><a name="lock_version"></a>För att låsa en version av säkerhetskopia för att förhindra att den tas bort vid rotation av säkerhetskopior:</h4>
+<ol>
+<li>Gå till fliken <strong>Säkerhetskopieringsmål</strong> och expandera det säkerhetskopieringsmål som innehåller den versionen av uppgiften som du vill låsa.</li>
+<li>Klicka på ikonen <strong>Versionsinformation</strong> för säkerhetskopiering för din valda <strong>Säkerhetskopieringsuppgift</strong>.</li>
+<li>Välj den version av säkerhetskopia som du vill radera och klicka på ikonen <strong>Lås</strong>.</li>
+</ol>
+
+<h4>För att hantera privilegier för ett säkerhetskopieringsmål:</h4>
+<ol>
+<li>Välj ett säkerhetskopieringsmål som är associerad med en lokal volym och klicka på <b>Redigera</b>.</li>
+<li> Klicka på <strong>Tillåten lista </strong>och sedan på <strong>Lägg till</strong> för att lägga till användaren eller gruppen till listan.</li>
+</ol>
+
+<h4>För att ställa in ett säkerhetskopieringsmål med en ägare:</h4>
+<ol>
+<li>Välj ett säkerhetskopieringsmål som är associerat med en lokal volym och klicka på ikonen <b>Egenskap</b> för din valda<b> Säkerhetskopieringsuppgift</b>.</li>
+<li>Under <strong>Privilegier för säkerhetskopiering</strong>, välj en <b>Ägare</b> i rullgardinsmenyn.</li>
+</ol>
+
+<h4>För att tillåta en användare eller grupp på Synology NAS att läsa och återställa lagrad data för en säkerhetskopieringsuppgift:</h4>
+<ol>
+<li>Välj ett säkerhetskopieringsmål som är associerat med en lokal volym och klicka på ikonen <b>Egenskap</b> för din valda<b> Säkerhetskopieringsuppgift</b>.</li>
+<li> Klicka på <strong>Tillåten lista </strong>och sedan på <strong>Lägg till</strong> för att lägga till användaren eller gruppen till listan.</li>
+</ol>
+
+<div class="section">
+<h4> Noteringar:</h4>
+<ul>
+	<li>Som standard blir den som skapade uppgiften ägaren till ägaren.</li>
+	<li>Endast ägaren av säkerhetskopieringsuppgiften kan utföra uppgiften. Dock har säkerhetskopieringsuppgifter som skapats innan DSM 5.1 inte någon sådan begränsning så alla användare som hör till gruppen <b>administrators</b> kan utföra denna säkerhetskopieringsuppgift.</li>
+	<li>Den som äger uppgiften och användare som hör till gruppen <b>administrators</b> kan radera lagrat data för en säkerhetskopieringsuppgift.</li>
+	<li>Den som äger uppgiften, användare som hör till gruppen <b>administrators</b> och användare som finns på <b>tillåten lista</b> kan alla återställa lagrat data för en säkerhetskopieringsuppgift.</li>
+	<li>Endast användare som hör till gruppen <b>administrators</b> kan konfigurera ett lokalt säkerhetsmål med åtkomstprivilegier och en säkerhetskopieringsuppgift på ett lokalt säkerhetskopieringsmål med en ägare och en tillåten lista.</li>
+	<li>Det lagrade datat för en säkerhetskopieringsuppgift kommer att använda lagringskvot för uppgiftens ägare. </li>
+	<li>Om en volym inte har något säkerhetskopieringsmål kan endast användare som hör till gruppen <b>administrators</b> skapa det första säkerhetskopieringsmålet på volymen.</li>
+	<li>Endast användare som hör till gruppen <b>administrators</b> kan radera lagrat data för ett helt säkerhetskopieringsmål.</li>
+    
+    	<li>Varje säkerhetskopiering innehåller systemkonfiguration och metadata för filer.</li>
+	<li>Säkerhetskopiering av krypterade delade mappar stöds inte.</li>
+    
+	<li>Låsning av versioner har inte stöd i DSM 5.1 eller lägre.</li>
+    
+</ul>
+</div>
+</body></html>

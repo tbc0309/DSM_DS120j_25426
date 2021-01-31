@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>FTP</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>常规</h2>
+
+<p>在<strong>控制面板</strong> > <strong>文件服务</strong> > <strong>FTP</strong> 中，您可以在<strong>常规</strong>区域启用速度限制、文件传输日志、安全性设置及其它高级设置。</p>
+
+
+<h3>启用 FTP 文件传输日志</h3>
+<p>单击<strong>高级设置</strong>来启用此项功能，以记录下载或上传文件的日志。</p>
+<div class="section">
+<h4>注：</h4>
+<p>启用 FTP 文件传输日志可能会影响系统性能。</p>
+</div>
+<h3>更改用户根目录</h3>
+<p>单击<strong>高级设置</strong>，然后勾选<strong>更改用户根目录</strong>。这样，所选的用户只有在通过 FTP 登录 DSM 时才能访问指定的文件夹。</p>
+<h4>若要创建用目录更改规则：</h4>
+<ol>
+  <li>在<strong>高级设置</strong>中，勾选<strong>选择用户</strong>。</li>
+  <li>单击<strong>添加</strong>。</li>
+  <li>在<strong>用户或群组</strong>中，选择要对其应用此规则的用户。</li>
+  <li>选择当该用户登录时可用的根目录：<ul>
+		<li><strong>用户主目录：</strong>用户登录后进入其主目录。</li>
+		<li><strong>其他目录：</strong>选择一个共享文件夹作为根目录并单击<strong>选择</strong>。请注意，选择前应先勾选用户或群组对该文件夹的访问权限。文件夹访问权限不足的用户或群组将无法登录。</li>
+	</ul>
+  </li>
+  <li>单击<strong>确定</strong>。</li>
+  <li>添加所有规则后，单击<strong>应用</strong>来保存规则。</li>
+</ol>
+<div class="section">
+  <h4>注：</h4>
+  <ul>
+    <li>规则的优先顺序将根据在列表中排序的位置。</li>
+    <li>您可通过拖放操作来重新排序列表中的规则。</li>
+  </ul>
+</div>
+<h3>启用 Anonymous FTP</h3>
+<p>单击<strong>高级设置</strong>，勾选该选项以允许任何人登录到 Synology NAS 设备的 FTP 服务（通过<b>匿名</b>或 <b>ftp</b> 帐户）。</p>
+
+<h3>变更匿名根目录</h3>
+<p>单击<strong>高级设置</strong>，并勾选此选项来变更匿名 FTP 用户的登录目录。从下拉菜单中选择一个共享文件夹。</p>
+
+<h3>应用默认的 UNIX 权限</h3>
+<p>单击<strong>高级设置</strong>并勾选此选项，在上传或创建文件或文件夹时应用默认的 UNIX 权限。所应用的权限将与 UNIX <strong>umask</strong> 命令所应用的权限相同。启用此选项后，文件的 UNIX 权限为 644，而文件夹为 755。禁用此选项后，文件的 UNIX 权限为 666，而文件夹为 777。默认 umask 值为 022。</p>
+<div class="section">
+<h4>注：</h4>
+<ul>
+  <li>对于启用 Windows ACL 的共享文件夹（外部设备上的“照片”和共享文件除外），请在 Linux 或 FTP 客户端上运行 <strong>chmod</strong> 命令，以将 Windows ACL 上的文件夹和文件权限类型更改到 UNIX。</li>
+  <li>启动此选项可能会导致不同协议之间出现权限不一致的问题。为避免不一致问题，建议您保持禁用此选项。</li>
+</ul>
+</div>
+
+<h3>启用速度限制</h3>
+<p>启用速度限制可控制用户和群组通过 FTP 传输数据的最大可用带宽。</p>
+
+
+<h4>若要启用速度限制：</h4>
+<ol>
+  <li>请勾选标示为<b>启用速度限制</b>的复选框，或如果您只要在特定时间启用速度限制，请勾选<strong>根据计划启用速度限制</strong>。此将应用至整个服务器，并覆盖服务器中的各用户和群组的设置。选择<strong>无速度限制</strong>可禁用所有用户和群组的速度限制设置。</li>
+  <li>单击<strong>速度限制设置</strong>可修改单个用户或群组的速度限制。您可为每个用户和群组选择下列其中一个选项：<ul>
+      <li><strong>应用群组设置：</strong>速度限制设置将与用户所属群组的设置相同。</li>
+      <li><strong>无：</strong>当群组成员用此服务传输文件时不应用速度限制（EDS14 不支持此功能）。</li>
+      <li><strong>设置速度上限：</strong>一个固定速度限制常量将应用到用户或群组成员。可在左侧栏中指定上传与下载的速度限制。</li>
+      <li><strong>自定义限制范围：</strong>可根据计划指定两种不同的速度限制并应用到用户或群组成员。单击<strong>自定义</strong>按钮可修改速度限制设置并设置计划。</li>
+    </ul>
+  </li>
+  <li>单击<b>应用</b>。</li>
+</ol>
+<div class="section">
+  <h4>注：</h4>
+  <ul>
+    <li>要了解有关群组速度限制动态详情，请参阅<a href="file_group_edit.html">此处</a>。</li>
+    <li>设置用户的速度限制后，<strong>结果</strong>区域会根据单个和群组设置显示用户的实际速度限制。例如，如果用户 “Achilles” 有 100 KB/秒的具体下载限制，但该用户所属的群组的下载限制为 500 KB/秒，则<strong>结果</strong>区域将显示 “0/500”。</li>
+  </ul>
+</div>
+
+
+
+</body>
+</html>

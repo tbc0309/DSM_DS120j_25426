@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>LDAP</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>LDAP</h2>
+<p>Met LDAP kunt u uw Synology NAS aanmelden bij een aanwezige adreslijstservice als een LDAP-client. Vervolgens kunt u gebruikers- of groepsgegevens van een LDAP-server (of "directory server") ophalen. U kunt toegangsrechten van LDAP-gebruikers of -groepen voor DSM-toepassingen en gedeelde mappen instellen, net als bij lokale DSM-gebruikers of -groepen. Meer informatie over LDAP vindt u <a href="http://en.wikipedia.org/wiki/LDAP" target="_blank">hier</a>.</p>
+
+<p>De ondersteunde LDAP-standaard is LDAP-versie 3 (RFC 2251).</p>
+<h4>Uw Synology NAS aan directory-service toevoegen:</h4>
+<ol>
+	<li>Ga naar <B>Configuratiescherm</B> &gt; <strong><B>D</B></strong><B>omein/LDAP</B>.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Ga naar het tabblad <B>LDAP</B> en schakel het selectievakje <B>LDAP-client inschakelen</B> in.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Voer het IP-adres of domeinnaam van de LDAP-server in bij het veld <B>LDAP-serveradres</B>.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Kies een coderingstype in de keuzelijst <B>Codering</B> om de LDAP-verbinding met de LDAP-server te versleutelen.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Voer in het veld Base DN de <B>Base DN</B> van de LDAP-server in.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Selecteer het geschikte <B>Profiel</B> in overstemming met uw LDAP-server. Bijvoorbeeld: selecteer <B>Standaard</B> als u Synology LDAP Server of Mac Open Directory gebruikt.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Schakel het selectievakje <B>CIFS-platte tekst wachtwoordverificatie inschakelen</B> in zodat gebruikers van een LDAP-server die geen Samba-schema ondersteunt via CIFS toegang krijgen tot Synology NAS. Zie onderstaande sectie om te verzekeren dat LDAP-gebruikers via hun computer via CIFS toegang hebben tot bestanden op Synology NAS.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Klik op <strong>Toepassen</strong>.</li>
+	<li>Voer Bind DN (of LDAP administrator-account) en het wachtwoord in de velden in en klik vervolgens op <B>OK</B>.</li>
+	<img src="about:blank" class="help_image" />
+</ol>
+
+<div class="section">
+
+<h4>Info over CIFS-ondersteuning en de instellingen van de clientcomputer</h4>
+<p>Na het inschakelen van CIFS-platte tekst wachtwoordverificatie moeten LDAP-gebruikers eventueel de instellingen van hun computer aanpassen zodat ze via CIFS toegang krijgen tot bestanden op Synology NAS:</p>
+<ul>
+	<li>Als uw Synology NAS aan de adreslijstdienst van een Synology LDAP-server (of andere Synology NAS met het pakket <B>LDAP Server</B>) wordt gekoppeld of de LDAP-server die het Samba-schema ondersteunt en alle LDAP-gebruikers hebben correcte sambaNTPassword-kenmerken, hebben LDAP-gebruikers via CIFS toegang tot de bestanden op uw Synology NAS zonder dat het selectievakje <B>CIFS-platte tekst wachtwoordverificatie inschakelen</B> moet zijn ingeschakeld of zonder hun computerinstellingen te moeten wijzigen. Zo niet, moeten LDAP-gebruikers de <a href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" target="_blank">PAM</a>-ondersteuning op hun computer inschakelen om via CIFS toegang te hebben tot de bestanden op Synology NAS. Hierdoor worden wachtwoorden van LDAP-gebruikers echter in platte tekst (zonder versleuteling) naar Synology NAS gestuurd, waardoor het veiligheidsniveau dus lager is.</li>
+</ul>
+
+<h4>Om de Windows-instellingen te wijzigen:</h4>
+<ol>
+	<li>Ga naar <B>Start</B> > <B>Uitvoeren</B>, voer in het veld <B>regedit</B> in en klik op OK om de Register-editor te openen.</li>
+	<li>Afhankelijk van uw Windows-versie, zoekt of maakt u het volgende:
+		<ul>
+			<li><strong>Windows 2000, XP, Vista en Windows 7:</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkStation\Parameters]</li>
+			<li><strong>Windows NT:</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Rdr\Parameters]</li>
+			<li><strong>Windows 95 (SP1), 98 en Me:</strong><br />[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\VxD\VNETSUP]</li>
+		</ul>
+	</li>
+	<li>Maak of verander de DWORD-waarde <B>EnablePlainTextPassword</B> en wijzig de waarde van <B>0</B> in <B>1</B>.</li>
+	<li>Start Windows opnieuw op om de wijziging te activeren.</li>
+</ol>
+
+<h4>Om Mac OS X-instellingen aan te passen:</h4>
+<ol>
+	<li>Ga naar <B>Toepassingen</B> > <B>Hulpprogramma's</B> om <B>Terminal</B> te openen.</li>
+	<li>Maak een leeg bestand <B>/etc/nsmb.conf</B>:<pre>sudo touch /etc/nsmb.conf</pre></li>
+	<li>Open <B>/etc/nsmb.conf</B> met vi:<pre>sudo vi /etc/nsmb.conf</pre></li>
+	<li>Voer "<B>i</B>" in om tekst te bewerken en plak de volgende tekst:<pre>[default]<br / >minauth=none</pre></li>
+	<li>Druk op de Esc-toets en voer "<B>ZZ</B>" in om de wijzigingen op te slaan en vi te sluiten.</li>
+</ol>
+
+<h4>Om Linux-instellingen aan te passen:</h4>
+<p>Als u <B>smbclient</B> gebruikt, voegt u de volgende sleutels toe in het gedeelte <B>[global]</B> van <B>smb.conf</B>:
+	<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;"> encrypt passwords = no <br /> client plaintext auth = yes <br /> client lanman auth = yes <br /> client ntlmv2 auth = no </p>
+	<p>Als u <B>mount.cifs</B> gebruikt, voer dan de volgende opdracht uit:</strong>
+	<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">echo 0x30030 > /proc/fs/cifs/SecurityFlags</p>
+	<p>Voor meer informatie zie <a href="https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README" target=_blank>https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README</a></p>
+</p>
+</div>
+
+<div class="section"><h4>Over profielen</h4>
+<p>Verschillende LDAP-servers kunnen verschillende kenmerken gebruiken voor accountnamen, groepnamen of om accounts en groepen te onderscheiden. Met de optie <B>Profiel</B> kunt u aangeven of aanpassen hoe gebruikers- en groepsinformatie worden toegewezen aan LDAP-kenmerken. Afhankelijk van uw LDAP-server kunt u een van de volgende profielen selecteren:</p>
+<ul>
+	<li><strong>Standaard:</strong> voor servers met Synology LDAP Server of Mac Open Directory.</li>
+	<li><strong>IBM Lotus Domino:</strong> voor servers met IBM Lotus Domino 8.5.</li>
+	<li><strong>Aangepast:</strong> maakt het aanpassen toewijzingen mogelijk. Raadpleeg het gedeelte hieronder voor gedetailleerde informatie.</li>
+</ul>
+
+<p>Het aanpassen van LDAP-kenmerktoewijzingen vereist enige basiskennis. Synology DSM en de <B>Profiel</B>-editor volgen RFC 2307. U kunt bijvoorbeeld <B>filter</B> > <B>passwd</B> als <B>userFilter</B> toewijzen waardoor Synology NAS records met <B>objectClass=userFilter</B> op uw LDAP-server interpreteert als LDAP-accounts. Specificeert u <B>passwd</B> > <B>uid</B> als <B>username</B> dan zal Synology NAS de record <B>username</B> op uw LDAP-server interpreteren als accountsnaam. Door de toewijzing leeg te laten worden de RFC 2307-regels van toepassing.</p>
+<p>Synology NAS vereist een vaste integer (gehele getal) die als een LDAP-account-id (<B>uidNumber</B>) of een groeps-id (<B>gidNumber</B>) fungeert. Maar niet alle LDAP-servers gebruiken integers (gehele getallen) om dergelijke kenmerken te vertegenwoordigen. Daarom bestaat een trefwoord <B>HASH()</B> om dergelijke kenmerken in integers om te zetten. Zo kan bijvoorbeeld uw LDAP-server het kenmerk <B>userid</B> met een hexadecimale waarde gebruiken als unieke id voor een LDAP-account. In dit geval kunt u <B>passwd</B> > <B>uidNumber</B> instellen op <B>HASH(userid)</B> en vervolgens zal Synology NAS het omzetten naar een integer.</p>
+<p>Hieronder vindt u een samenvatting van eigenschappen die kunnen worden aangepast:</p>
+<ul>
+	<li><strong>filter</strong>
+		<ul>
+			<li><strong>group</strong>: vereist objectClass voor groep.</li>
+			<li><strong>passwd</strong>: vereist objectClass voor gebruiker.</li>
+			<li><strong>shadow</strong>: vereist objectClass voor gebruikerwachtwoorden.</li>
+		</ul>
+	</li>
+	<li><strong>groep</strong>
+		<ul>
+			<li><strong>cn</strong>: groepsnaam.</li>
+			<li><strong>gidNumber</strong>: GID-nummer van deze groep.</li>
+			<li><strong>memberUid</strong>: leden van deze groep.</li>
+		</ul>
+	</li>
+	<li><strong>passwd</strong>
+		<ul>
+			<li><strong>uidNumber</strong>: UID-nummer van deze gebruiker.</li>
+			<li><strong>uid</strong>: gebruikersnaam.</li>
+			<li><strong>gidNumber</strong>: primair GID-nummer van deze gebruiker.</li>
+		</ul>
+	</li>
+	<li><strong>shadow</strong>
+		<ul>
+			<li><strong>uid</strong>: gebruikersnaam.</li>
+			<li><strong>userPassword</strong>: gebruikerswachtwoord.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<div class="section"><h4>Over UID/GID-verschuiving</h4>
+<p>Om UID/GID-conflicten tussen LDAP-gebruikers/groepen te voorkomen, kunt u UID/GID-verschuiving inschakelen om de UID/GID van LDAP-gebruikers/groepen bij 1000000 te verschiven. Deze optie is alleen beschikbaar voor LDAP-servers die non-Synology LDAP-servers zijn en een uniek numeriek ID-attribuut voor elke gebruiker/groep hebben.</p>
+</div>
+
+<div class="section"><h4>Over geneste groepsuitbreiding</h4>
+<p>In een geneste groep behoort een LDAP-groepslid tot een andere LDAP-groep waar de hiërarchie van een organisatie wordt weergegeven. Wanneer gebruikers willen weten tot welke groep een bepaald lid behoort of de naamlijst van een specifieke groep zal Synology NAS een geneste groep uitvouwen naargelang de attributen van het <B>lid</B> van de LDAP-groep, waarbij de DN (Distinguished Name) van een child-groep op attribuut wordt aangeduid. De uitbreiding van een geneste groep kan onder bepaalde omstandigheden erg tijdsintensief zijn, bijv. bij servers waarbij <B>leden</B> niet op attribuut worden geïndexeerd of de groep diep genest is. Om dit te voorkomen kunt u ervoor kiezen om een geneste groep niet uit te breiden.</p>
+</div>
+
+
+<div class="section" ><h4>Over clientcertificaten</h4>
+<p>Wij ondersteunen het gebruik van clientcertificaten. Sommige LDAP-servers, bijv. Google LDAP, gebruiken certificaten om clients te verifiëren. U kunt het clientcertificaat uploaden nadat u het selectievakje van optie <strong>Clientcertificaat inschakelen</strong> hebt ingeschakeld.</p>
+<h4>Opmerking:</h4>
+<p>deze functie wordt ondersteund op DSM 6.2.2 of hoger.</p>
+</div>
+
+
+</body>
+</html>

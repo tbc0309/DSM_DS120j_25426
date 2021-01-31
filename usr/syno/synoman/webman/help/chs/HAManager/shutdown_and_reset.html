@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>关闭和重置</h2>
+  <p>以下指示将引导您完成关闭、删除或重置 high-availability 集群的整个过程。</p>
+
+  <h4>若要使用 Synology High Availability 关闭 high-availability 集群：</h4>
+  <p>如果您想要关闭 high-availability 集群来将服务器搬至新的位置或进行维护，而又不想删除 high-availability 集群配置，请遵循以下指示。</p>
+  <ol>
+   <li>请登录 DSM。</li>
+   <li>请打开 Synology High Availability。</li>
+   <li>单击标记为<b>管理</b>的按钮。</li>
+   <li>选择<b>关闭 HA 集群</b>。</li>
+   <li>将显示确认信息。单击<b>是</b>进行确认。</li>
+  </ol>
+
+  <h4>若要手动关闭 high-availability 集群：</h4>
+  <p>High-availability 集群也可以使用每台服务器上的电源按钮来手动关闭。</p>
+  <ol>
+   <li>请按住一台服务器（活动或无源）上的电源按钮，直至发出哔声。</li>
+   <li>一台服务器完全关闭后，等待至少 30 秒（仍然在线的服务器需要时间保存设置）。</li>
+   <li>按住另一台服务器上的电源按钮，直至发出哔声。</li>
+   <li>等待服务器完全关闭。</li>
+  </ol>
+<div class="section">
+<h4>若要开启服务器：</h4>   
+<p>如果您想要再次打开服务器，应同时打开活动和无源服务器（或在 5 分钟内打开两台服务器）。如果您仅开启一台服务器，该服务器会尝试通过播送网络唤醒信息来开启另一台服务器。</p>
+<h4>异常关机：</h4>
+<p>创建 high-availability 集群后，控制面板中的断电自动重启选项会自动启用。如果服务器由于断电而导致异常关机，服务器将在恢复供电后自动开机。</p>
+</div>
+
+<h4>若要删除 high-availability 集群：</h4>
+ <p>如果您想取消绑定两台服务器并删除 high-availability 集群来绑定另一台服务器，请遵循以下指示。</p>
+  <ol>
+   <li>前往<b>总览</b>页面。</li>
+   <li>单击<b>管理</b>按钮。</li> 
+   <li>选择<b>删除 HA 集群</b>。</li>
+  </ol>
+  <p>确认后，系统将删除 high-availability 集群。状态栏将会显示删除进程。成功删除 high-availability 集群后，您将被引导至活动服务器的原始 IP 地址。两台服务器的状态将更改为<b>独立</b>。</li>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+	<li>删除 high-availability 集群过程中，可能有一些不完整的数据写入操作。由于无源服务器可能会丢失一些数据更新，为确保数据完整性，请在活动服务器上执行数据复制。</li>
+</ul>
+</div>  
+ 
+ <h4>若要重置发生故障的 high-availability 集群：</h4>
+  <p>如果因为 split-brain 错误或其他故障而无法访问 DSM 或 Synology High Availability，您可以按下服务器上的<b>重置</b>按钮来尝试强行取消 high-availability 集群绑定。</p>
+  <ol>
+   <li>按住<b>重置</b>按钮（通常位于后面板上），直至服务器发出哔声。<li>此系统将从 high-availability 集群中删除，此服务器的状态将更改为<b>独立</b>。</li>
+   <li>按下<b>重置</b>按钮也会将某些设置恢复到默认，例如 IP 地址、DNS 和 admin 密码，还有以下选项：</li>
+   <ul>
+    <li>Admin 密码将重置为空。</li>
+    <li>Guest 帐户将禁用。</li>
+    <li>IP、DNS、网关和其他网络接口的 DHCP 将启用。</li>
+    <li>JumboFrames 将禁用，MTU 将设置为 1500。</li>
+    <li>管理端口将重置为 5000/5001。</li>
+    <li>PPPoE 将重置为默认值。</li>
+    <li>IP 自动封锁将禁用（已封锁的 IP 地址不会删除）。</li>
+    <li>Link Aggregation 将禁用。</li>
+    <li>防火墙规则将禁用（规则不会删除）。</li>
+   </ul>
+  </ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+	<li>按下一台服务器上的<b>重置</b>按钮，仅该服务器将从 high-availability 集群中删除。如果您要从 high-availability 集群中删除两台服务器，请按下两台服务器上的<b>重置</b>按钮。</li>
+</ul>
+</div>
+
+
+</body>
+</html>

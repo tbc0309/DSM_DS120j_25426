@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Pamięć podręczna na dyskach SSD</h2>
+<p>Pamięć podręczna SSD może zwiększyć wydajność losowego dostępu przez zapisanie często wykorzystywanych danych do pamięci podręcznej SSD. Pamięć podręczna SSD może zostać odmontowana z wolumenu lub jednostki iSCSI LUN (poziom bloku).</p>
+
+<p>Celem włączenia pamięci podręcznej SSD jest zwiększenie wydajności losowego dostępu do niewielkich fragment&oacute;w danych, kt&oacute;re są często wykorzystywane w przestrzeni pamięci masowej. Na przykład w dużych sekwencyjnych operacjach odczytu i zapisu (np. podczas przesyłania strumieni wideo HD) oraz we w pełni losowych wzorcach odczytu danych nie występują wzorce odczytu ponownego, przez co w takich sytuacjach zastosowanie pamięci podręcznej SSD nie zwiększy znacząco wydajności. W og&oacute;lnych zastosowaniach zalecane jest włączenie opcji <b>Pomiń sekwencyjne we/wy</b>, dzięki czemu sekwencyjne operacje we/wy nadal będą przechodziły przez dyski pamięci masowej.</p>
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+	<li>Funkcja pamięci podręcznej SSD jest obsługiwana tylko w niekt&oacute;rych modelach. Informacje o modelach obsługujących funkcję pamięci podręcznej SSD można znaleźć w <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_SSD_cache" target="_blank">tym artykule</a>.</li>
+	<li>Zalecamy wyb&oacute;r zgodnych dysk&oacute;w do używania jako pamięć podręczna SSD, aby uniknąć problem&oacute;w związanych z urządzeniem Synology NAS.</li>
+	<li>Więcej informacji na temat maksymalnej wielkości pamięci podręcznej SSD na serwerze Synology NAS można znaleźć w&nbsp;specyfikacjach produktu danego modelu w&nbsp;<a href="http://www.synology.com/" target=_blank>witrynie firmy Synology</a>.</li>
+</ul>
+</div>
+
+<h3>Typy pamięci podręcznej SSD</h3>
+<p>Istnieją dwa typy pamięci podręcznej SSD, oba wykorzystują algorytm LRU (Least Recently Used) w celu wymiany danych w pamięci podręcznej:</p>
+<ul>
+	<li><strong>Pamięć podręczna tylko do odczytu</strong> może składać się z od 1 do 12 dysk&oacute;w SSD, kt&oacute;re można zamontować w konfiguracji podstawowej lub RAID 0 w celu zwiększenia wydajności losowego odczytu pamięci masowej, na kt&oacute;rej jest zamontowana.</li>
+	<li><strong>Pamięć podręczną do odczytu i zapisu</strong> w zależności od liczby dysk&oacute;w SSD (do 12 dysk&oacute;w SSD) można zamontować w konfiguracji RAID 1 / RAID 5 / RAID 6 w celu zwiększenia wydajności losowego odczytu i zapisu pamięci masowej, na kt&oacute;rej jest zamontowana.</li>
+</ul>
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+	<li>W pamięci podręcznej tylko do odczytu dysku p&oacute;łprzewodnikowego (SSD) przechowywane są kopie danych z wolumenu &mdash; dzięki temu nawet w przypadku uszkodzenia pamięci podręcznej do odczytu nie zostaną utracone żadne dane.</li>
+	<li>Gdy pamięć podręczna do odczytu i zapisu SSD zostanie zdegradowana, zostanie aktywowany <b>Mechanizm automatycznej ochrony</b>. Zatrzyma on buforowanie nowych sekwencji we/wy i rozpocznie zapisywanie (np. synchronizację) nowych danych z dysku SSD na dyski HDD. Po zakończeniu synchronizacji danych żadne dane nie zostaną utracone, nawet w&nbsp;przypadku awarii pamięci podręcznej do odczytu i&nbsp;zapisu.</li>
+	<li>W normalnej sytuacji pamięć podręczna do odczytu i zapisu SSD zawiera nowe dane, jeszcze niezsynchronizowane z dyskami HDD. Nie należy usuwać dysk&oacute;w SSD z serwera Synology NAS (nawet jeśli system jest wyłączony) przed usunięciem pamięci podręcznej z programu Zarządzanie przechowywaniem. W przeciwnym wypadku wolumen może ulec uszkodzeniu.</li>
+</ul>
+</div>
+
+<h3>Wymagania dotyczące pamięci</h3>
+<p>Wymaganie dotyczące pamięci zależą od procesora urządzenia Synology NAS. Aby sprawdzić, jaki procesor znajduje się w Twoim urządzeniu Synology NAS, zapoznaj się z <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">tym artykułem</a>.</p> 
+
+<h4>W przypadku modeli z procesorami Alpine:</h4>
+	<p>Każdy 1 GB pamięci podręcznej SSD wymaga około 416 KB pamięci systemowej (można uwzględnić pamięć rozszerzaną), a maksymalny rozmiar pamięci podręcznej wynosi 930 GB. W związku z tym, jeżeli pamięć podręczna tylko do odczytu ma konfigurację 2 x 128 GB SSD, łączny rozmiar pamięci podręcznej wynosi 256 GB i wymaga co najmniej 104 MB pamięci. Natomiast gdy pamięć podręczna do odczytu i zapisu ma konfigurację 2 x 128 GB SSD, łączny rozmiar pamięci podręcznej wynosi 128 GB i wymaga co najmniej 52 MB pamięci. Jeżeli ilość pamięci RAM będzie niewystarczająca, utworzenie pamięci podręcznej SSD będzie niemożliwe lub wielkość pamięci podręcznej SSD zostanie ograniczona.</p>
+
+<h4>W przypadku wszystkich innych modeli:</h4>
+	<p>Pamięć podręczna SSD wymaga określonej ilości pamięci systemowej w zależności od wielkości pamięci podręcznej. W związku z tym zamontowanie większej pamięci podręcznej SSD może wymagać rozbudowy pamięci RAM serwera Synology NAS. Aby zachować stabilność i szybkość działania systemu, na pamięć podręczną SSD można przeznaczyć tylko 1/4 zainstalowanej fabrycznie pamięci systemowej.</p>
+	
+	<p>Każdy 1 GB pamięci podręcznej SSD wymaga około 416 KB pamięci systemowej (można uwzględnić pamięć rozszerzaną).<br><span class="note_head">Uwaga: </span>Nie dotyczy pamięci podręcznych SSD do odczytu i&nbsp;zapisu utworzonych w&nbsp;systemie DSM w&nbsp;wersji 5.1 lub starszej. Oznacza to, że każdy 1&nbsp;GB pamięci podręcznej SSD utworzonej w&nbsp;systemie DSM w&nbsp;wersji starszej niż 5.2 wymaga 4&nbsp;MB pamięci systemowej, nawet jeżeli pamięć podręczna będzie wykorzystywana w&nbsp;systemie DSM 5.2.</p>
+	
+	<p>W związku z tym, jeżeli konfiguracja pamięci podręcznej tylko do odczytu składa się z dw&oacute;ch dysk&oacute;w SSD po 128 GB każdy, łączny rozmiar pamięci podręcznej wynosi 256 GB i wymaga co najmniej 104 MB pamięci. Natomiast gdy konfiguracja pamięci podręcznej do odczytu i zapisu to 2 dyski po 128 GB SSD, łączny rozmiar pamięci podręcznej wynosi 128 GB i wymaga co najmniej 52 MB pamięci. Jeżeli ilość pamięci RAM będzie niewystarczająca, utworzenie pamięci podręcznej SSD będzie niemożliwe lub wielkość pamięci podręcznej SSD zostanie ograniczona.</p>
+
+<h3>Wskaźnik udanych odczyt&oacute;w pamięci podręcznej</h3>
+<p>Domyślnie pamięć podręczna SSD przyspiesza tylko losowe operacje we/wy i nie przyspiesza sekwencyjnych operacji we/wy. Wskaźnik udanych odczyt&oacute;w pamięci podręcznej SSD można obliczyć według następującego wzoru:</p>
+<ul>
+	<li>Wskaźnik udanych odczyt&oacute;w pamięci podręcznej tylko do odczytu SSD = Liczba odczyt&oacute;w z przyspieszoną częstotliwością / Całkowita liczba losowych odczyt&oacute;w * 100%</li>
+	<li>Wsp&oacute;łczynnik udanych odczyt&oacute;w pamięci podręcznej odczytu i zapisu SSD = Liczba odczyt&oacute;w i zapis&oacute;w danych przyspieszonych / Całkowita liczba losowych odczyt&oacute;w i zapis&oacute;w * 100%</li>
+</ul>
+
+<h3>Zarządzanie pamięcią podręczną SSD</h3>
+<h4>Aby zamontować pamięć podręczną SSD:</h4>
+	<ol>
+	  <li>Zainstaluj dyski SSD w serwerze Synology NAS. Zapoznaj się z&nbsp;powyższymi ważnymi uwagami.</li>
+	  <li>Wybierz pozycje <strong>Zarządzanie przechowywaniem</strong> &gt; <strong>Pamięć podręczna SSD</strong>. Kliknij przycisk <b>Utw&oacute;rz</b>.</li>
+	<li>Wybierz tryb pamięci podręcznej (tylko w przypadku modeli obsługujących pamięć podręczną do odczytu i zapisu).</li>
+	<li>Z&nbsp;listy rozwijanej wybierz wolumen lub jednostkę iSCSI LUN (na poziomie bloku), na kt&oacute;rych ma być zamontowana pamięć podręczna SSD.</li>
+	<li>Z&nbsp;listy wybierz dyski SSD. Dane na tych dyskach SSD zostaną usunięte. Sprawdź, czy nie spowoduje to utraty żadnych ważnych danych.</li>
+	<li>Kliknij <b>Zastosuj</b>.</li>
+	</ol>
+
+<h4>Aby zatrzymać buforowanie sekwencyjnego we/wy:</h4>
+	<p>Jeśli wolumen docelowy lub jednostka iSCSI LUN (z poziomem bloku) ma wysoką wydajność sekwencyjnego we/wy, należy wyłączyć buforowanie tej czynności i&nbsp;zezwolić na bezpośredni dostęp do danych z dysku SSD. Pozwoli to uzyskać wyższą szybkość i wydajność pracy.</p>
+	<ol>
+	<li>Kliknij przycisk <strong>Konfiguruj</strong>, aby otworzyć okno konfiguracji.</li>
+	<li>Zaznacz pole <strong>Pomiń sekwencyjne we/wy</strong>.</li>
+	</ol>
+
+<h4>Aby usunąć pamięć podręczną SSD:</h4>
+	<ol>
+	<li>Kliknij przycisk <b>Usuń</b>, aby nieodwracalnie usunąć tę pamięć podręczną SSD z serwera Synology NAS.</li>
+	</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+    <li>Pamięć podręczną do odczytu i zapisu należy usunąć przy użyciu tej procedury (nawet jeżeli serwer Synology NAS jest wyłączony). W przeciwnym razie dojdzie do awarii wolumenu, ponieważ w pamięci podręcznej jest przechowywana tylko część danych.</li>
+	<li>Podczas montowania lub usuwania pamięci podręcznej SSD system zatrzyma wszystkie powiązane usługi (np. foldery udostępnione, zainstalowane pakiety, bieżące połączenia itp.).</li>
+	<li>Jeżeli podczas uruchamiania systemu pamięć podręczna do odczytu i zapisu nie zostanie wykryta, system nie zamontuje tej przestrzeni magazynowej. Aby zamontować przestrzeń magazynową, znajdź i zainstaluj ponownie dyski SSD w serwerze Synology NAS, a następnie uruchom system ponownie.</li>
+	<li>Upewnij się, że poprawnie usunięto pamięć podręczną SSD do odczytu i zapisu, zanim odłączysz odpowiadające jej dyski SSD. Nieprawidłowe odłączenie dysk&oacute;w SSD (na przykład podczas korzystania z pamięci podręcznej lub gdy system jest wyłączony) spowoduje uszkodzenie danych przechowywanych w wolumenie docelowym lub jednostce iSCSI LUN.</ul>
+</div>
+ 
+<h4>Aby anulować usuwanie pamięci podręcznej SSD:</h4> 
+<ol>
+    <li>Kliknij przycisk <b>Anuluj usuwanie</b>, aby anulować usuwanie pamięci podręcznej.</li>
+    </ol>    
+
+<h4>Aby naprawić pamięć podręczną SSD:</h4>
+	<ul>
+		<li><strong>W przypadku pamięci podręcznej do odczytu i zapisu:</strong> jeżeli jeden z dysk&oacute;w SSD jest uszkodzony, wykonaj poniższe czynności, aby go naprawić.<ol>
+			<li>Wymień nieprawidłowo działający dysk SSD na nowy. (Nowy dysk SSD musi być taki sam pod względem modelu i&nbsp;pojemności).</li>
+			<li>Kliknij przycisk <b>Napraw</b>.</li>
+			<li>Z&nbsp;listy wybierz dysk SSD.</li>
+			<li>Kliknij <b>Zastosuj</b>.</li>
+			</ol></li>
+		<li><strong>W przypadku pamięci podręcznej tylko do odczytu:</strong> jeżeli jeden z dysk&oacute;w SSD jest uszkodzony, usuń pamięć podręczną i zastąp uszkodzony dysk SSD. Następnie kliknij przycisk <strong>Utw&oacute;rz</strong>, aby utworzyć nową konfigurację pamięci podręcznej.</li>
+	</ul>
+
+<h3>Inspektor pamięci podręcznej SSD</h3>
+<p>Ta funkcja umożliwia obliczanie i wyświetlanie łącznej wielkości i liczby plik&oacute;w, do kt&oacute;rych uzyskiwano ostatnio dostęp na konkretnym wolumenie. Jeżeli na wybranym wolumenie nie utworzono jeszcze żadnych pamięci podręcznych SSD, informacji tych można użyć do oceny potrzebnej ilości pamięci podręcznej SSD w systemie. Jeżeli utworzono poprzednio pamięć podręczną SSD na wybranym wolumenie, w tym miejscu będą wyświetlane także analiza i dane o wykorzystaniu tej pamięci podręcznej.</p>
+
+<h4>Aby użyć funkcji Inspektor pamięci podręcznej SSD:</h4>
+	<ol>
+	<li>Kliknij przycisk <b>Inspektor pamięci podręcznej SSD</b>, aby otworzyć kreatora.</li>
+	<li>Wybierz wolumen do obliczenia i kliknij przycisk <b>Dalej</b>.</li>
+	<li>Kreator zacznie automatycznie obliczanie łącznej liczby i&nbsp;wielkości plik&oacute;w, do kt&oacute;rych uzyskiwano ostatnio dostęp na wybranym wolumenie. Czas obliczeń zależy od danego środowiska.</li>
+	</ol>

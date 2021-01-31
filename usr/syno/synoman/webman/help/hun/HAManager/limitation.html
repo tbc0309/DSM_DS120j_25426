@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Korlátozások és rendszerkövetelmények – Synology DSM Súgó</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>Korlátozások és rendszerkövetelmények</h1>
+
+ <p>A Synology High Availability alkalmazásához két azonos, aktív és passzív szerverként működő Synology szerverre van szükség. A két szerver high-availability klaszterré való egyesítése előtt a Synology High Availability varázsló a high-availability klaszter létrehozhatóságának vizsgálata érdekében ellenőrzi a következő hardver- és szoftverkorlátozásokat.</p>
+ 
+  
+ <h3>Rendszerkövetelmények</h3>
+ 
+  <p>Vegye figyelembe a hardverre és szoftverre vonatkozó következő irányelveket:</p>
+  <ul>
+   <li><b>Synology szerver:</b> Mind az aktív, mind pedig a passzív szervernek azonos típusúnak kell lennie, illetve támogatnia kell a Synology High Availability alkalmazást. Ne feledje, hogy a high-availability klaszter neve nem egyezhet meg az aktív vagy a passzív szerver nevével.</li>
+   <li><b>DSM-verzió:</b> Mind az aktív, mind pedig a passzív szerverre ugyanazt a DSM-verziót kell telepíteni. </li>
+   <li><b>Csomagverzió:</b> Mindkét Synology szerverre ugyanazt a Synology High Availability-verziót kell telepíteni.</li>
+  </ul>
+
+  
+ <h3>Kötet és meghajtó</h3>
+ 
+  <p>Vegye figyelembe az alábbi, tárolóhelyekre (pl. kötetekre, lemezcsoportokra, RAID Groupokra stb.), illetve a merevlemezek kezelésére vonatkozó irányelveket.</p>
+  <ul>
+   <li><b>Meghajtó kapacitása:</b> Az adatreplikáció biztosítása érdekében a passzív szerver meghajtókapacitásának megegyezőnek vagy nagyobbnak kell lennie az aktív szerver kapacitásánál. Határozottan javasoljuk, hogy használjon azonos kapacitású szervereket, mivel így csökkenthető az inkonzisztenciák előfordulásának lehetősége. </li>
+   <li><b>Meghajtók száma és típusa:</b> Az aktív és a passzív szervernek azonos számú meghajtóval kell rendelkeznie. Emellett a meghajtók pozíciójának is meg kell egyeznie két szerveren, illetve a két szerveren használt meghajtók típusának (pl. SSD/HDD, SAS/SATA) és specifikációinak (pl. 4K vagy 512 bájtos szektorméret) is azonosnak kell lennie. Vegye figyelembe, hogy a lemezek számának meghatározásakor az USB-merevlemezekhez hasonló külső eszközöket nem veszi figyelembe a rendszer.</li>
+   <li><b>Hot Spare javítás:</b> Amennyiben a passzív szerver valamely kötete csökkent állapotba kerül, a rendszer nem végez hot spare javítást. Ezzel szemben amennyiben az aktív szerver valamely kötete kerül csökkent állapotba, a rendszer hot spare javítást végez, ez pedig ahhoz vezet, hogy a passzív szerver kötetei is csökkent állapotba kerülnek, mivel a rendszer a hot spare javítás elvégzéséhez eltávolít egy hibátlanul működő meghajtót a passzív szerver RAID-kötetei közül.</li>
+   <li><b>SHR formátum nem támogatott:</b> Az SHR formátumú köteteket nem támogatja a rendszer. Az aktív szerverré alakítandó Synology szerver nem tartalmazhat SHR-köteteket. </li>
+  </ul>
+
+    <div class="section">
+    <h4>Megjegyzés:</h4>
+    <ul>
+    <li>A passzív szerver meghajtóinak sebessége hatással van a high-availability klaszter írási sebességére, mivel a rendszer a Heartbeat-kapcsolaton keresztül adatokat szinkronizál a passzív szerverre. Javasoljuk, hogy az aktív és a passzív szerverbe azonos típusú meghajtókat szereljen be.</li>
+    <li>Ha a passzív szerver leállt, vagy a Heartbeat-kapcsolat nem működik, a kötetek ideiglenesen elérhetetlenné válnak, a rendszer pedig körülbelül 10 másodpercre szünetelteti az iSCSI-átvitelt.</li>
+    </ul>
+    </div>
+
+  
+  <h3>Hálózati környezet</h3>
+  <p>High-availability klaszter kialakítása során vegye figyelembe az alábbi, hálózati környezetre vonatkozó útmutatást.</p>
+  <ul>
+    <li><b>Hálózati beállítások:</b> Mindkét szervernek egyazon alhálózathoz tartozó statikus IP-címmel kell rendelkeznie.</li>
+    <li><b>LAN-portok száma:</b> A két szervernek azonos számú LAN-porttal kell rendelkeznie. Ha a(z) Synology NAS további hálózatikártya-interfészekkel rendelkezik, ezek a hálózati kártyák is további LAN-portoknak számítanak. </li>
+        <li><b>Kapcsolati környezetre vonatkozó korlátozások:</b> A két szerver közötti kapcsolati környezetnek támogatnia kell a multicast funkciót, továbbá a high-availability klaszter által használt portokat nem blokkolhatják tűzfalszabályok. Amennyiben a Heartbeat-kapcsolat switcheken halad át, ellenőrizze, hogy a switchek támogatják-e a multicast és a Jumbo Frame funkciót.</li>
+    <li><b>Kapcsolatra vonatkozó korlátozások:</b> A szerver nem csatlakozhat a hálózathoz DHCP, IPv6, PPPoE és Wi-Fi segítségével. High-availability klaszter létrehozása előtt tiltsa le ezeket a funkciókat.</li>
+    <li><strong>Nincs DHCP-szolgáltatás:</strong> Klaszterrel történő együttes használat esetén a szerver nem használhatja a beépített DHCP-szerverbeállításokat.</li>
+   <li><strong>Link-aggregációs beállítások:</strong> Mindkét szervernek azonos link-aggregációs beállításokat kell alkalmaznia az adathálózatra és a heartbeat-kapcsolatra vonatkozóan. A high-availability klaszter létrehozását követően a link-aggregációs beállításokat nem lehet módosítani.</li>
+   <li><b>Open vSwitch beállításai:</b> Az Open vSwitch állapotának meg kell egyeznie a két szerveren (ez engedélyezve vagy letiltva lehet). A high-availability klaszter létrehozását követően az Open vSwitch beállításait nem lehet módosítani.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Megjegyzés:</h4>
+    <ul>
+      <li>Az SSH és az NTP szolgáltatások automatikusan engedélyezésre kerülnek az aktív szerveren a high-availability klaszter létrehozását követően.</li>
+    </ul>
+  </div>
+  <h3>Tároláskezelő korlátozásai</h3>
+  <p>A high-availability klaszter kialakítását követően a Tároláskezelőben nem lesznek elérhetőek a RAID-típus módosítására vonatkozó opciók. Az alábbi lehetőségek azonban elérhetők maradnak:<ul>
+<li>Tárolóhely bővítése (pl. kötet, blokkszintű iSCSI LUN, lemezcsoport, RAID Group stb.).</li>
+    <li>Kötet, iSCSI LUN, csak olvasási és olvasási-írási SSD-gyorsítótár létrehozása, törlése vagy javítása.</li>
+    <li>iSCSI LUN (fájlszintű) méretének és helyének módosítása.</li>
+    <li>iSCSI LUN céljának módosítása.   </li>
+  </ul>
+
+  <div class="section">
+    <h4>Megjegyzés:</h4>
+    <ul>
+      <li>A high-availability klaszter létrehozását követően ne módosítsa a meghajtó pozícióját, ellenkező esetben a tárhelyet nem fogja megtalálni a rendszer.</li>
+      <li>Ahhoz, hogy a Synology iSCSI-tárolóhoz csatlakoztatott szerveren feladatátvételkor ne következzen be időtúllépés, javasoljuk, hogy állítsa az iSCSI-kliens és iSCSI-kezdeményező időtúllépési opcióját legalább 120 másodpercre.</li>
+    </ul>
+  </div>
+
+ 
+<h3>Csomagokra és szoftverekre vonatkozó korlátozások</h3> 
+
+<p>A high-availability klaszter kialakítását követően az alábbi csomagok és funkciók elérhetetlenné válnak:</p>
+	<ul>
+
+    <li>Virtual DSM Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>A high-availability klaszter újraindításának/leállításának funkciója a CMS-ben</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>Megjegyzés:</h4>
+    <ul>
+    <li>Ahhoz, hogy a high availability rendszer támogassa a Docker DSM funkciót, a klaszter létrehozása előtt engedélyeznie kell az Open vSwitch kapcsolót.</li>
+    </ul>
+   </div>
+
+<h3>Bővítőegységek hozzáadása</h3>
+  <p>A high-availability klaszter létrehozását követően a tárolókapacitás bővítése érdekében bővítőegységek adhatók hozzá a meglévő high-availability klaszter konfigurációhoz. A többi hardverkövetelményhez hasonlóan mind az aktív, mind pedig a passzív szerverhez azonos bővítőegység hozzáadása szükséges. Az inkonzisztenciából eredő hibák elkerülése érdekében minden bővítőegység hozzáadásakor gondosan kövesse az alábbi utasításokat.</p>
+  
+  <h4>Bővítőegységek hozzáadása:</h4>
+   <ol>
+    <li>Csak egymással megegyező bővítőegységeket és merevlemezeket adjon hozzá az aktív és a passzív szerverhez. A fentiek értelmében mind az aktív, mind pedig a passzív szerver hardverének meg kell egyeznie, beleértve a hardvermodell típusát, a merevlemezek méretét és helyét is.</li>
+    <li>Feltétlenül töröljön a bővítőegységeken található merevlemezeken található minden adatot és kötetet.</li>
+    <li>A bővítőegységeket akkor csatlakoztassa az aktív és a passzív szerverhez, amikor mindkét szerver be van kapcsolva és fut.</li>
+    <li>Mielőtt bármelyik szervert lekapcsolná, hozzon létre egy új tárhelyet (pl. kötet, lemezcsoport, RAID Group stb.) a bővítőegységen.</li>
+   </ol>
+<div class="section">
+<h4>Megjegyzések:</h4>
+<p>A bővítőegység telepítésére vonatkozó alapvető információkért lásd a bővítőegység használati utasítását.</p>
+</div>
+
+
+<h3>USB-eszközökre vonatkozó korlátozások</h3>
+   <p>A rendszer nem támogatja az USB-eszközökön végzett átkapcsolást/feladatátvételt. Előfordulhat, hogy átkapcsolást/feladatátvételt követően az USB-eszközök által biztosított szolgáltatások vagy alkalmazások nem fognak megfelelően működni.</p>
+
+   
+ </body>
+</html>

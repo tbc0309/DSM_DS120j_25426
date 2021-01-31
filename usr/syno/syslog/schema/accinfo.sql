@@ -1,0 +1,21 @@
+
+BEGIN;
+
+CREATE TABLE histogram(
+ id INTEGER PRIMARY KEY AUTOINCREMENT,
+ device TEXT DEFAULT NULL,
+ count INTEGER DEFAULT 0
+);
+
+CREATE UNIQUE INDEX his_device_idx ON histogram (device);
+
+CREATE TABLE eps(
+ id INTEGER PRIMARY KEY AUTOINCREMENT,
+ stamp INTEGER DEFAULT 0,
+ device TEXT DEFAULT NULL,
+ eps INTEGER DEFAULT 0
+);
+
+CREATE INDEX eps_stamp_idx ON eps (stamp);
+
+COMMIT;

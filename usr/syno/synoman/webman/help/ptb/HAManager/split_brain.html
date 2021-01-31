@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Redes divididas</h2>
+
+<p>Quando um conjunto de high-availability estiver funcionando normalmente, apenas um dos servidores membros assume o papel de servidor ativo. Nesse caso, o servidor passivo detecta a presença do servidor ativo por meio da conexão Heartbeat e da conexão de dados.</p>
+
+<p>Se todas as conexões Heartbeat e de dados forem perdidas, os dois servidores poderão tentar assumir o papel de servidor ativo. Essa situação é chamada de erro de "redes divididas". Neste caso, as conexões com os endereços IP do conjunto de high-availability serão redirecionadas para um dos dois servidores e dados inconsistentes poderão ser atualizados ou gravados nos dois servidores.</p>
+        
+<p>Quando uma das conexões Heartbeat ou de dados for restabelecida, o sistema detectará o erro de redes divididas e a inconsistência dos dados nos dois servidores e entrará no modo de segurança de high-availability.</p> 
+
+       
+<h4>Caso ocorra um erro de redes dividas:</h4>
+	<ol>
+    <li>Os serviços nos dois servidores e os endereços IP do conjunto de high-availability permanecerão indisponíveis até que o erro de redes divididas seja corrigido.</li>
+	<li>Depois que os dois servidores entrarem no modo de segurança de high-availability, uma nova guia chamada <strong>Redes divididas</strong> aparecerá no painel esquerdo. Nessa guia, as seguintes informações estarão listadas: a diferença entre os arquivos nas pastas compartilhadas nos dois servidores, a hora em que os servidores se tornaram servidores ativos, bem como informações sobre a última conexão de iSCSI Target. Todas as outras guias continuarão sendo somente leitura.</li>
+<li>No modo de segurança de high-availability, o File Station ficará no modo apenas leitura e você conseguirá baixar ou visualizar os arquivos.</li>
+       <li>Na guia <b>Visão geral</b>, você somente tem permissão para resolver erros de redes separadas ou desligar o servidor de login atual. Para resolver erros de redes separadas, execute uma das ações a seguir:
+       <ul>
+       <li>Escolha um servidor como o servidor ativo do conjunto de high-availability e o outro como o servidor passivo. Quando os dois servidores forem reiniciados, todos os dados e configurações diferentes no servidor ativo serão sincronizados com o servidor passivo. Os dados atualizados no servidor passivo durante o erro de redes divididas serão perdidos.</li>
+       <li>Escolha um servidor como o servidor ativo do conjunto de high-availability e desvincule o outro. Depois que os dois servidores forem reiniciados, o servidor ativo continuará no conjunto de high-availability e o servidor desvinculado reservará seus dados e voltará para o status <b>Independente</b>. Uma replicação completa será necessária para vincular um novo servidor passivo no futuro.</li>
+       <li>Desvincule os dois servidores, reserve seus dados individuais e deixe-os voltar para o status <b>Independente</b>.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Notas:</h4>
+    <ul>
+    <li>Quanto mais arquivos houver nas pastas compartilhadas, maior será o tempo necessário para listar as diferenças.</li>
+    <li>Antes de escolher qual servidor será o ativo/passivo, certifique-se de que os dois estejam ligados.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

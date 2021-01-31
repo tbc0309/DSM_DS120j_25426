@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Atribuição de Permissões para Pastas Compartilhadas - Ajuda do Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="You can specify which users or groups can access, view, or modify a shared folder and its contents. This article shows you how to assign and customize shared folder permissions in DSM.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Atribuir Permissões da Pasta Compartilhada</h2>
+<p>Você pode especificar quais usuários ou grupos podem acessar, exibir ou modificar pastas compartilhadas e seu conteúdo. As permissões de acesso de pastas compartilhadas, bem como de seus arquivos individuais e subpastas, podem ser personalizadas para cada usuário ou grupo.</p>
+<div class="section disable-eds14">
+<h4>Windows ACL:</h4>
+<p>No DSM 5.0 ou versões posteriores, as permissões de acesso a pastas compartilhadas são baseadas em Windows ACL por padrão. Pastas compartilhadas recém-criadas implementam as configurações de permissão do Windows ACL, o que também permite personalizar as permissões de arquivos individuais e subpastas. Além disso, as permissões podem ser personalizadas por meio do File Station ou do Explorador de Arquivos do Windows.</p>
+<p>As pastas compartilhadas a seguir não podem usar o sistema de gerenciamento de permissões do Windows ACL: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+<div class="section disable-eds14">
+<h4>Nota:</h4>  
+<p>As pastas <strong>home</strong> pessoais dos usuários podem ser localizadas na pasta <strong>homes</strong>. Como o ACL trabalha com base na herança de permissões, se você configurar uma permissão NA para um usuário/grupo em <strong>homes</strong>, os usuários não terão acesso a sua pasta pessoal <strong>home</strong>. </p>
+</div>
+<h4>Para editar permissões de pastas compartilhadas:</h4>
+<ol>
+<li>Vá até <strong>Painel de Controle</strong> > <strong>Pasta Compartilhada</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Selecione a pasta compartilhada cujas permissões deseja editar. Clique em <b>Editar</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li> Vá para a guia <strong>Permissões</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Selecione uma opção no menu suspenso:
+<ul>
+<li><b>Usuário interno do sistema:</b> Atribui permissões para os usuários padrão do sistema, como o usuário Anônimo de FTP/WebDAV. Antes de permitir que usuários de FTP anônimos conectem-se a pastas compartilhadas, você precisa primeiro atribuir permissões de acesso a esse usuário.</li>
+<li><b>Usuários locais:</b> Atribuir permissões para usuários locais (incluindo <b>guest</b>).</li>
+<li><b>Grupos locais:</b> Atribui permissões para grupos locais.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Marque ou desmarque as caixas apropriadas para cada usuário ou grupo, para personalizar suas permissões de acesso à pasta compartilhada:
+  <ul>
+<li><b>Leitura/Gravação</b>: O usuário ou grupo pode acessar e fazer alterações aos arquivos e sub pastas na pasta compartilhada.</li>
+<li><b>Somente leitura</b>: O usuário ou grupo pode acessar os arquivos e subpastas na pasta compartilhada.</li>
+<li><b>Nenhum acesso</b>: O usuário ou grupo não pode acessar os arquivos ou subpastas na pasta compartilhada.</li>
+</ul>
+</li>
+<img src="about:blank" class="help_image"/>
+<li>Clique em <b>OK</b> para concluir.</li>
+</ol>
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Quando encontrar conflitos de permissão, a prioridade de permissões é a seguinte: Nenhum acesso > Leitura/Gravação > Somente leitura.</li>
+<li>Ao criar uma nova pasta compartilhada, se as permissões para os usuários pertencentes ao grupo <strong>administradores</strong> estiverem definidas como <b>Nenhum acesso</b>, esses usuários só serão capazes de visualizar a pasta compartilhada no <strong>Painel de Controle</strong> > <strong>Pasta Compartilhada</strong>.</li>
+</ul>
+</div>
+<h3 class="disable-eds14">Personalização de permissões do Windows ACL</h3>
+<p class="disable-eds14">Além dos ajustes descritos acima, também é possível personalizar as permissões mais detalhadamente, seguindo as etapas abaixo. </p>
+<div class="section disable-eds14">
+<h4>Nota:</h4>
+<p>As configurações abaixo não podem ser usadas com as pastas compartilhadas a seguir: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+<h4 class="disable-eds14">Para personalizar permissões:</h4>
+<ol class="disable-eds14">
+  <li>Na guia <strong>Permissões</strong>, selecione o usuário cujas permissões deseja personalizar. Clique em qualquer lugar da coluna <strong>Personalizar</strong>.</li>
+  <img src="about:blank" class="help_image"/>
+  <li>Siga um dos procedimentos a seguir na janela <b>Editor de Permissões</b> para gerenciar as permissões do ACL do arquivo ou pasta:
+      <ol>
+        <li><b>Usuário ou grupo:</b> Especifica o usuário ou grupo cujas permissões deseja personalizar.</li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Herdar de:</b> Apenas para visualização. Visualize as informações aqui para ver se a permissão foi herdada (de uma pasta superior) ou explícita (exibida como <b>Nenhum</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Tipo:</b> Selecione <b>Permitir</b> ou <b>Negar</b> para conceder ou negar a permissão para o usuário ou grupo.</li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Aplicar a:</b> Se você estiver criando uma entrada de permissão para uma pasta, marque as caixas de seleção para aplicar a entrada a essa pasta, às pastas (ou <b>Pastas filhas</b>) ou arquivos (ou <b>Arquivos filhos</b>) nessa pasta ou a todos os arquivos e pastas contidos nessa pasta (ou <b>Todos os descendentes</b>). </li>
+        <img src="about:blank" class="help_image"/>
+        <li><b>Administração:</b> Marque <b>Ler permissões</b>, <b>Alterar permissões</b> ou <b>Assumir propriedade</b> para especificar as configurações de permissão de acesso do usuário ou do grupo para entrada. </li>
+        <li><b>Leitura</b> ou <b>Gravação:</b> Marque as caixas de seleção nessas seções para modificar as configurações de permissão do usuário ou grupo para o arquivo ou pasta. </li>
+      </ol>    
+  <li> Clique em <b>OK</b>.</li>
+</ol>
+<div class="section disable-eds14">
+  <h4>As permissões ACL podem ser categorizadas do seguinte modo:</h4>
+  <ul>
+    <li><b>Administração:</b>
+    <ul>
+      <li><b>Alterar permissões</b>: Isso controla se o usuário pode alterar as permissões do arquivo ou da pasta.</li>
+      <li><b>Assumir propriedade</b>: Isso controla se o usuário tem a propriedade do arquivo ou da pasta.</li>
+    </ul></li>
+    <li><b>Leitura:</b>
+    <ul>
+      <li><b>Percorrer pastas/executar arquivos</b>: Isso controla se o usuário pode executar um arquivo de programa.</li>
+      <li><b>Listar pastas/Ler dados</b>: Isso controla se o usuário pode ler dados em um arquivo.</li>
+      <li><b>Ler atributos</b>: Isso controla se o usuário pode ver os atributos de um arquivo.</li>
+      <li><b>Ler atributos estendidos</b>: Isso controla se o usuário pode ver os atributos estendidos de um arquivo.</li>
+      <li><b>Permissões de leitura</b>: Isso controla se o usuário pode ler as permissões do arquivo ou da pasta.</li>
+    </ul></li>
+    <li><b>Gravação:</b>
+    <ul>
+      <li><b>Criar arquivos/Gravar dados</b>: Isso controla se o usuário pode alterar o conteúdo de um arquivo.</li>
+      <li><b>Criar pastas/Anexar dados</b>: Isso controla se o usuário pode adicionar dados ao final de um arquivo.</li>
+      <li><b>Gravar atributos</b>: Isso controla se o usuário pode alterar os atributos de um arquivo.</li>
+      <li><b>Gravar atributos estendidos</b>:  Isso controla se o usuário pode alterar os atributos estendidos de um arquivo.</li>
+      <li><b>Excluir subpastas e arquivos</b>: Isso controla se o usuário pode excluir uma pasta.</li>
+      <li><b>Excluir</b>: Isso controla se o usuário pode excluir um arquivo.</li>
+    </ul></li>
+  </ul>
+  <h4>Sobre a herança de permissão:</h4>
+  <p> As permissões ACL são herdadas de objetos pais para objetos filhos. Por exemplo, se uma entrada ACL da pasta "vendas" conceder a permissão de "Leitura" ao usuário "Amy", a entrada ACL será aplicada a todos os arquivos da pasta "vendas" (como o "relatorio anual.xls"), permitindo que o usuário abra os arquivos. As permissões herdadas serão exibidas em cinza, enquanto as permissões do próprio objeto (ou permissões explícitas) serão exibidas em preto. </p>
+</div>
+<div class="section disable-eds14">
+  <h4>Nota:</h4>
+  <ul>
+    <li>Você pode adicionar apenas 200 entradas de permissão explícitas ACL para um arquivo ou pasta.</li>
+    <li>O Windows ACL é compatível somente com sistemas de arquivo ext4<span class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">/Btrfs</span>. Para usuários do DSM 2.3 anteriores, será preciso criar pelo menos um volume ext4<span class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">/Btrfs</span> para usar as permissões do Windows ACL. Isto é, você terá de formatar pelo menos uma unidade e recriar um volume. A formatação do Synology NAS resultará na exclusão de todos os dados e configurações armazenados. Verifique se há um backup de todos os dados antes de prosseguir.</li>
+    <li>Para definir novas permissões para usuários do domínio, certifique-se de que os clientes DSM e Windows estão no mesmo domínio.</li>
+    <li>Ao modificar permissões com o Explorador de Arquivos do Windows, as regras <strong>Negar</strong> aplicadas ao grupo <strong>Administradores de Domínio</strong> serão ignoradas.</li>
+  </ul>
+</div>
+</body>
+</html>

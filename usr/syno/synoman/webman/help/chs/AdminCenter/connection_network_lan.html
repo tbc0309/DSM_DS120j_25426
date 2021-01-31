@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>局域网/无线局域网</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="lan"></a>局域网/Internet</h2>
+<p>根据 Synology NAS 的型号和网络设置，您可进入<strong>控制面板</strong> > <strong>网络</strong> > <strong>网络接口</strong>来配置局域网或 Internet 的 DHCP 设置。DHCP 是管理自动 IP 配置的网络协议。如果您希望 DHCP 指派 IP 配置给系统使用，请单击<strong>编辑</strong>并选择 <strong>IPv4</strong> 选项卡下的<b>自动获取网络配置（DHCP）</b>。</p>
+<p>如果您使用的是网络服务供应商提供的 IP 地址，请选择<b>使用手动配置</b>并手动输入 IP 地址和子网掩码。如果您不知道 DNS 服务器或默认网关的设置，则保持该栏空白。</p>
+
+<div class="section">
+<h4>注：</h4>
+<ol>
+<li>为了确保系统所发出的电子邮件通知可以顺利由 SMTP 服务器送达系统管理员的电子邮件邮箱，请正确填写 DNS 服务器的 IP 地址。</li>
+<li>Jumbo Frame 是“最大传输单元”（MTU）大于标准 1500 比特的以太网络框架，可让以太网络传输大文件更有效率。只有在 Gigabit 网络环境下才能启用此功能。如果要确保 Jumbo Frame 正常运作，网络上所有访问 Synology NAS 的计算机及设备必须支持此功能，并且也使用相同的 MTU 值。</li>
+</ol>
+</div>
+
+<h3><a name="vlan"></a>VLAN</h3>
+<p>当网络环境需要 VLAN 设置时，您可在“编辑”窗口的 <strong>IPv4</strong> 选项卡下启用 VLAN 选项并为网络环境输入 VLAN ID。</p>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>请确认您的网络交换器已正确配置，否则可能无法访问 Synology NAS 的服务。</li>
+<li>如果您在修改上述设置后仍无法连接到 Synology NAS，请按 Synology NAS 上的 RESET 按钮来恢复默认设置。</li>
+</ul>
+</div>
+
+
+<h3><a name="ipv6"></a>IPv6 设置</h3>
+<p>Synology NAS 设备支持 IPv4/IPv6 双重架构机制。表示 IPv4 和 IPv6 能同时运作于 Synology NAS 之上。IPv6 的默认设置为<b>自动</b>。选择已有的网络接口，单击<b>编辑</b>按钮并进入 <b>IPv6</b> 选项卡以更改设置。</p>
+
+<h4>若要配置 IPv6 设置：</h4>
+<ol>
+<li>请进入<strong>控制面板</strong> > <strong>网络</strong> > <strong>网络接口</strong>。</li>
+<li>请选择已有的网络接口并单击<strong>编辑</strong>。</li>
+<li>在 <strong>IPv6</strong> 选项卡下，从 <strong>IPv6 设置</strong>中选择设置类型：
+  <ul>
+    <li><b>自动</b>：您的 Synology NAS 会根据 LAN 路由器通告 (RA) 自动生成 IPv6 地址。</li>
+	<ul>
+	  <li><strong>无状态模式</strong>：允许连接到路由器的设备自动配置 IPv6 地址而无需设置 IPv6 DNS 服务器。</li>
+      <li><strong>无状态 DHCPv6 模式</strong>：允许连接到路由器的设备通过 DHCPv6 自动配置 IPv6 地址并获取 DNS 信息。</li>
+      <li><strong>有状态模式</strong>：允许连接到路由器的设备通过 DHCPv6 获取 IPv6 地址和 DNS 信息。在此模式中，您必须启用 DHCPv6 服务器并设置其 <strong>起始 IP 地址</strong>和<strong>结束 IP 地址</strong>。</li>
+	</ul>
+<li><b>手动</b>：输入 <b>IPv6 地址</b>、<b>前缀长度</b>和<b>默认网关</b>等信息来手动设置 IPv6。</li>
+<li><b>关闭</b>：禁用 IPv6 支持。</li>
+  </ul>
+</ol>
+<p>在 IPv6 完全取代 IPv4 之前，您需通过 IPv6 转换机制来让拥有 IPv4 地址的主机连接到 IPv6 服务。请在不同的 IPv6 转换机制之间选择：</p>
+<ul>
+  <li><b>6in4</b>：通过隧道代理连接到 IPv6 网络。您需填入 <b>IPv6 地址</b>、<b>前缀长度</b>、<b>前缀</b>和<b>隧道代理 IPv4 地址</b>。此操作需要公共 IPv4 地址。</li>
+<li><b>6to4</b>：通过使用 anycast 的隧道代理连接到 IPv6 网络。此操作需要公共 IPv4 地址。</li>
+<li><b>DHCP-PD</b>：通过 LAN 中的前缀授权从 DHCP 服务器获取 IPv6 前缀。此操作需要 ISP 支持，且仅在路由器模式中工作。</li>
+<li><strong>IPv6 Tunneling (TSP)</strong>：请进入<strong>控制面板</strong> &gt; <strong>网络</strong> &gt; <strong>常规</strong>配置此选项。</li>
+</ul>
+
+<h3>802.1X</h3>
+<p>802.1X 是由 IEEE 为用户连接网络而开发的验证标准。802.1X 在网络中使用，以对客户端进行验证，不允许未通过验证的客户端访问受保护的网络。</p>
+<p>您可让 Synology NAS 连接到受 802.1X 验证保护的网络。</p>
+
+<h4>若要启用 802.1X 验证：</h4>
+<ol>
+<li>请进入<strong>控制面板</strong> &gt; <strong>网络</strong> &gt; <strong>网络接口</strong>。</li>
+<li>选择有线网络接口（即局域网）并单击<strong>编辑</strong>。</li>
+<li>进入 <strong>802.1X</strong> 选项卡，并勾选<strong>启用 802.1X 验证</strong>。</li>
+<li>从<strong>验证</strong>下拉菜单中选择下列协议之一：如果您不确定最适用的协议，请选择<strong>自动</strong>。&#xC2;&#xA0;&#xC2;&#xA0;&#xC2;&#xA0;&#xC2;&#xA0;<ul>
+<li><strong>受保护的可扩展验证协议 (PEAP)</strong>使用 CA 认证 (可选) 建立安全连接。此安全连接将被内部验证使用。</li>
+<li><strong>Tunneled TLS (TTLS)</strong>：使用 CA 认证 (可选) 建立安全连接。此安全连接将被内部验证使用。</li>
+<li><strong>TLS</strong>：使用 TLS (传输层安全) 进行验证。</li> </ul> </li>
+<li>如果您选择 <strong>TTLS</strong> 或 <strong>PEAP</strong>，从操作下拉菜单中选择内部验证协议之一。
+<ul>
+<li><strong>MS CHAP v2</strong>：验证信息将以 Microsoft CHAP v2 加密。</li>
+<li><strong>GTC</strong>：验证信息将使用 GTC (通用令牌卡) 进行加密。</li>
+</ul></li>
+<li>输入您的用户名及密码。</li>
+<li>如需要，单击<strong>导入</strong>，然后单击<strong>浏览</strong>可找到并导入从 Radius server (如 ca.crt) 导出的证书。</li>
+<li>单击<strong>确定</strong>来保存设置。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>若要为无线网络配置 802.1X 验证，请进入<strong>控制面板</strong> &gt; <strong>无线</strong> &gt; <strong>Wi-Fi</strong>。</li>
+<li>验证设置必须与设置 Radius Server 相同。要了解更多信息，请联系 Radius Server 管理员。</li>
+</ul>
+</div>
+
+<h2>无线局域网*</h2>
+<p>当 Synology NAS 用作无线路由器时，您可以在<strong>控制面板</strong> > <strong>网络</strong> > <strong>网络接口</strong>中配置以下无线局域网设置。</p>
+<h3>IPv4 设置</h3>
+
+<h4>IP 地址和子网掩码</h4> 
+<p>您可以在此设置 Synology NAS 的 IP 地址和子网掩码。</p>
+<h4>DHCP Server</h4>
+<p>勾选 <strong>启用 DHCP Server</strong> 选项可让 Synology NAS 将 IP 地址分配给连接本地网络（由 Synology NAS 提供）的客户端设备。</p>
+<h4>PPPoE 中继</h4>
+<p>启用 <strong>PPPoE 中继</strong>可让连接到 Synology NAS 的设备来通过 PPPoE 连接到 Internet。</p>
+
+<h4>配置为 UPnP Internet 网关</h4>
+<p>启用 <strong>UPnP</strong> 服务可让 Synology NAS 成为 UPnP Internet 网关设备，来使所有连接到 Synology NAS 本地网络的设备能够通过 UPnP 配置端口转送设置。</p>
+
+<h3>IPv6 设置</h3>
+<p>您可从带 6in4、6to4 或 DHCP-PD 的 <strong>LAN/Internet</strong> 获取 IPv6 地址和前缀。通过此信息，您可在此为 Synology NAS 配置 IPv6 路由选项。</p>
+<ul>
+<li><strong>IPv6 地址</strong>：输入从 <strong>LAN/Internet</strong> 获取的 IPv6 地址。</li>
+<li><strong>前缀长度</strong>：输入从 <strong>LAN/Internet</strong> 获取的 IPv6 地址的前缀长度，一般为 64。</li>
+<li><strong>主 DNS</strong>：让设备连接到路由器的主 DNS 服务器。在<strong>无状态模式</strong>中需要设置此项。</li>
+<li><strong>从 DNS</strong>：让设备连接到路由器的从 DNS 服务器。在<strong>无状态模式</strong>中需要设置此项。</li>
+</ul>
+<p>有三个路由器通告 (RA) 模式可供选择：</p>
+<ul>
+<li><strong>无状态模式</strong>：允许连接到路由器的设备自动配置 IPv6 地址而无需设置 IPv6 DNS 服务器。</li>
+<li><strong>无状态 DHCPv6 模式</strong>：允许连接到路由器的设备通过 DHCPv6 自动配置 IPv6 地址并获取 DNS 信息。</li>
+<li><strong>有状态模式</strong>：允许连接到路由器的设备通过 DHCPv6 获取 IPv6 地址和 DNS 信息。在此模式中，您必须启用 DHCPv6 服务器并设置其 <strong>起始 IP 地址</strong>和<strong>结束 IP 地址</strong>。</li>
+</ul>
+
+<h3>DHCP 客户端</h3>
+<p>您可在此查看 DHCP 客户端列表及其网络配置（如 MAC 地址、IP 地址、主机名以及剩余的 DHCP 租用时间）。</p>
+<p>您可过滤 IPv4/IPv6 客户端下拉菜单以分别显示使用 IPv4 和 IPv6 的客户端。选择客户端并单击<strong>添加到地址保留</strong>以将客户端添加到地址保留列表。</p>
+
+<h3>DHCP 保留</h3>
+<p>如果您要让客户端在 DHCP 租用延期内始终收到相同的 IP 地址，可以将该客户端添加到地址保留列表中。</p>
+<p>您可过滤 IPv4/IPv6 地址保留下拉菜单。IPv4 地址可按 MAC 地址识别，而 IPv6 地址则按 DUID 识别。</p>
+<h4>若要将客户端添加到地址保留列表：</h4>
+<ul>
+<li>选择客户端并单击<b>添加</b>。</li>
+<li>指定客户端的 MAC 地址或 DUID、您要指派给该客户端的 IPv4/IPv6 地址以及该客户端主机名。</li>
+<li>单击<b>确定</b>来保存设置。</li>
+</ul>
+<p>
+<b>_____</b> <br> * 仅适用于特定机型或根据您的环境而定。
+</p>
+</body>
+</html>

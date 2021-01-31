@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Udskift RAID-type for en diskenhed eller diskgruppe - Synology DSM - Hj&aelig;lp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing volumes and disk groups on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Udskift RAID-type for en diskenhed eller diskgruppe</h2>
+
+<p>Diskenheder og diskgrupper kan &aelig;ndres fra en RAID-type til en anden uden at miste eksisterende data. Du kan f.eks. oprette en RAID 1-diskenhed p&aring; din Synology NAS og senere &aelig;ndre til RAID 5, hvis du installerer flere harddiske. Denne artikel giver oplysninger om &aelig;ndring af RAID-type for eksisterende diskeheder og diskgrupper p&aring; din Synology NAS.</p>
+<h3>RAID-typebegr&aelig;nsninger</h3>
+
+<p>Kun nogle RAID-typer kan &aelig;ndres til andre RAID-typer. Se i nedenst&aring;ende tabel for at f&aring; flere oplysninger.</p>
+
+<table>
+  <tr>
+    <th width="50%">RAID-type</th>
+    <th width="50%">Kan &aelig;ndres til...</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1<br /> RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>Eksempel:</h4>
+<p>RAID 1 kan &aelig;ndres til RAID 5, men RAID 5 kan ikke &aelig;ndres til RAID 1.</p>
+</div>
+
+
+<h3>Harddiskkrav</h3>
+
+<p>Hvis du vil &aelig;ndre RAID-type for en diskenhed eller diskgruppe, skal der v&aelig;re tilstr&aelig;kkeligt med tilg&aelig;ngelige harddiske installeret p&aring; din Synology NAS. Nedenfor vises minimumantallet af harddiske, der kr&aelig;ves til hver RAID-type.</p>
+
+<table>
+  <tr>
+    <th width="50%">&Oslash;nsket RAID-type</th>
+    <th width="50%">Kr&aelig;vede harddiske</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2 eller 4</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 eller 5 (afh&aelig;ngigt af diskopbygningen af SHR-1)</td>
+  </tr>
+
+</table>
+
+<div class="section">
+<h4>Eksempel:</h4>
+<p>Hvis du vil &aelig;ndre en RAID 1-diskenhed til RAID 5, skal du bruge mindst tre harddiske i alt (dvs. de to harddiske, der h&oslash;rer til RAID 1-diskenheden plus en ledig harddisk, der skal tilf&oslash;jes til diskenheden).</p>
+</div>
+
+<div class="section">
+<h4>Bem&aelig;rk:</h4>
+
+<p>SHR-1 med de f&oslash;lgende diskkonfigurationer kan kr&aelig;ve to yderligere diske, n&aring;r skifte til SHR-2:</p>
+<ul>
+<li>Der er kun to diske.</li>
+<li>Alle diske har forskellige kapaciteter.</li>
+<li>Tre eller flere diske i RAID Array indeholder et par diske af h&oslash;jere kapacitet sammenlignet med de andre diske i RAID Array'en.</li>
+</ul>
+</div>
+
+<h3>Skift RAID-type</h3>
+
+<p>I nedenst&aring;ende eksempel vil vi &aelig;ndre en <strong>Basic</strong>-diskenhed til en<strong>RAID 1</strong>-diskenhed.</p>
+
+<div class="section">
+<h4>F&oslash;r du begynder:</h4>
+<ul>
+<li>S&oslash;rg for, at status for din diskenhed eller diskgruppe er <b>Normal</b>.</li>
+<li>N&aring;r du tilf&oslash;jer nye harddiske til en diskenhed eller diskgruppe skal de nye harddiske v&aelig;rre st&oslash;rre end den mindste disk p&aring; diskenheden eller i diskgruppen.</li>
+<li>Status for de nye harddiske skal v&aelig;re <b>Initialiseret</b> eller <b>Ikke initialiseret</b>.</li></ul>
+</div>
+
+<h4>S&aring;dan skifter du RAID-typen for en diskenhed:</h4>
+
+<ol>
+<li>&Aring;bn <strong>Lagerstyring</strong>.</li>
+<img src="about:blank" class="help_image"/>
+<li>G&aring; til <b>Diskenhed</b>.  (Hvis du vil &aelig;ndre RAID-type for en diskgruppe, skal du g&aring; til fanen <b>Diskgruppe</b>).</li>
+<li>V&aelig;lg den diskenhed, du vil &aelig;ndre, og klik p&aring; <b>Administrer</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>N&aring;r konfigurationsguiden vises, v&aelig;lger du <b>Skift RAID-type.</b> Klik derefter p&aring; <b>N&aelig;ste</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>V&aelig;lg den RAID-type, som du vil skifte til. Klik p&aring; <b>N&aelig;ste</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>V&aelig;lg de(n) udskiftningsharddisk(e), som du vil tilf&oslash;je til diskenheden. Klik derefter p&aring; <b>N&aelig;ste</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+
+<li>F&oslash;lg vejledningen i guiden for at afslutte. Bem&aelig;rk, at eksisterende data p&aring; den tilf&oslash;jede harddisk skal slettes.</li></ol>
+
+</body>
+</html>

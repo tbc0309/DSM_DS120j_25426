@@ -1,0 +1,143 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Het RAID-type van een opslagpool wijzigen - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing storage pools on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+	
+</head>
+<body>
+<h2>Het RAID-type van een opslagpool wijzigen</h2>
+
+<p>Het RAID-type van opslagpools kan worden gewijzigd zonder dat u daarbij bestaande gegevens verliest. Zo kunt u bijvoorbeeld een RAID 1-opslagpool op uw Synology NAS maken en later naar een RAID 5 veranderen wanneer u meer schijven installeert. In dit artikel leggen we uit hoe u het RAID-type van bestaande opslagpools op uw Synology NAS kunt wijzigen. Alvorens het RAID-type van een opslagpool te wijzigen, raadpleeg de onderstaande gedeeltes <b>Schijfvereisten</b> en <b>Vereisten en beperkingen van het RAID-type</b> voor details over relevante vereisten en beperkingen.
+
+<h3>Schijfvereisten</h3>
+
+<p>Om het RAID-type van een opslagpool te wijzigen, moet er een toereikend aantal beschikbare schijven op uw Synology NAS geïnstalleerd zijn. Zie de onderstaande tabel voor het minimum aantal schijven voor elk RAID-type.</p>
+
+<table>
+  <tr>
+    <th width="50%">RAID-type</th>
+    <th width="50%">Minimum aantal schijven</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 of 5 (afhankelijk van de schijfconfiguratie van SHR-1)</td>
+  </tr>
+
+</table>
+
+</p>
+<h3>Vereisten en beperkingen van het RAID-type</h3>
+
+<p>Alleen bepaalde RAID-types kunnen naar andere RAID-types worden gewijzigd. RAID 1 kan bijvoorbeeld worden gewijzigd naar RAID 5, maar RAID 5 kan niet worden gewijzigd naar RAID 1. Raadpleeg de onderstaande tabel voor gedetailleerde informatie.</p>
+
+<table>
+  <tr>
+    <th width="30%">Huidig RAID-type</th>
+    <th width="30%">Mogelijke conversie Doeltype</th>
+    <th width="40%">Aanvullend aantal vereiste schijven</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1</td>
+    <td>1</td>
+  </tr>
+ <tr>
+    <td>Basic</td>
+    <td>RAID 5</td>
+	  <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+	  <td>1</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+	  <td>1</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+	  <td>1 of 2 (afhankelijk van de schijfconfiguratie van SHR)</td>
+  </tr>
+
+</table>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+<li>Meer informatie over SHR (Synology Hybrid RAID) vindt u <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_is_Synology_Hybrid_RAID_SHR" target="_blank">hier</a>.</li>
+<li>Voor meer informatie over de keuze van het RAID-type voor een opslapool zie <a href="storage_pool_what_is_raid.html">hier</a>.</li>
+<li>Voor een schatting van het ruimtegebruik zie <a href="https://www.synology.com/support/RAID_calculator" target="_blank">Synology RAID calculator</a>.</li>
+<li>Een SHR-1 opslagpool met de volgende schijfconfiguraties kan twee aanvullende schijven vereisen bij de wijziging naar een SHR-2 opslagpool:
+<ul>
+<li>De opslagpool bevat alleen twee schijven.</li>
+<li>Alle schijven hebben een verschillende capaciteit.</li>
+<li>In een RAID-type bestaande uit drie of meer schijven moet de capaciteit van de twee grootste schijven groter zijn dan de andere schijven.</li>
+</ul>
+</li>
+<li>Bepaalde modellen ondersteunen niet de wijziging van een RAID 5-opslagpool naar een RAID 6-opslagpool.</li>
+</ul>
+</div>
+
+<h3>Het RAID-type wijzigen</h3>
+
+<h4>Voor u begint:</h4>
+<p>Let op het volgende alvorens het RAID-type te wijzigen:</p>
+<ul>
+<li>Vergewis u ervan dat de status van uw opslagpool op <b>Gezond</b> staat.</li>
+<li>Wanneer u nieuwe schijven aan een opslagvolume toevoegt, moeten ze groter zijn dan de kleinste schijf in de opslagpool en moeten ze van hetzelfde schijftype zijn.</li>
+<li>Het RAID-type van RAID-arrays in een RAID Group kan niet worden gewijzigd. De functie RAID Group is alleen beschikbaar op specifieke modellen.<br><span class="note_head">Opmerking:</span> Ga naar <a href="https://www.synology.com/products" target="_blank">deze webpagina</a> en schakel rechtsboven het selectievakje van uw Synology NAS en van andere modellen in en klik vervolgens op de knop <b>Vergelijken</b> in de rechterbenedenhoek. Op de webpagina <b>Vergelijksresultaten</b> wordt weergegeven of RAID Group door uw model wordt ondersteund.</li>
+</ul>
+
+<div class="section">
+<h4>Opmerking:</h4>
+
+<ul>
+<li>We raden het gebruik van schijven aan die in de <a href="https://www.synology.com/compatibility" target=blank>Compatibiliteitslijst voor Synology-producten</a> staan om problemen te voorkomen. Het gebruik van incompatibele schijven kan van invloed zijn op de systeemprestaties of gegevensverlies veroorzaken.</li>
+</ul>
+</div>
+<h4>Het RAID-type van een opslagpool wijzigen:</h4>
+
+<ol>
+<li>Start <strong>Opslagbeheer</strong>.</li>
+<img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/>
+<li>Ga naar <b>Opslagpool</b>.</li>
+<li>Selecteer de opslagpool waarvan u het RAID-type wilt wijzigen en klik op <b>RAID-type wijzigen</b> in het vervolgkeuzemenu <b>Actie</b>.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/change_raid_type.png" class="help_image"/>
+
+<li>Selecteer het doel-RAID-type. Klik op <b>Volgende</b>.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_raid.png" class="help_image"/>
+
+<li>Selecteer de schijven die u wilt toevoegen aan de bestaande opslagpool. Klik op <b>Volgende</b>.<br><span class="note_head">Opmerking:</span> Alle gegevens op de nieuwe toegevoegde schijven worden verwijderd. Zorg dat u eerst een back-up van uw gegevens maakt.</li>
+<img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_disks.png" class="help_image"/>
+
+
+<li>Volg de wizard om te voltooien.</li></ol>
+
+</body>
+</html>

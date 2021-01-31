@@ -1,0 +1,25 @@
+#!/bin/sh
+# Copyright (c) 2000-2010 Synology Inc. All rights reserved.
+
+# Configure routing
+#
+
+defaultrouter=$1
+
+# Wait for a while until the network is ready
+sleep 10
+
+if [ -d "/initrd" ]; then
+	# If it's in junior mode
+	/usr/syno/sbin/synonetdtool --refresh-gateway all
+fi
+
+case ${defaultrouter} in
+	[Nn][Oo] | '')
+		;;
+	*)
+		/bin/ip route add default via ${defaultrouter}
+		;;
+esac
+
+exit 0

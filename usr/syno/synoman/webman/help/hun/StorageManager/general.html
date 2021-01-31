@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Általános</h2>
+
+<p>A Tároláskezelő a Synology terméken található összes tárhely kezelését lehetővé teszi a felhasználó számára. A tároláskezelés egyszerűsítése és adatvédelemmel rendelkező rugalmas tárhelyek létrehozása érdekében a Synology DSM több különböző típusú RAID Groupot is támogat.</p>
+
+<h4><a href="raid.html">RAID Group</a></h4>
+<p>A(z) Synology NAS eszköz segítségével egyetlen, RAID Groupnak nevezett tárolóegységgé kombinálhat több merevlemezt. A(z) Synology NAS a következő RAID Group típusokat kínálja:</p>
+<ul>
+	<li><strong>RAID Group egyetlen kötethez vagy iSCSI LUN (blokkszint) lehetőséghez:</strong><ul>
+			<li>Az összes rendelkezésre álló kapacitást egyetlen kötetre, illetve egyetlen iSCSI LUN (blokkszint) számára osztja ki.</li>
+			<li>Jobb teljesítményt, de kevésbé rugalmas tároláskezelést biztosít.</li>
+			<li>Lehetővé teszi több iSCSI LUN (normál fájl) létrehozását a köteten.</li>
+			<li>Összesen egy RAID-tömböt támogat.</li>
+		</ul>
+	</li>
+	<li><strong>RAID Group több kötethez vagy iSCSI LUN (blokkszint) lehetőséghez:</strong><ul>
+			<li>Támogatja több kötet vagy iSCSI LUN (blokkszint) létrehozását egy RAID Groupon.</li>
+			<li>Rugalmasabb tároláskezelést biztosít.</li>
+			<li>Lehetővé teszi több iSCSI LUN (normál fájl) létrehozását a köteten.</li>
+			<li>Támogatja több RAID-tömb egy RAID Group alatt történő egyesítését (amennyiben RAID 5<span class="enable-grantley"></span> <span class="disable-grantley">vagy </span>RAID 6<span class="enable-grantley">, illetve RAID F1</span> típusként konfigurálta azokat).</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>RAID-típus</h4>    
+<p>RAID Group létrehozásához először válasszon ki egy RAID-típust. A különböző RAID-típusok különböző szintű adatvédelmet, tárolófunkciókat és teljesítményt biztosítanak. A(z) Synology NAS eszköz pillanatnyilag a következő RAID-típusokat támogatja:</p>
+<ul>
+	<li><strong>Basic</strong>: Egy merevlemezt használ egy RAID Group létrehozásához. A Basic típusú RAID Groupok nem kínálnak adatredundanciát.</li>
+	<li><strong>JBOD*</strong>: A RAID Group létrehozásához legalább két merevlemezt kombinál. A JBOD RAID Groupok nem kínálnak adatredundanciát. A JBOD RAID Groupok rendelkezésre álló kapacitása megegyezik a csoportba foglalt valamennyi lemez kapacitásának összegével. A JBOD támogatja a különböző méretű merevlemezek kombinálását.</li>
+	<li><strong>RAID 0*</strong>: A RAID Group létrehozásához legalább két merevlemezt kombinál. A RAID 0 nem kínál adatredundanciát. A RAID Groupon tárolt adatok már egyetlen taglemez meghibásodása esetén elvesznek. A RAID 0 Group elérhető kapacitása egyenlő az összes taglemez összesített kapacitásával. A RAID 0 támogatja a különböző méretű lemezek kombinálását.</li>
+	<li><strong>RAID 1*</strong>: 2-4 merevlemezt kombinál a RAID Group létrehozásához. A rendszer minden merevlemezre azonos adatokat ír. A RAID 1 mindaddig védi adatait, amíg akár csak egy lemez is megfelelően működik. A RAID 1 Group elérhető kapacitása egyenlő a legkisebb taglemez méretével.</li>
+	<li><strong>RAID 5*</strong>: Legalább három merevlemezt kombinál a RAID Group létrehozásához. Mind az adatokat, mind pedig a paritásinformációkat megosztja valamennyi lemez között. A RAID 5 adatredundanciát biztosít. Az egyik taglemez meghibásodása esetén a rendszer újraépíthető a többi taglemezen található paritásinformációk felhasználásával. Támogatja több RAID-tömb kombinálását, ha RAID Group több kötethez vagy iSCSI LUN (blokkszint) lehetőséghez típusú rendszeren hozza létre. Egy RAID 5 Group rendelkezésre álló kapacitása = <span class="note_content">A kombinált RAID-tömbök teljes kapacitása. RAID-tömb kapacitása = (merevlemezek száma - 1) x (a legkisebb merevlemez kapacitása)</span></li>
+	<li><strong>RAID 6*</strong>: Legalább négy merevlemezt kombinál a RAID Group létrehozásához. Mind az adatokat, mind pedig a paritásinformációkat megosztja valamennyi lemez között. A RAID 6 adatredundanciát biztosít. A rendszer még két taglemez meghibásodása esetén is újraépíthető a többi taglemezen található paritásinformációk felhasználásával. Támogatja több RAID-tömb kombinálását, ha RAID Group több kötethez vagy iSCSI LUN (blokkszint) lehetőséghez típusú rendszeren hozza létre. Egy RAID 6 Group rendelkezésre álló kapacitása = <span class="note_content">A kombinált RAID-tömbök teljes kapacitása. RAID-tömb kapacitása = (merevlemezek száma - 2) x (a legkisebb merevlemez kapacitása)</span></li>
+	<li><strong>RAID 10*</strong>: RAID Group létrehozásához legalább négy merevlemezt kombinál. A lemezek számának párosnak kell lennie. A RAID 10 a RAID 0-nál megszokott teljesítményt ötvözi a RAID 1 adatvédelmi szintjével. A RAID 10 Group elérhető kapacitása = <span class="note_content">(a legkisebb merevlemez kapacitása) X (a merevlemezek száma/2)</span></li>
+	<li class="enable-grantley"><strong>RAID F1*</strong>: Ezt a RAID-típust szilárdtest-meghajtókhoz (SSD) tervezték. Ennél a megoldásnál legalább három SSD-egységre van szükség a RAID Group létrehozásához. Mind az adatokat, mind pedig a paritásinformációkat megosztja az összes tagként használt SSD között, de az egyik SSD-re több paritásbitet ír, így megelőzi, hogy több is SSD is egyszerre hibásodjon meg. A RAID F1 adatredundanciát biztosít. Az egyik SSD meghibásodása esetén a rendszer újraépíthető a többi SSD-egységen található paritásinformációk felhasználásával. Támogatja több RAID-tömb kombinálását, ha RAID Group több kötethez vagy iSCSI LUN (blokkszint) lehetőséghez típusú rendszeren hozza létre. A RAID F1 Group rendelkezésre álló kapacitása = <span class="note_content">Az egyesített RAID-tömbök teljes kapacitása. RAID-tömb kapacitása = (meghajtók száma - 1) x (a legkisebb meghajtó kapacitása).</span></li>
+</ul>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>A <strong>*</strong> jellel ellátott RAID-típusok csak elegendő merevlemeztálcával rendelkező NAS típusokon érhetők el.</li>
+</ul>
+</div>
+
+<h4><a href="space.html">Kötettípus</a></h4>
+<p>A RAID Group alapvető típusától függően két kötettípus létezik:</p>
+<ul>
+	<li><strong>Kötet egyetlen kötethez vagy iSCSI LUN-hoz (blokkszint) való RAID Groupon</strong><ul>
+			<li>Az egy RAID Group-on található összes tárolókapacitást egyetlen kötetre irányítja. Jobb teljesítményt, de kevésbé rugalmas adatkezelést biztosít.</li>
+			<li>Lehetővé teszi több iSCSI LUN (normál fájl) létrehozását a köteten.</li>
+		</ul>
+	</li>
+	<li><strong>Kötet több kötethez vagy iSCSI LUN-hoz (blokkszint) való RAID Groupon</strong><ul>
+			<li>Kötet létrehozásához lefoglalja a RAID Groupon található tárolókapacitás meghatározott részét. Rugalmasabb adatkezelést biztosít, illetve lehetővé teszi a kötet méretének bővítését, valamint további kötetek igény szerinti létrehozását.</li>
+			<li>Lehetővé teszi több iSCSI LUN (normál fájl) létrehozását a köteten.</li>
+		</ul>
+	</li>
+</ul>
+
+<h4 class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Kötetformátum</h4>
+<p class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">A használt fájlrendszertől függően két kötetformátum érhető el:</p>
+<ul class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">
+	<li><strong>Új kötetek fájlrendszere</strong>: Ez a formátum a <strong>Btrfs</strong> fájlrendszert használja. Ebben a fájlrendszerben a minimális kötetméret 10 GB. A Btrfs az alábbi, egyszerűbb adatkezelést elősegítő funkciókat támogatja:<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">Pillanatfelvétel a megosztott mappákról</a>:</strong> A pillanatfelvétel a készítés pillanatában érvényes teljes adatállapotot rögzíti. A felhasználók így gyorsan visszaállíthatják az adott kötegen található adatokat az adott pillanatfelvétel időpontjában érvényes állapotra, ami különösen az adatok véletlen módosítása vagy törlése esetén lehet hasznos.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">A megosztott mappák kvótázása</a>:</strong> Megadhatja az egyes mappák esetén érvényes maximális kapacitást.</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">Felhasználói kvóta</a> a megosztott mappa alapján:</strong> Megszabhatja, hogy a megosztott mappán belül mekkora tárhelyet használhasson fel az adott felhasználó.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">Speciális adatintegritás-védelem</a>:</strong> A megosztott mappát CRC32 ellenőrzőösszeg és másolás végzési írási feladaton funkció védi.</li>
+		</ul>
+	</li>
+	<li><strong>Hagyományos kötetek fájlrendszere</strong>: Ez a formátum az <strong>ext4</strong> fájlrendszert használja. Ebben a fájlrendszerben a minimális kötetméret 10 GB. Mivel a legtöbb Synology termék támogatja az ext4 fájlrendszert, így ezen formátum használata esetén a kötetek egyszerűen áttelepíthetők egy másik Synology termékre.</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Destination de la sauvegarde - Aide Synology DSM</title>
+
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Define local, network or cloud backup destination for backup tasks.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Destination de la sauvegarde</h2>
+<p>Dans l'onglet <b>Destination de la sauvegarde</b> de <b>Sauvegarde et réplication</b>, vous pouvez définir une destination locale, réseau ou cloud avant de créer une tâche de sauvegarde.</p>
+
+<h4><a name="local_backup"></a>Pour créer une destination de sauvegarde locale :</h4>
+<p>Une destination de sauvegarde locale s'applique pour la sauvegarde des données du Synology NAS vers un dossier, un volume local partagé ou un disque USB/eSATA externe partagé. La destination de sauvegarde doit être différente de la source, et la capacité de la destination doit être plus grande que la taille totale des données à sauvegarder.</p>
+
+<ol>
+<li>Cliquez sur <b>Créer</b>, sélectionnez <b>Destination de la sauvegarde locale</b>, puis cliquez sur <b>Suivant</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Nommez cette destination de sauvegarde, sélectionnez la destination où la sauvegarde des données sera stockée, puis indiquez si vous désirez conserver uniquement la copie de sauvegarde la plus à jour ou conserver toutes les versions de sauvegarde.</li>
+</ol>
+
+<div class="section">
+<h4>Remarques :</h4>
+<ul>
+<li>Si des données de la destination sont supprimées tandis que la tâche de sauvegarde est en cours, une sauvegarde complète sera effectuée à la prochaine exécution de la tâche.</li>
+<li>Il est possible que les nouveaux disques externes doivent être formatés avant de faire office de destination de sauvegarde. </li>
+<li>Avant de créer une tâche de sauvegarde, assurez-vous que vous avez déjà lié les disques externes correctement à votre Synology NAS. Vous pouvez accéder à <b>Panneau de configuration</b> > <b>Périphériques externes</b> pour vérifier le statut des pilotes USB/eSATA. Les disques externes ne peuvent être sélectionnés comme destination de sauvegarde si le disque externe est initialisé, formaté ou s'il est défaillant.</li>
+<li>Les dossiers partagés montés à distance ne peuvent être sélectionnés comme source ou destination de la sauvegarde.</li>
+<li>Si un dossier partagé chiffré est démonté, il ne peut pas être choisi comme destination de sauvegarde.</li>
+<li>Les miniatures d'images ne peuvent être sauvegardées lorsque le système de fichiers de la destination est NTFS/FAT.</li>
+</ul>
+</div>
+
+
+<h4><a name="network_backup"></a>Pour créer une destination de sauvegarde réseau :</h4>
+<p>Une destination de sauvegarde réseau s'applique pour la sauvegarde des données du Synology NAS vers un autre Synology NAS ou un serveur compatible rsync sur le réseau. Diverses options sont disponibles lors de la création d'une tâche de sauvegarde avec une destination de sauvegarde réseau, telles que le chiffrement de transfert, la compression, la sauvegarde au niveau du bloc et bien davantage. Veuillez noter que certaines options, comme le chiffrement de transfert, peuvent réduire la vitesse des tâches de sauvegarde.</p>
+
+<ol>
+<li>Avant de créer une destination de sauvegarde réseau, veuillez vous connecter d'abord dans la destination du serveur, allez dans <strong>Sauvegarde et réplication</strong> > <strong>Services de sauvegarde</strong> et activez le service de sauvegarde réseau et/ou la destination du volume de sauvegarde réseau.</li>
+<li>De retour sur votre Synology NAS, accédez à <strong>Sauvegarde et réplication</strong> &gt; <strong>Destination de la sauvegarde</strong>. Cliquez sur <strong>Créer</strong>, sélectionnez <strong>Destination de sauvegarde réseau</strong> et suivez l'assistant jusqu'au bout.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Avec la <strong>Destination de Sauvegarde Réseau (serveur Synology NAS)</strong>, vous pouvez stocker les données de sauvegarde dans un dossier partagé pour garder la plupart des copies de sauvegarde mises à jour ou stocker les données de sauvegarde sur un volume pour garder plusieurs versions des copies de sauvegarde. Avec la <strong>Destination de sauvegarde Réseau (serveur compatible rsync)</strong>, vous pouvez uniquement garder la plupart des copies de sauvegarde mises à jour.</li>
+
+</ol>
+
+<div class="section">
+<h4>Remarques :</h4>
+<ul>
+<li>Les modes suivants sont disponibles lorsque vous créez une tâche de sauvegarde avec des serveurs compatibles rsync sur la destination de sauvegarde réseau : Le <b>mode rsync daemon,</b> qui est utilisé lorsque vous sélectionnez un module de sauvegarde (dossier partagé sur le serveur compatible rsync) dans le menu déroulant à côté du <b>module de sauvegarde</b> ; et le <b>mode remote shell,</b> qui est activé uniquement lorsque vous saisissez un chemin absolu (commençant par « / ») dans le <b>module de sauvegarde</b>.</li>
+<li>Pour les utilisateurs Linux, seuls les comptes <strong>admin</strong>, <strong>root</strong> et <strong>rsync</strong> sont autorisés pour la réalisation de tâches de sauvegarde.</li>
+<li>Si vous voulez accéder au serveur de destination sur Internet en utilisant le nom d'hôte, celui-ci doit être saisi au format FQDN (nom de domaine complet), par exemple, <strong>abc.bcd.com</strong>.</li>
+<li>Lorsque vous créez une tâche pour la sauvegarde d'un appareil Synology NAS vers un autre, vous êtes invité à saisir le nom d'utilisateur et le mot de passe pour un compte à la destination. En particulier, si vous voulez sauvegarder vers un volume sur un autre Synology NAS, vous devez spécifier un compte appartenant au groupe <strong>administrators</strong>. Lors de la sauvegarde de dossiers partagés sur un autre Synology NAS, vous pouvez le faire selon les paramètres de privilège d'accès des dossiers. Seuls les dossiers partagés pour lesquels l'utilisateur spécifié détient des privilèges d'accès seront visibles. Si vous ne pouvez trouver le dossier partagé désiré à la destination, veuillez vérifier vos privilèges d'accès.</li>
+<li>Le chiffrement de la sauvegarde est pris en charge uniquement lorsque le serveur de destination prend en charge les sauvegardes réseau chiffrées et que l'authentification par mot de passe n'est pas vide.</li>
+<li>Le mode Remote shell ne prend en charge que la sauvegarde cryptée.</li>
+<li>Lors d'une sauvegarde vers un serveur compatible rsync, vous ne pourrez pas modifier le mode de chiffrement rsync après la création des tâches de sauvegarde rsync. Pour changer la configuration, veuillez créer une nouvelle tâche rsync. </li>
+<li>Si vous sauvegardez des fichiers vers un Synology NAS à l'aide d'un client rsync, les noms de fichier doivent avoir le codage UTF-8.</li>
+<li>Si vous sauvegardez des fichiers vers un Synology NAS via un client compatible rsync, vous ne pouvez effectuer la tâche qu’avec les comptes <strong>admin</strong>, <strong>root</strong> et <strong>rsync</strong> du Synology NAS.</li>
+<li>Si vous sauvegardez des fichiers depuis un Synology NAS vers un serveur compatible rsync, vous devrez saisir le nom de compte de sauvegarde rsync et le mot de passe corrects. Vous devrez également choisir le module de sauvegarde correct avec droit d’écriture.</li>
+</ul>
+</div>
+
+<h4><a name="cloudservice_backup"></a>Pour créer une destination de sauvegarde Amazon S3 :</h4>
+<p>Une destination de sauvegarde Amazon S3 est requise si vous sauvegardez des données de Synology NAS vers un serveur Amazon S3.</p>
+  
+<ol>
+  <li>Cliquez sur <b>Créer</b>, sélectionnez <b>Destination de sauvegarde du cloud public</b>, puis <b>Destination de la sauvegarde Amazon S3</b>, ensuite cliquez sur <b>Suivant</b>.</li>
+  
+  <img src="about:blank" class="help_image"/>
+  
+  <li>Nommez cette destination de sauvegarde, entrez les identifiants de connexion et ensuite remplissez tous les champs demandés pour paramétrer la tâche de sauvegarde.</li>
+</ol>
+
+<div class="section">
+<h4> Remarques :</h4>
+<ul>
+  <li>Lors de la création de tâches de sauvegarde réseau avec le serveur Amazon S3 comme destination de sauvegarde réseau, différentes options sont disponibles, telles que le chiffrement de transfert, la sauvegarde vers Amazon S3 RRS (Reduced Redundancy Storage), et d'autres. Veuillez noter que certaines options, comme le chiffrement de transfert, peuvent réduire la vitesse des tâches de sauvegarde.</li>
+  <li>Les fichiers de sauvegarde sont stockés dans le <strong>Bucket</strong> que vous avez sélectionné sur le serveur Amazon S3, et la valeur configurée de KEY commence avec un nom de répertoire de votre choix et se termine avec le chemin d'accès complet du fichier.</li>
+  <li>La structure de données d'Amazon S3 est une paire de Bucket et KEY sans aucune structure de dossier. La sauvegarde des dossiers vides n'est pas prise en charge.</li>
+  <li>Si un fichier sauvegardé n'a pas été modifié, il ne sera pas sauvegardé à nouveau sur le serveur Amazon S3, dans le même Bucket.</li>
+  <li>Chaque Bucket d'Amazon S3 doit avoir un nom distinct. De plus, le nom doit :</li>
+<ul>
+  <li>comprendre entre 3 et 63 caractères.</li>
+  <li>ne contenir que des lettres minuscules, des chiffres, des points (.) et des tirets (-).</li><li>commencer et finir par un chiffre ou une lettre, et ne peut pas finir par un tiret (-), contenir deux points consécutifs ou contenir des tirets à côté de points (par ex. « my-.bucket.com » et « my.-bucket » ne sont pas valides)</li>
+</ul>
+<li>La longueur maximale d'une Amazon S3 Key est de 1024 caractères. Pour garantir la réussite de la sauvegarde sur Amazon S3, la longueur maximale du chemin d'accès est de : 1024, moins la longueur du nom de dossier spécifié durant la création de la tâche.</li>
+<li>Si vous activez la prise en charge d'Amazon S3 RRS (Reduced Redundancy Storage), seules les données modifiées après l'action de l'option seront sauvegardées sur le stockage RRS, ce qui signifie que les données déjà sauvegardées sur un stockage standard Amazon S3 ne seront pas sauvegardées à nouveau sur RRS. </li>
+<li>Le déplacement de fichiers sauvegardés depuis Amazon S3 vers Amazon Glacier n'est pas pris en charge. Si les fichiers sont déplacés depuis Amazon S3 vers Amazon Glacier via la console AWS, la tâche de sauvegarde liée risque d'échouer.</li>
+<li>La sauvegarde de fichiers vers les buckets de style hébergement virtuel avec SSL n'est pas prise en charge.</li>
+<li>Lors du transfert d'un fichier, le fichier doit être divisé en parties. La limite de taille de la partie peut être paramétrée par l'option <strong>Limite de partie pour transfert de plusieurs parties</strong> dans les paramétrages de tâche avec 512 Mo comme taille par défaut. Si l'environnement réseau n'est pas stable, l'option est recommandée pour être un plus petit nombre.</li>
+
+<li>Le nombre maximum de parties par transfert est de 10 000. La taille maximale d'un fichier correspond à la <strong>Limite de partie pour transfert de plusieurs parties</strong> multipliées par 10 000.</li>
+<li>Les noms de fichiers ne doivent pas contenir de caractères de contrôle ou UTF-8.</li>
+</ul>
+</div>
+<h4>Pour créer une destination de sauvegarde Microsoft Azure :</h4>
+<p>Une destination de sauvegarde Microsoft Azure est requise si vous sauvegardez des données de Synology NAS vers un serveur bloc Microsoft Azure.</p>
+  
+<ol>
+<li>Cliquez sur <b>Créer</b>, sélectionnez <b>Destination de sauvegarde du cloud public</b>, puis <b>Destination de sauvegarde Microsoft Azure</b>, ensuite cliquez sur <b>Suivant</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Nommez votre destination de sauvegarde, entrez les identifiants de connexion et ensuite remplissez tous les champs demandés pour paramétrer votre tâche de sauvegarde.</li>
+</ol>
+
+<div class="section">
+<h4> Remarques :</h4>
+<ul>
+<li>Lors de la création de tâches de sauvegarde avec le serveur Microsoft Azure en tant que destination de sauvegarde réseau, différentes options sont disponibles, (par ex. le chiffrement de transfert). Veuillez noter que certaines options, comme le chiffrement de transfert, peuvent réduire la vitesse des tâches de sauvegarde.</li>
+<li>Les fichiers de sauvegarde sont stockés dans le <strong>Conteneur</strong> que vous avez sélectionné sur le serveur Microsoft Azure, et le nom Blob commence par un nom de répertoire de votre choix et se termine avec le chemin d'accès complet du fichier.</li>
+<li>La structure de données de Microsoft Azure est une paire de Conteneur et Blob sans aucune structure de dossier. La sauvegarde des dossiers vides n'est pas prise en charge.</li>
+<li>Si un fichier sauvegardé n'a pas été modifié, il ne sera pas sauvegardé à nouveau sur le serveur Microsoft Azure, dans le même Conteneur.</li>
+<li>Chaque Conteneur sur Microsoft Azure doit avoir un nom distinct. De plus, le nom doit :</li>
+<ul>
+<li>comprendre entre 3 et 63 caractères.</li>
+<li>ne contenir que des lettres minuscules, des chiffres et des tirets (-).</li>
+<li>comment et finir par un chiffre ou une lettre et ne peut pas contenir deux tirets adjacents.</li>
+</ul>
+<li>La longueur maximale d'un nom Blob Microsoft Azure est de 1024 caractères. Pour garantir la réussite de la tâche de sauvegarde sur Microsoft Azure, la longueur maximale du chemin d'accès est de : 1024, moins la longueur du nom de dossier spécifié durant la création de la tâche.</li>
+
+<li>Les noms de fichiers ne doivent pas contenir de caractères de contrôle ou UTF-8.</li>
+<li>Le message d'avertissement en cas d'échec d'authentification pourrait être causé par une information d'authentification incorrecte, un problème de connexion réseau ou une non-correspondance de l'heure sur votre Synology NAS et le serveur distant. Pour vérifier le paramètre de l'heure sur votre Synology NAS, veuillez aller à <strong>Panneau de configuration</strong> > <strong>Options régionales</strong> ><strong> Heure</strong> pour synchroniser l'heure avec le serveur NTP.</li>
+</ul>
+</div>
+
+<h4>Pour créer une destination de sauvegarde hicloud S3 :</h4>
+<p>Une destination de sauvegarde hicloud S3 est requise si vous sauvegardez des données de Synology NAS vers un serveur hicloud S3.</p>
+  
+<ol>
+<li>Cliquez sur <b>Créer</b>, sélectionnez <b>Destination de sauvegarde du cloud public</b>, puis <b>Destination de la sauvegarde hicloud S3</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Nommez cette destination de sauvegarde, entrez les identifiants de connexion et ensuite remplissez tous les champs demandés pour paramétrer la tâche de sauvegarde.</li>
+</ol>
+
+<div class="section">
+<h4> Remarques :</h4>
+<ul>
+<li>Lors de la création de tâches de sauvegarde avec le serveur hicloud S3 en tant que destination de sauvegarde réseau, différentes options sont disponibles, (par ex. le chiffrement de transfert). Veuillez noter que certaines options, comme le chiffrement de transfert, peuvent réduire la vitesse des tâches de sauvegarde.</li>
+<li>Les fichiers de sauvegarde sont stockés dans le <strong>Bucket</strong> que vous avez sélectionné sur le serveur hicloud S3, et la valeur Set KEY commence par un nom de répertoire de votre choix et se termine avec le chemin d'accès complet du fichier.</li>
+<li>La structure de données hicloud S3 est une paire de Bucket et KEY sans aucune structure de dossier. La sauvegarde des dossiers vides n'est pas prise en charge.</li>
+<li>Si un fichier sauvegardé n'a pas été modifié, il ne sera pas sauvegardé à nouveau sur le serveur hicloud S3, dans le même Bucket.</li>
+<li>Chaque Bucket sur hicloud S3 doit avoir un nom unique. De plus, le nom doit :</li>
+<ul>
+<li>comprendre entre 3 et 63 caractères.</li>
+<li>ne contenir que des lettres minuscules, des chiffres, des points (.) et des tirets (-).</li>
+<li>commencer et finir par un chiffre ou une lettre, et ne peut pas finir par un tiret (-), contenir deux points consécutifs ou contenir des tirets à côté de points (par ex. « my-.bucket.com » et « my.-bucket » ne sont pas valides)</li>
+</ul>
+<li>La longueur maximale d'un hicloud S3 Key est de 255 caractères. Pour garantir la réussite de la sauvegarde sur hicloud S3, la longueur maximale du chemin d'accès est de : 255, moins la longueur du nom de dossier spécifié durant la création de la tâche.</li>
+<li>Lors du transfert d'un fichier, le fichier doit être divisé en parties. La limite de taille de la partie peut être paramétrée par l'option <strong>Limite de partie pour transfert de plusieurs parties</strong> dans les paramétrages de tâche avec 512 Mo comme taille par défaut. Si l'environnement réseau n'est pas stable, il est recommandé de définir une taille plus petite.</li>
+
+<li>Hicloud ne prend en charge qu'un maximum de 1 000 parties par transfert. Cela signifie que la taille totale du fichier ne peut pas dépasser 1 000 multiplié par la taille de la partie. Par exemple, si Multipart Upload Part Size est configuré sur 8 Mo, il sera impossible de transférer un fichier unique de plus de 8 000 Mo. </li>
+
+<li>La sauvegarde du dossier partagé chiffré n'est pas prise en charge.</li> 
+
+<li>Les noms de fichiers ne doivent pas contenir de caractères de contrôle ou UTF-8.</li>
+</ul>
+</div>
+
+<h4>Pour créer une destination de sauvegarde SFR NAS BACKUP :</h4>
+<p>Une destination de sauvegarde SFR NAS BACKUP est requise si vous sauvegardez des données de Synology NAS vers un serveur SFR NAS BACKUP.</p>
+  
+<ol>
+<li>Cliquez sur <b>Créer</b>, sélectionnez <b>Destination de sauvegarde du cloud public</b>, puis <b>Destination de la sauvegarde SFR NAS BACKUP</b>, ensuite cliquez sur <b>Suivant</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Nommez cette destination de sauvegarde, entrez les identifiants de connexion et ensuite remplissez tous les champs demandés pour paramétrer la tâche de sauvegarde.</li>
+</ol>
+
+<div class="section">
+<h4> Remarques :</h4>
+<ul>
+<li>Lors de la création de tâches de sauvegarde avec le serveur SFR NAS BACKUP en tant que destination de sauvegarde réseau, différentes options sont disponibles telles que le chiffrement de transfert et d'autres. Veuillez noter que certaines options, comme le chiffrement de transfert, peuvent réduire la vitesse des tâches de sauvegarde.</li>
+<li>Les fichiers de sauvegarde sont stockés dans le <strong>Bucket</strong> que vous avez sélectionné sur le serveur SFR NAS BACKUP, et la valeur set KEY commence avec un nom de répertoire de votre choix et se termine avec le chemin d'accès complet du fichier.</li>
+<li>La structure de données SFR NAS BACKUP est une paire de Bucket et KEY, une structure de dossier. La sauvegarde des dossiers vides n'est pas prise en charge.</li>
+<li>Si un fichier sauvegardé n'a pas été modifié, il ne sera pas sauvegardé à nouveau sur le serveur SFR NAS BACKUP, dans le même Bucket.</li>
+<li>Chaque Bucket sur le serveur SFR NAS BACKUP Stockage doit avoir un nom unique. De plus, le nom doit :</li>
+<ul>
+<li>comprendre entre 3 et 63 caractères.</li>
+<li>ne contenir que des lettres minuscules, des chiffres, des points (.) et des tirets (-).</li>
+<li>commencer et finir par un chiffre ou une lettre, et ne peut pas finir par un tiret (-), contenir deux points consécutifs ou contenir des tirets à côté de points (par ex. « my-.bucket.com » et « my.-bucket » ne sont pas valides)</li>
+</ul>
+<li>La longueur maximale d'une SFR NAS BACKUP KEY est de 1024 caractères. Pour garantir la réussite de la tâche de sauvegarde sur SFR NAS BACKUP, la longueur maximale du chemin d'accès est de : 1024 moins la longueur du nom de dossier spécifié durant la création de la tâche.</li>
+<li>Lors du transfert d'un fichier, le fichier doit être divisé en parties. La limite de taille de la partie peut être paramétrée par l'option <strong>Limite de partie pour transfert de plusieurs parties</strong> dans les paramétrages de tâche avec 64 Mo comme taille par défaut. Si l'environnement réseau n'est pas stable, il est recommandé de définir une taille plus petite.</li>
+
+<li>Les noms de fichiers ne doivent pas contenir de caractères de contrôle ou UTF-8.</li> 
+
+</ul>
+</div>
+<h4>Pour gérer la destination des sauvegardes :</h4>
+<p>Sélectionnez une destination de sauvegarde existante et cliquez sur l'un des boutons ci-dessous :</p>
+<ul>
+<li><strong>Modifier :</strong> Modifie les paramètres de la destination de sauvegarde sélectionnée.</li>
+<li><strong>Supprimer :</strong> Supprime la tâche de sauvegarde sélectionnée.</li>
+</ul>
+
+<h3>Sauvegarde vers un dossier partagé</h3>
+<p>Ce type de destination de sauvegarde ne conserve que la copie de sauvegarde à jour. Par défaut, une fois que la sauvegarde initiale est complète, les fichiers qui ont été supprimés de la source sont supprimés de la destination lorsqu'une tâche est ensuite accomplie. Cependant, si vous préférez garder les fichiers sur le lieu de destination même une fois qu'ils ont été supprimés de la source, veuillez activer l'option <b>Réserver les fichiers sauvegardés à la destination</b> lorsque vous créez des tâches de sauvegarde.</p>
+
+<h3>Sauvegarde vers le Volume</h3>
+<p>Ce type de destination de sauvegarde doit être un volume local ou réseau sur un périphérique Synology NAS (à l'exception des périphériques de stockage externes). Il archive plusieurs versions des copies de sauvegarde, de sorte que vous pouvez facilement restaurer tous les dossiers d'une date donnée.</p>
+
+<h4>Pour supprimer les données stockées d'une tâche de sauvegarde :</h4>
+<ol>
+<li>Accédez à l'onglet <strong>Destination de la sauvegarde</strong> et étendez la destination de sauvegarde contenant la tâche que vous voulez supprimer.</li> 
+<li>Cliquez sur l'icône <b>Supprimer</b> sur votre <b>Tâche de sauvegarde</b> et ensuite <strong>Supprimer</strong> dans la boîte de dialogue.</li>
+</ol>
+<h4>Pour supprimer les données stockées d'une version de sauvegarde :</h4>
+<ol>
+<li>Accédez à l'onglet <strong>Destination de la sauvegarde</strong> et étendez la destination de sauvegarde contenant la version de la tâche que vous voulez supprimer.</li> <li>Cliquez sur l'icône <strong>Information de la version de sauvegarde</strong> sur votre <strong>Tâche de sauvegarde</strong> sélectionnée.</li>
+<li>Sélectionnez la version de sauvegarde que vous souhaitez supprimer et cliquez sur l'icône <b>Supprimer</b>.</li>
+</ol>
+
+<h4><a name="lock_version"></a>Pour verrouiller une version de sauvegarde afin d'éviter qu'elle ne soit supprimée pendant la rotation des sauvegardes :</h4>
+<ol>
+<li>Allez à l'onglet <strong>Destination de la sauvegarde</strong> et étendez la destination de sauvegarde contenant la version de la tâche que vous voulez verrouiller.</li>
+<li>Cliquez sur l'icône <strong>Information de la version de sauvegarde</strong> sur votre <strong>Tâche de sauvegarde</strong> sélectionnée.</li>
+<li>Sélectionnez la version de sauvegarde que vous souhaitez verrouiller et cliquez sur l'icône <strong>Verrouiller</strong>.</li>
+</ol>
+
+<h4>Pour gérer le privilège d'une destination de sauvegarde :</h4>
+<ol>
+<li>Sélectionnez une destination de sauvegarde associée avec un volume local, cliquez sur <b>Modifier</b>.</li>
+<li> Cliquez sur <strong>Liste des permissions </strong>et ensuite <strong>Ajouter</strong> pour ajouter l'utilisateur ou le groupe dans la liste.</li>
+</ol>
+
+<h4>Pour configurer une destination de sauvegarde avec un propriétaire :</h4>
+<ol>
+<li>Sélectionnez une destination de sauvegarde associée avec un volume local et cliquez sur l'icône <b>Propriétés</b> sur votre<b> Tâche de sauvegarde</b>.</li>
+<li>Sous <strong>Privilège de sauvegarde</strong>, sélectionnez un <b>Propriétaire</b> dans le menu déroulant.</li>
+</ol>
+
+<h4>Pour autoriser un utilisateur ou un groupe sur Synology NAS pour lire et restaurer les données stockées d'une tâche de sauvegarde :</h4>
+<ol>
+<li>Sélectionnez une destination de sauvegarde associée avec un volume local et cliquez sur l'icône <b>Propriétés</b> sur votre<b> Tâche de sauvegarde</b>.</li>
+<li> Cliquez sur <strong>Liste des permissions </strong>et ensuite <strong>Ajouter</strong> pour ajouter l'utilisateur ou le groupe dans la liste.</li>
+</ol>
+
+<div class="section">
+<h4> Remarques :</h4>
+<ul>
+	<li>Le propriétaire par défaut d'une tâche de sauvegarde est l'utilisateur qui a créé la tâche.</li>
+	<li>Seul le propriétaire de la tâche de sauvegarde peut effectuer la tâche. Cependant, les tâches de sauvegarde créées avant DSM 5.1 n'ont pas ces limitations donc n'importe quel utilisateur du groupe <b>administrators</b> peut effectuer cette tâche de sauvegarde.</li>
+	<li>Le propriétaire de la tâche et les utilisateurs appartenant au groupe <b>administrators</b> peuvent supprimer les données stockées d'une tâche de sauvegarde.</li>
+	<li>Le propriétaire de la tâche, les utilisateurs appartenant au groupe <b>administrators</b> et les utilisateurs sur la <b>liste des permissions</b> peuvent restaurer les données stockées d'une tâche de sauvegarde.</li>
+	<li>Seuls les utilisateurs appartenant au groupe <b>administrators</b> peuvent configurer une destination de sauvegarde locale avec des privilèges d'accès et une tâche de sauvegarde sur une destination de sauvegarde locale avec un propriétaire et une liste d'autorisation.</li>
+	<li>Les données stockées d'une tâche de sauvegarde consommeront le quota de stockage du propriétaire de la tâche. </li>
+	<li>Si un volume n'a pas de destination de sauvegarde, seuls les utilisateurs appartenant au groupe <b>administrators</b> peuvent créer la première destination de sauvegarde sur le volume.</li>
+	<li>Seuls les utilisateurs appartenant au groupe <b>administrators</b> peuvent supprimer les données stockées d'une destination de sauvegarde entière.</li>
+    
+    	<li>Chaque sauvegarde contient la configuration du système et les metadata du fichier.</li>
+	<li>La sauvegarde du dossier partagé chiffré n'est pas prise en charge.</li>
+    
+	<li>Le verrouillage des versions n'est pas pris en charge dans DSM 5.1 et les versions antérieures.</li>
+    
+</ul>
+</div>
+</body></html>

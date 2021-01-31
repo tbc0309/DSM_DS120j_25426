@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Veri Yedekleme</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Yedekle</h2>
+
+<p><strong>Yedekle ve Geri Yükle</strong> çeşitli türlerde verileri (sistem yapılandırmaları, paylaşımlı klasörler ve uygulamalar/paketler) Synology NAS sunucunuza manuel olarak ya da programa göre yedeklemenizi sağlar. Yedeklenen verileri yerel paylaşımlı klasörlerde, uzak sunucularda ve genel bulutlarda (Amazon S3, Microsoft Azure, hicloud S3 ve SFR NAS BACKUP) saklayabilirsiniz. <strong>Yedekle ve Geri Yükle</strong> ile her yedekleme görevi birden çok yedekleme sürümünü koruyabilir ve Akıllı Geri Dönüşüm prosedürleriyle çevirebilir.</p>
+
+
+<h3>Veri Yedekleme</h3>
+<p><strong>Yedekle ve Geri Yükle</strong> çeşitli yedekleme hedefi seçenekleri ve bir veri yedekleme görevi oluşturmanın yollarını sunar.</p>
+
+<h4>Bir veri yedekleme görevi oluşturmak için:</h4>
+
+<ol>
+<li>Sol alt köşede <strong>+</strong> üzerine tıklayın ve Yedekleme Sihirbazını başlatmak için <strong>Veri yedekleme görevi</strong> seçin.</li>
+<li>Yedekleme hedefinin istenilen türünü seçin:
+<ul>
+<li>Yerel/uzak paylaşımlı klasörler veya harici depolama aygıtları</li>
+<li>Uzak rsync sunucuları</li>
+<li>Genel bulutlar (ör. Amazon S3 ve Microsoft Azure)</li>
+</ul>
+</li>
+<li>Yedekleme görevinizin istenilen türünü kurun:
+  <ul>
+<li>Tamamen yeni bir görev oluşturmak için <strong>Yedekleme görevi oluştur</strong>'u seçin.</li>
+<li>Herhangi bir hedef üzerinde mevcut yedekleme verilerini kullanmak için, <strong>Mevcut bir göreve yeniden bağla</strong>'yı seçin. Yeniden bağlama farklı bir görevden alınan yedekleme verilerinden doğrudan faydalanmanıza yardımcı olur.</li>
+</ul>
+</li>
+
+<li>Ayarları bitirmek için sihirbazın talimatlarına uyun. Yedekleme hedefinde veri emniyetini sağlamak için iletim öncesinde verileri şifrelemek amacıyla <strong>İstemci tarafı şifrelemesini etkinleştir</strong> öğesini seçin.</li>
+</ol>
+
+
+<div class="section">
+<h4>Notlar:</h4>
+<ul>
+<li>Görevlerin adları 1 ila 32 Unicode karakter içerebilir ancak aşağıdaki karakterleri içeremez:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; < = > ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>Yedekleme için tam dosya yolunun maksimum uzunluğu 2048 karakterdir.</li>
+<li>Eğer AFP yoluyla 32000'den fazla dosya veya klasörü bir EXT3 paylaşımlı klasörüne yüklerseniz, paylaşımlı klasör dahil tüm yedekleme görevleri başarısız olur.</li>
+<li>Bir şifrelenmiş paylaşımlı klasör bağlandığında yedeklenebilir ve şifrelenmiş/şifrelenmemiş klasöre geri yüklenebilir. Ancak, her zaman şifrelenmemiş halde geri yüklenir ve başlatma sırasında otomatik olarak tanıtılmaz. Tanıtmak için şifrelenen paylaşımlı klasörün şifreleme anahtarını girmeniz gerekecektir.</li>
+<li>Şifrelenmiş bir klasörün başka bir şifrelenmiş klasöre yedeklenmesi desteklenmez.</li>
+<li>Uzak klasörlerin yedekleme kaynağı veya yedekleme hedefi olarak kullanılması desteklenmez.</li>
+<li>Belirli uygulamalar için yedekleme desteklenir. Belirli bir paketin yedeklemeyi destekleyip desteklemediğini ve yedekleme içeriğini ve sınırlamalarını görmek için, lütfen her uygulamanın yardım bölümüne bakın.</li>
+<li class="enable-eds14">Synology NAS, yazılabilir bir EXT3/EXT4 harici cihazı olmadan uygulama yedeklemesini desteklemez.</li>
+<li class="enable-eds14">Synology NAS sadece EXT3/EXT4 harici cihazlarında oluşturulan paylaşımlı klasörleri yedekleyebilir.</li>
+</ul>
+</div>
+
+
+<div class="section disable-eds14">
+<h4>Windows ACL ayarlarını yedeklemek için:</h4>
+<p>Synology NAS üzerindeki dosyaların Windows ACL ayarları da hedefin dosya sistemlerine bağlı olarak yedeklenebilir:</p>
+
+<ul>
+<li>Tüm yedekleme hedefleri dosya sisteminden bağımsız olarak Windows ACL ayarlarını yedekleyebilir</li>
+</ul>
+</div>
+
+<h4>Yedekleme verilerini genel bulutlara veya uzak Synology NAS'a aktarmak için:</h4>
+<p>Bir genel buluta büyük miktarda veriyi yedeklerken, ilk sürümü bir harici depolama aygıtına (ör. bir USB sürücü) göndermeniz ve cihazı bulut hizmet sağlayıcısına teslim etmeniz önerilir. Orada cihaz bağlanabilir ve verileri doğrudan buluta yükleyebilir. Bu yolla, ilk yedekleme için zamanı ciddi şekilde azaltabilirsiniz.</p>
+<ol>
+<li>Sol alt köşede <strong>+</strong> üzerine tıklayın ve <strong>Uzak Synology NAS</strong> öğesini veya istenilen bulut hizmeti sağlayıcısını seçin.</li>
+<li><strong>Yerel bir paylaşımlı klasöre aktar (harici bir depolama cihazı dahil)</strong> öğesini seçin ve ayarları tamamlayın. İstendiğinde, korumalı veri yedeklemesi için <strong>İstemci tarafı şifrelemesini etkinleştir</strong>'i seçin.</li>
+<li>Harici depolama aygıtınıu uzak Synology NAS'a veya bulut hizmet sağlayıcısına teslim edin. Harici depolama aygıtından dışarı aktarılan verileri alın.</li>
+<li>Teyit edildiğinde, <strong>Yedekle ve Geri Yükle</strong>'ye geri dönün ve <strong>Şimdi yeniden bağla</strong>'ya tıklayın.</li>
+<li>Synology NAS sunucunuzu veri havuzuna bağlamak için Yeniden Bağlama Sihirbazının talimatlarını izleyin. Veri şifrelenmiş halde dışarı aktarılmışsa bir parola/şifreleme anahtarı gereklidir.</li>
+</ol>
+
+<div class="section">
+	<h4>Not :</h4>
+	<ul>
+		<li>Görev kurulduğunda istemci tarafı şifrelemesi devre dışı bırakılmaz ve parola değiştirilemez.</li>
+		<li>Bir yedekleme veri havuzu sadece bir yedekleme görevi ile bağlanabilir.</li>
+		<li>Yedekleme kaynak klasörü şifrelenmiş bir paylaşımlı klasör veya alt klasörü ise, kaynak klasör yedekleme görevi oluşturulurken bağlanabilir veya çıkartılabilir.</li>
+		<li>Şifrelenmiş paylaşımlı klasörler yedekleme hedefi olamazlar.</li>
+		<li><strong>İstemci tarafı şifrelemesini etkinleştir</strong>'i seçerseniz, bu görevdeki verileri geri yüklemek için parolanız/şifreleme anahtarınız gerekir. <strong>Parola/şifreleme anahtarının kaybedilmesi kalıcı veri kaybına neden olur</strong>.</li>
+	</ul>
+</div>
+
+<h4>Yedekleme görevlerini yönetmek için:</h4>
+<p>Sol panelde istenen bir yedekleme görevini seçin ve ilgili yönetim için aşağıdaki düğmelere tıklayın:</p>
+<ul>
+<li><strong>Şimdi yedekle</strong>: Seçilen görevin verilerini hemen yedekle.</li>
+<li><strong>Yedekleme Gezgini</strong> (büyüteç simgesi): Tüm müsait yedekleme sürümlerini görüntüleyin ve içerikteki dosyaları kopyalayın/geri yükleyin/indirin.</li>
+<li><strong>Sürüm Listesi</strong>: Tüm yedekleme sürümlerinin oluşturma zamanını ve durumunu görüntüleyin, ilgili geri sürümleri silin veya zorunlu rezervasyon için belirli olanları kilitleyin.</li>
+<li><strong>Düzenle</strong>: Yedekleme kaynağını, hedefini, programını ve diğer ayarları değiştirin.</li>
+<li><strong>Sil</strong>: Yedekleme görevini silin.</li>
+<li><strong>İptal</strong>: Yapılmakta olan yedekleme görevini durdurun.</li>
+</ul>
+
+
+<h4>Sürümleri çevirmek için:</h4>
+<p>Yedekleme rotasyonu bir sürüm yönetim mekanizmasıdır. Daha eski, gereksiz sürümleri otomatik olarak silerek ve depolama alanını boşaltarak yedekleme sürümlerinin yönetilmesine yardımcı olur. Bu işlevi <strong>Görev Ayarları</strong>'nda etkinleştirebilir ya da bir yedekleme görevi oluşturduğunuzda yapılandırabilirsiniz.</p>
+<ol>
+<li>Sol panelde istenilen yedekleme görevini seçin ve <strong>Düzenle</strong> veya <strong>Ayarlar</strong>> <strong>Görev Ayarları</strong>'na tıklayın.</li>
+<li><strong>Yedekleme rotasyonunu etkinleştir</strong>'i seçin ve istenilen rotasyon modunu seçin:
+<ul>
+<li><strong>En eski sürümlerden</strong>: Müsait sürümler tanımlı sayıyı aştığında en eski yedekleme sürümlerini silin.</li>
+<li><strong>Akıllı Geri Dönüşüm</strong>: Bu politikalara göre yedekleme sürümlerini koru:
+  <ul>
+<li><strong>Son 24 saatten saatlik sürümler</strong>: Her saat oluşturulan en erken sürümü koru.</li>
+<li><strong>Geçmiş 1 günden 1 aya kadar günlük sürümler</strong>: Her gün oluşturulan en erken sürümü koru.</li>
+<li><strong>1 aydan daha eski haftalık sürüm</strong>: Her hafta oluşturulan en erken sürümü koru.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Maksimum <strong>sürüm sayısını</strong> belirtin. Sürüm sayısı bu sayıyı aştığında, en eski sürüm döndürülür.</li>
+<li><strong>Zaman Çizelgesi</strong> öğesinde tekrarlanan bir yedekleme programı yapılandırmışsanız, yedekleme sürümlerinizin nasıl korunacağını ve zaman çizelgesindeki en erken kurtarma noktasını önizleme yapabilirsiniz.</li>
+<li><strong>Tamam</strong> üzerine tıklayarak ayarları kaydedin.</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Kilitlenen sürümler asla kaldırılmaz.</li>
+<li>Sadece çok sürümlü yedekleme görevleri sürüm rotasyonu sunar.</li>
+<li>Sürüm rotasyonu DSM 5.1 veya altında desteklenmez.</li>
+<li>Rotasyon ayar değiştirildikten veya yedekleme görevi tamamlandıktan hemen sonra tetiklenecektir.</li>
+<li>Kilitlenen sürümler azami sürüm sayısı hesaplanırken hariç tutulur.</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Veri Yedekleme Görevlerine dair Notlar</h3>
+<p>Her bir yedekleme görevi için, önemli kurulum detayları ve sorun giderme ipuçları için lütfen aşağıdaki notları okuyun.</p>
+
+<h4>Yerel yedekleme görevleri:</h4>
+<ul>
+<li>Yedekleme görevi yapılırken hedefteki veriler kaldırılırsa, ardından görev yapılırken tam bir yedekleme yapılacaktır.</li>
+<li>Yedekleme hedefi olarak işlev yapmadan önce yeni harici sürücülerin formatlanması gerekebilir. </li>
+<li>Yedekleme görevi oluşturmadan önce, Synology NAS sunucunuza harici sürücüleri uygun şekilde bağladığınızdan emin olun. USB/eSATA sürücülerin durumunu kontrol etmek için <b>Denetim Masası</b> > <b>Harici Aygıtlar</b> öğesine gidebilirsiniz. Harici sürücü başlatılıyorsa, formatlanıyorsa veya arızalı ise harici sürücüler yedekleme hedefi olarak seçilemezler.</li>
+<li>Uzak tanıtılan paylaşımlı klasörler yedekleme kaynağı veya hedefi olarak seçilemezler.</li>
+<li>Eğer şifreli bir paylaşılmış klasörün bağlantısı kaldırılırsa, yedekleme hedefi olarak seçilemez.</li>
+<li>Görüntü küçük resimleri hedefin dosya sistemi NTFS/FAT olduğunda yedeklenemez.</li>
+</ul>
+
+
+
+
+
+<h4>Uzak rsync yedekleme görevleri:</h4>
+<ul>
+<li>Ağ yedekleme hedefi olarak rsync uyumlu bir sunucuyla bir yedekleme görevi oluştururken aşağıdaki modlar kullanılabilir: <b>rsync daemon modu,</b> <b>Yedekleme modülü</b> yanındaki açılır menüden bir yedekleme modülü (rsync-uyumlu sunucu üzerindeki paylaşımlı klasör) seçtiğinizde kullanılır; ve <b>uzaktan shell modu,</b> sadece <b>Yedekleme modülü</b> içinde bir mutlak yol ("/" ile başlayan) girdiğinizde etkinleştirilir.</li>
+<li>Linux kullanıcıları için yedekleme görevlerini sadece <strong>admin</strong>, <strong>root</strong> ve <strong>rsync</strong> hesaplarının gerçekleştirmesine izin verilir.</li>
+<li>Eğer bir hedef sunucuya internet üzerinden ana bilgisayar adını kullanarak erişmek istiyorsanız, ana bilgisayar adı bir FQDN (Tam Nitelikli Etki Alanı Adı) olmalıdır, örneğin, <strong>abc.bcd.com</strong>.</li>
+<li>Bir Synology NAS cihazından diğerine yedekleme yaparken, hedefteki bir hesap için kullanıcı adı ve şifre girmeniz istenir. Başka bir Synology NAS üzerindeki paylaşımlı klasörlere yedekleme yaparken, klasörlerin erişim ayrıcalığı ayarları ile bunu yapabilirsiniz. Sadece belirtilen kullanıcı hesabının erişim ayrıcalıklarına sahip olduğu paylaşımlı klasörler görülebilecektir. Hedefte istenilen paylaşımlı klasörü bulamazsanız, lütfen erişim ayrıcalıklarınızı kontrol edin.</li>
+<li>Aktarım şifrelemesi sadece hedef sunucu şifreli ağ yedeklemeyi desteklediği zaman yapılabilir ve kimlik denetleme parolası boş olamaz.</li>
+<li>Uzaktan shell modu sadece aktarım şifrelemesini destekler.</li>
+<li>Bir rsync istemcisi yoluyla bir Synology NAS aygıtına dosyaları yedekliyorsanız, dosya adları UTF-8 kodlamasına sahip olmalıdır.</li>
+<li>Eğer dosyaları rsync-uyumlu bir istemciden bir Synology NAS aygıtına yedekliyorsanız, görevi sadece Synology NAS'ın <strong>admin</strong>, <strong>root</strong> ve <strong>rsync</strong> hesapları ile yapabilirsiniz.</li>
+<li>Eğer dosyaları Synology NAS sunucunuzdan bir rsync uyumlu sunucuya yedekliyorsanız, doğru rsync yedekleme hesap adını ve parolasını girmeniz gereklidir. Aynı zamanda Yazma önceliğine sahip doğru yedekleme modülünü seçmeniz de gerekecektir.</li>
+</ul>
+
+
+
+<h4>Amazon S3 yedekleme görevleri:</h4>
+<ul>
+  <li>Ağ yedekleme hedefi olarak Amazon S3 sunucusu ile yedekleme görevleri oluştururken, aktarım şifrelemesi, Amazon S3 RRS'ye (Azaltılan Yedek Depolama) yedekleme ve diğerleri gibi çeşitli seçenekler kullanılabilir. Aktarım şifreleme gibi bazı seçeneklerin yedekleme görevlerinin hızını azaltabileceğine lütfen dikkat edin.</li>
+  <li>Yedekleme dosyaları Amazon S3 sunucusunda seçmiş olduğunuz <strong>Bucket</strong> içinde saklanır ve set Key değeri seçmiş olduğunuz bir dizin adıyla başlar ve dosyanın tam dosya yolu ile biter.</li>
+  <li>Amazon S3 veri yapısı, klasör yapısı olmaksızın bir Bucket ve KEY çiftini içerir. Boş klasör yedeklenmesi desteklenmemektedir.</li>
+  <li>Yedeklenmiş bir dosya değiştirilmemişse, Amazon S3 sunucusuna aynı Bucket içinde tekrar yedeklenmez.</li>
+  <li>Amazon S3 üzerindeki her bir Bucket benzersiz bir isme sahip olmalıdır. Ek olarak, ad:</li>
+<ul>
+  <li>3 ila 63 karakter arasında olmalıdır.</li>
+  <li>sadece küçük harf, rakam, nokta (.) ve orta çizgi (-) işaretleri bulundurmalıdır.</li><li>bir harf veya rakam ile başlamalı ve bitmeli, orta çizgi (-) ile bitmemeli, yan yana iki adet nokta veya orta çizgi yanında nokta bulundurmamalıdır (örn., "my-.bucket.com" ve "my.-bucket" geçersiz isimlerdir).</li>
+</ul>
+<li>Bir Amazon S3 KEY için maksimum uzunluk 1024 karakterdir. Amazon S3'e başarılı bir yedeklemeyi sağlamak için maksimum yol uzunluğu: 1024 eksi görev oluşturma sırasında belirlenen hedef klasör adıdır.</li>
+<li>Amazon S3 RRS (Azaltılan Yedek Depolama) desteğini etkinleştirirseniz, yalnızca seçenek etkinleştirildikten sonra değiştirilen veriler RRS depolamaya yedeklenir, bunun anlamı Amazon S3'ün standart depolamasına önceden yedeklenmiş veriler RRS üzerine yeniden yedeklenmeyecek demektir. </li>
+<li>Yedeklenen dosyaları Amazon S3'ten Amazon Glacier'a taşımak desteklenmez. Dosyalar AWS Yönetim konsolu yoluyla Amazon S3'ten Amazon Glacier'a taşınırsa, ilgili yedekleme görevleri başarısız olabilir.</li>
+<li>SSL ile dosyaları sanal barındırılan tip bucket'lara yedekleme desteklenmez.</li>
+<li>Bir dosyayı aktarırken, dosya parçalara bölünür. Kısım boyutu varsayılan boyut olarak 512 MB ile görev ayarlarında <strong>Multipart Upload Part Size</strong> seçeneği ile ayarlanabilir. Ağ ortamı dengeli değilse, seçeneğin daha küçük bir sayı olması önerilir.</li>
+
+<li>Yükleme başına azami parça sayısı 10000'dir. Bir dosyanın azami boyutu 10000 ile çarpılan <strong>Multipart upload part size</strong> olur.</li>
+<li>Dosya adları herhangi bir UTF-8 dışı veya kontrol karakteri içeremez.</li>
+</ul>
+
+
+
+<h4>Microsoft Azure yedekleme görevleri:</h4>
+<ul>
+<li>Ağ yedeklemesi hedefi olarak Microsoft Azure sunucusu ile yedekleme görevlerini oluştururken, çeşitli seçenekler kullanılabilir, (ör. aktarım şifrelemesi). Aktarım şifreleme gibi bazı seçeneklerin yedekleme görevlerinin hızını azaltabileceğine lütfen dikkat edin.</li>
+<li>Yedekleme dosyaları Microsoft Azure sunucusunda seçmiş olduğunuz <strong>Konteyner</strong> içinde saklanır ve set Blob adı seçmiş olduğunuz bir dizin adıyla başlar ve dosyanın tam dosya yolu ile biter.</li>
+<li>Microsoft Azure veri yapısı, klasör yapısı olmaksızın bir Konteyner ve Blob çiftini içerir. Boş klasör yedeklenmesi desteklenmemektedir.</li>
+<li>Yedeklenmiş bir dosya değiştirilmemişse, Microsoft Azure sunucusuna aynı Konteyner içinde tekrar yedeklenmez.</li>
+<li>Microsoft Azure üzerindeki her bir Konteyner benzersiz bir isme sahip olmalıdır. Ek olarak, ad:</li>
+<ul>
+<li>3 ila 63 karakter arasında olmalıdır.</li>
+<li>sadece küçük harf, rakam ve orta çizgi (-) bulundurur.</li>
+<li>bir sayı veya bir harf ile başlar ve iki ardışık orta çizgi içeremez.</li>
+</ul>
+<li>Bir Microsoft Azure Blob Adının maksimum uzunluğu 1024 karakterdir. Microsoft Azure'a başarılı bir yedeklemeyi sağlamak için maksimum yol uzunluğu: 1024 eksi görev oluşturma sırasında belirlenen hedef klasör adıdır.</li>
+
+<li>Dosya adları herhangi bir UTF-8 dışı veya kontrol karakteri içeremez.</li>
+<li>Kimlik doğrulama hatası uyarı mesajı yanlış kimlik doğrulama bilgileri, bir ağ bağlantısı sorunu ya da Synology NAS ve uzak sunucu üzerindeki zanan uyuşmadığında verilebilir. Synology NAS sunucunuzdaki zaman ayarını kontrol etmek için, lütfen <strong>Denetim Masası</strong> > <strong>Bölgesel Seçenekler</strong> ><strong> Zaman</strong> öğesine giderek NTP sunucusu ile zamanı senkronize edin.</li>
+</ul>
+
+
+
+<h4>hicloud S3 yedekleme görevleri:</h4>
+<ul>
+<li>Ağ yedeklemesi hedefi olarak hicloud S3 sunucusu ile yedekleme görevlerini oluştururken, çeşitli seçenekler kullanılabilir, (ör. aktarım şifrelemesi). Aktarım şifreleme gibi bazı seçeneklerin yedekleme görevlerinin hızını azaltabileceğine lütfen dikkat edin.</li>
+<li>Yedekleme dosyaları hicloud S3 sunucusunda seçmiş olduğunuz <strong>Bucket</strong> içinde saklanır ve Set KEY Değeri seçmiş olduğunuz bir dizin adıyla başlar ve dosyanın tam dosya yolu ile biter.</li>
+<li>Hicloud S3 veri yapısı, klasör yapısı olmaksızın bir Bucket ve KEY çiftini içerir. Boş klasör yedeklenmesi desteklenmemektedir.</li>
+<li>Yedeklenmiş bir dosya değiştirilmemişse, hicloud S3 sunucusuna aynı Bucket içinde tekrar yedeklenmez.</li>
+<li>Hicloud S3 üzerindeki her bir Bucket benzersiz bir isme sahip olmalıdır. Ek olarak, ad:</li>
+<ul>
+<li>3 ila 63 karakter arasında olmalıdır.</li>
+<li>sadece küçük harf, rakam, nokta (.) ve orta çizgi (-) işaretleri bulundurmalıdır.</li>
+<li>bir harf veya rakam ile başlamalı ve bitmeli, orta çizgi (-) ile bitmemeli, yan yana iki adet nokta veya orta çizgi yanında nokta bulundurmamalıdır (örn., "my-.bucket.com" ve "my.-bucket" geçersiz isimlerdir).</li>
+</ul>
+<li>Bir hicloud S3 KEY için maksimum uzunluk 255 karakterdir. Hicloud S3'e başarılı bir yedeklemeyi sağlamak için maksimum yol uzunluğu: 255 eksi görev oluşturma sırasında belirlenen hedef klasör adıdır.</li>
+<li>Bir dosyayı aktarırken, dosya parçalara bölünür. Kısım boyutu varsayılan boyut olarak 512 MB ile görev ayarlarında <strong>Multipart Upload Part Size</strong> seçeneği ile ayarlanabilir. Ağ ortamı dengeli değilse, daha küçük bir sayı belirlemeniz önerilir.</li>
+
+<li>Hicloud aktarım başına sadece makismum 1000 parçayı destekler. Bu, toplam dosya boyutunun parça boyutu ile çarpılan 1000 değerini aşamayacağı anlamına gelir. Örneğin, Multipart Upload Kısım Boyutu 8 MB olarak ayarlanırsa, 8000 MB üzerindeki tek bir dosya karşıya yüklenemez. </li>
+
+<li>Şifrelenmiş paylaşımlı klasör yedeklemesi desteklenmez.</li> 
+
+<li>Dosya adları herhangi bir UTF-8 dışı veya kontrol karakteri içeremez.</li>
+</ul>
+
+
+  
+
+<h4>SFR NAS BACKUP yedekleme görevleri:</h4>
+<ul>
+<li>Ağ yedeklemesi hedefi olarak SFR NAS BACKUP sunucusu ile yedekleme görevlerini oluştururken, çeşitli seçenekler kullanılabilir, (ör. aktarım şifrelemesi ve diğerleri). Aktarım şifreleme gibi bazı seçeneklerin yedekleme görevlerinin hızını azaltabileceğine lütfen dikkat edin.</li>
+<li>Yedekleme dosyaları SFR NAS BACKUP sunucusunda seçmiş olduğunuz <strong>Bucket</strong> içinde saklanır ve set Key değeri seçmiş olduğunuz bir dizin adıyla başlar ve dosyanın tam dosya yolu ile biter.</li>
+<li>SFR NAS BACKUP veri yapısı, klasör yapısı olmaksızın bir Bucket ve KEY çiftini içerir. Boş klasör yedeklenmesi desteklenmemektedir.</li>
+<li>Yedeklenmiş bir dosya değiştirilmemişse, SFR NAS BACKUP sunucusuna aynı Bucket içinde tekrar yedeklenmez.</li>
+<li>SFR NAS BACKUP üzerindeki her bir Bucket benzersiz bir isme sahip olmalıdır. Ek olarak, ad:</li>
+<ul>
+<li>3 ila 63 karakter arasında olmalıdır.</li>
+<li>sadece küçük harf, rakam, nokta (.) ve orta çizgi (-) işaretleri bulundurmalıdır.</li>
+<li>bir harf veya rakam ile başlamalı ve bitmeli, orta çizgi (-) ile bitmemeli, yan yana iki adet nokta veya orta çizgi yanında nokta bulundurmamalıdır (örn., "my-.bucket.com" ve "my.-bucket" geçersiz isimlerdir).</li>
+</ul>
+<li>Bir SFR NAS BACKUP ANAHTARI için maksimum uzunluk 1024 karakterdir. SFR NAS BACKUP'a başarılı bir yedeklemeyi sağlamak için maksimum yol uzunluğu: 1024 eksi görev oluşturma sırasında belirlenen hedef klasör adıdır.</li>
+<li>Bir dosyayı aktarırken, dosya parçalara bölünür. Kısım boyutu varsayılan boyut olarak 64MB ile görev ayarlarında <strong>Multipart Upload Part Size</strong> seçeneği ile ayarlanabilir. Ağ ortamı dengeli değilse, daha küçük bir sayı belirlemeniz önerilir.</li>
+
+<li>Dosya adları herhangi bir UTF-8 dışı veya kontrol karakteri içeremez.</li> 
+
+</ul>
+
+<h4>Diğer S3 uyumlu yedekleme görevleri:</h4>
+<ul>
+<li>Diğerr S3 uyumlu bulutları kullanmak için, istendiğinde <strong>S3 Sunucu</strong> alanına istenen S3 uyumlu bulutun IP adresini/etki alanını girin.</li>
+<li>Herhnagi bir kullanım sorunu varsa, lütfen ilgili belgelere bakın veya S3 uyumlu bulut hizmet sağlayıcısına başvurun.</li>
+</ul>
+
+<h3>LUN Yedeklemesi*</h3>
+
+<p><b>Yerel LUN Yedeklemesi</b> kullanarak Synology NAS sunucunuzdaki iSCSI LUN'ları yerel paylaşımlı klasörlere yedekleyebilirsiniz. Başka bir Synology NAS sunucusuna yedeklemek için <b>Ağ LUN Yedeklemesi (Synology sunucusu)</b>'ni de kullanabilirsiniz.</p>
+
+<h4>Bir iSCSI LUN'u yedeklemek için:</h4>
+<ol>
+<li>Sol lat köşede <strong>+</strong> üzerine tıklayın ve <strong>LUN yedekleme görevi</strong>'ni seçin.
+</li>
+<li>
+Bir hedef türü seçmeniz istendiğinde, aşağıdakilerden birini seçin:
+</li>
+<ul>
+<li>
+<b>Yerel LUN Yedeklemesi</b>: LUN yedeklemesini Synology NAS sunucunuzdan bir yerel paylaşımlı klasöre ya da Synology NAS sunucunuzun USB veya eSATA bağlantı noktasına bağlı bir harici depolama aygıtına yapmak için bu seçeneği seçin.
+</li>
+<li><b>Ağ LUN Yedeklemesi (Synology sunucusu)</b>: LUN yedeklemesini Synology NAS sunucunuzdan başka bir Synology NAS sunucusuna yapmak için bu seçeneği seçin.
+</li>
+</ul>
+<li>
+Sorulduğunda, yedekleme hedefini ve kaynak LUN'u belirleyin ve yedekleme zamanlamasını ayarlayın.
+</li>
+<li>
+Kurulumu tamamlamak için sihirbazı izleyin.
+</li>
+</ol>
+<p>Yedekleme görevi oluşturulduktan sonra, Synology NAS yedekleme görevini programa göre gerçekleştirecek ve yedeklenmiş LUN'u hedefte depolayacaktır. Yedeklenmiş LUN yalnız yedekleme amacıyla kullanılır. Yedek LUN'a erişmek için, daha fazla bilgi için <a href="restore.html">Yedek LUN'u geri yüklemek için</a> konusuna bakın.</p>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Normal Dosya ve Blok Seviyesi LUN'lar hedefte dosya görüntüleri olarak yedeklenecektir. Geri yüklenirse, tüm Blok Seviyesi LUN'lar Dosya LUN'larına değiştirilir.</li>
+<li>Herbir yedekleme görevi yedekleme kaynağı olarak yalnız bir adet LUN içerebilir.</li>
+<li>LUN'lar, FAT, FAT32, HFS, HFS Plus veya NTFS formatındaki harici bir diske yedeklenemezler.</li>
+<li>Ağ Network LUN Yedeklemesi yapmadan önce, Ağ Yedekleme hizmetinin <b>Denetim Masası</b> > <b>Yedekleme Hizmeti</b>'nde etkinleştirildiğinden emin olmak için lütfen Synology NAS hedefinde oturum açın.</li>
+<li>Synology NAS sunucunuz ağa bir yönlendirici üzerinden bağlanıyorsa, Ağ LUN Yedeklemesi gerçekleştirmeden önce yönlendirici üzerinde iSCSI hizmeti için (TCP port 3260) bir bağlantı noktası yönlendirme kuralı belirlediğinizden emin olun.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Tam Yedekleme ve Artımlı Yedekleme:</h4>
+<p>
+Synology NAS ilk olarak seçilen LUN için tam bir yedekleme ve daha sonra da artımlı yedekleme gerçekleştirecektir. Ancak, yedekleme hedefinin paylaşımlı klasör adı veya dizin adı değiştirilirse, Synology NAS görev için tekrar tam bir yedekleme gerçekleştirecektir.
+</p>
+</div>
+
+<p>____<br /> * Sadece belirli modellerde vardır.</p>
+
+</body></html>

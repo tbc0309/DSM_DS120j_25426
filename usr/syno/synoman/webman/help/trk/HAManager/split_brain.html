@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Bölünmüş Beyin</h2>
+
+<p>Bir high-availability kümesi normal çalışırken, üye sunuculardan sadece bir tanesi aktif sunucu görevini üstlenebilir. Bu durumda, pasif sunucu aktif sunucunun varlığını hem Heartbeat bağlantısı hem de veri bağlantısı yoluyla saptar.</p>
+
+<p>Tüm Heartbeat ve veri bağlantıları kaybolursa, her iki sunucu aktif sunucunun görevini üstlenmek isteyebilir. Bu duruma "bölünmüş beyin" hatası adı verilir. Bu durumda, high-availability kümesine atanmış IP adreslerine bağlantılar iki sunucudan bir tanesine yeniden yönlendirilir ve tutarsız veriler iki sunucu üzerinde güncellenebilir veya yazılabilir.</p>
+        
+<p>Heartbeat veya veri bağlantılarından herhangi birisi yeniden yapıldığında, sistem iki sunucu arasında bölünmüş beyin hatasını ve veri tutarsızlığını algılar ve high-availability güvenli moduna girer.</p> 
+
+       
+<h4>Bölünmüş beyin durumunun meydana gelmesi durumunda:</h4>
+	<ol>
+    <li>Her iki sunucu üzerindeki hizmetler ve high-availability kümesinin IP adresleri bölünmüş beyin hatası çözülene kadar kullanılamaz.</li>
+	<li>Her iki sunucu high-availability güvenli moduna girdiğinde, <strong>Bölünmüş beyin</strong> adındaki yeni bir sekme sol panelde gözükür. Bu sekmede, aşağıdaki bilgiler listelenecektir: iki sunucu üzerindeki paylaşımlı klasörlerdeki dosyalar arasındaki fark, sunucuların aktif sunucular haline geldiği zaman ile birlikte son iSCSI Target bağlantı bilgileri. Tüm diğer sekmeler salt okunur kalacaktır.</li>
+<li>High-availability güvenli modunda, File Station salt okunur modda olacaktır ve dosyaları indirip görüntüleyebileceksiniz.</li>
+       <li><b>Genel Bakış</b> sekmesinde, sadece bölünmüş beyin hatalarını çözmenize veya geçerli oturum açma sunucusunu kapatmanıza izin verilir. Bölünmüş beyin hatalarını çözmek için, aşağıdakilerden birisini yapın:
+       <ul>
+       <li>Bir sunucuyu high-availability kümesinin aktif sunucusu ve diğerini pasif sunucu olarak seçin. Her iki sunucu başlatıldığında, aktif sunucudaki tüm farklı veri ve ayarlar pasif sunucuya senkronize edilecektir. Bölünmüş beyin hatası sırasında pasif sunucu üzerinde güncellenen verilerin kaybedileceğini unutmayın.</li>
+       <li>Bir sunucuyu high-availability kümesinin aktif sunucusu olarak seçin ve diğerini ayırın. Her iki sunucu yeniden başlatıldığında, aktif sunucu high-availability kümesinde kalır ve ayrılan sunucu verilerini rezerve eder ve <b>Tek Başına</b> durumuna geri döner. Gelecekte yeni bir pasif sunucuyu bağlamak için bir tam çoğaltımın gerekli olacağını unutmayın.</li>
+       <li>Her iki sunucunun bağlantısını kesin, verilerini rezerve edin ve <b>Tek Başına</b> duruma geri dönmelerini sağlayın.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Notlar:</h4>
+    <ul>
+    <li>Paylaşımlı klasörlerinizde ne kadar fazla dosya olursa, farklılıkların listelenmesi o kadar uzun sürer.</li>
+    <li>Hangi sunucunun aktif/pasif sunucunuz olacağını seçmeden önce, lütfen her iki sunucunun çalışır durumda olduğundan emin olun.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

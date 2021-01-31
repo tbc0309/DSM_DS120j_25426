@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Przypisywanie uprawnień do folderu współdzielonego — pomoc systemu Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="You can specify which users or groups can access, view, or modify a shared folder and its contents. This article shows you how to assign and customize shared folder permissions in DSM.">
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Przypisywanie uprawnień do folderu współdzielonego</h2>
+
+<p>Można określić, którzy użytkownicy lub które grupy mogą uzyskiwać dostęp do folderu współdzielonego i jego zawartości oraz je wyświetlać i modyfikować. Uprawnienia dostępu do folderów współdzielonych, a także indywidualnych plików i podfolderów można dostosować dla poszczególnych użytkowników i grup.</p>
+
+<div class="section disable-eds14">
+<h4>Lista kontroli dostępu systemu Windows (ACL):</h4>
+
+<p>W systemie DSM 5.0 lub nowszych wersjach uprawnienia dostępu do folderów współdzielonych są oparte domyślnie na listach Windows ACL. Do nowo tworzonych folderów współdzielonych stosuje się ustawienia uprawnień Windows ACL, co umożliwia także dostosowywanie uprawnień do poszczególnych plików i podfolderów. Uprawnienia można też dostosowywać za pośrednictwem aplikacji File Station lub programu Eksplorator plików w systemie Windows.</p>
+<p>Do następujących folderów współdzielonych nie można stosować systemu zarządzania uprawnieniami Windows ACL: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+<div class="section disable-eds14">
+<h4>Uwaga:</h4>  
+<p>Osobiste foldery <strong>home</strong> użytkowników znajdują się w folderze <strong>homes</strong>. Ponieważ działanie list ACL opiera się na dziedziczeniu uprawnień, po ustawieniu uprawnienia NA dla użytkownika lub grupy w folderze <strong>homes</strong> użytkownicy nie będą mieli dostępu do osobistego folderu <strong>home</strong>. </p>
+</div>
+<h4>Aby edytować uprawnienia do folderu współdzielonego:</h4>
+
+<ol>
+
+<li>Wybierz <strong>Panel sterowania</strong> > <strong>Folder współdzielony</strong>.</li><img src="about:blank" class="help_image"/><li>Wybierz folder współdzielony, którego uprawnienia mają być edytowane. Kliknij przycisk <b>Edytuj</b>.</li><img src="about:blank" class="help_image"/><li> Przejdź do karty <strong>Uprawnienia</strong>.</li><img src="about:blank" class="help_image"/><li>Wybierz jeden z następujących elementów z menu rozwijanego:<ul>
+<li><b>Wewnętrzny użytkownik systemu:</b> przypisanie uprawnień domyślnym użytkownikom systemu, na przykład użytkownikowi Anonymous FTP/WebDAV. Zanim będzie można zezwolić anonimowym użytkownikom FTP na łączenie się z folderem współdzielonym, należy przypisać temu użytkownikowi uprawnienia.</li>
+<li><b>Użytkownicy lokalni:</b> przypisanie uprawnień użytkownikom lokalnym (w tym użytkownikowi <b>guest</b>).</li>
+<li><b>Grupy lokalne:</b> przypisanie uprawnień grupom lokalnym.</li>
+</ul>
+</li><img src="about:blank" class="help_image"/><li>Zaznacz lub usuń zaznaczenie pól wyboru poszczególnych użytkowników lub grup, aby dostosować ich uprawnienia dostępu do folderu współdzielonego:<ul>
+<li><b>Odczyt/Zapis</b>: użytkownik lub grupa może uzyskać dostęp do plików i podfolderów w folderze współdzielonym oraz dokonywać w nich zmiany.</li>
+<li><b>Tylko do odczytu</b>: użytkownik lub grupa może uzyskiwać dostęp do plików i podfolderów w folderze współdzielonym.</li>
+<li><b>Brak dostępu</b>: użytkownik lub grupa nie może uzyskiwać dostępu do plików i podfolderów w folderze współdzielonym.</li>
+</ul>
+</li><img src="about:blank" class="help_image"/><li>Kliknij <b>OK</b>, aby zakończyć.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+
+<ul>
+<li>W razie wystąpienia konfliktu uprawnień będą one mieć następujący priorytet: Brak dostępu > Odczyt/Zapis > Tylko do odczytu.</li>
+<li>Kiedy podczas tworzenia nowego folderu współdzielonego uprawnienia użytkowników należących do grupy <strong>administrators</strong> zostaną ustawione na <b>Brak dostępu</b>, tacy użytkownicy będą mogli wyświetlić ten folder współdzielony tylko na stronie <strong>Panel sterowania</strong> > <strong>Folder współdzielony</strong>.</li>
+</ul>
+</div>
+
+<h3 class="disable-eds14">Dostosowywanie uprawnień Windows ACL</h3>
+
+<p class="disable-eds14">Oprócz używania opisanych powyżej ustawień można dostosować uprawnienia precyzyjniej, wykonując poniższe czynności. </p>
+
+<div class="section disable-eds14">
+<h4>Uwaga:</h4>
+<p>Poniższych ustawień nie można używać w odniesieniu do następujących folderów współdzielonych: <strong>photo</strong>, <strong>satashare</strong>, <strong>sdshare</strong>, <strong>surveillance</strong>, <strong>usbshare</strong>.</p>
+</div>
+
+<h4 class="disable-eds14">Aby dostosować uprawnienia:</h4>
+<ol class="disable-eds14">
+  <li>Na karcie <strong>Uprawnienia</strong> wybierz użytkownika, którego uprawnienia do aplikacji mają być zmodyfikowane. Kliknij dowolne miejsce kolumny <strong>Niestandardowe</strong>.</li><img src="about:blank" class="help_image"/><li>W oknie <b>Edytor uprawnień</b> wykonaj jedną z następujących czynności, aby zarządzać uprawnieniami ACL do danego pliku lub folderu:<ol>
+        <li><b>Użytkownik lub grupa:</b> określ użytkownika lub grupę, których uprawnienia chcesz dostosować.</li><img src="about:blank" class="help_image"/><div class="section disable-eds14">
+<h4>Uwaga:</h4>  
+<p>Opcje <strong>Authenticated Users</strong> i <strong>SYSTEM</strong> w menu rozwijanym<strong>Użytkownik lub grupa</strong> zostaną utworzone w celu dopasowania do ustawień uprawnień Windows ACL. Ich zakresy uprawnień są następujące:</p>
+<ul>
+	<li><strong>Authenticated Users</strong> obejmuje konta wykluczone z <strong>https</strong> i <strong>guest</strong>.</li>
+	<li><strong>SYSTEM</strong> obejmuje konta znajdujące się w <strong>https</strong> i <strong>anonymous</strong>.</li>
+</ul>
+</div>
+        
+        
+        
+        
+        <li><b>Dziedzicz z:</b> tylko do wyświetlania. Wyświetl informacje o tym, czy uprawnienie jest dziedziczone (z folderu nadrzędnego) czy jawne (pokazywane jako <b>Brak</b>). </li><img src="about:blank" class="help_image"/><li><b>Typ:</b> wybierz <b>Zezwalaj</b> lub <b>Odmów</b>, aby przyznać uprawnienie użytkownikowi lub grupie albo go im odmówić.</li><img src="about:blank" class="help_image"/><li><b>Zastosuj do:</b> podczas tworzenia wpisu uprawnień do folderu zaznacz te pola wyboru, aby zastosować wpis do tego folderu, folderów (lub <b>Folderów podrzędnych</b>) albo plików (lub <b>Plików podrzędnych</b>) w tym folderze bądź do wszystkich plików i folderów zawartych w tym folderze (lub <b>Wszystkich zależnych</b>). </li><img src="about:blank" class="help_image"/><li><b>Administracja:</b> zaznacz pole wyboru <b>Odczyt uprawnień</b>, <b>Zmień uprawnienia</b> lub <b>Przejmij własność</b>, aby określić uprawnienie dostępu użytkownika lub grupy do danej pozycji uprawnień. </li>
+        <li><b>Odczyt</b> lub <b>Zapis:</b> zaznacz pola wyboru w tych obszarach, aby zmodyfikować ustawienia uprawnień użytkownika lub grupy do danego pliku lub folderu. </li>
+      </ol>    
+  <li> Kliknij przycisk <b>OK</b>.</li>
+</ol>
+<div class="section disable-eds14">
+  <h4>Uprawnienia ACL można podzielić na następujące kategorie:</h4>
+  <ul>
+    <li><b>Administracja:</b><ul>
+      <li><b>Zmień uprawnienia</b>: określenie, czy użytkownik może zmienić uprawnienia do pliku lub folderu.</li>
+      <li><b>Przejmij własność</b>: określenie, czy użytkownik jest właścicielem pliku lub folderu.</li>
+    </ul></li>
+    <li><b>Odczyt:</b><ul>
+      <li><b>Przechodzenie po folderach/Wykonywanie plików</b>: określenie, czy użytkownik może uruchomić plik programu.</li>
+      <li><b>Wyświetlanie listy folderów/Odczyt danych</b>: określenie, czy użytkownik może odczytać dane z pliku.</li>
+      <li><b>Odczyt atrybutów</b>: określenie, czy użytkownik może wyświetlać atrybuty pliku.</li>
+      <li><b>Odczyt atrybutów rozszerzonych</b>: określenie, czy użytkownik może wyświetlać atrybuty rozszerzone pliku.</li>
+      <li><b>Odczyt uprawnień</b>: określenie, czy użytkownik może odczytać uprawnienia do pliku lub folderu.</li>
+    </ul></li>
+    <li><b>Zapis:</b><ul>
+      <li><b>Tworzenie plików/Zapis danych</b>: określenie, czy użytkownik może zmieniać zawartość pliku.</li>
+      <li><b>Tworzenie folderów/Dołączanie danych</b>: określenie, czy użytkownik może dodawać dane do końca pliku.</li>
+      <li><b>Zapis atrybutów</b>: określenie, czy użytkownik może zmieniać atrybuty pliku.</li>
+      <li><b>Zapis atrybutów rozszerzonych</b>: określenie, czy użytkownik może zmieniać atrybuty rozszerzone pliku.</li>
+      <li><b>Usuwanie podfolderów i plików</b>: określenie, czy użytkownik może usunąć folder.</li>
+      <li><b>Usuń</b>: określenie, czy użytkownik może usunąć plik.</li>
+    </ul></li>
+  </ul>
+  <h4>Informacje o dziedziczeniu uprawnień:</h4>
+  <p> Uprawnienia ACL są dziedziczone przez obiekty podrzędne po obiektach nadrzędnych. Jeżeli na przykład wpis listy ACL dla folderu „sprzedaż” przyznaje uprawnienie „Odczyt” użytkownikowi „Amy”, wpis ACL zostanie zastosowany do wszystkich plików w folderze „sprzedaż” (np. pliku „raport roczny.xls”), co pozwala użytkownikowi na otwieranie plików. Odziedziczone uprawnienia będą wyświetlane w kolorze szarym, a własne uprawnienia (czyli „jawne”) — w kolorze czarnym. </p>
+</div>
+<div class="section disable-eds14">
+  <h4>Uwaga:</h4>
+  <ul>
+    <li>W przypadku pliku lub folderu można dodać tylko do 200 wpisów jawnych uprawnień listy ACL.</li>
+    <li>ACL systemu Windows nie obsługuje systemu plików ext3. W przypadku użytkowników korzystających z systemu plików ext3, używanie uprawnień listy kontroli dostępu systemu Windows (ACL) wymaga utworzenia co najmniej jednego wolumenu ext4/Btrfs. Oznacza to, że trzeba sformatować co najmniej jeden dysk twardy i odtworzyć wolumen. Formatowanie dysków serwera Synology NAS spowoduje usunięcie wszystkich przechowywanych danych i ustawień. Przed kontynuacją utwórz kopię zapasową wszystkich danych.</li>
+    <li>Aby móc określić nowe uprawnienia dla użytkowników domeny, klienty systemów DSM i Windows muszą być w tej samej domenie.</li>
+    <li>Podczas modyfikacji uprawnień przy użyciu programu Eksplorator plików w systemie Windows reguły <strong>Odmów</strong> zastosowane do grupy <strong>Domain Admins</strong> będą ignorowane.</li>
+  </ul>
+</div>
+
+
+</body>
+</html>

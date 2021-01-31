@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Databackup</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Backup</h2>
+
+<p><strong>Backup og gendan</strong> sætter dig i stand til at udføre backup på forskellige slags data (systemkonfigurationer, delte mappe og programmer/pakker) på din Synology NAS manuelt eller efter plan. Du kan gendanne backupdata i lokale delte mapper, fjernsevere og offentlige skyer (Amazon S3, Microsoft Azure, hicloud S3 og SFR NAS BACKUP). Med <strong>Backup og gendan</strong> kan hver backupopgave bevare flere backupversioner og rotere dem med Smart Recycle-politikker.</p>
+
+
+<h3>Databackup</h3>
+<p><strong>Backup og gendan</strong> indeholder forskellige valgmuligheder til backupdestinationer og måder at konfigurere en backupopgave.</p>
+
+<h4>Sådan opretter du en databackupopgave:</h4>
+
+<ol>
+<li>Klik på <strong>+</strong> nederst til venstre, og vælg <strong>Databackupopgave</strong> for at starte backupguiden.</li>
+<li>Vælg den ønskede type backupdestination:
+<ul>
+<li>Lokale/fjerne delte mapper eller ekstern lagerenhed</li>
+<li>Fjern-rsync-servere</li>
+<li>Offentlige skyer (f.eks. Amazon S3 og Microsoft Azure)</li>
+</ul>
+</li>
+<li>Konfigurer den ønskede type backupopgave:
+  <ul>
+<li>Opret en helt ny opgave ved at vælge <strong>Opret backupopgave</strong>.</li>
+<li>Genbrug eksisterende backupdata på enhver destination ved at vælge <strong>Link igen til eksisterende opgave</strong>. Genlink hjælper dig med direkte at bruge backupdata fra en anden opgave.</li>
+</ul>
+</li>
+
+<li>Følg guidens instruktioner for at færdiggøre indstillingerne. Vælg <strong>Aktiver kryptering på klientsiden</strong> for at kryptere data, før overførsel for at sikre datasikkerhed på backupdestinationen.</li>
+</ol>
+
+
+<div class="section">
+<h4>Noter:</h4>
+<ul>
+<li>Navne på opgaver kan indeholde 1 til 32 Unicode-tegn og kan ikke indeholde følgende tegn:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; < = > ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>Maks. længden for den fulde mappesti for backup'en er 2048 tegn.</li>
+<li>Hvis over 32.000 filer eller mapper uploades til en EXT3-delt mappe via AFP, vil alle backupopgaver, herunder den delte mappe, mislykkes.</li>
+<li>Der kan udføres backup på en krypteret delt mappe, når den er tilknyttet,k og den kan gendannes til en krypteret/ikke-krypteret mappe. Den bliver dog altid gendannet som ikke-krypteret /////////og vil ikke tilknytte automatisk ved start. Ja, men du skal indtaste eller importere krypteringsnøglen for den krypterede delte mappe for at tilknytte den.</li>
+<li>Backup af en krypteret mappe til en anden krypteret mappe understøttes ikke.</li>
+<li>Brug af fjernmapper som backupkilde eller backupdestination understøttes ikke.</li>
+<li>Backup af visse programmer understøttes. Hvis du vil se, om en bestemt pakke understøtter backup samt backupindhold og begrænsninger, henvises der til hjælpen for hvert program.</li>
+<li class="enable-eds14">Synology NAS understøtter ikke programbackup uden en skrivbar EXT3/EXT4 ekstern enhed.</li>
+<li class="enable-eds14">Synology NAS kan kun udføre backup på delte mapper, der er oprettet på EXT3/EXT4-eksterne enheder.</li>
+</ul>
+</div>
+
+
+<div class="section disable-eds14">
+<h4>Backup med Windows ACL-indstillinger:</h4>
+<p>Indstillingerne for Windows ACL for filerne på Synology NAS kan også udføres backup på, afhængigt af filsystemerne på destinationen:</p>
+
+<ul>
+<li>Alle backupdestinationer kan udføre backup på Windows ACL-indstillingerne, uanset destinationens filsystem</li>
+</ul>
+</div>
+
+<h4>Eksporter backupdata til offentlige skyer eller fjern--Synology NAS:</h4>
+<p>Ved backup af en stor mængde data til en offentlig sky anbefales det at eksportere den første version til en ekstern lagerenhed (f.eks. et USB-drev) og levere "enheden" til udbyderen af skytjenesten. Der kan enheden tilsluttes og uploade data direkte til skyen. På den måde kan du reducere tiden for den første backup betragteligt.</p>
+<ol>
+<li>Klik på <strong>+</strong> nederst til venstre, og vælg <strong>Fjern-Synology NAS</strong> eller den ønskede udbyder af skytjenesten.</li>
+<li>Vælg <strong>Eksporter til en lokal delt mappe (herunder en ekstern lagerenhed)</strong>, og færdiggør indstillingerne. Når du bedes om det, vælger du <strong>Aktiver kryptering på klientsiden</strong> for at få en beskyttet databackup.</li>
+<li>Lever den eksterne lagerenhed til udbyderen af fjern-Synology NAS eller skytjenesten. Importer de eksporterede data fra den eksterne lagerenhed.</li>
+<li>Når det er bekræftet, returnerer du til <strong>Backup og gendan</strong> og klikker på <strong>Link igen nu</strong>.</li>
+<li>Følg genlink-guidens instruktioner for at linke din Synology NAS til informationsbasen. Adgangskoden/krypteringsnøglen er nødvendig, hvis data blev eksporteret krypteret.</li>
+</ol>
+
+<div class="section">
+	<h4>Bemærk:</h4>
+	<ul>
+		<li>Kryptering på klientsiden kan ikke deaktiveres, når opgaven er konfigureret, og adgangskoden kan heller ikke ændres.</li>
+		<li>En backupinformationsbase kan kun linkes til én backupopgave.</li>
+		<li>Hvis backupkildens mappe er en krypteret delt mappe eller dens undermappe, kan kildemappen tilknyttes eller fraknyttes, når du opretter backupopgaven.</li>
+		<li>Krypterede delte mapper kan ikke være backupdestinationen.</li>
+		<li>Hvis du vælger <strong>Aktiver kryptering på klientsiden</strong>, kræves adgangskoden/krypteringsnøglen for at gendanne data ved denne opgave. <strong>Tab af adgangskoden/krypteringsnøglen vil medføre permanent datatab</strong>.</li>
+	</ul>
+</div>
+
+<h4>Sådan styrer du backupopgaver:</h4>
+<p>Vælg en ønsket backupopgave i venstre panel, og klik på nedenstående knapper for den relevante styring:</p>
+<ul>
+<li><strong>Backup nu</strong>: Backup af data for den valgte opgave med det samme.</li>
+<li><strong>Backup-stifinder</strong> (forstørrelsesglasikonet): Vis alle de tilgængelige backupversioner, og kopier/gendan/download de indeholdte filer.</li>
+<li><strong>Versionsliste</strong>: Vis oprettelsestidspunkt og -status for alle backupversioner, slet bestemte gamle versioner, eller lås bestemte versioner op til tvungen reservation.</li>
+<li><strong>Rediger</strong>: Ret backupkilden, -destinationen, plan- og andre indstillinger.</li>
+<li><strong>Slet</strong>: Slet backupopgaven.</li>
+<li><strong>Annuller</strong>: Stop den aktuelt kørende backupopgave.</li>
+</ul>
+
+
+<h4>Sådan roterer du versioner:</h4>
+<p>Backuprotation er en versionsadministrationsmekanisme. Den hjælper med at styre backupversioner ved automatisk at slette ældre, unødvendige versioner og potentielt frigøre lagerplads. Du kan aktivere denne funktion under <strong>Opgaveindstillinger</strong> eller konfigurere den, når du opretter en backupopgave.</p>
+<ol>
+<li>Vælg den ønskede backupopgave i venstre panel, og klik på <strong>Rediger</strong> eller <strong>Indstillinger</strong> > <strong>Opgaveindstillinger</strong>.</li>
+<li>Vælg <strong>Aktiver backuprotation</strong>, og vælg den ønskede rotationstilstand:
+<ul>
+<li><strong>Fra de tidligste versioner</strong>: Slet de tidligste backupversioner, når de tilgængelige versioner overstiger det angivne tal.</li>
+<li><strong>Smart Recycle</strong>: Bevar backupversioner efter disse politikker:
+  <ul>
+<li><strong>Hver time-versioner fra de seneste 24 timer</strong>: Bevar den tidligste version, der oprettes hver time.</li>
+<li><strong>Daglige versioner fra 1 dag til 1 måned</strong>: Bevar den tidligste version, der oprettes hver dag.</li>
+<li><strong>Ugentlig versioner, der er ældre end 1 måned</strong>: Bevar den tidligste version, der oprettes hver uge.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Angiv det maksimale <strong>antal versioner</strong>. Når versionsnummeret overstiger dette tal, roteres den ældste version.</li>
+<li>Hvis du har konfigureret en gentagen backupplan under <strong>Plan</strong>, kan du forhåndsgennemgå, hvordan dine backupversioner bevares og det tidligste tidspunkt gendannelsespunkt på tidslinjen.</li>
+<li>Klik på <strong>OK</strong> for at gemme indstillingerne.</li>
+</ol>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Låste versioner bliver aldrig fjernet.</li>
+<li>Kun flerversions backupopgaver indeholder versionsrotation.</li>
+<li>Versionsrotation understøttes ikke i DSM 5.1 eller tidligere.</li>
+<li>Rotation bliver udløst lige efter indstillingen ændres, eller backupopgaven fuldføres.</li>
+<li>Låste versioner udelukkes, når der beregnes maksimalt antal versioner.</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Noter om databackupopgaver</h3>
+<p>Til hver type backupopgave skal du læse følgende noter om vigtige konfigurationsdetaljer og fejlfindingstip.</p>
+
+<h4>Lokale backupopgaver:</h4>
+<ul>
+<li>Hvis data på destinationen fjernes under backupopgaven, udføres der en fuld backup, når opgaven næste gang udføres.</li>
+<li>Nye eksterne drev skal måske formateres, før de kan bruges som backupdestination. </li>
+<li>Før du opretter en backupopgave, skal du sørge for, at du allerede har tilknyttet de eksterne drev korrekt til din Synology NAS. Du ka gå til <b>Kontrolpanel</b> > <b>Eksterne enheder</b> for at undersøge status for USB/eSATA-drevene. Eksterne drev kan ikke vælges som backupdestination, hvis det eksterne drev initialiseres, formateres eller fejler.</li>
+<li>Fjerntilknyttede delte mapper kan ikke vælges som backupkilde eller -destination.</li>
+<li>Hvis en krypteret delt mappe afbrydes, kan den ikke vælges som backupdestination.</li>
+<li>Der kan ikke udføres backup på billedminiaturer, når filsystemet for destinationen er NTFS/FAT.</li>
+</ul>
+
+
+
+
+
+<h4>Fjern-rsync-backupopgaver:</h4>
+<ul>
+<li>Følgende tilstande er tilgængelige ved oprettelse af en backupopgave med rsync-kompatible servere som netværksbackupdestination: <b>Tilstanden rsync daemon,</b> som bruges, når du vælger et backupmodul (delt mappe på den rsync-kompatible server) fra rullemenuen ved siden af <b>Backupmodul</b>. Og <b>Tilstanden remote shell,</b>, som kun aktiveres, når du indtaster en absolut sti (starter med "/") i <b>Backupmodul</b>.</li>
+<li>For Linux brugere vil kun kontiene <strong>admin</strong>, <strong>root</strong> og <strong>rsync</strong> have tilladelse til at udføre en backup.</li>
+<li>Hvis du vil åbne destinationsserveren over internettet med dens værtsnavn, skal det være i formatet FQDN (Full Qualified Domain Name), f.eks. <strong>abc.bcd.com</strong>.</li>
+<li>Ved backup fra en Synology NAS-enhed til en anden, bedes du om at indtaste brugernavnet og adgangskoden for en konto på destinationen. Ved backup til delte mapper på en anden Synology NAS, kan du gøre det med mappernes indstillinger for adgangsprivilegier. Kun delte mapper, som den angivne brugerkonto har adgangsprivilegier til, kan ses. Hvis du ikke kan finde den ønskede delte mappe på destinationen, skal du kontrollere dine adgangsprivilegier.</li>
+<li>Overførselskryptering understøttes kun, når destinationsserveren understøtter krypteret netværksbackup og godkendelsesadgangskoden ikke er tom.</li>
+<li>Fjern-shell-tilstand understøtter kun overførselskryptering.</li>
+<li>Hvis du udfører backup på filer til en Synology NAS-enheder via en rsync-klient, skal filnavnene have UTF-8-kodning.</li>
+<li>Hvis du udfører backup på filer til en Synology NAS-enhed gennem en rsync-kompatibel server, kan opgaven kun udføres af kontiene <strong>admin</strong>, <strong>root</strong> og <strong>rsync</strong> på Synology NAS.</li>
+<li>Hvis du udfører backup på filer fra din Synology NAS til en rsync-kompatibel server, skal du indtaste det korrekte kontonavn og adgangskode for rsync-backup. Du skal også vælge det korrekte backupmodul med skriveprivilegium.</li>
+</ul>
+
+
+
+<h4>Amazon S3-backupopgaver:</h4>
+<ul>
+  <li>Ved oprettelse af backupopgaver med Amazon S3 som netværksbackupdestination er der forskellige muligheder, f.eks. overførselskryptering, backup til Amazon S3 RSS (Reduced Redundancy Storage) og andre. Bemærk, at nogle muligheder, f.eks. overførselskryptering, kan sænke hastigheden af backupopgaver.</li>
+  <li>Backupfiler gemmes i den <strong>Bucket</strong>, du valgte på Amazon S3-serveren, og Sæt NØGLE-værdien begynder med et biblioteksnavn efter eget valg og slutter med den fulde filsti for filen.</li>
+  <li>Datastrukturen for Amazon S3 er et par Bucket og KEY uden nogen mappestruktur. Backup af tom mappe understøttes ikke.</li>
+  <li>Hvis en backupfil ikke er ændret, bliver der ikke udført backup til Amazon S3-serveren i samme Bucket igen.</li>
+  <li>Hver Bucket på Amazon S3 skal have et unikt navn. Derudover skal navnet:</li>
+<ul>
+  <li>være inden for intervallet 3 til 63 tegn,</li>
+  <li>kun indeholde små bogstaver, tal, punktum (.) og bindestreger (-).</li><li>begynde og slutte med et tal eller et bogstav og ikke slutte på en bindestreg (-), indeholde to sammenhængende punktummer eller indeholde bindestreger ved siden af punktummer (f.eks. er "my-.bucket.com" og "my.-bucket" ugyldige)</li>
+</ul>
+<li>Maksimumlængden på en Amazon S3 KEY er 1024 tegn. For at sikre en korrekt backup til Amazon S3, er maks. stilængden 1024 minus destinationsmappenavnet, der blev angivet under opgaveoprettelsen.</li>
+<li>Hvis du aktiverer Amazon S3 RRS-support, bliver der kun udført backup på data, der er ændret efter aktivering af denne mulighed til RRS-lageret, hvilket betyder, at der ikke udføres backup på data, der allerede er udført backup på til Amazon S3's standardlager, til RRS igen. </li>
+<li>Flytning af filer fra Amazon S3 til Amazon Glacier, der er udført backup på, understøttes ikke. Hvis filer flyttes fra Amazon S3 til Amazon Glacier via AWS Management-konsollen, kan den relaterede backupopgave mislykkes.</li>
+<li>Backup af filer til virtuelle værts-buckets med SSL understøttes ikke.</li>
+<li>Ved overførsel af en fil, bliver filen opdelt i dele. Størrelsesgrænsen på delen angives i valgmuligheden <strong>Multipart Upload partstørrelse</strong> i opgaveindstilling med standard på 512 MB. Hvis netværksmiljøet ikke er stabilt, anbefales det, at muligheden bliver et mindre tal.</li>
+
+<li>Det maksimale antal dele pr. upload er 10.000. Den maksimale størrelse på en fil er <strong>Multipart Upload partstørrelse</strong> ganget med 10.000.</li>
+<li>Filnavnene kan ikke indeholde noget UTF-8- eller kontroltegn.</li>
+</ul>
+
+
+
+<h4>Microsoft Azure-backupopgaver:</h4>
+<ul>
+<li>Ved oprettelse af backupopgaver med Microsoft Azure-serveren som netværksbackupdestination er der forskellige tilgængelige muligheder (f.eks. overførselskryptering). Bemærk, at nogle muligheder, f.eks. overførselskryptering, kan sænke hastigheden af backupopgaver.</li>
+<li>Backupfiler gemmes i den <strong>Container</strong>, du valgte på Microsoft Azure-serveren, og Sæt blobnavn begynder med et biblioteksnavn efter eget valg og slutter med den fulde filsti for filen.</li>
+<li>Datastrukturen for Microsoft Azure omfatter en parring af Container og Blob uden en mappestruktur. Backup af tom mappe understøttes ikke.</li>
+<li>Hvis en backupfil ikke er ændret, bliver der ikke udført backup til Microsoft Azure-serveren i samme Container igen.</li>
+<li>Hver Container på Microsoft Azure skal have et unikt navn. Derudover skal navnet:</li>
+<ul>
+<li>være inden for intervallet 3 til 63 tegn,</li>
+<li>kun indeholde små bogstaver, tal og bindestreger (-).</li>
+<li>starter og slutter på et tal eller lille bogstav og kan ikke indeholde to sammenhængende bindestreger.</li>
+</ul>
+<li>Maksimumlængden på et Microsoft Azure Blobnavn er 1024 tegn. For at sikre en korrekt backupopgave til Microsoft Azure er maks. stilængden 1024 minus destinationsmappenavnet, der blev angivet under opgaveoprettelsen.</li>
+
+<li>Filnavnene kan ikke indeholde noget UTF-8- eller kontroltegn.</li>
+<li>Advarselsmeddelelsen om godkendelsesfejl kan skyldes forkerte godkendelsesoplysninger, et netværksforbindelsesproblem, eller at tiden på din Synology NAS og fjernserveren ikke matcher. Kontroller tidsindstillingen på din Synology NAS ved at gå til <strong>Kontrolpanel</strong> > <strong>Regionale valgmuligheder</strong> ><strong> Tid</strong> for at synkronisere tiden med NTP-serveren.</li>
+</ul>
+
+
+
+<h4>hicloud S3-backupopgaver:</h4>
+<ul>
+<li>Ved oprettelse af backupopgaver med hicloud S3-serveren som netværksbackupdestination er der forskellige tilgængelige muligheder (f.eks. overførselskryptering). Bemærk, at nogle muligheder, f.eks. overførselskryptering, kan sænke hastigheden af backupopgaver.</li>
+<li>Backupfiler gemmes i den <strong>Bucket</strong>, du valgte på hicloud S3-serveren, og Sæt NØGLE-værdien begynder med et biblioteksnavn efter eget valg og slutter med den fulde filsti for filen.</li>
+<li>Datastrukturen for hicloud S3 er et par Bucket og KEY uden nogen mappestruktur. Backup af tom mappe understøttes ikke.</li>
+<li>Hvis en backupfil ikke er ændret, bliver der ikke udført backup til hicloud S3-serveren i samme Bucket igen.</li>
+<li>Hver Bucket på hicloud S3 skal have et unikt navn. Derudover skal navnet:</li>
+<ul>
+<li>være inden for intervallet 3 til 63 tegn,</li>
+<li>kun indeholde små bogstaver, tal, punktum (.) og bindestreger (-).</li>
+<li>begynde og slutte med et tal eller et bogstav og ikke slutte på en bindestreg (-), indeholde to sammenhængende punktummer eller indeholde bindestreger ved siden af punktummer (f.eks. er "my-.bucket.com" og "my.-bucket" ugyldige)</li>
+</ul>
+<li>Maksimumlængden på en hicloud S3 KEY er 255 tegn. For at sikre en korrekt backupopgave til hicloud S3-serveren er maks. stilængden 255 minus destinationsmappenavnet, der blev angivet under opgaveoprettelsen.</li>
+<li>Ved overførsel af en fil, bliver filen opdelt i dele. Størrelsesgrænsen på delen angives i valgmuligheden <strong>Multipart Upload partstørrelse</strong> i opgaveindstilling med standard på 512 MB. Hvis netværksmiljøet ikke er stabilt, anbefales du at angive et mindre tal.</li>
+
+<li>Hicloud understøtter kun maksimalt 1000 dele pr. overførsel. Det betyder, at den samlede filstørrelse ikke kan overstige 1000 ganget med delstørrelsen. Hvis f.eks. Multipart Upload partstørrelse er angivet til 8 MB, vil én fil på over 8000 MB ikke kunne uploades. </li>
+
+<li>Backup af krypteret delt mappe understøttes ikke.</li> 
+
+<li>Filnavnene kan ikke indeholde noget UTF-8- eller kontroltegn.</li>
+</ul>
+
+
+  
+
+<h4>SFR NAS BACKUP-backupopgaver:</h4>
+<ul>
+<li>Ved oprettelse af backupopgaver med SFR NAS BACKUP-serveren som netværksbackupdestination er der forskellige tilgængelige muligheder, f.eks. overførselskryptering og andet. Bemærk, at nogle muligheder, f.eks. overførselskryptering, kan sænke hastigheden af backupopgaver.</li>
+<li>Backupfiler gemmes i den <strong>Bucket</strong>, du valgte på SFR NAS BACKUP-serveren, og Sæt NØGLE-værdien begynder med et biblioteksnavn efter eget valg og slutter med den fulde filsti for filen.</li>
+<li>Datastrukturen for SFR NAS BACKUP er et par Bucket og KEY uden nogen mappestruktur. Backup af tom mappe understøttes ikke.</li>
+<li>Hvis en backupfil ikke er ændret, bliver der ikke udført backup til SFR NAS BACKUP-serveren i samme Bucket igen.</li>
+<li>Hver Bucket på SFR NAS BACKUP skal have et unikt navn. Derudover skal navnet:</li>
+<ul>
+<li>være inden for intervallet 3 til 63 tegn,</li>
+<li>kun indeholde små bogstaver, tal, punktum (.) og bindestreger (-).</li>
+<li>begynde og slutte med et tal eller et bogstav og ikke slutte på en bindestreg (-), indeholde to sammenhængende punktummer eller indeholde bindestreger ved siden af punktummer (f.eks. er "my-.bucket.com" og "my.-bucket" ugyldige)</li>
+</ul>
+<li>Maksimumlængden på en SFR NAS BACKUP KEY er 1024 tegn. For at sikre en korrekt backupopgave til SFR NAS BACKUP er maks. stilængden 1024 minus destinationsmappenavnet, der blev angivet under opgaveoprettelsen.</li>
+<li>Ved overførsel af en fil, bliver filen opdelt i dele. Størrelsesgrænsen på delen angives i valgmuligheden <strong>Multipart Upload partstørrelse</strong> i opgaveindstilling med standard på 64 MB. Hvis netværksmiljøet ikke er stabilt, anbefales du at angive et mindre tal.</li>
+
+<li>Filnavnene kan ikke indeholde noget UTF-8- eller kontroltegn.</li> 
+
+</ul>
+
+<h4>Andre S3-kompatible backupopgaver:</h4>
+<ul>
+<li>Brug andre S3-kompatible skyer ved at indtaste IP-adresse/domæne for den ønskede S3-kompatible sky i feltet <strong>S3 Server</strong>, når du bedes om det.</li>
+<li>Hvis der er et forbrugsproblem, henvises der til relevant dokumentation, eller kontakt udbyderen af den S3-kompatible skytjeneste.</li>
+</ul>
+
+<h3>LUN-backup*</h3>
+
+<p>Du kan bruge <b>Lokal LUN-backup</b> til at udføre backup på iSCSI LUN'er på Synology NAS til lokale delte mapper. Du kan også bruge <b>Netværks-LUN-backup (Synology-server)</b> for at udføre backup til en anden Synology NAS.</p>
+
+<h4>Sådan udfører du backup på en iSCSI LUN:</h4>
+<ol>
+<li>Klik på <strong>+</strong> nederst til venstre, og vælg <strong>LUN-backupopgave</strong>.
+</li>
+<li>
+Når du bedes om at vælge en destinationstype, skal du vælge en af følgende:
+</li>
+<ul>
+<li>
+<b>Lokal LUN-backup</b>: Vælg denne mulighed for at udføre backup på LUN'en fra Synology NAS til en lokalt delt mappe eller et eksternt lager, som har forbindelse til USB- eller eSATA-porten på din Synology NAS.
+</li>
+<li><b>Netværks-LUN-backup (Synology-server)</b>: Vælg denne mulighed for at udføre backup på en LUN fra din Synology NAS til en anden Synology NAS.
+</li>
+</ul>
+<li>
+Når du bedes om det, skal du angive backupdestinations- og kilde-LUN og angive backupplanen.
+</li>
+<li>
+Følg guiden for at fuldføre opsætningen.
+</li>
+</ol>
+<p>Når backupopgaven er oprettet, vil Synology NAS udføre backupopgaven efter planen og gemme backup-LUN'en på destinationen. Backup-LUN'en bruges kun til backupformål. Hvis du vil have adgang til backup-LUN'en, kan du se <a href="restore.html">Sådan gendanner du backup-LUN</a> for at se flere oplysninger.</p>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Der udføres backup på både almindelige filer og LUN'er på blokniveau som filbilleder på destinationen. Ved gendannelse bliver LUN'er på blokniveau ændre til fil-LUN'er.</li>
+<li>Hver backupopgave kan kun indeholde en LUN som backupkilde.</li>
+<li>Der kan ikke udføres backup på LUN'er til en ekstern disk med formatet FAT, FAT32, HFS, HFS Plus eller NTFS.</li>
+<li>Før du udfører Netværks-LUN-backup, skal du logge ind på destinations-Synology NAS og sørge for, at netværksbackupstjenesten er aktiveret under <b>Kontrolpanel</b> > <b>Backuptjeneste</b>.</li>
+<li>Hvis din Synology NAS opretter forbindelse til netværket via en router, skal du sørge for, at du har angivet en portvideresendelsesregel for iSCSI-tjenesten (TCP-port 3260) på routeren, før du udfører netværks-LUN-backup.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Om fuld backup og stigende backup:</h4>
+<p>
+Synology NAS vil udføre en fuld backup af den valgte LUN første gang og se udføre stigende backup senere. Hvis det delte mappenavn eller biblioteksnavn for backupdestinationen dog ændres, vil Synology NAS udføre en fuld backup af opgaven igen.
+</p>
+</div>
+
+<p>____<br /> * Findes kun på bestemte modeller.</p>
+
+</body></html>

@@ -1,0 +1,15 @@
+# author: ANT
+# only handle usb-modem dongle
+
+ENV{SUBSYSTEM}!="usb", GOTO="modem_end"
+ACTION!="add|remove", GOTO="modem_end"
+
+ENV{SYNO_USB_DEVICE}!="MODEM", GOTO="modem_end"
+ENV{SYNO_USB_DRIVER}=="", GOTO="modem_end"
+ENV{SYNO_SUPPORT_DUALHEAD}=="yes", GOTO="modem_end"
+ENV{SYNO_BLOCK_OPTIONAL_USB}=="yes", GOTO="modem_end"
+
+ACTION=="add", RUN+="/lib/udev/script/usb-modem-util.sh plug-in"
+ACTION=="remove", RUN+="/lib/udev/script/usb-modem-util.sh plug-out"
+
+LABEL="modem_end"

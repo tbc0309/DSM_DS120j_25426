@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>轉移</h2>
+<p>為確保連續效能並降低服務中斷時間，High Availability 叢集上的服務可以從主伺服器轉移至待命的副伺服器。此功能稱為「轉移」，在某些情況下又稱為「故障轉移」。此部份將介紹以上兩者的基本資訊。</p>
+  
+<h3>轉移</h3>
+<p>轉移是指 High Availability 叢集中主伺服器將服務轉移至副伺服器的情形。在正常情況下，主伺服器負責提供所有服務。然而，當主伺服器狀態異常時，您可以啟動服務轉移、將所有服務轉移至副伺服器 (假設副伺服器運作正常)。在此情形下，主伺服器成為新的副伺服器，而副伺服器會成為新的主伺服器。</p>
+
+<h4>若要手動啟動轉移：</h4>
+<ol>
+	<li>請前往<b>總覽</b>頁面。</li>
+	<li>按一下<b>管理</b> &gt; <b>轉移</b>。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+<p>進行手動轉移前，建議您先設定固定 IP，並以此固定 IP 登入 DSM，避免 DSM 頁面在完成轉移後因改變 IP 而遺失。</p>
+</div>
+
+<div class="section"><h4>注意：</h4>
+<p>當您啟動轉移後，主伺服器會先成為新的副伺服器，而後副伺服器才會成為新的主伺服器。因此，將會有一小段時間兩台伺服器都是副伺服器，無法正常提供服務。隨著 High Availability 叢集儲存空間或 iSCSI LUN (段落分塊) 數量及大小、服務、套件的數量及總負載不同，轉移所需時間也會有所不同。</p>
+</div>
+
+<h3>故障轉移</h3>
+<p>系統在特定狀況下會自動啟動服務轉移，以降低服務中斷時間。此種情形稱為「故障轉移」。在下列狀況下，系統可能會啟動故障轉移 (假設副伺服器運作正常)：</p>
+    
+<ul>
+	<li><b>電源故障：</b>
+		<ul>
+			<li>主伺服器已關機或重新開機。</li>
+			<li>主伺服器的兩個電源皆故障。</li>
+			<li>無電源供應。</li>
+		</ul>
+	</li>
+	<li><b>硬碟錯誤：</b>主伺服器連接的硬碟數量少於副伺服器連接的硬碟數量。</li>
+	<li><b>服務發生錯誤：</b>監控的服務發生錯誤。</li>
+	<li><b>連線錯誤：</b>監控的介面發生連線錯誤。</li>
+</ul>    
+     
+    
+<h3>轉移失敗</h3>
+<p>在下列情形下，轉移 (或故障轉移) 操作可能會失敗：</p>
+<ul>
+	<li><b>Heartbeat 連線異常：</b>主-副伺服器間的連線狀態異常。</li>
+	<li><b>記憶體大小不一致：</b>主伺服器和副伺服器的記憶體大小不同。</li>
+	<li><b>電源故障：</b>
+		<ul>
+			<li>副伺服器已關機或重新開機。</li>
+			<li>副伺服器的兩個電源皆故障。</li>
+			<li>無電源供應。</li>
+		</ul>
+	</li>
+	<li><b>連線錯誤：</b>副伺服器上監控的介面發生連線錯誤。</li>
+	<li><b>服務發生錯誤：</b>副伺服器上監控的服務存在錯誤。</li>
+	<li><b>擴充裝置連線錯誤：</b>兩台伺服器連接擴充裝置的順序不同。</li>
+	<li><b>硬碟錯誤：</b>副伺服器連接的硬碟數量少於主伺服器連接的硬碟數量。</li>
+	<li><b>DSM 更新：</b>安裝 DSM 更新時，所有服務將停止，並待 DSM 更新完成後才會重新開啟。</li>
+</ul>
+
+<p>若您手動啟動服務轉移，但無法將服務轉移至副伺服器，此時系統會嘗試將服務轉移回主伺服器。</p>
+
+<h3>不斷電系統</h3>
+<p>High Availability 叢集可以連接至網路不斷電系統 (UPS)，降低電源意外中斷帶來的風險。若電源中斷，伺服器會從其所連接的不斷電系統接收備用電源。當主伺服器的不斷電系統電力開始不足時，副伺服器將關機，而主伺服器會進入安全模式。待電源恢復後，主伺服器將重新開機，並發送網路喚醒訊號來試圖開啟另一台伺服器。</p>
+
+<ul>
+	<li>建議將兩台伺服器、擴充裝置及其所使用的網路交換器連接到相同的不斷電系統。</li>
+</ul>
+
+<div class="section"><h4>注意：</h4>
+<p>Synology NAS 僅支援網路不斷電系統設備。如需更多資訊，請參見<strong>控制台</strong> &gt; <strong>硬體</strong> &gt; <strong>不斷電系統</strong>說明。</p>
+</div>
+
+</body>
+</html>

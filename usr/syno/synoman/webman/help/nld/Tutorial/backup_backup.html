@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>Maak een back-up van uw gegevens op Synology NAS om uw gegevens te beveiligen</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>Uw Synology NAS back-uppen</h1>
+<div class="tutorials_content">
+<img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" />
+
+<p>Onverwachts gegevensverlies door harde schijf-storingen, natuurlijke rampen en ransomware-aanvallen is een potentiële bedreiging voor uw gegevens. Om gegevensverlies door dergelijke ongelukkige situaties te voorkomen, wordt het 3-2-1-gegevensbeschermingsstrategie gebruikt om meerdere versies van back-upgegevens te behouden. Dit biedt extra bescherming van uw gegevens mocht de huidige versie beschadigen of het slachtoffer worden van ransomware.</p>
+<p>Een 3-2-1-gegevensbeschermingsstrategie betekent dat u altijd minstens de laatste drie gegevenskopieën hebt, waarvan een kopie lokaal wordt opgeslagen en de overige twee op twee verschillende apparaten. Deze strategie van gegevensbescherming op bedrijfsniveau is te overwegen voor persoonlijke gebruikers zodat uw waardevolle herinneringen zoals fotos, familievideo's en aangepaste albums worden beschermd. We raden u aan om minstens twee gegevenskopieën te bewaren om de gegevensbeschikbaarheid te garanderen. Zakelijke gebruikers raden we aan om de 3-2-1-strategie op volgen zodat uw bedrijfsgegevens en belangrijke informatie altijd beschermd is.</p>
+<p>Dit artikel beschrijft verschillende gratis tools in Synology’s DSM <strong>Package Center</strong> waarmee u uw eigen 3-2-1-gegevensbeschermingsoplossing kunt bouwen, zoals <strong>Hyper Backup</strong>, <strong>Snapshot Replication</strong>, <strong>USB Copy</strong> en <strong>Cloud Sync</strong>.</p>
+
+</div>
+
+<h2>Inhoud</h2>
+<ol>
+<li><a href="#t1">Back-uppen naar hetzelfde Synology NAS voor een lokale kopie van meerdere versies</a></li>
+<li><a href="#t2">Back-uppen naar een ander doel</a></li>
+<ul>
+<li>2.1 <a href="#t2.1">Naar externe apparaten (USB)</a></li>
+<li>2.2 <a href="#t2.2">Naar een ander Synology NAS</a></li>
+<li>2.3 <a href="#t2.3">Naar bestandsservers</a></li>
+<li>2.4 <a href="#t2.4">Naar cloudservices</a></li>
+</ul>
+<li><a href="#t3">Vergelijk de in dit artikel geïntroduceerde back-upoplossingen</a></li>
+</ol>
+<hr size="1" />
+<!--1-->
+
+<h3 class="list_head"><a name="t1" id="t1"></a>1. Back-uppen naar hetzelfde Synology NAS voor een lokale kopie van meerdere versies</h3>
+<p>Een lokale kopie van meerdere versies geeft u het voordeel van snel herstel in het geval van beschadigde gegevens of onbedoelde bestandsverwijdering aangezien er altijd rechtstreeks van uw Synology NAS een gegevenskopie kan worden opgehaald. Maar zelfs bij het nemen van een dergelijke maatregel kan een vastgelopen RAID en harde schijf-storing desastreus gegevensverlies veroorzaken. We raden u daarom aan om een lokale kopie van meerdere versies te maken om de herstelefficiëntie te garanderen en tevens voor extra bescherming de back-up naar een ander doel uit te voeren.</p>
+<p>De onderstaande inhoud van dit gedeelte geeft een korte inleiding van <strong>Hyper Backup</strong> en <strong>Snapshot Replication</strong>. Naargelang hun functies en uw behoeften kunt u een van deze pakketen kiezen.</p>
+<p>Met <strong>Hyper Backup</strong> kunt u voor gegevensconsistentie toepassingen en systeemconfiguraties back-uppen en wanneer nodig herstellen. Bovendien heeft dit pakket ook een incrementele back-up op blok-niveau zodat alleen gewijzigde bestanden in vergelijking met de initiële versies worden geback-upt, terwijl bestanden waarvan alleen de naam is gewijzigd of gedupliceerde bestanden via cross-file deduplicatie worden verwijder om onnodig opslaggebruik te voorkomen.</p>
+<p>Als uw NAS-model Btrfs<sup>1</sup>-bestandssysteem ondersteunt, kunt u een lokale kopie met <strong>Snapshot Replication</strong> maken. Het snapshotproces duurt slechts enkele seconden en heeft een minimale invloed op de systeemprestaties. Snapshot Replication heeft in vergelijking met Hyper Backup snellere back-upsnelheid/hersteltijd en is ook van toepassing op gedeelde mappen en iSCSI LUN.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>lees de onderstaande tutorials voor een stap-voor-stap-demonstratie van het maken van een back-uptaak met Hyper Backup en Snapshot Replication:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div>
+
+<h3 class="list_head"><a name="t2" id="t2"></a>2. Back-uppen naar een ander doel</h3>
+<p>U kunt een offsite-kopie op verschillende doelen maken om het gegevensverlies door een vastgelopen RAID of hardwareschade te voorkomen. De volgende gedeeltes geven een overzicht van enkele tools die u kunt gebruiken om dergelijke back-uptaken te voltooien.</p>
+
+<!--2.1-->
+
+<h4 class="list_head"><a name="t2.1" id="t2.1"></a>2.1 Naar externe apparaten (USB)</h4>
+<p>Het back-uppen naar USB is gemakkelijk en praktisch en een veel gebruikte handeling. Deze back-upbenadering ondersteunt verschillende bestandssystemen en externe apparaten zoals het back-uppen van belangrijke informatie naar RDX.</p>
+<p>Met <strong>Hyper Backup</strong> kunt u toepassingen en systeemconfiguraties back-uppen en wanneer nodig exact dezelfde gegevens herstellen. Bovendien heeft dit pakket ook een incrementele back-up op blok-niveau zodat alleen gewijzigde bestanden in vergelijking met de initiële versies worden geback-upt, terwijl bestanden waarvan alleen de naam is gewijzigd of gedupliceerde bestanden via cross-file deduplicatie worden verwijder om onnodig opslaggebruik te voorkomen.</p>
+<p>In vergelijking met Hyper Backup wordt de back-up van toepassingen of systeemconfiguraties niet ondersteund door <strong>USB Copy</strong>. Door de ontbrekende cross-file-deduplicatie kan de opslagefficiëntie lager uitvallen, maar het pakket kan na aansluiting van een extern apparaat onmiddellijk de gegevens back-uppen en werpt het apparaat uit bij voltooiing van het back-upproces. Daarnaast is het formaat van geback-upte gegevens via USB copy leesbaar en bij Hyper Backup niet.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>lees de onderstaande tutorials voor een stap-voor-stap-demonstratie van gegevensback-up met Hyper Backup en USB Copy:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/USBCopy/usbcopy_general" target="_blank">USB Copy</a></li>
+</ul>
+</div>
+
+<!--2.2-->
+
+<h4 class="list_head"><a name="t2.2" id="t2.2"></a>2.2 Naar een ander Synology NAS</h4>
+<p>Bij het back-uppen naar een andere Synology NAS worden de gegevens via Synology's NAS-protocol overgedragen.</p>
+<p>Het bovengenoemde pakket <strong>Hyper Backup</strong> wordt geleverd met ingebouwde technologie voor verbetering van de opslagefficiëntie en back-upondersteuning voor toepassingen en configuraties. Door de installatie van <strong>Hyper Backup Vault</strong> op het doel kunt u eenvoudig gegevens back-uppen naar een extern NAS-apparaat. Met dit pakket kunt u ontvangen back-uptaken en op het ontvangende apparaat taakgerelateerde logboeken bekijken. Hyper Backup ondersteunt EXT4 en Btrfs-bestandssystemen, maar het formaat van back-upgegevens is niet leesbaar.</p>
+<p><strong>Snapshot Replication</strong> biedt het gemak om snapshots naar meerdere externe Synology NAS-apparaten te repliceren en repliceert uitsluitend gewijzigde gegevensblokken om bandbreedte en tijdverbruik te beperken. Voor managementflexibiliteit kan een replicatie tot drie externe sites worden uitgebreid. Snapshot Replication is alleen van toepassing op modellen die het bestandssysteem Btrfs<sup>1</sup> ondersteunen.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>lees de onderstaande tutorials voor een stap-voor-stap-demonstratie van gegevensback-up met Hyper Backup en Snapshot Replication naar een ander Synology NAS.</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div>
+
+<!--2.3-->
+
+<h4 class="list_head"><a name="t2.3" id="t2.3"></a>2.3 Naar bestandsservers</h4>
+<p>Deze back-upbenadering ondersteunt rsync, HTTP, WebDAV, OpenStack en S3-protocollen en gebruikt meer opslag voor cache op de client in vergelijking met het gebruikte volume bij het back-uppen naar een ander Synology NAS.</p>
+<p>Met <strong>Hyper Backup</strong> kunt u gegevens naar bestandsservers back-uppen via rsync en HTTP (WebDAV en OpenStack) protocollen, waarbij de ondersteuning van meerdere versies een hogere bescherming van uw gegevens biedt en cross-versie-deduplicatie het vereiste volume voor de opslag van meerdere versies verlaagd. Bovendien kunt u met de ondersteunde back-up van toepassingen en systeemconfiguraties moeiteloos uw originele instellingen herstellen.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>raadpleeg <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">deze tutorial</a> voor een stap-voor-stap-demonstratie van gegevensback-up naar bestandsservers via Hyper Backup.</p>
+</div>
+
+<!--2.4-->
+
+<h4 class="list_head"><a name="t2.4" id="t2.4"></a>2.4 Naar cloudservices</h4>
+<p>Het back-uppen van gegevens naar cloudservices is de meest flexibele offsite-keuze, vooral qua ruimtegebruik en de initiële aankoop en onderhoud van opslagapparatuur. Bedrijven kunnen naar behoefte uitbreiden of verkleinen zonder daarvoor extra geld in IT of hardware te investeren.</p>
+<p>Met <strong>Hyper Backup</strong> kunt u gegevens naar Synology’s cloudservice <a href="https://c2.synology.com" target="_blank">Synology C2</a> back-uppen, een naadloze oplossing die gegevensbeschikbaarheid in de cloud voor Synology NAS-gebruikers garandeert. Met een keuze van tariefplannen hebt u op elke browser toegang tot bestanden en kunt u bestanden herstellen en geniet u van gegarandeerde gegevensbeveiliging door coderingstechnologie.</p>
+<p>Naast de cloudservice van Synology is het misschien verstandig om uw gegevens ook naar andere openbare clouds te back-uppen. Met Hyper Backup kunt u niet alleen meerdere versies back-uppen naar openbare clouds, maar garandeert u de gegevensconsistentie van back-upgegevens door het back-uppen van toepassingen en systeemconfiguraties.</p>
+<p><strong>Cloud Sync</strong> kan ook als een realtime-oplossing voor de synchronisatie van Synology NAS-gegevens naar openbare clouds, mits de eenrichtingsupload-functie is ingeschakeld. Dit pakket behoudt echter alleen de huidige versie van alle bestanden op uw Synology NAS. Wanneer uw cloudservice versiebeheer ondersteunt, kunt u back-uptaken van meerdere versies maken. Daarnaast behouden alle naar het doel gesynchroniseerde bestanden hetzelfde formaat van de brongegevens.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<p>lees de onderstaande tutorials voor een stap-voor-stap-demonstratie van gegevensback-up met Hyper Backup en Cloud Sync naar cloudservices:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_cloud_services_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/CloudSync/cloudsync" target="_blank">Cloud Sync</a></li>
+</ul>
+</div>
+
+<!--3-->
+<h3 class="list_head"><a name="t3" id="t3"></a>3. Vergelijk de in dit artikel geïntroduceerde back-upoplossingen</h3>
+<p>Om gegevensverlies door storingen van harde schijven, natuurlijke rampen en ransomware-aanvallen te voorkomen worden offsite-back-upoplossingen aanbevolen. Het back-uppen van clouds is de ideale keuze voor gebruikers zonder apparatuur, aangezien cloudservices een besparing op hardware, onderhoud, elektriciteitskosten en afschrijvingskosten. Gebruikers kunnen bovendien de beste oplossing voor hun vereisten kiezen aangezien bepaalde cloudserviceproviders flexibele tariefplannen aanbieden. Hebt u echter al de apparatuur zoals USB-schijven, ander Synology NAS of bestandsservers, dan kunt u nog steeds ruimte besparen door uw NAS-gegevens te back-uppen, maar vergeet niet om het doelapparaat weg te zetten van uw bron-NAS om uw gegevens tegen gegevensverlies te beschermen.</p>
+
+<p>Offsite-kopieën van uw gegevens verbeteren het beschermingsniveau, maar een lokale kopie voor snel herstel wordt ook aangeraden. Daarom raden we u aan om de functies van Hyper Backup of Snapshot Replication te gebruiken om een kopie van uw NAS-gegevens op hetzelfde Synology NAS of andere apparaten te maken, die u in de buurt van de brongegevens moet plaatsen voor een betere herstelprestatie.</p>
+
+<p>Door inzicht van de 3-2-1-strategie en wanneer u minstens twee gegevenskopieën hebt bent u verzekerd dat uw gegevens goed beschermd en op elke moment beschikbaar zijn.</p>
+
+<p>Hieronder vindt u een samenvatting van alle in dit artikel geïntroduceerde back-uptools en een vergelijking van hun functies. Raadpleeg de tabel om te weten welk pakket voor uw vereisten het ideaalst is.</p>
+
+<table id="faqtable" cellspacing="5" cellpadding="5" width="100%"><tbody>
+    <tr>
+      <th width="8%">Back-updoel</th>
+      <th width="8%">Hyper Backup</th>
+      <th width="8%">Snapshot Replication<sup>1</sup></th>
+      <th width="8%">USB Copy</th>
+      <th width="8%">Cloud Sync</th>
+    </tr>
+
+    <tr>
+      <td>Lokaal gedeelde mappen</td>
+      <td>Ja</td>
+      <td>Ja</td>
+      <td>Nee</td>
+      <td>Nee</td>
+    </tr>
+
+    <tr>
+      <td>Externe apparaten (USB)</td>
+      <td>Ja</td>
+      <td>Nee</td>
+      <td>Ja</td>
+      <td>Nee</td>
+    </tr>
+    
+    <tr>
+      <td>Ander Synology NAS</td>
+      <td>Ja</td>
+      <td>Ja</td>
+      <td>Nee</td>
+      <td>Nee</td>
+    </tr>
+
+    <tr>
+      <td>Bestandsservers</td>
+      <td>Ja</td>
+      <td>Nee</td>
+      <td>Nee</td>
+      <td>Alleen WebDAV-en OpenStack-gegevenssynchronisatie</td>
+    </tr>
+    
+<tr>
+      <td>Publieke clouds</td>
+      <td>Ja</td>
+      <td>Nee</td>
+      <td>Nee</td>
+      <td>Ja</td>
+    </tr>
+
+<tr>
+	<td colspan="5"><strong>Functies samenvatting</strong></td>
+</tr>
+
+<tr>
+      <td>Toepassingen<sup>2</sup> en back-up van systeemconfiguraties</td>
+      <td>Ja</td>
+      <td>Nee</td>
+      <td>Nee</td>
+      <td>Nee</td>
+    </tr>
+    
+    <tr>
+      <td>Back-uppen en herstellen prestaties</td>
+      <td>Laag</td>
+      <td>Hoog</td>
+      <td>Gemiddeld</td>
+      <td>Gemiddeld</td>
+    </tr>
+    
+    <tr>
+      <td>Opslagefficiëntie</td>
+      <td>Gemiddeld</td>
+      <td>Hoog</td>
+      <td>Laag</td>
+      <td>Laag</td>
+    </tr>
+    
+    <tr>
+      <td>Back-upfrequentie</td>
+      <td>Dagelijks</td>
+		<td>5 min. (gedeelde map)</br> 15 min. (iSCSI LUN)
+      </td>
+      <td>Hotplug-ondersteuning</td>
+      <td>Synchroniseren bij wijzigingen</td>
+    </tr>
+
+</tbody></table>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ol>
+	<li>Snapshot Replication ondersteunt alleen het Btrfs-bestandssysteem. Het EXT4-bestandssysteem wordt niet ondersteund. Raadpleeg <a href="https://www.synology.com/dsm/packages/SnapshotReplication" target="_blank">deze pagina</a> voor een lijst van modellen die Snapshot Replication ondersteunen.</li>
+	<li>Alleen een selecte lijst van toepassingen worden voor back-up ondersteund. Voor gedetailleerde informatie raadpleeg de toepassingspagina van de back-upwizard.</li>
+</ol>
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>存储空间</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the difference between volumes and disk groups, which are used to manage the storage space and capacity of Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>存储空间</h2>
+
+<p>存储空间提供了 Synology NAS 的基本存储空间。您所有的资料（如共享文件夹、文档和套件数据）都存储在存储空间中。因此，在开始将任何资料存储到 Synology NAS 之前，您需要创建至少一个存储空间。</p>
+
+<div class="section">
+<h4>注：</h4>
+<p>如果存储空间用作 <strong>Snapshot Replication</strong> 的复制目标，在创建存储空间后，即可在<strong>编辑</strong>窗口中调整<strong>记录文件访问时间频率</strong>的设置，以提高复制性能。</p>
+<ul>
+	<li><strong>每天</strong>：如同大多数的操作系统，文件访问时间除了文件被修改时之外，最多每天仅更新一次。部分应用程序的功能对文件访问时间的精确度依赖较高。选择<strong>每天</strong>会影响复制性能，但如果您经常使用下列任意功能或应用程序，仍建议选择该选项：<ul>
+			<li><strong>存储分析器</strong>中的<strong>最久未访问时间</strong></li>
+			<li><strong>存储管理器</strong>中的 <strong>SSD 缓存建议</strong></li>
+			<li>依赖于<strong>记录文件访问时间</strong>的任何第三方应用程序。</li>
+		</ul>
+	<li><strong>每月</strong>：文件访问时间除了文件被修改时之外，最多每月仅更新一次。选择此选项可稍微改进复制性能，且依赖于<strong>记录文件访问时间</strong>的应用程序仍能运作，但精确度会下降。</li>
+	<li><strong>永不</strong>：若平常不需要使用依赖于<strong>记录文件访问时间</strong>的应用程序，建议您选择此选项以获得最佳复制性能。</li>
+</ul>
+</div>
+
+
+<h4>存储空间格式</h4>
+<p>根据使用的文件系统，有两种存储空间格式：</p>
+<ul>
+	<li><strong>新存储空间格式</strong>：此格式使用 <strong>Btrfs</strong> 文件系统。存储空间在此格式下的大小下限必须至少为 10 GB。它支持以下新功能，这些功能让您更加轻松地管理您的数据：<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">共享文件夹快照</a>：</strong>快照记录数据在拍摄快照时的完整状态。如果用户意外修改或删除了有快照的存储空间中数据，可快速将数据恢复到拍摄快照之前的时间点状态。</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">共享文件夹配额</a>：</strong>您可以为每个文件夹设置最大容量。</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">用户配额</a>基于共享文件夹：</strong>您可以控制每个用户可使用的共享文件夹中的空间。</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">高级数据完整性保护</a>：</strong>共享文件夹受到 CRC32 总和检查码和写入时复制策略的保护。</li>
+		</ul>
+	</li>
+	<li><strong>传统的存储空间格式</strong>：此格式使用 <strong>ext4</strong> 文件系统。存储空间在此格式下的大小下限必须至少为 10 GB。由于大部分 Synology 产品都支持 ext4 文件系统，您可轻松将此格式的存储空间迁移到另一个 Synology 产品。</li>
+</ul>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>Btrfs 仅在特定型号上可用。要查看您的型号是否支持 Btrfs，请参阅<a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">本文</a>。</li>
+</ul>
+</div>
+
+
+</body>
+</html>

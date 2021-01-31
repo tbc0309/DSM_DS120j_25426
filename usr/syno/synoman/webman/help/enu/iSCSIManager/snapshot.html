@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>iSCSI Manager</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_snapshot"></a>Snapshot</h2>
+
+<h4>To take a LUN snapshot:</h4>
+<p>A snapshot of a LUN is a point-in-time, read-only copy of LUN.</p>
+<ol>
+	<li>Select the LUN of which you want to take snapshots.</li>
+	<li>Click <strong>Snapshot</strong> and choose <strong>Take a Snapshot</strong>.</li>
+	<li>Enter the description for this snapshot.</li>
+	<li>Choose either of the following snapshot types according to your needs:
+		<ul>
+			<li><strong>Application consistent</strong>: This type of snapshot can only be taken when Synology Storage Console or Synology Snapshot Manager is installed on your Windows server or VMware vCenter Server depending on your operating environment to communicate with DSM. When  application-consistent snapshots are triggered on DSM, applications will be notified and flush all the data from memory to the LUN on which the snapshot is taken to guarantee data consistency.</li>
+			<li><strong>Crash consistent</strong>: If no Storage Console or Snapshot Manager is installed on either of your clients, you can only capture crash-consistent snapshots of LUNs. When they are triggered, applications will not be notified to flush the data from memory to the LUN and therefore guarantee no data consistency.</li>
+		</ul>
+	</li>
+	<li>Click <strong>OK</strong>.</li>
+</ol>
+<div class="section">
+	<h4>Note:</h4>
+	<ul>
+		<li>You are advised to install <b>Synology Storage Console</b> or <b>Snapshot Manager</b> to avoid possible data inconsistencies. </li>
+	</ul>
+</div>
+<div class="section">
+	<h4>Terminologies:</h4>
+	<ul>
+	<li><b>Synology Storage Console:</b> Synology Storage Console is a storage management plugin on VMware vSphere Client or Windows Server that simplifies managing and monitoring multiple Synology storage systems. It also allows you to take application-consistent snapshots directly from DSM.
+		<ul>
+			<li>For VMware environments, the plugin is only compatible with VMware vCenter Server Appliance 6.5 U2 or above versions.</li>
+			<li>You can download the plugin at <a href="https://www.synology.com/support/download" target="_blank">Download Center</a> and refer to <a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforVMware/storageconsoleforvmware" target="_blank">Synology Storage Console for VMware</a> and <a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforWindows/storageconsoleforwindows" target="_blank">Synology Storage Console for Windows</a> for more information.</li>
+		</ul></li>
+	<li><b>Synology Snapshot Manager:</b> Synology Snapshot Manager is a software plugin that allows you to take application-consistent snapshots directly from DSM.
+		<ul>
+			<li>For VMware environments, this plugin is only compatible with VMware vCenter Server 6.0 or previous versions.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>To delete a snapshot:</h4>
+<ol>
+	<li>Select the LUN of which you have taken snapshots.</li>
+	<li>Click <b>Snapshot</b> > <b>Snapshot List</b>.</li>
+	<li>Select the snapshot you want to delete and click <b>Remove</b>.</li>
+</ol>
+<div class="section">
+	<h4>Note:</h4>
+	<ul>
+		<li>Space reclamation take time to process after snapshots are deleted.</li>
+	</ul>
+</div>
+
+<h4>To restore an LUN:</h4>
+<p>Select a point-in-time snapshot to restore the data on a LUN.</p>
+<ol>
+	<li>Select the LUN you want to restore.</li>
+	<li>Click <strong>Snapshot</strong> and choose <strong>Snapshot List</strong>.</li>
+	<li>Select a snapshot to which you want to restore and click <strong>Restore</strong>.</li>
+</ol>
+
+<h4>To make a clone of LUN from snapshots:</h4>
+<p>Make a writable copy of LUN or LUN snapshot.</p>
+<ul>
+	<li>Select a LUN snapshot from <strong>Snapshot List</strong> and click <strong>Clone</strong>.</li>
+</ul>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>LUN snapshot, restore and clone functions are only available on LUNs with storage acceleration commands.</li>
+	<li>If you took a snapshot or created a clone, and the status turned out to be <strong>Abnormal</strong>/<strong>Crashed</strong>, please delete this snapshot/clone and create another one.</li>
+	<li>All changes to a LUN after a snapshot was created will be lost when you restore LUN to this snapshot.</li>
+	<li>The functions including restoring LUNs, cloning LUNs, and taking and cloning LUN snapshots are not available when a volume has less than 1GB of free space.</li>
+</ul>
+</div>
+<div class="section"><h4><a id="smart_retention"></a>Retention Policy</h4>
+<p>This option provides an ideal solution to help you specify the maximum amounts of snapshot versions to save your volume space, but you may need to retain your snapshots for longer periods of time. There are a few things to note about Retention Policy:</p>
+<ul>
+<li>Synology employs the GFS, or Grandfather-Father-Son retention policy. You can configure the maximum amounts of snapshot versions to be retained for the following time ranges respectively: <strong>hourly</strong>, <strong>daily</strong>, <strong>weekly</strong>, <strong>monthly</strong>, and <strong>yearly</strong>.</li>
+<li>One snapshot can meet several retention rules at the same time. For example, one snapshot can meet the daily, weekly, and monthly rules.</li>
+<li>The earliest snapshots will be retained if you take many snapshots within a certain period. For example, if you set a <strong>10 weekly snapshots</strong> retention rule, and your snapshot schedule is set to take 1 snapshot a day, Snapshot Replication will retain the earliest snapshot of each week for the past 10 weeks.</li>
+<li>If you have not taken snapshots for a certain period, the system will retain the most recent snapshots. For example, if the daily snapshot rule is set as 15 and there were not any snapshots taken in the past 30 days, the system will retain the snapshots taken 30 to 45 days ago.</li>
+<li>All snapshot versions within one hour since the taking of newest snapshot will be kept by default, for your convenience to find and restore from recent snapshot versions. You can also lock a snapshot to prevent it from automatic removal by your retention rules.</li>
+</ul>
+
+<p>Example 1:<br/>
+If you want to keep daily snapshots for the past 3 months, weekly snapshots for the past 4 to 6 months, and monthly snapshots for the past 7 to 9 months, you need to input 0 for hourly snapshots, 90 for daily snapshots, 24 for weekly snapshots, 9 for monthly snapshots, and 0 for yearly snapshots.</p>
+
+<p>Example 2:<br/>
+If you want to keep hourly snapshots for the past 2 days, daily snapshots for the past week, weekly snapshots for the past month, and monthly snapshots for the past year, you need to input 48 for hourly snapshots, 7 for daily snapshots, 4 for weekly snapshots, 12 for monthly snapshots, and 0 for yearly snapshots.</p>
+
+
+<img class="help_image" src="../../images/iSCSIManager/retention_policy.png">
+</div>
+</body>
+</html>

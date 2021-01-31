@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" charset="utf-8">
+<title>iSCSI Manager</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_lun"></a>LUN</h2>
+<p>建立 LUN 之前，必須先於<a href="../StorageManager/volume_create_volume.html">儲存空間管理員</a>建立儲存空間。</p>
+<p>具備不同功能的 LUN 會以不同顏色顯示：</p>
+<ul>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #00adad;"></span> 建立在 ext4 儲存空間上的 Thin Provisioning LUN。</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #1a9900;"></span> 建立在 Btrfs 儲存空間上的 Thin Provisioning LUN。</li>
+	<li style="list-style-type:none" type="none"><span class="color-block" style="background-color: #0068b3;"></span> Thick Provisioning LUN。</li>
+ </ul>
+ 
+
+<div class="section"><h4>重要事項：</h4>
+<ul>
+	<li>只有建立在 DSM 6.2 (或以上版本) 的 Btrfs 儲存空間上的 LUN 支援新的進階功能與秒級快照；建立在 ext4 儲存空間上的 LUN 只支援舊版 (Legacy) 的進階功能。</li>
+</ul>
+</div>
+
+<h4>若要新增 LUN：</h4>
+<ol>
+  <li>按一下<strong>新增</strong>。</li>
+  <li>設定新增的 LUN 的各項屬性。<ul>
+			<li>LUN 名稱</li>
+			<li>位置：LUN 新增完成後，即無法變更位置，但可將 LUN 複製至另一儲存空間。</li>
+			<li>總容量：LUN 的容量至少需為 1 GB，具備舊版 (Legacy) 進階功能的 LUN 則需要至少 10 GB。</li>
+			<li>空間配置：Thick Provisioning 提供較佳的穩定性與效能，而 Thin Provisioning 支援隨需配置及所有進階功能，但儲存空間用盡時將可能導致 LUN 上的檔案系統毀損。</li>
+			<li>進階功能：Thick Provisioning LUN 僅支援<strong>硬體輔助初始化</strong>和<strong>硬體輔助區塊鎖定</strong>；建立在 ext4 儲存空間上的 LUN 僅支援舊版 (Legacy) 的進階功能。</li></li>
+		</ul></li>
+	<li>請依照精靈的指示來完成流程。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+	<ul>
+	<li>儲存空間的可用空間少於 1 GB 時，將無法新增 LUN。</li>
+	<li>您可以啟用進階功能以支援對應的 VMware VAAI 功能。</li>
+	<li>您可以啟用<strong>硬體輔助資料傳輸</strong>，讓 LUN 同時支援 Windows 卸載式資料傳輸 (Offload Data Transfer，ODX) 。</li>
+	<li>啟動舊版 (Legacy) 進階功能可能會影響 I/O 效能。</li>
+	<li>不同 Synology NAS 機型支援的 LUN 數量不同。請參考 <a href="http://www.synology.com/" target="_blank">www.synology.com</a> 來了解詳細產品規格。</li>
+ 	</ul>
+</div>
+<div class="section"><h4><a name="terminologies_advanced_features"></a>名詞解釋：</h4>
+	<ul>
+		<li><strong>硬體輔助初始化：</strong>讓 VMware ESXi host 在新增虛擬硬碟時，可以較佳的效能初始化虛擬硬碟。</li>
+		<li><strong>硬體輔助區塊鎖定：</strong>讓 VMware ESXi host 存取 LUN 上面的資料時，只鎖定需要的部份，因此可允許多個 VMware ESXi host 同時存取同個 LUN，且不會犧牲效能。</li>
+		<li><strong>硬體輔助資料傳輸：</strong>讓您在複製 VMware ESXi 和 Microsoft Hyper-V host 的資料時，可以在 Synology NAS 上快速完成資料傳輸，且不需佔用主機資源。</li>
+		<li><strong>快照：</strong>Btrfs 檔案系統功能讓您可以使用秒級快照與複寫。</li>
+		<li><strong>空間回收：</strong>支援啟動器的空間回收指令。檔案被刪除或移動後，其原本使用的空間會被釋放，但 I/O 效能可能會受影響。</li>
+	</ul></div>
+
+	
+
+<h4>若要移除 LUN：</h4>
+<p>移除 LUN 時，上面的全部資料都會被刪除，LUN 和所有 Target 的連結也會遺失。</p>
+<ol>
+	<li>選擇您想要移除的 LUN。</li>
+	<li>按一下<b>移除</b>按鈕並依照精靈的指示來完成流程。</li>
+</ol>
+
+<h4>若要編輯 LUN：</h4>
+<ol>
+	<li>選擇您想要編輯的 LUN。</li>
+	<li>按一下<b>動作</b>下拉式選單中的<b>編輯</b>。</li>
+	<li>依需求編輯屬性。</li>
+	<li>按一下<b>確定</b>來儲存設定。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+<li>為避免編輯 LUN 容量時檔案遺失，您只能將容量變更為比現在更大，而不能減少。</li>
+<li>若 LUN 狀態變更為<b>無法使用</b>，表示在存取過程中出現資料錯誤。為避免發生更嚴重的資料錯誤或遺失，暫時無法存取此 LUN。請盡快聯絡 Synology 以取得技術支援。</li>
+</ul>
+</div>
+
+<p>若您的 Synology NAS 為 OpenStack Cinder 的後端儲存裝置，建立 Cinder 儲存空間時，將會採用具備儲存加速指令集的 LUN。Cinder 所使用的 LUN/Target 在 Synology NAS 上可進行的操作及管理是有限的。</p>
+<ul>
+<li>您無法編輯 Cinder LUN。</li>
+<li>您無法編輯 Cinder Target 的名稱、IQN、連結、遮罩等資訊。</li>
+<li>您無法將 Cinder LUN/Target 與一般的 LUN/Target 連結。</li>
+<li>您無法透過 DSM 使用者介面來拍攝 Cinder LUN 的快照，亦無法編輯、刪除或回復 Cinder LUN 的快照。</li>
+<li>Cinder LUN/快照被複製後會轉為一般 LUN。</li>
+</ul>
+
+<h4>若要複製 LUN：</h4>
+	<ol>
+	<li>選擇您想要複製的 LUN。</li>
+	<li>按一下<b>動作</b>下拉式選單中的<b>複製</b>。</li>
+	<li>編輯複製後的 LUN 名稱，並選擇目的地儲存空間。</li>
+	<li>按一下<b>確定</b>來開始複製。</li>
+</ol>
+<div class="section">
+	<h4>注意：</h4>
+	<ul>
+		<li>若 LUN 所在的儲存空間之可用空間小於 1 GB，將無法複製 LUN。</li>
+	</ul>
+</div>
+
+<h4>若要重組 LUN：</h4>
+<p>重組可以恢復因資料零碎或快照所造成的 LUN 效能低落。在重組期間 LUN 的 I/O 效能可能會受到影響，但您可以隨時停止或繼續重組程序。</p>
+<ol>
+	<li>選擇您想要重組的 LUN。</li>
+	<li>按一下<b>重組</b> &gt; <b>開始</b>。</li>
+</ol>
+<h4>若要停止重組 LUN：</h4>
+<ol>
+	<li>選擇正在重組的 LUN。</li>
+	<li>按一下<b>重組</b> &gt; <b>停止</b>。</li>
+</ol>
+<div class="section"><h4>注意：</h4>
+<ul>
+<li>僅有 Thin Provisioning 的 Btrfs LUN 支援重組功能。</li>
+<li>執行重組時，您無法編輯/複製 LUN 或拍攝快照，但可以移除 LUN。</li>
+<li>重組可隨時停止，系統會紀錄進度並於下次執行時接續作業。</li>
+<li>LUN 重組後，既有的 LUN 快照會佔用額外的儲存空間。</li>
+</ul>
+</div>
+
+	
+<div class="section"><h4>相關說明</h4>
+<ul>
+	
+	<li>可以快速將啟用快照功能或舊版 (Legacy) 進階功能的 LUN 複製到同個儲存空間內。</li>
+	<li>具備新版進階功能的 LUN 只能複製到 Btrfs 儲存空間。</li>
+	<li>當具備舊版 (Legacy) 進階功能的 LUN 被複製到 Btrfs 儲存空間後，將轉換為具備新版進階功能的 LUN；當被複製到與來源不同的 ext4 儲存空間後，將停用 LUN 的舊版進階功能。</li>
+	<li>除了具備舊版 (Legacy) 進階功能的 LUN 以外，LUN 的功能設定在複製後皆不會改變。</li>
+	<li>當複製沒有快照或舊版 (Legacy) 進階功能的 LUN 時，請中斷所有連接該 LUN 的Target 連線，以免造成複製失敗或資料不一致。</li>
+</ul>
+</div>
+	
+<h4>若要轉換具備舊版 (Legacy) 進階功能的 LUN：</h4>
+<ol>
+	<li>選擇您想要轉換的 LUN。</li>
+	<li>按一下<b>動作</b>下拉式選單中的<b>轉換</b>。</li>
+	<li>進行設定：<ul>
+			<li>LUN 名稱</li>
+			<li>位置：LUN 新增完成後，即無法變更位置，但可將 LUN 轉和至另一 Btrfs 儲存空間。</li>
+		</ul></li>
+	<li>若您欲刪除原本的 LUN 並在轉換完成後將原本的 Target 連結到新的 LUN，請勾選核取方塊。</li>
+	<li>按一下<strong>套用</strong>來確認設定。</li>
+</ol>
+
+<div class="section"><h4>注意：</h4>
+	<ul>
+	<li>僅有具備舊版 (Legacy) 進階功能的 LUN 才可以被轉換為有新版進階功能的 LUN。</li>
+	<li>LUN 僅能被轉換到具有足夠可用空間的 Btrfs 儲存空間上。</li>
+	<li>為確保資料一致性，在轉換過程中，LUN 與 Target 之間的連結將被中斷。</li>
+	<li>轉換後的新版進階 LUN 將不包含任何快照。</li>
+</div>
+
+<div class="section"><h4>名詞解釋：</h4>
+<ul>
+	<li><b>Thin Provisioning</b>：Thin Provisioning (資源隨需分配) 是視需求、機動性地配給儲存空間以達到儲存使用最佳化的一種方式。</li>
+	<li><b>VMware VAAI</b>：支援 vStorage APIs for Array Integration (VAAI) 可讓 iSCSI 裝置分擔 VMware vSphere 環境中虛擬儲存陣列標準操作的工作量，並最佳化儲存空間效能。</li>
+	<li><b>Windows ODX</b>：Windows 在 Windows Server 2012 及 8 新開發的資料傳輸技術，稱作卸載式資料傳輸 (Offload Data Transfer，ODX)。ODX 可讓儲存陣列分擔一些工作量，提升傳輸效能。<br />若資料傳輸的來源與目的地 LUN 位於同一個儲存空間，複製過程會透過儲存加速指令集來處理，節省至多 99.9% 的儲存空間消耗，並加速複製的過程。</li>
+	<li><b>Target 連結</b>：將 LUN 連結至一個或多個 Target。</li>
+
+</ul>
+</div>
+
+</body>
+</html>

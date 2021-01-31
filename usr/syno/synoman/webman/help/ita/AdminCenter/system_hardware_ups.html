@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Alimentazione</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+
+<h2>UPS</h2>
+
+<p>Un UPS (gruppo di continuità) è un dispositivo di alimentazione di backup che consente alla Synology NAS di continuare a funzione per un breve periodo in caso di guasti elettrici. Questa funzione collocata in <strong>Pannello di controllo</strong> > <strong>Hardware e Alimentazione</strong> > <strong>UPS</strong> aiuta a prevenire la perdita di dati fornendo a Synology NAS tempo a sufficienza per salvare i dati e smontare i volumi prima di rimanere senza alimentazione e spegnersi (interruzione per EDS14).</p>
+
+<div class="section">
+<h4>Modalità sicura</h4>
+<p>Quando Synology NAS entra in modalità sicura, tutti i servizi vengono interrotti e i volumi vengono smontati modo da evitare la perdita dei dati ed eseguire lo spegnimento sicuro (halt per EDS14) quando si riduce l'alimentazione fornita dall'UPS. Per impostazione predefinita, il sistema entra in Modalità sicura quando si riduce l'alimentazione dell'UPS. È anche possibile specificare quanto tempo prima la Synology NAS deve accedere alla Modalità sicura in caso di assenza di corrente. Tuttavia, se la batteria dell'UPS si scarica prima del periodo specificato, il sistema entra subito in Modalità sicura.</p>
+
+<p>Nelle situazioni in cui il Synology NAS si spegne durante la Modalità sicura, esso si riaccende automaticamente quando l'alimentazione è ripristinata se è stata abilitata l'opzione <strong>Riavvia automaticamente dopo interruzione di corrente</strong> (che si trova in <strong>Pannello di controllo</strong> > <strong>Hardware e Alimentazione</strong> > <strong>Generale</strong>).</p>
+</div>
+
+<h3>Supporto UPS locale</h3>
+<p>Per informazioni relative all'installazione hardware, consultare il manuale utente dell'UPS. Una volta completata l'installazione e la Synology NAS è stata collegata all'UPS, è possibile attenersi alle procedure di seguito per abilitare il supporto UPS.</p>
+<h4>Per abilitare il supporto UPS locale:</h4>
+<ol>
+<li>Collegare l'UPS alla porta USB della Synology NAS.</li>
+<li>Nella scheda <b>UPS</b>, spuntare la casella di controllo <b>Abilita supporto UPS</b>.</li>
+<li>Selezionare quando la Synology NAS deve accedere alla Modalità sicura quando si verifica l'assenza di alimentazione.</li>
+<li>Scegliere se inviare o meno un segnale di chiusura all'UPS quando il sistema entra in Modalità sicura. Molti UPS si accendono automaticamente quando viene ripristinata l'alimentazione.
+<ul><li>Se questa opzione è abilitata, Synology NAS sarà arrestato subito a causa dell'assenza di alimentazione.</li>
+<li>Se questa opzione è abilitata, spuntare <strong>Riavvia automaticamente dopo interruzione di corrente</strong> in <strong>Pannello di controllo</strong> > <strong>Hardware e Alimentazione</strong> > <strong>Generale</strong> per verificare che Synology NAS venga riavviato automaticamente al ripristino dell'alimentazione.</li></ul></li>
+<li>Fare clic su <b>Applica</b>.</li>
+</ol>
+
+<h3>Supporto UPS SNMP</h3>
+
+<p>L'UPS SNMP è un dispositivo di alimentazione di backup che connette Synology NAS tramite SNMP. Per informazioni relative all'installazione hardware, consultare il manuale utente del dispositivo UPS SNMP. Una volta collegata la Synology NAS al dispositivo e alla stessa rete, è possibile attenersi alle procedure di seguito per abilitare il supporto UPS.</p>
+
+<h4>Per abilitare il supporto UPS SNMP:</h4>
+<ol>
+<li>Nella scheda <strong>UPS</strong>, spuntare la casella di controllo <b>Abilita supporto UPS</b>.</li>
+<li>Selezionare <strong>USB SNMP</strong> dal menu a discesa <strong>Tipo UPS</strong>.</li>
+<li>Spuntare <strong>Periodo di tempo prima che Synology NAS entri in Modalità sicura</strong>, selezionare quando Synology NAS deve entrare nella Modalità sicura dopo il verificarsi del guasto all'alimentazione. Immettere un valore numerico e selezionare <b>secondi</b>, <b>minuti</b> o <b>ore</b> dal menu a discesa. Se non è selezionato alcun valore, sarà applicata l'opzione <b>Fino a batteria scarica</b>, quindi Synology NAS entrerà automaticamente in Modalità sicura quando il livello della batteria dell'UPS è basso.</li>
+	<p><span class="note_head">Nota:</span> indipendentemente dall'opzione selezionare, Synology NAS accederà automaticamente alla Modalità sicura quando si verifica l'assenza di alimentazione.</p>
+<li>Nel campo <strong>Indirizzo IP UPS SNMP</strong>, inserire l'indirizzo IP del dispositivo UPS SNMP.</li>
+<li>Nel menu a discesa, selezionare <strong>SNMP MIB</strong>.</li>
+<li>Nel menu a discesa, selezionare <strong>Versione SNMP</strong>.</li>
+<li>Inserire la stringa della comunità per il dispositivo UPS SNMP nel campo <strong>Comunità SNMP</strong>.</li>
+<li>Spuntare <strong>Abilita server UPS di rete</strong> se questo Synology NAS è connesso attraverso SNMP e funzionerà come server UPS di rete. Fare clic su <strong>Dispositivi Synology NAS autorizzati</strong> per immettere gli indirizzi IP di tutti i dispositivi Synology NAS che verranno autorizzati alla connessione a questo UPS.</li>
+<p><span class="note_head">Nota: </span>la funzione <b>Dispositivi Synology NAS consentiti</b> non è disponibile in SA3200D.</p>
+<li>Fare clic su <b>Applica</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>Si consiglia vivamente di utilizzare <b>SNMP UPS</b> per le distribuzioni SHA (Synology High Availability).</li>
+<li>Synology NAS supporta i dispositivi UPS SNMPv1 e SNMPv2c.</li>
+</ul>
+</div>
+
+<h3>Server Gruppo di continuità Synology</h3>
+
+<p>Se sono presenti più prodotti Synology che utilizzano un dispositivo UPS con un prodotto Synology collegato al dispositivo UPS tramite una porta USB o una rete, solo il Synology NAS collegato tramite USB o rete potrà ottenere informazioni sullo stato del dispositivo UPS. In questo caso, questo Synology NAS funzionerà come "server UPS di rete". Il server UPS di rete riceve le informazioni UPS e le trasmette al Synology NAS client.</p>
+
+<h4>Per abilitare il server Synology UPS:</h4>
+<ol>
+<li>Accedere alla Synology NAS collegata all'UPS (tramite USB o rete).</li>
+<li>Nella scheda <strong>UPS</strong>, selezionare la casella <strong>Abilita il server di rete UPS</strong> per consentire a Synology NAS di trasmettere le informazioni dell'UPS al Synology NAS client.</li>
+<li>Fare clic sul pulsante <strong>Dispositivi Synology NAS consentiti</strong>.</li>
+<li>Nella finestra visualizzata, immettere gli indirizzi IP del Synology NAS client. Fare clic su <strong>OK</strong>.</li>
+<li>Fare clic su <strong>Applica</strong> per salvare le impostazioni.</li>
+</ol>
+
+<p>A questo punto, il server UPS di rete può ottenere le informazioni dell'UPS e trasmetterle al Synology NAS client utilizzando il dispositivo UPS. Consultare le istruzioni di seguito per abilitare il supporto UPS sul Synology NAS client.</p></strike>
+
+<h4>Per abilitare il supporto UPS sulla Synology NAS client:</h4>
+<ol>
+<li>Accedere al Synology NAS client che utilizza l'UPS, ma non è connesso tramite USB o rete.</li>
+<li>Nella scheda <strong>UPS</strong>, spuntare la casella di controllo <strong>Abilita supporto UPS</strong>.</li>
+<li>Selezionare <strong>Synology UPS server</strong> dal menu a discesa <strong>Tipo UPS</strong>.</li>
+<li>Spuntare <strong>Periodo di tempo prima che Synology NAS entri in Modalità sicura</strong>, selezionare quando Synology NAS deve entrare nella Modalità sicura dopo il verificarsi del guasto all'alimentazione. Immettere un valore numerico e selezionare <strong>secondi</strong>, <strong>minuti</strong> o <strong>ore</strong> dal menu a discesa. Se non è selezionato alcun valore, sarà applicata l'opzione <b>Uguale al server</b>, quindi Synology NAS entrerà in Modalità sicura quando il server si spegne.</li>
+	<p><span class="note_head">Nota:</span> indipendentemente dall'opzione selezionare, Synology NAS accederà automaticamente alla Modalità sicura quando si verifica l'assenza di alimentazione.</p>
+<li>Inserire l'indirizzo IP del server UPS di rete nel campo <strong>IP server UPS di rete</strong>.</li>
+<li>Fare clic su <b>Applica</b> per salvare le impostazioni.</li>
+</ol>
+
+<div class="section">
+<h4>Requisiti dell'UPS di rete:</h4>
+<ul>
+<li>Per trasmettere le informazioni dell'UPS, ciascunSynology NAS deve essere collegato alla stessa rete.</li>
+<li>Il dispositivo di rete (ad esempio switch o hub) a quale è collegata ciascuna Synology NAS deve essere collegato allo stesso UPS. In caso contrario la Synology NASs non sarà in grado di trasmettere le informazioni dell'UPS in caso di assenza di corrente.</li>
+</ul>
+</div>
+
+
+
+
+
+
+</body>
+</html>

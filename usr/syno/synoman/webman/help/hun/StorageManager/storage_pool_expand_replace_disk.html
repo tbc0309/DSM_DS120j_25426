@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Meghajtók cseréje a tárolókapacitás bővítése érdekében</h2>
+
+<p>Bizonyos RAID-típusok esetében úgy is növelheti a kötet vagy lemezcsoport tárolókapacitását, ha nagyobb méretűre cseréli a régi meghajtókat. Ebben a cikkben fontos információkat közlünk a bővítési folyamatról, illetve egy példán keresztül be is mutatjuk, hogy hogyan cserélheti le meglévő meghajtóit a tárhelykapacitás növelése céljából.</p>
+
+<div class="section"><h4>Megjegyzés:</h4>
+<ul>
+	<li>A cikkben leírt folyamat kizárólag SHR, RAID 1, RAID 5 <span class="disable-grantley">és </span>RAID 6<span class="enable-grantley">, valamint RAID F1</span> esetén működik. Több meghajtó cseréje esetén ne feledje, hogy a meghajtókat egyesével kell lecserélnie. Egy meghajtó lecserélését követően a következő kicserélése előtt ki kell javítania a kötetet vagy lemezcsoportot. RAID 1, RAID 5 <span class="disable-grantley">és </span>RAID 6<span class="enable-grantley">, valamint RAID F1</span> esetében a kötetkapacitás csak az összes meghajtó cseréje után nő meg.</li>
+</ul>
+</div>
+
+<h3 class="list_head"><a id="t1"></a>Kezdés előtt</h3>
+<p>Meghajtó lecserélése előtt tekintse át az alábbi megjegyzéseket:</p>
+<ul>
+	<li><strong>Adatok biztonsági mentése:</strong> Habár a bővítési folyamat nem töröl létező adatokat, javasoljuk, hogy megkezdése előtt készítsen biztonsági mentést.</li>
+	<li><strong>Kötet vagy lemezcsoport állapota:</strong> Kezdés előtt győződjön meg róla, hogy a kötet vagy lemezcsoport <strong>Normál</strong> állapotban van-e. Ha nem, először ki kell javítania.</li>
+	<li><strong>Elérhetők maradnak az adatok a kötetbővítési művelet során?</strong> A rendszerben tárolt adatok elérhetőek maradnak a kötet vagy lemezcsoport bővítésének folyamata során, bár előfordulhat, hogy a rendszer ideiglenesen felfüggeszti a kapcsolatokat a folyamat első indításakor.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>Az SHR-kötetek a telepített meghajtók száma és mérete alapján optimalizálják a tárolókapacitást. Ezért a kapacitás megfelelő bővítése érdekében kövesse az alábbi útmutatást:</p>
+<ul>
+	<li>Ha az összes meghajtó kapacitása egyezik, a tárolókapacitás bővítése érdekében legalább két meghajtót nagyobbra kell cserélnie. Ha például az SHR-kötet három 2 TB-os meghajtóból áll, a kötet kapacitásának bővítéséhez legalább két meghajtót ki kell cserélnie.</li>
+	<li>Ha a meglévő meghajtók kapacitása nem egyezik, az új, csereként használt meghajtók kapacitásának meg kell egyeznie a meglévő legnagyobb meghajtó kapacitásával, vagy meg kell haladnia azt. A kapacitás kihasználásának optimalizálása érdekében először a legkisebb meghajtót cserélje ki. Ha például az SHR-kötet három, egyenként 4 TB, 3 TB, és 2 TB méretű meghajtóból áll, akkor az új, csereként használt meghajtóknak legalább 4 TB-osnak kell lenniük. Ezenfelül a 3 TB-os vagy 2 TB-os meghajtókat kell először kicserélnie.</li>
+</ul>
+</div>
+
+<div class="section"><h4>RAID 5<span class="enable-grantley"></span> <span class="disable-grantley">és </span>RAID 6<span class="enable-grantley">, valamint RAID F1</span></h4>
+<p>Amikor RAID 5<span class="enable-grantley">,</span> <span class="disable-grantley">, </span>RAID 6<span class="enable-grantley"> vagy RAID F1</span> kötetek, illetve lemezcsoportok meghajtóit cseréli ki, mindig a legkisebb meghajtót cserélje le először. A RAID 5 <span class="enable-grantley"> és RAID F1 </span>kötetek tárolókapacitása: (meghajtók száma – 1) x (legkisebb meghajtó mérete), a RAID 6 esetén pedig: (meghajtók száma – 2) x (legkisebb meghajtó mérete). Vagyis a meghajtók kapacitásának lehető legjobb kihasználása érdekében mindig a legkisebb meghajtót kell először kicserélni.</p>
+<p>Ha például a RAID 5 kötet három, egyenként 4 TB, 3 TB, és 2 TB méretű meghajtóból áll, a kötet rendelkezésre álló kapacitása 4 TB. Ha a 4 TB vagy 3 TB méretű meghajtót cseréli le, a kötet kapacitása nem fog változni. A kötet kapacitásának növeléséhez először a 2 TB-os meghajtót kell kicserélni.</p>
+</div>
+
+<h3>Meghajtó cseréje a tárolókapacitás bővítése érdekében</h3>
+<p>Az alábbi lépésekben példát szolgáltatunk arra, hogy hogyan érdemes lecserélni egy SHR-kötet meghajtóit.</p>
+<h4>Meghajtók cseréje:</h4>
+<ol>
+	<li>Nyissa meg a <strong>Tároláskezelő</strong> alkalmazást.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Lépjen a <strong>Kötet</strong> menübe, tekintse meg, hogy melyik meglévő meghajtó a legkisebb.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Kapcsolja ki a(z) Synology NAS eszközt. (Amennyiben Synology NAS eszköze támogatja a hot swap funkciót, ezt a lépést kihagyhatja.)</li>
+	<li>Távolítsa el a legkisebb tagmeghajtót, majd telepítse az új, nagyobb meghajtót.<br /><span class="note_head">Megjegyzés: </span>A személyi sérülések és Synology NAS eszköze károsodásának elkerülése érdekében kövesse a Synology termék <em>Hardvertelepítési útmutatójában</em> található meghajtótelepítési utasításokat.</li>
+	<li>Kapcsolja be Synology NAS eszközét.</li>
+	<li>Nyissa meg ismét a <strong>Tároláskezelő</strong> alkalmazást.</li>
+	<li>Lépjen a <strong>HDD/SSD</strong> menüpontra, és ellenőrizze, hogy a rendszer felismerte-e az új meghajtót.<br /><img src="about:blank" class="help_image" /></li>
+	<li>A kötetnek a következő állapottal kell rendelkeznie: <strong>Csökkent</strong>. Válasszon ki egy kötetet, majd kattintson a <strong>Kezelés</strong> lehetőségre.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Válassza a <strong>Javítás</strong> lehetőséget.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Jelölje ki a kötethez hozzáadni kívánt cseremeghajtót. Majd kövesse a varázsló utasításait a művelet befejezéséig.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Ismételje addig a fenti folyamatot, amíg az összes kívánt meghajtót nagyobbra nem cserélte.</li>
+</ol>
+
+</body>
+</html>

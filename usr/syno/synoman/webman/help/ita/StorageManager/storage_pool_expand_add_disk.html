@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+	
+	
+	
+<h2>Aggiungere unità per espandere la capacità dello storage pool</h2>
+
+<p>In presenza di slot per unità vuote sul Synology NAS, è possibile installare unità aggiuntive e aggiungerle a uno storage pool esistente. In questo articolo sono fornite le istruzioni per espandere uno storage pool esistente installando ulteriori unità.</p>
+
+<p>Le unità possono essere aggiunte agli storage pool nelle seguenti configurazioni RAID:</p>
+<ul>
+	<li>JBOD</li>
+	<li>RAID 5</li>
+	<li>RAID 6</li>
+	<li>RAID F1</li>
+	<li>Un Synology Hybrid RAID (SHR) dotato di almeno 2 unità</li>
+</ul>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>lo stato del disco rigido di nuova aggiunta deve essere <strong>Inizializzato</strong> o <strong>Non inizializzato</strong>.</li>
+</ul>
+</div>
+	
+<h4>Requisiti unità:</h4>
+
+<p>Verificare che le unità da aggiungere a Synology NAS soddisfino i seguenti requisiti:</p>
+<ul>
+	<li>La configurazione RAID o SHR deve essere creata da unità dello stesso tipo. L'utilizzo di unità di tipi differenti influirà sull'affidabilità e le prestazioni del sistema. I tipi di unità combinate come mostrato di seguito non sono supportati per la configurazione RAID o SHR:
+	<ul>
+	<li>Unità SATA e unità SAS</li>
+	<li>unità native 4K e unità native non 4K</li>
+	</ul>
+	</li>
+	<li><strong>Per SHR</strong>: la capacità dell'unità da aggiungere deve essere uguale o superiore al disco rigido più grande nello storage pool oppure deve essere uguale a qualsiasi unità nello storage pool.</br><span class="note_head">Esempio:</span> Se uno storage pool SHR è composto da tre unità (2 TB, 1,5 TB e 1 TB), è consigliabile che l'unità appena aggiunta sia di almeno 2 TB per consentire un migliore utilizzo della capacità. È possibile aggiungere unità da 1.5 TB e 1 TB, ma occorre notare che un parte della capacità dell'unità da 2 TB resterà inutilizzata.</li>
+	<li><strong>Per RAID 5, RAID 6 o RAID F1</strong>: la capacità dell'unità da aggiungere deve essere uguale o superiore a quella dell'unità più piccola presente nello storage pool.</br><span class="note_head">Esempio:</span> se uno storage pool RAID 5, RAID 6 o RAID F1 è composto di tre unità (2 TB, 1,5 TB e 1 TB), la capacità della nuova unità deve essere di almeno un 1 TB.</li>
+</ul>
+
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>SHR (Synology Hybrid RAID) è disponibile solo su alcuni modelli. Per verificare se il modello in uso presenta un supporto limitato per SHR, visitare <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/Which_models_have_limited_support_for_Synology_Hybrid_RAID_SHR" target="_blank">qui</a>.</li>
+	<li>RAID F1 è disponibile solo su alcuni modelli. Per verificare se il modello in uso supporta RAID F1, visitare <a href="https://www.synology.com/products?soft_feature=RAID_F1" target="_blank">qui</a>.</li>
+	<li>Si consiglia di utilizzare le unità nell'<a href="https://www.synology.com/compatibility" target="_blank">Elenco compatibilità dei prodotti Synology</a> per evitare eventuali problemi. L'utilizzo di unità incompatibili potrebbe ridurre le prestazioni di sistema e persino causare la perdita di dati.</li>
+</ul>
+</div>
+
+
+
+<h4 class="list_head"><a name="t1" id="t1">Per aggiungere un'unità a uno storage pool:</a></h4>
+<p>Prima di iniziare, verificare che lo stato dello storage pool da espandere sia <strong>Integro</strong>. Se lo stato dello storage pool non è integro, seguire le azioni consigliate mostrato sotto lo stato per risolvere i problemi all'unità. Successivamente, seguire la procedura riportata per aggiungere un'unità a uno storage pool:</p>
+	
+<ol>
+	<li>Spegnere la Synology NAS.</br> <span class="note_head">Nota:</span> è possibile saltare questo passaggio se Synology NAS supporta l'hot-swap.
+	</li>
+	<li>Inserire una nuova unità in uno slot per unità vuote.</br> <span class="note_head">Nota:</span> per evitare lesioni personali o danni al Synology NAS, andare su <a href="https://www.synology.com/support/download" target="_blank">Centro download</a> e selezionare il prodotto Synology. Su <strong>Documenti</strong> > <strong>Guida di installazione hardware</strong>, è possibile scaricare la guida di installazione hardware nella lingua preferita per seguire le istruzioni di installazione dell'unità.</li>
+
+	<li>Accendere Synology NAS e avviare <strong>Storage Manager</strong>.</li>
+	<li>Andare alla pagina <b>Storage Pool</b> e selezionare lo storage pool da espandere. Fare clic su <strong>Aggiungi unità</strong> dal menu a discesa <strong>Azione</strong>.</li>
+	<li>Nell’elenco, selezionare l'unità da aggiungere. Solo le unità che soddisfano il tipo per elencare i requisiti di capacità.</li>
+	<li>Per completare il processo, seguire la procedura guidata.</li>
+</ol>
+
+<h4>Per espandere le dimensioni del volume:</h4>
+<p>Quando uno storage pool contiene una capacità sufficiente, le dimensioni del volume corrispondente possono essere ampliate automaticamente o manualmente, a seconda del tipo di storage pool.</p>
+<ul>
+<li><b>Storage pool a volume singolo:</b> Per uno storage pool che supporta un volume singolo, le dimensioni del volume saranno ampliate automaticamente dopo l'espansione della capacità dello storage pool. Per i dettagli, consultare <a href="#t1">Per aggiungere un'unità a uno storage pool</a>.</li>
+<li><b>Storage pool a volume multiplo:</b> Per uno storage pool che supporta più volumi, le dimensioni del volume possono essere ampliate manualmente dopo che lo storage pool contiene una capacità sufficiente. Per ulteriori dettagli, consultare <a href="volume_expand_volume.html" target="_blank">Espandere le dimensioni del volume</a>.</li>
+</ul>
+
+</body>
+</html>

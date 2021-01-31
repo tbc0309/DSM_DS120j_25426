@@ -1,0 +1,30 @@
+#!/bin/sh
+
+BIN_WC="/usr/bin/wc"
+BIN_LS="/bin/ls"
+BIN_GREP="/bin/grep"
+CONFIG_FILES="/etc/tc/*.conf"
+KEY_RULE="RULE_"
+KEY_ENABLE="enabled=1"
+
+RESULT=`$BIN_LS $CONFIG_FILES | $BIN_WC -l`
+if [ "$RESULT" -gt 0 ]; then
+    RULE_ENABLE=`$BIN_GREP $KEY_ENABLE $CONFIG_FILES | $BIN_WC -l`
+    RULE_NUM=`$BIN_GREP $KEY_RULE $CONFIG_FILES | $BIN_WC -l`
+else
+    RULE_ENABLE=0
+    RULE_NUM=0
+fi
+
+echo -n "{"
+
+echo -n \"rule_enable\":$RULE_ENABLE,
+echo -n \"rule_num\":$RULE_NUM,
+
+# let version be the last one msg
+echo -n \"collector_version\":1
+
+echo "}"
+
+
+

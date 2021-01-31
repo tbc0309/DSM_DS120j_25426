@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>LDAP</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>LDAP</h2>
+<p>LDAP allows your Synology NAS to join an existing directory service as an LDAP client, and then retrieve user or group information from an LDAP server (or "directory server"). You can manage LDAP users' or groups' access privileges to DSM applications and shared folders, just as you would with local DSM users or groups. For more information about LDAP, please refer to <a href="http://en.wikipedia.org/wiki/LDAP" target="_blank">here</a>.</p>
+
+<p>The supported LDAP standard is LDAP version 3 (RFC 2251).</p>
+<h4>To Join Synology NAS to a directory service:</h4>
+<ol>
+	<li>Go to <strong>Control Panel</strong> &gt; <strong>Domain/LDAP</strong>.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Go to the <strong>LDAP</strong> tab and tick <strong>Enable LDAP Client</strong>.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Enter the IP address or domain name of the LDAP server in the <strong>LDAP Server address</strong> field.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Choose an encryption type from the <strong>Encryption</strong> drop-down menu to encrypt LDAP connection to the LDAP server.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Enter the Base DN of the LDAP server in the <strong>Base DN</strong> field.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Select the proper <strong>Profile</strong> depending on your LDAP server. For example, choose <strong>Standard</strong> if you're using Synology LDAP Server or Mac Open Directory.</li>
+	<img src="about:blank" class="help_image" />
+	<li>To allow users of an LDAP server which does not support Samba schema to access Synology NAS files via CIFS, tick <strong>Enable CIFS plain text password authentication</strong>. See the section below to ensure LDAP users can use their computers to successfully access Synology NAS files via CIFS.</li>
+	<img src="about:blank" class="help_image" />
+	<li>Click <strong>Apply</strong>.</li>
+	<li>Enter the Bind DN (or LDAP administrator account) and the password in the fields, and then click <strong>OK</strong>.</li>
+	<img src="about:blank" class="help_image" />
+</ol>
+
+<div class="section">
+
+<h4>About CIFS Support and Client Computer's Settings</h4>
+<p>After CIFS plain text password authentication is enabled, LDAP users might need to modify their computers' settings to be able to access Synology NAS files via CIFS:</p>
+<ul>
+	<li>If your Synology NAS joins to the directory service provided by a Synology LDAP server (or another Synology NAS that has installed and run the <strong>LDAP Server</strong> package) or the LDAP server that supports Samba schema and all LDAP users have correct sambaNTPassword attributes, LDAP users can access your Synology NAS files via CIFS without ticking <strong>Enable CIFS plain text password authentication</strong> or modifying their computers' settings. Otherwise, LDAP users will need to enable their computer's <a href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" target="_blank">PAM</a> support to be able to access Synology NAS files via CIFS. However, doing so will transfer LDAP users' password to Synology NAS in plain text (without encryption), thus lowering the security level.</li>
+</ul>
+
+<h4>To modify Windows settings:</h4>
+<ol>
+	<li>Go to <strong>Start</strong> > <strong>Run</strong>, type <strong>regedit</strong> in the field, and then click <strong>OK</strong> to open Registry Editor.</li>
+	<li>Depending on your Windows version, find or create the following registry:
+		<ul>
+			<li><strong>Windows 2000, XP, Vista, and Windows 7:</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkStation\Parameters]</li>
+			<li><strong>Windows NT:</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Rdr\Parameters]</li>
+			<li><strong>Windows 95 (SP1), 98 and Me:</strong><br />[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\VxD\VNETSUP]</li>
+		</ul>
+	</li>
+	<li>Create or modify the DWORD value <strong>EnablePlainTextPassword</strong> and change its value data from <strong>0</strong> to <strong>1</strong>.</li>
+	<li>Restart Windows for the change to take effect.</li>
+</ol>
+
+<h4>To modify Mac OS X's settings:</h4>
+<ol>
+	<li>Go to <strong>Applications</strong> > <strong>Utilities</strong> to open <strong>Terminal</strong>.</li>
+	<li>Create an empty file <strong>/etc/nsmb.conf</strong>:<pre>sudo touch /etc/nsmb.conf</pre></li>
+	<li>Open <strong>/etc/nsmb.conf</strong> with vi:<pre>sudo vi /etc/nsmb.conf</pre></li>
+	<li>Type "<strong>i</strong>" to insert text, and paste the following:<pre>[default]<br / >minauth=none</pre></li>
+	<li>Press the Esc key and then type "<strong>ZZ</strong>" to save the changes and exit vi.</li>
+</ol>
+
+<h4>To modify Linux's settings:</h4>
+<p>If you're using <strong>smbclient</strong>, please add the following keys in the <strong>[global]</strong> section of <strong>smb.conf</strong>:
+	<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;"> encrypt passwords = no <br /> client plaintext auth = yes <br /> client lanman auth = yes <br /> client ntlmv2 auth = no </p>
+	<p>If you're using <strong>mount.cifs</strong>, execute the following command:</strong>
+	<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">echo 0x30030 > /proc/fs/cifs/SecurityFlags</p>
+	<p>For more information, please refer to <a href="https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README" target=_blank>https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README</a></p>
+</p>
+</div>
+
+<div class="section"><h4>About Profiles</h4>
+<p>Different LDAP servers might use different attributes for account names, group names, or to distinguish between accounts and groups. The <strong>Profile</strong> option allows you to specify or customize how user and group information is mapped to LDAP attributes. One of the following profiles can be selected depending on your LDAP server:</p>
+<ul>
+	<li><strong>Standard:</strong> For servers running Synology LDAP Server or Mac Open Directory.</li>
+	<li><strong>IBM Lotus Domino:</strong> For servers running IBM Lotus Domino 8.5.</li>
+	<li><strong>Custom:</strong> Allows you to customize mappings. Consult the section below for details.</li>
+</ul>
+
+<p>Before customizing LDAP attribute mappings, you will need some background knowledge. Synology DSM and the <strong>Profile</strong> editor both adhere to RFC 2307. For example, you can specify <strong>filter</strong> > <strong>passwd</strong> as <strong>userFilter</strong>, in which case the Synology NAS will interpret records with <strong>objectClass=userFilter</strong> on your LDAP server as LDAP accounts. If you specify <strong>passwd</strong> > <strong>uid</strong> as <strong>username</strong>, the Synology NAS will interpret <strong>username</strong> on your LDAP server as an account name. Leaving the mapping empty will apply RFC 2307 rules.</p>
+<p>Synology NAS requires a fixed integer to serve as an LDAP account identifier (<strong>uidNumber</strong>) or a group identifier (<strong>gidNumber</strong>). However, not all LDAP servers use integers to represent such attributes. Therefore, a keyword <strong>HASH()</strong> is provided to convert such attributes to integers. For example, your LDAP server might use the attribute <strong>userid</strong> with a hexadecimal value as the unique identifier for an LDAP account. In this case, you can set <strong>passwd</strong> > <strong>uidNumber</strong> to <strong>HASH(userid)</strong>, and then Synology NAS will convert it into an integer.</p>
+<p>The following is the summary of customizable attributes:</p>
+<ul>
+	<li><strong>filter</strong>
+		<ul>
+			<li><strong>group</strong>: required objectClass for group.</li>
+			<li><strong>passwd</strong>: required objectClass for user.</li>
+			<li><strong>shadow</strong>: required objectClass for user passwords.</li>
+		</ul>
+	</li>
+	<li><strong>group</strong>
+		<ul>
+			<li><strong>cn</strong>: group name.</li>
+			<li><strong>gidNumber</strong>: GID number of this group.</li>
+			<li><strong>memberUid</strong>: members of this group.</li>
+		</ul>
+	</li>
+	<li><strong>passwd</strong>
+		<ul>
+			<li><strong>uidNumber</strong>: UID number of this user.</li>
+			<li><strong>uid</strong>: username.</li>
+			<li><strong>gidNumber</strong>: primary GID number of this user.</li>
+		</ul>
+	</li>
+	<li><strong>shadow</strong>
+		<ul>
+			<li><strong>uid</strong>: username.</li>
+			<li><strong>userPassword</strong>: user password.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<div class="section"><h4>About UID/GID shifting</h4>
+<p>To avoid UID/GID conflicts between LDAP users/groups and local users/groups, you can enable UID/GID shifting to shift the UID/GID of LDAP users/groups by 1000000. This option is only for LDAP servers which are non-Synology LDAP servers and have a unique numerical ID attribute for each user/group.</p>
+</div>
+
+<div class="section"><h4>About Nested Group Expansion</h4>
+<p>In a nested group, an LDAP group member belongs to another LDAP group, where the hierarchy of an organization is represented. When users look up which group a specific member belongs to, or the name list of a specific group, Synology NAS will expand a nested group according to the <strong>member</strong> attributes of the LDAP group, where the DN (Distinguished Name) of a child group is referenced by the attribute. The expansion of a nested group can be very time-consuming under different circumstances, e.g. where the server does not index the <strong>member</strong> attribute, or the group is deeply nested. You can choose not to expand a nested group to prevent such occurrence.</p>
+</div>
+
+
+<div class="section" ><h4>About Client Certificates</h4>
+<p>We support the usage of client certificate. Some specific LDAP Servers, e.g., Google LDAP, use certificates to authenticate clients. You can upload the client certificate after ticking the <strong>Enable client certificate</strong> option.</p>
+<h4>Note:</h4>
+<p>This function is supported on DSM 6.2.2 or above.</p>
+</div>
+
+
+</body>
+</html>

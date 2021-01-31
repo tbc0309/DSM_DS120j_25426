@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Webové služby</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Webové aplikace</h2>
+
+<p>Díky integrované funkci Web Station a podpoře PHP můžete na zařízení Synology NAS snadno hostovat webovou stránku a vytvářet dynamické webové stránky pro vaši podnikatelskou činnost nebo hobby. Kromě toho vám stránka Centrum balíčků nabízí celou řadu balíčků třetích stran, jako je například Správa obsahu, Správa vztahů se zákazníky a Systém e-commerce. Pro ukládání souborů webové stránky bude vytvořena výchozí sdílená složka <b>web</b>.</p>
+<h4>Postup povolení Web Station:</h4>
+<ol>
+<li>Přejděte do části <strong>Ovládací panel</strong> > <strong>Webové služby</strong>.</li>
+<li>Zaškrtněte možnost <b>Zapnout stanici Web Station</b>.
+</li>
+<li>Klikněte na možnost <b>Použít</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Pro zajištění lepší flexibility a zabezpečení využívá Web Station pro provádění úloh skupinu uživatelů formát <strong>http</strong>. Chcete-li tedy spravovat přístupová oprávnění k vašim webovým stránkám, změňte přístupová oprávnění skupiny <strong>http</strong> pro jednotlivé příslušné složky a soubory. Chcete-li například zpřístupnit soubor <strong>sample.htm</strong> ve sdílené složce <strong>web</strong> prostřednictvím Web Station, bude potřeba zajistit, aby skupina <strong>http</strong> měla příslušná oprávnění čtení/zápisu ke sdílené složce <strong>web</strong> a také k souboru <strong>sample.htm</strong>.</li>
+
+<li>Soubor domovské stránky by měl mít název <strong>index.htm</strong>, <strong>index.html</strong> nebo <strong>index.php</strong>.</li>
+
+<li>Pokud použijete funkci PHP mail(), systém automaticky načte a použije informace o serveru SMTP na stránce <strong>Upozornění</strong>. Ověřte, zda jste povolili e-mailová upozornění a zadali správné informace serveru SMTP.</li>
+
+<li>Skutečná cesta sdílené složky <b>web</b> je <b>/volume1/web</b>. Některé aplikace vyžadují nastavení cesty v konfiguračním souboru.</li>
+
+
+<li>Názvy <strong>blog</strong>, <strong>photo</strong>, <strong>photosrc</strong> a <strong>webdefault</strong> jsou vyhrazené názvy složek. Web Station tyto názvy nemůže používat, proto ve sdílené složce <b>web</b> nevytvářejte složky s těmito názvy.</li>
+
+<li>Chybovou stránku můžete upravit vytvořením souboru <b>missing.html</b>, <b>missing.htm</b> nebo <b>missing.php</b>. Nejdříve povolte Web Station. Potom umístěte soubor <b>missing.html</b>, <b>missing.htm</b> nebo <b>missing.php</b> do sdílené složky <b>web</b> přímo na serveru. Pokud budou uživatelé chtít otevřít stránku, která neexistuje, zobrazí se chybová stránka.</li>
+
+<li>Maximální počet aktivních připojení HTTP: 256</li>
+
+<li>Maximální počet virtuálních hostitelů: 30</li>
+</ul>
+</div>
+
+<h3>Povolení virtuálního hostitele pro hostování webových stránek</h3>
+<p>Díky funkci virtuálního hostitele můžete hostovat několik webových stránek na jediném serveru. Dříve než začnete, bude nutné si podle níže uvedených kroků zaregistrovat několik názvů domény a nakonfigurovat virtuální hosting.</p>
+<h4>Postup povolení virtuálního hostitele:</h4>
+<ol>
+<li>Klikněte na možnost <b>Virtuální hostitel</b>.</li>
+<li>Klikněte na možnost <b>Vytvořit</b>.</li>
+<li>Zadejte název pro podsložku sdílené složky <b>web</b>, ve které budou uloženy soubory webové stránky.</li>
+<li>Zadejte název hostitele webové stránky.</li>
+<li>Zadejte port webové stránky.</li>
+<li>
+Klikněte na možnost <b>OK</b>.
+</li>
+</ol>
+<h3>Povolení osobních webových stránek</h3>
+<P>Pomocí funkce osobní webové stránky mohou místní uživatelé, uživatelé domény a uživatelé LDAP vytvářet své vlastní osobní webové stránky.</p>
+<h4>Místní uživatelé</h4><p>Jednotliví místní uživatelé získají jedinečnou adresu webové stránky ve formátu <strong>IP-adresa-serveru/~uživatelské jméno</strong> nebo <strong>název-serveru/~uživatelské jméno</strong>. Příklad:</p>
+<ol>
+<li>192.168.1.1/~ken</li>
+<li>SynologyNAS/~ken</li>
+</ol>
+<h4 class="disable-eds14">Uživatelé domény</h4>
+<p class="disable-eds14">Jednotliví místní uživatelé získají jedinečnou adresu webové stránky ve formátu <strong>IP-adresa-serveru/~názevdomény%5cuživatelské jméno</strong> nebo <strong>název-serveru/~názevdomény%5cuživatelské jméno</strong>. Příklad:</p>
+<ol class="disable-eds14">
+<li>192.168.1.1/~zkušební doména<b>%5c</b>ken</li>
+<li>SynologyNAS/~zkušební doména<b>%5c</b>ken</li>
+</ol>
+
+<h4 class="disable-eds14">Uživatelé LDAP</h4>
+<p class="disable-eds14">Jednotliví uživatelé LDAP získají jedinečnou adresu webové stránky ve formátu <strong>IP-adresa-serveru/~uživatelskéjméno@názevdomény</strong> nebo <strong>název-serveru/~uživatelskéjméno@názevdomény</strong>. Příklad:</P>
+<ol class="disable-eds14">
+<li>192.168.1.1/~ken<b>@</b>zkušební doména</li>
+<li>SynologyNAS/~ken<b>@</b>zkušební doména</li>
+</ol>
+
+<div class="section disable-eds14">
+<h4>Poznámka:</h4>
+<p>Před povolením této funkce ověřte, zda jsou povoleny <strong>složky uživatelů</strong>. V případě místních uživatelů přejděte do části <b>Ovládací panel</b> > <b>Uživatel</b> > <b>Rozšířené</b>; v případě uživatelů domény přejděte do části <b>Ovládací panel</b> > <b>Adresářová služba</b> > <b>Uživatelé domény</b> > <b>Složka uživatele</b>; v případě uživatelů LDAP přejděte do části <b>Ovládací panel</b> > <b>Adresářová služba</b> > <b>Uživatelé LDAP</b> > <b>Složka uživatele</b>.</p>
+</div>
+
+<div class="section enable-eds14">
+<h4>Poznámka:</h4>
+<p>Před povolením této funkce ověřte, zda jsou povoleny <strong>složky uživatelů</strong>. V případě místních uživatelů přejděte do části <b>Ovládací panel</b> > <b>Uživatel</b> > <b>Upřesnit</b>.</p>
+</div>
+
+
+<h4>Postup vytvoření osobní webové stránky:</h4>
+<ol>
+<li>Pokud jste zaškrtnuli možnost <strong>Povolit osobní webové stránky</strong>, bude v adresáři uživatele automaticky vytvořena složka <strong>www</strong>.</li>
+<li>Uživatel může nyní do složky <strong>www</strong> nahrávat soubory související s webovými stránkami (např. webové stránky a zvukové soubory).</li>
+<li>Ověřte, zda má uživatel nezbytná oprávnění k nahraným souborům.</li>
+</ol>
+
+
+<h4>Postup úpravy chybové stránky:</h4>
+<ol>
+<li>Chybovou stránku uložte jako soubor <b>missing.html</b>, <b>missing.htm</b> nebo <b>missing.php</b>.</li>
+<li>Odešlete soubor do složky <strong>www</strong>.</li>
+</ol>
+<p>Pokud budou uživatelé chtít otevřít stránku, která na webových stránkách místního uživatele neexistuje, zobrazí se zvláštní chybová stránka.<strong></strong></p>
+<h4>Podpora a omezení:</h4>
+<p>Místní uživatelé získají přístup pouze k datům v následujících složkách:</p>
+<ul>
+<li>Vlastní složka</li>
+<li>/var/tmp</li>
+<li>/tmp</li>
+<li>/volumeX/@tmp</li>
+</ul>
+
+<h2>HTTP služba</h2>
+
+<p>Kromě výchozích čísel portů 80 (pro protokol HTTP) nebo 443 (pro protokol HTTPS) lze pro přístup ke službám Photo Station a Web Station přidat další čísla portů. Pro protokol HTTP nebo HTTPS lze přidat další číslo portu v rozsahu od 1 do 65535.</p>
+<h4>Postup přidání dodatečného čísla portu pro přístup přes protokol HTTP nebo HTTPS:</h4>
+<ol>
+<li>Zaškrtněte možnost <b>Přidat dodatečný port HTTP</b> nebo <b>Přidat dodatečný port HTTPS</b> (před přidáním portu pro protokol HTTPS je nutné zaškrtnout možnost <strong>Povolit připojení HTTPS pro webové služby</strong>.</li>
+<li>
+Do pole zadejte požadované číslo portu. </li>
+</ol>
+
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Nelze použít následující porty: 20, 21, 22, 23, 25, 110, 137, 138, 139, 143, 199, 443, 445, 515, 543, 548, 587, 873, 993, 995, 3306, 3689, 5000, 5001, 5005, 5006, 5335, 5432, 6881, 8080, 7000, 7001, 8081, 9997, 9998, 9999, 50001, 50002, výchozí porty pro eMule: 4662 (TCP), 4672(UDP) a výchozí rozsah portů pro FTP: konkrétní rozsah se může u různých modelů lišit.</li>
+</ul>
+</div>
+</body>
+</html>

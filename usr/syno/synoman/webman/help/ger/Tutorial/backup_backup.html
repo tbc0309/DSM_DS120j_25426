@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>Ihre Daten auf Synology NAS sichern, um Datensicherheit zu gewährleisten</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>Ihren Synology NAS sichern</h1>
+<div class="tutorials_content">
+<img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" />
+
+<p>Unerwartete Datenverluste infolge von Festplattenfehlern, Naturkatastrophen oder Ransomware-Angriffen stellen eine potenzielle Bedrohung für Ihre wichtigsten Daten dar. Um Datenverluste aufgrund solcher Unglücke zu vermeiden, wird weithin die 3-2-1-Strategie der Datensicherung angewandt, um mehrere Versionen der gesicherten Daten zu speichern und so einen zusätzlichen Schutz zu haben, falls die aktuelle Version beschädigt oder durch Ransomware betroffen wird.</p>
+<p>Eine 3-2-1-Strategie bedeutet, dass es mindestens drei Kopien der Daten gibt, von denen eine lokal und der Rest auf zwei verschiedenen Geräten gespeichert wird. Privatanwender können diese Strategie ebenfalls anwenden, um den Schutz ihrer kostbaren Erinnerungen, wie Fotos, Familienvideos und persönlichen Alben, zu professionalisieren, oder alternativ mindestens zwei Kopien der Daten aufbewahren, um deren Verfügbarkeit sicherzustellen. Geschäftlichen Anwendern wird die 3-2-1-Strategie empfohlen, um sicherzustellen, dass alle wichtigen Geschäftsdaten und Informationen stets gesichert sind.</p>
+<p>Dieser Artikel stellt verschiedene kostenlose Werkzeuge vor, die im <strong>Paketzentrum</strong> von Synology DSM verfügbar sind und Ihnen helfen können, Ihre eigene 3-2-1-Lösung für die Datensicherung einzurichten. Dazu gehören <strong>Hyper Backup</strong>, <strong>Snapshot Replication</strong>, <strong>USB Copy</strong> und <strong>Cloud Sync</strong>.</p>
+
+</div>
+
+<h2>Inhalt</h2>
+<ol>
+<li><a href="#t1">Sicherung zum selben Synology NAS für lokale Kopie mit mehreren Dateiversionen</a></li>
+<li><a href="#t2">Sicherung zu einem anderen Ziel</a></li>
+<ul>
+<li>2.1 <a href="#t2.1">Zu externen Geräten (USB)</a></li>
+<li>2.2 <a href="#t2.2">Zu einem anderen Synology NAS</a></li>
+<li>2.3 <a href="#t2.3">Zu Dateiservern</a></li>
+<li>2.4 <a href="#t2.4">Zu Cloud-Diensten</a></li>
+</ul>
+<li><a href="#t3">Vergleich der in diesem Artikel vorgestellten Lösungen für die Datensicherung</a></li>
+</ol>
+<hr size="1" />
+<!--1-->
+
+<h3 class="list_head"><a name="t1" id="t1"></a>1. Sicherung zum selben Synology NAS für lokale Kopie mit mehreren Dateiversionen</h3>
+<p>Eine lokale Kopie mit mehreren Dateiversionen bietet den Vorteil schneller Wiederherstellung im Falle der Beschädigung von Daten oder versehentlichem Löschen, da die Kopie direkt von Ihrem Synology NAS abgerufen werden kann. Bei solchen Maßnahmen können RAID-Abstürze und Festplattenfehler jedoch trotzdem zu verheerenden Datenverlusten führen. Daher wird dringend empfohlen, eine lokale Kopie mit mehreren Dateiversionen zu erstellen, um die effiziente Wiederherstellung sicherzustellen. Außerdem wird auch die Sicherung zu einem weiteren Ziel empfohlen, um die Daten zusätzlich zu schützen.</p>
+<p>Nun erfolgt eine kurze Vorstellung von <strong>Hyper Backup</strong> und <strong>Snapshot Replication</strong>. Sie können je nach Bedarf das für Sie passendere der beiden Pakete wählen.</p>
+<p><strong>Hyper Backup</strong> ermöglicht Ihnen die Sicherung von Anwendungen und Systemkonfigurationen und bei Bedarf deren Wiederherstellung, um die Datenkonsistenz sicherzustellen. Darüber hinaus bietet dieses Paket auch inkrementelle Datensicherung auf Block-Ebene. Das bedeutet, dass nur tatsächlich geänderte Dateien gesichert werden, während lediglich umbenannte oder duplizierte Dateien durch die dateiübergreifende Deduplizierung gelöscht werden, um unnötigen Speicherplatzverbrauch zu vermeiden.</p>
+<p>Wenn Ihr NAS-Modell das Btrfs-<sup>1</sup>-Dateisystem unterstützt, können Sie auch <strong>Snapshot Replication</strong> nutzen, um eine lokale Kopie zu erstellen. Schnappschüsse sind in Sekundenschnelle erstellt, und der Prozess beeinträchtigt die Systemleistung nur minimal. Im Vergleich zu Hyper Backup ist die Datensicherung und Wiederherstellung mit Snapshot Replication schneller und kann auch für freigegebene Ordner und iSCSI LUN angewendet werden.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<p>Für eine Schritt-für-Schritt-Anleitung zum Erstellen von Datensicherungsaufgaben mit Hyper Backup und Snapshot Replication siehe die folgenden Anleitungen:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div>
+
+<h3 class="list_head"><a name="t2" id="t2"></a>2. Sicherung zu einem anderen Ziel</h3>
+<p>Um sich vor Datenverlusten durch RAID-Abstürze oder Hardwareschäden zu schützen, können Sie auch eine externe Kopie auf verschiedenen Zielen erstellen. Die folgenden Abschnitte bieten einen Überblick über einige Werkzeuge, die Sie für solche Datensicherungsaufgaben verwenden können.</p>
+
+<!--2.1-->
+
+<h4 class="list_head"><a name="t2.1" id="t2.1"></a>2.1 Zu externen Geräten (USB)</h4>
+<p>Die Datensicherung zu USB ist aufgrund der weiten Verbreitung dieser Geräte einfach und bequem. Diese Datensicherung unterstützt verschiedene Dateisysteme und externe Geräte, wie die Sicherung wichtiger Daten zu RDX.</p>
+<p><strong>Hyper Backup</strong> ermöglicht Ihnen die Sicherung von Anwendungen und Systemkonfigurationen und bei Bedarf die Wiederherstellung der exakt selben Daten. Darüber hinaus bietet dieses Paket auch inkrementelle Datensicherung auf Block-Ebene. Das bedeutet, dass nur tatsächlich geänderte Dateien gesichert werden, während lediglich umbenannte oder duplizierte Dateien durch die dateiübergreifende Deduplizierung gelöscht werden, um unnötigen Speicherplatzverbrauch zu vermeiden.</p>
+<p>Im Vergleich zu Hyper Backup, unterstützt <strong>USB Copy</strong> die Sicherung von Anwendungen oder Systemkonfigurationen nicht; und da es keine dateiübergreifende Deduplizierung gibt, kann die Speicherung weniger effizient sein. Dafür kann dieses Paket mit der Datensicherung beginnen, sobald ein externes Gerät verbunden wurde, und das Gerät nach Abschluss der Datensicherung auswerfen. Darüber hinaus erfolgt die Datensicherung mit USB Copy in einem lesbaren Format, jene mit Hyper Backup dagegen nicht.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<p>Für eine Schritt-für-Schritt-Anleitung zur Datensicherung auf externe Geräte mit Hyper Backup und USB Copy siehe die folgenden Anleitungen:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/USBCopy/usbcopy_general" target="_blank">USB Copy</a></li>
+</ul>
+</div>
+
+<!--2.2-->
+
+<h4 class="list_head"><a name="t2.2" id="t2.2"></a>2.2 Zu einem anderen Synology NAS</h4>
+<p>Bei der Datensicherung zu einem anderen Synology NAS werden die Daten über das Synology NAS-Protokoll übertragen.</p>
+<p>Mit dem erwähnten <strong>Hyper Backup</strong>, das eine integrierte Technologie zur Erhöhung der Speichereffizienz enthält und die Sicherung von Anwendungen und Konfigurationen unterstützt, können Sie ganz einfach Daten zu einem externen NAS sichern, indem Sie <strong>Hyper Backup Vault</strong> auf dem Sicherungsziel installieren. Mit diesem Paket können Sie erhaltene Datensicherungsaufgaben und die Aufgabe betreffende Protokolle auf dem empfangenden Gerät anzeigen. Hyper Backup unterstützt das EXT4- und das Btrfs-Dateisystem, die Datensicherung erfolgt jedoch in einem nicht lesbaren Format.</p>
+<p><strong>Snapshot Replication</strong> bietet die bequeme Möglichkeit, Schnappschüsse zu verschiedenen externen Synology NAS zu replizieren und repliziert ausschließlich geänderte Datenblöcke, um den Bandbreitenverbrauch zu reduzieren und die Sicherung zu beschleunigen. Für flexible Datenverwaltung kann eine Replikation auf bis zu drei externe Standorte erweitert werden. Snapshot Replication ist nur für Modelle verfügbar, die das Btrfs<sup>1</sup>-Dateisystem unterstützen.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<p>Für eine Schritt-für-Schritt-Anleitung zur Datensicherung zu einem anderen Synology NAS mit Hyper Backup und Snapshot Replication siehe die folgenden Anleitungen:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/SnapshotReplication/snapshots" target="_blank">Snapshot Replication</a></li>
+</ul>
+</div>
+
+<!--2.3-->
+
+<h4 class="list_head"><a name="t2.3" id="t2.3"></a>2.3 Zu Dateiservern</h4>
+<p>Diese Datensicherung unterstützt die Protokolle rsync, HTTP, WebDAV, OpenStack und S3 und verbraucht auf Client-Seite mehr Speicherplatz für den Cache im Vergleich zum belegten Speichervolumen bei der Datensicherung zu einem anderen Synology NAS.</p>
+<p><strong>Hyper Backup</strong> ermöglicht Ihnen die Datensicherung zu Dateiservern mittels der Protokolle rsync und HTTP (WebDAV und OpenStack). Die Sicherung mehrerer Dateiversionen erhöht den Schutz Ihrer Daten und die versionsübergreifende Deduplizierung reduziert den für die Speicherung mehrerer Versionen benötigten Speicherplatz. Darüber hinaus wird die Sicherung von Anwendungen und Systemkonfigurationen unterstützt, sodass die ursprünglichen Einstellungen mühelos wiederhergestellt werden können.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<p>Für eine Schritt-für-Schritt-Anleitung zur Datensicherung zu Dateiservern mit Hyper Backup siehe <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_a_remote_Synology_NAS_or_file_server_with_Hyper_Backup" target="_blank">diese Anleitung</a>.</p>
+</div>
+
+<!--2.4-->
+
+<h4 class="list_head"><a name="t2.4" id="t2.4"></a>2.4 Zu Cloud-Diensten</h4>
+<p>Die Sicherung zu Cloud-Diensten ist die flexibelste Lösung für die externe Datensicherung, insbesondere im Hinblick auf Speicherplatzverbrauch, Anschaffungskosten und Wartung. Unternehmen können die Datensicherung je nach Bedarf skalieren, ohne in zusätzliche IT-Bereitstellung oder Hardwareanpassungen investieren zu müssen.</p>
+<p><strong>Hyper Backup</strong> ermöglicht Ihnen die Datensicherung zu dem Synology-Cloud-Dienst <a href="https://c2.synology.com" target="_blank">Synology C2</a>, einer benutzerfreundlichen Lösung für Datenverfügbarkeit in der Cloud für Synology NAS-Nutzer. Es stehen verschiedene Abonnements und Sicherungspläne zur Verfügung und Sie können von jedem Browser aus auf Dateien zugreifen und diese wiederherstellen. Gleichzeitig sind Ihre Daten durch Verschlüsselung gesichert.</p>
+<p>Abgesehen vom Cloud-Dienst von Synology können Sie Ihre Daten auch auf anderen öffentlichen Clouds sichern. Hyper Backup ermöglicht Ihnen nicht nur die Sicherung mehrerer Dateiversionen auf öffentlichen Clouds, sondern gewährleistet auch die Konsistenz der Sicherungsdaten durch Sicherung von Anwendungen und Systemkonfigurationen.</p>
+<p><strong>Cloud Sync</strong> kann ebenfalls als Lösung für die Echtzeit-Synchronisierung von Daten auf dem Synology NAS zu öffentlichen Clouds eingesetzt werden, wenn die Funktion „Einweg-Upload“ aktiviert ist. Dieses Paket behält jedoch nur die aktuelle Version aller Dateien auf Ihrem Synology NAS bei. Wenn Ihr Cloud-Dienst Versionierung unterstützt, können Sie aber dennoch Sicherungsaufgaben mit mehreren Dateiversionen erstellen. Darüber hinaus haben mit dem Ziel synchronisierte Dateien dasselbe Format wie die Quelldaten.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<p>Für eine Schritt-für-Schritt-Anleitung zur Datensicherung zu Cloud-Diensten mit Hyper Backup und Cloud Sync siehe die folgenden Anleitungen:</p>
+<ul>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/tutorial/Backup_Restore/How_to_back_up_your_data_to_cloud_services_with_Hyper_Backup" target="_blank">Hyper Backup</a></li>
+	<li><a href="https://www.synology.com/knowledgebase/DSM/help/CloudSync/cloudsync" target="_blank">Cloud Sync</a></li>
+</ul>
+</div>
+
+<!--3-->
+<h3 class="list_head"><a name="t3" id="t3"></a>3. Vergleich der in diesem Artikel vorgestellten Lösungen für die Datensicherung</h3>
+<p>Lösungen für die externe Datensicherung werden dringend empfohlen, um Datenverluste aufgrund von Festplattenfehlern, Naturkatastrophen oder Ransomware-Angriffen zu vermeiden. Unter diesen Lösungen ist die Datensicherung in die Cloud die ideale Wahl für Benutzer, die noch keine eigene Ausrüstung für die Datensicherung haben, da mit Cloud-Diensten Hardware-, Wartungs-, Strom- und Abschreibungskosten eingespart werden können. Zusätzlich können Benutzer bei Cloud-Anbietern, die flexible Abonnements anbieten, die für sie jeweils beste Lösung wählen. Wenn Sie jedoch bereits Geräte wie USB-Laufwerke, andere Synology NAS oder Dateiserver besitzen, können Sie auch diese für die Sicherung der Daten auf Ihrem NAS nutzen. Denken Sie jedoch daran, das Sicherungsziel an einem anderen Ort aufzubewahren als Ihren Quell-NAS, um sich vor möglichen Datenverlusten zu schützen.</p>
+
+<p>Externe Kopien können den Schutz Ihrer Daten auf jeden Fall erhöhen, doch eine lokale Kopie für die schnelle Wiederherstellung ist ebenso notwendig. Daher wird empfohlen, die Funktionen von Hyper Backup oder Snapshot Replication zu nutzen, um eine Kopie der Daten auf Ihrem NAS auf demselben Synology NAS oder einem anderen nahe an der Quelle platzierten Gerät zu erstellen für bessere Leistung bei der Wiederherstellung.</p>
+
+<p>Wenn Sie die 3-2-1-Strategie verstehen und mindestens zwei Kopien Ihrer Daten besitzen, können Sie sicher sein, dass Ihre Daten stets verfügbar und gut geschützt sind.</p>
+
+<p>Unten finden Sie einen Überblick über alle in diesem Artikel vorgestellten Werkzeuge zur Datensicherung und einen Vergleich ihrer Funktionen. Anhand dieser Tabelle können Sie herausfinden, welches Paket für Ihren Bedarf und Ihre Ziele am besten geeignet ist.</p>
+
+<table id="faqtable" cellspacing="5" cellpadding="5" width="100%"><tbody>
+    <tr>
+      <th width="8%">Datensicherungsziel</th>
+      <th width="8%">Hyper Backup</th>
+      <th width="8%">Snapshot Replication<sup>1</sup></th>
+      <th width="8%">USB Copy</th>
+      <th width="8%">Cloud Sync</th>
+    </tr>
+
+    <tr>
+      <td>Lokale freigegebene Ordner</td>
+      <td>Ja</td>
+      <td>Ja</td>
+      <td>Nein</td>
+      <td>Nein</td>
+    </tr>
+
+    <tr>
+      <td>Externe Geräte (USB)</td>
+      <td>Ja</td>
+      <td>Nein</td>
+      <td>Ja</td>
+      <td>Nein</td>
+    </tr>
+    
+    <tr>
+      <td>Anderer Synology NAS</td>
+      <td>Ja</td>
+      <td>Ja</td>
+      <td>Nein</td>
+      <td>Nein</td>
+    </tr>
+
+    <tr>
+      <td>Dateiserver</td>
+      <td>Ja</td>
+      <td>Nein</td>
+      <td>Nein</td>
+      <td>Nur WebDAV- und OpenStack-Datensynchronisierung</td>
+    </tr>
+    
+<tr>
+      <td>Öffentliche Clouds</td>
+      <td>Ja</td>
+      <td>Nein</td>
+      <td>Nein</td>
+      <td>Ja</td>
+    </tr>
+
+<tr>
+	<td colspan="5"><strong>Zusammenfassung der Funktionen</strong></td>
+</tr>
+
+<tr>
+      <td>Sicherung von Anwendungen<sup>2</sup> und Systemkonfigurationen</td>
+      <td>Ja</td>
+      <td>Nein</td>
+      <td>Nein</td>
+      <td>Nein</td>
+    </tr>
+    
+    <tr>
+      <td>Leistung von Sicherung und Wiederherstellung</td>
+      <td>Niedrig</td>
+      <td>Hoch</td>
+      <td>Mittel</td>
+      <td>Mittel</td>
+    </tr>
+    
+    <tr>
+      <td>Speichereffizienz</td>
+      <td>Mittel</td>
+      <td>Hoch</td>
+      <td>Niedrig</td>
+      <td>Niedrig</td>
+    </tr>
+    
+    <tr>
+      <td>Sicherungshäufigkeit</td>
+      <td>Täglich</td>
+		<td>5 Min. (freigegebener Ordner)</br> 15 Min. (iSCSI LUN)
+      </td>
+      <td>Hotplug-Unterstützung</td>
+      <td>Synchronisierung bei Änderungen</td>
+    </tr>
+
+</tbody></table>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ol>
+	<li>Snapshot Replication unterstützt ausschließlich das Btrfs-Dateisystem, nicht jedoch EXT4. Eine Liste von Modellen, die Snapshot Replication unterstützen, finden Sie auf <a href="https://www.synology.com/dsm/packages/SnapshotReplication" target="_blank">dieser Seite</a>.</li>
+	<li>Nur ausgewählte Anwendungen werden für die Datensicherung unterstützt. Weitere Informationen dazu finden Sie auf der Anwendungsseite des Sicherungsassistenten.</li>
+</ol>
+</div>
+</body>
+</html>

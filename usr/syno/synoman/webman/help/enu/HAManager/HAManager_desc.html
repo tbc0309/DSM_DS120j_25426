@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>High Availability Manager - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>High Availability Manager</h1>
+
+ <p>High Availability refers to a server layout solution designed to reduce interruptions of services caused by server malfunctions. Synology High Availability uses two servers to form a "high-availability cluster" in which one server assumes the role of "active server" and another server acts as a standby "passive server." In order to implement and create a high-availability cluster, you need two compatible Synology servers.</p>
+  <p>A high-availability cluster makes use of the following components and concepts:</p>
+
+  <ul>
+   <li><b>Concept: </b>Implementation of Synology High Availability requires two Synology servers to create a high-availability cluster. One server acts as "active server" and the other acts as "passive server." Once the high-availability cluster is created, data is continuously replicated from the active server to the passive server. All files on the active server will exist in duplicate on the passive server. In the event the active server malfunctions, the passive server will be ready to take over all services with a complete mirrored copy of the data on the active server. Thus, the high-availability cluster will continue providing services normally, minimizing server downtime. For more details regarding switchover, please refer to <a href="switchover_fail.html">Switchover</a></li>
+   <li><b>Active server:</b> The active server manages the provision of all  services. In the event errors occur on the active server, you or the system can initiate a switchover to the passive server. In this case, the provision of services is transferred to the passive server, at which point the active server becomes the passive server.</li>
+   <li><b>Passive server:</b> Under normal conditions, the passive server remains in standby mode. Data on the active server is continuously replicated to the passive server. In the event the active server cannot provide services, you or the system can initiate a switchover to the passive server.</li>
+   <li><b>Heartbeat connection:</b> The active and passive servers of a high-availability cluster are linked by a dedicated, private network connection referred to as "Heartbeat connection." Once the high-availability cluster has been created, the Heartbeat connection facilitates data synchronization and replication between the active and passive servers. If contact between the servers is lost for a given amount of time, the system will determine a switchover is necessary.</li>
+   <li><b>High-availability cluster main storage volume:</b> The storage volume of the active server will become the main storage volume of the high-availability cluster. Data is replicated to the passive server's storage volume through the Heartbeat connection.</li>
+   <li><b>High-availability  cluster spare storage volume: </b>The storage volume on the passive server will become the high-availability cluster's spare storage volume. Data is continuously replicated from the active server storage volume to the passive storage volume via the Heartbeat connection. This ensures the consistency of file content when a switchover occurs.</li>
+   <li><b>High-availability cluster  server name:</b> Servers in the  high-availability cluster will  share one  server name. In the network, you can connect using this  server name, and services will be provided by the active server. </li>
+   <li><b>High-availability cluster  IP: </b>As the active and passive servers in the high-availability cluster each has its own IP address, to avoid having to change to another IP address when a switchover is performed, the high-availability cluster will generate common  IP addresses for access. To access any DSM services, regardless of which Synology server is acting as the active server, you can connect through these IP addresses. </li>
+  </ul>
+
+
+ </body>
+</html>

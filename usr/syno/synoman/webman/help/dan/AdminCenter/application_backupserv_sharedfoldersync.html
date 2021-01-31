@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Backup og kopiering</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Synkronisering af delt mappe</h2>
+<p>Synkronisering af delt mappe giver brugere mulighed for at synkronisere delte mapper fra en Synology NAS (kilden) til andre Synology NAS-enheder (destinationer) i LAN eller over internettet.</p>
+<p>Synkronisering af delt mappe vil udføre en fuld synkronisering af de(n) valgte delt(e) mappe(r) for første gang. Derefter er det kun ændrede filer, der synkroniseres. Filer, der er fjernet fra kilden, fjernes også fra destinationen.</p>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<ul>
+<li>Synkronisering af delt mappe er en envejssynkroniseringsløsning, der synkroniserer filerne ved kilden til destinationen. For en 2-vejssynkroniseringsløsning, skal du bruge <strong>Cloud Station ShareSync</strong>.</li>
+<li>Hvis der på destinationen findes en delt mappe med det samme navn (f.eks. SharedFolder) med den valgte kildemappe, bliver destinationsmappen navngivet &quot;SharedFolder_1&quot;.</li>
+<li>Hvis der på destinationen ikke findes en delt mappe med det samme navn som den delte kildemappe, oprettes en mappe med det navn i den tilsvarende eller første tilgængelige diskenhed.</li>
+<li>Som standard vil ingen bruger have privilegier til at få adgang til den delte mappe på destinationen. Kontakt <strong>admin</strong> på destinationen for at få privilegier.</li>
+</ul>
+</p>
+</div>
+
+<h3>Aktivering af tjenesten</h3>
+<h4>Sådan aktiverer du synkronisering af delt mappe:</h4>
+<p>Du skal først aktivere tjenesten på destinationens Synology NAS.</p>
+<ol>
+<li>Gå til <strong>Kontrolpanel</strong> > <strong>Filtjeneste</strong> > <strong>rsync</strong>.</li>
+<li>Vælg <strong>Aktiver rsync-tjeneste</strong> for at aktivere den delte mappesynkroniseringstjeneste.</li>
+<li>Klik på <strong>Anvend</strong>.</li>
+</ol>
+
+
+<h4>Sådan ophæver du link af delte mapper til destinations-Synology NAS:</h4>
+
+<p>Hvis forskellige kilder samtidigt synkroniserer en identisk delt mappe til en destinations-Synology NAS, opstår der en konflikt. Du skal ophæve linket til den delte mappe på kildesiden, før en anden kilde kan synkronisere dens mappe til destinationen. 
+
+<ol>
+<li>Log ind på destinations-Synology NAS'en, og gå til <strong>Kontrolpanel</strong> > <strong>Synkronisering af delt mappe</strong> > <strong>Forbindelsesliste</strong>.</li>
+<li>Vælg den konfliktende forbindelse fra en kilde-Synology NAS, og klik på <strong>Ophæv link</strong> for at fjerne den.</li>
+</ol>
+
+<p>Nu kan en anden kilde kan synkronisere den delte mappe til destinations-Synology NAS.</p>
+
+<h3>Administration af synkroniseringsopgaver</h3>
+
+<h4>Sådan opretter du en synkroniseringsopgave:</h4>
+<ol>
+<li>Log ind på kilde-Synology NAS'en, og gå til <b>Kontrolpanel</b> > <b>Synkronisering af delt mappe</b> > <strong>Opgaveliste</strong>.</li>
+<li>Klik på <b>Opret</b>.</li>
+<li>Indtast et navn på opgaven.</li>
+<li>Vælg den delte mappe, som du vil synkronisere med destinationen.</li>
+<li>Angiv destinations-Synology NAS og følgende synkroniseringsvalg:</li>
+<ul>
+<li><strong>Tilpas SSH-krypteringsport til kryptering af delt mappesynkronisering</strong>: Angiv den ønskede krypteringsport til SSH-overførselskryptering.</li>
+<li><strong>Aktiver SSH-overførselskryptering</strong>: Krypter data under overførsel. Det yder bedre sikkerhed, mens ikke-krypteret overførsel giver en bedre ydeevne. Du kan vælge, alt efter dit behov.
+</li> 
+<li><strong>Aktiver overførelseskomprimering</strong>: Komprimer data under overførsel. Det vil spare netværksbåndbredde men forøge CPU-belastningen.</li>
+<li><strong>Aktiver synkronisering på blokniveau</strong>: Overfør kun differentielle data i stedet for hele filer. Det vil spare netværksbåndbredde men forøge CPU-belastningen.</li>
+</ul>
+<li>Når du bedes om det, skal du vælge en af følgende valgmuligheder for at bestemme, hvornår synkroniseringen fra kilden til destinationen finder sted.</li>
+<ul>
+<li><strong>Kør synkronisering efter ændring</strong>: Kør straks synkroniseringsopgaver, når der forekommer ændringer i kildens delte mappe.</li>
+<li><strong>Kør synkronisering manuelt</strong>: Kør synkroniseringsopgaver manuelt fra kildens delte mappe.</li>
+<li><strong>Avanceret plan</strong>: Klik på <strong>Planlæg plan</strong> for at angive, hvornår synkroniseringsopgaven udføres.</li>
+
+</ul>
+<li>Klik på <strong>Anvend</strong>. Nu kan du se synkroniseringsopgaven i opgavelisten, som udføres ifølge den angivne plan.</li></ol>
+<h4>Sådan styrer du en synkroniseringsopgave:</h4>
+<ol>
+<li>På kilde-Synology NAS‹en går du til <strong>Kontrolpanel</strong> > <strong>Synkronisering af delt mappe</strong>, klikker på <strong>Opgaveliste</strong> og vælger den ønskede opgave.</li>
+<li>Gør et af følgende:</li>
+<ul>
+<li>
+Klik på <b>Rediger</b> for at redigere opgaven.
+</li>
+<li>
+Klik på <b>Slet</b> for at slette opgaven.
+</li> 
+<li>
+Hvis synkroniseringsopgaven ikke kører, skal du klikke på <b>Synkroniser nu</b> for at udføre opgaven øjeblikkeligt.
+</li>
+<li>
+Hvis synkroniseringsopgaven kører, skal du klikke på <b>Annuller</b> for at standse den igangværende opgave.
+</li>
+
+<div class="section">
+<h4>Bemærk:</h4>
+<p>
+Hvis planen for en synkroniseringsopgave er angivet til <b>Kør synkronisering efter ændring</b>, skal du klikke på <b>Annuller</b>, hvilket standser den igangværende opgave. Hvis eventuelle ændringer foretages i indholdet af eventuelle delt(e) mappe(r), der overvåges af synkroniseringsopgaven, vil Synkronisering af delt mappe dog genoptage opgaven.</p>
+</div>
+
+<li>
+Klik på <b>Fuld synkronisering</b> for at synkronisere alle data. Synkronisering af delt mappe vil køre en fuld synkronisering første gang og kun synkronisere ændrede dele derefter. Klik på denne knap kan hjælp dig med manuelt at synkronisere alle data igen.
+</li>
+</ul>
+</ol>
+
+<div class="section disable-eds14">
+<h4>Flere oplysninger</h4>
+<ol>
+<li>Opgavenavnet skal være med 1 til 32 Unicode-tegn og må ikke indeholde følgende tegn:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Hvis du synkroniserer delte mapper fra filsystem ext4 til ext3, kan der opstå fejl hvis opgaven har mere end 32.000 mapper.</li>
+<li>Hvis de delte mapper på destinations-Synology NAS er synkroniseret med andre Synology NAS'er, vil synkronisering af delt mappe udføre en fuld synkronisering for opgaven.</li>
+<li>For at kunne udføre opgaver til synkronisering af delt mappe skal du have admin-privilegier til destinations-Synology NAS. Dvs. du skal enten have admin-kontoens adgangskode eller du skal være i administratorgruppen.</li>
+<li>Når du synkroniserer til destinations-Synology NAS over internettet, kan du indtaste serverens navn med dens eksterne IP-adresse eller værtsnavn. Hvis du dog vælger at indtaste dens værtsnavn, skal navnet være i formatet FQDN (Fully Qualified Domain Name), f.eks. &quot;www.synology.com&quot;.</li>
+<li>For portvideresendelse bruger synkronisering af delt mappe port 22 til krypterede overførsler og port 873 til ikke-krypterede overførsler.</li>
+<li>Eksterne lagerenheder understøttes ikke af Synkronisering af delt mappe.</li>
+<li>Når opgaven Synkronisering af delt mappe kører, bliver den krypterede delt(e) mappe(r) på destinationen automatisk tilsluttet. Hvis du vil have adgang til data inde i, skal du tilslutte den krypterede delt(e) mappe(r) på destinationen først.</li>
+<li>Planlagt synkronisering af delt mappe vil ikke køre på det angivne tidspunkt, hvis der ikke blev foretaget ændringer til den valgte delte mappe.</li>
+<li>Vi foreslår, at hver synkroniseringsopgave indeholder mindre end 200 delte mapper for at få den bedste ydelse.</li>
+<li>Funktionen <strong>Brugerstart</strong> bliver deaktiveret på destinations- Synology NAS, hvis den delte mappe <strong>homes</strong> synkroniseres fra din kilde-Synology NAS til destinations-Synology NAS.</li>
+
+<li>For Modeller med ikke-Intel CPU'er kan du synkronisere op til 100.000 delte mapper (herunder undermapper) med Synkronisering af delt mappe.</li>
+ <li>Synkronisering af delt mappe kan udføre backup på Windows ACL-indstillinger, når destinationens filsystem er ext4/Btrfs.</li>
+ 
+ <li>Synkronisering af delt mappe vil mislykkes, hvis du synkroniserer til en destinationsserver, der deler samme navn som din Synology NAS.</li>
+ 
+<li>Avancerede tilladelser til delt mappe ved kilden bliver ikke synkroniseret med destinationen. Derudover oprettes der en skrivebeskyttet regel for gruppen administrators på destinationen. </li> 
+
+  </ol>
+</div>
+<div class="section enable-eds14">
+<h4>Flere oplysninger</h4>
+<ol>
+<li>Opgavenavnet skal være med 1 til 32 Unicode-tegn og må ikke indeholde følgende tegn:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Hvis du synkroniserer delte mapper fra filsystem ext4 til ext3, kan der opstå fejl hvis opgaven har mere end 32.000 mapper.</li>
+<li>Hvis de delte mapper på destinations-Synology NAS er synkroniseret med andre Synology NAS'er, vil synkronisering af delt mappe udføre en fuld synkronisering for opgaven.</li>
+<li>For at kunne udføre opgaver til synkronisering af delt mappe skal du have admin-privilegier til destinations-Synology NAS. Dvs. du skal enten have admin-kontoens adgangskode eller du skal være i administratorgruppen.</li>
+<li>Når du synkroniserer til destinations-Synology NAS over internettet, kan du indtaste serverens navn med dens eksterne IP-adresse eller værtsnavn. Hvis du dog vælger at indtaste dens værtsnavn, skal navnet være i formatet FQDN (Fully Qualified Domain Name), f.eks. &quot;www.synology.com&quot;.</li>
+<li>For portvideresendelse bruger synkronisering af delt mappe port 22 til krypterede overførsler og port 873 til ikke-krypterede overførsler.</li>
+<li>Eksterne lagerenheder understøttes ikke af Synkronisering af delt mappe.</li>
+<li>Når opgaven Synkronisering af delt mappe kører, bliver den krypterede delt(e) mappe(r) på destinationen automatisk tilsluttet. Hvis du vil have adgang til data inde i, skal du tilslutte den krypterede delt(e) mappe(r) på destinationen først.</li>
+<li>Planlagt synkronisering af delt mappe vil ikke køre på det angivne tidspunkt, hvis der ikke blev foretaget ændringer til den valgte delte mappe.</li>
+<li>Vi foreslår, at hver synkroniseringsopgave indeholder mindre end 200 delte mapper for at få den bedste ydelse.</li>
+<li>Funktionen <strong>Brugerstart</strong> bliver deaktiveret på destinations- Synology NAS, hvis den delte mappe <strong>homes</strong> synkroniseres fra din kilde-Synology NAS til destinations-Synology NAS.</li>
+<li>For Modeller med ikke-Intel CPU'er kan du synkronisere op til 100.000 delte mapper (herunder undermapper) med Synkronisering af delt mappe.</li>
+ 
+ <li>Synkronisering af delt mappe vil mislykkes, hvis du synkroniserer til en destinationsserver, der deler samme navn som din Synology NAS.</li>
+ 
+<li>Avancerede tilladelser til delt mappe ved kilden bliver ikke synkroniseret med destinationen. Derudover oprettes der en skrivebeskyttet regel for administratorgruppens brugere på destinationen. </li> 
+ 
+ </ol>
+</div>
+</body></html>

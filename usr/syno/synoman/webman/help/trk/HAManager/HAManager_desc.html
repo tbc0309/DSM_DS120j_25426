@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>High Availability Yöneticisi - Synology DSM Yardım</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>High Availability Yöneticisi</h1>
+
+  <p>High Availability sunucu arızalarının neden olduğu hizmet kesintilerini azaltmak için geliştirilmiş bir sunucu düzeni çözümüdür. Synology High Availability, bir sunucunun "aktif sunucu" görevini üstlendiği ve diğer sunucunun beklemedeki bir "pasif sunucu" olarak işlev yaptığı bir "high-availability kümesi" oluşturmak için iki sunucu kullanır. Bir high-availability kümesini uygulamak ve oluşturmak için, iki uyumlu Synology sunucusuna ihtiyaç duyarsınız.</p>
+  <p>Bir high-availability k&uuml;mesi aşağıdaki bileşenlerden ve konseptlerden faydalanır:</p>
+
+  <ul>
+   <li><b>Konsept: </b>Synology High Availability uygulaması, bir high-availability k&uuml;mesi oluşturmak i&ccedil;in iki Synology sunucusuna gereksinim duyar. Bir sunucu &quot;aktif sunucu&quot; olarak işlev g&ouml;r&uuml;rken diğeri &quot;pasif sunucu&quot; olarak işlev g&ouml;r&uuml;r. High-availability k&uuml;mesi oluşturulduğunda, veriler aktif sunucudan pasif sunucuya s&uuml;rekli olarak kopyalanır. Aktif sunucudaki t&uuml;m dosyalar pasif sunucunda &ccedil;oğaltılmış şekilde bulunur. Aktif sunucu arızaları durumunda, pasif sunucu aktif sunucudaki verilerin bire bir kopyasına sahip bir şekilde t&uuml;m hizmetleri &uuml;stlenmeye hazır hale gelir. B&ouml;ylece, high-availability k&uuml;mesi hizmetleri normal bir şekilde vermeye devam ederek &ccedil;alışma zamanı kaybını en aza indirir. Ge&ccedil;iş hakkında daha fazla bilgi i&ccedil;in, l&uuml;tfen <a href="switchover_fail.html">Ge&ccedil;iş</a> kısmına bakın</li>
+   <li><b>Aktif sunucu:</b> Aktif sunucu t&uuml;m hizmetlerin devamlılığını y&ouml;netir. Aktif sunucuda hataların oluşması durumunda, siz veya sistem pasif sunucuya bir ge&ccedil;işi başlatabilirsiniz. Bu durumda, hizmetlerin sağlanması pasif sunucuya aktarılır ve bu noktada aktif sunucu pasif sunucu haline ge&ccedil;er.</li>
+   <li><b>Pasif sunucu:</b> Normal koşullar altında, pasif sunucu bekleme modunda kalır. Aktif sunucudaki veriler s&uuml;rekli olarak pasif sunucuya kopyalanır. Aktif sunucunun hizmet sunamaması durumunda, siz veya sistem pasif sunucuya bir ge&ccedil;işi başlatabilirsiniz.</li>
+   <li><b>Kalp atışı bağlantısı:</b> Bir high-availability k&uuml;mesinin aktif ve pasif sunucuları &quot;Kalp atışı bağlantısı&quot; olarak adlandırılan ayrı ve &ouml;zel bir ağ bağlantısı ile bağlanırlar. High-availability k&uuml;mesi oluşturulduğunda, Kalp atışı bağlantısı aktif ve pasif sunucular arasındaki veri senkronizasyonunu ve &ccedil;oğaltımını kolaylaştırır. Belirli bir zaman s&uuml;resince sunucular arasındaki temas kaybedilirse, sistem bir ge&ccedil;işin gerekli olduğu sonucuna varır.</li>
+   <li><b>High-availability k&uuml;mesi ana depolama birimi:</b> Aktif sunucunun depolama birimi high-availability k&uuml;mesinin ana depolama birimi olur. Veri, Kalp Atışı bağlantısı yoluyla pasif sunucunun depolama b&ouml;l&uuml;m&uuml;ne kopyalanır.</li>
+   <li><b>High-availability k&uuml;mesi yedek depolama birimi: </b>Pasif sunucunun depolama birimi high-availability k&uuml;mesinin yedek depolama birimi olur. Veri, Kalp Atışı bağlantısı yoluyla aktif sunucunun depolama biriminden pasif depolama birimine s&uuml;rekli olarak kopyalanır. Bu, bir ge&ccedil;iş meydana geldiğinde dosya i&ccedil;eriğinin tutarlılığını sağlar.</li>
+   <li><b>High-availability k&uuml;mesi sunucu adı:</b> High-availability k&uuml;mesindeki sunucular tek sunucu ismini paylaşırlar. Ağ i&ccedil;inde, bu sunucu ismini kullanarak bağlanabilirsiniz ve hizmetler aktif sunucu tarafından sunulur. </li>
+   <li><b>High-availability k&uuml;mesi IP: </b>High-availability k&uuml;mesindeki aktif ve pasif sunucuların her birisinin kendi IP adresi olduğundan, ge&ccedil;iş yapılırken başka bir IP adresine ge&ccedil;iş yapmak zorunda kalmamak i&ccedil;in, high-availability k&uuml;mesi erişim i&ccedil;in ortak IP adresleri &uuml;retir. Hangi Synology sunucusunun aktif sunucu olarak işlev yaptığından bağımsız olarak DSM hizmetleirne erişmek i&ccedil;in bu IP adresleriyle bağlanabilirsiniz. </li>
+  </ul>
+
+
+
+ </body>
+</html>

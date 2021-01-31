@@ -1,0 +1,223 @@
+#!/bin/sh
+zram_module="/lib/modules/zram.ko"
+# number of memory can be used as zram
+# 0.25 is used for SSD cache, we assume the remaining memory 0.75 *0.4 = 0.3 is swappable
+sys_mem_ratio=0.3
+
+op=$1
+
+round_up()
+{
+	local value=$1
+	printf %0.f $value
+}
+
+math()
+{
+	local formula=$1
+	php -r "echo($formula);"
+}
+
+byte_mb()
+{
+	local byte=$1
+	local value=`math "$value/1024/1024"`
+	round_up $value
+}
+
+print_entry()
+{
+	local entry=$1
+	local name=`basename $entry`
+	local mb="0"
+	if test -e $entry ; then
+		value=`cat $entry`
+		mb=`byte_mb $value`
+		echo "$name: ${mb}MB"
+	fi
+}
+
+print_value()
+{
+	local entry=$1
+	local name=`basename $entry`
+	if test -e $entry ; then
+		value=`cat $entry`
+		echo "$name: $value"
+	fi
+}
+
+get_cpu_core()
+{
+	local cores=`cat /proc/cpuinfo | grep "cpu cores" | head -n 1`
+
+	if test "$cores" = "" ; then
+		# For platforms that don't have "cpu cores" entry
+		cat /proc/cpuinfo | grep processor | wc -l
+	else
+		echo "$cores" | sed -e "s:cpu cores\t\:\s*\([0-9]*\):\1:g"
+	fi
+}
+
+get_mem_total_kb()
+{
+	cat /proc/meminfo | grep MemTotal | sed -e "s:MemTotal\:\s*\([0-9]*\) kB:\1:g"
+}
+
+round_up()
+{
+	local float=$1
+	printf "%0.f" $float
+}
+
+zram_print()
+{
+	local msg=$1
+	echo "synozram: $msg"
+}
+
+zram_setup()
+{
+	local size_mb=0
+	local mem_total_kb=`get_mem_total_kb`
+	local cpu_core=`get_cpu_core`
+	local last_index=$(($cpu_core -1))
+	local node=""
+	local node_base=""
+
+	zram_print "Starting..."
+
+	if test ! -e "$zram_module" ;then
+		zram_print "zRAM is not supported"
+		return
+	fi
+
+	# Install lzo modules if needed
+	if test -e "/lib/modules/lzo_compress.ko" ;  then
+		insmod /lib/modules/lzo_compress.ko
+		if test "$?" != "0" ; then
+			zram_print "Can't insmod lzo_compress.ko"
+		fi
+	fi
+
+	if test -e "/lib/modules/lzo_decompress.ko" ; then
+		insmod /lib/modules/lzo_decompress.ko
+		if test "$?" != "0" ; then
+			zram_print "Can't insmod lzo_decompress.ko"
+		fi
+	fi
+
+	if cat /proc/swaps | grep zram > /dev/null 2>&1 ; then
+		zram_print "WARNING: zRAM has started"
+		exit
+	fi
+
+	# compressed ratio is about 2
+	size_mb=`math "$mem_total_kb/1024*$sys_mem_ratio/$cpu_core*2"`
+	size_mb=`round_up $size_mb`
+
+	if  lsmod | grep zram ; then
+		rmmod zram
+	fi
+	insmod $zram_module num_devices=$cpu_core
+
+	for i in `seq 0 $last_index` ;do
+		node="/dev/zram$i"
+		node_base=`basename $node`
+		echo $(($size_mb*1024*1024)) > /sys/block/$node_base/disksize
+
+		if test ! -e "$node" ; then
+			mknod $node b 252 $i
+		fi
+
+		mkswap $node
+		swapon -p 1 $node
+	done
+
+	cat /proc/swaps
+
+	zram_print "Started"
+
+}
+
+zram_unset()
+{
+	local size_mb=0
+	local cpu_core=`get_cpu_core`
+	local last_index=$(($cpu_core -1))
+	local node=""
+
+	zram_print "Stopping..."
+	if ! cat /proc/swaps | grep zram > /dev/null 2>&1 ; then
+		zram_print "zRam can not be stopped due to it doesn't start"
+		exit
+	fi
+
+	for i in `seq 0 $last_index` ;do
+		node="/dev/zram$i"
+		if test -e "$node" ; then
+			swapoff $node
+			rm $node
+		fi
+	done
+
+	if lsmod | grep zram ; then
+		rmmod zram
+	fi
+
+	if lsmod | grep lzo_compress; then
+		rmmod lzo_compress
+	fi
+
+	if lsmod | grep lzo_decompress; then
+		rmmod lzo_decompress
+	fi
+
+	cat /proc/swaps
+
+	zram_print "Stopped"
+}
+
+zram_watch()
+{
+	local cpu_core=`get_cpu_core`
+	local last_index=$(($cpu_core -1))
+
+	while true; do
+		clear
+		echo "===========`date`==================="
+		cat /proc/meminfo | head -n 5
+		echo "------------------------"
+		for i in `seq 0 $last_index` ;do
+			echo "zram$i:"
+			# orig_data_size + zero_pages*4k is the original data size
+			print_entry "/sys/block/zram$i/orig_data_size"
+			print_value "/sys/block/zram$i/zero_pages"
+			print_entry "/sys/block/zram$i/compr_data_size"
+			print_entry "/sys/block/zram$i/mem_used_total"
+			print_value "/sys/block/zram$i/num_reads"
+			print_value "/sys/block/zram$i/num_writes"
+			echo "------------------------"
+		done
+		echo ======================================
+		cat /proc/swaps
+		sleep 5
+	done
+}
+
+case "$op" in
+	start)
+		zram_setup
+		;;
+	stop)
+		zram_unset
+		;;
+	watch)
+		zram_watch
+		;;
+	*)
+		echo "unknown option"
+		;;
+esac
+
+

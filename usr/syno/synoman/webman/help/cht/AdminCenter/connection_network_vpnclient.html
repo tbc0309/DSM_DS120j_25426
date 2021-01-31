@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>連線至 VPN - Synology DSM 說明</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Turn your Synology NAS into a VPN client and create profiles to connect your Synology NAS to a VPN server.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h1>連線至 VPN</h1>
+<p>您可以輕鬆地讓 Synology NAS 搖身一變成為 VPN 用戶端，並透過 PPTP、OpenVPN 或 L2TP/IPSec 通訊協定來連線至現有的 VPN (Virtual Private Network，虛擬私人網路) 伺服器。若您有多台 VPN 伺服器，您可以為每台伺服器建立個別的 VPN 設定檔，只需按一下滑鼠便能快速地切換並連線至不同 VPN 伺服器。</p>
+
+
+<div class="section">
+<h4>什麼是 VPN？</h4>
+<p>VPN (Virtual Private Network) 即虛擬私人網路，是一種透過網際網路得以安全存取私人網路資源的存取方案。對於企業及某些獨立用戶而言，隨著網路需求日益漸增，這種實體網路系統及所需技術支援的成本也大幅增長。考量到成本效益及長期維護所需的費用，VPN 便成了經濟實惠且後勢看漲的解決方案。透過加密及其他安全機制，VPN 技術可讓企業員工輕易地存取公司中央網路資源，如同在區域網路操作般輕而易舉。個人用戶也可以從其他地方存取家庭區域網路上的資源。</p>
+</div>
+
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>Synology NAS 僅可連接至在 Layer 3 支援 tun 通道的 OpenVPN 伺服器。</li>
+<li>在安裝 VPN 套件之前，請先確認您有 VPN 伺服器可供連線。為獲得更佳的相容性，建議您連接至已執行 <strong>VPN Server</strong> 套件之 Synology NAS 上架設的 VPN 服務。若要將另一台 Synology NAS 設為 VPN 伺服器，請參閱 <b>DSM 說明</b> &gt; <b>VPN Server</b> &gt; <b>設定 VPN 伺服器</b>。</li>
+</ul>
+</div>
+
+
+<h4>若要新增 VPN 設定檔：</h4>
+<ol>
+<li>請前往<b>控制台</b> &gt; <b>網路</b>。</li><img src="about:blank" class="help_image"/><li>在<b>網路介面</b>頁籤下，按一下<b>新增</b>並選擇<b>建立 VPN 設定檔</b>。</li><img src="about:blank" class="help_image"/><li>建立新的 VPN 設定檔時，您可以選擇下列任一種連線類型：<ul>
+		<li><b>PPTP</b>：PPTP (點對點通道協議) 是常用的 VPN 解決方案，且大多數的用戶端 (包含 Windows、Mac、Linux 及行動裝置) 皆支援 PPTP。</li>
+		<li><b>OpenVPN</b>：OpenVPN 是開放原始碼 (open source) 的 VPN 解決方案。它會以 SSL/TLS 加密機制保護 VPN 連線。</li>
+		<li><b>L2TP/IPSec：</b>L2TP (Layer 2 Tunneling Protocol) over IPSec 提供更安全的虛擬私有網路，且大多數的用戶端均支援 (Windows、Mac、Linux 及行動裝置)。</li>
+	</ul>
+</li><img src="about:blank" class="help_image"/><li>參閱下方區塊的步驟說明來設定任一種 VPN 連線。</li>
+</ul>
+</ol>
+
+<h4>若要新增 PPTP 設定檔：</h4>
+
+  <ol>
+  <li>系統要求您選擇一種 VPN 連線方式時，請選擇 <b>PPTP</b> 並按一下<b>下一步</b>。</li>
+  <li>為新的設定檔選擇名稱、指定欲建立連線之 VPN 伺服器的位址，並輸入您在該伺服器上的使用者名稱及密碼。按一下<b>下一步</b>來繼續。</li>
+
+<div class="section">
+<h4>注意：</h4>
+
+<ul>
+<li>VPN 伺服器的使用者名稱、密碼及位址需由 VPN 伺服器管理者提供。</li>
+</ul>
+</div>
+
+  <li>從<b>認證</b>選單中選擇下列其中一項認證通訊協定，讓系統在認證進行時保護 VPN 用戶端的密碼：<ul>
+		<li><b>PAP</b>：密碼在認證過程中將不加密。</li>
+		<li><b>CHAP：</b>密碼會以 CHAP (Challenge-Handshake Authentication Protocol) 進行加密。</li>
+		<li><b>MS CHAP：</b>密碼會以 Microsoft CHAP v1 進行加密。</li>
+		<li><b>MS CHAP v2：</b>密碼會以 Microsoft CHAP v2 進行加密。</li>
+	</ul>
+  </li>
+  <li>如果您選擇 <b>MS CHAP</b> 或 <b>MS CHAP v2</b>，則請從<b>加密</b>選單中選擇下列其中一項來加密 VPN 連線：<ul>
+		<li><b>No MPPE</b>：VPN 連線將不會受到 Microsoft Point to Point Encryption 加密機制的保護。</li>
+		<li><b>Require MPPE (40/128 bit)：</b>VPN 連線會受到 40 位元或 128 位元 Microsoft Point to Point Encryption 加密機制的保護。</li>
+		<li><b>Maximum MPPE (128 bit)</b>：VPN 連線會受到 128 位元 Microsoft Point to Point Encryption 加密機制的保護，該機制可提供最高的安全性。</li>
+	</ul>
+  </li>
+    <div class="section">
+    <h4>注意：</h4>
+  
+    <ul>
+    <li>此處的認證及加密設定必須與 VPN 伺服器所指定的設定相同。如需更多詳細資訊，請聯絡 VPN 伺服器管理者。</li>
+    </ul>
+    </div>
+   
+<li>視您的需求而定，請勾選下列任何核取方塊：<ul>
+		<li><b>使用遠端網路的預設閘道</b>：啟動此選項來將 Synology NAS 的網路流量傳導至指定的 VPN 伺服器。</li>
+		<li><b>允許其它網路裝置透過這台 Synology 伺服器的網際網路連線來連線</b>：啟動此選項來允許 Synology NAS 所屬區域網路內的網路裝置連線至相同的 VPN 伺服器。</li>
+		<li><b>VPN 斷線後重新連線</b>：若 VPN 連線意外斷線，系統會每隔 30 秒鐘嘗試重新建立連線，總共嘗試五次。</li>
+	</ul>
+</li>
+
+<li>按一下<b>套用</b>。</li>
+</ol>
+
+
+
+<h4>若要透過匯入 .ovpn 來創建 OpenVPN 設定檔：</h4>
+<ol>
+<li>系統要求您選擇一種 VPN 連線方式時，請選擇 <b>OpenVPN (透過匯入.ovpn 設定檔)</b> 並按一下<b>下一步</b>。</li>
+<li>為新的設定檔選擇名稱，並在 <b>匯入 .ovpn 設定檔</b> 欄位中，按一下瀏覽按鈕來尋找並匯入從 VPN 伺服器匯出的 .ovpn 設定檔</b>。</li>
+<li>如果 VPN 伺服器管理者有提供使用者名稱、密碼及<strong>CA 憑證</strong> 時，請依序指示填入</li>
+<li>如果 VPN 伺服器管理者有提供 <b>TLS-auth 金鑰</b>、<b>用戶端金鑰</b>、<b>用戶端憑證</b>及<b>憑證廢止列表</b> 時，請點選<strong>進階設定</strong>並匯入相對應的欄位。</li>
+<li>按一下<b>下一步</b>來繼續。</li>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>VPN 伺服器的使用者名稱、位址及各類檔案如憑證、金鑰需由 VPN 伺服器管理者提供。</li>
+</ul>
+</div>
+
+<li>視您的需求而定，請勾選下列任何核取方塊：</li>
+<ul>
+<li><b>使用遠端網路的預設閘道</b>：啟動此選項來將 Synology NAS 的網路流量傳導至指定的 VPN 伺服器。</li>
+<li><b>允許其它網路裝置透過這台 Synology 伺服器的網際網路連線來連線</b>：啟動此選項來允許 Synology NAS 所屬區域網路內的網路裝置連線至相同的 VPN 伺服器。</li>
+<li><b>VPN 斷線後重新連線</b>：若 VPN 連線意外斷線，系統會每隔 30 秒鐘嘗試重新建立連線，總共嘗試五次。</li>
+</ul>
+<li>按一下<b>套用</b>。</li>
+</ol>
+
+
+
+
+<h4>若要新增 L2TP/IPSec 設定檔：</h4>
+<ol>
+<li>系統要求您選擇一種 VPN 連線方式時，請選擇 <b>L2TP/IPSec</b> 並按一下<b>下一步</b>。</li>
+<li>為新的設定檔選擇名稱、指定欲建立連線之 VPN 伺服器的位址，並輸入您在該伺服器上的使用者名稱及密碼。您亦需要為 VPN 伺服器輸入預先共用金鑰。接著，按一下<strong>下一步</strong>。</li>
+
+<div class="section">
+<h4>注意：</h4>
+
+<ul>
+<li>VPN 伺服器的使用者名稱、位址及預先共用金鑰需由 VPN 伺服器管理者提供。</li>
+</ul>
+</div>
+
+<li>從<b>認證</b>選單中選擇下列其中一項認證通訊協定，讓系統在認證進行時保護 VPN 用戶端的密碼：<ul>
+		<li><b>PAP：</b>密碼不會進行加密。</li>
+		<li><b>CHAP：</b>密碼會以 CHAP (Challenge-Handshake Authentication Protocol) 進行加密。</li>
+		<li><b>MS CHAP：</b>密碼會以 Microsoft CHAP v1 進行加密。</li>
+		<li><b>MS CHAP v2：</b>密碼會以 Microsoft CHAP v2 進行加密。</li>
+	</ul>
+</li>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>此處的認證及加密設定必須與 VPN 伺服器所指定的設定相同。如需更多詳細資訊，請聯絡 VPN 伺服器管理者。</li>
+</ul>
+</div>
+
+<li>視您的需求而定，請勾選下列任何核取方塊：<ul>
+		<li><b>使用遠端網路的預設閘道</b>：啟動此選項來將 Synology NAS 的網路流量傳導至指定的 VPN 伺服器。</li>
+		<li><b>允許其它網路裝置透過這台 Synology 伺服器的網際網路連線來連線</b>：啟動此選項來允許 Synology NAS 所屬區域網路內的網路裝置連線至相同的 VPN 伺服器。</li>
+		<li><strong>伺服器位於 NAT 裝置之後</strong>：根據預設，L2TP/IPSec 通訊協定不允許連線至位於 NAT 裝置之後的 VPN 伺服器。啟動此選項來略過此限制，以讓 Synology NAS 連線至位於 NAT 裝置之後的 L2TP/IPSec VPN 伺服器。</li>
+		<li><b>VPN 斷線後重新連線</b>：若 VPN 連線意外斷線，系統會每隔 30 秒鐘嘗試重新建立連線，總共嘗試五次。</li>
+	</ul>
+</li>
+<li>按一下<b>套用</b>。</li>
+</ol>
+
+
+<h4>若要連線至 VPN 伺服器或中斷其連線：</h4>
+
+<ol>
+<li>選擇一個 VPN 設定檔。</li>
+<li>按一下<b>連線</b>或<b>中斷連線</b>。</li><img src="about:blank" class="help_image"/></ol>
+
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>一次僅能使用一個設定檔連線。</li>
+</ul>
+</div>
+
+<h4>若要編輯 VPN 設定檔：</h4>
+
+<ol>
+<li>選擇一個 VPN 設定檔。</li>
+<li>按一下<strong>編輯</strong>。</li>
+
+</ol>
+
+
+</body>
+</html>

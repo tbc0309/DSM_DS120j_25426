@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Limitações e requisitos do sistema - Ajuda do Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>Limitações e requisitos do sistema</h1>
+
+ <p>A implementação do Synology High Availability requer dois servidores Synology idênticos para funcionar como servidores ativo e passivo. Antes que os dois servidores sejam combinados em um cluster de high-availability, o Assistente do Synology High Availability verificará as seguintes limitações de hardware e software para garantir que o cluster de high-availability possa ser criado.</p>
+ 
+  
+ <h3>Requisitos do sistema</h3>
+ 
+  <p>Observe as diretrizes a seguir em relação ao software e hardware:</p>
+  <ul>
+   <li><b>Servidor Synology:</b> Os servidores ativo e passivo devem ser de modelos idênticos e suportar o Synology High Availability. Observe que o nome do conjunto de high-availability deve ser diferente dos nomes dos servidores ativo e passivo.</li>
+   <li><b>Versão do DSM:</b> A mesma versão do DSM deve estar instalada nos servidores ativo e passivo. </li>
+   <li><b>Versão do pacote:</b> A mesma versão do Synology High Availability deve estar instalada nos dois servidores Synology.</li>
+  </ul>
+
+  
+ <h3>Volume e unidade</h3>
+ 
+  <p>Observe as diretrizes a seguir relativas aos espaços de armazenamento (por exemplo, volumes, Grupos de Discos, Grupos RAID, etc.) e ao gerenciamento de disco rígido.</p>
+  <ul>
+   <li><b>Capacidade da unidade:</b> para acomodar a replicação de dados, a capacidade da unidade do servidor passivo deve ser igual ou maior do que a capacidade do servidor ativo. É altamente recomendado que a capacidade da unidade dos dois servidores seja completamente idêntica para reduzir as chances de inconsistências. </li>
+   <li><b>Número e tipo de unidades:</b> os servidores ativo e passivo devem ter a mesma quantidade de unidades. Além disso, a posição da unidade deve corresponder em ambos os servidores, e os tipos de unidade (por exemplo, SSD/HDD, SAS/SATA) e suas especificações (por exemplo, tamanho do setor de 4 K ou 512 bytes) nos dois servidores devem ser idênticos. Observe que dispositivos externos, como discos rígidos USB, não serão incluídos na contagem do número de unidades.</li>
+   <li><b>Reparo do Hot Spare:</b> Os volumes degradados no servidor passivo não dispararão um reparo do hot spare. Entretanto, se os volumes no servidor ativo estiverem degradados, será disparado um reparo do hot spare e os volumes do servidor passivo também serão degradados porque o sistema removerá uma unidade em boas condições de volumes RAID do servidor passivo de modo a forçar o reparo do hot spare.</li>
+   <li><b>Formato SHR não suportado:</b> Volume de formato SHR não são suportados. Certifique-se de que o servidor Synology que funcionará como o servidor ativo não contenha volumes SHR. </li>
+  </ul>
+
+    <div class="section">
+    <h4>Nota:</h4>
+    <ul>
+    <li>A velocidade das unidades no servidor passivo também afetará o desempenho de gravação do conjunto de high-availability porque os dados são sincronizados com o servidor passivo através da conexão Heartbeat. Recomendamos o uso de unidades idênticas nos servidores ativo e passivo.</li>
+    <li>Se o servidor passivo for desativado ou o Heartbeat for desconectado, os volumes ficarão temporariamente indisponíveis e a transferência iSCSI será pausada por aproximadamente 10 segundos.</li>
+    </ul>
+    </div>
+
+  
+  <h3>Ambiente de rede</h3>
+  <p>Observe as orientações de configuração de rede a seguir ao tentar formar um cluster de high-availability.</p>
+  <ul>
+    <li><b>Configurações de rede:</b> Os dois servidores devem ter endereços IP estáticos pertencentes à mesma sub-rede.</li>
+    <li><b>Número de portas LAN:</b> Os dois servidores devem ter o mesmo número de portas LAN. Se seu Synology NAS for equipado com interfaces de cartão de rede adicionais, esses cartões de rede também contam como portas LAN adicionais. </li>
+        <li><b>Restrições do ambiente de conexão:</b> O ambiente de conexão entre os dois servidores deve suportar multitransmissão e não deve haver regras de firewall bloqueando as portas usadas pelo conjunto de high-availability. Se a conexão Heartbeat passar através de qualquer switch, você deve garantir que os switches suportem multicast e Jumbo Frame.</li>
+    <li><b>Restrições de conexão:</b> Os servidores não podem se conectar à rede por DHCP, IPv6, PPPoE ou Wi-Fi. Certifique-se de que essas funções estejam desabilitadas antes de tentar formar um cluster de high-availability.</li>
+    <li><strong>Sem serviço DHCP:</strong> Os servidores não podem usar as opções do DHCP Server integrado quando combinados em um cluster.</li>
+   <li><strong>Configurações de Link Aggregation:</strong> Os dois servidores devem ter as mesmas configurações de Link Aggregation para a rede de dados e a conexão Heartbeat. Após a criação do cluster de high-availability, as configurações de Link Aggregation não poderão ser modificadas.</li>
+   <li><b>Configurações do Open vSwitch:</b> O status do Open vSwitch nos dois servidores deve ser o mesmo (habilitado ou desabilitado). Após a criação do conjunto de high-availability, as configurações do Open vSwitch não poderão ser modificadas.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Nota:</h4>
+    <ul>
+      <li>Os serviços SSH e NTP serão automaticamente habilitados no servidor ativo assim que o cluster de high-availability for criado.</li>
+    </ul>
+  </div>
+  <h3>Limitações do Gerenciador de Armazenamento</h3>
+  <p>Após o cluster de high-availability ser formado, a opção de alterar o tipo de RAID não estará mais disponível no Gerenciador de Armazenamento. No entanto, serão disponibilizadas as opções a seguir:
+<ul>
+<li>Expandir espaços de armazenamento (por exemplo, volumes, iSCSI LUNs de nível de bloqueio, Grupos de Discos, Grupos RAID, etc).</li>
+    <li>Criar, excluir ou reparar volumes, iSCSI LUNs, caches de SSD de somente leitura e de leitura e gravação.</li>
+    <li>Alterar o tamanho e a localização do iSCSI LUN (nível arquivo).</li>
+    <li>Alterar o destino do iSCSI LUN.   </li>
+  </ul>
+
+  <div class="section">
+    <h4>Nota:</h4>
+    <ul>
+      <li>Não altere a posição da unidade quando o conjunto de high-availability for criado, caso contrário o espaço de armazenamento ficará ausente.</li>
+      <li>Para garantir que seu servidor conectado ao Synology iSCSI alvo não alcance o tempo limite durante o failover, recomenda-se ajustar as configurações de tempo limite do cliente iSCSI e o iniciador para 120 segundos ou mais.</li>
+    </ul>
+  </div>
+
+ 
+<h3>Limitações de pacotes e softwares</h3> 
+
+<p>Após o cluster de high-availability ser formado, os pacotes e recursos a seguir não serão suportados:</p>
+	<ul>
+
+    <li>Virtual DSM Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>O recurso de reiniciar/desligar o cluster de high-availability no CMS</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>Nota:</h4>
+    <ul>
+    <li>Para permitir suporte para o Docker DSM em High Availability, é necessário habilitar o Open vSwitch antes de criar o conjunto.</li>
+    </ul>
+   </div>
+
+<h3>Adição de unidades de expansão</h3>
+  <p>Quando um cluster de high-availability tiver sido criado, as unidades de expansão poderão ser adicionadas à configuração do cluster de high-availability existente para expandir a capacidade de armazenamento. Como ocorre com outros requisitos de hardware, são necessárias unidades de expansão idênticas nos servidores ativo e passivo. Para evitar erros de inconsistência, tenha o cuidado de seguir as instruções abaixo ao adicionar qualquer unidade de expansão.</p>
+  
+  <h4>Para adicionar unidades de expansão:</h4>
+   <ol>
+    <li>Adicione apenas unidades de expansão e discos rígidos idênticos nos servidores ativo e passivo. Como indicado acima, o hardware dos servidores ativo e passivo deve ser idêntico, incluindo o modelo do hardware, tipo, tamanho e posição do disco rígido.</li>
+    <li>Certifique-se de excluir todos os volumes e dados existentes dos discos rígidos nas unidades de expansão.</li>
+    <li>Conecte as unidades de expansão aos servidores ativo e passivo quando os dois servidores estiverem ligados e em execução.</li>
+    <li>Crie um novo espaço de armazenamento (por exemplo, volumes, Grupos de Discos, Grupos RAID, etc.) na unidade de expansão antes de desligar os servidores.</li>
+   </ol>
+<div class="section">
+<h4>Notas:</h4>
+<p>Para obter informações básicas sobre a instalação da unidade de expansão, lembre-se de consultar o guia do usuário da unidade de expansão.</p>
+</div>
+
+
+<h3>Limitações do dispositivo USB</h3>
+   <p>A mudança/Failover de dispositivos USB não é suportada. Os serviços ou aplicativos fornecidos por dispositivos USB podem não funcionar adequadamente após a mudança/failover.</p>
+
+   
+ </body>
+</html>

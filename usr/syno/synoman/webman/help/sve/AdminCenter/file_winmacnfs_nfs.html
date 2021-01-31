@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>NFS-tj&auml;nst</h2>
+<p>NFS-tj&auml;nsten g&ouml;r att Linux-klienter f&aring;r tillg&aring;ng till data p&aring; denna Synology NAS-enhet.</p>
+<h4>Aktivera NFS-tj&auml;nst:</h4>
+<ol>
+<li>G&aring; till <strong>Kontrollpanel</strong> &gt; <strong>Filtj&auml;nster</strong> &gt; <strong>SMB/AFP/NFS</strong> och markera <b>Aktivera NFS</b>.</li>
+<li>Klicka p&aring; <b>Till&auml;mpa</b>.</li>
+</ol>
+
+
+<div class="section">
+  <h4>Obs:</h4>
+<ul>
+<li> Synology NAS st&ouml;der f&ouml;r n&auml;rvarande NFSv2, NFSv3 och NFSv4.</li>
+<li>Vid montering kan parametern <strong>-o vers=2</strong>, <strong>-o vers=3</strong> eller <strong>-o vers=4</strong> l&auml;ggas till monteringskommandot f&ouml;r att specificera vilken version av NFS som ska anv&auml;ndas.</li>
+<li>F&ouml;ljande delade mappar till&aring;ter inte &aring;tkomst via NFS:
+	<ul>
+    <li>Krypterade delade mappar</li>
+    <li>PetaSpace delade mappar</li>
+    <li>Delade mappar anv&auml;nder filsystemen HFS, HFS Plus och exFAT</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>Konfigurera Linux-klienters &aring;tkomstprivilegier till delade mappar:</h4>
+<p>G&aring; till <b>Kontrollpanel</b> &gt; <b>Delad mapp</b>. V&auml;lj en delad mapp och klicka p&aring; <strong>Redigera</strong> f&ouml;r att hantera NFS-regler och styra Linux-klienters &aring;tkomstr&auml;ttigheter f&ouml;r denna delade mapp.</p>
+
+
+<h3>St&auml;lla in st&ouml;d f&ouml;r NFSv4</h3>
+<p>Du kan avg&ouml;ra huruvida din NFS-server st&ouml;der NFSv4. N&auml;r detta alternativ &auml;r aktiverat kommer NFS-server att ha st&ouml;d f&ouml;r NFSv2, NFSv3 och NFSv4; i annat fall finns endast st&ouml;d f&ouml;r NFSv2 och NFSv3.</p>
+
+<h4>Aktivera st&ouml;d f&ouml;r NFSv4:</h4>
+<ol>
+<li>Markera <b>Aktivera st&ouml;d f&ouml;r NFSv4</b>.
+</li>
+<li>
+I f&auml;ltet <b>NFSv4-dom&auml;n</b>, ange namnet p&aring; den NFSv4-dom&auml;n du vill anv&auml;nda. Detta f&auml;lt &auml;r valfritt och kan l&auml;mnas tomt.</li>
+<li>
+Klicka p&aring; <b>Till&auml;mpa</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<p>N&auml;r du anv&auml;nder NFSv4 f&ouml;r att montera den delade mappen, v&auml;nligen observera f&ouml;ljande. I annat fall kommer fil&aring;tg&auml;rder som associeras till anv&auml;ndarnamnet att misslyckas.</p>
+<ul>
+<li>NFS-klient m&aring;ste aktivera idmapd.</li>
+<li>Inst&auml;llningarna f&ouml;r NFSv4-dom&auml;n i filen idmapd.conf p&aring; din NFS-klient m&aring;ste &ouml;verensst&auml;mma med f&auml;ltet <b>NFSv4-dom&auml;n</b> p&aring; Synology NAS.</li>
+</ul>
+
+</div>
+
+
+<h3>Avancerade inst&auml;llningar</h3>
+
+<h4>Till&auml;mpning av standardbeh&ouml;righeter f&ouml;r UNIX</h4>
+<p> N&auml;r <strong>Till&auml;mpa standardr&auml;ttigheter f&ouml;r UNIX</strong> &auml;r markerad till&auml;mpas standardr&auml;ttigheter f&ouml;r UNIX som st&auml;llts in i Linux-klienten, i st&auml;llet f&ouml;r Windows ACL-beh&ouml;righeter, n&auml;r filer eller mappar laddas upp eller skapas. Till&auml;mpade beh&ouml;righeter &auml;r de samma som de beh&ouml;righeter som appliceras av UNIX-kommandot <strong>umask</strong>.  Standardv&auml;rdet f&ouml;r umask &auml;r 022.</p><div class="section">
+<h4>Obs:</h4>
+<ul>
+  <li>F&ouml;r delade mappar d&auml;r Windows ACL aktiverats (alla utdelningar f&ouml;rutom &quot;photo&quot; och utdelningar p&aring; externa enheter), v&auml;nligen k&ouml;r kommandot <strong>chmod</strong> p&aring; din Linux- eller FTP-klient f&ouml;r att &auml;ndra typ av filbeh&ouml;righet fr&aring;n Windows ACL till UNIX.</li>
+  <li>Aktivering av detta alternativ kan orsaka problem med inkonsekventa beh&ouml;righeter mellan olika protokoll. F&ouml;r att undvika inkonsekvens rekommenderar vi att detta alternativ l&auml;mnas avaktiverat.</li>
+</ul>
+</div>
+
+<h4>Anpassad port</h4>
+<p>Du kan anpassa portnummer f&ouml;r tj&auml;nsterna statd och nlockmgr.</p>
+
+<ol>
+<li>V&auml;lj <strong>Anpassade portar</strong>.</li>
+<li>Ange portnummer i <strong>statd-port </strong>och<strong> nlockmgr-port</strong>.</li>
+<li>
+Klicka p&aring; <b>Till&auml;mpa</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Om du vill anv&auml;nda NFSv3-tj&auml;nster, g&aring; till <strong>Kontrollpanel</strong> &gt; <strong>S&auml;kerhet</strong> &gt; <strong>Brandv&auml;gg</strong> och skapa en brandv&auml;ggsregel som aktiverar &quot;Mac/Linux-filserver&quot; fr&aring;n listan &ouml;ver inbyggda applikationer.</li>
+</ul>
+</div>
+<h4>St&auml;lla in storlek p&aring; l&auml;s-/skrivpaket</h4>
+<p>N&auml;r storleken f&ouml;r l&auml;s-/skrivpaket inte kan st&auml;llas in i din NFS-klient, kan du specificera standardv&auml;rde i detta f&auml;lt.</p>
+
+<ol>
+<li>V&auml;lj den &ouml;nskade paketstorleken fr&aring;n f&auml;lten <strong>L&auml;sstorlek p&aring; paket</strong> och <strong>Skrivstorlek p&aring; paket</strong>.</li>
+<li>
+Klicka p&aring; <b>Till&auml;mpa</b>.
+</li>
+<li>
+&Aring;termontera delad enhet.
+</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Efter &auml;ndring av storlek p&aring; l&auml;s-/skrivpaket m&aring;ste den delade mappen f&ouml;rst &aring;termonteras innan inst&auml;llningarna b&ouml;rjar g&auml;lla.</li>
+<li>Dessa inst&auml;llningar p&aring;verkar endast NFS-klienter som ansluter via UDP (User Datagram Protocol).</li>
+</ul>
+</div>
+
+
+
+
+<h3>Kerberos-inst&auml;llningar*</h3>
+<p>Kerberos &auml;r ett n&auml;tverksautentiseringsprotokoll. Det l&aring;ter klienter och servrarna kommunicera &ouml;ver ett icke-s&auml;kert n&auml;tverk och bevisa sina identiteter till varandra p&aring; ett s&auml;kert s&auml;tt. Synology NAS tillhandah&aring;ller m&ouml;jligheter att importera befintliga Kerberosnycklar. N&auml;r de v&auml;l importerats lyckosamt, kan NFS-klienter anv&auml;nda Kerberos autentiseringsprotokoll f&ouml;r att ansluta till Synology NAS.</p>
+
+<h4> Importera en Kerberosnyckel: </h4>
+<ol>
+<li>Klicka p&aring; <strong>Kerberos-inst&auml;llningar</strong>.</li>
+<li>Klicka p&aring; knappen <b>Importera</b>.</li>
+<li>V&auml;lj den Kerberosnyckel du vill importera.</li>
+<li>Klicka p&aring; <b>OK</b>.</li>
+</ol>
+
+<h3><a name="idmap"></a>Kerberos ID-mappning</h3>
+<p>Du kan mappa individuella Kerberos s&auml;kerhetsobjekt till lokala DSM-anv&auml;ndare.</p>
+<h4> Mappa Kerberos s&auml;kerhetsobjekt och lokala anv&auml;ndare: </h4>
+<ol>
+<li>Klicka p&aring; <strong>Kerberos-inst&auml;llningar</strong>.</li>
+<li>G&aring; till fliken <strong>ID-mappning</strong>.</li>
+<li> Klicka p&aring; knappen <b>L&auml;gg till</b>. V&auml;lj en av f&ouml;ljande.</li>
+<ul>
+<li><strong>ID-mappning:</strong> Ange Kerberos s&auml;kerhetsobjekt och den lokala anv&auml;ndaren till vilken det ska mappas.</li>
+<li><strong>F&ouml;reslagen mappningslista:</strong> Detta alternativ visar en list &ouml;ver f&ouml;reslagna mappningsalternativ f&ouml;r Kerberos s&auml;kerhetsobjekt/lokala anv&auml;ndare som genereras av systemet.</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> Obs: </h4>
+<ul>
+<li>Om du vill mappa en NFS-klient som ansluter via Kerberos till en befintlig dom&auml;n-/LDAP-anv&auml;ndare, tillse att du har anslutit till katalogtj&auml;nsten. Dessutom m&aring;ste servern ha ett attribut som inkluderar motsvarande Kerberos s&auml;kerhetsobjekt.</li>
+<ul>
+<li><strong>Dom&auml;nanv&auml;ndare:</strong> Formatet f&ouml;r motsvarande attribut ska vara <strong>userPrincipalName</strong>.</li>
+<li><strong>LDAP-anv&auml;ndare:</strong> Formatet f&ouml;r motsvarande attribut ska vara <strong>GSSAuthName</strong>.</li>
+</ul>
+<li>Om anv&auml;ndaren inte kan mappas till en lokal anv&auml;ndare eller en dom&auml;n-/LDAP-anv&auml;ndare, sk anv&auml;ndaren mappas till &quot;guest&quot;.
+<li>Mappningsprioriteten &auml;r som f&ouml;ljer: Lokal anv&auml;ndare &gt; Dom&auml;n-/LDAP-anv&auml;ndare &gt; Guest. </li>
+<li>Om du vill &auml;ndra &aring;tkomstbeh&ouml;righeter f&ouml;r NFS-klienter, v&auml;nligen anv&auml;nd Kontrollista f&ouml;r Windows-tilltr&auml;de (Windows Access Control List - ACL). Alternativen f&ouml;r privilegier som finns i <strong>Kontrollpanel</strong> &gt; <strong>Anv&auml;ndare</strong> &auml;r inte applicerbara p&aring; NFS-klienter.</li>
+</ul>
+</div>
+<p>
+<br>____<br>* Endast tillg&auml;ngligt f&ouml;r vissa modeller.
+
+</p>
+
+
+
+</body>
+</html>

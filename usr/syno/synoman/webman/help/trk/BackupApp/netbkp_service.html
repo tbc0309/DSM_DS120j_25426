@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Yedekleme Hizmetleri - Synology DSM Yardım</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Yedekleme Hizmetleri</h2>
+<p><strong>Yedekleme ve Çoğaltma</strong> > <strong>Yedekleme Hizmetleri</strong> diğer kullanıcıların Synology NAS cihazlarından veya rsync uyumlu istemcilerinden verileri Synology NAS sunucunuza yedeklemesini sağlar.</p>
+<h3>Ağ Yedekleme Hizmetini Etkinleştirme</h3>
+<p>Bir Synology NAS sunucusundaki veya rsync uyumlu sunucudaki verileri başka bir Synology NAS sunucusuna yedeklemek istiyorsanız, ya da başka bir Synology NAS aygıtının uzak yedekleme görevlerini yapmasına ve Synology NAS aygıtınızın bir birimine yedekleme verilerini kaydetmesine izin vermek istiyorsanız, bir ağ yedeklemesi görevini oluşturmadan önce hedef sunucuda ağ yedeklemesi hizmetini etkinleştirmeniz gerekir. <b>Denetim Masası</b> > <b>Ayrıcalıklar</b> öğesine giderek ve <b>Ağ Yedekleme Hedefi</b> ayrıcalığını bir kullanıcıya vererek bunu yapabilirsiniz. Ardından uygun Synology NAS sunucunuz üzerinde uygun uygulama ve paylaşımlı klasör ayrıcalıklarına sahip bir DSM kullanıcısı oluşturabilirsiniz. Kurulum tamamlandığında, diğer kişiler kullanıcı önceliklerini kullanarak Synology NAS ürününden Synology NAS uygulamasındaki paylaşılan hedef klasörlerde ağ yedeklemesi yapabilir.</p>
+
+<h4>Tek sürüm yedekleme hizmetini etkinleştirmek için:</h4>
+<ol>
+<li><b>Yedekleme Hizmetleri</b> > <b>Ağ Yedekleme Hedefi</b> öğesine gidin ve ardından <b>Ağ yedekleme hizmetini etkinleştir</b>'i işaretleyin.</li>
+<li><b>Uygula</b>'ya tıklayın.</li>
+<li><b>Denetim Masası</b> > <b>Paylaşımlı Klasör</b> öğesine gidin, bir paylaşımlı klasör seçin, <b>Düzenle</b> > <b>İzinler</b> üzerine tıkladıktan sonra <b>Okuma/Yazma</b> ayrıcalığını kullanıcıya verin. Yedekleme hedefleri olarak kullanabileceğiniz daha fazla klasör eklemek için bu adımı tekrarlayın.</li>
+</ol>
+<h4>Çoklu sürüm yedekleme hizmetini etkinleştirmek için:</h4>
+<ol>
+  <li><strong>Yedekleme Hizmetleri</strong> > <b>Ağ Yedekleme Birimi Hedefi</b> öğesine gidin ve <strong>	Ağ yedekleme birimi hedefini etkinleştir</strong> yanındaki kutuyu işaretleyin.</li>
+  <li><b>Yedekleme Hedefi</b>'ne gidin ve bir yerel birimle ilişkili olan bir yedekleme hedefini seçin.</li>
+<li>Kullanıcıyı veya grubu listeye eklemek için <b>Düzenle</b> > <b>İzin Listesi</b> >  <strong>Ekle</strong> üzerine tıklayın.</li>
+</ol>
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Diğer kişiler Synology NAS dışında bir istemciden ağ yedeklemesi yapmak isterse, bu işlemi sadece Synology NAS sunucunuz üzerinde <b>admin</b> veya <b>rsync</b> ayrıcalığına sahip olduklarında yapabilirler. <b>admin</b> bilgilerinizi diğer kişilerle paylaşmak istemiyorsanız, <b>Denetim Masası</b> > <strong>Kullanıcı</strong>'ya giderek <b>rsync</b> adında bir kullanıcı oluşturabilir, ayrıcalıklarını değiştirebilir ve ardından kullanıcı bilgilerini diğer kişilerle paylaşabilirsiniz.</li><li>3.0 öncesi DSM sürümünü çalıştıran bir Synology NAS sunucusundan ya da Synology NAS olmayan bir istemciden ağ yedeklemesi yapıyorsanız ve kaynak verilerin <b>sahip</b> ve <b>grup</b> bilgilerini korumak istiyorsanız, <b>yedekleme hesabını</b> <b>administrators</b> grubuna eklemeniz ve verileri <b>NetBackup</b> paylaşımlı klasörüne yedeklemeniz gerekir.</li>
+</ul>
+</div>
+<h3>Ağ Yedekleme Hizmetini Özelleştirilmiş rsync Yapılandırması Kullanarak Etkinleştirme</h3>
+<p> Ağ yedekleme hizmetini özelleştirilmiş rsync yapılandırması kullanarak etkinleştirebilir ve Synology NAS sunucunuz üzerinde kullanıcı ayrıcalıklarını ve yedekleme hedefini yapılandırabilirsiniz. Kurulum tamamlandığında, diğer kişiler Synology NAS cihazlarından veya rsync uyumlu istemcilerinden Synology NAS sunucunuzdaki hedef paylaşımlı klasörlere (veya "yedekleme modüllerine") rsync yedeklemesi yapabilirler.</p>
+<h4>Ağ yedeklemesini özelleştirilmiş rsync yapılandırması kullanarak etkinleştirmek için:</h4>
+<ol>
+<li><b>Yedekleme Hizmetleri</b> > <b>Ağ Yedekleme Hedefi</b> öğesine gidin.</li>
+<li><b>Ağ yedekleme hizmetini etkinleştir</b>'i işaretleyin.</li>
+<li><b>Özelleştirilmiş rsync yapılandırması kullan</b>'ı işaretleyin.</li>
+<li><b>Uygula</b>'ya tıklayın.</li>
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<h4>Kullanıcı önceliklerini yapılandırmak ve modülleri Synology NAS uygulamanızda yedeklemek için:</h4>
+<ol>
+<li>
+Telnet veya SSH yoluyla Synology NAS sunucunuzda oturum açın.
+</li>
+<li>"<b>/etc/rsyncd.conf</b>" rsync yapılandırma dosyasında yedekleme modülünü ve yetkilendirilen kullanıcıları belirleyin. Ayrıntılı bilgi için, rsync istemcinizin <b>rsyncd.conf</b> kılavuz sayfasına bakın veya <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">buraya</a> tıklayın.</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Özelleştirilmiş rsync yapılandırması kullanılırsa, Synology NAS artık <b>Paylaşımlı Klasör Senkronizasyonu</b>, <b>Time Backup</b> ve <b>LUN Yedeklemesi</b> için hedef sunucu olarak hizmet veremeyecektir.</li>
+</ul>
+</div>
+
+<h3>Hız Limitini Etkinleştirme</h3>
+<p>Ağ yedeklemesi yoluyla veri transfer eden kullanıcılar ve gruplar için maksimum kullanılabilir bant genişliğini kontrol etmek için bir hız limiti belirleyebilirsiniz.</p>
+<h4>Hız limitini etkinleştirmek için:</h4>
+<ol>
+  <li><b>Yedekleme Hizmetleri</b> > <b>Ağ Yedekleme Hedefi</b> öğesine gidin. Sadece belirli zamanlarda bir hız limitini uygulamak isterseniz <b>Hız limitini etkinleştir</b> veya <strong>Bir programa göre hız limitini etkinleştir</strong> kutularını işaretleyin. Bu sunucu ölçeğinde bir ayardır ve münferit kullanıcıların ve grupların ayarlarının yerini alacaktır. <strong>Hız limiti yok</strong> seçiminin yapılması tüm kullanıcılar ve gruplar için hız limiti ayarlarını devre dışı bırakır.</li>
+  <li>Münferit kullanıcılar veya gruplar için ayarları modifiye etmek üzere <strong>Hız Limiti Ayarları</strong>'na tıklayın. Her kullanıcı ve grup için, aşağıdakilerden birisini seçebilirsiniz:
+    <ul>
+      <li><strong>Grup Ayarlarını Uygula:</strong> Hız limiti ayarları kullanıcının ait olduğu grupla aynı olacaktır. </li>
+      <li><strong>Yok:</strong> Grup üyeleri hizmet ile dosyaları transfer ettiğinde hiçbir hız limiti uygulanmayacaktır.</li>
+      <li><strong>Sabit:</strong> Kullanıcı veya grup üyelerine fiks, sabit bir hız limiti uygulanacaktır. Karşıya yükleme ve indirme hızı limitleri soldaki alanlarda belirtilebilir.</li>
+      <li><strong>Değişken:</strong> Bir programa göre iki farklı hız limiti belirlenebilir ve kullanıcı veya grup üyelerine uygulanabilir. Hız limiti ayarlarını değiştirmek ve bir program belirlemek için <strong>Özelleştir</strong> düğmesine tıklayın.</li>
+    </ul>
+  </li>
+ <li><b>Uygula</b>'ya tıklayın.</li> 
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<div class="section">
+  <h4>Not:</h4>
+    <p>Bir kullanıcı için hız limitini ayarlarken, <strong>Sonuç</strong> bölümü kullanıcının gerçek hız limitini bireysel ve grup ayarlarına göre görüntüler. Örneğin, eğer bir kullanıcı "Achilles" 100 KB/s düzeyinde bir bireysel indirme limitine sahipse, ancak 500 KB/s düzeyinde bir indirme limitine sahip bir kullanıcı grubuna aitse, <strong>Sonuçlar</strong> kısmında "0/500" görüntülenir.</p>
+</div>
+
+<h3>Time Backup Hizmetini Etkinleştirme</h3>
+<p>Time Backup hizmeti, kullanıcıların başka bir Synology NAS cihazından bu Synology NAS cihazına klasörlerin birden fazla sürümünü uzaktan yedeklemelerini sağlar. Hem ağ yedekleme hizmeti hem de Time Backup hizmetinin etkinleştirilmiş olması gerekir.</p>
+<h4>Ağ yedekleme ve Time Backup hizmetlerini etkinleştirmek için:</h4>
+<p><strong>Yedekleme Hizmetleri</strong> > <b>Time Backup</b> öğesine gidin. Uygun onay kutusunu işaretleyin.</p>
+<img src="about:blank" class="help_image"/>
+
+<div class="section">
+<h4>Not:</h4>
+<p>Uzaktan Time Backup için sadece yönetici hesabının yedekleme bağlantısı oluşturmasına izin verilir.</p>
+</div>
+
+</body>
+</html>

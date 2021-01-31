@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Shut Down and Reset</h2>
+  <p>The instructions below will guide you through the procedure of shutting down, removing, or resetting a high-availability cluster.</p>
+
+  <h4> To shut down high-availability cluster using Synology High Availability:</h4>
+  <p>When you wish to shut down a high-availability cluster in order to transport the servers to a new physical location or perform maintenance, but do not wish to remove high-availability cluster configurations, please follow these instructions.</p>
+  <ol>
+   <li>Log into DSM.</li>
+   <li>Open Synology High Availability.</li>
+   <li>Click the button marked <b>Management</b>.</li>
+   <li>Select <b>Shut down HA cluster</b>.</li>
+   <li>A confirmation message appears. Click <b>Yes</b> to confirm.</li>
+  </ol>
+
+  <h4>To manually shut down a high-availability cluster:</h4>
+  <p> High-availability cluster can also be shut down by manually using the power buttons located on each server. </p>
+  <ol>
+   <li>Press and hold the power button on one server (active or passive) until it emits a beep sound.</li>
+   <li>After one server has completely shut down, wait for at least 30 seconds (the server that is still online requires time to save settings).</li>
+   <li>Press and hold the power button on the other server until it emits a beep sound.</li>
+   <li>Wait for the server to completely shut down.</li>
+  </ol>
+<div class="section">
+<h4>Powering on Servers:</h4>   
+<p>When you want to turn on the servers again, you should turn on both the active and passive servers at the same time (or within five minutes of each other). If you only turn on one of the servers, it will attempt to power on the other server by broadcasting a Wake-on-LAN message.</p>
+<h4>Abnormal Shutdown:</h4>
+<p>When a high-availability cluster is created, the restart after power failure option in Control Panel is automatically enabled. If the servers shut down abnormally due to power failure, they will automatically turn on once power is restored.</p>
+</div>
+
+<h4>To remove a high-availability cluster:</h4>
+ <p>When you wish to unbind both servers and remove a high-availability cluster in order to bind a different server, please follow these instructions.</p>
+  <ol>
+   <li>Go to the <b>Overview</b> page.</li>
+   <li>Click the <b>Management</b> button.</li> 
+   <li>Select <b>Remove HA cluster</b>.</li>
+  </ol>
+  <p>After confirmation, the system removes the high-availability cluster. The status field displays the progress of the removal process. When the high-availability cluster has been successfully removed, you will be directed to the original IP address of the active server. The status of both servers will change to <b>Standalone</b>.</li>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+	<li>During the procedure of removing a high-availability cluster, there might be some incomplete data write operations. To ensure the completeness of data, please perform data replication based on active server because the passive server might be missing some data updates.</li>
+</ul>
+</div>  
+ 
+ <h4>To reset a malfunctioning high-availability cluster:</h4>
+  <p>In the event you are unable to access DSM or Synology High Availability, due to a split-brain error or other malfunctions, you can attempt to force the high-availability cluster to unbind by pressing the <b>Reset</b> button located on your servers.</p>
+  <ol>
+   <li>Press and hold the <b>Reset</b> button (usually located on the back panel of a server) until the server emits a beep sound.
+   <li>This system will be removed from the high-availability cluster, and the status of this server will change to <b>Standalone</b>.</li>
+   <li>Pressing the <b>Reset</b> button also restores some settings to default, such as IP address, DNS and admin password, in addition to the following:</li>
+   <ul>
+    <li>Admin password will be reset to blank.</li>
+    <li>Guest account will be disabled.</li>
+    <li>DHCP will be enabled on IP, DNS, Gateway and other network interfaces.</li>
+    <li>JumboFrames will be disabled, and MTU will be set at 1500.</li>
+    <li>Management Port will be reset to 5000/5001.</li>
+    <li>PPPoE will be reset to default.</li>
+    <li>IP auto-block will be disabled (the blocked IP address will not be erased).</li>
+    <li>Link Aggregation will be disabled.</li>
+    <li>Firewall rules will be disabled (the rules will not be erased).</li>
+   </ul>
+  </ol>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+	<li>Pressing the <b>Reset</b> button on a server will remove only this server from the high-availability cluster. If you want to remove both servers from the high-availability cluster, press the <b>Reset</b> button on both servers.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

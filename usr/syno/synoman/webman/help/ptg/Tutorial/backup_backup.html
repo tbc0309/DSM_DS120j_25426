@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<title>Efetue uma cópia de segurança dos seus dados no Synology NAS para garantir a respetiva segurança</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>Salvaguardar o seu Synology NAS</h1>
+<div class="tutorials_content">
+<img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" />
+<h2>Visão Geral</h2>
+<p>Perdas inesperadas de dados devido a falhas de discos rígidos ou desastres naturais constituem potenciais ameaças aos seus importantes dados, em especial quando não está disponível qualquer solução fiável de cópia de segurança. <strong>Hyper Backup</strong> proporciona uma solução intuitiva e integrada de cópia de segurança/restauro para o ajudar a reter/obter cópias dos seus preciosos dados e restaurar aplicações e configurações de sistema a partir de um ponto no tempo. São compatíveis os seguintes destinos de armazenamento:</p>
+
+<ul>
+<li><strong>Pastas partilhadas locais (incluindo dispositivos de armazenamento externo ligados ao seu Synology NAS)</strong></li>
+<li><strong>Synology NAS remoto</strong></li>
+<li><strong>Servidores rsync Remotos</strong></li>
+<li><strong>Servidores OpenStack Swift Remotos</strong></li>
+<li><strong>Nuvens públicas (Amazon S3, Microsoft Azure, e OpenStack Swift, etç.)</strong></li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Hyper Backup salvaguarda apenas certas configurações de sistema e aplicações. Para mais informações, consulte a documentação de ajuda para Hyper Backup.</p>
+</div>
+
+
+<h3 class="list_head">1. Crie tarefas de cópia de segurança local numa pasta partilhada local/dispositivo de armazenamento externo</h3>
+<p><strong>Hyper Backup</strong> proporciona semelhantes procedimentos de cópia de segurança e restauro em diferentes tipos de destinos. Abaixo mostramos como salvaguardar e restaurar dados localmente, como referência de outros tipos de tarefas.</p>
+
+<ol>
+<li>Inicie a sessão no DSM e localize o pacote <strong>Hyper Backup</strong>.</li>
+<li>Clique em <strong>+</strong> no canto inferior esquerdo e selecione <strong>Tarefa de cópia de segurança de dados</strong>.</li>
+<li>Para configurar uma tarefa de cópia de segurança local, selecione <strong>Pasta Partilhada Local</strong>.</li>
+<img src="../../images/Backup/1x/Backup/1.png" width="600" alt=""/>
+<li>Selecione <strong>Criar tarefa de cópia de segurança</strong> e selecione uma pasta partilhada local ou um dispositivo de armazenamento externo ligado ao seu Synology NAS.</li>
+<img src="../../images/Backup/1x/Backup/2.png" width="600" alt=""/>
+<li>Selecione a(s) pasta(s) de origem para salvaguardar os dados contidos. Pastas partilhadas encriptadas, se selecionadas, devem permanecer montadas durante o processo de cópia de segurança. Se a origem e o destino estiverem no mesmo volume, o sistema irá assinalar tais pastas de origem com pontos de exclamação a laranja.</li>
+<img src="../../images/Backup/1x/Backup/3.png" width="600" alt=""/>
+<li>Selecione a(s) aplicação(ões) a salvaguardar.</li>
+<img src="../../images/Backup/1x/Backup/4.png" width="600" alt=""/>
+<li>Especifique abaixo as definições de cópia de segurança para se ajustarem às suas necessidades:
+  <ul>
+  <li><strong>Tarefa</strong>: Dê um nome à tarefa de cópia de segurança.</li>
+  <li><strong>Ativar notificação de tarefa</strong>: Selecione para ser informado do estado da tarefa por email, SMS ou serviço push.</li>
+  <li><strong>Ativar a cópia de segurança de configuração</strong>: Salvaguardar configurações de sistema (por ex., credenciais de utilizador). Esta definição é aplicada a todas as tarefas de cópia de segurança por predefinição.</li>
+  <li><strong>Comprimir dados de cópia de segurança</strong>: Comprimir dados de cópia de segurança para reduzir a utilização do armazenamento de destino. É necessário mais tempo para a cópia de segurança caso esta opção esteja selecionada.</li>
+  <li><strong>Ativar encriptação de transferência</strong> (apenas para cópia de segurança remota): Selecione para encriptar os dados de cópia de segurança durante a transferência para um destino remoto (por ex., um servidor rsync ou nuvem pública).</li>
+  <li><strong>Tamanho de parte de Carregamento Multipartes</strong> (apenas para servidores compatíveis com S3): Dividir dados de cópia de segurança pelo tamanho de bloco especificado.</li>
+  <li><strong>Ativa a encriptação do lado do cliente</strong>: Selecione para proteger os dados de cópia de segurança com uma palavra-passe, para evitar acesso indesejado do lado do destino.</li>
+    
+  <li><strong>Ativar horário da cópia de segurança</strong>: Selecione para agendar uma tarefa de cópia de segurança automática.</li>
+  </ul>
+  </li>
+  
+<img src="../../images/Backup/1x/Backup/5.png" width="600" alt=""/>
+<li>Selecione <strong>Ativar rotação de cópia de segurança</strong> para configurar o esquema de rotação:
+  
+  <ul>
+  <li><strong>De versões mais antigas</strong>: Elimina as versões de cópias de segurança mais antigas existentes assim que o <strong>Número de versões</strong> for ultrapassado.</li>
+  <li><strong>Smart Recycle</strong>: O sistema irá reter todas as versões de cópia de segurança até ser excedido o número especificado de versões. Quando é acionada a rotação, o sistema irá primeiro rodar as versões que não cumpram quaisquer das condições; se todas as versões existentes cumprirem as condições abaixo, o sistema irá rodar a versão mais antiga:
+  <ul>
+  <li><strong>Versões de hora a hora das últimas 24 horas</strong>: O sistema mantém a versão mais antiga criada a cada hora.</li>
+  <li><strong>Versões diárias do último 1 dia a 1 mês</strong>: O sistema mantém a versão mais antiga criada a cada dia.</li>
+  <li><strong>Versão semanal após 1 mês</strong>: O sistema mantém a versão mais antiga criada cada semana.</li>
+  </ul>
+  
+  </li>
+  <li><strong>Número de versões</strong>: Defina o limite superior de versões possíveis de cópias de segurança retidas.</li>
+  <li>Cronologia: Apresenta o possível resultado da retenção de cópia de segurança de acordo com o seu horário e esquema de rotação de cópia de segurança:</li>
+  </ul>
+</li>
+
+<img src="../../images/Backup/1x/Backup/6.png" width="600" alt=""/>
+<li>Clique em <strong>Aplicar</strong> para concluir a configuração.</li>
+<li>Para realizar de imediato a tarefa de cópia de segurança, siga as instruções do Assistente de Cópia de Segurança e clique em <strong>Sim</strong>.</li>
+</ol>
+
+
+<h3 class="list_head">2. Restaurar ficheiros individuais de uma pasta partilhada local/dispositivo de armazenamento externo.</h3>
+
+
+<ol>
+<li>Aceda a <strong>Hyper Backup</strong>, selecione a tarefa de cópia de segurança desejada no painel da esquerda, e clique em <strong>Explorador de Cópias de Segurança</strong> (o ícone da lupa). Introduza a palavra-passe caso a tarefa esteja protegida por encriptação do lado do cliente.</li>
+<img src="../../images/Backup/1x/Backup/Single_1.png" width="600" alt=""/>
+<li>Localize e selecione o ficheiro desejado, para restaurar. Pode também selecionar a versão desejada para restaurar com a barra de cronologia.</li>
+<img src="../../images/Backup/1x/Backup/Single_2.png" width="600" alt=""/>
+<li>Clique em <strong>Restaurar</strong> para restaurar o ficheiro/pasta selecionado.</li>
+
+</ol>
+
+
+
+<h3 class="list_head">3. Restaurar tarefas completas aos momentos desejados</h3>
+
+<ol>
+<li>Clique em <strong>Restauro</strong> no canto inferior esquerdo e clique em <strong>Dados</strong>. Introduza a palavra-passe caso a tarefa esteja protegida por encriptação do lado do cliente.</li>
+
+<img src="../../images/Backup/1x/Backup/Restore_1.png" width="600" alt=""/>
+<li>Selecione uma tarefa a restaurar. Para restaurar dados de outros repositórios, selecione <strong>Restaurar de outros repositórios</strong> e localize a tarefa a restaurar.</li>
+<img src="../../images/Backup/1x/Backup/Restore_2.png" width="600" alt=""/>
+<li>Escolha entre restaurar ou não as configurações de sistema. Se selecionar <strong>Restaurar configuração de sistema</strong>, selecione configurações específicas na lista abaixo, para restaurar.</li>
+<img src="../../images/Backup/1x/Backup/Restore_3.png" width="600" alt=""/>
+
+<li>Localize e selecione o(s) ficheiro(s)/tarefa de destino, para restaurar. Pode também selecionar a versão desejada para restaurar com a barra de cronologia.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.png" width="600" alt=""/>
+<li>Selecionar aplicações para restaurar.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.5.png" width="600" alt=""/>
+<li>Serão apresentadas informações básicas de restauro.</li>
+<img src="../../images/Backup/1x/Backup/Restore_5.png" width="600" alt=""/>
+<li>Clique em <strong>Aplicar</strong> para iniciar o restauro.</li>
+</ol>
+
+
+
+
+
+
+<div class="page-info">
+  <ul>
+    <li>Atrás neste tópico: <a href="backup_from_computer.html">Salvaguardar os dados no seu PC/Mac utilizando a Cloud Station</a> </li>
+  </ul>
+</div>
+</body>
+
+</html>

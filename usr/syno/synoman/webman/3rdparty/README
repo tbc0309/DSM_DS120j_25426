@@ -1,0 +1,85 @@
+# Copyright (c) 2000-2008 Synology Inc. All rights reserved.
+#
+# Version:     $Id: README,v 1.1 2010-07-15 08:58:01 jiayul Exp $
+#
+#
+# you can add your own node in management UI. What you have to do is:
+#
+# 1. Create a directory under /usr/syno/synoman/webman/3rdparty
+# 2. Put a file named "application.cfg" under the directory.
+#
+#
+# The format of the application.cfg is:
+#     text = The node name that would be showed in the tree.
+#            If you would like to do localization, you can add abbreviation
+#            of language in the suffix. For example, 
+#            text_cht = Node name for Chinese language
+#            text_fre = Node name for Franch
+#            Other abbreviation (jpn, sve, spn,...) can be found at
+#            /usr/syno/synoman/webman/texts/
+#            If user use a language that can't be found here, we will use
+#            "text" by default. So it is recommended you must set the "text"
+#            as default for other languages.
+#
+#     description = The description of this node (will show when on mouse
+#                   over and in the complete function list). This string
+#                   can be localized, too. For example:
+#                   description_cht = ...
+#                   description_fre = ...
+#
+#     icon_16 = The icon path for tree icon. The icon must be put under
+#               /usr/syno/synoman/webman/3rdparty/xxx/ where xxx is the
+#               directory name of your module.
+#               For example, if you create a directory named "images" and
+#               put your icon in it. So full path of the icon is:
+#               /usr/syno/synoman/webman/3rdparty/xxx/images/icon.png. Then
+#               this value should be set to "images/icon.png".
+#               (omit the/usr/syno/synoman/webman/3rdparty/xxx/)
+#     icon_32 = The big icon path. This icon will be used in complete function
+#               list mode.
+#     type = The value can be "embedded" or "popup". "popup" means when click
+#            on the node, we will popup a new window. The "embedded" means
+#            open the url in the left frame of management UI just like other
+#            Synology's function does.
+#     protocol = The value can be "http" or "https". This is the url protocol
+#                you would like to use. If this value is not set, we will
+#                set it to current connection protocol.
+#     address = The address of the url. If it is empty, we will use current
+#               url which means the address will be the same with how user
+#               connect to management UI.
+#     port = The port number of the url. If this is not set, we will use the
+#            port that user is connecting to the management UI.
+#     path = The path part of the url.
+#
+#
+#
+# Example 1: If you would like to add a node named "My Node". When click
+# on it, it popup a new windows to http://www.synology.com/index.php. I
+# create a directory /usr/syno/synoman/webman/3rdparty/my_node and put my
+# image in /usr/syno/synoman/webman/3rdparty/my_node/images/.
+#
+# Here is my configuration in /usr/syno/synoman/webman/3rdparty/my_node/application.cfg:
+#     text = My Node
+#     description = This is my node pointed to Synology WebSite
+#     icon_16 = images/icon16.png
+#     icon_32 = images/icon32.png
+#     type = popup
+#     protocol = http
+#     address = www.synology.com
+#     port = 80
+#     path = /index.php
+#
+# Example 2: If you would like to add a node named "Second Node". When
+# click on the node, it will show the Web Station (port 80) of this DS.
+# Just don't set the "address". In this example, we don't specify icon
+# so it will show default icons. Please create a directory and put a
+# file application.cfg in it:
+#
+# Here is the configuration of application.cfg:
+#     text = Second Node
+#     description = Description of second node
+#     type = embedded
+#     protocol = http
+#     port = 80
+#
+

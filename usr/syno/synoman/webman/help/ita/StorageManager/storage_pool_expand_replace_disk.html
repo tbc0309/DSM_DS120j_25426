@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Sostituire dischi per espandere la capacità di archiviazione</h2>
+
+<p>Quando si utilizzano alcuni tipi di RAID, è possibile espandere la capacità di uno storage pool sostituendo i vecchi dischi con quelli più grandi. In questo articolo sono fornite le informazioni importanti in merito al processo di espansione, nonché un esempio di come sostituire i dischi esistenti per espandere la capacità di archiviazione.</p>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>la procedura descritta in questo articolo si applica solo ai seguenti tipi di RAID: SHR, RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</li>
+	<li>SHR (Synology Hybrid RAID) è disponibile solo su alcuni modelli. Per maggiori informazioni, visitare il <a href="https://www.synology.com/" target="_blank">sito Web Synology</a>.</li>
+	<li>RAID F1 è disponibile solo su alcuni modelli. Per maggiori informazioni, visitare il <a href="https://www.synology.com/" target="_blank">sito Web Synology</a>.</li>
+	<li>Se lo storage pool supporta il Data Scrubbing, si consiglia di eseguire il Data Scrubbing per verificare se il volume e lo storage pool sono normali prima di sostituire le unità.</li>
+	<li>Si consiglia di utilizzare le unità nell'<a href="https://www.synology.com/compatibility" target=blank>Elenco compatibilità dei prodotti Synology</a> per evitare eventuali problemi. L'utilizzo di unità incompatibili potrebbe ridurre le prestazioni di sistema o persino causare la perdita di dati in Synology NAS.</li>
+</ul>
+</div>
+
+<p>Se si prevede la sostituzione di più dischi, si devono sostituire con attenzione uno per uno. Dopo la sostituzione di un disco, sarà necessario riparare lo storage pool prima di sostituire il successivo. Per i seguenti tipi di RAID, la capacità dello storage pool si espande dopo avere sostituito tutti i dischi rigidi: RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</p>
+
+<h3 class="list_head"><a id="t1"></a>Prima di cominciare</h3>
+<p>Prima di sostituire un disco, si vedano le note seguenti:</p>
+<ul>
+	<li><strong>Backup dati:</strong> Sebbene il processo di espansione del volume non cancellerà alcun dato esistente, si raccomanda di effettuare il backup dei dati prima di procedere.</li>
+	<li><strong>Stato storage pool:</strong> Prima di iniziare, verificare che lo stato dello storage pool sia <strong>Integro</strong>. In caso contrario, sarà necessario ripararlo prima.</li>
+	<li><strong>I dati sono comunque accessibili durante l'espansione?</strong> I dati nel sistema in uso saranno disponibili durante l'espansione di storage pool; tuttavia il sistema può sospendere le connessioni temporaneamente quando sia avvia il processo.</li>
+	<li><strong>Utilizzo di unità 3 TB o più grandi:</strong> per espandere uno storage pool con unità da 3 TB o più grandi, verificare che lo storage pool sia stato creato utilizzando DSM 3.0 o versione successiva.</li>
+</ul>
+
+<div class="section"><h4>Synology Hybrid RAID (SHR)</h4>
+<p>Poiché gli storage pool SHR ottimizzano la capacità di archiviazione in base al numero e alle dimensioni dei dischi installati, è consigliabile osservare le seguenti linee guida per espandere correttamente la capacità:</p>
+<ul>
+	<li>Se la capacità di tutti i dischi esistenti è uguale, è necessario sostituire almeno due dischi con dischi più grandi per espandere la capacità di archiviazione. Ad esempio, se lo storage pool SHR è composto tre dischi da 2 TB, è necessario sostituire almeno due dischi per poter espandere la capacità dello storage pool.</li>
+	<li>Se la capacità dei dischi esistenti è diversa, allora i nuovi dischi di sostituzione devono essere uguali o superiori al disco rigido più grande esistente. Inoltre, è necessario sostituire i dischi più piccoli per primi per poter ottimizzare l’utilizzo della capacità. Ad esempio, se lo storage pool SHR contiene tre dischi rispettivamente da 4 TB, 3 TB e 2 TB, il nuovo disco di sostituzione deve essere almeno di 4 TB. Inoltre, è necessario sostituire prima i dischi da 3 TB o 2 TB.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID 5 / RAID 6 / RAID 10 / RAID F1</h4>
+<p>Durante la sostituzione dei dischi rigidi degli storage pool RAID 5 / RAID 6 / RAID 10 / RAID F1, il disco rigido più piccolo deve essere sostituite sempre per primo, per massimizzare l'uso dell'unità. La capacità di archiviazione di ciascun tipo di RAID è rappresentata come segue:
+	<ul>
+		<li>RAID 5: (numero di unità – 1) x (dimensioni unità più piccole)</li>
+		<li>RAID 6: (numero di unità – 2) x (dimensioni unità più piccole)</li>
+		<li>RAID 10: (numero di unità – 2) x (dimensioni unità più piccole)</li>
+		<li>RAID F1: (numero di unità – 1) x (dimensioni unità più piccole)</li>
+	</ul>
+</p>
+
+<p>Ad esempio, se lo storage pool RAID 5 contiene tre dischi rispettivamente da 4 TB, 3 TB e 2 TB, la capacità disponibile dello storage pool sarà 4 TB. Se si sostituisce l'unità da 4 TB o da 3 TB, la capacità dello storage pool non sarà cambiata. Per aumentare la capacità dello storage pool, deve essere sostituito prima il disco da 2 TB.</p>
+</div>
+
+
+<h3>Sostituire il Drive per espandere la capacità di archiviazione</h3>
+<p>Nei passaggi seguenti, sarà fornito un esempio di sostituzione di dischi rigidi di uno storage pool SHR.</p>
+<h4>Per sostituire dischi rigidi:</h4>
+<ol>
+	<li>Aprire <strong>Storage Manager</strong>.<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li>Andare su <strong>Storage Pool</strong> per vedere quale dei dischi esistenti è il più piccolo.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>Spegnere la Synology NAS. È possibile saltare questo passaggio se Synology NAS supporta l'hot-swap.</li>
+	<li>Rimuovere il più piccolo dei dischi membro e installare un nuovo disco più grande.<br /><span class="note_head">Nota: </span>per evitare rischi alla persona o il danneggiamento di Synology NAS, osservare le istruzioni per l'installazione del disco rigido riportate nella <em>Guida di installazione hardware</em> del prodotto Synology.</li>
+	<li>Accendere Synology NAS.</li>
+	<li>Avviare di nuovo <strong>Gestione archiviazione</strong>.</li>
+	<li>Andare su <strong>HDD/SSD</strong> per verificare che il nuovo disco sia riconosciuto.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>Lo stato dello storage pool deve essere <strong>Danneggiato</strong>. Selezionare lo storage pool, fare clic su <strong>Ripara</strong> dal menu a discesa <strong>Azione</strong>.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>Selezionare il disco sostitutivo da aggiungere allo storage pool. Quindi seguire le istruzioni della procedura guidata per terminare.</li>
+	<li>Ripetere la procedura precedente fino a quando tutti i dischi sono stati sostituiti con quelli più grandi.</li>
+</ol>
+
+</body>
+</html>

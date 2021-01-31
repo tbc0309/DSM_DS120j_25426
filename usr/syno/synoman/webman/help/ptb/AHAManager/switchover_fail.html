@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+ </head>
+ <body>
+  <h2>Mudança</h2>
+  
+ <p>Para garantir o desempenho contínuo e minimizar o tempo parado, os serviços podem ser mudados do servidor ativo de um cluster de high-availability para a espera, o servidor passivo. Esse recurso é chamado "Mudança" ou, em alguns casos, "Failover". Esta seção contém informações básicas desses dois conceitos.</p>
+  
+  <h3>Mudança</h3>
+  	<p>Mudança refere-se a uma mudança de um servidor ativo para a espera, o servidor passivo de um cluster de high-availability. Sob condições normais, o servidor ativo gerencia todos os serviços. Entretanto, caso o servidor ativo apresente defeito, você pode iniciar uma mudança e transferir todos os serviços para o servidor passivo, considerando que o servidor passivo esteja funcionando normalmente. Nesse caso, o servidor ativo assume o papel do servidor passivo e vice-versa.</p>
+    
+<h4>Para iniciar manualmente uma mudança:</h4>
+ <ol>
+  <li>Vá para a página <b>Visão geral</b>.</li>
+  <li>Clique em <b>Gerenciar</b> > <b>Mudança</b>.</li>
+ </ol>
+<div class="section">
+<h4>Nota:</h4>
+   <p>Antes da mudança manual, recomenda-se configurar um IP estático e fazer login no DSM com esse IP estático para evitar perda de página do DSM devido à alteração do IP após a mudança.</p>
+</div>
+<div class="section">
+<h4>Nota:</h4>
+   <p>Quando uma mudança for iniciada, o servidor ativo primeiro assume o papel do servidor passivo em seguida, o servidor passivo se torna o servidor ativo. Assim, haverá um curto período em que os dois servidores se tornarão passivos e não poderão fornecer os serviços normalmente. O tempo para concluir uma mudança varia dependendo do número e do tamanho dos volumes ou iSCSI LUNs (nível de bloqueio) ou do número e do total de carga dos serviços e pacotes do grupo de high-availability.</p>
+</div>
+<h3>Failover</h3>
+    
+     <p>Quando ocorrem certos erros, o sistema pode iniciar automaticamente uma mudança dos serviços para minimizar o tempo parado de serviço. Esse evento é chamado "failover". O sistema pode iniciar o failover nas seguintes situações, considerando-se que o servidor passivo esteja funcionando normalmente:</p>
+    
+    <ul>
+      <li><b>Falha de energia:</b> 
+        <ul>
+      	<li>O servidor ativo foi desligado ou reiniciado.</li>
+        <li>As unidades de alimentação do servidor ativo falharam.</li>
+        <li>Sem fonte de alimentação.</li>
+      </ul></li>
+      <li><b>Erro na unidade:</b> O número de caminhos da unidade no servidor ativo é menor do que do servidor passivo.</li>
+      <li><b>Erro de serviço:</b> Ocorreu um erro em um serviço monitorado.</li>
+      <li><b>Erro de conexão:</b> Ocorreu um erro de conexão em uma interface monitorada.</li>
+    </ul>    
+     
+    
+<h3>Falha de mudança</h3>
+    
+		<p>A mudança ou failover pode falhar nas seguintes situações:</p>
+  	<ul>
+  	  <li><b>Conexão Heartbeat anormal:</b> O status da conexão do servidor ativo/passivo não está normal.</li>
+  	  <li><b>Tamanho de memória incompatível:</b> Os servidores ativo e passivo não têm tamanhos de memória RAM idênticos.</li>
+  	  <li><b>Falha de energia:</b><ul>
+      	<li>O servidor passivo foi desligado ou reiniciado.</li>
+        <li>As unidades de alimentação do servidor passivo falharam.</li>
+        <li>Sem fonte de alimentação.</li>
+      </ul></li>
+  	  <li><b>Erro de conexão:</b> Ocorreu um erro de conexão em uma interface monitorada no servidor passivo.</li>
+  	  <li><b>Erro de serviço:</b> Existem erros nos serviços monitorados no servidor passivo.</li>
+  	  <li><b>Erro de conexão da unidade de expansão:</b> A conexão das unidades de expansão dos dois servidores não está na mesma ordem.</li>
+  	  <li><b>Erro na unidade:</b> O número de caminhos da unidade no servidor passivo é menor do que do servidor ativo.</li>
+      <li><b>Atualização do DSM:</b> Ao instalar atualizações de DSM, todos os serviços serão interrompidos e retomados após a instalação da atualização do DSM ser concluída.</li>      
+ </ul>
+  <p>Se você iniciar manualmente uma mudança, mas os serviços não puderem ser mudados para o servidor passivo, então o sistema tentará mudar os serviços de volta para o servidor ativo.</p>
+ <h3>Fonte de alimentação ininterrupta</h3>
+  <p>Os grupos de high-availability podem ser conectados a fontes de alimentação ininterruptas (UPS) de rede para reduzir o risco de perda de energia inesperada. Se a energia for perdida, os servidores receberão energia de backup da unidade UPS conectada a ele. Quando a unidade UPS conectada ao servidor ativo começar a ficar sem energia, o servidor passivo se desligará e o servidor ativo entrará no modo de segurança. Após a retomada da energia, o servidor ativo reiniciará e tentará ligar o outro servidor transmitindo uma mensagem Wake-on-LAN.</p>
+   <ul>
+	   <li>Recomenda-se conectar os dois servidores e as unidades de expansão na mesma UPS dos interruptores da rede.</li>
+   </ul>
+<div class="section">
+<h4>Nota:</h4>
+<p>Synology NAS suporta conexão apenas a dispositivos UPS de rede. Para obter mais informações, consulte a ajuda em <strong>Painel de Controle</strong> > <strong>Hardware</strong> > <strong>UPS</strong>.</p>
+</div>  
+ </body>
+</html>

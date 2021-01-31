@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Creazione di una cartella condivisa - Guida DSM Synology</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Shared folders are the basic directories where you can store and manage files and folders on your Synology NAS. This article shows you how to create a shared folder.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Creazione di una cartella condivisa</h2>
+<p>Le cartelle condivise sono directory di base dove è possibile salvare e gestire i file e cartelle sulla Synology NAS. Prima di salvare qualsiasi file, è necessario creare almeno una cartella condivisa in DSM. </p>
+
+<h4>Per creare una cartella condivisa:</h4>
+<ol>
+	<li>Andare su <strong>Pannello di controllo</strong> > <strong>Cartella condivisa</strong> e fare clic su <strong>Crea</strong>.<br /><img src="about:blank" class="help_image"/></li>
+	<li>Specificare un nome e una descrizione per la cartella condivisa.<br /><img src="about:blank" class="help_image "/></li>
+	<li>Selezionare un volume in cui creare la cartella condivisa (saltare questo passaggio solo se esiste un solo volume).<br /><img src="about:blank" class="help_image"/></li>
+	<li>Modificare le seguenti opzioni, se necessario:<br /><img src="about:blank" class="help_image"/>
+		<ul>
+			<li><strong>Nascondere questa cartella condivisa in "Risorse di rete":</strong> Evitare che la cartella condivisa appaia in “Rete” in Windows File Explorer. Questa opzione non influisce sui privilegi di accesso della cartella condivisa.
+				<div class="section"><h4>Nota:</h4>
+				<ul>
+				<li>Nascondere una cartella condivisa in &quot;La Mia Rete&quot; non influisce sui diritti di accesso ad essa. Il diritto di accesso di una cartella condivisa nascosta resta invariato. Gli utenti che dispongono dei diritti di accesso alla cartella condivisa possono ancora accedervi immettendo &quot;\nome server\nome cartella condivisa&quot;.</li>
+				</ul>
+				</div>
+			</li>
+			<li><strong>Nascondi sottocartelle e file da utenti senza autorizzazioni:</strong> Quando viene abilitato <strong>Nascondi sottocartelle e file da utenti senza autorizzazioni</strong>, se un utente che non dispone dei privilegi di lettura tenta di accedere a una cartella condivisa tramite il protocollo Condivisione file di Windows, l'utente non sarà in grado di visualizzare le cartelle o i file nella cartella condivisa. In questo modo si evita di confondere gli utenti quando si connettono ai prodotti Synology e non possono accedere a file e sottocartelle.
+				<div class="section"><h4>Nota:</h4>
+				<ul>
+					<li>questa funzione è supportata solo tramite il protocollo di condivisione file di Windows.</li>
+					<li>È possibile modificare le impostazioni dei privilegi di ciascuna cartella e file in File Station facendo clic con il tasto destro sull'elemento. Scegliere <strong>Proprietà</strong> dal menu a discesa e fare clic sulla scheda <strong>Autorizzazione</strong>.</li>
+					<li>La cartella condivisa stessa non sarà nascosta dagli utenti senza autorizzazione abilitando <strong>Nascondi file e sottocartelle da utenti senza autorizzazioni</strong>. Solo sottocartelle e file in questa cartella condivisa saranno nascosti.</li>
+				</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li><strong>Abilitazione del cestino:</strong> Quando i file nella cartella condivisa sono eliminati, vengono spostati in una cartella chiamata <strong>#recycle</strong>. L'accesso al cestino può essere limitato agli utenti appartenenti al gruppo <strong>administrators</strong>.</li>
+	<a name="sharequota"></a><li class=""><strong>Abilita quota cartella condivisa:</strong> per specificare la capacità massima di ogni cartella condivisa, spuntare la casella <strong>Abilita quota cartella condivisa</strong> e inserire la capacità massima (es. 10 GB) nel campo seguente.
+		<div class="section"><h4>Nota:</h4>
+		<ul>
+			<li>solo quando l'archivio utilizza il file system Btrfs, l'opzione <strong>Abilita quota cartella condivisa</strong> saranno disponibili per le cartelle condivise.</li>
+			<li>L'utilizzo dell'archiviazione combinata delle directory <strong>home</strong> di tutti gli utenti non supera la quota di “<strong>homes</strong>”.</li>
+		</ul>
+		</div>
+	</li>
+	<a name="integrity_protection"></a>
+	<li><strong>Abilitare la checksum dati per l'integrità dati avanzata:</strong> per proteggere una cartella condivisa con le strategie <strong>Somma di controllo CRC32</strong> e <strong>copy-on-write</strong>, è possibile abilitare la somma di controllo dati per l'integrità dei dati avanzata durante la creazione della cartella condivisa. La somma di controllo CRC32 è applicata al controllo se i dati restano identici a quando sono stati scritti inizialmente e il sistema utilizzerà automaticamente la ridondanza RAID per correggere i dati danneggiati. Copy-on-write consente di migliorare la coerenza dei dati in caso di arresto anomalo del sistema.
+		<div class="section"><h4>Nota:</h4>
+		<ul>
+			<li>quest'opzione è disponibile soltanto per i volumi che utilizzano il file system Btrfs.</li>
+			<li>È possibile abilitare/disabilitare quest'opzione per ogni cartella condivisa durante la relativa creazione. Quest'opzione non può essere modificata dopo la creazione della cartella condivisa.</li>
+			
+			<li>L'abilitazione di quest'opzione consente al sistema di eseguire una pulizia dati completa. <a href="../StorageManager/storage_pool_data_scrubbing.html">Altre informazioni sulla pulizia dei dati</a></li>
+			<li>Per garantire la qualità del servizio, si consiglia di non abilitare la checksum dati quando la cartella condivisa sarà usata per i seguenti servizi:
+			<ul>
+				<li>Database host o macchine virtuali</li>
+				<li>Archiviazione di registrazioni video di Surveillance Station</li>
+				<li>Esecuzione dei servizi che richiedono un modello di scrittura piccolo e random</li>
+			</ul>
+			</li>
+			
+		</ul>
+		</div>
+	</li>
+    <a name="btrfs_compression"></a><li><strong>Abilita compressione file</strong>: i dati nella cartella condivisa creata saranno compressi automaticamente dal file system Btrfs per salvare lo spazio di archiviazione. Quando sono recuperati per l'uso, i dati vengono decompressi automaticamente.
+		<div class="section"><h4>Nota:</h4>
+		<ul>
+			<li>quest'opzione è disponibile solo quando si crea una cartella condivisa in un volume Btrfs o quando l'opzione <strong>Protezione integrità dati avanzata</strong> è abilitata.</li>
+			<li>Quest'opzione non può essere modificata dopo la creazione della cartella condivisa.</li>
+			<li>La velocità di compressione varia con i tipi di dati: I file di testo presentano la velocità di compressione più elevata, mentre i file multimediali (es. immagini, musica o video) potrebbero non essere correttamente compressi in quanto sono già compressi per l'output.</li>
+            <li>Quest'opzione non può essere abilitata se la crittografia cartella condivisa è abilitata.</li>
+		</ul>
+		</div>
+	</li>
+	<li><strong>Crittografa questa cartella condivisa:</strong> per codificare la cartella condivisa, procedere come segue:
+		<ol>
+			<li>specificare e confermare una nuova chiave di crittografia. La chiave di crittografia non può includere virgole (,) o segni uguale (=). </li>
+			<li>Se necessario, selezionare la casella <strong>Aggiungi chiave di crittografia a Gestione chiavi</strong> per montare la cartella crittografata automaticamente quando il sistema si avvia. Se l'opzione è disabilitata, la cartella crittografata condivisa sarà smontata al successivo avvio di Synology NAS. Per vedere o accedere a una cartella condivisa non montata, sarà necessario montare manualmente la cartella importando o inserendo la chiave di codifica.</li>
+		</ol>
+	</li>
+	<li>Fare clic su <strong>OK</strong> per terminare.</li>
+	
+	
+<div class="section"><h4>Nota:</h4>
+	<ul>
+	<li>alcune funzioni e opzioni di una cartella condivisa sono supportate solo da VDSM e da modelli con le seguenti architetture di pacchetto: Apollo Lake, Avoton, Braswell, Broadwell, Bromolow, Cedarview e Grantley. Per vedere quale architettura di modelli è supportata, consultare questo <a href="https://www.synology.com/en-us/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">questo articolo</a>.</li>
+	</ul>
+</div>
+	
+</ol>
+
+<div class="section"><h4>Regole per i nomi della cartella condivisa:</h4>
+<ul>
+	<li>I nomi della cartella condivisa non fanno la distinzione tra lettere minuscole e maiuscole e possono comprendere tra 1-32 caratteri. I nomi non possono contenere i seguenti caratteri: <strong>! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~</strong></li>
+	<li>I seguenti nomi sono riservati per il sistema: <strong>.</strong>, <strong>..</strong>, <strong>global</strong>, <strong>home</strong>, <strong>homes</strong>, <strong>printers</strong>, <strong>public</strong>, <strong>satashare</strong>, <strong>surveillance</strong>, <strong>usbbackup</strong>, <strong>usbshare</strong>. </li>
+	<li>Il primo carattere di una cartella condivisa non può essere un segno meno o uno spazio; l'ultimo carattere non può essere uno spazio.</li>
+	<li>La <strong>descrizione</strong> della cartella condivisa è limitata a maiuscole e minuscole, visualizzabili fino a 64 caratteri Unicode.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>Crittazione cartelle condivise:</h4>
+<p>la crittografia AES 256-bit protegge i dati bloccando tutti i tentativi di accesso non autorizzati. Dopo la crittografia, senza l'apposita chiave di crittografia, gli utenti non potranno accedere alla cartella condivisa o modificarne i dati crittografati, anche rimuovendo i dischi rigidi da Synology NAS e montandoli su un altro dispositivo.</p>
+</div>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>il nome di un file o di una cartella in una cartella condivisa crittata non deve superare 143 caratteri inglesi o 47 caratteri asiatici (CJK); se si accede alle cartelle condivise con Mac OS, il nome di un file o di una cartella in una cartella condivisa crittata non deve superare 130 caratteri inglesi o 43 caratteri asiatici (CJK).</li>
+	<li>È impossibile accedere alle cartelle condivise crittografate tramite NFS.</li>
+	<li>Se si ripristinano le password predefinite usando il pulsante di ripristino posto su Synology NAS, le cartelle condivise crittografate verranno smontate, e l'opzione di montaggio automatico delle cartelle condivise crittografate verrà disabilitata.</li>
+	<li>Le cartelle condivise crittografate sono supportate solo nella modalità privilegi elevati (non applicabile a Dockerx64). Per usare questa funzione, andare nel pacchetto <strong>Docker del DSM</strong> host, selezionare il Docker DSM per cui abilitare le cartelle condivise crittografate, fare clic su <strong>Modifica</strong> e spuntare le caselle accanto <strong>Esegui contenitore utilizzando i privilegi elevati</strong>.</li>
+</ul>
+</div>
+
+</body>
+</html>

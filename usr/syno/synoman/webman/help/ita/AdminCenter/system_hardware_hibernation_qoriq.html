@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Alimentazione</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Sospensione</h2>
+<p>&Egrave; possibile specificare un periodo di tempo in cui i dischi rigidi restano inattivi prima di accedere alla modalit&agrave; di sospensione HDD. Durante la sospensione HDD, i dischi rigidi smettono di ruotare, riducendo il consumo energetico e prolungando la durata dei dischi rigidi stessi. &Egrave; possibile specificare periodi di tempo diversi per i dischi rigidi interni e i dischi rigidi eSATA/USB esterni.</p>
+
+<div class="section">
+<h4>Nota.</h4>
+<ul>
+<li>La sospensione HDD termina al momento dell&apos;accesso.</li>
+<li>Solo alcuni dispositivi di archiviazione USB esterni supportano la sospensione HDD.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Perch&eacute; la Synology NAS non accede alla sospensione?</h4>
+
+<p>Notare che i seguenti servizi non consentono a Synology NAS di accedere alla modalit&agrave; di sospensione. Inoltre, il sistema esce dalla modalit&agrave; di sospensione due minuti prima di qualsiasi attivit&agrave; pianificata.</p>
+
+<p><strong>Pacchetti:</strong></p>
+<ul>
+  <li>Download Station: Synology NAS non accede alla sospensione se Download Station sta eseguendo eMule, il download programmato RSS o attivit&agrave; attive.</li>
+  <li>Mail Station: Synology NAS non accede alla sospensione se Mail Station sta recuperando informazioni da POP3.</li>
+  <li>Surveillance Station: Synology NAS non accede alla sospensione se Surveillance Station &egrave; in registrazione.</li>
+  <li>Server media: Synology NAS non accede alla sospensione se &egrave; abilitato il log DMA nelle impostazioni del Server media (andare su <strong>Menu principale</strong> &gt; <strong>Server media</strong> &gt; <strong>Server media</strong> &gt; <strong>Diagnosi</strong>).</li>
+  <li>LDAP Server</li>
+  <li>Webalizer</li>
+  <li>Server <sup>&reg;</sup> Media Logitech</li>
+  <li>Plex Media Server</li>
+  <li>Altri software o optware di terze parti come SABnzbd</li>
+</ul>
+<p><strong>Processi:</strong></p>
+<ul>
+  <li>Miniature e indicizzazione: Synology NAS non accede alla sospensione durante la generazione di miniature o la re-indicizzazione dei file multimediali dopo l&apos;aggiornamento. Durante questo periodo, il processo &ldquo;synoindexd&rdquo; sar&agrave; indicato come &ldquo;In esecuzione&rdquo; (andare su <strong>Menu principale</strong> &gt; <strong>Controllo risorse</strong> &gt; <strong>Processo</strong>).</li>
+  <li>Local Master Browser: Synology NAS non accede alla sospensione se &egrave; abilitato il Local Master Browser (andare su <strong>Pannello di controllo</strong> &gt; <strong>Win/Mac/NFS</strong> &gt; <strong>Servizio file Windows</strong> &gt; <strong>Abilita Local Master Browser</strong>).</li>
+  <li>Windows Media Player: Synology NAS non accede alla sospensione se il servizio di condivisione di rete di Windows Media Player &egrave; abilitato nella LAN.</li>
+  <li>Synology NAS non accede alla sospensione se il numero di processi simultanei richiede lo scambio, la capacit&agrave; della RAM &egrave; stata superata e gli HDD vengono usati temporaneamente per le operazioni di lettura/scrittura.</li>
+</ul>
+<p><strong>Altri</strong></p>
+<ul>
+  <li>Dispositivi USB: Synology NAS non pu&ograve; accedere alla sospensione sistema se dei dispositivi USB sono collegati all&apos;unit&agrave;. </li>
+</ul>
+
+</div>
+
+
+<h3>Sospensione sistema</h3>
+<p>&Egrave; possibile impostare Synology NAS per accedere alla sospensione del sistema un minuto dopo che i dischi rigidi accedano alla sospensione. La sospensione del sistema riduce il consumo energetico di Synology NAS.  </p>
+<p>Durante la modalit&agrave; di sospensione del sistema:</p>
+
+<ol>
+  <li>Il pulsante di accensione lampeggia (si accende/spegne ciclicamente in modo lento). Gli altri LED sono spenti.</li>
+  <li>L&apos;alimentazione per i dischi rigidi viene scollegata.</li>
+  <li>La CPU si arresta.</li>
+  <li>La ventola esterna si arresta.</li>
+  <li>I LED sulle porte LAN si spengono.</li>
+</ol>
+
+<div class="section">
+<h4>Nota.</h4>
+<ul>
+<li>Qualsiasi pacchetto di trasmissione SMB/CIFS pu&ograve; evitare che il server entri in modalit&agrave; Sospensione sistema, inclusi i browser file Windows utilizzati in rete. Per ignorare i pacchetti di trasmissione CIFS durante l&apos;accesso alla modalit&agrave; Sospensione sistema, selezionare <strong>Ignora trasmissione pacchetti da Esplora risorse</strong>. Una volta selezionata questa opzione, i pacchetti SMB/CIFS non possono essere usati per uscire dalla Sospensione sistema. Il collegamento di qualsiasi dispositivo USB evita anche al server di accedere alla Sospensione sistema.</li>
+</ul>
+</div>
+
+<h2>Sospensione profonda</h2>
+<p>&Egrave; possibile abilitare la sospensione profonda per le unit&agrave; di espansione tramite l&apos;interfaccia Synology NAS accoppiata. &Egrave; possibile configurare l&apos;unit&agrave; di espansione e il Synology NAS accoppiato per essere inattivi in diversi periodi di tempo. Pertanto, le unit&agrave; di espansione possono essere impostate per accedere alla Sospensione profonda mentre i Synology NAS restano online.</p>
+<p>In modalit&agrave; sospensione profonda:</p>
+<ul>
+  <li>Tutti i LED dell&apos;unit&agrave; di espansione sono spenti.</li>
+<li>L&apos;alimentazione dei dischi rigidi dell&apos;unit&agrave; di espansione non viene erogata.</li>
+<li>La ventola dell&apos;unit&agrave; di espansione si arresta.</li>
+</ul>
+
+<div class="section">
+<h4>Nota.</h4>
+<ul>
+<li>La Sospensione profonda termina al momento dell&apos;accesso.</li>
+<li>Per garantire un funzionamento normale durante l&apos;uso della funzione Sospensione profonda sull&apos;unit&agrave; di espansione, &egrave; necessario spostare l&apos;interruttore <b>Auto/Manual</b> sul pannello posteriore su <b>Auto</b>.</li>
+</ul>
+</div>
+
+<h2>Spegnimento automatico</h2>
+<p>&Egrave; possibile specificare la lunghezza del periodo della sospensione del disco interno prima di spegnere automaticamente Synology NAS.</p>
+
+<div class="section">
+<h4>Nota.</h4>
+<ul>
+<li>Prima &egrave; necessario abilitare la sospensione dell&apos;HDD interno.</li>
+<li>&Egrave; necessario prima abilitare il servizio WOL cos&igrave; da poter accendere in remoto Synology NAS.</li>
+</ul>
+</div>
+
+</body>
+</html>
+

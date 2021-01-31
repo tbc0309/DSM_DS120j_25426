@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Copias de seguridad y replicación</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head> 
+<body>
+<h2>Sincronización de carpetas compartidas</h2>
+<p>El servicio de sincronización de carpetas compartidas permite a los usuarios sincronizar las carpetas compartidas de un dispositivo Synology NAS (el origen) con otros dispositivos Synology NAS (los destinos) en LAN o a través de Internet.</p>
+<p>La primera vez que se haga, la sincronización de carpetas compartidas realizará una sincronización completa de las carpetas seleccionadas. Después, solo se sincronizarán los archivos modificados. Los archivos que se eliminen del origen también se eliminarán del destino.</p>
+
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+<li>La sincronización de carpetas compartidas es una solución de sincronización unidireccional que sincroniza los archivos del origen con el destino. Si desea una solución de sincronización bidireccional, utilice <strong>Synology Drive ShareSync</strong>.</li>
+<li>Si en el destino existe una carpeta compartida con el mismo nombre (p. ej., CarpetaCompartida) que la carpeta compartida de origen, la carpeta de destino recibirá el nombre de "CarpetaCompartida_1".</li>
+<li>Si en el destino no existe ninguna carpeta compartida con el mismo nombre que la carpeta compartida de origen, se creará una carpeta con el nombre en el volumen correspondiente o en el primer volumen disponible.</li>
+<li>De forma predeterminada, ningún usuario tiene privilegios para acceder a la carpeta compartida del destino. Póngase en contacto con el usuario <strong>admin</strong> del destino para obtener los privilegios necesarios.</li>
+</ul>
+</p>
+</div>
+
+<h3>Habilitar el servicio</h3>
+<h4>Para habilitar la sincronización de carpetas compartidas:</h4>
+<p>En primer lugar, debe habilitar el servicio en el Synology NAS de destino.</p>
+<ol>
+<li>Vaya a <strong>Panel de control</strong> > <strong>Servicio de archivos</strong> > <strong>rsync</strong>.</li>
+<li>Seleccione <strong>Habilitar servicio rsync</strong> para activar el servicio de sincronización de carpetas compartidas.</li>
+<li>Haga clic en <strong>Aplicar</strong>.</li>
+</ol>
+
+
+<h4>Para desvincular carpetas compartidas del Synology NAS de destino:</h4>
+
+<p>Si distintos orígenes sincronizan simultáneamente una carpeta compartida idéntica en un Synology NAS de destino, se producirá un conflicto. Deberá desvincular la carpeta compartida del origen para que otro origen pueda sincronizar su carpeta en el destino.<ol>
+<li>Inicie sesión en el Synology NAS de destino y vaya a <strong>Panel de control</strong> > <strong>Sincronización de carpetas compartidas</strong> > <strong>Lista de conexiones</strong>.</li>
+<li>Seleccione la conexión en conflicto desde un Synology NAS de origen y haga clic en <strong>Desvincular</strong> para eliminarla.</li>
+</ol>
+
+<p>Ahora otro origen puede sincronizar la carpeta compartida en el Synology NAS de destino.</p>
+
+<h3>Administrar tareas de sincronización</h3>
+
+<h4>Para crear una tarea de sincronización:</h4>
+<ol>
+<li>Inicie sesión en el Synology NAS de origen y vaya a <b>Panel de control</b> > <b>Sincronización de carpetas compartidas</b> > <strong>Lista de tareas</strong>.</li>
+<li>Haga clic en <b>Crear</b>.</li>
+<li>introduzca un nombre para la tarea.</li>
+<li>Seleccione la carpeta compartida que desea sincronizar con el destino.</li>
+<li>Especifique el Synology NAS de destino y las siguientes opciones de sincronización:</li>
+<ul>
+<li><strong>Personalizar el puerto de cifrado SSH para la sincronización de carpetas compartidas cifradas</strong>: permite especificar el puerto de cifrado deseado para el cifrado de transferencia SSH.</li>
+<li><strong>Habilitar cifrado de transferencia SSH</strong>: los datos se cifran durante la transferencia. Este cifrado proporciona una mayor seguridad, mientras que la transferencia no cifrada proporciona un mayor rendimiento. Puede elegir el que prefiera, según sus necesidades.</li> 
+<li><strong>Habilitar compresión de transferencia</strong>: los datos se comprimen durante la transferencia. Ahorrará ancho de banda de la red pero aumentará la carga de la CPU.</li>
+<li><strong>Habilitar sincronización de nivel de bloque</strong>: solo se transfieren datos diferenciales en lugar de los archivos enteros. Ahorrará ancho de banda de la red pero aumentará la carga de la CPU.</li>
+</ul>
+<li>Cuando se le solicite, seleccione cualquiera de las siguientes opciones para decidir cuándo desea sincronizar el origen y el destino:</li>
+<ul>
+<li><strong>Ejecutar sincronización en modificación</strong>: ejecuta la tarea de sincronización en cuanto ocurre algún cambio en la carpeta compartida de origen.</li>
+<li><strong>Ejecutar manualmente sincronización</strong>: ejecuta la tarea de sincronización manualmente desde la carpeta compartida de origen.</li>
+<li><strong>Programa avanzado</strong>: haga clic en <strong>Plan de programa</strong> para especificar cuándo se debe realizar la tarea de sincronización.</li>
+
+</ul>
+<li>Haga clic en <strong>Aplicar</strong>. Ahora puede ver la tarea de sincronización en la lista de tareas, que se llevará a cabo según la programación especificada.</li></ol>
+<h4>Para administrar una tarea de sincronización:</h4>
+<ol>
+<li>En el Synology NAS de origen, vaya a <strong>Panel de control </strong> > <strong>Sincronización de carpetas compartidas</strong>, haga clic en <strong>Lista de tareas</strong> y, a continuación, seleccione la tarea que desee.</li>
+<li>Realice cualquiera de las siguientes operaciones:</li>
+<ul>
+<li>Haga clic en <b>Editar</b> para editar la tarea.</li>
+<li>Haga clic en <b>Eliminar</b> para eliminar la tarea.</li> 
+<li>Si la tarea de sincronización no está en curso, haga clic en <b>Sincronizar ahora</b> para ejecutar la tarea inmediatamente.</li>
+<li>Si la tarea de sincronización está en curso, haga clic en <b>Cancelar</b> para detener la tarea en curso.</li>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Si la programación de una tarea de sincronización está configurada en <b>Ejecutar sincronización en modificación</b>, al hacer clic en <b>Cancelar</b> se detendrá la tarea de sincronización en curso. Sin embargo, si se realiza cualquier cambio en el contenido de cualquier carpeta compartida controlada por la tarea de sincronización, la sincronización de carpetas compartidas reanudará la tarea.</p>
+</div>
+
+<li>Haga clic en <b>Sincronización completa</b> para sincronizar todos los datos. La primera vez, la sincronización de carpetas compartidas llevará a cabo una sincronización completa, pero luego solo se sincronizarán las partes modificadas. Al hacer clic en este botón, podrá volver a sincronizar manualmente todos los datos.</li>
+</ul>
+</ol>
+
+<div class="section">
+<h4>Más información</h4>
+<ol>
+<li>El nombre de la tarea deberá tener entre 1 y 32 caracteres Unicode y no podrá contener los siguientes caracteres:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~ </span></li>
+<li>Si sincroniza carpetas compartidas del sistema de archivos ext4 a ext3, puede que encuentre errores cuando la tarea contenga más de 32 000 carpetas.</li>
+<li>Si las carpetas compartidas en el Synology NAS de destino se han sincronizado antes con otro Synology NAS, la sincronización de carpetas compartidas realizará una sincronización completa de la tarea.</li>
+<li>Para realizar tareas de sincronización de carpetas compartidas, necesitará privilegios de administrador del Synology NAS de destino. O bien tiene la contraseña de su cuenta admin o se encuentra en el grupo de administradores.</li>
+<li>Al sincronizar el Synology NAS de destino a través de Internet, puede introducir el nombre del servidor con su dirección IP externa o su nombre de host. Sin embargo, si elige introducir su nombre de host, el nombre deberá tener el formato FQDN (nombre de dominio completo), por ejemplo, "www.synology.com".</li>
+<li>Para el reenvío de puertos, la sincronización de carpetas compartidas utiliza el puerto 22 durante la transferencia cifrada y el puerto 873 durante la transferencia no cifrada.</li>
+<li>Los dispositivos de almacenamiento externo no son compatibles con el servicio de sincronización de carpetas compartidas.</li>
+<li>Cuando la tarea de sincronización de carpetas compartidas se ejecuta, las carpetas compartidas cifradas en el destino se montarán automáticamente; sin embargo, para acceder a los datos internos, primero debe montar las carpetas compartidas cifradas en el destino.</li>
+<li>La sincronización de carpetas compartidas programada no se ejecutará a la hora especificada si no se han realizado cambios en la carpeta compartida seleccionada.</li>
+<li>Para optimizar el rendimiento, recomendamos que cada tarea de sincronización incluya menos de 200 carpetas compartidas.</li>
+<li>La función <strong>Inicio de usuario</strong> se deshabilitará en el Synology NAS de destino si la carpeta compartida <strong>homes</strong> se sincroniza desde el Synology NAS de origen al Synology NAS de destino.</li>
+
+<li>Para modelos con CPU que no sean de Intel, podrá sincronizar hasta 100 000 carpetas compartidas (incluidas las subcarpetas) con la sincronización de carpetas compartidas.</li>
+ <li>La sincronización de carpetas compartidas puede realizar copias de seguridad de la configuración Windows ACL cuando el sistema de archivos de destino sea ext4 o Btrfs. <br><span class="note_head">Nota:</span> Los datos y la configuración Windows ACL almacenados en Synology NAS no se pueden sincronizar con EDS14. </li>
+ 
+ <li>La sincronización de carpetas compartidas no se completará correctamente cuando sincronice un servidor de destino con el mismo nombre que su Synology NAS.</li>
+ 
+<li>Los permisos avanzados de carpetas compartidas en el origen no se sincronizarán en el destino. Además, en el destino se creará una regla de solo lectura para el grupo administrators. </li> 
+
+  </ol>
+</div>
+
+</body></html>

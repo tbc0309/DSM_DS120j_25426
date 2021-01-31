@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>LDAP</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>LDAP</h2>
+<p>LDAP, bir LDAP istemcisi olarak Synology NAS sunucunuzun mevcut bir dizin hizmetine katılmasına olanak sağlar ve ardından LDAP sunucusundan (veya &quot;directory server&quot;) kullanıcı veya grup bilgilerini alır. LDAP kullanıcılarının veya gruplarının DSM uygulamalarına ve paylaşılan klas&ouml;rlere erişim &ouml;nceliklerini yerel DSM kullanıcılarında veya gruplarında olduğu gibi y&ouml;netebilirsiniz. LDAP hakkında daha fazla bilgi i&ccedil;in l&uuml;tfen <a href="http://en.wikipedia.org/wiki/LDAP" target="_blank">buraya</a> bakın.</p>
+
+<p>Desteklenen LDAP standardı LDAP s&uuml;r&uuml;m 3 (RFC 2251)'dir.</p>
+<h4>Synology NAS sunucusunu bir dizin hizmetine eklemek i&ccedil;in:</h4>
+<ol>
+<li><b>Denetim Masası</b> &gt; <b>Dizin Hizmeti</b> &ouml;ğesine gidin</li>
+<img src="about:blank" class="help_image"/>
+<li><b>LDAP</b> sekmesine gidin ve <b>LDAP İstemcisini etkinleştir</b> &ouml;ğesini işaretleyin.</li>
+<img src="about:blank" class="help_image"/>
+<li>LDAP sunucusunun IP adresini veya etki alanını <b>LDAP Sunucu adresi</b> alanına girin.</li>
+<img src="about:blank" class="help_image"/>
+<li><b>Şifreleme</b> indirmeli men&uuml;s&uuml;nden bir şifreleme t&uuml;r&uuml; se&ccedil;erek LDAP bağlantısını LDAP sunucusuna şifreleyin.</li>
+<img src="about:blank" class="help_image"/>
+<li>LDAP sunucusuna ait Base DN bilgisini <b>Base DN</b> alanına girin.</li>
+<img src="about:blank" class="help_image"/>
+<li>LDAP sunucunuza bağlı olarak uygun <b>Profil</b>'i se&ccedil;in. &Ouml;rneğin Synology Directory Server veya Mac Open Directory kullanıyorsanız <b>Standart</b> se&ccedil;imi yapın.</li>
+<img src="about:blank" class="help_image"/>
+<li>Samba şemasını desteklemeyen LDAP sunucusu kullanıcılarının CIFS aracılığıyla Synology NAS dosyalarına erişimine izin vermek i&ccedil;in <b>CIFS d&uuml;z metin parola doğrulamasını etkinleştir</b> se&ccedil;eneğini işaretleyin. LDAP kullanıcılarının bilgisayarlarını kullanarak Synology NAS dosyalarına CIFS aracılığıyla başarılı bir şekilde erişmelerini sağlamak i&ccedil;in aşağıdaki b&ouml;l&uuml;me bakın.</li>
+<img src="about:blank" class="help_image"/>
+<li><b>Uygula</b>'ya tıklayın.</li>
+<li>
+  Bind DN (veya LDAP y&ouml;netici hesabı) ve parolayı alanlara girin, ardından <b>Tamam</b>'a tıklayın.
+</li>
+<img src="about:blank" class="help_image"/>
+</ol>
+
+
+<div class="section">
+<h4>CIFS Desteği ve İstemci Bilgisayarı Ayarları Hakkında</h4>
+<p>
+CIFS d&uuml;z metin parola doğrulaması etkinleştirildikten sonra, CIFS aracılığıyla Synology NAS dosyalarına erişim sağlamak amacıyla LDAP kullanıcıları bilgisayarlarının ayarlarını değiştirmesi gerekebilir:
+</p>
+<ul>
+<li>
+Eğer Synology NAS sunucunuz bir Synology LDAP sunucusu (veya <b>Directory Server</b> paketini y&uuml;kleyen ve &ccedil;alıştıran başka bir Synology NAS sunucusu) tarafından ya da Samba şemasını destekleyen LDAP sunucusu tarafından sağlanan dizin hizmetine katılıyorsa ve t&uuml;m LDAP kullanıcıları doğru sambaNTParola &ouml;zniteliklerine sahipse, LDAP kullanıcıları Synology NAS dosyalarınıza CIFS yoluyla <b>CIFS d&uuml;z metin parola doğrulamasını etkinleştir</b> &ouml;ğesini etkinleştirmeden veya kendi bilgisayarlarının ayarlarını değiştirmeden erişebilirler. Aksi taktirde, CIFS yoluyla Synology NAS dosyalarına erişebilmek i&ccedil;in LDAP kullanıcılarının kendi bilgisayarlarının <a href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" target="_blank">PAM</a> desteğini etkinleştirmeleri gerekecektir. Ancak, bunu yapmanız LDAP kullanıcılarının parolasını Synology NAS sunucusuna d&uuml;z metin olarak g&ouml;nderecektir (şifreleme yapmadan), dolayısıyla g&uuml;venlik seviyesini d&uuml;ş&uuml;recektir.
+</li>
+
+</ul>
+<h4>Windows ayarlarını değiştirmek i&ccedil;in:</h4>
+<ol>
+<li><b>Başlat</b> &gt; <b>&Ccedil;alıştır</b>'a gidin, ilgili alana <b>regedit</b> girin ve ardından <b>Tamam</b>'a tıklayarak Kayıt D&uuml;zenleyicisini a&ccedil;ın.</li>
+<li>
+Windows s&uuml;r&uuml;m&uuml;n&uuml;ze bağlı olarak, aşağıdaki kaydı bulun veya oluşturun:
+</li>
+<ul>
+<li>
+<b>Windows 2000, XP, Vista ve Windows 7:</b><br> [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkStation\Parameters]
+</li>
+<li>
+<b>Windows NT:</b><br> [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Rdr\Parameters]
+</li>
+<li>
+<b>Windows 95 (SP1), 98 ve Me:</b><br> [HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\VxD\VNETSUP]
+</li>
+</ul>
+<li>
+DWORD değeri <b>EnablePlainTextPassword</b> oluşturun ve değiştirin ve değer verisini <b>0</b>'dan <b>1</b>'e değiştirin.
+</li>
+<li>
+Değişikliğin uygulanması i&ccedil;in Windows'u yeniden başlatın.
+</li>
+</ol>
+<h4>Mac OS X'in ayarlarını değiştirmek i&ccedil;in:</h4>
+<ol>
+<li><b>Uygulamalar</b> &gt; <b>Yardımcı Uygulamalar</b>'a giderek <b>Terminal</b>'i a&ccedil;ın.
+</li>
+<li>
+Boş bir dosya oluşturun <b>/etc/nsmb.conf</b>:
+<pre>
+sudo touch /etc/nsmb.conf
+</pre>
+</li>
+<li>
+vi ile <b>/etc/nsmb.conf</b> a&ccedil;ın:
+<pre>
+sudo vi /etc/nsmb.conf
+</pre>
+</li>
+<li>
+Metin girmek i&ccedil;in &quot;<b>i</b>&quot; girin ve aşağıdakileri yapıştırın:
+<pre>
+[default]<br / >
+minauth=none
+</pre>
+</li>
+<li>
+Esc tuşuna basın ve ardından &quot;<b>ZZ</b>&quot; girerek değişiklikleri kaydedin ve vi'den &ccedil;ıkın.
+</li>
+</ol>
+<h4>Linux'in ayarlarını değiştirmek i&ccedil;in:</h4>
+<p><b>smbclient</b> kullanıyorsanız, l&uuml;tfen aşağıdaki anahtarları <b>smb.conf</b> &ouml;ğesinin <b>[global]</b> kısmına ekleyin:
+
+<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;"> parolaları şifrele = hayır <br> istemci d&uuml;z metin yetk = evet <br> istemci lanman yetk = evet <br> istemci ntlmv2 yetk = hayır </p>
+<p><b>mount.cifs</b> kullanıyorsanız, aşağıdaki komutu &ccedil;alıştırın:</b>
+<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">echo 0x30030 &gt; /proc/fs/cifs/SecurityFlags</p>
+<p>Daha fazla bilgi i&ccedil;in, l&uuml;tfen bkz. <a href="https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README" target=_blank>https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README</a></p>
+
+</p>
+</div>
+<div class="section">
+<h4>Profiller Hakkında</h4>
+
+<p>Farklı LDAP sunucuları hesap adları, grup adları i&ccedil;in ya da hesapları ve grupları ayırmak i&ccedil;in farklı &ouml;znitelikler kullanabilirler. <b>Profil</b> se&ccedil;eneği kullanıcı ve grup bilgilerinin LDAP &ouml;zniteliklerine nasıl haritalanacağını belirlemenize veya &ouml;zelleştirmenize olanak tanır. LDAP sunucunuza bağlı olarak aşağıdaki profillerden bir tanesi se&ccedil;ilebilir:</p>
+
+<ul>
+<li><b>Standart:</b> Synology Directory Server veya Mac Open Directory kullanan sunucular i&ccedil;in.</li>
+<li><b>IBM Lotus Domino:</b> IBM Lotus Domino 8.5 kullanan sunucular i&ccedil;in.</li>
+<li><b>&Ouml;zel:</b> Haritalamaları &ouml;zelleştirmenizi sağlar. Ayrıntılar i&ccedil;in aşağıdaki b&ouml;l&uuml;me bakın.</li>
+</ul>
+
+<p>LDAP &ouml;znitelik haritalamalarını &ouml;zelleştirmeden &ouml;nce, bazı arkaplan bilgilerine ihtiyacınız vardır. Synology DSM ve <strong>Profil</strong> edit&ouml;r&uuml; RFC 2307'ye bağlıdır. &Ouml;rneğin, <b>filter</b> &gt; <b>passwd</b> &ouml;ğelerini <b>userFilter</b> olarak belirlerseniz, Synology NAS LDAP sunucunuzda <b>objectClass=userFilter</b> ile olan kayıtları LDAP hesapları olarak yorumlar. <b>passwd</b> &gt; <b>uid</b> &ouml;ğesini <b>username</b> olarak belirlerseniz, Synology NAS LDAP sunucunuzdaki <b>username</b> hesap adı olarak yorumlar. Haritalamanın boş bırakılması RFC 2307 kurallarını uygular.</p>
+<p>Synology NAS bir LDAP hesap tanımlayıcı (<strong>uidNumber</strong>) yada bir grup tanımlayıcı (<strong>gidNumber</strong>) olarak işlev g&ouml;rmek i&ccedil;in sabit bir tamsayı gerektirir. Ancak, LDAP sunucularının tamamı bu t&uuml;r &ouml;znitelikleri temsil i&ccedil;in tamsayılar kullanmaz. Dolayısıyla, bu t&uuml;r &ouml;znitelikleri tamsayılara d&ouml;n&uuml;şt&uuml;rmek i&ccedil;in bir anahtar kelime <b>HASH()</b> sunulmaktadır. &Ouml;rneğin, LDAP sunucunuz <b>userid</b> &ouml;zniteliğini bir LDAP hesabı i&ccedil;in eşsiz taımlayıcı olarak onaltılı bir değerle kullanabilir. Bu durumda, <b>passwd</b> &gt; <b>uidNumber</b> &ouml;ğesini <b>HASH(userid)</b> olarak ayarlayabilirsiniz ve ardından Synology NAS bunu bir tamsayıya d&ouml;n&uuml;şt&uuml;r&uuml;r.</p>
+
+<p>Aşağıda &ouml;zelleştirilebilir &ouml;zniteliklerin bir &ouml;zeti bulunmaktadır:</p>
+
+<ul>
+	<li><b>filter</b></li>
+	<ul>
+		<li><b>grup</b>: grup i&ccedil;in gerekli objectClass.</li>
+		<li><b>passwd</b>: kullanıcı i&ccedil;in gerekli objectClass.</li>
+		<li><b>shadow</b>: kullanıcı şifreleri i&ccedil;in gerekli objectClass.</li>
+	</ul>
+	<li><b>grup</b></li>
+	<ul>
+		<li><b>cn</b>: grup adı.</li>
+		<li><b>gidNumber</b>: Bu grup i&ccedil;in GID numarası.</li>
+		<li><b>memberUid</b>: bu grubun &uuml;yeleri.</li>
+	</ul>
+	<li><b>passwd</b></li>
+	<ul>
+		<li><b>uidNumber</b>: Bu kullanıcının UID numarası.</li>
+		<li><b>uid</b>: kullanıcı adı.</li>
+		<li><b>gidNumber</b>: bu kullanıcı i&ccedil;in birinci GID numarası.</li>
+	</ul>
+	<li><b>shadow</b></li>
+	<ul>
+		<li><b>uid</b>: kullanıcı adı.</li>
+		<li><b>userPassword</b>: kullanıcı şifresi.</li>
+	</ul>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>UID/GID kaydırma hakkında</h4>
+<p>LDAP kullanıcıları/grupları ile yerel kullanıcılar/gruplar arasındaki UID/GID &ccedil;akışmalarından ka&ccedil;ınmak i&ccedil;in LDAP kullanıcılarını/gruplarını 1000000 kaydırmak i&ccedil;in UID/GID kaydırmayı etkinleştirebilirsiniz. Bu se&ccedil;enek sadece Synology olmayan LDAP sunucuları i&ccedil;indir ve her kullanıcı/grup i&ccedil;in benzersiz bir sayısal ID atanmıştır.</p>
+</div>
+<div class="section">
+	<h4>G&ouml;m&uuml;l&uuml; Grup Genişletme Hakkında</h4>
+	<p>G&ouml;m&uuml;l&uuml; bir grupta, bir LDAP grup &uuml;yesi başka bir LDAP grubuna aittir ve burada bir organizasyonun hiyerarşisi temsil edilir. Kullanıcılar, belirli bir &uuml;yenin hangi gruba ait olduğunu ya da belirli bir grubun isim listesini aradıklarında, Synology NAS LDAP grubunun <strong>member</strong> &ouml;zniteliklerine g&ouml;re g&ouml;m&uuml;l&uuml; bir grubu genişletir; burada bir alt grubun DN'si (&Ouml;zel Adı) &ouml;znitelik tarafından refere edilir. G&ouml;m&uuml;l&uuml; bir grubun genişlemesi farklı ortamlar altında &ccedil;ok zaman alıcı olabilir, &ouml;r. sunucunun <strong>member</strong> &ouml;zniteliğini indekslememesi veya grubun derinlemesine g&ouml;m&uuml;l&uuml; olması halinde. B&ouml;yle bir durumu &ouml;nlemek i&ccedil;in g&ouml;m&uuml;l&uuml; bir grubu genişletmemeyi se&ccedil;ebilirsiniz.
+	</p>
+</div>
+</body>
+</html>

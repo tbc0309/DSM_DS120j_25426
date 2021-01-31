@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability Manager Sihirbazı - Synology DSM Yardım</title>
+
+
+ </head>
+ <body>
+<h2>High Availability Manager Sihirbazı</h2>
+<p>Bu sihirbaz bir high-availability kümesinin oluşturulması ve kurulması sürecinde size yardımcı olur.</p>
+<h4>Bu sihirbazı başlatmak için:</h4>
+<ol>
+<li><b>High Availability Yöneticisi</b>'ni açın.</li>
+<li><b>Genel Bakış</b> sayfasına gidin.</li>
+<li><b>HA kümesini oluştur</b> üzerine tıklayın.</li>
+</ol>
+   
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Lütfen verilen zaman limiti dahilinde high-availability kümesi kurulumunu tamamlayın. Zaman limiti aşılırsa, kurulum sürecine en baştan tekrar başlamanız gerekir.</li>
+<li>Hangi sunucunun high-availability kümesinin aktif sunucusu olduğunu belirlemeniz gerekiyorsa, Synology'nin <strong>DS finder</strong> uygulamasını indirmenizi ve aktif sunucunun kısa bir bip sesi vermesini sağlayan bip fonksiyonunu kullanmanızı öneririz.</li>
+</ul>
+</div>
+
+<h4>Pasif sunucuyu kurmak için:</h4>
+<p>Lütfen pasif sunucu olarak bir Synology sunucusunu belirleyin. Normal koşullar altında, pasif sunucu hizmet sunmaz. Ancak, bir arıza durumunda, hizmetler aktif sunucudan pasif sunucuya aktarılabilir.</p>
+<ol>
+<li><b>IP adresi:</b> Lütfen pasif sunucu IP adresini girin.
+
+</li>
+<li><b>Kullanıcı adı:</b> Hedef sunucu üzerindeki <b>administrator</b> grubuna ait olan bir kullanıcı hesabını sunun. </li>
+<li><b>Parola:</b> <b>administrator</b> grubuna ait olan hesap için şifreyi sunun.</li>
+</ol>
+
+<div class="section">
+<h4>Not:</h4> 
+<ul>
+<li>High-availability kümesi oluşturulduğunda, pasif sunucudaki tüm veriler silinir. Lütfen pasif sunucuda hiçbir verinin kayıtlı olmadığından emin olun. </li>   
+</ul>
+</div>
+  
+<h4>Heartbeat bağlantısını yapılandırmak için:</h4>
+<p>İki sunucuyu birbirine bağlayın. Bu bağlantı iki sunucu arasında "Heartbeat" bağlantısı olarak hizmet görecek ve iletişimi kolaylaştıracak ve verinin aktif sunucudan pasif sunucuya çoğaltılmasını sağlayacaktır. Heartbeat bağlantısının kaliteli olmasını sağlamak için sistem, high-availability kümesi oluşturulurken, bu bağlantının aşağıdaki kriteri karşılayıp karşılamadığını kontrol edecektir:</p>
+<ul>
+<li>İki sunucu arasında, aynı yayın etki alanında bulunan IP adreslerine sahip başka bir cihaz yoktur. Eğer bu Heartbeat bağlantısı herhangi bir sviçten geçiyorsa, sviçlerin multicast ve Jumbo Frame desteklediğinden emin olun.</li>
+<li>Düşük bekleme süresine sahip bir ağ bağlantısı edinin. İki sunucu arasındaki Ping tepki süresi 1 ms'den az olmalıdır ve iletim hızı en az 500 Mbps olmalıdır. MTU otomatik olarak 9000'e yapılandırılacaktır.</li>
+<li>Her iki sunucuda aynı ağ arayüzünü kullanmalıdır. Örneğin, eğer bir uç bir sunucudaki LAN 1'e bağlanırsa, diğer ucun diğer sunucudaki LAN 1'e bağlanması gerekir.</li>
+<li>Her iki sunucuda en hızlı ağ arayüzünü kullanmalıdır. Sunucular 10 GbE eklenebilir ağ arayüz kartları ile donatılmışsa, bu bağlantı onları kullanmalıdır.</li>
+</ul>
+ <p>Yukarıdakileri onayladıktan sonra, <b>HA Bağlantısı (Heartbeat) Arabirimi</b> kısmına gidin ve Heartbeat bağlantısı olarak çalışacak sunucular üzerindeki ağ arayüzünü seçin.</p>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Heartbeat bağlantısı ayarları aktif sunucudan pasif sunucuya veri çoğaltımı amacıyla iki set IP adresini (ör. 169.254.1.1 ve 169.254.1.2) üretir. Bu iki IP adresinin ağ içindeki herhangi bir başka ekipman tarafından kullanılmadığından lütfen emin olun.</li>
+<li>VLAN ID'sinin Synology NAS sunucunuzun Heartbeat bağlantı portlarında erkinleştirilmesi desteklenmez.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Heartbeat veya veri bağlantılarında Link Aggregation'un yapılandırılması:</h4>
+
+<ul>
+<li>Heartbeat veya veri bağlantısında Link Aggregation'u yapılandırmak için, lütfen high availability oluşturma sihirbazını başlatmadan önce <strong>Denetim Masası</strong> > <strong>Ağ</strong> > <strong>Ağ arabirimi</strong> öğesinde Link Aggregation'u iki veya daha fazla LAN bağlantı noktasında kurun. Link Aggregation ayarlarının her iki sunucuda aynı olduğundan emin olun (ör. Link Aggregation'u aktif sunucunun 1 ve 2 nolu bağlantı noktalarında kurarsanız, Link Aggregation pasif sunucunun 1 ve 2 nolu bağlantı noktalarında da kurulmalıdır).</li>
+
+
+<li>Heartbeat üstlenme ve yük dengeleme özellikleri ile donatılmıştır ancak veri bağlantıları seçtiğiniz Link Aggregation moduna bağlıdır.</li>
+</ul>
+
+</div>
+
+
+<h4>High-availability kümesinin ağ arabirimi ayarlarını yapılandırmak için:</h4>
+<p>High-availability kümesi dışarıya bağlantı arabirimi olarak bir high-availability kümesi IP adresini kullanır. Hangi Synology sunucusunun aktif sunucu olduğundan bağımsız olarak, DSM servislerini kullanmak istediğinizde bu high-availability IP adresini kullanarak bağlanabilirsiniz. Bu, aktif sunucudan pasif sunucuya bir geçiş meydana geldikten sonra farklı IP adreslerine bağlanma zorunluluğunu ortadan kaldırır.</p>
+
+<ol>
+<li><b>Küme Sunucu Adı:</b> High-availability kümesinin adı. Ad kısıtlamaları hakkında bilgi için lütfen sunucu adlandırma kuralları (<b>DSM Yardım</b> > <b>Denetim Masası</b> > <b>Bağlantı</b> > <b>Ağ</b> > <b>Genel</b>) kısmına bakın.</li>
+<li><b>Ağ Arabirimi:</b> High-availability kümesi tarafından kullanılan ağ arabirimi. Önceki adımda veri çoğaltımı için belirlenenden farklı bir LAN bağlantı noktası seçmeniz gerekir. </li>
+<li><b>IP Adresi:</b> High-availability kümesi tarafından kullanılacak IP adresi. Hangi sunucunun aktif olarak servisleri yürüttüğünden bağımsız olarak, küme bu IP yoluyla bağlanabilir.</li>
+<li> <b>Alt Ağ Maskesi:</b> High-availability kümesi tarafından kullanılan alt ağ maskesi.</li>
+</ol>
+
+<div class="section">
+<h4>Veri bağlantısı için bir VLAN ID atama:</h4>
+<ul>
+<li>Veri bağlantısı için bir VLAN ID'yi atamak için, lütfen high-availability oluşturma sihirbazını başlatmadan önce <strong>Denetim Masası</strong> > <strong>Ağ</strong> > <strong>Ağ arabirimi</strong> öğesine gidin. Her iki sunucuda VLAN ayarlarının benzer olduğundan emin olun (ör. LAN 1 aktif sunucuda VLAN ID 1 ile ayarlanırsa, pasif sunucunun LAN 1'i de VLAN 1 ile ayarlanmalıdır).</li>
+</ul>
+</div>
+
+
+<h4>Ayarları onaylamak için:</h4>
+<p>High-availability kümesi tarafından kullanılan ayarları lütfen iki defa kontrol edin. <b>Uygula</b> üzerine tıkladığınızda sistem high-availability kümesini birleştirmeye başlar. </p>
+
+<div class="section">
+<h4>Not:</h4>
+<ul>
+<li>Bir high-availability kümesini oluştururken, aktif sunucudaki tüm veriler pasif sunucuya aktarılmalıdır. İlk çoğaltım süreci tamamlanmadan önce 30 dakikadan daha uzun süreyle pasif sunucuya gelen bağlantı kaybedilirse, pasif sunucu <strong>Tek Başına</strong> moduna geri döner. Bu durumda, yeniden bağlamanız ve tam bir veri çoğaltımını tekrar yapmanız gerekir.</li>
+</ul>
+</div>
+ </body>
+</html>

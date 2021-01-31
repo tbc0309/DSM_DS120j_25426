@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability Manager varázsló – Synology DSM Súgó</title>
+
+
+ </head>
+ <body>
+<h2>High Availability Manager varázsló</h2>
+<p>Ez a varázsló átvezeti Önt a high-availability klaszterek létrehozásának és beállításának folyamatán.</p>
+<h4>A varázsló elindítása:</h4>
+<ol>
+<li>Nyissa meg a <b>High Availability Manager</b> programot.</li>
+<li>Lépjen az <b>Áttekintés</b> oldalra.</li>
+<li>Kattintson a <b>HA klaszter létrehozása</b> lehetőségre.</li>
+</ol>
+   
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>A megadott időkereten belül fejezze be a high-availability klaszter telepítő varázsló beállítását. Ha túllépi az időkeretet, újra kell kezdenie a beállítási folyamatot.</li>
+<li>Ha azonosítania kell a high-availability klaszter aktív szervereként működő szervert, javasoljuk, hogy töltse le a Synology <strong>DS finder</strong> alkalmazását és használja annak hangjelzés funkcióját, amely rövid hangjelzés kibocsátására állítja be az aktív szervert.</li>
+</ul>
+</div>
+
+<h4>A passzív szerver beállítása:</h4>
+<p>Jelöljön ki egy Synology szervert passzív szervernek. Rendes körülmények között a passzív szerver nem nyújt szolgáltatásokat. Működési zavar esetén azonban a szolgáltatások az aktív szerverről átadásra kerülhetnek a passzív szerverre.</p>
+<ol>
+<li><b>IP-cím:</b> Adja meg a passzív szerver IP-címét.</li>
+<li><b>Felhasználónév:</b> Adjon meg egy, a célszerver <b>administrator</b> csoportjához tartozó felhasználói fiókot. </li>
+<li><b>Jelszó:</b> Adja meg a fent megadott, <b>administrator</b> csoporthoz tartozó fiók jelszavát.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4> 
+<ul>
+<li>A high-availability klaszter létrehozását követően a passzív szerveren található összes adat törlésre kerül. Győződjön meg róla, hogy a passzív szerveren nem tárol fontos adatokat. </li>   
+</ul>
+</div>
+  
+<h4>A heartbeat-kapcsolat konfigurálása:</h4>
+<p>Kapcsolja össze a két szervert. Ez a kapcsolat szolgál majd a két szerver közötti „Heartbeat”-kapcsolatként, biztosítva a kommunikációt és lehetővé téve az aktív szerveren található adatok folyamatos másolását a passzívra. A heartbeat-kapcsolat minőségének biztosítása érdekében a rendszer a high-availability klaszter létrehozásakor ellenőrzi, hogy a kapcsolat megfelel-e az alábbi feltételeknek:</p>
+<ul>
+<li>A két szerver között nem lehet olyan más eszköz, melynek IP-címe a velük megegyező szórási tartományba esik. Amennyiben a Heartbeat-kapcsolat switcheken is áthalad, ellenőrizze, hogy a kapcsolók támogatják-e a multicast és a Jumbo Frame funkciót.</li>
+<li>Alacsony késéssel rendelkező hálózati kapcsolattal kell rendelkeznie. A két szerver közötti ping válaszidejének 1 ms alatt kell lennie, az átviteli sebességnek pedig el kell érnie az 500 Mb/s-t. Az MTU automatikusan 9000-es értékre áll.</li>
+<li>Mindkét szervernek ugyanazt a hálózati interfészt kell használnia. Ha például az egyik vég az egyik szerveren LAN 1-hez csatlakozik, a másik végnek is LAN 1-hez kell csatlakoznia a másik szerveren.</li>
+<li>Mindkét szervernek a leggyorsabb hálózati interfészt kell használnia. Ha a szerverek10 GbE kiegészítő hálózati kártyával vannak felszerelve, a kapcsolatnak azokat kell használnia.</li>
+</ul>
+ <p>A fentiek ellenőrzését követően lépjen a <b>HA kapcsolat (Heartbeat) interfész</b> szakaszra, majd válassza ki, hogy a szerverek mely hálózati interfésze szolgáljon a Heartbeat-kapcsolatként.</p>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>A Heartbeat-kapcsolat beállításai két IP-címet (pl. 169.254.1.1 és 169.254.1.2) eredményeznek az aktív szerver és a passzív szerver közti adatreplikáció céljából. Győződjön meg róla, hogy ezt a két IP-címet nem használja a hálózat egyetlen másik készüléke sem.</li>
+<li>A rendszer nem támogatja a VLAN-azonosítók engedélyezését a(z) Synology NAS eszköz Heartbeat-kapcsolati portjain.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Link-aggregáció beállítása a Heartbeat- vagy az adatkapcsolatokon:</h4>
+
+<ul>
+<li>A link-aggregáció funkció beállításához a Heartbeat- vagy az adatkapcsolatokon a high-availability létrehozási varázsló indítása előtt állítson be link-aggregáció funkciót kettő vagy több LAN-porton a <strong>Vezérlőpult</strong> > <strong>Hálózat</strong> > <strong>Hálózati interfész</strong> menüpontban. A két szerver link-aggregációs beállításainak meg kell egyeznie (ha pl. az aktív szerver 1-es és 2-es portján beállította a link-aggregáció funkciót, azt a passzív szerver 1-es és 2-es portjain is be kell állítania).</li>
+
+
+<li>A Heartbeat-kapcsolat feladatátvételi és terhelésmegosztási funkciókkal bír, de az adatkapcsolat a link-aggregáció választott módjától függ.</li>
+</ul>
+
+</div>
+
+
+<h4>A high-availability klaszter hálózati interfész beállításainak konfigurálása:</h4>
+<p>A high-availability klaszter high-availability klaszter IP-címet használ kapcsolati interfészként. A high-availability klaszter IP-cím használatával kapcsolódhat, ha használni szeretné a DSM szolgáltatásait, attól függetlenül, hogy mely Synology szerver az aktív szerver. Ez meggátolja, hogy az aktív szerverről a passzív szerverre történő átváltás végrehajtását követően különböző IP-címhez kelljen csatlakozni.</p>
+
+<ol>
+<li><b>Klaszter szerverneve:</b> A high-availability klaszter neve. Az elnevezésre vonatkozó korlátozások megismeréséhez tekintse át a szerverelnevezési szabályokat (<b>DSM Súgó</b> > <b>Vezérlőpult</b> > <b>Kapcsolat</b> > <b>Hálózat</b> > <b>Általános</b>).</li>
+<li><b>Hálózati interfész:</b> A high-availability klaszter által használandó hálózati interfész. Az előző lépésben adatmásolásra meghatározottól eltérő LAN-portot kell megadni. </li>
+<li><b>IP-cím:</b> A high-availability klaszter által használandó IP-cím. Attól függetlenül, hogy mely szerver nyújt aktívan szolgáltatásokat, ezen az IP-címen keresztül csatlakozhat a klaszterhez.</li>
+<li> <b>Alhálózati maszk:</b> A high-availability klaszter által használandó alhálózati maszk.</li>
+</ol>
+
+<div class="section">
+<h4>VLAN-azonosító hozzárendelése az adatkapcsolathoz:</h4>
+<ul>
+<li>Az adatkapcsolat VLAN-azonosítójának hozzárendeléséhez a high-availability létrehozási varázsló elindítása előtt lépjen a <strong>Vezérlőpult</strong> > <strong>Hálózat</strong> > <strong>Hálózati interfész</strong> menüpontra. A két szervernek azonos VLAN-beállításokat kell használnia (ha pl. az aktív szerveren a LAN 1-hez az 1-es VLAN-azonosítót állította be, akkor a passzív szerver LAN 1-ét is VLAN 1 azonosítóra kell beállítania).</li>
+</ul>
+</div>
+
+
+<h4>Beállítások megerősítése:</h4>
+<p>Ellenőrizze le ismét a high-availability klaszter által használandó beállításokat. A rendszer az <b>Alkalmaz</b> gombra kattintáskor kezdi meg a high-availability klaszter létrehozását. </p>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>High-availability klaszter létrehozásakor az aktív szerver összes adatát replikálni kell a passzív szerverre. Amennyiben az első replikációs folyamat befejezése előtt több mint 30 perccel megszakad a kapcsolat a passzív szerverrel, az visszaáll <strong>Önálló</strong> módba. Ebben az esetben ismét el kell végezni az összekapcsolást, valamint a teljes körű adatreplikációt.</li>
+</ul>
+</div>
+ </body>
+</html>

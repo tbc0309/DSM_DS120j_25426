@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>ログ センター</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+
+</head>
+<body>
+<h2>アーカイブの設定</h2>
+
+<p><strong>[アーカイブの設定]</strong> ページには、ログ センターから受信したログをどのように、またどこにアーカイブするかを設定するためのオプションがあります。 次のオプションを使って、ストレージ場所と、ログのアーカイブを自動的に作成するための規則を作成してください。</p>
+
+
+<h3>アーカイブの保管場所</h3>
+
+<p>「保管場所」とは、ログ センターから受信したログを保管し、アーカイブするためのフォルダを意味します。 <strong>[場所の選択]</strong> をクリックして、フォルダを選択してください。</p>
+<p>Synology NAS のローカル ログを同じストレージ場所にアーカイブするには、<strong>[ローカル ログを上で指定した保管先にアーカイブ]</strong> にチェックマークを付けてください。 ほとんどの場合、こうすることでローカル ログにより多くのストレージ領域を提供することができるため、より完全なシステム ログを維持することが可能になります。</p>
+
+
+<!--DSM#61793: Describe how logs are archived in data volume-->
+<div class="section">
+<h4>注:</h4>
+<p>ローカルログ（システム、接続、ファイル転送ログ）は、ストレージが制限されているシステム パーティションに保存されます。 <strong>[ローカル ログを上で指定した保管先にアーカイブ]</strong> を有効にすると、<strong>アーカイブ規則</strong>に基づいてすべてのログが指定した保存先にアーカイブされます。 アーカイブしたローカル ログを参照するには、<strong>[ログ アーカイブを開く]</strong> を選択し、<strong>[SYNOSYSLOGDB__LOCALARCH.DB]</strong> を選択します。</p>
+</div>
+
+
+<h3>アーカイブ規則</h3>
+
+<p>ログは、<strong>アーカイブ規則</strong>セクションで定義した条件に基づいて、自動的にアーカイブされます。 ログ データベースのサイズが指定したサイズに到達した時、ログの数が指定した数に達したとき、またはログが一定の時間を経過した場合は、ログを自動的にアーカイブすることができます。</p>
+   
+<P>アーカイブ ログ機能を有効化していない場合、蓄積したログがログ データベースの最大保持可能ログ数を超過すると、以前のログは削除されます。 下記の表を参照して、各プロトコルの最大保持可能ログ数を調べてください。</P> 
+    
+<table>
+     <tr>
+      <th width="40%">プロトコル</th>
+      <th width="60%">最大保持可能ログ数</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>AFP</strong></td>
+      <td align="center">20,000</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>File Station</strong></td>
+	  <td align="center">20,000</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>FTP</strong></td>
+	  <td align="center">20,000</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>SMB</strong></td>
+      <td align="center">100,000</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>WebDAV</strong></td>
+      <td align="center">20,000</td>
+     </tr>
+    </table>    
+
+<h3>アーカイブフォーマット</h3>
+<p>このセクションには、次のオプションがあります。</p>
+<ul>
+<li><strong>ログをデフォルトのフォーマットの他にテキスト フォーマットとしてもアーカイブする：</strong>デフォルトの SQLite ファイルに加え、書式なしファイルとしてアーカイブを保存します。</li>
+<li><strong>ログ アーカイブを圧縮：</strong>ログ アーカイブを圧縮した ZIP ファイルとして保存します。</li>
+<li><strong>デバイス毎にログを個々にアーカイブする：</strong>Synology NAS にログを送信する各クライアント デバイス毎に、個別のアーカイブを保存します。</li>
+</ul>
+
+</body>

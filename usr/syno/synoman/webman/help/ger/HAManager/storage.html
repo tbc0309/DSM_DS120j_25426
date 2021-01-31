@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Speicherstatus</h2>
+	<p>Diese Seite beschreibt den Status der Speicher-Volumes und iSCSI LUNs (Block-Ebene) auf dem aktiven und passiven Server des High Availability-Clusters.</p>
+    <p>Da die Kapazit&auml;t und Konfigurationen auf den entsprechenden Volumes und iSCSI LUNs (Block-Ebene) auf dem aktiven und passiven Servern identisch sein muss, werden die Volumes und iSCSI LUN (Block-Ebene) auf den beiden Servern zusammen als einzelne Einheiten angezeigt. Wenn Sie daher den Status von Volumes und iSCSI LUNs (Block-Ebene) des aktiven und passiven Servers anzeigen m&ouml;chten, m&uuml;ssen Sie die Seite <b>Speicherstatus</b> aufrufen [wenn Sie auf einen high-availability Cluster zugreifen, werden nur iSCSI LUNs (Block-Ebene) auf dem aktiven Server im <b>Speicher-Manager</b> sichtbar sein].</p>
+
+    <p>Dieser Abschnitt zeigt die folgenden Informationen an:</p>
+		<ul>
+			<li><b>Name:</b> Zeigt die Namen von Volumes und iSCSI LUNs (Blockebene) an.</li>
+			<li><b>Benutzt:</b> Zeigt den Prozentsatz der genutzten Kapazit&auml;t von Volumes und iSCSI LUNs (Blockebene) an.</li>
+			<li><b>Benutzt/Gesamtgr&ouml;&szlig;e:</b>  Zeigt die gesamte und genutzte Kapazit&auml;t von Volumes und iSCSI LUNs (Blockebene) an.</li>
+            <li><b>Status:</b> Zeigt den Status von Volumes, iSCSI-LUNs (Block-Level) und SSD-Cache an.</li>
+            <li><b>Beschreibung:</b> Zeigt die Beschreibung von Fehlern oder anderer Informationen des Volumes, iSCSI LUNs (Blockebene) und SSD Caches an.</li>
+		</ul>
+<h4>Reparatur eines fehlerhaften Volumes oder iSCSI LUNs (Block-Ebene):</h4>
+	<ul>
+		<li>Wenn eine Festplatte in einem der Server abgest&uuml;rzt ist, k&ouml;nnen Sie zur Seite <a href="disk.html">Festplattenstatus</a> gehen, um zu erfahren, welche Festplatte abgest&uuml;rzt ist und ausgetauscht werden muss. Machen Sie in diesem Fall Folgendes:
+        	<ol>
+            	<li>Tauschen Sie die abgest&uuml;rzte Festplatte aus (f&uuml;r die Schritte hinsichtlich der Festplatteninstallation lesen Sie bitte die <i>Schnellinstallationsanleitung</i> f&uuml;r Ihr Synology Produkt).</li>
+                <li>Gehen Sie zur Seite <b>Speicherstatus</b> und klicken Sie auf <b>Reparieren</b>.</li>
+            </ol>
+        </li>
+        <li>Wenn der passive Server offline ist, wird der Status von Volumes und iSCSI LUNs (Block-Ebene) das Auftreten eines Fehlers anzeigen, und keine der Festplatten im passiven Server wird auf der Seite Festplattenstatus angezeigt. In diesem Fall k&ouml;nnen Sie versuchen, das Problem folgenderma&szlig;en zu l&ouml;sen:
+        	<ol>
+            	<li>Stellen Sie sicher, dass der passive Server eingeschaltet ist.</li>
+                <li>&Uuml;berpr&uuml;fen Sie s&auml;mtliche Stromversorgungen.</li>
+                <li>&Uuml;berpr&uuml;fen Sie s&auml;mtliche Anschl&uuml;sse.</li>
+            </ol>
+        </li>
+        <li>Wenn ein Dateisystemfehler auf einem Volume oder iSCSI LUN (Blockebene) auf einem der Server auftritt, tun Sie bitte Folgendes:
+        	<ul>
+            	<li>Gehen Sie zur Seite <b>Speicherstatus</b>.</li>
+                <li>Klicken Sie auf <b>Reparieren</b>.</li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">Hinweis:</span>  Das Limit von Volumes und iSCSI LUN (Block-Ebene) auf einem High Availability-Cluster ist 64.</p>
+
+
+
+<h3>Quorum-Server</h3>
+<p>Quorum-Server k&ouml;nnen helfen, die Wahrscheinlichkeit von Split Brain-Fehlern zu verringern. In den Split-Brain-Einstellungen k&ouml;nnen Sie einen anderen Server als Quorum-Server bestimmen, vorausgesetzt, dass er sich st&auml;ndig sowohl mit dem aktiven wie auch dem passiven Server verbindet. Gateway-Server oder DNS-Server sind zum Beispiel als Quorum-Server geeignet, da sie sich sowohl mit dem aktiven wie auch mit dem passiven Server verbinden k&ouml;nnen. Beachten Sie bitte, dass der Quorum-Server ausschlie&szlig;lich Ping-Dienste bereitstellt und keine Anwendungen darauf installiert werden m&uuml;ssen. Im Folgenden werden m&ouml;gliche Szenarien beschrieben, wenn der Quorum Server aktiviert ist:</p>
+
+<ul>
+<li>Wenn der passive Servier sich nicht sowohl mit dem aktiven wie auch mit dem Quorum-Server verbinden kann, wird der Failover nicht durchgef&uuml;hrt, um Split-Brain-Fehler zu verhindern.</li>
+<li>Wenn der aktive Servier sich nicht mit dem Quorum-Server verbinden kann, der passive Server jedoch schon, wird eine &Uuml;bergabe durchgef&uuml;hrt, um die Verf&uuml;gbarkeit zu verbessern.</li>
+</ul>
+
+ </body>
+</html>

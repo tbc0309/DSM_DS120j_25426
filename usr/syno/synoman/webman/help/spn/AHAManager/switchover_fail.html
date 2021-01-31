@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ <meta charset="utf-8">
+</head>
+ <body>
+  <h2>Cambio</h2>
+  
+ <p>Para garantizar un rendimiento continuo y minimizar el tiempo de inactividad, los servicios se pueden cambiar del servidor activo de un cl&uacute;ster high-availability al servidor pasivo en reposo. Esta funci&oacute;n se llama &quot;Cambio&quot; o, en algunos casos, &quot;Conmutaci&oacute;n por error&quot;. Esta secci&oacute;n incluye informaci&oacute;n b&aacute;sica sobre estos dos conceptos.</p>
+  
+  <h3>Cambio</h3>
+  	<p>La funci&oacute;n Cambio se refiere al paso del servidor activo al servidor pasivo en reposo de un cl&uacute;ster high-availability. En condiciones normales, el servidor activo administra todos los servicios. Sin embargo, en caso de que el servidor activo falle, puede iniciar un cambio y transferir todos los servicios al servidor pasivo, suponiendo siempre que el servidor pasivo funcione normalmente. En este caso, el servidor activo asume el papel de servidor pasivo y viceversa.</p>
+    
+<h4>Para iniciar manualmente un cambio:</h4>
+ <ol>
+  <li>Vaya a la p&aacute;gina <b>Visi&oacute;n general</b>.</li>
+  <li>Haga clic en <b>Administrar</b> &gt; <b>Cambio</b>.</li>
+ </ol>
+
+<div class="section">
+<h4>Nota:</h4>
+   <p>Antes de realizar el cambio manual le recomendamos que configure un IP est&aacute;tica e inicie sesi&oacute;n en DSM con la misma, a fin de evitar la p&eacute;rdida de la p&aacute;gina de DSM debido a un cambio de IP tras el cambio.</p>
+</div>
+
+<div class="section">
+<h4>Nota:</h4>
+   <p>Al iniciar un cambio, el servidor activo asume primero el papel del servidor pasivo y luego el servidor pasivo se convierte en servidor activo. Por tanto, habr&aacute; un breve periodo de tiempo en el que ambos servidores sean pasivos y no puedan prestar los servicios normalmente. El tiempo de cambio var&iacute;a dependiendo del n&uacute;mero y el tama&ntilde;o de los vol&uacute;menes o iSCSI LUNs (nivel de bloques) o del n&uacute;mero y la carga total de servicios y paquetes del cl&uacute;ster high-availability.</p>
+</div>
+
+<h3>Conmutaci&oacute;n por error</h3>
+    
+     <p>Cuando se producen determinados errores, el sistema puede iniciar autom&aacute;ticamente un cambio de servicios para minimizar el tiempo de interrupci&oacute;n de los mismos. Este evento se denomina &quot;conmutaci&oacute;n por error&quot;. Siempre y cuando el servidor pasivo est&eacute; funcionando con normalidad, el sistema puede iniciar la conmutaci&oacute;n por error en las siguientes situaciones:</p>
+    
+    <ul>
+      <li><b>Corte de electricidad:</b><ul>
+      	<li>El servidor activo se ha apagado o reiniciado.</li>
+        <li>Las dos unidades de potencia del servidor activo han fallado.</li>
+        <li>Sin alimentaci&oacute;n.</li>
+      </ul></li>
+      <li><b>Error en la unidad:</b> El n&uacute;mero de rutas en el servidor activo es menor que el del servidor pasivo.</li>
+      <li><b>Error de servicio:</b> Se ha producido un error en un servicio supervisado.</li>
+      <li><b>Error de conexi&oacute;n:</b> Se ha producido un error de conexi&oacute;n en una interfaz supervisada.</li>
+    </ul>    
+     
+    
+<h3>Fallo de cambio</h3>
+    
+		<p>El cambio o la conmutaci&oacute;n por error podr&iacute;a fallar en las siguientes situaciones:</p>
+  	<ul>
+  	  <li><b>Conexi&oacute;n Heartbeat anormal:</b> El estado de la conexi&oacute;n del servidor activo-pasivo no es normal.</li>
+  	  <li><b>Tama&ntilde;o de la memoria no coincide:</b> Los servidores activo y pasivo no tienen un tama&ntilde;o RAM id&eacute;ntico.</li>
+  	  <li><b>Corte de electricidad:</b><ul>
+      	<li>El servidor pasivo se ha apagado o reiniciado.</li>
+        <li>Las dos unidades de potencia del servidor pasivo han fallado.</li>
+        <li>Sin alimentaci&oacute;n.</li>
+      </ul></li>
+  	  <li><b>Error de conexi&oacute;n:</b> Se ha producido un error de conexi&oacute;n en una interfaz supervisada en el servidor pasivo.</li>
+  	  <li><b>Error de servicio:</b> Existen errores en los servicios supervisados del servidor pasivo.</li>
+  	  <li><b>Error de conexi&oacute;n de la unidad de expansi&oacute;n:</b> La conexi&oacute;n de las unidades de expansi&oacute;n en los dos servidores no est&aacute; en el mismo orden.</li>
+  	  <li><b>Error en la unidad:</b> El n&uacute;mero de rutas en el servidor pasivo es menor que el del servidor activo.</li>
+      <li><b>Actualizaci&oacute;n de DSM:</b> Cuando se instalen actualizaciones de DSM todos los servicios se detendr&aacute;n y continuar&aacute;n cuando finalice la instalaci&oacute;n de la actualizaci&oacute;n.</li>      
+ </ul>
+
+  <p>Si inicia manualmente un cambio, pero los servicios no se pueden pasar al servidor pasivo, el sistema intentar&aacute; pasar los servicios de nuevo al servidor activo.</p>
+
+ <h3>Sistema de alimentaci&oacute;n ininterrumpida</h3>
+  <p>Los cl&uacute;ster high-availability se pueden conectar a sistemas de alimentaci&oacute;n ininterrumpida (SAI) de red para reducir el riesgo de que se produzca un corte el&eacute;ctrico inesperado. Si se produce un corte el&eacute;ctrico, los servidores recibir&aacute;n alimentaci&oacute;n de reserva del sistema SAI al que est&eacute;n conectados. Cuando la unidad SAI conectada al servidor activa comienza a quedarse sin energ&iacute;a, el servidor pasivo se apagar&aacute; y el servidor pasivo pasar&aacute; al modo seguro. Cuando se restablezca el suministro de energ&iacute;a, el servidor activo se reiniciar&aacute; e intentar&aacute; encender el otro servidor emitiendo un mensaje de Despertar con LAN.</p>
+   <ul>
+	   <li>Se recomienda conectar ambos servidores y unidades de expansi&oacute;n al mismo SAI que los interruptores de red a los que est&aacute;n conectados.</li>
+   </ul>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Synology NAS solo es compatible con la conexi&oacute;n a dispositivos SAI de red. Para m&aacute;s informaci&oacute;n, consulte la ayuda de <strong>Panel de control</strong> &gt; <strong>Hardware</strong> &gt; <strong>SAI</strong>.</p>
+</div>  
+ </body>
+</html>

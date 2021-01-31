@@ -1,0 +1,43 @@
+#!/bin/sh
+
+MOUNT_CONF="/usr/syno/etc/mount.conf"
+NUM_ISO_MOUNT=`grep "type=iso" ${MOUNT_CONF} | wc -l`
+NUM_CIFS_MOUNT=`grep "type=cifs" ${MOUNT_CONF} | wc -l`
+NUM_NFS_MOUNT=`grep "type=nfs" ${MOUNT_CONF} | wc -l`
+NUM_NFS_V3=`grep "version=3" ${MOUNT_CONF} | wc -l`
+NUM_NFS_V4=`grep "version=4" ${MOUNT_CONF} | wc -l`
+NUM_NFS_TCP=`grep "protocol=tcp" ${MOUNT_CONF} | wc -l`
+NUM_NFS_UDP=`grep "protocol=tcp" ${MOUNT_CONF} | wc -l`
+NUM_AUTO_MOUNT=`grep "auto mount=yes" ${MOUNT_CONF} | wc -l`
+
+ADVANCE_OPTIONS() {
+	local COMMA=""
+	grep "advance options=." /usr/syno/etc/mount.conf | sed 's/advance options=//' | while read line
+	do
+		echo -n ${COMMA}\"${line}\"
+		if [ "$COMMA" = "" ]; then
+			COMMA=","
+		fi
+	done
+}
+
+echo -n "{"
+	echo -n "\"collector_version\":1"
+	echo -n ",\"iso_mount\":{"
+		echo -n "\"iso_mount_num\":${NUM_ISO_MOUNT}"
+	echo -n "}"
+	echo -n ",\"cifs_mount\":{"
+		echo -n "\"cifs_mount_num\":${NUM_CIFS_MOUNT}"
+		echo -n ",\"advance option\":["
+		ADVANCE_OPTIONS
+		echo -n "]"
+	echo -n "}"
+	echo -n ",\"nfs_mount\":{"
+		echo -n "\"nfs_mount_num\":${NUM_NFS_MOUNT}"
+		echo -n ",\"nfs_v3_num\":${NUM_NFS_V3}"
+		echo -n ",\"nfs_v4_num\":${NUM_NFS_V4}"
+		echo -n ",\"nfs_tcp_num\":${NUM_NFS_TCP}"
+		echo -n ",\"nfs_udp_num\":${NUM_NFS_UDP}"
+	echo -n "}"
+	echo -n ",\"auto_mount_num\":${NUM_AUTO_MOUNT}"
+echo -n "}"

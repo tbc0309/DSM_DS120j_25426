@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Ein/Aus</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Ruhezustand der Festplatte</h2>
+<p>Sie können die Zeitdauer angeben, die Festplatten inaktiv sein müssen, bevor der Ruhezustand der Festplatte gestartet wird. Während des Ruhezustands der Festplatte drehen sich die Festplatten nicht mehr, wodurch sich der Stromverbrauch verringert und die Lebensdauer der Festplatten verlängert. Sie können verschiedene Zeitintervalle für interne Festplatten und externe eSATA/USB-Festplatten angeben.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Der Ruhezustand der Festplatte wird bei einem Zugriff auf die Festplatte aufgehoben.</li>
+<li>Nur bestimmte externe USB-Speichergeräte unterstützen den Ruhezustand der Festplatte.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Warum wechselt Synology NAS nicht in den Ruhezustand?</h4>
+
+<p>Bitte beachten Sie, dass die folgenden Dienste verhindern, dass Synology NAS in den Ruhemodus wechselt. Zudem wird das System den Ruhemodus zwei Minuten vor einer geplanten Aufgabe verlassen.</p>
+
+<p><strong>Pakete:</strong></p>
+<ul>
+  <li>Download Station: Synology NAS kann nicht in den Ruhezustand wechseln, wenn auf der Download Station eMule, ein geplanter RSS-Download oder aktive Aufgaben ausgeführt werden.</li>
+  <li>CMS (Zentrales Verwaltungssystem): Synology NAS kann nicht in den Ruhezustand wechseln, wenn das CMS andere NAS-Server verwaltet.</li>
+  <li>Mail Station: Synology NAS kann nicht in den Ruhezustand wechseln, wenn Mail Station POP3 verwendet.</li>
+  <li>Surveillance Station: Synology NAS kann nicht in den Ruhezustand wechseln, wenn Surveillance Station aufnimmt.</li>
+  <li>Medienserver: Synology NAS kann nicht in den Ruhezustand wechseln, wenn das DMA-Protokoll in den Medienserver-Einstellungen aktiviert ist (gehen Sie zu <strong>Hauptmenü</strong> &gt; <strong>Medienserver</strong> &gt; <strong>Medienserver</strong> &gt; <strong>Diagnostizieren</strong>).</li>
+  <li>LDAP Server</li>
+  <li>Webalizer</li>
+  <li>Logitech<sup>&reg;</sup> Media Server</li>
+  <li>Plex Media Server</li>
+  <li>Andere Drittanbieter-Software oder Optware, z. B. SABnzbd</li>
+</ul>
+<p><strong>Prozesse:</strong></p>
+<ul>
+  <li>Miniaturansicht und Indexierung: Synology NAS kann nicht in den Ruhezustand wechseln, wenn Miniaturansichten erstellt oder Multimedia-Dateien nach einer Aktualisierung neu geordnet werden. Währenddessen wird der Prozess „synoindexd“ als „Läuft“ angeführt (gehen Sie zu <strong>Hauptmenü</strong> &gt; <strong>Ressourcen-Monitor</strong> &gt; <strong>Prozess</strong>).</li>
+  <li>Local Master Browser: Synology NAS kann nicht in den Ruhezustand wechseln, wenn „Local Master Browser“ aktiviert ist (gehen Sie zu <strong>Systemsteuerung</strong> &gt; <strong>Win/Mac/NFS</strong> &gt; <strong>Windows Dateidienst</strong> &gt; <strong>Local Master Browser aktivieren</strong>).</li>
+  <li>Windows Media Player: Synology NAS kann nicht in den Ruhezustand wechseln, wenn der Netzwerk-Freigabedienst des Windows Media Players im LAN aktiviert ist.</li>
+  <li>Synology NAS kann nicht in den Ruhezustand wechseln, wenn einige gleichzeitig laufenden Prozesse Swap-Speicher benötigen, bei denen die RAM-Kapazität überschritten wurde, und wenn HDDs vorübergehend für Lese/Schreibvorgänge verwendet werden.</li>
+</ul>
+<p><strong>Andere</strong></p>
+<ul>
+  <li>USB-Geräte: Synology NAS kann nicht in den System-Ruhezustand versetzt werden, wenn USB-Geräte an der Einheit angeschlossen sind. </li>
+</ul>
+
+</div>
+
+<h2>Tiefschlaf</h2>
+<p>Tiefschlaf für Expansionseinheiten kann über die Schnittstelle des verbundenen Synology NAS aktiviert werden. Sie können für die Expansionseinheit und den angeschlossenen Synology NAS die Leerlaufzeiten separat konfigurieren. Die Expansionseinheit kann daher für die Aktivierung von Tiefschlaf eingestellt werden, wohingegen Synology NAS online bleibt.</p>
+<p>Während des Tiefschlafmodus:</p>
+<ul>
+  <li>Alle LEDs der Expansionseinheit sind ausgeschaltet.
+</li>
+<li>Die Stromversorgung der Festplatten der Expansionseinheit wird unterbrochen.
+</li>
+<li>Der Lüfter der Expansionseinheit wird angehalten.</li>
+</ul>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Der Tiefschlaf wird bei einem Zugriff auf die Festplatte aufgehoben.</li>
+<li>Um einen normalen Betrieb bei der Verwendung der Tiefschlaf-Funktion auf der Expansionseinheit zu gewährleisten, stellen Sie bitte den Schalter <b>Auto/Manual</b> auf der Rückseite auf <b>Auto</b>.</li>
+</ul>
+</div>
+
+<h2>Automatisches Ausschalten</h2>
+<p>Sie können die Zeitdauer festlegen, wie lange die interne Festplatte im Ruhezustand bleibt, bevor Ihr Synology NAS ausgeschaltet wird.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Sie müssen zuerst den Ruhezustand der Festplatte aktivieren.</li>
+<li>Sie müssen zuerst den WOL-Dienst aktivieren, bevor Sie Ihren Synology NAS über den Fernzugriff einschalten können.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Externe eSATA-Festplatten, Tiefschlafmodus und automatisches Ausschalten werden von EDS14 nicht unterstützt.</li>
+</ul>
+</div>
+
+</body>
+</html>
+

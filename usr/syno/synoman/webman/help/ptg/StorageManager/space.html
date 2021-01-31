@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Volume</h2>
+<p>Os volumes são espaços de armazenamento básico nos quais o utilizador pode criar pastas partilhadas, iSCSI LUN (ficheiros normais), guardar dados ou instalar pacotes.Antes de criar qualquer volume, certifique-se de que já criou um RAID Group.Para mais informações sobre RAID Groups, consulte <a href="raid.html">RAID Group</a>.
+</p>
+
+<h4>Criar um volume:</h4>
+<ol>
+	<li>Certifique-se que Synology NAS tem um RAID Group existente com espaço que possa ser atribuído.</li>
+	<li>Clique no botão <strong>Criar</strong>.</li>
+	<li>Selecione um RAID Group no qual criar o volume.</li>
+	<li>Modifique as definições pretendidas.</li>
+	<li>Defina a atribuição de tamanho para o volume.(A definição da atribuição do tamanho não está disponível para volumes criados no RAID Group para volumes únicos ou iSCSI LUN.)</li>
+<li>Escolha se deseja registar a hora de acesso de ficheiros:</li>
+	  <ul>
+<li>Ativar a opção <strong>Gravar Hora de Acesso de Ficheiros</strong> é o equivalente a usar a opção de montagem relatime nos sistemas Linux.A hora de acesso de ficheiros será apenas atualizada quando a hora do último acesso (atime) for anterior à hora de modificação atual (mtime) ou hora de alteração (ctime).A hora de acesso será também atualizada caso a hora do último acesso seja superior a um dia.</li>
+<li>Desativar a opção <strong>Gravar Hora de Acesso de Ficheiros</strong> é o equivalente a usar a opção de montagem noatime nos sistemas Linux.A hora de acesso a ficheiros e pastas não será atualizada, resultando em reduzida utilização do sistema de ficheiros.Tenha em conta que algumas aplicações podem depender da hora de acesso de ficheiros para funcionar corretamente.</li>
+      </ul>
+<li>Clique no botão <strong>Aplicar</strong> para confirmar as definições.</li>
+
+
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>O tamanho máximo de volume que pode ser alocado é 200 TB.</li>
+	<li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">O tamanho mínimo alocado a um volume Btrfs tem de ser pelo menos 10 GB.</li>
+<li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Volumes Btrfs reservam 4% de espaço para metadados.</li>
+</ul>
+</div>
+
+<h4>Remover um volume:</h4>
+<ol>
+	<li>Seleccione o volume que pretende remover.</li>
+	<li>Clique no botão <strong>Remover</strong> e siga o assistente para concluir o processo.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>A remoção de um volume irá apagar todos os dados existentes num determinado volume.</li>
+</ul>
+</div>
+
+<h4>Para forçar a montagem de um volume:</h4>
+<p>Se não existir a cache de um volume, o sistema não irá montar o volume durante o arranque.Se a cache não for recuperável e pretende aceder ao volume, pode clicar em <strong>Forçar montagem</strong>. </p>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Esta função apenas está disponível em determinados modelos.</li>
+</ul>
+</div>
+
+<h4>Para reparar um volume:</h4>
+<p>Se o estado do volume indicar <strong>Degradado</strong>, aceda ao separador <strong>RAID Group</strong> e encontre o RAID Group apropriado.Depois, siga as instruções sugeridas para o reparar.</p>
+
+<h4>Para expandir o tamanho de um volume</h4>
+<ul>
+	<li>Para volumes criados num RAID Group para múltiplos volumes ou iSCSI LUNs (Nível de Bloqueio). 
+		<ol>
+			<li>Selecione o volume que pretende expandir.</li>
+			<li>Clique em <strong>Editar</strong>.</li>
+			<li>Introduza o novo tamanho e clique em <strong>OK</strong> para expandir.</li>
+		</ol>
+	</li>
+	<li>Para volumes criados num RAID Group para volume único ou iSCSI LUN (Nível de Bloqueio), consulte a secção <strong>Para expandir o tamanho de um RAID Group</strong> do <a href="raid.html">RAID Group</a>, o tamanho do volume será expandido depois de o RAID Group subjacente ser expandido.</li>
+</ul>
+
+<h3>SSD TRIM</h3>
+<p>Se um volume for totalmente constituído por SSDs (Unidades de Estado Sólido), recomendamos a ativação de SSD TRIM.Esta funcionalidade melhora o desempenho de leitura e escrita de volumes criados em SSDs, melhorando a eficiência, bem como prolongando a duração dos SSDs.</p>
+
+<h4>Para ativar o SSD TRIM:</h4>
+<ol>
+	<li>Abra <strong>Gestor de Armazenamento</strong> e aceda a <strong>Volume</strong>.</li>
+	<li>Selecione um volume que seja totalmente constituído por SSD e depois clique no botão <strong>Configurar</strong>.</li>
+	<li>Na janela apresentada, aceda ao separador <strong>SSD TRIM</strong> e marque a caixa <strong>Ativar TRIM</strong>.</li>
+	<li>Clique no botão <strong>Configurar agendamento</strong> para escolher quando o sistema irá executar o SSD TRIM.</li>
+	<li>Clique em <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>O SSD TRIM só está disponível em determinados modelos do Synology NAS e tipos de RAID. </li>
+	<li>Alguns modelos SSD não são capazes de executar SSD TRIM em volumes RAID 5<span class="enable-grantley">,</span> <span class="disable-grantley">e </span>RAID 6<span class="enable-grantley">, e RAID F1</span>.Consulte a lista de compatibilidades no <a href="https://www.synology.com/" target="_blank">site oficial</a> da Synology.</li>
+	<li>O SSD TRIM não pode ser ativado nas seguintes situações:
+		<ul>
+			<li>Se o volume estiver montado com cache SSD.</li>
+			<li>Se o pacote <strong>Time Backup</strong> estiver instalado.</li>
+		</ul>
+	</li>
+	<li>O SSD TRIM não pode ser ativado nos iSCSI LUNs de nível de bloqueio.</li>
+	<li>O desempenho do sistema será afetado durante a execução do SSD TRIM.O tempo necessário para concluir a execução do TRIM varia de acordo com o tamanho do volume e modelo SSD.</li>
+	<li>Quando o TRIM está ativado num volume, também será ativado noutros volumes criados no mesmo Grupo de Discos ou RAID Group.</li>
+</ul>
+</div>
+
+
+<h3>Análise do sistema de ficheiros*</h3>
+<p>A análise do sistema de ficheiros é uma funcionaliadde de manutenção de dados que inspeciona volumes.Se for detetada alguma inconsistência de dados com o checksum, o caminho do ficheiros será gravado no Centro de Registos, e recomenda-se que use uma cópia de segurança para reparar os dados.</p>
+
+<p>Recomendamos que realize regularmente análise do sistema de ficheiros para garantir a consistência dos dados.</p>
+
+<h4>Para realizar a análise do sistema de ficheiros:</h4>
+<ol>
+	<li>Abra <strong>Gestor de Armazenamento</strong> e aceda a <strong>Volume</strong>.</li>
+	<li>Selecione o volume no qual realizar a análise do sistema de ficheiros.</li>
+	<li>Clique em <strong>Gerir</strong>.</li>
+	<li>Selecione <strong>Análise do sistema de ficheiros</strong>.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>A análise do sistema de ficheiros pode ser apenas realizada em volumes no sistema de ficheiros <strong>Btrfs</strong>.</li>
+	<li>A análise do sistema de ficheiros pode apenas ser realizada quando o estado do volume for <strong>Normal</strong>.</li>
+	<li>Não encerre o sistema antes que esteja concluída a análise do sistema de ficheiros.Se o sistema for encerrado antes da sua conclusão, terá de reiniciar manualmente a análise do sistema de ficheiros desde o início.</li>
+</ul>
+</div>
+
+<h3>Desfragmentação do sistema de ficheiros*</h3>
+<p>Se os seus dados forem modificados de forma constante, aumentará a quantidade de ficheiros fragmentados no sistema de ficheiros, resultando em desempenho lento no acesso a ficheiros nos discos rígidos.Realizar a desfragmentação do sistema de ficheiros pode aumentar o desempenho.</p>
+
+<h4>Para realizar a desfragmentação do sistema de ficheiros:</h4>
+<ol>
+	<li>Abra <strong>Gestor de Armazenamento</strong> e aceda a <strong>Volume</strong>.</li>
+	<li>Selecione o volume no qual realizar a desfragmentação do sistema de ficheiros.</li>
+	<li>Clique em <strong>Gerir</strong>.</li>
+	<li>Selecione <strong>Desfragmentação do sistema de ficheiros</strong>.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>A desfragmentação do sistema de ficheiros pode ser apenas realizada em volumes no sistema de ficheiros <strong>Btrfs</strong>.</li>
+	<li>A desfragmentação do sistema de ficheiros pode apenas ser realizada quando o estado do volume for <strong>Normal</strong>.</li>
+	<li>Não encerre o sistema antes que esteja concluída a desfragmentação do sistema de ficheiros.Se o sistema for encerrado antes da sua conclusão, terá de reiniciar manualmente a desfragmentação do sistema de ficheiros desde o início.</li>
+	<li>A utilização do volume poderá aumentar se este possuir imagens instantâneas de pastas partilhadas.</li>
+</ul>
+</div>
+
+<p>____<br />* Apenas disponível em alguns modelos.</p>
+
+</body>
+</html>

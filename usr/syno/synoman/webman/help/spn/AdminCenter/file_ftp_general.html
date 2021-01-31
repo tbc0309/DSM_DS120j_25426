@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>FTP</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>General</h2>
+
+<p>En <strong>Panel de control</strong> > <strong>Servicios de archivos</strong> > <strong>FTP</strong>, puede habilitar el límite de velocidad, el registro de transferencia de archivos, los parámetros de seguridad y otras configuraciones avanzadas en la sección <strong>General</strong>.</p>
+
+
+<h3>Habilitar el registro de transferencia de archivos vía FTP</h3>
+<p>Haga clic en <strong>Configuración avanzada</strong> para habilitar esta función y grabar los registros de archivos cargados o descargados.</p>
+<div class="section">
+<h4>Nota:</h4>
+<p>Habilitar el registro de transferencia de archivos vía FTP puede afectar al rendimiento del sistema.</p>
+</div>
+<h3>Cambio de los directorios root de usuario</h3>
+<p>Haga clic en <strong>Configuración avanzada</strong> y marque <strong>Cambiar directorios root de usuario</strong>. Así, los usuarios seleccionados sólo pueden acceder a las carpetas especificadas cuando inician sesión en DSM a través de FTP. </p>
+<h4>Para crear una regla de cambio de directorio root:</h4>
+<ol>
+  <li>En <strong>Configuración avanzada</strong> marque <strong>Seleccionar usuario</strong>.</li>
+  <li>Haga clic en <strong>Agregar</strong>.</li>
+  <li>En <strong>Usuario o grupo</strong> seleccione a quién se le aplicará esta regla.</li>
+  <li>Seleccione el directorio root que estará disponible cuando el usuario inicie sesión. Elija entre:<ul>
+		<li><strong>Inicio de usuario:</strong> el usuario llega a su directorio home al iniciar sesión.</li>
+		<li><strong>Otro directorio:</strong> elija una carpeta compartida como directorio root y haga clic en <strong>Seleccionar</strong>. Tenga en cuenta que los permisos de carpeta para el usuario o grupo se deben comprobar primero. Un usuario o grupo sin suficientes permisos de carpeta no podrán iniciar sesión.</li>
+	</ul>
+  </li>
+  <li>Haga clic en <strong>OK</strong>.</li>
+  <li>Tras agregar todas las reglas, haga clic en <strong>Aplicar</strong> para guardar las reglas.</li>
+</ol>
+<div class="section">
+  <h4>Nota:</h4>
+  <ul>
+    <li>El orden de prioridad de las reglas se establece en función de sus posiciones en la lista.</li>
+    <li>Arrastre y suelte para reordenar las reglas de la lista.</li>
+  </ul>
+</div>
+<h3>Habilitar FTP anónimo</h3>
+<p>Haga clic en <strong>Configuración avanzada</strong> y marque la casilla para permitir que cualquiera inicie sesión en el servicio FTP del dispositivo Synology NAS (con la cuenta <b>anonymous</b> o <b>ftp</b>).</p>
+
+<h3>Cambiar root anónima</h3>
+<p>Haga clic en <strong>Configuración avanzada</strong> y marque la opción para cambiar el directorio de inicio de sesión del usuario de FTP anónimo. Seleccione una carpeta compartida desde el menú desplegable.</p>
+
+<h3>Aplicar permisos UNIX predeterminados</h3>
+<p>Haga clic en <strong>Configuración avanzada</strong> y marque la opción para aplicar permisos UNIX predeterminados al cargar o crear archivos y carpetas. Los permisos aplicados son los mismos que se aplican con el comando UNIX <strong>umask</strong>. Cuando se habilita esta opción, los permisos UNIX son 644 para archivos y 755 para carpetas. Cuando se deshabilita esta opción, los permisos UNIX son 666 para archivos y 777 para carpetas. El valor predeterminado de umask es 022.</p>
+<div class="section">
+<h4>Nota:</h4>
+<ul>
+  <li>Para las carpetas compartidas con Windows ACL (todos los recursos compartidos excepto 'photo' y los recursos compartidos en discos externos), ejecute el comando <strong>chmod</strong> en el cliente Linux o FTP para cambiar los tipos de permisos de carpeta y de archivo de Windows ACL a UNIX.</li>
+  <li>Si se habilita esta opción se pueden provocar problemas de permisos que no mantienen la consistencia entre protocolos diferentes. Para evitar inconsistencias, sugerimos no habilitar esta opción.</li>
+</ul>
+</div>
+
+<h3>Habilitar el límite de velocidad</h3>
+<p>Habilite un límite de velocidad para controlar el ancho de banda utilizable máximo para usuarios y grupos al transferir datos a través de FTP.</p>
+
+
+<h4>Para habilitar el límite de velocidad:</h4>
+<ol>
+  <li>Marque la casilla con la indicación de <b>Habilitar límite de velocidad</b> o <strong>Habilitar el límite de velocidad de acuerdo con un programa</strong> si desea imponer un límite de velocidad solo en determinados momentos. Este ajuste se realiza a nivel de servidor y anulará los ajustes de usuarios individuales y de grupos. Si elige <strong>Sin límite de velocidad</strong> deshabilitará los ajustes del límite de velocidad para todos los usuarios y grupos.</li>
+  <li>Haga clic en <strong>Ajustes del límite de velocidad</strong> para modificar la configuración para determinados usuarios o grupos. Para cada usuario y grupo puede elegir una de las siguientes opciones:<ul>
+      <li><strong>Aplicar configuración de grupo:</strong> los ajustes del límite de velocidad serán los mismos que los del grupo al que pertenece el usuario. </li>
+      <li><strong>Ninguno:</strong> no se aplicará ningún límite de velocidad cuando los miembros del grupo transfieran archivos con el servicio (EDS14 no es compatible con esta función).</li>
+      <li><strong>Configurar el límite de velocidad:</strong> se aplicará un límite de velocidad fijo constante para el usuario o los miembros del grupo. Los límites de velocidad de carga y descarga se pueden especificar en los campos a la izquierda.</li>
+      <li><strong>Personalizar el intervalo del límite:</strong> se pueden especificar dos límites de velocidad diferentes al usuario o los miembros del grupo de acuerdo con un programa. Haga clic en el botón <strong>Personalizar</strong> para modificar los ajustes del límite de velocidad y definir un programa.</li>
+    </ul>
+  </li>
+  <li>Haga clic en <b>Aplicar</b>.</li>
+</ol>
+<div class="section">
+  <h4>Nota:</h4>
+  <ul>
+    <li>Para obtener más información sobre la dinámica del límite de velocidad de grupo, consulte <a href="file_group_edit.html">aquí</a>.</li>
+    <li>Cuando esté definiendo el límite de velocidad para un usuario, la sección <strong>Resultado</strong> mostrará el límite de velocidad actual del usuario de acuerdo con el ajuste individual y de grupo. Por ejemplo, si el usuario "Achilles" tiene un límite individual de descarga de 100 kB/s, pero pertenece a un grupo de usuarios con un límite de descarga de 500 KB/s, entonces la sección de <strong>Resultados</strong> mostrará "0/500".</li>
+  </ul>
+</div>
+
+
+
+</body>
+</html>

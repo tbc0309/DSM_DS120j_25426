@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Web サービス</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Web アプリケーション</h2>
+
+<p>内蔵された Web Station 機能と PHP サポートがあることで、Synology NAS で簡単にウェブサイトをホストし、ビジネスや個人的な興味のためのダイナミックなウェブサイトを作成することができます。また、パッケージ センターからは、コンテンツ管理、カスタマーリレーションシップ管理、Ｅ コマース システムなど、サードパーティのパッケージをダウンロードできます。あなたのウェブサイト用のファイルを保管しておくために、<b>「web」</b>というデフォルトの共有フォルダが作成されます。</p>
+<h4>Web Stationを有効にする</h4>
+<ol>
+<li><strong>[コントロール パネル]</strong> &gt; <strong>[Web サービス]</strong> の順に選択します。</li>
+<li><b>[Web Station を有効にする]</b> を選択します。
+</li>
+<li><b>適用</b>をクリックします。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>柔軟性を高め、セキュリティを強化するために、Web Station は <strong>http</strong> ユーザーグループを使ってタスクを実行します。したがって、ウェブページのアクセス権をコントロールするために、各フォルダやファイルに対する <strong>http</strong> グループのアクセス権を変更してください。例えば、<strong>web</strong> 共有フォルダの <strong>sample.htm</strong> ファイルに Web Station からアクセスできるようにするには、<strong>http</strong> グループがその <strong>web</strong> 共有フォルダと <strong>sample.htm</strong> ファイルに対して適切な読み書き権を持っているか確認してください。</li>
+
+<li>ホームページのファイルは、必ず <strong>index.htm</strong>、<strong>index.html</strong>、または <strong>index.php</strong> のいずれかの名前にしてください。</li>
+
+<li>PHP mail() 関数を使用する場合は、システムは<strong>「通知」</strong>ページの SMTP サーバー情報を自動的に取得して使用します。Ｅメール通知が有効にしてあり、SMTP サーバーの情報が正しく入力されているかどうかを確認してください。</li>
+
+<li>共有フォルダ <b>web</b> のパスは <b>/volume1/web</b> です。同じアプリケーションには、設定ファイルと同じパスを設定してください。</li>
+
+
+<li><strong>blog</strong>、<strong>photo</strong>、<strong>photosrc</strong>、および <strong>webdefault</strong> の名前は、予約フォルダ名です。これらの名前は Web Station で使用できないため、<b>web</b> 共有フォルダにこれらの名前でフォルダを作成しないでください。</li>
+
+<li><b>missing.html</b> ファイル、<b>missing.htm</b> ファイル、または <b>missing.php</b> ファイルを作成して、エラーページをカスタマイズできます。最初に Web Station を有効にします。サーバーの <b>web</b> 共有フォルダに <b>missing.html</b>、<b>missing.htm</b>、または<b>missing.php</b> ファイルを保存します。存在しないページにリンクすると、このカスタマイズされたエラーページが表示されます。</li>
+
+<li>アクティブな HTTP 接続の最大数： 256</li>
+
+<li>仮想ホストの最大数： 30</li>
+</ul>
+</div>
+
+<h3>仮想ホストを有効にしてウェブサイトをホストする</h3>
+<p>仮想ホスト機能を使って、1 台のサーバーで複数のウェブサイトをホストすることができます。作業を始めるには、次の手順に従って 2 つのドメイン名を登録し、仮想ホストを設定する必要があります。</p>
+<h4>仮想ホストを有効にする：</h4>
+<ol>
+<li><b>[仮想ホスト]</b> をクリックします。</li>
+<li><b>[作成]</b> をクリックします。</li>
+<li>ウェブサイトのファイルを保存する <b>web</b> 共有フォルダのサブフォルダ名を入力します。</li>
+<li>ウェブサイトのホスト名を入力します。</li>
+<li>ウェブサイトのポートを入力します。</li>
+<li>
+<b>[OK]</b> をクリックします。
+</li>
+</ol>
+<h3>パーソナルウェブサイトを有効にする</h3>
+<P>パーソナルウェブサイト機能は、ローカル ユーザー、ドメイン ユーザー、LDAP ユーザーが自分専用のウェブサイトをホストできる便利な機能です。</p>
+<h4>ローカルユーザーの場合</h4><p>それぞれのローカル ユーザーが固有のウェブアドレス <strong>server-IP/~username</strong> または <strong>server-name/~username</strong> を持ちます。例：</p>
+<ol>
+<li>192.168.1.1/~ken</li>
+<li>SynologyNAS/~ken</li>
+</ol>
+<h4 class="disable-eds14">ドメインユーザーの場合</h4>
+<p class="disable-eds14">それぞれのドメイン ユーザーが固有のウェブアドレス <strong>server-IP/~domainname%5cusername</strong> または <strong>server-name/~domainname%5cusername</strong> を持ちます。例：</p>
+<ol class="disable-eds14">
+<li>192.168.1.1/~testdomain<b>%5c</b>ken</li>
+<li>SynologyNAS/~testdomain<b>%5c</b>ken</li>
+</ol>
+
+<h4 class="disable-eds14">LDAP ユーザーの場合</h4>
+<p class="disable-eds14">それぞれの LDAP ユーザーが固有のウェブアドレス <strong>server-IP/~username@domainname</strong> または <strong>server-name/~username@domainname</strong> を持ちます。例：</P>
+<ol class="disable-eds14">
+<li>192.168.1.1/~ken<b>@</b>testdomain</li>
+<li>SynologyNAS/~ken<b>@</b>testdomain</li>
+</ol>
+
+<div class="section disable-eds14">
+<h4>注：</h4>
+<p>この機能を有効にする前に、<strong>ユーザー ホーム</strong>が有効になっているか確認してください。ローカル ユーザーは、<b>[コントロール パネル]</b> &gt; <b>[ユーザー]</b> &gt; <b>[詳細設定]</b> を選択してください。ドメイン ユーザーは、<b>[コントロール パネル]</b> &gt; <b>[ディレクトリ サービス]</b> &gt; <b>[ドメインユーザー]</b> &gt; <b>[ユーザーホーム]</b> を選択してください。LDAP ユーザーは、<b>[コントロール パネル]</b> &gt; <b>[ディレクトリ サービス]</b> &gt; <b>[LDAP ユーザー]</b> &gt; <b>[ユーザーホーム]</b> を選択してください。</p>
+</div>
+
+<div class="section enable-eds14">
+<h4>注：</h4>
+<p>この機能を有効にする前に、<strong>ユーザー ホーム</strong>が有効になっているか確認してください。ローカル ユーザーの場合は、<b>[コントロール パネル]</b> &gt; <b>[ユーザー]</b> &gt; <b>[詳細設定]</b> の順に選択します。</p>
+</div>
+
+
+<h4>パーソナルウェブサイトを作成する方法：</h4>
+<ol>
+<li><strong>[パーソナルウェブサイトを有効にする]</strong> にチェックマークを付けると、ユーザーのホーム ディレクトリに「<strong>www</strong>」フォルダが自動的に作成されます。</li>
+<li>これでユーザーはウェブサイト関連のファイル（例：ウェブページやサウンド ファイル）を「<strong>www</strong>」フォルダにアップロードできます。</li>
+<li>ユーザーがファイルをアップロードするのに適切なアクセス権を持っているか確認してください。</li>
+</ol>
+
+
+<h4>エラーページをカスタマイズする：</h4>
+<ol>
+<li>エラーページを <b>missing.html</b>、<b>missing.htm</b>、または <b>missing.php</b> のいずれかで保存します。</li>
+<li><strong>www</strong> フォルダにファイルをアップロードします。</li>
+</ol>
+<p>ユーザーがローカルユーザーのウェブサイトに存在しないページにリンクすると、カスタマイズしたエラーページが表示されます。<strong></strong></p>
+<h4>サポートと制限：</h4>
+<p>ローカルユーザーは、以下のパスにあるデータのみアクセスすることができます。</p>
+<ul>
+<li>自分のホーム</li>
+<li>/var/tmp</li>
+<li>/tmp</li>
+<li>/volumeX/@tmp</li>
+</ul>
+
+<h2>HTTP サービス</h2>
+
+<p>デフォルトのポート番号 80（HTTP の場合）または 443（HTTPS の場合）のほかに、Photo Station や Web Station にアクセスするために別のポート番号を追加することができます。HTTP または HTTPS のアクセス用に、1 ～ 65535 のポート番号を追加できます。</p>
+<h4>HTTP または HTTPS アクセス用にポート番号を追加する：</h4>
+<ol>
+<li><b>[HTTP ポートの追加]</b> または <b>[HTTPS ポートの追加] にチェックマークを付けます</b>（HTTPS 用のポートを追加する前に、<strong>[Web サービスを行うために HTTPS 接続を有効にする]</strong> オプションを有効にしておいてください）。</li>
+<li>
+各欄にポート番号を入力します。 </li>
+</ol>
+
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>以下のポートは使えません。20、21、22、23、25、110、137、138、139、143、199、443、445、515、543、548、587、873、993、995、3306、3689、5000、5001、5005、5006、5335、5432、6881、8080、7000、7001、8081、9997、9998、9999、50001、50002、eMule デフォルトポート：4662 (TCP)、4672 (UDP)、FTP デフォルトポート範囲：実際の範囲は、モデル毎に異なります。</li>
+</ul>
+</div>
+</body>
+</html>

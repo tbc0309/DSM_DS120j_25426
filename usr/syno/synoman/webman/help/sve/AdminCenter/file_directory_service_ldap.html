@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>LDAP</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>LDAP</h2>
+<p>Med LDAP kan din Synology NAS anslutas till en befintlig katalogtj&auml;nst som en LDAP-klient och sedan h&auml;mta anv&auml;ndar- eller gruppinformation fr&aring;n en LDAP-server (eller &rdquo;directory server&rdquo;). Du kan hantera LDAP-anv&auml;ndares eller -gruppers &aring;tkomstprivilegier till DSM-program och delade mappar precis som du skulle g&ouml;ra med lokala DSM-anv&auml;ndare eller -grupper. F&ouml;r mer information om LDAP, v&auml;nligen se <a href="http://en.wikipedia.org/wiki/LDAP" target="_blank">h&auml;r</a>.</p>
+
+<p>Den LDAP-standard som st&ouml;ds &auml;r LDAP version 3 (RFC 2251).</p>
+<h4>Ansluta Synology NAS till en katalogtj&auml;nst:</h4>
+<ol>
+<li>G&aring; till <b>Kontrollpanel</b> &gt; <b>Katalogtj&auml;nst</b></li>
+<img src="about:blank" class="help_image"/>
+<li>G&aring; till fliken <b>LDAP</b> och markera <b>Aktivera LDAP-klient</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Ange IP-adressen eller dom&auml;nnamnet f&ouml;r LDAP-servern i f&auml;ltet <b>LDAP serveradress</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>V&auml;lj en krypteringstyp ur rullgardinsmenyn <b>Kryptering</b> f&ouml;r att kryptera LDAP-anslutningen till LDAP-servern.</li>
+<img src="about:blank" class="help_image"/>
+<li>Ange Base DN f&ouml;r LDAP-servern i f&auml;ltet <b>Base DN</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>V&auml;lj l&auml;mplig <b>Profil</b>, beroende p&aring; din LDAP-server. Till exempel, v&auml;lj <b>Standard</b> om du anv&auml;nder Synology Directory Server eller Mac Open Directory.</li>
+<img src="about:blank" class="help_image"/>
+<li>F&ouml;r att l&aring;ta anv&auml;ndare av en LDAP-server som inte har st&ouml;d f&ouml;r Samba-schema komma &aring;t filer p&aring; Synology NAS via CIFS, markera <b>Aktivera autentisering med l&ouml;senord i textformat f&ouml;r CIFS</b>. Se avsnittet h&auml;r nedanf&ouml;r, f&ouml;r att s&auml;kerst&auml;lla att LDAP-anv&auml;ndare kan anv&auml;nda sina datorer f&ouml;r att komma &aring;t filer p&aring; Synology NAS via CIFS.</li>
+<img src="about:blank" class="help_image"/>
+<li>Klicka p&aring; <b>Till&auml;mpa</b>.</li>
+<li>
+  Ange Bind DN (eller LDAP administrator-konto) och l&ouml;senordet i f&auml;lten och klicka sedan p&aring; <b>OK</b>.
+</li>
+<img src="about:blank" class="help_image"/>
+</ol>
+
+
+<div class="section">
+<h4>Om CIFS-st&ouml;d och klientdatorns inst&auml;llningar</h4>
+<p>
+N&auml;r st&ouml;d f&ouml;r autentisering med l&ouml;senord i textformat f&ouml;r CIFS &auml;r aktiverat kan LDAP-anv&auml;ndare beh&ouml;va &auml;ndra datorns inst&auml;llningar f&ouml;r att kunna komma &aring;t filer p&aring; Synology NAS via CIFS:
+</p>
+<ul>
+<li>
+Om din Synology NAS ansluter till katalogtj&auml;nsten, som tillhandah&aring;lls av Synology LDAP-server (eller en annan Synology NAS som har installerat och k&ouml;r filpaketet <b>Directory Server</b>) eller om LDAP-servern som har st&ouml;d f&ouml;r Samba-schema och alla LDAP-anv&auml;ndare har korrekta attribut f&ouml;r sambaNTPassword, kan LDAP-anv&auml;ndare f&aring; &aring;tkomst till dina filer p&aring; Synology NAS via CIFS, utan att markera <b>Aktivera autentisering med l&ouml;senord i textformat f&ouml;r CIFS</b> eller &auml;ndra sina datorers inst&auml;llningar. I annat fall m&aring;ste LDAP-anv&auml;ndare aktivera datorns <a href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" target="_blank">PAM</a>-st&ouml;d f&ouml;r att kunna komma &aring;t filer p&aring; Synology NAS via CIFS. Att g&ouml;ra s&aring;, inneb&auml;r dock att LDAP-anv&auml;ndarnas l&ouml;senord &ouml;verf&ouml;rs till Synology NAS i vanlig text (utan kryptering) och s&auml;nker d&auml;rmed s&auml;kerhetsniv&aring;n.
+</li>
+
+</ul>
+<h4>&Auml;ndra Windows-inst&auml;llningarna:</h4>
+<ol>
+<li>G&aring; till <b>Start</b> &gt; <b>K&ouml;r</b>, skriv <b>regedit</b> i f&auml;ltet och klicka sedan p&aring; <b>OK</b> f&ouml;r att &ouml;ppna Registereditorn.</li>
+<li>
+Beroende p&aring; vilken Windows-version du har kan du hitta eller skapa f&ouml;ljande register:
+</li>
+<ul>
+<li>
+<b>Windows 2000, XP, Vista och Windows 7:</b><br> [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkStation\Parameters]
+</li>
+<li>
+<b>Windows NT:</b><br> [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Rdr\Parameters]
+</li>
+<li>
+<b>Windows 95 (SP1), 98 och Me:</b><br> [HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\VxD\VNETSUP]
+</li>
+</ul>
+<li>
+Skapa eller &auml;ndra DWORD-v&auml;rdet <b>EnablePlainTextPassword</b> och &auml;ndra dess v&auml;rdedata fr&aring;n <b>0</b> till <b>1</b>.
+</li>
+<li>
+Starta om Windows f&ouml;r att &auml;ndringen ska b&ouml;rja g&auml;lla.
+</li>
+</ol>
+<h4>&Auml;ndra Mac OS X-inst&auml;llningarna:</h4>
+<ol>
+<li>G&aring; till <b>Applikationer</b> &gt; <b>Verktyg</b> f&ouml;r att &ouml;ppna <b>Terminal</b>.
+</li>
+<li>
+Skapa en tom <b>fil /etc/nsmb.conf</b>:
+<pre>
+sudo touch /etc/nsmb.conf
+</pre>
+</li>
+<li>
+&Ouml;ppna <b>/etc/nsmb.conf</b> med vi:
+<pre>
+sudo vi /etc/nsmb.conf
+</pre>
+</li>
+<li>
+Skriv &rdquo;<b>i</b>&rdquo; f&ouml;r att infoga text och klistra in f&ouml;ljande:
+<pre>
+[default]<br / > minauth=none
+</pre>
+</li>
+<li>
+Tryck p&aring; Esc-tangenten och skriv sedan &rdquo;<b>ZZ</b>&rdquo; f&ouml;r att spara &auml;ndringarna och avsluta vi.
+</li>
+</ol>
+<h4>&Auml;ndra Linux-inst&auml;llningarna:</h4>
+<p>Om du anv&auml;nder <b>smbclient</b>, v&auml;nligen l&auml;gg till f&ouml;ljande nycklar i avsnittet <b>[global]</b> i <b>smb.conf</b>:
+
+<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;"> encrypt passwords = no <br> client plaintext auth = yes <br> client lanman auth = yes <br> client ntlmv2 auth = no </p>
+<p>Om du anv&auml;nder <b>mount.cifs</b>, k&ouml;r det f&ouml;ljande kommandot:</b>
+<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">echo 0x30030 &gt; /proc/fs/cifs/SecurityFlags</p>
+<p>F&ouml;r mer information, v&auml;nligen se <a href="https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README" target=_blank>https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README</a></p>
+
+</p>
+</div>
+<div class="section">
+<h4>Om profiler</h4>
+
+<p>Olika LDAP-servrar kan anv&auml;nda olika attribut f&ouml;r kontonamn, gruppnamn eller f&ouml;r att skilja mellan konton och grupper. Alternativet <b>Profil</b> l&aring;ter dig specificera eller anpassa hur information om anv&auml;ndare och grupper mappas till LDAP-attribut. En av f&ouml;ljande profiler kan v&auml;ljas, beroende p&aring; din LDAP-server:</p>
+
+<ul>
+<li><b>Standard:</b> F&ouml;r servrar som k&ouml;r Synology Directory Server eller Mac Open Directory.</li>
+<li><b>IBM Lotus Domino:</b> F&ouml;r servrar som k&ouml;r IBM Lotus Domino 8,5.</li>
+<li><b>Anpassat:</b> L&aring;ter dig anpassa rappningar. Se avsnittet h&auml;r nedanf&ouml;r f&ouml;r detaljer.</li>
+</ul>
+
+<p>Innan du anpassar mappning f&ouml;r LDAP-attribut, beh&ouml;ver du lite bakgrundsinformation. Synology DSM och <strong>Profil</strong>-redigeraren, h&ouml;r b&aring;da till RFC 2307. Till exempel kan du specificera <b>filter</b> &gt; <b>passwd</b> som <b>userFilter</b>, d&aring; kommer Synology NAS att tolka poster med <b>objectClass=userFilter</b> p&aring; din LDAP-server som LDAP-konton. Om du specificerar <b>passwd</b> &gt; <b>uid</b> som <b>anv&auml;ndarnamn</b>, kommer Synology NAS tolka <b>anv&auml;ndarnamn</b> p&aring; din LDAP-server som ett kontonamn. Att l&auml;mna mappningen tom g&ouml;r att reglerna RFC 2307 till&auml;mpas.</p>
+<p>Synology NAS beh&ouml;ver ett fast heltal som fungerar som identifierare f&ouml;r LDAP-konto (<strong>uidNumber</strong>) eller en identifierar f&ouml;r gruppen (<strong>gidNumber</strong>). Det &auml;r dock inte alla LDAP-servrar som anv&auml;nder heltal f&ouml;r att representera s&aring;dana attribut. D&auml;rf&ouml;r tillhandah&aring;lls ett nyckelord <b>HASH()</b> f&ouml;r att konvertera dylika attribut till heltal. Till exempel, kan din LDAP-server anv&auml;nda attributet <b>userid</b> med ett hexadecimalt v&auml;rde som den unika identifieraren f&ouml;r ett LDAP-konto. I detta fall kan du st&auml;lla in <b>passwd</b> &gt; <b>uidNumber</b> till <b>HASH(userid)</b> och Synology NAS kommer att konvertera den till en integer.</p>
+
+<p>F&ouml;ljande &auml;r en sammanfattning av anpassningsbara attribut:</p>
+
+<ul>
+	<li><b>filter</b></li>
+	<ul>
+		<li><b>group</b>: obligatorisk objectClass f&ouml;r grupper.</li>
+		<li><b>passwd</b>: obligatorisk objectClass f&ouml;r anv&auml;ndare.</li>
+		<li><b>shadow</b>: obligatorisk objectClass f&ouml;r anv&auml;ndares l&ouml;senord.</li>
+	</ul>
+	<li><b>grupp</b></li>
+	<ul>
+		<li><b>cn</b>: gruppnamn.</li>
+		<li><b>gidNumber</b>: GID-nummer f&ouml;r denna grupp.</li>
+		<li><b>memberUid</b>: medlemmar av denna grupp.</li>
+	</ul>
+	<li><b>passwd</b></li>
+	<ul>
+		<li><b>uidNumber</b>: UID-nummer f&ouml;r denna anv&auml;ndare.</li>
+		<li><b>uid</b>: anv&auml;ndarnamn.</li>
+		<li><b>gidNumber</b>: prim&auml;rt GID-nummer f&ouml;r denna anv&auml;ndare.</li>
+	</ul>
+	<li><b>shadow</b></li>
+	<ul>
+		<li><b>uid</b>: anv&auml;ndarnamn.</li>
+		<li><b>userPassword</b>: anv&auml;ndares l&ouml;senord.</li>
+	</ul>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Om UID/GID-byte</h4>
+<p>F&ouml;r att undvika konflikter f&ouml;r UID/GID mellan LDAP-anv&auml;ndare/&ndash;grupper och lokala anv&auml;ndare/grupper kan du aktivera UID/GID-byte f&ouml;r att byta UID/GID f&ouml;r LDAP-anv&auml;ndare/-grupper om 1000000. Det h&auml;r alternativet &auml;r bara f&ouml;r LDAP-servrar som &auml;r inte &auml;r Synology LDAP-servrar och har ett unikt numeriskt ID-attribut f&ouml;r varje anv&auml;ndare/grupp.</p>
+</div>
+<div class="section">
+	<h4>N&auml;stlad ut&ouml;kning av grupper</h4>
+	<p>I en n&auml;stlad grupp tillh&ouml;r en medlem av en LDAP-grupp en annan LDAP-grupp d&auml;r det finns en hierarkisk organisation representerad. N&auml;r anv&auml;ndare sl&aring;r upp vilken grupp en specifik medlem tillh&ouml;r eller namnlistan f&ouml;r en specifik grupp, expanderar Synology NAS en n&auml;stlad grupp i enlighet med attributet <strong>medlem</strong> f&ouml;r LDAP-gruppen, d&auml;r unikt namn (DN, Distinguished Name) f&ouml;r en underordnad grupp anges av attributet. Ut&ouml;kningen av en n&auml;stlad grupp kan ta mycket tid i anspr&aring;k under olika f&ouml;rh&aring;llanden, t.ex. d&auml;r servern inte indexerar attributet <strong>medlem</strong> eller gruppen &auml;r djupt n&auml;stlad. Du kan v&auml;lja att inte ut&ouml;ka en n&auml;stlad grupp f&ouml;r att f&ouml;rhindra att det intr&auml;ffar.
+	</p>
+</div>
+</body>
+</html>

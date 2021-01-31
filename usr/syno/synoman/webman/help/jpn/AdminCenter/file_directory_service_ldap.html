@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>LDAP</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>LDAP</h2>
+<p>LDAP は Synology NAS を LDAP クライアントとして既存のディレクトリサービスに追加し、LDAP サーバー（または「directory server」）からユーザー情報やグループ情報を取得できるようにします。ローカル DSM ユーザーやグループで行う場合と同じように、LDAP ユーザーまたはグループの DSM アプリケーションや共有フォルダへのアクセス権を管理することができます。LDAP に関する詳細は、<a href="http://en.wikipedia.org/wiki/LDAP" target="_blank">ここ</a>を参照してください。</p>
+
+<p>サポートされる LDAP 規格は LDAP バージョン 3 (RFC 2251) です。</p>
+<h4>Synology NAS をディレクトリ サービスに追加するには：</h4>
+<ol>
+	<li><B>[コントロールパネル] &gt; [ドメイン/LDAP]</B>を選択します。</li>
+	<img src="about:blank" class="help_image" />
+	<li><B>[LDAP]</B> タブをクリックして、<B>[LDAP クライアントを有効にする]</B> にチェックマークを付けます。</li>
+	<img src="about:blank" class="help_image" />
+	<li>LDAP サーバーの IP アドレスまたはドメイン名を<B> [LDAP サーバーアドレス]</B> 欄に入力します。</li>
+	<img src="about:blank" class="help_image" />
+	<li><B>[暗号化]</B> ドロップダウン メニューから暗号化の種類を選択して、LDAP サーバーへの LDAP 接続を暗号化します。</li>
+	<img src="about:blank" class="help_image" />
+	<li><B>[Base DN]</B> 欄に LDAP サーバーの Base DN を入力します。</li>
+	<img src="about:blank" class="help_image" />
+	<li>LDAP サーバーに応じて、適切な<B> [プロファイル]</B> を選択してください。例えば、Synology LDAP Server または Mac Open Directory を使用している場合は、<B>[標準] </B>を選択します。</li>
+	<img src="about:blank" class="help_image" />
+	<li>Samba スキーマに対応しない LDAP サーバーのユーザーが CIFS で Synology NAS のファイルにアクセスできるようにするには<B>、[CIFS 書式なしパスワード認証]</B> にチェックマークを付けてください。LDAP ユーザーがそれぞれのコンピュータを使用して、CIFS を介して Synology NAS ファイルにアクセスできるようにするには、下のセクションを参照してください。</li>
+	<img src="about:blank" class="help_image" />
+	<li><B>[適用]</B> をクリックします。</li>
+	<li>Bind DN（または LDAP 管理者のアカウント）を入力し、専用の欄にパスワードを入力した後、<B>[OK]</B> をクリックします。</li>
+	<img src="about:blank" class="help_image" />
+</ol>
+
+<div class="section">
+
+<h4>CIFS サポートとクライアントコンピュータの設定について</h4>
+<p>CIFS を介して Synology NAS ファイルにアクセスできるようにするには、CIFS 書式なしパスワード認証を有効にした後、LDAP ユーザーがコンピュータの設定を変更する必要があるかもしれません：</p>
+<ul>
+	<li>Synology NAS を Synology LDAP サーバー（または<B> [LDAP Server]</B> パッケージがインストールされ、実行された別の Synology NAS）が提供するディレクトリ サービス、または Samba スキーマに対応する LDAP サーバーに接続し、すべての LDAP ユーザーが正しい sambaNTPassword 属性を持っている場合は、LDAP ユーザーは<B> [CIFS 書式なしパスワード認証]</B> にチェックマークを付けたり、コンピュータの設定を変更したりしなくても、CIFS で Synology NAS のファイルにアクセスすることができます。そうしなければ、LDAP ユーザーはコンピュータの <a href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" target="_blank">PAM</a> サポートを有効にして、CIFS で Synology NAS のファイルにアクセスできるようにする必要があります。ただし、これを行うと LDAP ユーザーパスワードがテキストのみ形式（暗号化せずに）で Synology NAS に転送するため、セキュリティレベルが下がります。</li>
+</ul>
+
+<h4>Windows 設定を編集するには：</h4>
+<ol>
+	<li><B>[スタート]</B> ><B> [ファイル名を指定して実行]</B> を選択し、<B>regedit</B> と入力した後、<B>[OK] </B>をクリックするとレジストリ エディタが開きます。</li>
+	<li>Windows バージョンによって、次のレジストリを検索するか作成します：
+		<ul>
+			<li><strong>Windows 2000、XP、Vista、Windows 7：</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkStation\Parameters]</li>
+			<li><strong>Windows NT：</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Rdr\Parameters]</li>
+			<li><strong>Windows 95 (SP1)、98、Me：</strong><br />[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\VxD\VNETSUP]</li>
+		</ul>
+	</li>
+	<li>DWORD 値 <B>EnablePlainTextPassword</B> を作成または変更し、その値を <B>0</B> から <B>1</B> に変更します。</li>
+	<li>変更内容を有効にするために、Windows を再起動します。</li>
+</ol>
+
+<h4>Mac OS X の設定を変更する：</h4>
+<ol>
+	<li><B>[アプリケーション]</B> > <B>[ユーティリティ]</B> に移動し、<B>[端末]</B> を開きます。</li>
+	<li>空白のファイル<B> /etc/nsmb.conf</B> を作成します：<pre>sudo touch /etc/nsmb.conf</pre></li>
+	<li>vi で<B> /etc/nsmb.conf</B> を開きます：<pre>sudo vi /etc/nsmb.conf</pre></li>
+	<li><B>「i」</B>を入力してテキストを挿入し、次のキーを貼り付けます：<pre>[default]<br / >minauth=none</pre></li>
+	<li>Esc キーを押して<B>「ZZ」</B>と入力し、変更内容を保存して vi を終了します。</li>
+</ol>
+
+<h4>Linux の設定を変更する：</h4>
+<p><B>smbclient</B> をご使用の方は、<B>smb.conf</B> の <B>[global] </B>セクションに次のキーを追加してください：
+	<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;"> encrypt passwords = no <br /> client plaintext auth = yes <br /> client lanman auth = yes <br /> client ntlmv2 auth = no </p>
+	<p><B>mount.cifs</B> をお使いの方は、次のコマンドを実行してください：</strong>
+	<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">echo 0x30030 > /proc/fs/cifs/SecurityFlags</p>
+	<p>詳細は<a href="https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README" target=_blank>https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README</a>を参照してください。</p>
+</p>
+</div>
+
+<div class="section"><h4>プロファイルについて</h4>
+<p>LDAP サーバーによってアカウント名、グループ名に使用する属性や、アカウントとグループを区別するための属性は異なります。<B>[プロファイル]</B> オプションは、ユーザーやグループ情報がどのように LDAP の属性に割り当てられるかを指定したり、カスタマイズしたりします。次のプロファイルの 1 つは、LDAP サーバーによって選択できます：</p>
+<ul>
+	<li><strong>標準：</strong>Synology LDAP Server または Mac Open Directory を起動するサーバー向け。</li>
+	<li><strong>IBM Lotus Domino：</strong>IBM Lotus Domino 8.5 を起動するサーバー向け。</li>
+	<li><strong>カスタム：</strong>マッピングをカスタマイズできます。詳細は、次のセクションをお読みください。</li>
+</ul>
+
+<p>LDAP の属性のマッピングをカスタマイズするには、多少の知識が必要です。Synology DSM と<B>プロファイル</B> エディタ両方とも RFC 2307 に準拠しています。例えば、<B>[filter]</B> ><B> [passwd]</B> を <B>userFilter</B> として指定することができます。この場合、Synology NAS は LDAP サーバー上の <B>objectClass=userFilter</B> を LDAP アカウントとして記録を解釈します。<B>passwd</B> > <B>uid</B> を <B>username </B>として指定すると、Synology NAS は LDAP サーバー上の <B>username</B> をアカウント名として解釈します。マッピングを指定しなければ、RFC 2307 規則が適用されます。</p>
+<p>Synology NAS が LDAP アカウント識別子（<B>uidNumber</B>）、またはグループ識別子（<B>gidNumber</B>）として機能するには、固定整数が必要です。ただし、すべての LDAP サーバーが整数を使ってこのような属性を代表する訳ではありません。したがって、このような属性を整数に変換するために、<B>HASH()</B> と言うキーワードが提供されています。例えば、LDAP サーバーが十六進数を持つ<B> userid</B> と言う属性を LDAP アカウントの専用識別子として使用する場合があります。この場合、<B>passwd</B> > <B>uidNumber</B> を <B>HASH(userid)</B> に設定すると、Synology NAS がそれを整数に変換します。</p>
+<p>以下は、カスタマイズできる属性をまとめたものです。</p>
+<ul>
+	<li><strong>filter</strong>
+		<ul>
+			<li><B>group：</B>グループに必要な objectClass です。</li>
+			<li><B>passwd：</B>ユーザーに必要な objectClass です。</li>
+			<li><B>shadow：</B>ユーザー パスワードに必要な objectClass です。</li>
+		</ul>
+	</li>
+	<li><strong>group</strong>
+		<ul>
+			<li><B>cn：</B>グループ名。</li>
+			<li><B>gidNumber:</B>このグループの GID 番号。</li>
+			<li><B>memberUid:</B> このグループのメンバー。</li>
+		</ul>
+	</li>
+	<li><strong>passwd</strong>
+		<ul>
+			<li><B>uidNumber:</B>このユーザーの UID 番号。</li>
+			<li><B>uid:</B> ユーザー名。</li>
+			<li><B>gidNumber：</B>このユーザーのプライマリ GID 番号。</li>
+		</ul>
+	</li>
+	<li><strong>shadow</strong>
+		<ul>
+			<li><B>uid:</B> ユーザー名。</li>
+			<li><B>userPassword：</B>ユーザー パスワード。</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<div class="section"><h4>UID/GID シフトについて</h4>
+<p>LDAP ユーザー/グループとローカル ユーザー/グループの間で UID/GID の競合の発生を阻止するには、UID/GID シフトを有効にして、LDAP ユーザー/グループの UID/GID を 1000000 ごとシフトします。このオプションは、非 Synology LDAP サーバーである LDAP サーバー専用であり、各ユーザー/グループごとに専用の数字 ID を持っています。</p>
+</div>
+
+<div class="section"><h4>ネスト化されたグループの拡張について</h4>
+<p>ネスト化されたグループでは、LDAP グループ メンバーは、組織の階層が示されている、別の LDAP グループに属しています。ユーザーが、特定のメンバーが属するグループまたは特定のグループの名前リストを検索する際、Synology NAS が、LDAP グループの<B>メンバー</B>属性に従ってネスト化されたグループを拡張します。ここでの子グループの DN（識別名）が属性によって参照されます。ネスト化されたグループの拡張は、さまざまな状況下において非常に時間がかかる作業となることがあります。たとえば、サーバーが<B>メンバー</B>属性をインデックス化しないことや、グループが深くネスト化されている場合などがあります。このようなことが発生しないようにするためにも、ネスト化されたグループの拡張を行わないことを選択することができます。</p>
+</div>
+
+
+<div class="section" ><h4>クライアント証明書について</h4>
+<p>当社はクライアント証明書の使用をサポートしています。いくつかの特定の LDAP サーバー (例えば Google LDAP) はクライアントを認証するために証明書を使用します。<strong>[クライアント証明書を有効化] </strong>オプションにチェックを入れるとクライアント証明書をアップロードできます。</p>
+<h4><B><B><B>注:</B></B></B></h4>
+<p>この機能は DSM 6.2.2 以降でサポートされています。</p>
+</div>
+
+
+</body>
+</html>

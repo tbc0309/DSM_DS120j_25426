@@ -1,0 +1,186 @@
+#!/usr/bin/python2
+
+from subprocess import check_output
+import json
+import sys
+
+COLLECTOR_VERSION_KEY = "collector_version"
+COLLECTOR_VERSION = 2
+
+
+def execWebAPI(api, version, method, **kwargs):
+    cmd = ["/usr/syno/bin/synowebapi", "--exec"]
+    cmd.append("api=" + api)
+    cmd.append("version=" + str(version))
+    cmd.append("method=" + method)
+    for key, val in kwargs.items():
+        cmd.append('{0}={1}'.format(key, json.dumps(val)))
+    try:
+        with open('/dev/null', 'w') as null_fp:
+            raw_resp = check_output(cmd, stderr=null_fp)
+        return json.loads(raw_resp)
+    except Exception as e:
+        return False
+
+
+def fetch_pwd_rules():
+    output = {'enable_reset_passwd_by_email': False,
+              'strong_password': {'enable_reset_passwd_by_email': False,
+                                  'exclude_username': False,
+                                  'included_numeric_char': False,
+                                  'included_special_char': False,
+                                  'min_length': 0,
+                                  'min_length_enable': False,
+                                  'mixed_case': False,
+                                  'history_num': 0,
+                                  'exclude_history': False}}
+
+    j_data = execWebAPI('SYNO.Core.User.PasswordPolicy', 1, 'get')
+    if not j_data:
+        return output
+
+    try:
+        output['enable_reset_passwd_by_email'] = j_data['data']['enable_reset_passwd_by_email']
+        strong_pwd = j_data['data']['strong_password']
+        output['strong_password']['exclude_username'] = strong_pwd['exclude_username']
+        output['strong_password']['included_numeric_char'] = strong_pwd['included_numeric_char']
+        output['strong_password']['included_special_char'] = strong_pwd['included_special_char']
+        output['strong_password']['min_length'] = strong_pwd['min_length']
+        output['strong_password']['min_length_enable'] = strong_pwd['min_length_enable']
+        output['strong_password']['mixed_case'] = strong_pwd['mixed_case']
+        output['strong_password']['history_num'] = strong_pwd['history_num'] if strong_pwd['exclude_history'] else 0
+        output['strong_password']['exclude_history'] = strong_pwd['exclude_history']
+    except Exception as e:
+        pass
+    return output
+
+
+def fetch_opt():
+    output = 'none'
+    j_data = execWebAPI('SYNO.Core.OTP.EnforcePolicy', 1, 'get')
+    try:
+        output = j_data['data']['otp_enforce_option']
+    except Exception as e:
+        pass
+    return output
+
+
+def fetch_user_home_enabled():
+    local_enabled = False
+    ldap_enabled = False
+    domain_enabled = False
+    j_data = execWebAPI('SYNO.Core.User.Home', 1, 'get')
+    try:
+        local_enabled = j_data['data']['enable']
+        ldap_enabled = j_data['data']['enable_ldap']
+        domain_enabled = j_data['data']['enable_domain']
+    except Exception as e:
+        pass
+    return local_enabled, ldap_enabled, domain_enabled
+
+
+def fetch_users():
+    admin_disabled = False
+    user_list = []
+    try:
+        j_data = execWebAPI('SYNO.Core.User', 1, 'list', type="local", offset=0, limit=-1, additional=['expired'])
+        for u in j_data['data']['users']:
+            if 'admin' == u['name'] and 'now' == u['expired']:
+                admin_disabled = True
+            user_list.append(u['name'])
+    except Exception as e:
+        pass
+    return admin_disabled, user_list
+
+
+def fetch_speed_limit(user_list):
+    def merge_dict(a, b):
+        result = a.copy()
+        result.update(b)
+        return result
+    output = {'FileStation': {
+                 'num_upload': 0,
+                 'num_download': 0
+             },
+             'FTP': {
+                 'num_upload': 0,
+                 'num_download': 0
+             },
+             'NetworkBackup': {
+                 'num_upload': 0,
+                 'num_download': 0
+             }}
+    for u in user_list:
+        j_data = execWebAPI('SYNO.Core.BandwidthControl', 2, 'get',
+                            name=u, owner_type="local_user")
+        try:
+            for _ in j_data['data']['bandwidths']:
+                if _['upload_result'] != 0:
+                    output[_['protocol']]['num_upload'] += 1
+                if _['download_result'] != 0:
+                    output[_['protocol']]['num_download'] += 1
+        except Exception as e:
+            pass
+    result = [merge_dict({'id': k}, output[k]) for k in output]
+    return result
+
+
+def main():
+    ''' Result Ouptput
+    {
+        COLLECTOR_VERSION_KEY: COLLECTOR_VERSION
+        'local_user_num': Int,
+        'admin_disabled': Boolean,
+        'local_home_enabled': Boolean,
+        'ldap_home_enabled': Boolean,
+        'domain_home_enabled': Boolean,
+        'otp_enforce_option': String [none|admin|user]
+        'password': {
+            'enable_reset_passwd_by_email' Boolean,
+            'strong_password': {
+                'enable_reset_passwd_by_email': False,
+                'exclude_username': False,
+                'included_numeric_char': False,
+                'included_special_char': False,
+                'min_length': 0,
+                'min_length_enable': False,
+                'mixed_case': False,
+                'history_num': 0,
+                'exclude_history': False
+            }
+        },
+        'speed': [
+            {
+                'id': 'FileStation',
+                'num_upload': Int,
+                'num_download': Int,
+            },
+            {
+                'id': 'FTP',
+                'num_upload': Int,
+                'num_download': Int,
+            },
+            {
+                'id': 'NetworkBackup',
+                'num_upload': Int,
+                'num_download': Int,
+            }
+        ]
+    }
+    '''
+    result = {
+        COLLECTOR_VERSION_KEY: COLLECTOR_VERSION
+    }
+
+    admin_disabled, user_list = fetch_users()
+    result['local_user_num'] = len(user_list)
+    result['admin_disabled'] = admin_disabled
+    result['local_home_enabled'], result['ldap_home_enabled'], result['domain_home_enabled'] = fetch_user_home_enabled()
+    result['otp_enforce_option'] = fetch_opt()
+    result['password'] = fetch_pwd_rules()
+    result['speed'] = fetch_speed_limit(user_list)
+
+    sys.stdout.write(json.dumps(result))
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>High Availability 管理器向导 - Synology DSM 帮助</title>
+
+
+ </head>
+ <body>
+<h2>High Availability 管理器向导</h2>
+<p>本向导将引导您完成创建和设置 high-availability 集群的整个过程。</p>
+<h4>若要启用此向导：</h4>
+<ol>
+<li>打开<b>High Availability 管理器</b>。</li>
+<li>前往<b>总览</b>页面。</li>
+<li>点击<b>创建 HA 集群</b>。</li>
+</ol>
+   
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>请在给定时间内完成 high-availability 设置向导。如果超时，您将需要重新启动设置程序。</li>
+<li>如果您需要确定哪台服务器为 high-availability 集群的活动服务器，我们推荐您下载 Synology 的 <strong>DS finder</strong> 应用程序并使用其哔声功能，将使活动服务器发出短促的哔声。</li>
+</ul>
+</div>
+
+<h4>若要设置无源服务器：</h4>
+<p>请指定一台 Synology 服务器作为无源服务器。正常情况下，无源服务器不会提供服务。但是，如果出现故障，服务可以从活动服务器移转至无源服务器。</p>
+<ol>
+<li><b>IP 地址：</b>请输入无源服务器 IP 地址。
+
+</li>
+<li><b>用户名：</b>在目标服务器上提供一个属于 <b>administrator</b> 组的用户帐户。</li>
+<li><b>密码：</b>为属于 <b>administrator</b> 组的用户帐户提供密码。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4> 
+<ul>
+<li>创建 high-availability 集群后，无源服务器上的所有数据都将被删除。请确认无源服务器上未存储重要的数据。</li>   
+</ul>
+</div>
+  
+<h4>若要配置 heartbeat 连接：</h4>
+<p>请将这两台服务器相连。此连接将作为两台服务器之间的 &ldquo;Heartbeat&rdquo; 连接，以加快通信并将数据从活动服务器复制到无源服务器。为确保 heartbeat 连接的质量，系统会在创建 high-availability 集群时是检查此连接是否满足以下条件：</p>
+<ul>
+<li>在两台服务器之间，没有其它服务器有同一广播域中找到的 IP 地址。如果此 Heartbeat 连接需通过任何交换机，您必须确保交换机支持多播和  Jumbo Frame。</li>
+<li>有低延迟网络连接。两个服务器之间 Ping 的响应时间必须少于 1 ms，传输速度最小应为 500 Mbps。MTU 将被自动配置到 9000。</li>
+<li>两台服务器上使用相同的网络接口。例如，如果其中一端连接到服务器的 LAN 1 接口，则另一端也必须连接到另一台服务器的 LAN 1 接口。</li>
+<li>两台服务器皆使用最快的网络接口。如果两台服务器都配置了 10GbE 附加网卡，则该连接必须使用该网卡。</li>
+</ul>
+<p>确认上述情况后，进入 <b>HA 连接（Heartbeat）接口</b>区域并选择两台服务器上的网络接口来进行 Heartbeat 连接。</p>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>Heartbeat 连接设置将生成两套 IP 地址（例如 169.254.1.1 和 169.254.1.2），以进行从活动服务器到无源服务器的数据复制。请确认两套 IP 地址皆未被网络中的任何其他设备所用。</li>
+<li>不支持启用 Synology NAS Heartbeat 连接端口上的 VLAN ID。</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>配置 Heartbeat 连接或数据连接上的 Link Aggregation：</h4>
+
+<ul>
+<li>若要配置 Heartbeat 或数据连接上的 Link Aggregation，请在启动 high availability 创建向导之前在<strong>控制面板</strong> &gt; <strong>网络</strong> &gt; <strong>网络接口</strong>中的两个或更多 LAN 端口上设置 Link Aggregation。请确认两台服务器上的 Link Aggregation 设置相同（例如：如果您将 Link Aggregation 设置在活动服务器的端口 1 和 2，则无源服务器的 Link Aggregation 也必须设置在端口 1 和 2）。</li>
+
+
+<li>Heartbeat 配备了故障转移和负载平衡功能，但数据连接取决于您选择的 Link Aggregation 模式。</li>
+</ul>
+
+</div>
+
+
+<h4>若要配置 high-availability 集群的网络接口设置：</h4>
+<p>high-availability 集群将使用 high-availability 集群 IP 地址作为其对外的连接接口。如果您想要使用 DSM 服务，不论哪个 Synology 服务器为活动服务器，您可以用该 high-availability 集群 IP 地址进行连接。这样在进行从活动服务器到无源服务器的移转后时就无需连接到不同的 IP 地址。</p>
+
+<ol>
+<li><b>集群服务器名称：</b>high-availability 集群的名称。请参见服务器命名规则（在 <b>DSM 帮助</b> &gt; <b>控制面板</b> &gt; <b>连接</b> &gt; <b>网络</b> &gt; <b>常规</b>）以了解有关命名限制的信息。</li>
+<li><b>网络接口：</b>high-availability 集群将使用的网络接口。您必须选择一个与上一步中所指定进行数据复制的 LAN 端口不同的端口。</li>
+<li><b>IP 地址：</b>high-availability 集群将使用的 IP 地址。不论那台服务器在提供服务，都可以用该 IP 地址连接到该集群。</li>
+<li> <b>子网掩码：</b>high-availability 集群将使用的子网掩码。</li>
+</ol>
+
+<div class="section">
+<h4>为数据连接指派 VLAN ID：</h4>
+<ul>
+<li>若要为数据连接指派 VLAN ID，请在启动 high-availability 创建向导之前进入<strong>控制面板</strong> &gt; <strong>网络</strong> &gt; <strong>网络接口</strong>。请确认两台服务器上的 VLAN 设置相同（例如：如果活动服务器上的 LAN 1 设置为 VLAN ID 1，则无源服务器的 LAN 1 也必须设置为 VLAN ID 1）。</li>
+</ul>
+</div>
+
+
+<h4>若要确认设置：</h4>
+<p>请双击将使用于 high-availability 集群的设置。一旦您点击<b>应用</b>，系统将开始绑定 high-availability 集群。</p>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>在创建 high-availability 集群时，必须将活动服务器上的所有数据复制到无源服务器。如果初次复制过程完成之前与无源服务器失去连接超过 30 分钟，则无源服务器会回到<strong>独立</strong>模式。在此情况下，您需对其重新绑定并执行全面的数据复制。</li>
+</ul>
+</div>
+ </body>
+</html>

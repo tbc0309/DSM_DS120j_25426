@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" charset="utf-8">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>Usługa NFS</h2>
+<p>Usługa NFS pozwala klientom Linux na dostęp do danych na urządzeniu Synology NAS.</p>
+<h4>Aby włączyć usługę NFS:</h4>
+<ol>
+<li>Wybierz pozycje <strong>Panel sterowania</strong> &gt; <strong>Usługi plik&oacute;w</strong> &gt; <strong>SMB/AFP/NFS</strong> i zaznacz opcję <b>Włącz NFS</b>.</li>
+<li>Kliknij przycisk <b>Zastosuj</b>.</li>
+</ol>
+
+
+<div class="section">
+  <h4>Uwaga:</h4>
+<ul>
+<li> Synology NAS obsługuje obecnie protokoły NFSv2, NFSv3 i NFSv4.</li>
+<li>Podczas montowania możesz dodać parametr <strong>-o vers=2</strong>, <strong>-o vers=3</strong> lub <strong>-o vers=4</strong> do polecenia montowania, aby określić, kt&oacute;ra wersja NFS powinna być używana.</li>
+<li>Następujące foldery wsp&oacute;łdzielone nie zezwalają na dostęp przy użyciu protokołu NFS:<ul>
+    <li>Zaszyfrowane foldery wsp&oacute;łdzielone</li>
+    <li>Foldery wsp&oacute;łdzielone PetaSpace</li>
+    <li>Foldery wsp&oacute;łdzielone używające systemu plik&oacute;w HFS, HFS Plus i exFAT</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>Aby skonfigurować uprawnienia dostępu klient&oacute;w z systemem Linux do folder&oacute;w wsp&oacute;łdzielonych:</h4>
+<p>Wybierz <b>Panel sterowania</b> &gt; <b>Folder wsp&oacute;łdzielony</b>. Wybierz folder wsp&oacute;łdzielony i kliknij <strong>Edytuj</strong>, aby zarządzać regułami NFS i dostosować prawa dostępu klient&oacute;w Linux do folderu wsp&oacute;łdzielonego.</p>
+
+
+<h3>Ustawianie obsługi protokoł&oacute;w NFSv4 i NFSv4.1</h3>
+<p>Synology NAS obsługuje domyślnie protokoły NFSv2 i NFSv3. Możesz zdecydować, czy ma być włączony protok&oacute;ł NFSv4, czy NFSv4.1.</p>
+
+<h4>Aby włączyć obsługę protokołu NFSv4 lub NFSv4.1:</h4>
+<ol>
+<li>Zaznacz pole wyboru <b>Włącz obsługę NFSv4</b> lub <b>Włącz obsługę NFSv4.1</b>.</li>
+<li>W polu <b>Domena NFSv4</b> podaj nazwę domeny NFSv4, kt&oacute;rą chcesz użyć. Pole to jest opcjonalne i może pozostać puste.</li>
+<li>Kliknij przycisk <b>Zastosuj</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<p>W przypadku używania protokołu NFSv4 do montowania folderu wsp&oacute;łdzielonego należy zwr&oacute;cić uwagę na poniższe ważne informacje. W przeciwnym razie operacje na plikach skojarzone z nazwą użytkownika nie powiodą się.</p>
+<ul>
+<li>Klient NFS musi włączyć idmapd.</li>
+<li>Ustawienia domeny NFSv4 w pliku idmapd.conf na kliencie NFS muszą być zgodne z polem <b>Domena NFSv4</b> na Synology NAS.</li>
+</ul>
+
+</div>
+<p>Protok&oacute;ł NFSv4 zostanie włączony automatycznie, jeżeli włączony jest NFSv4.1.</li>
+
+<h4>Wielościeżkowość</h4>
+<p>NFSv4.1 obsługuje wielościeżkowość. Klienci mogą uzyskiwać dostęp do serwera NFS poprzez kilka połączeń sieciowych na raz. Wielościeżkowość zwiększa przepustowość i zapewnia przełączanie awaryjne ruchu sieciowego, umożliwiając utrzymanie połączenia sieciowego w przypadku awarii. Obecnie tylko oprogramowanie VMware ESXi w wersji 6.0 i nowszych obsługuje klient&oacute;w NFSv4.1. Więcej informacji na temat obsługi VMware NFSv4.1 można znaleźć w <a target="_blank" href="https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.storage.doc/GUID-8A929FE4-1207-4CC5-A086-7016D73C328F.html">dokumencie dotyczącym VMware</a>.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Wielościeżkowość jest dostępna tylko w modelach obsługujących protok&oacute;ł NFSv4.1.</li>
+</ul>
+</div>
+
+
+
+<h3>Ustawienia zaawansowane</h3>
+
+<h4>Stosowanie domyślnych uprawnień systemu UNIX</h4>
+<p> Gdy opcja <strong>Zastosuj domyślne uprawnienia UNIX</strong> jest zaznaczona, domyślne uprawnienia UNIX ustawione w kliencie Linux są zastosowane zamiast uprawnień Windows ACL podczas przesyłania lub tworzenia plik&oacute;w i folder&oacute;w. Nadane uprawnienia są identyczne z uprawnieniami nadanymi przez parametr <strong>umask</strong> polecenia systemu UNIX. Domyślna wartość umask to 022.</p><div class="section">
+<h4>Uwaga:</h4>
+<ul>
+  <li>W przypadku folder&oacute;w wsp&oacute;łdzielonych z obsługą listy kontroli dostępu systemu Windows (ACL) (wszystkie udostępnienia z wyłączeniem udostępnień &bdquo;photo&rdquo; i udostępnień na zewnętrznych dyskach) należy uruchomić polecenie <strong>chmod</strong> w kliencie Linux lub FTP, aby zmienić rodzaje uprawnień dotyczące folder&oacute;w i plik&oacute;w z listy kontroli dostępu systemu Windows (ACL) na UNIX.</li>
+  <li>Włączenie tej opcji może spowodować problemy z niesp&oacute;jnością uprawnień między r&oacute;żnymi protokołami. Aby uniknąć niesp&oacute;jności, nie zaleca się włączania tej opcji.</li>
+</ul>
+</div>
+
+<h4>Port niestandardowy</h4>
+<p>Można dostosować numery port&oacute;w dla usług statd i nlockmgr.</p>
+
+<ol>
+<li>Wybierz <strong>Porty dostosowane</strong>.</li>
+<li>Wprowadź numery port&oacute;w w polach <strong>port statd</strong> i <strong>port nlockmgr</strong>.</li>
+<li>Kliknij przycisk <b>Zastosuj</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Jeśli chcesz korzystać z usług NFSv3, przejdź do <strong>Panel sterowania</strong> &gt; <strong>Bezpieczeństwo</strong> &gt; <strong>Zapora sieciowa</strong> i utw&oacute;rz regułę zapory sieciowej, kt&oacute;ra włącza &bdquo;serwer plik&oacute;w Mac/Linux&rdquo; z listy wbudowanych aplikacji.</li>
+</ul>
+</div>
+<h4>Ustawienia Rozmiaru odczytu/zapisu pakietu</h4>
+<p>Jeśli na kliencie NFS nie można ustawić rozmiaru odczytu/zapisu pakietu, możesz określić wartość domyślną w tym polu.</p>
+
+<ol>
+<li>Wybierz żądany rozmiar pakietu w polach <strong>Rozmiar pakietu odczytu</strong> oraz <strong>Rozmiar zapisu pakietu</strong>.</li>
+<li>Kliknij przycisk <b>Zastosuj</b>.</li>
+<li>Zamontuj ponownie udostępnianie.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Po zmianie rozmiaru odczytu/zapisu pakietu folder wsp&oacute;łdzielony musi zostać zamontowany ponownie, zanim nowe ustawienia mogą zacząć obowiązywać.</li>
+<li>Ustawienia te dotyczą tylko klient&oacute;w NFS, kt&oacute;rzy łączą się za pośrednictwem protokołu UDP (User Datagram Protocol).</li>
+</ul>
+</div>
+
+<h3>Ustawienia Kerberos</h3>
+<p>Kerberos to protok&oacute;ł uwierzytelnienia sieciowego. Umożliwia on klientom i serwerom komunikację w niezabezpieczonej sieci w celu uwierzytelnienia i wzajemnego udowodnienia swoich tożsamości w bezpieczny spos&oacute;b. Synology NAS zapewnia opcje importowania istniejącego klucza Kerberos. Po pomyślnym zaimportowaniu klienci NFS mogą wykorzystać protok&oacute;ł uwierzytelniania Kerberos do łączenia się z urządzeniem Synology NAS.</p>
+
+<h4> Importowanie klucza Kerberos: </h4>
+<ol>
+<li>Kliknij przycisk <strong>Ustawienia Kerberos</strong>.</li>
+<li>Kliknij przycisk <b>Importuj</b>.</li>
+<li>Wybierz klucz Kerberos, kt&oacute;ry chcesz zaimportować.</li>
+<li>Kliknij przycisk <b>OK</b>.</li>
+</ol>
+
+<h3><a name="idmap"></a>Mapowanie identyfikator&oacute;w Kerberos</h3>
+<p>Możesz mapować pojedyncze obiekty principal Kerberos do lokalnych kont użytkownik&oacute;w DSM.</p>
+<h4> Aby zmapować obiekty principal Kerberos i lokalne konta użytkownik&oacute;w: </h4>
+<ol>
+<li>Kliknij przycisk <strong>Ustawienia Kerberos</strong>.</li>
+<li>Przejdź do karty <strong>Mapowanie identyfikator&oacute;w</strong>.</li>
+<li> Kliknij przycisk <b>Dodaj</b>. Wybierz jedną z następujących opcji:</li>
+<ul>
+<li><strong>Mapowanie identyfikator&oacute;w:</strong> Wprowadź obiekt principal Kerberos i konto lokalnego użytkownika, na kt&oacute;re powinien być zmapowany.</li>
+<li><strong>Lista sugerowanych mapowań:</strong> Opcja ta wyświetla listę sugerowanych opcji mapowań obiekt&oacute;w principal Kerberos&nbsp;/&nbsp;użytkownik&oacute;w lokalnych, kt&oacute;re są generowane przez system.</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> Uwaga: </h4>
+<ul>
+	<li>Protok&oacute;ł Kerberos jest dostępny wyłącznie w modelach z wewnętrznymi dyskami twardymi.</li>
+	<li>Jeśli chcesz zmapować klienta NFS, kt&oacute;ry łączy się przez Kerberos do istniejącej domeny/konta użytkownika LDAP, upewnij się, że znajdujesz się w usłudze katalogowej. Ponadto serwer katalogu musi mieć atrybut, kt&oacute;ry obejmuje odpowiadający obiekt principal Kerberos.<ul>
+		<li><strong>Użytkownik domeny:</strong> format dla odpowiedniego atrybutu powinien wyglądać następująco: <strong>userPrincipalName</strong>.</li>
+		<li><strong>Użytkownik LDAP:</strong> format dla odpowiedniego atrybutu powinien wyglądać następująco: <strong>GSSAuthName</strong>.</li>
+		</ul></li>
+	<li>Jeśli użytkownika nie można skutecznie zmapować na lokalnego użytkownika lub użytkownika domeny/LDAP, to użytkownik zostanie zmapowany do &bdquo;gościa&rdquo;.<li>Priorytet mapowania jest następujący: Użytkownik lokalny &gt; Użytkownik domeny/LDAP &gt; Gość. </li>
+	<li>Jeśli chcesz zmodyfikować uprawnienia dostępu klient&oacute;w NFS, skorzystaj z listy kontroli dostępu systemu Windows (ACL). Opcje uprawnień znajdujące się w menu <strong>Panel sterowania</strong> &gt; <strong>Użytkownik</strong> nie są stosowane w przypadku klient&oacute;w NFS.</li>
+</ul>
+</div>
+
+</body>
+</html>

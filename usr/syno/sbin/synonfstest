@@ -1,0 +1,46 @@
+#!/bin/bash
+SZ_PATTERN_TIMEOUT="mount.nfs: Connection timed out"
+EINVAL=22
+
+function nfsping()
+{
+	local output=""
+	local ret=0
+	local times_ping=${2:-1}
+
+	if ! [[ "$times_ping" =~ ^[1-9][0-9]*$ ]]; then
+		echo 'Invalid argument. "times of ping" should be a positive decimal.'
+		return $EINVAL
+	fi
+
+	# Create dummy mount point
+	if [ ! -d "/mnt" ]; then
+		mkdir -p "/mnt"
+	fi
+
+	for ((i=0; i<times_ping; i++))
+	do
+		# Ping NFS server with NFSPROC_NULL to confirm nfsd can response a request.
+		# Timeout might be 1s for PMAPPROC_GETPORT or 10s for NFSPROC_NULL.
+		output=$(/sbin/mount.nfs --fake localhost:/ /mnt -o vers=3,soft,retry=0,tcp 2>&1)
+		ret=$?
+		if [ "$SZ_PATTERN_TIMEOUT" =  "$output" ]; then
+			ret=1
+		fi
+		if [ "$ret" -eq 0 ]; then
+			return 0
+		fi
+	done
+	return $ret
+}
+
+case $1 in
+	--ping)
+		nfsping "$@"
+		ret=$?
+	;;
+	*)
+		echo "Usage $0 --ping [times of ping]"
+	;;
+esac
+exit $ret

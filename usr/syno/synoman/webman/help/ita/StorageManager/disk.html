@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>HDD/SSD</h2>
+<p>Questa sezione consente di monitorare e comprendere lo stato delle unità di archiviazione interne installate in Synology NAS. Andare su <b>Storage Manager</b> &gt; <b>HDD/SSD</b> per gestire queste opzioni.</p>
+
+
+<ul>
+	<li><a href="#Statuses">Informazioni e stati dell'unità</a></li>
+	<li><a href="#Analytics">Test e analisi dell'unità</a></li>
+	<li><a href="#Tests">Pianificazione e gestione del test unità</a></li>
+	<li><a href="#Settings">Impostazioni e stato di avvertenza dell'unità</a></li>
+	<li><a href="#Erase">Secure Erase</a></li>
+	<li><a href="#Drive">Disattivazione o attivazione dell'unità</a></li>
+	<li><a href="#Status">Stato indicatore unità LED</a></li>
+	<li><a href="#Cache">Cache di scrittura</a></li>
+	<li><a href="#Database">Database Drive</a></li>
+</ul>
+
+
+<h3><a name="Statuses"></a>Informazioni e stati dell'unità</h3>
+<p>Per ulteriori informazioni sull'unità e le relative condizioni di integrità, vedere <b>Storage Manager</b> &gt; <b>HDD/SSD</b>.</p>
+
+<h4>Per controllare le informazioni di HDD/SSD:</h4>
+	<ol>
+		<li>Andare alla scheda <b>HDD/SSD</b>.</li>
+		<li>Selezionare un'unità dall'elenco ed espanderla. Qui è possibile vedere lo stato di integrità, informazioni sullo storage pool, nome modello, numero di serie, versione firmware, temperatura e altre informazioni.</li>
+	</ol>	
+	
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>si consiglia di utilizzare le unità nell'<a href="https://www.synology.com/compatibility?search_by=category&category=hdds&p=1" target=blank>Elenco compatibilità dei prodotti Synology</a> per evitare eventuali problemi. L'utilizzo di unità incompatibili potrebbe ridurre le prestazioni di sistema e persino causare la perdita di dati in Synology NAS.</li>
+	</ul>
+</div>
+
+<h4>Per controllare le informazioni sulla salute:</h4>
+	<ol>
+		<li>Andare alla scheda <b>HDD/SSD</b>.</li>
+		<li>Selezione un'unità.</li>
+		<li>Fare clic su <b>Info integrità</b>.</li>
+		<li>Passare alla scheda <b>Panoramica</b> per trovare le ore di accensione dell'unità e per visualizzarne la temperatura corrente, il calcolo di riconnessioni/re-identificazioni e il numero di settori non validi.</li>
+		<li>Andare alla scheda <b>Test S.M.A.R.T. </b>per eseguire test diagnostici sull'unità supportata e visualizzare gli attributi S.M.A.R.T. Nella sezione <b>Test S.M.A.R.T.</b>, è possibile eseguire subito un test S.M.A.R.T. e visualizzare i risultati del test e la pianificazione; nella sezione <b>Attributo S.M.A.R.T.</b>, è possibile visualizzare i dettagli dei valori attributo S.M.A.R.T..</li>
+		<li>Passare alla scheda <b>Integrità IronWolf</b> per eseguire test diagnostici sull'unità supportata.</li>
+		<li>Andare alla scheda <b>Cronologia</b>, per visualizzare ed esportare i risultati della diagnosi di integrità e per visualizzare la cronologia dei principali attributi S.M.A.R.T..</li>
+	</ol>
+
+	<table>
+		<tr>
+			<th>Stato dell'unità</th>
+			<th>Condizioni di integrità</th>
+		</tr>
+		<tr>
+			<td>Integrità</td>
+			<td>L'unità è in buone condizioni oppure l'avviso sull'unità è stato eliminato o disattivato.</td>
+		</tr>
+		<tr>
+			<td>Avvertenza</td>
+			<td>Sono stati riscontrati dei problemi oppure è aumentato il numero di settori non validi in questa unità. Si consiglia di monitorare l'unità anche se funziona correttamente.</td>
+		</tr>
+		<tr>
+			<td>Importante</td>
+			<td>Uno o più problemi critici sono stati rilevati nell'unità. Si consiglia di sostituire l'unità immediatamente.</td>
+		</tr>
+		<tr>
+			<td>In errore</td>
+			<td>Più problemi critici sono stati rilevati nell'unità. L'integrità dell'unità non è garantita quando le unità sono in questo stato di integrità.</td>
+		</tr>
+		<tr>
+			<td>Errore accesso</td>
+			<td>Gli errori di comunicazione integrità potrebbero avere causato la disconnessione dell'unità dal sistema o un grave errore di lettura-scrittura. Generalmente, questo stato di integrità indica che si sono verificati problemi gravi.</td>
+		</tr>
+	</table>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>non tutte le funzioni S.M.A.R.T. sono supportate nelle unità SAS o negli SSD NVMe.</li>
+		<li>Il test di integrità IronWolf è supportato solo su determinate unità Seagate.</li>
+	</ul>
+</div>
+
+
+
+<h3><a name="Analytics"></a>Test e analisi dell'unità</h3>
+<p>I seguenti test e analisi possono essere eseguiti sulle unità installate se il modello di unità e il modello di Synology NAS supportano tali funzioni.</p>
+
+<h4>Per avviare il test S.M.A.R.T.:</h4>
+<p>Nella sezione Test-S.M.A.R.T. verrà esaminato e descritto lo stato delle unità, avvisando in caso di possibili guasti delle unità. Se vengono rilevati errori, si consiglia di cambiare subito le unità.</p>
+	<ol>
+		<li>Andare alla scheda <b>HDD/SSD</b>.</li>
+		<li>Selezione un'unità.</li>
+		<li>Fare clic su <b>Info integrità</b>.</li>
+		<li>Andare alla scheda <b>Test S.M.A.R.T..</b></li>
+		<li>Scegliere un tipo di test e fare clic su <b>Avvia</b> per iniziare il test.</li>
+		<li>I risultati dell'ultimo test sono mostrati nella sezione <b>Risultato Test</b>.</li>
+		<li>Passare alla scheda <b>Cronologia</b> per visualizzare i precedenti risultati.</li>
+	</ol>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>il tempo richiesto per eseguire un test S.M.A.R.T. può variare a seconda dell'uso del sistema e della capacità dell'unità.</li> 
+		<li>Il risultato del test e <b>Normale</b> o <b>Non riuscito</b>.</li>
+		<li>Gli SSD NVMe presentano un meccanismo di monitoraggio integrato e, pertanto, non supporterà il test S.M.A.R.T. o l'avviso settori danneggiati.</li>
+	</ul>
+</div>
+
+<h4>Per eseguire un test IronWolf Health:</h4>
+<p>Seagate IronWolf Health Management si basa su altri dati telemetrici dell'unità, che contengono più informazioni del test S.M.A.R.T.. Si consiglia di seguire i suggerimenti mostrati in ciascuno stato dei risultati del test. Disponibile solo su alcuni modelli.</p>
+	<ol>
+		<li>Andare alla scheda <b>HDD/SSD</b>.</li>
+		<li>Selezione un'unità.</li>
+		<li>Fare clic su <b>Info integrità</b>.</li> 
+		<li>Andare alla scheda <b>IronWolf Health</b>.</li>
+		<li>Fare clic su <b>Avvia</b> per iniziare il test. La sezione <b>Risultato test</b> mostra i risultati degli ultimi test.</li>
+		<li>Passare alla scheda <b>Cronologia</b> per visualizzare i precedenti risultati.</li>
+	</ol>
+	
+<p>Per una panoramica dei codici di output del test IronWolf Health, vedere la tabella di seguito.</p>
+	<table>
+		<tr>
+			<th>Codici di output da IronWolf Health Management</th>
+			<th>Definizione</th>
+		</tr>
+		<tr>
+			<td>100</td>
+			<td>Temperatura di servizio elevata anomala rilevata. Verificare che le porte di ventilazione posteriore non siano bloccate e provare ad abbassare la temperatura ambiente. Se la temperatura è ancora alta, andare su <b>Pannello di controllo</b> &gt; <b>Hardware e Alimentazione</b> &gt; <b>Modo velocità ventola</b> per regolare il funzionamento della ventola a una velocità superiore. Se il problema persiste, contattare il team di supporto Synology.</td>
+		</tr>
+		<tr>
+			<td>101</td>
+			<td>Rilevato un problema di connessione su Synology NAS e l'interfaccia del disco rigido. Verificare che l'unità sia correttamente installata nel vano disco rigido e che il vano sia correttamente installata in Synology NAS. Se il problema persiste, contattare il team di supporto Synology.</td>
+		</tr>
+		<tr>
+			<td>102</td>
+			<td>È stato rilevato un eccessivo shock fisico sull'unità. Verificare che il disco rigido e Synology NAS siano posizionati su una superficie stabile. Se il problema persiste, contattare il team di supporto Synology.</td>
+		</tr>
+		<tr>
+			<td>105</td>
+			<td>È stata rilevata un'eccessiva vibrazione. Verificare che Synology NAS sia posizionata su una superficie stabile. Se il problema persiste, contattare il team di supporto Synology.</td>
+		</tr>
+		<tr>
+			<td>106</td>
+			<td>È stato rilevato un numero eccessivo di reimpostazioni dell'host. Verificare che l'unità sia installata correttamente nello chassis o nel vano unità. Si consiglia di eseguire un ciclo di alimentazione. Se il problema persiste, contattare il team di supporto Synology.</td>
+		</tr>
+		<tr>
+			<td>200, 201, 202 e 203</td>
+			<td>Per controllare lo stato di integrità dell'unità, si consiglia di eseguire il test esteso S.M.A.R.T. sull'unità. Se il problema persiste, contattare il rivenditore o il produttore dell'unità.</td>
+		</tr>
+	</table>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>il tempo richiesto per eseguire un test IronWolf Health può variare a seconda dell'uso del sistema.</li>
+		<li>Le prestazioni di sistema potrebbero essere temporaneamente ridotte quando viene eseguito il test IronWolf Health.</li>
+		<li>I codici di output del test IronWolf Health sono presentati insieme alle azioni consigliate. Nuovi codici di output potrebbero essere aggiunti nei futuri aggiornamenti DSM.</li>
+	</ul>
+</div>
+
+
+<h4>Per eseguire Benchmark:</h4>
+<p>Questo test è disponibile solo su alcuni modelli Synology NAS nelle serie <b>XS</b> e <b>XS+</b>. Per eseguire un test su un'unità, procedere come segue:</p>
+<ol>
+	<li>Andare alla scheda <b>HDD/SSD</b>.</li>
+	<li>Selezionare un'unità e fare clic su <b>Benchmark</b>.</li>
+	<li>Nella finestra visualizzata, fare clic su <b>Esegui test ora</b> per avviare il test sulle prestazioni. I risultati saranno visualizzati qui al termine del test.</li>
+	<li>Per confrontare il risultato con i test precedenti, fare clic su <b>Seleziona</b> nel campo <b>Test confrontato</b> per scegliere il log desiderato.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>throughput sequenziale, IOPS casuale e latenza sono inclusi nel test delle prestazioni, che richiede circa 18 minuti.</li>
+		<li>Esistono due tipi di test: <b>base</b> ed <b>esteso</b>.
+			<ul>
+				<li>Per le unità usate per RAID, è possibile eseguire solo dei test di base e i dati nei dischi non saranno influenzati. Tuttavia, non è possibile eseguire il test delle prestazioni di scrittura per gli HDD usati per i RAID.</li>
+				<li>Nei casi restanti, i test estesi saranno eseguiti per migliorare le prestazioni. Tuttavia, i test sulle prestazioni non garantiscono l'integrità dei dati. Pertanto verificare che non siano presenti dati importanti nelle unità prima di eseguire Benchmark.</li>
+			</ul>
+		</li>
+		<li>Per verificare la disponibilità del sistema, non è possibile eseguire i test su più di tre unità per volta, oppure quando resta una sola unità nei modelli xs/xs+. Inoltre, quando l'uso dell'unità supera il 5%, il sistema chiederà di confermare di nuovo prima di procedere al test delle prestazioni, per verificare la precisione del test.</li>
+		<li>I risultati di Benchmark possono essere confrontati con i test precedenti. Quando la differenza è maggiore del 5%, verrà inviato un avviso.</li>
+		<li>Drive Benchmark viene eseguito con bassa priorità in DSM per garantire l'impatto minimo su altri servizi mentre è in esecuzione. Le stime presentate potrebbero variare a seconda del carico del sistema e della configurazione. Queste stime sono fornite solo a titolo di riferimento per valutare la funzionalità dell'unità e non sono confrontabili fra differenti modelli o versioni DSM.</li>
+	</ul>
+</div>
+
+
+
+<h3><a name="Tests"></a>Pianificazione e gestione del test unità</h3>
+<p>Il test S.M.A.R.T. e il test IronWolf Health possono essere pianificati per l'esecuzione automatica sulle unità. Questi test sono supportati solo su alcuni modelli. Per informazioni pertinenti, consultare <a href="#Analytics">Test e analisi unità</a> e seguire la procedura riportata per pianificare e gestire i test.</p>
+
+<h4>Per programmare i test S.M.A.R.T.:</h4>
+<p>È possibile programmare i test S.M.A.R.T. per essere eseguiti automaticamente sulle unità.</p>
+	<ol>
+		<li>Andare alla scheda <b>Programmazione test</b>.</li>
+		<li>Fare clic su <b>Crea</b> per impostare una nuova attività.</li>
+		<li>Modificare le seguenti impostazioni nella scheda <b>Generale</b>:
+			<ul>
+				<li><b>Nome attività:</b> Immettere un nome per l'attività.</li>
+				<li><b>Tipo test S.M.A.R.T.:</b> scegliere se eseguire un test rapido o un test esteso.</li>
+				<li><b>Intervallo test S.M.A.R.T.:</b> scegliere di quali HDD/SSD eseguire il test tutte le volte che viene eseguito un test S.M.A.R.T..</li>
+			</ul>
+		</li>
+		<li>Nella scheda <b>Programmazione</b>, modificare le seguenti impostazioni:
+			<ul>
+				<li><b>Data:</b> specificare la data in cui eseguire un test S.M.A.R.T., la cui esecuzione può essere pianificata in dati giorni della settimana (ad esempio ogni giorno, nei fine settimana o ogni Domenica, ecc.) o in date specifiche (ad esempio, 21/11/2016).</li>
+				<li><b>Ora:</b> specificare la frequenza con cui eseguire il test S.M.A.R.T. nelle unità, nonché l'ora della prima e dell'ultima esecuzione.</li>
+			</ul>
+		</li>
+		<li>Fare clic su <b>OK</b> per terminare.</li>
+	</ol>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>se l'esecuzione del test S.M.A.R.T. non è pianificata in una specifica unità, il pulsante <b>Pianifica test S.M.A.R.T.</b> apparirà in <b>Informazioni integrità</b> &gt; <b>Panoramica</b> dell'unità.</li> 
+		<li>Se entrambi i test IronWolf Health e S.M.A.R.T. non sono pianificati per l'esecuzione in una unità, il pulsante <b>Pianifica test unità</b> apparirà in <b>Informazione integrità</b> &gt; <b>Panoramica</b> dell'unità.</li>
+		<li>Gli SSD NVMe presentano un meccanismo di monitoraggio integrato e, pertanto, non supporterà il test S.M.A.R.T. o l'avviso settori danneggiati.</li>
+	</ul>
+</div>
+
+<h4>Per pianificare i test IronWolf Health:</h4>
+<p>È possibile programmare i test IronWolf Health per essere eseguiti automaticamente sulle unità.</p>
+	<ol>
+		<li>Andare alla scheda <b>Programmazione test</b>.</li>
+		<li>Fare clic su <b>Crea</b> per impostare una nuova attività.</li>
+		<li>Andare alla scheda <b>Generale</b> per modificare le impostazioni seguenti:
+			<ul>
+				<li><b>Nome attività:</b> Immettere un nome per l'attività.</li>
+				<li><b>Test IronWolf Health:</b> Selezionare il disco HDD/SSD in cui eseguire il test oppure selezionare tutte le unità supportate per il test da eseguire su tutte le unità supportate.</li>
+			</ul>
+		</li>
+		<li>Andare alla scheda <b>Programmazione</b> per modificare le impostazioni seguenti:
+			<ul>
+				<li><b>Data:</b> specificare la data in cui eseguire un test IronWolf Health, la cui esecuzione può essere pianificata in dati giorni della settimana (ad esempio ogni giorno, nei fine settimana o ogni Domenica, ecc.) o in date specifiche (ad esempio, 21/11/2016).</li>
+				<li><b>Ora:</b> specificare la frequenza con cui eseguire il test IronWolf Health. nelle unità, nonché l'ora della prima e dell'ultima esecuzione.</li>
+			</ul>
+		</li>
+		<li>Fare clic su <b>OK</b> per terminare.</li>
+	</ol>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>se il test IronWolf Health non è pianificato per l'esecuzione in una unità, il pulsante <b>Pianifica test IronWolf Health</b> apparirà in <b>Informazione integrità</b> &gt; <b>Panoramica</b> dell'unità.</li>
+		<li>Se entrambi i test IronWolf Health e S.M.A.R.T. non sono pianificati per l'esecuzione in una unità, il pulsante <b>Pianifica test unità</b> apparirà in <b>Informazione integrità</b> &gt; <b>Panoramica</b> dell'unità.</li>
+		<li>Il test IronWolf Health è disponibile solo nei dischi rigidi della serie Seagate IronWolf.</li>
+	</ul>
+</div>
+
+
+
+<h3><a name="Settings"></a>Impostazioni e stato di avvertenza dell'unità</h3>
+<p>È possibile abilitare o disabilitare le impostazioni di avvertenza unità rilevanti, quando necessario. Per istruzioni dettagliate, procedere come segue.</p>
+
+<h4>Per modificare lo stato di avvertenza dell'unità:</h4>
+<p>DSM monitora costantemente lo stato di integrità delle unità e avviserà l'utente in caso di rilevamento di problemi. Alcuni problemi potrebbero essere più gravi di altri. Per determinati problemi che causano uno stato di integrità di <b>Avvertenza</b> (su <b>Informazioni integrità</b> &gt; <b>Panoramica</b>), l'avvertenza può essere modificata come segue:</p>
+	<ol>
+		<li>Andare alla scheda <b>HDD/SSD</b>.</li>
+		<li>Selezionare l'unità nello stato di avvertenza e fare clic su <b>Informazioni integrità</b>.</li> 
+		<li>Fare clic su <b>Modifica avvertenza unità</b>.</li>
+		<li>Fare clic sull'opzione <b>Elimina avvertenza</b> o <b>Disabilita avvertenza</b> (potrebbero essere visualizzate queste due opzioni a seconda del tipo di problema): 
+			<ul>
+				<li><b>Elimina avvertenza:</b> il monitoraggio del campo danneggiato continuerà; tuttavia, le avvertenze saranno attivate solo quando il valore relativo continua a ridursi.</li> 
+				<li><b>Disattiva avvertenza:</b> il monitoraggio del campo S.M.A.R.T. sarà disattivato definitivamente.</li>
+			</ul>
+		</li>
+	</ol>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>la modifica dello stato di avvertenza dell'unità non risolverà i problemi nell'unità né ne impedirà il verificarsi. Pertanto quest'azione non deve essere considerata come una soluzione a lungo termine.</li>
+		<li>In genere, un'avvertenza relativa a problemi S.M.A.R.T. indica che si è verificato un problema nell'unità. Ignorare il problema potrebbe causare la perdita di dati.</li>
+		<li>Alcuni campi S.M.A.R.T. sono progettati come critici e non possono essere eliminati o disattivati.</li>
+	</ul>
+</div>
+
+<h4>Per abilitare il supporto avviso settore danneggiato:</h4>
+<p>L'abilitazione dell'avviso settore non valido dell'unità consente di avvisare l'utente la presenza di settori non validi rilevati nell'unità e di adottare le azioni corrispondenti. Quest'opzione è abilitata per impostazione predefinita ma è abilitata solo su determinati modelli.</p>
+	<ol>
+		<li>Andare alla scheda <b>Impostazioni</b>.</li>
+		<li>Spuntare <b>Abilita avviso settori danneggiati</b>. Per impostazione predefinita, la funzione è disattivata.</li>
+		<li>Fare clic su <b>Applica</b>.</li>
+	</ol>
+
+<h4>Per abilitare l'avviso ciclo di vita SSD:</h4>
+<p>L'avviso del ciclo di vita dell'SSD comunica all'utente quando la stima del ciclo di vita di un SSD diventa inferiore a un valore specificato, consentendo di adottare subito le azioni corrispondenti. Quest'opzione è abilitata per impostazione predefinita ma è supportata solo su determinati SSD.</p>
+	<ol>
+		<li>Andare su <b>HDD/SSD</b> &gt; <b>Impostazioni</b>.</li>
+		<li>Andare alla sezione <b>Avviso ciclo di vita stimato dell'SSD</b> per abilitare l'avviso per il ciclo di vita.
+			<ul>
+				<li>Spuntare <b>Abilita avviso durata di vita stimato</b> e impostare un valore nel campo <b>Ciclo di vita (%)</b>. Il sistema invierà una notifica per comunicare quando il ciclo di vita stimato dell'SSD raggiunge un valore specificato.</li>
+				<li>Spuntare <b>Abilita avviso ciclo di vita stimato (durata) per i Synology SSD</b> e impostare un valore nel campo <b>Ciclo di vita (mesi)</b>. Il sistema invierà una notifica per comunicare quando il ciclo di vita stimato dell'SSD raggiunge un valore specificato. Questa funzione è esclusiva per gli SSD Synology.</li>
+			</ul>
+		</li>
+		<li>Fare clic su <b>Applica</b>.</li>
+	</ol>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>il valore della durata di vita SSD è generato direttamente dalle informazioni S.M.A.R.T. Se l'SSD non supporta l'attributo S.M.A.R.T. corrispondente, questa funzione non sarà supportata.</li>
+		<li>Il ciclo di vita di un SSD Synology è calcolato in base al relativo carico di lavoro I/O recente. Per un nuovo SSD montato, il sistema potrebbe impiegare fino a 24 ore per generare un risultato.</li>
+		<li>Il ciclo di vita di un Synology SSD è visualizzato solo nella scheda <b>HDD/SSD</b> e nelle <b>Informazioni integrità</b> quando il ciclo di vita stimato (durata) dell'SSD scende al valore specificato.</li>
+	</ul>
+</div>
+
+
+
+<h3><a name="Erase"></a>Secure Erase</h3>
+<p>Per cancellare tutti i dati in una specifica unità, è possibile eseguire Secure Erase. Tuttavia, Secure Erase cancellerà in modo permanente tutti i dati archiviati sulla propria unità. Verificare che l'unità selezionata non sia in uso e che i relativi dati siano stati sottoposti a backup prima di eseguire Secure Erase.</p>
+
+<h4>Per eseguire Secure Erase:</h4>
+	<ol>
+		<li>Andare alla scheda <b>HDD/SSD</b>.</li>
+		<li>Selezionare un'unità e fare clic su <b>Azione</b> &gt; <b>Secure Erase</b>.</li>
+	</ol>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>Secure Erase non può essere eseguito su dischi nell'unità di espansione.</li>
+		<li>Secure Erase cancellerà in modo permanente tutti i dati archiviati sulla propria unità. Verificare che l'unità scelta non sia in uso o sia stato effettuato il backup dei dati prima di procedere.</li>
+		<li>Quando il sistema esegue Secure Erase, l'unità scelta sarà temporaneamente bloccata e, quindi, automaticamente sbloccata quando l'operazione è in completata.</li>
+		<li>Se Secure Erase è interrotto in modo errato durante l'operazione, è possibile eseguire nuovamente Secure Erase direttamente sull'interfaccia utente. Se le unità sono rimosse o usate altrove quando sono ancora bloccate, inserire la password "synology" per sbloccare le unità.</li>
+	</ul>
+</div>
+
+
+
+<h3><a name="Drive"></a>Disattivazione o attivazione dell'unità</h3>
+<p>Un'unità assegnata a uno storage pool può essere disattivata quando necessario, rimuovendo l'unità dallo storage pool, dal volume e dalla partizione di sistema associati.</p>
+
+<h4>Per disattivare un'unità:</h4>
+	<ol>
+		<li>Andare alla scheda <b>HDD/SSD</b>.</li>
+		<li>Selezionare un'unità e fare clic su <b>Azione</b> &gt; <b>Disattiva</b>.</li>
+	</ol>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>è possibile disattivare solo le unità utilizzate negli storage pool. Dopo la disattivazione, le unità saranno rimosse dagli storage pool.</li>
+		<li>Dopo avere disattivato un'unità, lo stato dell'indicatore unità LED corrispondente diventerà "alert" (avviso).</li>
+	</ul>
+</div>
+
+<h4>Per attivare un'unità:</h4>
+<p>Lo stato di allocazione di un'unità disattivata diventerà <b>Non inizializzato</b>, vale a dire che DSM non è installato in questa unità e che l'unità può essere assegnata a uno storage pool. Per attivare l'unità, eseguire una delle seguenti azioni:</p>
+	<ul>
+		<li>Rimuovere l'unità dallo slot unità, quindi reinserirla di nuovo nello slot unità.</li>
+		<li>Riavviare il sistema.</li>
+	</ul>
+
+
+
+<h3><a name="Status"></a>Stato indicatore unità LED</h3>
+<p>Per rimuovere un'unità da Synology NAS, è possibile modificare temporaneamente lo stato dell'indicatore unità passando dal verde fisso all'arancione fisso. In questo modo è possibile identificare immediatamente in quale slot unità si trova un'unità, evitando così di rimuovere per errore l'unità sbagliata.</p>
+
+<h4>Per individuare lo slot unità in cui si trova un'unità:</h4>
+	<ol>
+		<li>Andare alla scheda <b>HDD/SSD</b>.</li>
+		<li>Selezionare un'unità e fare clic su <b>Individua unità</b>.</li>
+		<li>Fare clic sul menu a discesa e scegliere per quanto tempo l'indicatore unità deve restare di colore arancione fisso.</li>
+		<li>Fare clic su <b>Individua</b> per cambiare l'indicatore dell'unità con il colore arancione fisso. <br><span class="note_head">Nota:</span> per ripristinare il colore verde fisso dell'indicatore unità, fare clic su <b>Ripristina</b>.</li>
+	</ol>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>lo stato dell'indicatore riportato non si applica allo slot della scheda adattatore nei modelli Synology NAS che supportano l'aggiunta di schede adattatore (es., DS1816+). Il motivo è che questo tipo di slot non è creato con uno stato indicatore corrispondente.</li>
+	</ul>
+</div>
+
+
+
+<h3><a name="Cache"></a>Cache di scrittura</h3>
+<p>L'abilitazione del supporto per la cache di scrittura migliora le prestazioni della Synology NAS. Solamente alcuni modelli di HDD supportano questa funzione. Per garantire la protezione dei dati durante l'uso del supporto cache di scrittura, si consiglia di utilizzare un dispositivo UPS. Si consiglia anche di spegnere correttamente il sistema dopo l'uso. Disattivando la cache di scrittura si riduce la possibilità di perdita dei dati causata dalle interruzioni di corrente.</p>
+
+<h4>Abilitare il supporto scrittura cache: </h4>
+<p>Per abilitare la cache di scrittura, procedere come segue:</p>
+	<ol>
+		<li>Andare alla scheda <b>HDD/SSD</b>.</li>
+		<li>Selezionare un'unità e fare clic su <b>Azione</b> &gt; <b>Configura</b>.</li>
+		<li>selezionare <b>Abilita scrittura cache</b> e fare clic su <b>Applica</b>. Per impostazione predefinita, la funzione è disattivata.</li>
+	</ol>
+
+
+
+<h3><a name="Database"></a>Database Drive</h3>
+<p>Il database S.M.A.R.T. contiene informazioni relative alla corretta temperatura operativa e i nomi campo S.M.A.R.T. di un'unità. Il database è aggiornato periodicamente e anche dopo la sostituzione di un'unità. Quest'operazione deve essere eseguita sono in caso di esito negativo di un aggiornamento database periodico o automatico.</p>
+
+<h4>Per aggiornare un Database S.M.A.R.T.:</h4>
+<p>Per aggiornare database dell'unità, procedere come segue:</p>
+	<ol>
+		<li>Andare alla scheda <b>Impostazioni</b>.</li>
+		<li>Scorrere alla sezione <b>Database S.M.A.R.T.</b>.</li>
+		<li>Fare clic su <b>Aggiorna ora</b>.</li>
+	</ol>
+
+<div class="section"><h4>Nota:</h4>
+	<ul>
+		<li>il database-S.M.A.R.T. può essere aggiornato solo una volta ogni 24 ore.</li>
+		<li>Il database-S.M.A.R.T. sarà aggiornato automaticamente quando una nuova unità viene inserita in Synology NAS.</li>
+		<li>L'aggiornamento del database-S.M.A.R.T. non influisce né migliora la compatibilità e le prestazioni.</li>
+		<li>Eseguire quest'operazione solo quando sono presenti più valori in Info S.M.A.R.T. non identificati oppure quando è consigliato dal team di assistenza Synology.</li>
+	</ul>
+</div>
+
+
+
+</body>
+</html>

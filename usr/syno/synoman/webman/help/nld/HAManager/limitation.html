@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Beperkingen en systeemvereisten - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>Beperkingen en systeemvereisten</h1>
+
+ <p>Implementatie van Synology High Availability vereist twee identieke Synologyservers die als actieve en passieve servers fungeren. Voordat de twee Synologyservers in een high-availability cluster worden samengebracht, zal de Synology High Availability-wizard de hardware- en softwarebeperkingen controleren om te garanderen dat er een high-availability cluster kan worden gecreëerd.</p>
+ 
+  
+ <h3>Systeemvereisten</h3>
+ 
+  <p>Voor software en hardware gelden de volgende richtlijnen:</p>
+  <ul>
+   <li><b>Synology Server:</b> zowel de actieve als de passieve server moeten identieke modellen zijn en Synology High Availability ondersteunen. Denk eraan dat de naam van de high-availability cluster niet identiek mag zijn aan de namen van de actieve en passieve servers.</li>
+   <li><b>DSM-versie:</b> dezelfde versie van DSM moet op de actieve en passiever servers zijn geïnstalleerd. </li>
+   <li><b>Pakketversie:</b> dezelfde versie van het Synology High Availability moet op beide Synologyservers zijn geïnstalleerd.</li>
+  </ul>
+
+  
+ <h3>Volume en schijf</h3>
+ 
+  <p>De volgende richtlijnen voor opslagruimtes (bv. volumes, schijfgroepen, RAID Groups enz.) en hardeschijfbeheer zijn van toepassing.</p>
+  <ul>
+   <li><b>Schijfcapaciteit:</b> om gegevensreplicatie toe te laten moet de schijfcapaciteit van de passieve server groter zijn dan of gelijk aan de capaciteit van de actieve server. Het wordt aanbevolen om ervoor te zorgen dat de schijfcapaciteit van beide servers identiek is om inconsistentierisico's te beperken. </li>
+   <li><b>Aantal en type schijven:</b> de actieve en passieve server moeten hetzelfde aantal schijven tellen. Bovendien moet de schijfpositie op beide servers overeenstemmen. Ook het type harde schijven (bijv. SSD/HDD, SAS/SATA) en specificaties (bv. 4K- of 512-byte sectorgrootte) op beide servers moeten overeenkomen. Denk eraan dat externe apparaten zoals USB-harde schijven niet worden meegeteld bij de telling van het aantal schijven.</li>
+   <li><b>Hot Spare-reparatie:</b> beschadigde volumes op de passieve server zullen geen hot spare-reparatie activeren. Beschadigde volumes op de actieve server zullen een hot spare-reparatie ativeren en de volumes op de passieve server zullen eveneens aangetast worden omdat het systeem een gezonde schijf van de RAID-volumes op de passieve server zal verwijderen om een hot spare-reparatie te forceren.</li>
+   <li><b>SHR-indeling niet ondersteund:</b> volumes met SHR-indeling worden niet ondersteund. Zorg dat de Synologyserver die als actieve server gaat fungeren geen opslagvolumes in SHR-indeling bevat. </li>
+  </ul>
+
+    <div class="section">
+    <h4>Opmerking:</h4>
+    <ul>
+    <li>de snelheid van de schijven op de passieve server is van invloed op de schrijfprestaties van de high-availability cluster omdat gegevens via de Heartbeat-verbinding naar de passieve server worden gesynchroniseerd. We raden u aan om identieke schijven op actieve en passieve servers te gebruiken.</li>
+    <li>Wanneer de passieve server of Heartbeat-verbinding uitgeschakeld is, worden volumes tijdelijk onbeschikbaar en zal de iSCSI-overdracht gedurende ong. 10 seconden worden onderbroken.</li>
+    </ul>
+    </div>
+
+  
+  <h3>Netwerkomgeving</h3>
+  <p>Let bij het maken van een high-availability cluster op de volgende richtlijnen voor netwerkinstellingen.</p>
+  <ul>
+    <li><b>Netwerkinstellingen:</b> beide servers moeten een statisch IP-adres van hetzelfde subnetwerk hebben.</li>
+    <li><b>Aantal LAN-poorten:</b> beide servers moeten hetzelfde aantal LAN-poorten tellen. Is uw Synology NAS uitgerust met extra netwerkkaartinterfaces, dan tellen deze netwerkkaarten ook als aanvullende LAN-poorten. </li>
+        <li><b>Verbindingsbeperkingen van omgevingen:</b> de verbindingsomgeving tussen twee servers moet multicast ondersteunenn en de door de high-availability cluster gebruikte poorten mogen niet worden geblokkeerd door firewallregels. Loopt de Heartbeat-verbinding via switches, dan moet u zich ervan vergewissen dat deze switches multicast en Jumbo Frame ondersteunen.</li>
+    <li><b>Verbindingsbeperkingen:</b> de servers kunnen geen verbinding met het netwerk maken via een DHCP, IPv6, PPPoE en wifi. Zorg dat u deze functies uitschakelt voor u een high-availability cluster maakt.</li>
+    <li><strong>Geen DHCP-service:</strong> geclusterde servers kunnen de ingebouwde DHCP-serveropties niet gebruiken.</li>
+   <li><strong>Link Aggregation-instellingen:</strong> beide servers moeten dezelfde link aggregation-instellingen hebben voor het gegevensnetwerk en heartbeatverbinding. Na het maken van de high-availability cluster kunnen de link aggregation-instellingen niet meer worden gewijzigd.</li>
+   <li><b>Open vSwitch-instellingen:</b> de status van Open vSwitch op beide servers moet identiek zijn (of ingeschakeld of uitgeschakeld). Na het maken van de high-availability cluster kunnen de Open vSwitch-instellingen niet meer worden gewijzigd.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Opmerking:</h4>
+    <ul>
+      <li>NTP-service wordt automatisch ingeschakeld zodra de high-availability cluster wordt aangemaakt op de actieve server.</li>
+    </ul>
+  </div>
+  <h3>Beperkingen van Opslagbeheer</h3>
+  <p>Zodra er een high-availability cluster is gemaakt, is de optie om van RAID-type te wijzigen niet meer beschikbaar in Opslagbeheer. De volgende opties zijn echter wel beschikbaar:
+<ul>
+<li>Opslagruimtes uitbreiden (bv. volumes, blokniveau-iSCSI LUN's, schijfgroepen, RAID Groups enz).</li>
+    <li>Volumes, iSCSI LUN'd, SSD alleen-lezen- en lezen-schrijven-caches maken, verwijderen of herstellen.</li>
+    <li>iSCSI LUN-grootte en -locatie wijzigen (bestandsniveau).</li>
+    <li>iSCSI LUN-doel wijzigen   </li>
+  </ul>
+
+  <div class="section">
+    <h4>Opmerking:</h4>
+    <ul>
+      <li>wijzig de schijven niet van plaats na het maken van de high-availability cluster, anders zal er opslagruimte ontbreken.</li>
+      <li>Om te garanderen dat de op de Synology iSCSI target verbonden server geen time-out ervaart tijdens failover, raden we u aan om de time-outinstellingen van de iSCSI-client en de initiator aan te passen tot niet meer dan 120 seconden.</li>
+    </ul>
+  </div>
+
+ 
+<h3>Pakket- en softwarebeperkingen</h3> 
+
+<p>Na vorming van een high-availability cluster worden de volgende pakketten en functies niet meer ondersteund:</p>
+	<ul>
+
+    <li>Virtual Machine Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>De functie om de High-Availability cluster in CMS opnieuw op te starten/uit te schakelen</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>Opmerking:</h4>
+    <ul>
+    <li>om ondersteuning voor Docker DSM in High Availability toe te laten, moet u eerst Open vSwitch inschakelen en alleen daarna de cluster maken.</li>
+    </ul>
+   </div>
+
+<h3>Uitbreidingseenheden toevoegen</h3>
+  <p>Zodra er een high-availability cluster is aangemaakt, kunnen er uitbreidingseenheden aan uw bestaande high-availability cluster-configuratie worden toegevoegd om de opslagcapaciteit uit te breiden. Net als voor andere hardwarevereisten zijn identieke uitbreidingseenheden vereist voor de actieve en passiever servers. Om inconsistentiefouten te vermijden, volgt u best de onderstaande richtlijnen voor het toevoegen van uitbreidingseenheden.</p>
+  
+  <h4>Om uitbreidingseenheden toe te voegen:</h4>
+   <ol>
+    <li>Voeg enkel identieke uitbreidingseenheden en identieke harde schijven toe aan de actieve en passiever servers. Zoals hierboven aangegeven, moeten de hardware van de actieve en passieve servers identiek zijn, zowel wat het hardwaremodel aangaat als de type, harde-schijfgrootte en positie.</li>
+    <li>Zorg ervoor dat alle bestaande volumes en gegevens op de harde schijven in de uitbreidingseenheden zijn verwijderd.</li>
+    <li>Sluit de uitbreidingseenheden aan op de actieve en passieve servers als beide servers zijn ingeschakeld en operationeel zijn.</li>
+    <li>Maak nieuwe opslagruimte (bijv. volumes, schijfgroepen, RAID Groups etc.) op de uitbreidingseenheid alvorens een van de servers uit te schakelen.</li>
+   </ol>
+<div class="section">
+<h4>Opmerkingen:</h4>
+<p>basisinformatie over de installatie van de uitbreidingseenheid vindt u terug in de gebruikershandleiding van uw uitbreidingseenheid.</p>
+</div>
+
+
+<h3>USB-apparaatbeperkingen</h3>
+   <p>Switchover/Failover van USB-apparaten wordt niet ondersteund. Services of toepassingen van USB-apparaten werken mogelijk niet correct na switchover/failover.</p>
+
+   
+ </body>
+</html>

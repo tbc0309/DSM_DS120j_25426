@@ -1,0 +1,23 @@
+#!/bin/sh
+# Copyright (c) 2000-2016 Synology Inc. All rights reserved.
+#
+# A iptables wrapper that aims to replace with original iptables
+# This wrapper will excute the orginal iptables and retry when EAGAIN is received
+
+RETRY_TIMES=5
+RETRY_INTERVAL_MIN_MSECS=1000
+RETRY_INTERVAL_MAX_MSECS=3000
+
+i=0
+while [ ${i} -lt ${RETRY_TIMES} ]; do
+	/usr/bin/xtables-multi iptables $@
+	originalExitCode=$?
+	# Resource problem (resource temporarily unavailable)
+	if [ ${originalExitCode} -ne 4 ]; then
+		exit ${originalExitCode}
+	fi
+	usleep $((RETRY_INTERVAL_MIN_MSECS + (RANDOM % (RETRY_INTERVAL_MAX_MSECS - RETRY_INTERVAL_MIN_MSECS))))
+	i=$((i+1))
+done
+
+exit ${originalExitCode}

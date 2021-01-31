@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Synology Avanceret High Availability - Synology DSM - Hjælp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and the other server acts as a standby passive server.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h1>High Availability Manager</h1>
+
+  <p>High Availability vedrører en serverlayoutløsning, der er designet til at reducere afbrydelser i tjenester, der skyldes serverfejl. High Availability bruger to servere til at danne en "high-availability-klynge", hvor en server påtager sig rollen som "aktiv server", og en anden server fungerer som en standby "passiv server." For at implementere og skabe en High Availability-klynge, skal du bruge to kompatible Synology-servere.</p>
+  
+  <p>En high availability-klynge anvender følgende komponenter og koncepter:</p>
+
+  <ul>
+   <li><b>Koncept: </b>Implementering af Synology High Availability kræver to Synology-servere for at oprette en High Availability-klynge. En server fungerer som "aktiv server" og den anden fungerer som "passiv server". Både den aktie og passive server i high-availability-klyngen er tilsluttet til de samme udvidelsesenheder og deler det samme lager på dem. For at sikre dataintegritet kan kun den aktive server håndtere arbejdsbyrden. I tilfælde af at den aktive server fejler, vil den passive server kunne overtage alle tjenester. På den måde vil High Availability-klyngen fortsat kunne yde tjenester normalt og minimere serverens nedetid. Yderligere detaljer vedrørende switchover findes under <a href="switchover_fail.html">Switchover</a>.</li>
+   <li><b>Aktiv server:</b> Den aktive server styrer levering af alle tjenester. I tilfælde af at der sker en fejl på den aktive server, kan du eller systemet starte en switchover til den passive server. I det tilfælde bliver udførelsen af disse tjenester overført til den passive server, hvorefter den aktive server bliver den passive server.</li>
+   <li><b>Passiv server:</b> Under normale betingelser forbliver den passive server i standby-tilstand. I tilfælde af at den aktive server ikke kan yde tjenesterne, kan du eller systemet starte en switchover til den passive server.</li>
+   <li><b>Heartbeat-forbindelse:</b> Den aktive og passive server i en High Availability-klynge er linket af en dedikeret, privat netværksforbindelse, som kaldes en "Heartbeat-forbindelse." Hvis kontakten mellem serverne mistes i en given tidsperiode, vil systemet afgøre, at en switchover er nødvendig.</li>
+   <li><b>High-availability-klynge - Delt lager:</b> Diskene på de udvidelsesenheder, der er tilsluttet til både aktiv og passiv server på samme tid fungerer som standardlager i high-availability-klyngen. Kun den aktive server har skrietilladelser til lageret.</li>
+   <li><b>Navn på high availability-klyngeserver og netværksindstilling:</b> Navnet på serveren og netværksindstillingerne for High-availability-klyngen bliver bestemt af de tilsvarende indstillinger i DSM. På netværker kan du tilslutte med dette servernavn, hvorefter tjenester bliver leveret af den aktive server. Yderligere oplysninger om netværksindstillinger findes <a href="../AdminCenter/connection_network_general.html">her</a>.</li>
+
+  </ul>
+
+ </body>
+</html>

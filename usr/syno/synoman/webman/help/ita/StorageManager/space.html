@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Volume</h2>
+<p>I volumi sono gli spazi di archiviazione di base nei quali l'utente può creare cartelle condivise, iSCSI LUN (File normali), salvare dati o installare i pacchetti. Prima di creare qualsiasi volume, verificare di aver creato in precedenza un Raid Group. Per ulteriori informazioni relative ai Gruppi RAID, fare riferimento a <a href="raid.html">Raid Group</a>.
+</p>
+
+<h4>Per creare un volume:</h4>
+<ol>
+	<li>Verificare che Synology NAS disponga di un Raid Group esistente con spazio allocabile.</li>
+	<li>Fare clic sul pulsante <strong>Crea</strong>.</li>
+	<li>Scegliere un Raid Group nel quale creare il volume.</li>
+	<li>Modificare le impostazioni desiderate.</li>
+	<li>Impostare le dimensioni di allocazione per il volume. (L'impostazione delle dimensioni di allocazione non è disponibile con i volumi creati su un Raid Group per Volumi singoli o iSCSI LUN)</li>
+    <li>Fare clic sul pulsante <strong>Applica</strong> per salvare le impostazioni.</li>
+
+
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>le dimensioni massime di volume allocabili sono 200 TB.</li>
+	<li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Le dimensioni minime allocate a un volume BTRFS devono essere di almeno 10 GB.</li>
+    <li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">I volumi btrfs manterranno il 4% di spazio per i metadati.</li>
+</ul>
+</div>
+
+<h4>Per rimuovere un volume:</h4>
+<ol>
+	<li>Selezionare il volume da rimuovere.</li>
+	<li>Fare clic sul pulsante <B>Rimuovi</B> e seguire la procedura guidata per completare il processo.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>la rimozione del volume comporterà la cancellazione di tutti i dati esistenti nel volume.</li>
+</ul>
+</div>
+
+<h4>Per forzare il montaggio di un volume:</h4>
+<p>Se la cache su un volume è mancante, il sistema non monterà il volume al riavvio. Se la cache non è rilevabile, e si vuole accedere al volume, è possibile fare clic su <strong>Forza montaggio</strong>. </p>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>questa funzione è disponibile solo su modelli specifici.</li>
+</ul>
+</div>
+
+<h4>Per riparare un volume:</h4>
+<p>Se lo stato del volume è <strong>Danneggiato</strong>, passare alla scheda <B>Raid Group</B> e cercare il Raid Group appropriato. Seguire le istruzioni consigliate per la riparazione.</p>
+
+<h4>Per espandere le dimensioni di un volume</h4>
+<ul>
+	<li>Per i volumi creati su un Raid Group per volumi o iSCSI LUN (Livello blocco) multipli. 
+		<ol>
+			<li>Selezionare il volume da espandere.</li>
+			<li>Fare clic su <strong>Modifica</strong>.</li>
+			<li>Immettere le nuove dimensioni e fare clic su <strong>OK</strong> per espandere.</li>
+		</ol>
+	</li>
+	<li>Per i volumi creati su un Raid Group per un volume/iSCSI LUN singolo (Livello blocco), consultare la sezione <strong>Per espandere le dimensioni di un Raid Group</strong> di <a href="raid.html">Raid Group</a>, le dimensioni del volume saranno applicate dopo avere ampliato il Raid Group.</li>
+</ul>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Se i volumi sono usati come target replicati di <strong>Snapshot Replication</strong>, le prestazioni di replica possono essere migliorate regolando le impostazioni di <strong>Frequenza di registrazione ora di accesso file</strong> nella finestra <strong>Modifica</strong> dopo la creazione dei volumi:</p>
+<ul>
+	<li><strong>Giornalmente</strong>: l'ora di accesso al file viene aggiornata ogni giorno oppure quando il file viene modificato, proprio come nella maggior parte dei sistemi operativi. Le funzionalità di alcune applicazioni si basano sulla precisione dell'ora di accesso al file. Selezionando <strong>Giornaliero</strong> si influirà sulle prestazioni di replica; tuttavia, quest'opzione è consigliata se si utilizza una delle seguenti funzioni o applicazioni frequentemente:
+		<ul>
+			<li><B>Ora di accesso meno recente</B> in <B>Storage Analyzer</B></li>
+			<li><B>SSD Cache Advisor</B> in <B>Storage Manager</B></li>
+			<li>Qualsiasi applicazione di terzi basata su <strong>Registrazione ora di accesso file</strong>.</li>
+		</ul>
+	<li><B>Mensile</B>: l'ora di accesso al file viene aggiornata mensilmente oppure quando il file viene modificato. Quest'opzione comporta un piccolo miglioramento nelle prestazioni di replica, mentre le applicazioni che si basano su <strong>Registrazione ora di accesso file</strong> saranno in grado di funzionare, anche se con minore precisione.
+	</li>
+	<li><B>Mai</B>: consigliato per ottenere le migliori prestazioni di replica e non sono necessarie applicazioni che si basano su <strong>Registrazione ora di accesso file</strong> nell'uso quotidiano.</li>
+</ul>
+</div>
+
+<h3>SSD TRIM</h3>
+<p>Se un volume consiste interamente di SSD (unità a stato solido), si raccomanda di abilitare SSD TRIM. Questa funzione migliora le prestazioni di lettura e scrittura dei volumi creati sulle SSD, accrescendo l'efficienza nonché estendendo la durata delle SSD.</p>
+
+<h4>Per abilitare SSD TRIM:</h4>
+<ol>
+	<li>Aprire <strong>Storage Manager</strong> e andare su <strong>Volume</strong>.</li>
+	<li>Selezionare un volume che consiste unicamente di SSD, quindi fare clic sul pulsante <strong>Configura</strong>.</li>
+	<li>Nella finestra visualizzata, andare sulla scheda <B>SSD TRIM</B> e fare clic sulla casella <strong>Abilita TRIM</strong>.</li>
+	<li>Fare clic sul pulsante <strong>Imposta programmazione</strong> per scegliere quando il sistema eseguirà SSD TRIM.</li>
+	<li>Fare clic su <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>SSD TRIM è disponibile solo su alcuni modelli di Synology NAS e tipi di RAID. </li>
+	<li>alcuni modelli SSD non sono in grado di eseguire SSD TRIM su volumi RAID 5<span class="enable-grantley">,</span><span class="disable-grantley">, </span>RAID 6<span class="enable-grantley"> e RAID F1</span>. Consultare l'elenco compatibilità sul <a href="https://www.synology.com/" target="_blank">sito Web ufficiale di Synology</a>.</li>
+	<li>Gli SSD TRIM non possono essere abilitati nelle seguenti situazioni:
+		<ul>
+			<li>Il volume è montato con cache SSD.</li>
+			<li>Il pacchetto <strong>Time Backup</strong> è installato.</li>
+		</ul>
+	</li>
+	<li>SSD TRIM non può essere abilitato su iSCSI LUN (livello blocco).</li>
+	<li>Le prestazioni del sistema saranno influenzate quando si esegue SSD TRIM. Il tempo necessario a finire l'esecuzione TRIM varia a seconda delle dimensioni del volume e del modello di SSD.</li>
+	<li>Quando TRIM è abilitato su un volume, esso sarà anche abilitato su altri volumi creati sullo stesso Gruppo unità o RAID Group.</li>
+</ul>
+</div>
+
+
+<h3>Pulizia del file system*</h3>
+<p>La pulizia del file system è una funzione di manutenzione dei dati che ispeziona i volumi. In caso di rilevamento di dati inconsistente con il checksum, il percorso del file verrà registrato in Log Center e sarà opportuno utilizzare un backup per proteggere i dati.</p>
+
+<p>Si consiglia di eseguire regolarmente la pulizia del file system per garantire la consistenza dei dati.</p>
+
+<h4>Per eseguire la pulizia del file system:</h4>
+<ol>
+	<li>Aprire <strong>Storage Manager</strong> e andare su <strong>Volume</strong>.</li>
+	<li>Selezionare il volume in cui eseguire la pulizia del file system.</li>
+	<li>Fare clic su <strong>Gestisci</strong>.</li>
+	<li>Selezionare <strong>Esecuzione della pulitura del file system</strong>.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>la deframmentazione del file system può essere eseguita solo su volumi nel file system <strong>Btrfs</strong>.</li>
+	<li>La pulizia del file system può essere eseguita solamente quando lo stato del volume è <strong>Normale</strong>.</li>
+	<li>Non spegnere il sistema prima del termine della pulizia del file system. Se il sistema viene spento prima del termine, sarà necessario riavviare manualmente dall'inizio la pulizia del file system.</li>
+</ul>
+</div>
+
+<h3>Deframmentazione del file system*</h3>
+<p>Se i dati vengono modificati di continuo, la quantità di dati frammentati aumenterà nel file system, causando un rallentamento delle prestazioni di accesso dei file nelle unità. La deframmentazione del file system può migliorare tali prestazioni.</p>
+
+<h4>Per eseguire la deframmentazione del file system:</h4>
+<ol>
+	<li>Aprire <strong>Storage Manager</strong> e andare su <strong>Volume</strong>.</li>
+	<li>Selezionare il volume in cui eseguire la deframmentazione del file system.</li>
+	<li>Fare clic su <strong>Gestisci</strong>.</li>
+	<li>Selezionare <strong>Deframmentazione del file system</strong>.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>La deframmentazione del file system può essere eseguita solo su volumi nel file system <B>Btrfs</B>.</li>
+	<li>La deframmentazione del file system può essere eseguita solamente quando lo stato del volume è <B>Normale</B>.</li>
+	<li>Non spegnere il sistema prima del termine della deframmentazione del file system. Se il sistema viene spento prima del termine, sarà necessario riavviare manualmente dall'inizio la deframmentazione del file system.</li>
+	<li>L'uso del volume potrebbe aumentare se il volume contiene istantanee di cartelle condivise.</li>
+</ul>
+</div>
+
+<p>____<br />* Disponibile solo su alcuni modelli.</p>
+
+</body>
+</html>

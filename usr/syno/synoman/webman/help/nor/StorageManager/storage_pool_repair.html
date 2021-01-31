@@ -1,0 +1,130 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Reparere et volum eller en diskgruppe - Synology DSM Hjelp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article walks you through the steps to create a volume on Synology NAS using Storage Manager.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Reparere et volum eller en diskgruppe</h2>
+
+<p>Volumfeil kan oppstå av forskjellige grunner, som ødelagte systempartisjoner eller krasjede harddisker.  I enkelte tilfeller kan du følge trinnene nedenfor for å diagnostisere feilen og reparere problemet.</p>
+
+<div class="section">
+<h4>Merknader:</h4>
+<ul>
+<li>Funksjonen <strong>Reparer</strong> som beskrives her er kun tilgjengelig for RAID-typer med dataredundans (f.eks. RAID 1, RAID 5, RAID 6, osv.). Vær oppmerksom på at denne funksjonen ikke reparerer ødelagte harddisker, og garanterer heller ikke at data på krasjede volum vil bli reddet.</li>
+<li>For krasjede volumer anbefaler vi å kontakte vår <span class="last"><a href="https://account.synology.com/support/support_form.php?lang=enu" target="_blank">Tekniske støtte</a> for hjelp</span>.</li>
+</ul>
+</div>
+
+<h3>Sviktende systempartisjoner</h3>
+
+<p>Når systempartisjoner svikter, får du opp en melding om at systempartisjonene ikke kan aksesseres.</p>
+<h4>Slik reparerer du systempartisjoner:</h4>
+
+<ol>
+<li>Åpne <strong>Lagringshåndtering</strong>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Gå til <strong>Oversikt</strong> og klikk på koblingen <strong>Reparer</strong>. Systemet vil nå reparere systempartisjonene.</li>
+
+<img src="about:blank" class="help_image"/>
+</ol>
+
+
+<h3>Degraderte volum</h3>
+
+
+<p>Et volum eller en diskgruppe blir <strong>Degradert</strong> når en harddisk svikter, men tap av data har ikke oppstått. Dette skjer kun med RAID-typer som yter dataredundans, som SHR, RAID 1, RAID 5, RAID 6 og RAID 10. </p>
+<p>Et degradert volum eller diskgruppe kan repareres ved å erstatte den sviktende harddisken med en fungerende harddisk og reparere volumet eller diskgruppen.</p>
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+  <li>Størrelsen på erstatningsharddisken må være større eller lik med den minste disken i volumet.</li>
+  <li>Statusen til erstatningsharddisken må være <strong>Startet</strong> eller <strong>Ikke startet</strong>.</li>
+</ul>
+
+</div>
+
+<h4> Slik reparerer du et degradert volum eller diskgruppe:</h4>
+
+<ol>
+
+<li>Gå til <strong>Lagringshåndtering</strong> > <strong>Volum</strong> eller <strong>Diskgruppe</strong> for å bekrefte at statusen er endret til <strong>Degradert</strong>.</li> 
+<img src="about:blank" class="help_image"/>
+
+<li>I så tilfelle går du til fanen <strong>HDD/SSD</strong> for å se hvilken harddisk som har sviktet.</li>
+<img src="about:blank" class="help_image"/>
+
+<li>Fjern den sviktede harddisken og erstatt den med en ny.</li>
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Hvis din Synology NAS ikke støtter hot-swapping, må du huske å slå den av før du fjerner og installerer harddisker.</li>
+<li>Eksisterende data på erstatningsharddisken vil bli slettet.</li>
+</ul>
+</div>
+
+<li>Når erstatningsharddisken er installert, går du tilbake til fanen <strong>Volum</strong> eller <strong>Diskgruppe</strong>.</li>
+
+<li>Velg det degraderte volumet eller diskgruppen.</li>
+
+<li>Klikk på <strong>Administrer</strong>.</li>  
+<img src="about:blank" class="help_image"/>
+
+<li>Velg <strong>Reparer</strong> og klikk på <strong>Neste</strong>. </li>  
+<img src="about:blank" class="help_image"/>
+
+<li>Velg erstatningsharddisken som du vil legge til i volumet. Deretter klikker du på <strong>Neste</strong>.</li>
+<img src="about:blank" class="help_image"/>
+
+<li> Følg instruksjonene i veiviseren for å fullføre. </li>
+</ol>
+
+
+
+
+<h3>Reparere volum</h3>
+<p>For å reparere et degradert volum/diskgruppe/iSCSI LUN, må du erstatte den sviktende disken med en tilgjengelig disk som samsvarer med følgende kriterier:</p>
+<ul>
+<li>For RAID 1-, RAID 5- eller RAID 6-volum, kan det degraderte volumet repareres med en tilgjengelig disk med lik eller større plass enn den minste disken i RAID-volumet.</li>
+<li>For SHR-1-volum må den tilgjengelige disken samsvare med ett av følgende kriterier: (1) Størrelsen må være lik eller større enn størrelsen på den sviktende disken; (2) Med unntak av den største disken i RAID-volumet, må størrelsen være lik eller større enn størrelsen på den største gjenværende disken.
+
+<ol>
+<li>Eksempel 1: SHR-1 består av disker på 3TB, 2TB, 2TB og 1TB. Hvis 3TB-disken svikter, kan den repareres med en tilgjengelig disk med en størrelse som er lik eller større enn 2TB.</li>
+<li>Eksempel 2: SHR-1 består av disker på 4TB, 4TB, 2TB og 2TB. Hvis 4TB-disken svikter, kan den repareres med en tilgjengelig disk med en størrelse som er lik eller større enn 4TB.</li>
+<li>Eksempel 3: SHR-1 består av disker på 4TB, 4TB, 2TB og 2TB. Hvis 2TB-disken svikter, kan den repareres med en tilgjengelig disk med en størrelse som er lik eller større enn 2TB.</li>
+</ol>
+</li>
+<li>For SHR-2-volum må den tilgjengelige disken samsvare med ett av følgende kriterier: (1) Størrelsen må være lik eller større enn størrelsen på den sviktende disken; (2) Med unntak av de to største diskene i RAID-volumet, må størrelsen være lik eller større enn den største gjenværende disken.</li>
+</ul>
+<p>Hvis du har konfigurert disker som hot spare-disker som samsvarer med kriteriene ovenfor, vil de bli brukt til å reparere sviktende volum/diskgruppe/RAID Group/iSCSI LUN.</p>
+
+
+<h3>Utbedre krasjede volumer</h3>
+
+<p>Når statusen til et volum er <strong>Krasjet</strong>, kan du ikke reparere volumet på egenhånd. For å løse dette problemet, anbefaler vi å kontakte vår <a href="https://account.synology.com/support/support_form.php?lang=enu" target="_blank">Tekniske støtte</a> for hjelp.</p>
+
+<div class="section">
+<h4>Før du kontakter støtte:</h4>
+
+<ul>
+<li>Redd dataene på din Synology NAS ved å kopiere filene til datamaskinen din eller til eksterne disker via File Station, Windows-filtjeneste, FTP eller andre filtjenester.</li>
+<li>Behold rekkefølgen på harddiskene som de var da volumet krasjet.</li>
+<li>Utfør en S.M.A.R.T.-test på problemharddiskene. For å gjøre dette, går du til <strong>Lagringshåndtering</strong> > <strong>HDD/SSD</strong>. Velg den aktuelle harddisken og klikk på <strong>S.M.A.R.T.-test</strong>. <br />
+</li>
+</ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>General</h2>
+
+<p>Storage Manager allows users to manage all the storage spaces on their Synology products. In order to simplify storage management and create flexible storage spaces with data protection, Synology DSM supports multiple types of storage pools.</p>
+
+<h4><a href="storage_pool.html">Storage Pool</a></h4>
+<p>With Synology NAS, you may combine multiple drives into a single storage unit called a storage pool. Synology NAS provides the following types of storage pools:</p>
+<ul>
+	<li><strong>Storage pool for better performance</strong>:
+		<ul>
+			<li>Allocates all available capacity to a single volume.</li>
+			<li>Provides better performance but less storage management flexibility.</li>
+			<li>Allows the creation of multiple iSCSI LUNs (Regular File) on volumes.</li>
+			<li>Supports one RAID Array in maximum.</li>
+		</ul>
+	</li>
+	<li><strong>Storage pool for higher flexibility</strong>:
+		<ul>
+			<li>Supports creating multiple volumes on a storage pool.</li>
+			<li>Provides better storage management flexibility.</li>
+			<li>Allows the creation of multiple iSCSI LUNs (Regular File) on volumes.</li>
+			<li>Supports combining multiple RAID Arrays under a storage pool (when configured as RAID 5, RAID 6, or RAID F1).</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>RAID Type</h4>    
+<p>When creating a storage pool, first choose a RAID type. Different RAID types provide different levels of data protection, storage features, and performance. Synology NAS currently supports the following RAID types:</p>
+<ul>
+	<li><strong>Basic</strong>: Uses one drive to create a storage pool. Basic storage pools do not offer data redundancy.</li>
+	<li><strong>JBOD*</strong>: Combines at least two drives to create a storage pool. JBOD storage pools do not offer data redundancy. The available capacity of a JBOD storage pool equals the total capacity of all drives included in the storage pool. JBOD supports combining drives of different sizes.</li>
+	<li><strong>RAID 0*</strong>: Combines at least two drives to create a storage pool. RAID 0 does not offer data redundancy. If a single member drive fails, the data in the storage pool will be lost. The available capacity of a RAID 0 storage pool equals the total capacity of all the member drives. RAID 0 supports combining drives of different sizes.</li>
+	<li><strong>RAID 1*</strong>: Combines 2-4 drives to create a storage pool. The system will write identical data to each drive. RAID 1 provides data protection as long as one drive is operating normally. The available capacity of a RAID 1 storage pool equals the size of the smallest member drive.</li>
+	<li><strong>RAID 5*</strong>: Combines at least three drives to create a storage pool, striping both data and parity information across all member drives. RAID 5 provides data redundancy. If one member drive fails, the system may be rebuilt using parity information on the other member drives. It supports combining multiple RAID Arrays when created on a storage pool for Multiple Volumes. The available capacity of a RAID 5 storage pool = <span class="note_content"> Total capacity of combined RAID Arrays. RAID Array capacity = (number of drives - 1) x (capacity of the smallest drive)</span></li>
+	<li><strong>RAID 6*</strong>: Combines at least four drives to create a storage pool, striping both data and parity information across all member drives. RAID 6 provides data redundancy. Even if two member drives fail, the system may  be  rebuilt  using  parity information on other member drives. It supports combining multiple RAID Arrays when created on a storage pool for Multiple Volumes. The available capacity of a RAID 6 storage pool = <span class="note_content">Total capacity of combined RAID Arrays. RAID Array capacity = (number of drives - 2) x (capacity of the smallest drive)</span></li>
+	<li><strong>RAID 10*</strong>: Combines at least four drives to create a storage pool. The number of drives must be even. RAID 10 provides the performance of RAID 0 in addition to the same data protection level as RAID 1. The available capacity of a RAID 10 storage pool = <span class="note_content">(capacity of the smallest drive) X (number of drives / 2)</span></li>
+	<li><strong>RAID F1*</strong>: This RAID type is designed for solid-state drives (SSD). It combines at least three SSDs to create a storage pool, striping both data and parity information across all member SSDs while writing more parity bits into a specific SSD to prevent multiple SSDs from failing at the same time. RAID F1 provides data redundancy. If one member SSD fails, the system may be rebuilt using parity information on the other member SSD. It supports combining multiple RAID Arrays when created on a storage pool for Multiple Volumes. The available capacity of a RAID F1 storage pool = <span class="note_content">Total capacity of combined RAID Arrays. RAID Array capacity = (number of drives - 1) x (capacity of the smallest drive)</span></li>
+</ul>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>RAID types with <strong>*</strong> are only available on NAS models with sufficient drive bays. To understand which RAID types are supported by your model, please go to <a href="https://www.synology.com" target="_blank">www.synology.com</a> to check the specifications of your model.</li>
+</ul>
+</div>
+
+</body>
+</html>

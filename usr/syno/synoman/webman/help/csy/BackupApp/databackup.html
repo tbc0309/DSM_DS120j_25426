@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Zálohování dat</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Záloha</h2>
+
+<p>Funkce <strong>Zálohování a obnovení</strong> umožňuje zálohovat různé druhy dat (konfigurace systému, sdílené složky nebo aplikace a balíčky) uložené v zařízení Synology NAS, a to ručně nebo na základě plánu. Data záloh můžete uchovávat v místních sdílených složkách, na vzdálených serverech nebo ve veřejných cloudech (Amazon S3, Microsoft Azure, hicloud S3 a SFR NAS BACKUP). Každá úloha zálohování provedená pomocí funkce <strong>Zálohování a obnovení</strong> může uchovávat více verzí záloh a rotovat je na základě zásad Smart Recycle.</p>
+
+
+<h3>Zálohování dat</h3>
+<p>Funkce <strong>Zálohování a obnovení</strong> nabízí různé možnosti cílů zálohování a způsoby nastavení úloh zálohování dat.</p>
+
+<h4>Vytvoření úlohy zálohování dat:</h4>
+
+<ol>
+<li>V levém dolním rohu klikněte na znak <strong>+</strong> a vybráním možnosti <strong>Úloha zálohování dat</strong> spusťte průvodce zálohováním.</li>
+<li>Vyberte požadovaný typ cíle záloh:<ul>
+<li>Místní nebo vzdálené sdílené složky nebo externí úložná zařízení</li>
+<li>Vzdálené servery rsync</li>
+<li>Veřejné cloudy (např. Amazon S3 nebo Microsoft Azure)</li>
+</ul>
+</li>
+<li>Nastavte požadovaný typ úlohy zálohování:<ul>
+<li>Chcete-li vytvořit zcela novou úlohu, vyberte možnost <strong>Vytvořit úlohu zálohování</strong>.</li>
+<li>Chcete-li znovu použít existující data zálohy v libovolném cíli, vyberte možnost <strong>Znovu připojit k existující úloze</strong>. Opětovné připojení umožní přímo využít data zálohy z jiné úlohy.</li>
+</ul>
+</li>
+
+<li>Dokončete nastavení podle pokynů průvodce. Výběrem možnosti <strong>Povolit šifrování na straně klienta</strong> můžete data před odesláním zašifrovat a zajistit tak bezpečnost dat v cíli zálohy.</li>
+</ol>
+
+
+<div class="section">
+<h4>Poznámky:</h4>
+<ul>
+<li>Názvy úloh mohou obsahovat 1 až 32 znaků Unicode a nesmí obsahovat následující znaky:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; < = > ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>Maximální délka celé cesty ke složce se zálohou je 2 048 znaků.</li>
+<li>Pokud do sdílené složky v systému souborů EXT3 nahrajete přes rozhraní AFP více než 32 000 souborů, dojde u všech úloh zálohování v rámci sdílené složky k poruše.</li>
+<li>Šifrovanou sdílenou složku lze zálohovat po připojení a obnovit ji lze do šifrované nebo nešifrované složky. Nicméně obnovena bude vždy jako nešifrovaná /////////a při startu se automaticky nepřipojí. Abyste šifrovanou sdílenou složku mohli připojit, bude vyžadováno zadání nebo import šifrovacího klíče.</li>
+<li>Zálohování šifrované složky do jiné šifrované složky není podporováno.</li>
+<li>Používání vzdálených složek jako zdroje nebo cíle zálohování není podporováno.</li>
+<li>Je podporována možnost zálohování konkrétních aplikací. Chcete-li zjistit, zda konkrétní balíček podporuje možnost zálohování, včetně obsahu zálohování a omezení, přečtěte si nápovědu jednotlivých aplikací.</li>
+<li class="enable-eds14">Synology NAS nepodporuje zálohování aplikací bez zapisovatelného externího zařízení EXT3/EXT4.</li>
+<li class="enable-eds14">Synology NAS může zálohovat pouze sdílené složky vytvořené na externích zařízeních EXT3/EXT4.</li>
+</ul>
+</div>
+
+
+<div class="section disable-eds14">
+<h4>Zálohování nastavení seznamu Windows ACL:</h4>
+<p>V závislosti na systémech souborů cílového umístění bude pravděpodobně nutné zálohovat nastavení seznamu Windows ACL souborů uložených na zařízení Synology NAS:</p>
+
+<ul>
+<li>Všechny cíle záloh mohou zálohovat nastavení Windows ACL bez ohledu na souborový systém cíle</li>
+</ul>
+</div>
+
+<h4>Export dat zálohy do veřejných cloudů nebo do vzdáleného zařízení Synology NAS:</h4>
+<p>Při zálohování velkého množství dat do veřejného cloudu se doporučuje exportovat počáteční verzi do externího úložného zařízení (např. do jednotky USB) a předat toto zařízení poskytovateli cloudových služeb. Tam zařízení připojí a odešlou data přímo do cloudu. Tak můžete významně snížit dobu prvního zálohování.</p>
+<ol>
+<li>V levém dolním rohu klikněte na znak <strong>+</strong> a vyberte možnost <strong>Vzdálené zařízení Synology NAS</strong> nebo požadovaného poskytovatele cloudových služeb.</li>
+<li>Vyberte možnost <strong>Exportovat do místní sdílené složky (včetně externího úložného zařízení)</strong> a dokončete nastavení. Po zobrazení výzvy týkající se ochrany dat zálohy vyberte možnost <strong>Povolit šifrování na straně klienta</strong>.</li>
+<li>Přeneste externí úložné zařízení ke vzdálenému zařízení Synology NAS nebo jej předejte poskytovateli cloudových služeb. Importujte exportovaná data z externího úložného zařízení.</li>
+<li>Po potvrzení se vraťte do funkce <strong>Zálohování a obnovení</strong> a klikněte na možnost <strong>Znovu připojit</strong>.</li>
+<li>Podle pokynů průvodce opětovného připojení připojte své zařízení Synology NAS k úložišti. Pokud byla data exportována jako šifrovaná, bude nutné zadat heslo nebo šifrovací klíč.</li>
+</ol>
+
+<div class="section">
+	<h4>Poznámka:</h4>
+	<ul>
+		<li>Po nastavení úlohy již nelze šifrování na straně klienta zakázat a také nelze změnit heslo.</li>
+		<li>Úložiště zálohování lze propojit pouze s jednou úlohou zálohování.</li>
+		<li>Pokud je zdrojová složka zálohování šifrovaná sdílená složka nebo její podsložka, lze zdrojovou složku při vytváření úlohy zálohování připojit nebo odpojit.</li>
+		<li>Cílem záloh nemohou být šifrované sdílené složky.</li>
+		<li>Pokud vyberete možnost <strong>Povolit šifrování na straně klienta</strong>, bude k obnovení dat v této úloze vyžadováno heslo nebo šifrovací klíč. <strong>Při ztrátě hesla nebo šifrovacího klíče dojde k trvalé ztrátě dat</strong>.</li>
+	</ul>
+</div>
+
+<h4>Postup správy úloh zálohování:</h4>
+<p>Na levém panelu vyberte požadovanou úlohu zálohování a kliknutím na následující tlačítka proveďte její správu:</p>
+<ul>
+<li><strong>Zálohovat teď</strong>: Okamžitě zálohovat data vybrané úlohy.</li>
+<li><strong>Průzkumník záloh</strong> (ikona lupy): Zobrazí dostupné verze zálohy a zkopíruje, obnoví nebo stáhne obsažené soubory.</li>
+<li><strong>Seznam verzí</strong>: Zobrazí čas vytvoření a stav všech verzí záloh, odstraní specifické verze záloh nebo uzamkne určité zálohy pro vynucenou rezervaci.</li>
+<li><strong>Upravit</strong>: Změní zdroj, cíl, plán a další nastavení zálohy.</li>
+<li><strong>Odstranit</strong>: Odstraní úlohu zálohování.</li>
+<li><strong>Storno</strong>: Zastaví aktuálně spuštěnou úlohu zálohování.</li>
+</ul>
+
+
+<h4>Postup rotace verzí:</h4>
+<p>Rotace záloh je systém správy verzí. Umožňuje spravovat verze záloh pomocí automatického mazání starých nepotřebných verzí a případně též uvolněním úložného prostoru. Tuto funkci můžete aktivovat v nabídce <strong>Nastavení úloh</strong> nebo ji nastavit při vytváření úlohy zálohování.</p>
+<ol>
+<li>Na levém panelu vyberte požadovanou úlohu zálohování a klikněte na možnost <strong>Upravit</strong> nebo <strong>Nastavení</strong>> <strong>Nastavení úloh</strong>.</li>
+<li>Vyberte možnost <strong>Povolit rotaci záloh</strong> a vyberte požadovaný režim rotace:<ul>
+<li><strong>Od nejstarších verzí</strong>: Když počet dostupných verzí překročí definovaný počet, odstraní nejstarší verze zálohy.</li>
+<li><strong>Smart Recycle</strong>: Uchová verze záloh podle následujících zásad:<ul>
+<li><strong>Hodinové verze za posledních 24 hodin:</strong>: Uchovává nejstarší verzi z každé hodiny.</li>
+<li><strong>Denní verze staré 1 den až 1 měsíc</strong>: Uchovává nejstarší verzi z každého dne.</li>
+<li><strong>Týdenní verze po 1 měsíci</strong>: Uchovává nejstarší verzi z každého týdne.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Zadejte maximální <strong>počet verzí</strong>. Pokud počet verzí překročí toto číslo, provede se rotace nejstarší verze.</li>
+<li>Pokud jste nastavili plán opakovaných záloh v části <strong>Plán</strong>, můžete si zobrazit náhled toho, jak budou verze vašich záloh uchovávány, a nejstarší bod obnovy na časové ose.</li>
+<li>Nastavení uložíte kliknutím na tlačítko <strong>OK</strong>.</li>
+</ol>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Uzamčené verze se nikdy neodstraňují.</li>
+<li>Rotaci verzí lze využít pouze u úloh zálohování s několika verzemi.</li>
+<li>Rotace verzí není podporována v DSM verze 5.1 a starší.</li>
+<li>Rotace se spustí ihned po změně nastavení nebo po dokončení úlohy zálohování.</li>
+<li>Do výpočtu maximálního počtu verzí se nezapočítávají uzamčené verze.</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Poznámky k úlohám zálohování dat</h3>
+<p>Pro každý typ úloh zálohování si přečtěte následující poznámky obsahující důležité podrobnosti o nastavení a tipy k odstraňování potíží.</p>
+
+<h4>Místní úlohy zálohování:</h4>
+<ul>
+<li>Pokud data odstraníte z cílového umístění v průběhu úlohy zálohování, bude během další úlohy spuštěno úplné zálohování.</li>
+<li>Pokud chcete nová externí zařízení použít jako cílové umístění zálohování, bude potřeba je naformátovat. </li>
+<li>Před vytvořením úlohy zálohování se přesvědčte, zda jste již k zařízení Synology NAS řádně připojili externí disky. Chcete-li zkontrolovat stav disků USB/eSATA, přejděte do části <b>Ovládací panel</b> > <b>Externí zařízení</b>. Externí jednotky nelze použít jako cílové umístění zálohování, pokud právě probíhá inicializace a formátování, nebo pokud jsou jednotky poškozené.</li>
+<li>Vzdáleně připojené sdílené složky nelze použít jako zdrojové nebo cílové umístění zálohy.</li>
+<li>Pokud je šifrovaná sdílená složka odpojena, nelze ji použít jako cílové umístění zálohování.</li>
+<li>Pokud je systém souborů cílového umístění definován jako NTFS/FAT, nelze zálohovat miniatury obrázků.</li>
+</ul>
+
+
+
+
+
+<h4>Vzdálené úlohy zálohování rsync:</h4>
+<ul>
+<li>Při vytváření úloh zálohování se servery kompatibilními s nástrojem rsync, které slouží jako cíle síťového zálohování, jsou k dispozici následující režimy: <b>Režim rsync daemon</b>, který je aktivován, pokud z rozevírací nabídky vedle položky <b>Zálohovací modul</b> vyberete modul zálohování (sdílenou složku na serveru kompatibilním s nástrojem rsync); a <b>režim remote shell</b>, který je aktivován pouze tehdy, pokud v části <b>Zálohovací modul</b> zadáte absolutní cestu (začínající znakem „/“).</li>
+<li>Uživatelé systému Linux mohou provádět úlohy zálohování pouze s účty <strong>admin</strong>, <strong>root</strong> a <strong>rsync</strong>.</li>
+<li>Pokud chcete získat přístup k cílovému serveru přes internet pomocí jeho názvu hostitele, musí mít tento název formát FQDN (Fully Qualified Domain Name), například <strong>abc.bcd.com</strong>.</li>
+<li>Při zálohování z jednoho zařízení Synology NAS na druhé budete vyzváni k zadání uživatelského jména a hesla účtu na cílovém zařízení. Zálohování sdílených složek na zařízení Synology NAS můžete provést podle nastavení oprávnění přístupu složek. Lze zobrazit pouze ty sdílené složky, ke kterým má příslušný uživatelský účet přístupová oprávnění. Pokud nelze požadovanou sdílenou složku cílového serveru vyhledat, ověřte přístupová oprávnění.</li>
+<li>Šifrování přenosu je podporováno pouze tehdy, pokud cílový server podporuje šifrované síťové zálohování. Současně nesmí být heslo pro ověřování prázdné.</li>
+<li>Režim remote shell podporuje pouze šifrování přenosu.</li>
+<li>Pokud zálohujete soubory na zařízení Synology NAS prostřednictvím klienta rsync, názvy klientů musí mít kódování UTF-8.</li>
+<li>Pokud zálohujete soubory na zařízení Synology NAS prostřednictvím klienta kompatibilního s nástrojem rsync, můžete tuto úlohu provést pouze pomocí účtu <strong>admin</strong>, <strong>root</strong> a <strong>rsync</strong> zařízení Synology NAS.</li>
+<li>Pokud zálohujete soubory ze svého zařízení Synology NAS na server kompatibilní s nástrojem rsync, musíte zadat správný název a heslo účtu zálohování rsync. Budete také muset vybrat správný modul zálohování s oprávněním pro zápis.</li>
+</ul>
+
+
+
+<h4>Úlohy zálohování Amazon S3:</h4>
+<ul>
+  <li>Při vytváření úloh zálohování pomocí serveru Amazon S3, který slouží jako cíl síťového zálohování, jsou k dispozici nejrůznější možnosti, jako je šifrování přenosu, zálohování na úložiště Amazon S3 RRS (Reduced Redundancy Storage) a další. Pamatujte, že některé z těchto možností, jako je šifrování přenosu, mohou snižovat rychlost úloh zálohování.</li>
+  <li>Soubory zálohy jsou uloženy ve složce <strong>Bucket</strong>, kterou jste vybrali na serveru Amazon S3. Nastavená hodnota klíče Set Key začíná názvem vybraného adresáře a končí úplnou cestou k souboru.</li>
+  <li>Struktura dat Amazon S3 obsahuje pár sady Bucket a klíče KEY bez jakékoli struktury složky. Zálohování prázdné složky není podporováno.</li>
+  <li>Pokud zálohovaný soubor nebyl změněn, nebude znovu zálohován na server Amazon S3 a ve stejné sadě Bucket.</li>
+  <li>Jednotlivé sady Bucket na serveru Amazon S3 musí mít jednoznačný název. Kromě toho by měl název mít tyto parametry:</li>
+<ul>
+  <li>být v rozsahu od 3 do 63 znaků.</li>
+  <li>obsahovat pouze malá písmena, čísla, tečky (.) a pomlčky (-).</li><li>začínat a končit číslicí nebo písmenem a nemůže končit pomlčkou (-), obsahovat dvě za sebou následující tečky nebo obsahovat pomlčky vedle teček (např. názvy „my-.bucket.com“ a „my.-bucket“ jsou neplatné).</li>
+</ul>
+<li>Maximální délka klíče KEY Amazon S3 je 1 024 znaků. Chcete-li zajistit úspěšné zálohování na server Amazon S3, může cesta obsahovat maximálně 1 024 znaků (nepočítá se název cílové složky zadaný při vytváření úlohy).</li>
+<li>Pokud povolíte funkci zálohování Amazon S3 RRS (Reduced Redundancy Storage), budou na úložiště RRS zálohována pouze změněná data. To znamená, že data zálohovaná na standardní úložiště Amazon S3 již na úložiště RRS zálohována nebudou. </li>
+<li>Přesouvání zálohovaných souborů ze serveru Amazon S3 na Amazon Glacier není podporováno. Pokud přesunete soubory ze serveru Amazon S3 na Amazon Glacier pomocí nástroje Konzole pro správu AWS, příslušná úloha zálohování se pravděpodobně nezdaří.</li>
+<li>Zálohování souborů v rámci virtuálních hostovaných sad Bucket pomocí protokolu SSL není podporováno.</li>
+<li>Při přenosu souborů bude soubor rozdělen do několika částí. Omezení velikosti části lze nastavit v rámci možnosti <strong>Velikost části Multipart Upload</strong> v nastavení úlohy. Výchozí hodnota velikosti je 512 MB. Pokud síťové prostředí není stabilní, doporučujeme nastavit nižší číslo.</li>
+
+<li>Maximální počet částí pro odesílání je 10 000. Maximální velikost souboru je <strong>Velikost části Multipart Upload</strong> vynásobená 10 000.</li>
+<li>Názvy souborů nesmí obsahovat žádné znaky, které nemají kódování UTF-8 nebo nejsou řídicími znaky.</li>
+</ul>
+
+
+
+<h4>Úlohy zálohování Microsoft Azure:</h4>
+<ul>
+<li>Při vytváření úloh zálohování pomocí serveru Microsoft Azure jako cíle síťové zálohy jsou k dispozici nejrůznější možnosti (např. šifrování přenosu). Pamatujte, že některé z těchto možností, jako je šifrování přenosu, mohou snižovat rychlost úloh zálohování.</li>
+<li>Soubory zálohy jsou uloženy ve složce <strong>Container</strong>, kterou jste vybrali na serveru Microsoft Azure. Nastavený název objektu Blob začíná názvem vybraného adresáře a končí úplnou cestou k souboru.</li>
+<li>Struktura dat Microsoft Azure obsahuje pár sady zásobníku Container a objektu Blob bez jakékoli struktury složky. Zálohování prázdné složky není podporováno.</li>
+<li>Pokud zálohovaný soubor nebyl změněn, nebude znovu zálohován na server Microsoft Azure ve stejném zásobníku Container.</li>
+<li>Jednotlivé zásobníky Container na serveru Microsoft Azure musí mít jednoznačný název. Kromě toho by měl název mít tyto parametry:</li>
+<ul>
+<li>být v rozsahu od 3 do 63 znaků.</li>
+<li>obsahovat pouze malá písmena, čísla a pomlčky (-).</li>
+<li>začínat a končit číslicí nebo písmenem a nesmí obsahovat dvě pomlčky za sebou.</li>
+</ul>
+<li>Maximální délka klíče názvu objektu Blob Microsoft Azure je 1 024 znaků. Chcete-li zajistit úspěšné zálohování na server Microsoft Azure, může cesta obsahovat maximálně 1 024 znaků (nepočítá se název cílové složky zadaný při vytváření úlohy).</li>
+
+<li>Názvy souborů nesmí obsahovat žádné znaky, které nemají kódování UTF-8 nebo nejsou řídicími znaky.</li>
+<li>Zpráva s upozorněním na neúspěšné ověření může být způsobena nesprávnými ověřovacími údaji, problémem v síti nebo rozdílem mezi časem nastaveným na zařízení Synology NAS a vzdáleném serveru. Chcete-li ověřit nastavení času na zařízení Synology NAS, přejděte do části <strong>Ovládací panel</strong> > <strong>Místní nastavení</strong> > <strong>Čas</strong>, kde provedete synchronizaci času se serverem NTP.</li>
+</ul>
+
+
+
+<h4>Úlohy zálohování hicloud S3:</h4>
+<ul>
+<li>Při vytváření úloh zálohování pomocí serveru hicloud S3 jako cíle síťové zálohy jsou k dispozici nejrůznější možnosti (např. šifrování přenosu). Pamatujte, že některé z těchto možností, jako je šifrování přenosu, mohou snižovat rychlost úloh zálohování.</li>
+<li>Soubory zálohy jsou uloženy ve složce <strong>Bucket</strong>, kterou jste vybrali na serveru hicloud S3. Nastavení klíčové hodnoty Set KEY Value začíná názvem vybraného adresáře a končí úplnou cestou k souboru.</li>
+<li>Struktura dat hicloud S3 obsahuje pár sady Bucket a klíče KEY bez jakékoli struktury složky. Zálohování prázdné složky není podporováno.</li>
+<li>Pokud zálohovaný soubor nebyl změněn, nebude znovu zálohován na server hicloud S3 a ve stejné sadě Bucket.</li>
+<li>Jednotlivé sady Bucket na serveru hicloud S3 musí mít jednoznačný název. Kromě toho by měl název mít tyto parametry:</li>
+<ul>
+<li>být v rozsahu od 3 do 63 znaků.</li>
+<li>obsahovat pouze malá písmena, čísla, tečky (.) a pomlčky (-).</li>
+<li>začínat a končit číslicí nebo písmenem a nemůže končit pomlčkou (-), obsahovat dvě za sebou následující tečky nebo obsahovat pomlčky vedle teček (např. názvy „my-.bucket.com“ a „my.-bucket“ jsou neplatné).</li>
+</ul>
+<li>Maximální délka klíče KEY hicloud S3 je 255 znaků. Chcete-li zajistit úspěšné zálohování na server hicloud S3, může cesta obsahovat maximálně 255 znaků (nepočítá se název cílové složky zadaný při vytváření úlohy).</li>
+<li>Při přenosu souborů bude soubor rozdělen do několika částí. Omezení velikosti části lze nastavit v rámci možnosti <strong>Velikost části Multipart Upload</strong> v nastavení úlohy. Výchozí hodnota velikosti je 512 MB. Pokud síťové prostředí není stabilní, doporučujeme nastavit nižší číslo.</li>
+
+<li>Úložiště Hicloud podporuje maximálně 1 000 částí na přenos. To znamená, že celková velikost souboru nesmí přesáhnout tisícinásobek velikosti části. Pokud je například parametr Velikost části Multipart Upload nastaven na hodnotu 8 MB, nepodaří se odeslat soubor větší než 8 000 MB. </li>
+
+<li>Zálohování šifrovaných sdílených složek není podporováno.</li> 
+
+<li>Názvy souborů nesmí obsahovat žádné znaky, které nemají kódování UTF-8 nebo nejsou řídicími znaky.</li>
+</ul>
+
+
+  
+
+<h4>Úlohy zálohování SFR NAS BACKUP:</h4>
+<ul>
+<li>Při vytváření úloh zálohování pomocí serveru SFR NAS BACKUP jako cíle síťové zálohy jsou k dispozici nejrůznější možnosti, jako je šifrování přenosu a další. Pamatujte, že některé z těchto možností, jako je šifrování přenosu, mohou snižovat rychlost úloh zálohování.</li>
+<li>Soubory zálohy jsou uloženy ve složce <strong>Bucket</strong>, kterou jste vybrali na serveru SFR NAS BACKUP. Nastavená hodnota klíče Set KEY začíná názvem vybraného adresáře a končí úplnou cestou k souboru.</li>
+<li>Struktura dat SFR NAS BACKUP obsahuje pár sady Bucket a klíče KEY bez jakékoli struktury složky. Zálohování prázdné složky není podporováno.</li>
+<li>Pokud zálohovaný soubor nebyl změněn, nebude znovu zálohován na server SFR NAS BACKUP ve stejné sadě Bucket.</li>
+<li>Jednotlivé sady Bucket na serveru SFR NAS BACKUP musí mít jednoznačný název. Kromě toho by měl název mít tyto parametry:</li>
+<ul>
+<li>být v rozsahu od 3 do 63 znaků.</li>
+<li>obsahovat pouze malá písmena, čísla, tečky (.) a pomlčky (-).</li>
+<li>začínat a končit číslicí nebo písmenem a nemůže končit pomlčkou (-), obsahovat dvě za sebou následující tečky nebo obsahovat pomlčky vedle teček (např. názvy „my-.bucket.com“ a „my.-bucket“ jsou neplatné).</li>
+</ul>
+<li>Maximální délka klíče SFR NAS BACKUP KEY je 1 024 znaků. Chcete-li zajistit úspěšné zálohování na server SFR NAS BACKUP, může cesta obsahovat maximálně 1 024 znaků (nepočítá se název cílové složky zadaný při vytváření úlohy).</li>
+<li>Při přenosu souborů bude soubor rozdělen do několika částí. Omezení velikosti části lze nastavit v rámci možnosti <strong>Velikost části Multipart Upload</strong> v nastavení úlohy. Výchozí hodnota velikosti je 64MB. Pokud síťové prostředí není stabilní, doporučujeme nastavit nižší číslo.</li>
+
+<li>Názvy souborů nesmí obsahovat žádné znaky, které nemají kódování UTF-8 nebo nejsou řídicími znaky.</li> 
+
+</ul>
+
+<h4>Další úlohy zálohování kompatibilní se systémem S3:</h4>
+<ul>
+<li>Chcete-li používat jiné cloudy kompatibilní se systémem S3, zadejte po zobrazení výzvy do pole <strong>Server S3</strong> IP adresu nebo doménu požadovaného cloudu kompatibilního se systémem S3.</li>
+<li>Pokud se vyskytne nějaký problém s používáním, projděte si příslušnou dokumentaci nebo požádejte o pomoc poskytovatele cloudové služby kompatibilní se systémem S3.</li>
+</ul>
+
+<h3>Záloha LUN*</h3>
+
+<p>Pomocí funkce <b>Místní záloha LUN</b> můžete zálohovat jednotky iSCSI LUN ze svého zařízení Synology NAS do místních sdílených složek. Pomocí funkce <b>Síťová záloha LUN (server Synology)</b> můžete také zálohovat do jiného zařízení Synology NAS.</p>
+
+<h4>Zálohování jednotky iSCSI LUN:</h4>
+<ol>
+<li>V levém dolním rohu klikněte na znak <strong>+</strong> a vyberte možnost <strong>Úloha zálohování LUN</strong>.</li>
+<li>Pokud budete vyzvání k zadání typu cílové jednotky, vyberte jednu z následujících akcí:</li>
+<ul>
+<li><b>Místní záloha LUN</b>: Pomocí této možnosti provedete zálohování jednotky LUN ze svého zařízení Synology NAS do místních sdílených složek nebo externího disku, který je připojen k portu USB nebo eSATA zařízení Synology NAS.</li>
+<li><b>Síťová záloha LUN (server Synology)</b>: Pomocí této možnosti provedete zálohování jednotky LUN ze zařízení Synology NAS do jiného zařízení Synology NAS.</li>
+</ul>
+<li>Nastavte podle pokynů cíl zálohování, zdroj LUN a plán zálohování.</li>
+<li>Nastavení dokončete pomocí průvodce.</li>
+</ol>
+<p>Po vytvoření zálohy provede zařízení Synology NAS úlohu zálohování podle plánu a uloží zálohu jednotky LUN do cíle záloh. Záloha jednotky LUN se používá pouze pro zálohování. V části <a href="restore.html">Obnovení zálohy LUN</a> naleznete více informací o přístupu k záloze LUN.</p>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Do cíle budou jako obrazy souborů zálohovány jak běžné souborové jednotky LUN, tak jednotky LUN na úrovni bloku. V případě obnovení se všechny jednotky LUN na úrovni bloku změní na souborové jednotky LUN.</li>
+<li>Každá úloha zálohování může obsahovat pouze jednu jednotku LUN jako zdroj zálohování.</li>
+<li>Jednotky LUN nelze zálohovat do externího disku s formátem FAT, FAT32, HFS, HFS Plus nebo NTFS.</li>
+<li>Před zahájením síťové zálohy LUN se přihlaste do cílového zařízení Synology NAS a ujistěte se, že služba síťové zálohy je v části <b>Ovládací panel</b> > <b>Služba zálohování</b> povolena.</li>
+<li>Pokud se zařízení Synology NAS připojuje k síti pomocí směrovače, ujistěte se, že před zahájením síťové zálohy LUN provedete nastavení pravidel pro předávání portů pro službu iSCSI (port TCP 3260).</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>O plnohodnotném a přírůstkovém zálohování:</h4>
+<p>Synology NAS provede nejdříve plnohodnotné zálohování vybraných jednotek LUN a poté provede přírůstkové zálohování. Pokud však dojde ke změně názvu sdílené složky nebo adresáře, provede zařízení Synology NAS úplnou zálohu stejné úlohy.</p>
+</div>
+
+<p>____<br /> * K dispozici pouze u některých modelů.</p>
+
+</body></html>

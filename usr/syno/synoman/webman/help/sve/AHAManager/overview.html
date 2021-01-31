@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Översikt</h2>
+	<p>Denna sida visar grundläggande information om high-availability-klustret och medlemsservrar. Därutöver tillhandahåller sidan verktyg för att utföra underhåll på high-availability-klustret och medlemsservrar.</p>
+
+<h3>Status för High-Availability-klustret</h3>
+  <p>Detta fält visar status för ditt high-availability-kluster och meddelar dig om eventuella fel. Följande är en tabell över möjliga tillstånd som visas i detta fält:</p>
+    <table>
+     <tr>
+      <th width="12%">Status</th>
+      <th width="88%">Beskrivning</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Felfri</strong></td>
+      <td>Tillståndet är i allmänhet bra på ditt high-availability-kluster.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Laddar</strong></td>
+	  <td>Systemet laddar status för kluster. <strong>Övergång</strong> kan inte utföras förrän statushämtningen är slutförd. Vänligen se <a href="switchover_fail.html">Övergång</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Konfigurerar</strong></td>
+	  <td>Systemet konfigureras. <b>Övergång</b> kan inte utföras förrän konfigurationen är slutförd.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Varning</strong></td>
+      <td>Statusen för HA-kluster är onormal, men tjänsterna fungerar fortfarande. <strong>Övergång</strong> kan inte utföras i den här situationen.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fara</strong></td>
+	  <td>Funktionsstörning på både den aktiva och den passiva servern eller kraschad lagring. High-availability-klustret kan inte fungera normalt. Vänligen kontrollera status för alla lagringsutrymmen (dvs. RAID Groups, diskgrupper, volymer och iSCSI LUNs). <b>Övergång</b> kan inte utföras i den här situationen.</td>
+     </tr>
+    </table>
+<h3>Varningsmeddelanden</h3>
+   <p>Följande tabell visar varningsmeddelanden som kan visas när ett fel inträffar på systemet. När mer än ett varningsmeddelande visas kan du navigera mellan dem med knapparna framåt/bakåt. </p>
+    <table>
+     <tr>
+      <th width="21%">Varning/Fel</th>
+      <th width="79%">Beskrivning</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Det finns ingen passiv server i detta high-availability-kluster</strong></td>
+	  <td>Informationen för den passiva servern är inte tillgänglig. Vänligen tillse att den passiva servern är korrekt ansluten. I detta fall är inte övergång tillgängligt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Kunde inte upptäcka den passiva servern</strong></td>
+      <td>Detta fel kan uppstå när den passiva servern är offline eller när den aktiva och den passiva servern inte kan kommunicera via Heartbeat-anslutningen. I detta fall är inte övergång tillgängligt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Kunde inte utföra redundans</strong></td>
+      <td>En redundans har utlösts på den aktiva servern men misslyckats. I det här fallet kommer den aktiva servern inte att försöka med ytterligare redundans. För att eliminera det här felet, följ stegen här nedanför:
+		<ol>
+		  <li>Försök att reda ut problemen i high-availability-klustret.</li>
+		  <li>Starta om den passiva servern.</li>
+		  <li>Utför en övergång genom att klicka på <strong>Hantera</strong> > <strong>Övergång</strong>.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fel på övervakat mål</strong></td>
+      <td>Ett fel inträffade i en eller flera övervakade mål, inklusive systemstatus, tjänster eller nätverksgränssnitt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Fel har inträffat i anslutningen mellan utökningsenheterna och den aktiva/passiva servern</strong></td>
+      <td>Utökningsenheterna är inte korrekt anslutna till den aktiva eller passiva servern. Vänligen säkerställ att deras anslutning till den aktiva servern är korrekt och konfigurera samma anslutning till den passiva servern. I detta fall är inte övergång tillgängligt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>En volym har blivit trasig</strong></td>
+      <td>Ett lagringsutrymme (dvs. RAID Group, diskgrupp, volym och iSCSI LUN) är trasigt. Vänligen kontrollera sidan <b>Lagringsstatus</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>En volym har kraschat</strong></td>
+      <td>Ett lagringsutrymme (dvs. RAID Group, diskgrupp, volym och iSCSI LUN) har kraschat. Vänligen kontrollera sidan <b>Lagringsstatus</b>. Redundans kommer att utföras automatisk om den passiva servern kan känna igen enheterna som den aktiva servern inte kunde få åtkomst till. Funktionen övergång kommer i annat fall inte att vara tillgänglig.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Förlorad Heartbeat-anslutning</strong></td>
+      <td>Det här felet kan inträffa beroende på en funktionsstörning i Heartbeat-anslutning. I detta fall är inte övergång tillgängligt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Funktionsstörning på hårdvara</strong></td>
+      <td>Det här felet kan inträffa beroende på hårdvara (dvs. strömenhet eller systemfläkt) på den aktiva servern eller den passiva servern.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Olika fysisk RAM-storlek</strong></td>
+      <td>Det här felet kan inträffa beroende på icke överensstämmande storlek på fysiskt RAM-minne på den aktiva och den passiva servern. I detta fall är inte övergång tillgängligt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Ingen statiskt IP har tilldelats till detta high-availability-kluster</strong></td>
+      <td>Det här felet kan inträffa beroende på avsaknad av statisk IP för high-availability-klustret. I detta fall är inte övergång tillgängligt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Det finns inte någon statisk IP på det övervakade gränssnittet</strong></td>
+      <td>Det här felet kan inträffa beroende på avsaknad av statisk IP för det övervakade gränssnittet. I detta fall är inte övergång tillgängligt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Återställer passiv server</strong></td>
+      <td>Återställning av passiv server pågår. I detta fall är inte övergång tillgängligt.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Uppgraderar passiv server</strong></td>
+      <td>Systemet uppgraderas på den passiva servern. I detta fall är inte övergång tillgängligt.</td>
+     </tr>
+
+    </table>
+
+<h3>Knappen &quot;Hantera&quot; för high-availability-klustret</h3>
+
+<p>Knappen finns nedanför informationen för high-availability-klustret. Den inkluderar följande åtgärder:</p>
+<ul>
+<li><b>Övergång:</b> Initierar en övergång från den aktiva servern till den passiva servern. Under denna process slutar den aktiva servern att tillhandahålla tjänster och blir den nya passiva servern. Då blir den gamla passiva servern den nya aktiva servern och börjar att tillhandahålla alla tjänster för high-availability-klustret. Detta alternativ är inte tillgängligt när det är status <b>fel</b> på den passiva servern eller om den passiva servern inte är vald.</li>
+<li><b>Uppdatera DSM:</b> Öppnar sidan <strong>DSM-uppdatering</strong> i <strong>Kontrollpanel</strong>. Härifrån kan båda servrarna uppdateras.</li>
+<li><b>Stäng av high-availability-kluster:</b> Stänger av både den aktiva och den passiva servern.</li>
+<li><b>Stäng av aktiv server:</b> Stänger av den aktiva servern. Tjänsterna kommer att föras över till den passiva servern om den har full hälsa.</li>
+<li><b>Stäng av passiv server:</b> Stänger av den passiva servern.</li>
+<li><b>Starta om aktiv server:</b> Startar om den aktiva servern. Tjänsterna kommer att föras över till den passiva servern om den har full hälsa.</li>
+<li><b>Starta om passiv server:</b> Startar om den passiva servern.</li>
+<li><b>Återställ den okända servern:</b> Återställ den passiva servern om den passiva servern byts ut eller fortfarande inte känns igen.</li>
+<li><b>Systemljud av:</b> Stoppar pipljudet på den aktiva servern och den passiva servern när ett fel inträffar. Systemet kommer fortfarande pipa på den aktiva servern eller den passiva servern om ett annat fel inträffar senare.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Om du stänger av den passiva servern eller om det inte finns någon passiv server kan tjänster inte flyttas över till den aktiva servern om fel uppstår.</li>
+</ul>
+</div>
+
+<h3>Diagram och information för servern</h3>
+ <p>Serverdiagrammet visar status för servern. Platsen motsvarar den sidan av moduler till vilken servern är ansluten. För musen över den för att få mer detaljer.</p>
+<p>Den inkluderar följande situationer:</p>
+<ul>
+  <li><b>Det finns ingen passiv server i detta high-availability-kluster:</b> Visar en tom ram.</li>
+  <li><b>Kunde inte upptäcka den passiva servern:</b> Visar en suddig serverbild.</li>
+  <li><b>Utropstecken:</b> Det kan inträffa funktionsstörning på hårdvaran eller så kan serverinformationen inte vara tillgänglig beroende på funktionsstörning på Heartbeat-anslutningen.</li>
+</ul>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Om den visar ”okänd” på den andra servern betyder det att servern inte hör till high-availability-klustret. Klicka på <b>Hantera</b> och välj <b>Återställ den okända servern</b> för att åtgärda det här problemet.</li>
+</ul>
+</div>
+
+<p>Serverinformation inkluderar följande poster. Det visar <b>Ej tillgänglig</b> om ingen passiv server upptäcks.</p>
+
+  <ul>
+   <li><b>Serienummer:</b> Serienummer för Synology-server.</li>
+   <li><b>Fläktstatus:</b> Status för serverns kylfläktar. Om det är någon av fläktarna har en funktionsstörning visas en varning. Om så sker, kontakta din lokala återförsäljare för hjälp.</li>
+   <li><b>Temperatur:</b> Temperatur för Synology-server. </li>
+   <li><b>Energistatus:</b> Indikerar om all strömförsörjning till servern fungerar normalt. Om servern är utrustad med reservströmkälla, visas en varning om någon av dem uppvisar en funktionsstörning.</li>
+    <li><b>Fysiskt minne:</b> Fysisk RAM-storlek för Synology-servern. Övergång kan inte utföras om de två servrarna inte har samma fysiska RAM-storlek.</li>
+  </ul>
+
+<h3>Anslutningsstatus mellan servrar</h3>
+<p>Det här avsnittet innehåller bilder mellan den aktiva och den passiva servern. Den inkluderar följande situationer:</p>
+<ul>
+  <li><b>Ingen bild:</b> Indikerar att ingen passiv server upptäckts.</li>
+  <li><b>Stillbild:</b> Indikerar en icke korrekt Heartbeat-anslutning.</li>
+  <li><b>Utropstecken:</b> Indikerar onormal kommunikation mellan de två servrarna eller felaktig Heartbeat-anslutning.</li>
+</ul>
+
+<h3>Status för nätverksgränssnitt</h3>
+<p>Det här avsnittet innehåller bilder mellan servrar och datanätverk. Den inkluderar följande situationer:</p>
+<ul>
+  <li><b>Inget utropstecken:</b> Indikerar att inget nätverksfel upptäckts.</li>
+  <li><b>Utropstecken:</b> Indikerar funktionsstörning som inträffade i det övervakade nätverksgränssnittet.</li>
+</ul>
+
+<h3> Diagram och information för delad lagring</h3>
+ <p>Diagram för delad lagring visar status för anslutningsbarhet mellan servrarna och den delade lagringen. För musen över den för att få grundläggande detaljer.</p>
+<p>Den inkluderar följande situationer:</p>
+<ul>
+  <li><b>Inget utropstecken:</b> Indikerar att inget fel upptäckts.</li>
+  <li><b>Utropstecken:</b> Indikerar onormal status för anslutningsbarheten för utökningsenheterna.</li>
+</ul>
+
+<p>Grundläggande information för delad lagring innehåller följande poster. Gå till <b>Lagringshanterare</b> för mer information.</p>
+
+  <ul>
+   <li><b>Fläktstatus:</b> Visar status för fläktarna i på din utökningsenhet. Om det är fel på en fläkt visas en varning. Om så sker, kontakta din lokala återförsäljare för hjälp.</li>
+   <li><b>Energistatus:</b> Indikerar om all strömförsörjning till servern fungerar normalt. En varning visas om det inträffar en funktionsstörning på någon av dem.</li>
+   </ul>
+ </body>
+</html>

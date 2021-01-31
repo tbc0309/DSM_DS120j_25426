@@ -1,0 +1,129 @@
+#!/usr/bin/python2
+
+from subprocess import check_output
+import json
+import sys
+import os.path
+
+COLLECTOR_VERSION_KEY = "collector_version"
+COLLECTOR_VERSION = 1
+
+def execWebAPI(api, version, method, **kwargs):
+    cmd = ["/usr/syno/bin/synowebapi", "--exec"]
+    cmd.append("api=" + api)
+    cmd.append("version=" + str(version))
+    cmd.append("method=" + method)
+    for key, val in kwargs.items():
+        cmd.append('{0}={1}'.format(key, json.dumps(val)))
+    try:
+        with open('/dev/null', 'w') as null_fp:
+            raw_resp = check_output(cmd, stderr=null_fp)
+        return json.loads(raw_resp)
+    except Exception as e:
+        return False
+
+def keystore_explore():
+    store_list = []
+
+    j_data = execWebAPI('SYNO.Core.Share.KeyManager.Store', 1, 'explore')
+    if not j_data:
+        return False
+
+    try:
+        store_list = j_data['data']['stores']
+    except Exception as e:
+        pass
+
+    return (0 != len(store_list))
+
+def keystore_get():
+    output = {
+        "enable": False,
+        "reject_after_boot": False
+    }
+
+    # function enable check
+    if keystore_explore():
+        output['enable'] = True
+    else:
+        return output
+
+    j_data = execWebAPI('SYNO.Core.Share.KeyManager.Store', 1, 'get')
+    if not j_data:
+        return output
+
+    try:
+        output['reject_after_boot'] = j_data['data']['eject_after_boot']
+    except Exception as e:
+        pass
+
+    return output
+
+def keys_get():
+    output = {
+        "total_count": 0,
+        "cypher_passphrase": 0,
+        "cypher_machinekey": 0,
+        "mount_on_boot": 0
+    }
+
+    j_data = execWebAPI('SYNO.Core.Share.KeyManager.Key', 1, 'list')
+    if not j_data:
+        return output
+
+    try:
+        keys = j_data['data']['keys']
+
+        for k in keys:
+            if k['encrypt_type'] == 1:
+                output['cypher_machinekey'] += 1
+            else:
+                output['cypher_passphrase'] += 1
+
+            if k['auto_mount']:
+                output['mount_on_boot'] += 1
+
+            output['total_count'] += 1
+    except Exception as e:
+        pass
+
+    return output
+
+def main():
+    ''' Result output
+    {
+        "keystore":
+        {
+            "enable": Boolean,
+            "reject_after_boot": Boolean
+        },
+        "keys":
+        {
+            "total_count": Int,
+            "cypher_passphrase": Int,
+            "cypher_machinekey": Int,
+            "mount_on_boot": Int
+        }
+        COLLECTOR_VERSION_KEY: COLLECTOR_VERSION
+    }
+    '''
+    result = {
+        COLLECTOR_VERSION_KEY: COLLECTOR_VERSION,
+        'keystore': {
+            "enable": False,
+            "reject_after_boot": False
+        },
+        'keys': {
+            "total_count": 0,
+            "cypher_passphrase": 0,
+            "cypher_machinekey": 0,
+            "mount_on_boot": 0
+        }
+    }
+
+    result['keystore'] = keystore_get()
+    result['keys'] = keys_get()
+    sys.stdout.write(json.dumps(result))
+
+if __name__ == '__main__':
+    main()

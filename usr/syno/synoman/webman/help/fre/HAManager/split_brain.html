@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Dédoublement du cerveau</h2>
+
+<p>Quand un cluster high-availability fonctionne normalement, un seul des serveurs membres devrait assumer le rôle de serveur actif. Dans ce cas, le serveur passif détecte la présence du serveur actif via la connexion HeartBeat et via la connexion des données.</p>
+
+<p>Si toutes les connexions HeartBeat et les connexions de données sont perdues, les deux serveurs peuvent tenter d'assumer le rôle de serveur actif. Cette situation est appelée erreur de « dédoublement du cerveau ». Dans ce cas, les connexions aux adresses IP du cluster high-availability sont redirigées vers l'un des deux serveurs et les données incohérentes peuvent être mises à jour ou écrites sur les deux serveurs.</p>
+        
+<p>Lorsque l'une des connexions Heartbeat ou de données est incohérente, le système détecte les erreurs de dédoublement de cerveau entre les deux serveurs et entre en mode sécurisé high-availability.</p> 
+
+       
+<h4>Dans le cas où une erreur de dédoublement du cerveau se produit :</h4>
+	<ol>
+    <li>Les services sur les deux serveurs et les adresses IP du cluster high-availability sont indisponibles tant que l'erreur de dédoublement de cerveau n'est pas résolue.</li>
+	<li>Une fois que les deux serveurs ont accédé au mode sécurisé high-availability, un nouvel onglet nommé <strong>Dédoublement du cerveau</strong> s'affiche dans le volet de gauche. Les informations suivantes se sont répertoriées dans cet onglet : la différence entre les fichiers dans les dossiers partagés sur les deux serveurs, l'heure à laquelle les serveurs sont devenus des serveurs actifs ainsi que les dernières informations de la connexion iSCSI Target. Tous les autres onglets demeurent en lecture seule.</li>
+<li>En mode sécurisé high-availability, File Station est en mode de lecture seule et vous pouvez télécharger ou afficher les fichiers.</li>
+       <li>Dans l'onglet <b>Aperçu</b>, vous n'êtes autorisé qu'à résoudre les erreurs de dédoublement de cerveau ou à arrêter le serveur de connexions actuel. Pour résoudre les erreurs de dédoublement de cerveau, procédez de l'une des manières suivantes :
+       <ul>
+       <li>Choisissez un serveur comme serveur actif du cluster high-availability et l'autre comme serveur passif. Lorsque les deux serveurs sont redémarrés, toutes les données et les paramètres différents sur le serveur actif sont synchronisées sur le serveur passif. Veuillez noter que les données mises à jour sur le serveur passif lors de l'erreur de division de cerveau sont perdues.</li>
+       <li>Choisissez un serveur comme serveur actif du cluster high-availability et déliez l'autre. Lorsque les deux serveurs sont redémarrés, serveur actif demeure dans le cluster high-availability et le serveur délié réserve ses données et revient à l'état <b>Autonome</b>. Veuillez noter qu'uune réplication complète sera nécessaire pour lier un nouveau serveur passif par la suite.</li>
+       <li>Déliez les deux serveurs, réservez leurs données individuelles et laissez-les revenir à l'état <b>Autonome</b>.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Remarques :</h4>
+    <ul>
+    <li>Plus il y a de fichiers dans vos dossiers partagés, plus il faut de temps pour dresser la liste des différences.</li>
+    <li>Avant de choisir un serveur comme serveur actif/passif, vérifiez que les deux serveurs sont sous tension.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Power</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+
+<h2>UPS</h2>
+
+<p>An UPS (Uninterruptible Power Supply) is a backup power device that allows the Synology NAS to continue operating for a short time if power failure occurs. This function located at <strong>Control Panel</strong> > <strong>Hardware & Power</strong> > <strong>UPS</strong> helps prevent data loss by giving the Synology NAS enough time to save data and unmount volumes before losing power and shutting down (halting for EDS14).</p>
+
+<div class="section">
+<h4>Safe Mode</h4>
+<p>When the Synology NAS enters Safe Mode, it stops all services and unmounts volumes in order to prevent data loss and shut down (halt for EDS14) safely when the UPS device runs out of power. By default, the system enters Safe Mode when the UPS device starts running low on power. You can also specify the amount of time before the Synology NAS enters Safe Mode when power failure occurs. However, if the UPS device reaches low battery before the specified time, the system enters Safe Mode immediately.</p>
+
+<p>In situations where the Synology NAS shuts down during Safe Mode, it will automatically turn on when power is restored if you have enabled the <strong>Restart automatically after a power failure</strong> option (located at <strong>Control Panel</strong> > <strong>Hardware & Power</strong> > <strong>General</strong>).</p>
+</div>
+
+<h3>Local UPS Support</h3>
+<p>For details regarding hardware installation, please consult the user manual of your UPS device. Once installation is complete, and the Synology NAS has been plugged into the UPS device, you can follow the steps below to enable UPS support.</p>
+<h4>To enable local UPS support:</h4>
+<ol>
+<li>Connect the UPS device to a USB port of the Synology NAS.</li>
+<li>On the <b>UPS</b> tab, tick the <b>Enable UPS support</b> checkbox.</li>
+<li>Select when the Synology NAS should enter Safe Mode after power failure occurs.</li>
+<li>Choose whether or not to send a shutdown signal to the UPS device when the system enters Safe Mode. Most UPS devices can automatically turn on when power is restored.
+<ul><li>If this option is enabled, the Synology NAS will be shut down immediately due to the loss of power source.</li>
+<li>If this option is enabled, please make sure to tick <strong>Restart automatically after a power failure</strong> in <strong>Control Panel</strong> > <strong>Hardware & Power</strong> > <strong>General</strong> to ensure that the Synology NAS will automatically restart once the power is restored.</li></ul></li>
+<li>Click <b>Apply</b>.</li>
+</ol>
+
+<h3>SNMP UPS Support</h3>
+
+<p>A SNMP UPS is a backup power device that connects to your Synology NAS through SNMP. For information regarding hardware installation, please consult the user manual of your SNMP UPS device. Once the Synology NAS has been plugged into the device and connected to the same network, you can follow the steps below to enable UPS support.</p>
+
+<h4>To enable SNMP UPS support:</h4>
+<ol>
+<li>On the <strong>UPS</strong> tab, tick the <b>Enable UPS support</b> checkbox.</li>
+<li>Select <strong>SNMP UPS</strong> from the <strong>UPS type</strong> drop-down menu.</li>
+<li>Tick <strong>Time before Synology NAS enters Safe Mode</strong> to customize when the Synology NAS should enter Safe Mode after power failure occurs. Enter a numeric value and select <b>second(s)</b>, <b>minute(s)</b>, or <b>hour(s)</b> from the drop-down menu. If not ticked, <b>Until low battery</b> will apply, which means the Synology NAS will automatically enter Safe Mode when the UPS is low on battery.</li>
+	<p><span class="note_head">Note:</span> Regardless of which option is selected, Synology NAS will automatically enter Safe Mode when it is low on power.</p>
+<li>In the <strong>SNMP UPS IP address</strong> field, enter the IP address of the SNMP UPS device.</li>
+<li>Select the <strong>SNMP MIB</strong> from the drop-down menu.</li>
+<li>Select the <strong>SNMP version</strong> from the drop-down menu.</li>
+<li>Enter the community string for the SNMP UPS device into the <strong>SNMP community</strong> field.</li>
+<li>Tick <strong>Enable network UPS server</strong> if this Synology NAS is connected through SNMP and will act as a network UPS server. Click <strong>Permitted Synology NAS Devices</strong> to enter the IP addresses of all Synology NAS devices you will allow to connect to this UPS.</li>
+<p><span class="note_head">Note: </span>The <b>Permitted Synology NAS Devices</b> function is not available on SA3200D.</p>
+<li>Click <b>Apply</b>.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>It is strongly recommended to use <b>SNMP UPS</b> for Synology High Availability (SHA) deployments.</li>
+<li>Synology NAS supports SNMPv1 and SNMPv2c UPS devices.</li>
+</ul>
+</div>
+
+<h3>Synology UPS server</h3>
+
+<p>If there are multiple Synology products using a UPS device with one Synology product connected to the UPS device through a USB port or network, only the Synology NAS connected via USB or network can obtain information regarding the status of the UPS device. In this case, this Synology NAS will act as a "network UPS server". The network UPS server then receives UPS information and relays it to the client Synology NAS.</p>
+
+<h4>To enable Synology UPS server:</h4>
+<ol>
+<li>Log into the Synology NAS that is connected to the UPS device (via USB or network).</li>
+<li>On the <strong>UPS</strong> tab, tick the <strong>Enable network UPS server</strong> checkbox to allow the Synology NAS to relay UPS information to the client Synology NAS.</li>
+<li>Click the <strong>Permitted Synology NAS Devices</strong> button.</li>
+<li>On the window that appears, enter the IP addresses of the client Synology NAS. Click <strong>OK</strong>.</li>
+<li>Click <strong>Apply</strong> to save settings.</li>
+</ol>
+
+<p>Now the network UPS server can obtain UPS information and relay it to the client Synology NAS that is using the UPS device. Please see the instructions below to enable UPS support on the client Synology NAS.</p></strike>
+
+<h4>To enable UPS support on the client Synology NAS:</h4>
+<ol>
+<li>Log into the client Synology NAS that is using the UPS device, but not connected via USB or network.</li>
+<li>On the <strong>UPS</strong> tab, tick the <strong>Enable UPS support</strong> checkbox.</li>
+<li>Select <strong>Synology UPS server</strong> from the <strong>UPS type</strong> drop-down menu.</li>
+<li>Tick <strong>Time before Synology NAS enters Safe Mode</strong> to customize when the Synology NAS should enter Safe Mode after power failure occurs. Enter a numeric value and select <strong>second(s)</strong>, <strong>minute(s)</strong>, or <strong>hour(s)</strong> from the drop-down menu. If not ticked, <b>Same as server</b> will apply, which means the Synology NAS will enter Safe Mode when the server is shut down.</li>
+	<p><span class="note_head">Note:</span> Regardless of which option is selected, Synology NAS will automatically enter Safe Mode when it is low on power.</p>
+<li>Enter the IP address of the network UPS server in the <strong>Network UPS server IP</strong> field.</li>
+<li>Click <b>Apply</b> to save settings.</li>
+</ol>
+
+<div class="section">
+<h4>Network UPS Requirements:</h4>
+<ul>
+<li>To relay UPS device information, all Synology NAS should be connected to the same network.</li>
+<li>The network device (e.g. switch or hub) to which each Synology NAS is connected should be plugged into the same UPS device. Otherwise the Synology NASs will not be able to relay UPS device information when power failure occurs.</li>
+</ul>
+</div>
+
+
+
+
+
+
+</body>
+</html>

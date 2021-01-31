@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Sikkerhetskopitjenester - Synology DSM Hjelp</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Allow other users to back up data from their Synology product or rsync-compatible clients to your Synology product.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Sikkerhetskopitjenester</h2>
+<p>Alternativer i <strong>Sikkerhetskopiering & kopiering</strong> > <strong>Sikkerhetskopitjenester</strong> lar andre brukere sikkerhetskopiere data fra deres Synology NAS-enheter eller rsync-kompatible klienter til din Synology NAS.</p>
+<h3>Aktivere tjeneste for nettverkssikkerhetskopiering</h3>
+<p>Hvis du vil sikkerhetskopiere data fra en Synology NAS eller rsync-kompatibel server til en annen Synology NAS, eller la en annen Synology NAS-enhet utføre fjernsikkerhetskopioppgaver og lagre sikkerhetskopidata på et volum på din Synology NAS-enhet, må du aktivere tjenesten for nettverkssikkerhetskopiering på målserveren før du oppretter en nettverkssikkerhetskopioppgave. Dette kan du gjøre ved å gå til <b>Kontrollpanel</b> > <b>Rettigheter</b> og tilordne <b>Sikkerhetskopimål for nettverk</b>-rettigheten til en bruker.Deretter kan du opprette en DSM-bruker med egnede rettigheter for program og delte mapper på din Synology NAS. Når oppsettet er fullført, kan andre bruke brukerens rettigheter til å utføre nettverkssikkerhetskopiering fra sin Synology NAS til de delte målmappene på din Synology NAS.</p>
+
+<h4>Slik aktiverer du sikkerhetskopitjeneste med én versjon:</h4>
+<ol>
+<li>Gå til <b>Sikkerhetskopitjenester</b> > <b>Sikkerhetskopimål for nettverk</b> og merk av for <b>Aktiver sikkerhetskopitjenesten for nettverket</b>.</li>
+<li>Klikk på <b>Bruk</b>.</li>
+<li>Gå til <b>Kontrollpanel</b> > <b>Delt mappe</b>, velg en delt mappe, klikk på <b>Rediger</b> > <b>Tillatelser</b>, og gi deretter <b>Lese/skrive</b>-rettigheten til en bruker. Gjenta dette trinnet hvis du vil inkludere flere delte mapper som kan brukes som sikkerhetskopieringsmål.</li>
+</ol>
+<h4>Slik aktiverer du sikkerhetskopitjeneste med flere versjoner:</h4>
+<ol>
+  <li>Gå til <strong>Sikkerhetskopitjenester</strong> > <b>Volummål for nettverkssikkerhetskopi</b> og merk av for <strong>Aktiver volummål for nettverkssikkerhetskopi</strong>.</li>
+  <li>Gå til <b>Sikkerhetskopimål</b> og velg et sikkerhetskopimål tilknyttet et lokalt volum.</li>
+<li>Klikk på <b>Rediger</b> > <b>Liste over tillatte</b> >  <strong>Legg til</strong> for å legge til brukeren eller gruppen i listen.</li>
+</ol>
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Hvis andre ønsker å utføre nettverkssikkerhetskopiering fra en klient som ikke er Synology NAS, kan de bare gjøre det med rettighetene til <b>admin</b> eller <b>rsync</b> på din Synology NAS. Hvis du ikke vil dele dine <b>admin</b>-rettigheter med andre, kan du gå til <b>Kontrollpanel</b> > <strong>Bruker</strong> for å opprette en bruker med navnet <b>rsync</b>, endre rettighetene og dele brukerrettighetene med andre.</li><li>Hvis du utfører nettverkssikkerhetskopi fra en Synology NAS som kjører en versjon av DSM eldre enn 3.0, eller en klient som ikke er Synology NAS, og du ønsker å beholde kildedataenes <b>eier</b>- og <b>gruppe</b>-informasjon, må du legge til <b>sikkerhetskopikontoen</b> i gruppen <b>administrators</b> og sikkerhetskopiere dataene til den delte mappen <b>NetBackup</b>.</li>
+</ul>
+</div>
+<h3>Aktivere tjeneste for nettverkssikkerhetskopiering med tilpasset rsync-konfigurasjon</h3>
+<p> Du kan aktivere nettverkssikkerhetskopieringstjenesten med tilpasset rsync-konfigurasjon, og konfigurere brukerrettigheter og sikkerhetskopimål på din Synology NAS. Når oppsettet er fullført, kan andre utføre rsync-sikkerhetskopiering fra sine Synology NAS-enheter eller rsync-kompatible klienter til delte målmapper (eller "sikkerhetskopimoduler") på din Synology NAS.</p>
+<h4>Slik aktiverer du tjeneste for nettverkssikkerhetskopiering med tilpasset rsync-konfigurasjon:</h4>
+<ol>
+<li>Gå til <b>Sikkerhetskopitjenester</b> > <b>Sikkerhetskopimål for nettverk</b>.</li>
+<li>Merk av for <b>Aktiver sikkerhetskopitjenesten for nettverket</b>.</li>
+<li>Merk av for <b>Bruk tilpasset rsync-konfigurasjon</b>.</li>
+<li>Klikk på <b>Bruk</b>.</li>
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<h4>Slik konfigurerer du brukerrettigheter og sikkerhetskopimoduler på din Synology NAS:</h4>
+<ol>
+<li>
+Logg inn på din Synology NAS-enhet via Telnet eller SSH.
+</li>
+<li>Angi sikkerhetskopimodulen og autoriserte brukere i rsync-konfigurasjonsfilen "<b>/etc/rsyncd.conf</b>". For detaljert informasjon kan du se manualsiden for <b>rsyncd.conf</b> på din rsync-klient eller <a href="http://rsync.samba.org/ftp/rsync/rsyncd.conf.html" target="_blank">her</a>.</li>
+</ol>
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Hvis det blir bruk tilpasset rsync-konfigurasjon, vil Synology NAS ikke lenger kunne tjene som målserver for <b>Synkronisering av delt mappe</b>, <b>Time Backup</b> og <b>LUN-sikkerhetskopiering</b>.</li>
+</ul>
+</div>
+
+<h3>Aktivere hastighetsgrense</h3>
+<p>Du kan aktivere en hastighetsgrense for å kontrollere maksimum båndbredde som kan brukes av brukere og grupper som overfører data via nettverkssikkerhetskopiering.</p>
+<h4>Slik aktiverer du hastighetsgrense:</h4>
+<ol>
+  <li>Gå til <b>Sikkerhetskopitjenester</b> > <b>Sikkerhetskopimål for nettverk</b>. Merk av i boksen for <b>Aktiver hastighetsgrense</b>, eller <strong>Aktiver hastighetsgrense i henhold til en tidstabell</strong> hvis du kun vil benytte deg av en hastighetsgrense ved spesifikke tidspunkt. Dette er en serveromsluttende innstilling og vil overskrive innstillingene til individuelle brukere og grupper. Ved å velge <strong>Ingen hastighetsgrense</strong>, deaktiverer du innstillingene for hastighetsgrense for alle brukere og grupper.</li>
+  <li>Klikk på <strong>Innstillinger for hastighetsgrense</strong> for å endre innstillingene for individuelle brukere eller grupper. For hver bruker og gruppe, kan du velge ett av følgende:
+    <ul>
+      <li><strong>Bruk gruppeinnstillinger:</strong> Innstillingene for hastighetsgrense vil være de samme som for gruppen som hver bruker hører til. </li>
+      <li><strong>Ingen:</strong> Ingen hastighetsgrense vil være i bruk når gruppemedlemmer overfører filer med tjenesten.</li>
+      <li><strong>Konstant:</strong> En fastsatt, konstant hastighetsgrense vil gjelde for brukeren eller gruppemedlemmene. Hastighetsgrenser for opplasting og nedlasting kan spesifiseres i feltene til venstre.</li>
+      <li><strong>Variabel:</strong> To forskjellige hastighetsgrenser kan spesifiseres og tas i bruk for brukeren eller gruppemedlemmene i henhold til en tidstabell. Klikk på knappen <strong>Tilpass</strong> for å endre innstillingene for hastighetsgrense og angi en tidstabell.</li>
+    </ul>
+  </li>
+ <li>Klikk på <b>Bruk</b>.</li> 
+<img src="about:blank" class="help_image"/>
+
+</ol>
+<div class="section">
+  <h4>Merk:</h4>
+    <p>Når du angir en hastighetsgrense for en bruker, vil seksjonen <strong>Resultater</strong> vise brukerens faktiske hastighetsgrense i henhold til hans individuelle innstillinger og gruppeinnstillinger. For eksempel, hvis brukeren "Achilles" har en indiviudell nedlastingsgrense på 100 KB/s, men tilhører en gruppe med en nedlastingsgrense på 500 KB/s, vil seksjonen <strong>Resultater</strong> vise "0/500".</p>
+</div>
+
+<h3>Aktivere Time Backup-tjeneste</h3>
+<p>Time Backup-tjeneste lar brukere fjernsikkerhetskopiere flere versjoner av mapper fra en annen Synology NAS til denne Synology NAS. Det krever at både tjeneste for nettverkssikkerhetskopiering og Time Backup-tjeneste er aktivert.</p>
+<h4>Slik aktiverer du tjenestene nettverkssikkerhetskopiering og Time Backup:</h4>
+<p>Gå til <strong>Sikkerhetskopitjenester</strong> > <b>Time Backup</b>. Merk av i den egnede boksen.</p>
+<img src="about:blank" class="help_image"/>
+
+<div class="section">
+<h4>Merk:</h4>
+<p>Bare adminkontoen har lov til å opprette sikkerhetskopitilkoblingen for ekstern Time Backup.</p>
+</div>
+
+</body>
+</html>

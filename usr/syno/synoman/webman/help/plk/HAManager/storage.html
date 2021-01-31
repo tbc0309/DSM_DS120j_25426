@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Stan pamięci</h2>
+	<p>Na tej stronie wyświetlane są szczegółowe informacje na temat stanu wolumenów pamięci i jednostek iSCSI LUN (poziom bloku) na serwerze aktywnym i pasywnym klastra high-availability.</p>
+    <p>Ponieważ pojemność i ustawienia bliźniaczych wolumenów i jednostek iSCSI LUN (poziom bloku) na serwerze aktywnym i pasywnym muszą być takie same, na obu serwerach są one wyświetlane razem w postaci pojedynczych jednostek. Z tego powodu, aby wyświetlić stan wolumenów i jednostek iSCSI LUN (poziom bloku) zarówno dla serwera aktywnego, jak i pasywnego, należy przejść na stronę <b>Stan pamięci</b> [podczas łączenia się z klastrem high-availability w menu <b>Zarządzanie przechowywaniem</b> można wyświetlać tylko wolumeny i jednostki iSCSI LUN (poziom bloku) na serwerze aktywnym].</p>
+
+    <p>Ta strona zawiera następujące informacje:</p>
+		<ul>
+			<li><b>Nazwa:</b> wyświetla nazwy wolumenów i jednostek iSCSI LUN (poziom bloku).</li>
+			<li><b>Używane:</b> wyświetla procent używanej pojemności wolumenów i jednostek iSCSI LUN (poziom bloku).</li>
+			<li><b>Rozmiar użyty/łącznie:</b>  wyświetla całkowitą i używaną pojemność wolumenów i jednostek iSCSI LUN (poziom bloku).</li>
+            <li><b>Stan:</b> wyświetla stan wolumenów, jednostek iSCSI LUN (poziom bloku) i pamięci podręcznej SSD.</li>
+            <li><b>Opis:</b> wyświetla opis błędów i inne informacje związane z wolumenem, jednostką iSCSI LUN (poziom bloku) i pamięcią podręczną SSD.</li>
+		</ul>
+<h4>Aby naprawić uszkodzony wolumen lub jednostkę iSCSI LUN (poziom bloku):</h4>
+	<ul>
+		<li>Jeżeli dysk twardy znajdujący się na jednym z serwerów uległ awarii, przejdź do strony <a href="disk.html">Stan dysku</a>, aby ustalić, który dysk wymaga wymiany. W tym przypadku wykonaj następujące czynności:<ol>
+            	<li>Wymień uszkodzony dysk twardy (instrukcje dotyczące instalacji dysku twardego można znaleźć w <i>Przewodniku szybkiej instalacji</i> danego produktu Synology).</li>
+                <li>Przejdź do strony <b>Stan pamięci</b> i kliknij przycisk <b>Napraw</b>.</li>
+            </ol>
+        </li>
+        <li>Jeśli serwer pasywny jest offline, stan wolumenów i jednostek iSCSI LUN (poziom bloku) będzie informować o wystąpieniu błędu, a na stronie Stan dysku nie będzie wyświetlany żaden z dysków serwera pasywnego. W takim wypadku można spróbować rozwiązać ten problem w następujący sposób:<ol>
+            	<li>Upewnij się, że serwer pasywny jest włączony.</li>
+                <li>Sprawdź wszystkie zasilacze.</li>
+                <li>Sprawdź wszystkie połączenia.</li>
+            </ol>
+        </li>
+        <li>Jeśli w wolumenie lub jednostce iSCSI LUN (poziom bloku) na jednym z serwerów wystąpi błąd systemu plików, wykonaj poniższe czynności:<ul>
+            	<li>Przejdź do strony <b>Stan pamięci</b>.</li>
+                <li>Kliknij przycisk <b>Napraw</b>.</li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">Uwaga:</span>  liczba wolumenów i jednostek iSCSI LUN (poziom bloku) w klastrze high-availability jest ograniczona do 64.</p>
+
+
+
+<h3>Serwer kworum</h3>
+<p>Serwery kworum mogą pomóc w zmniejszaniu ryzyka wystąpienia błędów rozdwojenia jaźni. W ustawieniach rozdwojenia jaźni jako serwer kworum można przypisać inny serwer, o ile posiada on stałe połączenie z serwerem aktywnym i pasywnym. Jako serwer kworum można przypisać serwer bramy i serwer DNS, ponieważ mogą one łączyć się zarówno z serwerem pasywnym, jak i aktywnym. Należy pamiętać, że celem serwera kworum jest zapewnienie wyłącznie usług Ping, a do tego celu nie jest wymagane instalowanie jakichkolwiek aplikacji. Poniżej znajdują się zdarzenia, które wystąpią po włączeniu serwera kworum:</p>
+
+<ul>
+<li>Jeśli serwer pasywny nie może uzyskać połączenia z serwerem aktywnym ani z serwerem kworum, przełączenie awaryjne nie zostanie wykonane, aby zapobiec błędom rozdwojenia jaźni.</li>
+<li>Jeśli serwer aktywny nie może uzyskać połączenia z serwerem kworum, natomiast może to zrobić serwer pasywny, w celu zwiększenia dostępności zostanie wykonane przełączenie awaryjne.</li>
+</ul>
+
+ </body>
+</html>

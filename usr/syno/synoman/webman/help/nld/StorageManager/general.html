@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Algemeen</h2>
+
+<p>Met Opslagbeheer kunnen gebruikers alle opslagruimtes van hun Synology-producten beheren. Synology DSM ondersteunt meerdere types van opslagpools om opslagbeheer te vereenvoudigen en flexibele opslagruimtes met gegevensbescherming te maken.</p>
+
+<h4><a href="storage_pool.html">Opslagpool</a></h4>
+<p>Met Synology NAS kunt u meerdere schijven combineren in een enkele opslageenheid, de zogenaamde opslagpool. Synology NAS biedt de volgende types opslagpools:</p>
+<ul>
+	<li><B>Opslagpool voor betere prestaties</B>:
+		<ul>
+			<li>Wijst alle beschikbare capaciteit toe aan een enkel volume.</li>
+			<li>Biedt betere prestaties maar minder flexibiliteit in opslagbeheer.</li>
+			<li>Laat toe om meerdere iSCSI LUN's (Gewoon Bestand) op volumes te maken.</li>
+			<li>Ondersteunt maximaal een RAID-array.</li>
+		</ul>
+	</li>
+	<li><B>Opslagpool voor hogere flexibiliteit</B>:
+		<ul>
+			<li>Ondersteunt het maken van meerdere volumes op een opslagpool.</li>
+			<li>Laat een flexibeler opslagbeheer toe.</li>
+			<li>Laat toe om meerdere iSCSI LUN's (Gewoon Bestand) op volumes te maken.</li>
+			<li>Ondersteunt de combinatie van meerdere RAID-arrays onder een opslagpool (indien geconfigureerd als RAID 5, RAID 6 of RAID F1).</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>RAID-type</h4>    
+<p>Als u een opslagpool maakt, moet u eerst een RAID-type kiezen. Verschillende RAID-types bieden verschillende niveaus van gegevensbescherming, opslagfuncties en prestaties. Momenteel ondersteunt Synology NAS de volgende RAID-types:</p>
+<ul>
+	<li><strong>Basic</strong>: gebruikt een schijf om een opslagpool te maken. Basic-opslagpools bieden geen gegevensredundantie.</li>
+	<li><strong>JBOD*</strong>: combineert minstens twee schijven om een opslagpool te maken. JBOD-opslagpools bieden geen gegevensredundantie. De beschikbare capaciteit van een JBOD-opslagpool is gelijk aan de totale capaciteit van alle schijven van de groep. JBOD ondersteunt de combinatie van schijven met verschillende volumegroottes.</li>
+	<li><strong>RAID 0*</strong>: combineert minstens twee schijven om een opslagpool te maken. RAID 0 biedt geen gegevensredundantie. Als een enkele lidschijf faalt, gaan de gegevens van de opslagpool verloren. De beschikbare capaciteit van een RAID 0-opslagpool is gelijk aan de totale capaciteit van alle lidschijven. RAID 0 ondersteunt de combinatie van schijven met verschillende volumegroottes.</li>
+	<li><strong>RAID 1*</strong>: combineert 2-4 schijven om een opslagpool te maken. Het systeem schrijft op elke schijf dezelfde gegevens. RAID 1 biedt gegevensbescherming zolang een schijf normaal werkt. De beschikbare capaciteit van een RAID 1-opslagpool is gelijk aan de grootte van de kleinste schijf.</li>
+	<li><strong>RAID 5*</strong>: combineert minimum drie schijven om een opslagpool te maken waarbij gegevens en pariteitsinformatie in blokken over alle lidschijven wordt verdeeld (striping). RAID 5 biedt gegevensredundantie. Als een lid-SSD faalt, kan het systeem met behulp van de pariteitsinformatie op alle andere lid-SSD's worden opgebouwd. Ondersteunt de combinatie van meerdere RAID-arrays indien gecreëerd op een opslagpool voor meerdere volumes. De beschikbare capaciteit van een RAID 5-opslagpool = <span class="note_content"> totale capaciteit van alle RAID-arrays. RAID-arraycapaciteit = (aantal schijven - 1) x (de capaciteit van de kleinste schijf)</span></li>
+	<li><strong>RAID 6*</strong>: combineert minstens vier harde schijven om een opslagpool te maken waarbij gegevens en pariteitsinformatie in blokken over alle lidschijven wordt verdeeld (striping). RAID 6 biedt gegevensredundantie. Als een lidschijf faalt, kan het systeem met behulp van de pariteitsinformatie op alle andere lidschijven worden opgebouwd. Ondersteunt de combinatie van meerdere RAID-arrays indien gecreëerd op een opslagpool voor meerdere volumes. De beschikbare capaciteit van een RAID 6-opslagpool = <span class="note_content"> totale capaciteit van alle RAID-arrays. RAID-arraycapaciteit = (aantal schijven - 2) x (de capaciteit van de kleinste schijf)</span></li>
+	<li><strong>RAID 10*</strong>: combineert minstens vier schijven om een opslagpool te maken. Het aantal schijven moet een even aantal zijn, RAID 10 heeft de performantie van RAID 0 en het gegevensbeveiligingsniveau van RAID 1. De beschikbare capaciteit van een RAID 10 Group = <span class="note_content">(capaciteit van de kleinste schijf) X (aantal schijven/2)</span></li>
+	<li><strong>RAID F1*</strong>: Dit RAID-type is ontwikkeld voor solid-state schijven (SSD). Het combineert minstens drie SSD's om een opslagpool te maken, en verdeelt gegevens en pariteitsinformatie in blokken over alle lid-SSD's en schrijft meer pariteitsbits naar een specifieke SSD om het gelijktijdig falen van meerdere SSD's te voorkomen. RAID F1 biedt gegevensredundantie. Als een lid-SSD faalt, kan het systeem met behulp van de pariteitsinformatie op alle andere lid-SSD's worden opgebouwd. Ondersteunt de combinatie van meerdere RAID-arrays indien gecreëerd op een opslagpool voor meerdere volumes. De beschikbare capaciteit van een RAID F1-opslagpool = <span class="note_content">totale capaciteit van alle RAID-arrays. RAID-arraycapaciteit = (aantal schijven - 1) x (de capaciteit van de kleinste schijf)</span></li>
+</ul>
+
+<div class="section"><h4>Opmerking:</h4>
+<ul>
+	<li>RAID-types met * zijn uitsluitend beschikbaar op NAS-modellen met voldoende harde schijfsleuven. Om te zien welke RAID-types door uw model worden ondersteund, gaat u naar <a href="https://www.synology.com" target="_blank">www.synology.com</a> en controleert u de specificaties van uw model.</li>
+</ul>
+</div>
+
+</body>
+</html>

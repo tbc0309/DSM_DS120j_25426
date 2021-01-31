@@ -1,0 +1,28 @@
+#!/bin/sh
+# Copyright (c) 2014 Synology Inc. All rights reserved.
+
+SURVEILLANCE_BACKUP_BIN=/var/packages/SurveillanceStation/target/bin/synosurv_backup
+
+. /usr/syno/bin/jsoncmd
+
+exportPath=$(jget "${SYNOPKG_BKP_INPUT}" ".temp_path")
+if [ $? -ne 0 ];then
+	jerrstr "common" "error_system"
+	exit 1
+fi
+
+${SURVEILLANCE_BACKUP_BIN} -b ${exportPath}/
+if [ $? -ne 0 ];then
+	jerrstr "common" "error_system"
+	exit 1
+fi
+
+verPos=`expr index $SYNOPKG_PKGVER '-' + 1`
+version=`expr substr $SYNOPKG_PKGVER $verPos 100`
+mainVersion=`expr substr $SYNOPKG_PKGVER 1 \`expr index $SYNOPKG_PKGVER '.'\``
+
+jout_begin
+joutstr "app_data_version" "${mainVersion}${version}"
+jout_end
+
+exit 0

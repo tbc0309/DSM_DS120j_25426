@@ -1,0 +1,128 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>更改存储池的 RAID 类型 - Synology DSM 帮助</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing storage pools on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+	
+</head>
+<body>
+<h2>更改存储池的 RAID 类型</h2>
+
+<p>存储池可从一种 RAID 更改为另一种 RAID 而不会丢失现有数据。例如，您可以在 Synology NAS 上创建 RAID 1 存储池，如果以后安装更多的硬盘可将其更改为 RAID 5。本文将指导您更改 Synology NAS 中现有存储池的 RAID 类型。开始更改存储池的 RAID 类型之前，请参阅以下的<b>硬盘要求</b>和 <b>RAID 类型要求和限制</b>章节，以了解相关要求和限制的详细信息。<h3>硬盘要求</h3>
+
+<p>若要更改存储池的 RAID 类型，Synology NAS 必须安装足够数量的可用硬盘。请参阅下表来了解各 RAID 类型所需的最低硬盘数量。</p>
+
+<table>
+  <tr>
+    <th width="50%">RAID 类型</th>
+    <th width="50%">所需的最低硬盘数量</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 或 5（取决于 SHR-1 的硬盘配置）</td>
+  </tr>
+
+</table>
+
+</p>
+<h3>RAID 类型要求和限制</h3>
+
+<p>仅特定 RAID 类型可更改为其他 RAID 类型。例如，RAID 1 可更改为 RAID 5，但 RAID 5 无法更改为 RAID 1。请参阅下表以了解详细信息。</p>
+
+<table>
+  <tr>
+    <th width="30%">当前 RAID 类型</th>
+    <th width="30%">可能的转换目标类型</th>
+    <th width="40%">所需的额外硬盘数量</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1</td>
+    <td>1</td>
+  </tr>
+ <tr>
+    <td>Basic</td>
+    <td>RAID 5</td>
+	  <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+	  <td>1</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+	  <td>1</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+	  <td>1 或 2（取决于 SHR 的硬盘配置）</td>
+  </tr>
+
+</table>
+
+<div class="section"><h4>注：</h4>
+<ul>
+<li>如需更多有关 SHR (Synology Hybrid RAID) 的信息，请参阅<a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_is_Synology_Hybrid_RAID_SHR" target="_blank">此处</a>。</li>
+<li>要了解有关为存储池选择 RAID 类型的更多信息，请参阅<a href="storage_pool_what_is_raid.html">此处</a>。</li>
+<li>对于空间利用率的估算，请参阅 <a href="https://www.synology.com/support/RAID_calculator" target="_blank">Synology RAID 计算器</a>。</li>
+<li>更改为 SHR-2 存储池时，具有以下硬盘配置的 SHR-1 存储池可能需要两个额外的硬盘：<ul>
+<li>存储池仅包含两个硬盘。</li>
+<li>所有的硬盘都有不同的容量。</li>
+<li>在由三个或更多硬盘组成的 RAID 阵列中，两个最大硬盘的容量大于其他硬盘的容量。</li>
+</ul>
+</li>
+<li>某些型号不支持将 RAID 5 存储池更改为 RAID 6 存储池。</li>
+</ul>
+</div>
+
+<h3>更改 RAID 类型</h3>
+
+<h4>开始之前的准备：</h4>
+<p>更改 RAID 类型之前，请注意以下事项：</p>
+<ul>
+<li>确认存储池的状态为<b>良好</b>。</li>
+<li>在将新硬盘添加到存储池时，新硬盘的容量必须大于该存储池中最小硬盘的容量，并且所有硬盘的硬盘类型必须相同。</li>
+<li>RAID Group 中 RAID 阵列的 RAID 类型无法更改。RAID Group 功能仅在特定型号上可用。<br><span class="note_head">注：</span>请进入<a href="https://www.synology.com/products" target="_blank">此网页</a>并勾选您的 Synology NAS 以及任何其他型号的右上角复选框，然后单击右下角的<b>比较</b>按钮。<b>比较结果</b>网页会显示您的型号是否支持 RAID Group。</li>
+</ul>
+
+<div class="section">
+<h4>注：</h4>
+
+<ul>
+<li>建议使用 <a href="https://www.synology.com/compatibility" target=blank>Synology 产品兼容性列表</a>中的硬盘，以防止出现任何问题。使用不兼容的硬盘可能会影响系统性能，甚至会导致数据丢失。</li>
+</ul>
+</div>
+<h4>若要更改存储池 RAID 类型：</h4>
+
+<ol>
+<li>启动<strong>存储空间管理员</strong>。</li><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/><li>进入<b>存储池</b>。</li>
+<li>选择要更改其 RAID 类型的存储池，然后在<b>操作</b>下拉菜单中单击<b>更改 RAID 类型</b>。</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/change_raid_type.png" class="help_image"/><li>选择要更改为的 RAID 类型。单击<b>下一步</b>。</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_raid.png" class="help_image"/><li>选择要添加到现有存储池的硬盘。单击<b>下一步</b>。<br><span class="note_head">注：</span>新添加硬盘上的所有数据都将被擦除。请确保提前备份数据。</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_disks.png" class="help_image"/><li>按照向导完成操作。</li></ol>
+
+</body>
+</html>

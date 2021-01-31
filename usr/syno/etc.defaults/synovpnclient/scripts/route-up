@@ -1,0 +1,23 @@
+#!/bin/sh
+
+SYNONETD_TOOL="/usr/syno/sbin/synonetdtool"
+IP="/sbin/ip"
+
+VPNC_CURRENT="/tmp/vpnc_current"
+OVPNCLIENT_CONF="/usr/syno/etc/synovpnclient/openvpn/ovpnclient.conf"
+CON_ID=`/usr/syno/bin/get_section_key_value ${VPNC_CURRENT} curr_info conf_id`
+DEFAULT_ROUTE=`/usr/syno/bin/get_section_key_value ${OVPNCLIENT_CONF} ${CON_ID} redirect-gateway`
+host=1
+
+if [ "xno" = "x${DEFAULT_ROUTE}" ]; then
+	while test $(eval "echo \$route_network_${host}")
+	do
+		/sbin/route add -net $(eval "echo \$route_network_${host}") netmask $(eval "echo \$route_netmask_${host}") gw $(eval "echo \$route_gateway_${host}")
+		host=$((host + 1))
+	done
+fi
+
+if test -n "${ifconfig_ipv6_local}" ; then
+	${IP} -6 route flush dev ${dev} proto boot
+	${SYNONETD_TOOL} --refresh-gateway -6
+fi

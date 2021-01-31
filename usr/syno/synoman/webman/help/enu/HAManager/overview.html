@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Overview</h2>
+	<p>This page displays basic information regarding the high-available cluster and member servers. In addition, this page provides tools to create, remove, or perform maintenance on high-availability clusters and member servers.</p>
+
+<h3>High Availability Cluster Status</h3>
+  <p>This field displays the overall status of your high-availability cluster, alerting you to any errors. The following is a table of possible conditions displayed in this field:</p>
+    <table>
+     <tr>
+      <th>Status</th>
+      <th>Description</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Standalone</strong></td>
+      <td>The servers are not combined into a high-availability cluster.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Healthy</strong></td>
+      <td>The overall condition of your high-availability cluster is good. Data replication from the active server to the passive server is functioning normally.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Preparing</strong></td>
+	  <td>The servers have been successfully combined into a high-availability cluster, but initial data replication has not yet finished. Switchover cannot be performed at this time. For more details, please refer to <a href="switchover_fail.html">Switchover</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Loading</strong></td>
+	  <td>The system is loading the cluster status. <b>Switchover</b> cannot be performed until the status loading finished.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Warning</strong></td>
+      <td>The status of HA cluster is abnormal, but the services are still functioning.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Danger</strong></td>
+	  <td>Both the active and passive servers are malfunctioning. The high-availability cluster is unable to function normally. Please check the status of all storage spaces (e.g. RAID Groups, Disk Groups, volumes, and iSCSI LUNs).</td>
+     </tr>
+    </table>
+<h3>Warning Messages</h3>
+   <p>The following table displays warnings messages that might appear when an error occurs on the system. When more than one warning message appears, you can navigate between them with the forward/backward buttons. </p>
+    <table>
+     <tr>
+      <th>Warning/Error</th>
+      <th>Description</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Monitored service error</strong></td>
+      <td>An error occurred on one or more monitored services.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Storage space degraded</strong></td>
+      <td>A storage space (e.g. RAID Group, Disk Group, volume, iSCSI LUN and SSD cache) on the active or passive server is degraded. Please check the <b>Storage Status</b> page.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Storage space crashed</strong></td>
+      <td>A storage space (e.g. RAID Group, Disk Group, volume, iSCSI LUN and SSD cache) on the active or passive server is crashed. Please check the <b>Storage Status</b> page.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Failed to detect passive server</strong></td>
+      <td>This error might occur because the passive server is offline or the active and passive servers cannot connect via the Heartbeat connection. In this case, switchover will be unavailable.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Data cannot be replicated to passive server</strong></td>
+      <td>This error might occur due to storage volume or disk failure. In this case, switchover will be unavailable. Please check the <b>Storage Status</b> page.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Passive server is not selected</strong></td>
+	  <td>If the passive server is unbound from the high-availability cluster, this status will be displayed. In this case, switchover will be unavailable. If you wish to rebind the passive server, click the <b>Maintain</b> drop-down menu and click <b>Bind</b>. When you rebind the passive server, a full data replication will be required.</td>
+     </tr>
+    </table>
+
+
+<h3>High Availability  Cluster Information</h3>
+	<p>This field is located below the high-availability cluster status and displays basic information regarding the cluster. If a high-availability cluster does not exist, this field will only provide an explanation of the function of high-availability clusters.</p>
+    <p>This field includes the following information:</p>
+ <ul>
+    	<li><b>Cluster Server Name:</b> The server name used by the high-availability cluster. </li>
+   <li><b>Cluster IP Address:</b> The  IP address used by the high-availability cluster. Regardless of which server is running services, users can connect to the high-availability cluster using this IP address.</li>
+        <li><b>Built time:</b> The date the high-availability cluster was created.</li>
+ </ul>
+
+
+<h3>High Availability Cluster Operation Buttons</h3>
+
+<p>The following three buttons are located beneath the high-availability cluster information:</p>
+
+<ol>
+	<li><b>Create HA Cluster:</b> When no high-availability cluster exists, you can click this button to combine two servers and create a high-availability cluster. For more information about creating a high-availability cluster, please refer to <a href="wizard.html">Synology High Availability Wizard</a>.</li>
+	<li><b>Management:</b> This button is available only when a high-availability cluster already exists. It includes the following options:
+	<ul>
+	<li><b>Management wizard:</b> Launches a wizard that includes instructions for various management procedures.</li>
+	<li><b>Switchover:</b> Initiates a switchover from the active server to the passive server. During this process, the active server stops providing services and becomes the new passive server. Then, the old passive server becomes the new active server and begins providing all services of the high-availability cluster. This option is unavailable when the passive server status is <b>error</b> or when no passive server has been selected.</li>
+	<li><b>Update DSM:</b> Opens the <strong>DSM Update</strong> page in <strong>Control Panel</strong>. From here, both servers can be updated.</li>
+	<li><b>Shut down HA cluster:</b> Shuts down both the active and passive servers.</li></ul>
+	<li><b>Deactivate beep:</b> This option is available only when an error occurs on the active or passive server. Halts the beeping sound of either server when an error occurs. The servers will still beep if other errors occur later.</li>
+</ol>
+	
+<h3>Management Wizard</h3>
+<p>The management wizard guides you through the following management processes.</p>
+<ul>
+	<li><b>Manage cluster:</b>
+		<ul>
+			<li><b>Change active server to passive server:</b> Initiates a switchover from the active server to the passive server. During this process, the active server stops providing services and becomes the new passive server. Then, the old passive server becomes the new active server and begins providing all services of the high-availability cluster. This option is unavailable when the passive server status is <b>error</b> or when no passive server has been selected.</li>
+			<li><b>Update DSM on both active and passive servers:</b> Opens the <strong>DSM Update</strong> page in <strong>Control Panel</strong>. From here, both servers can be updated.</li>
+			<li><b>Remove HA cluster:</b> Unbinds the cluster. The two servers will be working independently after the reboot.</li>
+			<li><b>Add a new passive server:</b> Adds a passive server into the cluster. This option is only available when there is no passive server in the high-availability cluster.</li>
+			<li><b>Unbind the passive server from the high-availability cluster:</b> Removes the passive server from the cluster. When the server is added to the high-availability cluster again after unbinding, a full data replication will be necessary. Therefore, we recommend using this option only when you wish to replace the existing passive server with a new one.</li>
+			<li><b>Move both servers to another location:</b> Select this option if you need to move the cluster. Both servers will shut down after the operation.</li>
+		</ul></li>
+	<li><b>Manage active server:</b>
+		<ul>
+			<li>Shut down the active server.</li>
+			<li>Reboot the active server.</li>
+			<li>Upgrade/Replace failed components on the active server: This option will shut down the active server.</li>
+		</ul></li>
+	<li><b>Manage passive server:</b>
+		<ul>
+			<li>Shut down the passive server.</li>
+			<li>Reboot the passive server.</li>
+			<li>Upgrade/Replace failed components on the passive server: This option will shut down the passive server.</li>
+		</ul></li>
+</ul>
+	
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>Once a high-availability cluster is removed, a full data replication will be required when you wish to create a new one.</li>
+<li>If you shut down or unbind the passive server, services cannot be switched over if errors occur on the active server.</li>
+</ul>
+</div>
+
+<h3>Server and Data Replication Status</h3>
+<p>This section contains images that indicate the status of the active and passive servers, as well as the flow of data replication between the servers.</p>
+<p>The image of data replication indicates the following possible conditions:</p>
+	<ul>
+    	<li><b>Data replication functioning normally:</b> Indicated by data flowing from the active server towards the passive server.</li>
+    	<li><b>No data replication:</b> Indicated by the absence of the data flow image.</li>
+    </ul>
+
+
+<h3> Server Information</h3>
+ <p>This section is located beneath the server images. Information regarding the active and passive servers is displayed in this section. If no passive server has been selected, this section will read <b>N/A</b>.</p>
+  <ul>
+   <li><b>Server Name:</b> Synology server name.</li>
+   <li><b>Model Name:</b> Synology server model.</li>
+   <li><b>Serial Number:</b> Serial number of the Synology server.</li>
+   <li><b>Fan Status:</b> Status of a server’s cooling fans. If a fan malfunctions, a warning will appear. In this case, please contact your local distributor for assistance.</li>
+   <li><b>Temperature:</b> Temperature of the Synology server. </li>
+   <li><b>Power Status:</b> Indicates whether or not the power supplies on a server are all functioning normally. If the server model is equipped with redundant power supplies, a warning will appear if one of them is malfunctioning.</li>
+  </ul>
+
+ </body>
+</html>

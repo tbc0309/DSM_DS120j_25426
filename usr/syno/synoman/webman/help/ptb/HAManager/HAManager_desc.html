@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Gerenciador de High Availability - Ajuda do Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Synology High Availability uses two servers to form a high-availability cluster in which one server assumes the role of active server and another server acts as a standby passive server.">
+
+
+ </head>
+ <body>
+  <h1>Gerenciador de High Availability</h1>
+
+  <p>High Availability refere-se a uma solu&ccedil;&atilde;o de layout de servidor desenvolvida para reduzir interrup&ccedil;&otilde;es de servi&ccedil;os causadas por falhas do servidor. O Synology High Availability usa dois servidores para formar um &ldquo;cluster de high-availability&rdquo;, onde um servidor assume o papel de &ldquo;servidor ativo&rdquo; e o outro servidor funciona como &ldquo;servidor passivo&rdquo; de espera. Para implementar e criar um grupo de high-availability, &eacute; necess&aacute;rio ter dois servidores Synology compat&iacute;veis.</p>
+  <p>Um conjunto de high-availability faz uso dos seguintes componentes e conceitos:</p>
+  <ul>
+   <li><b>Conceito: </b>A implementa&ccedil;&atilde;o do Synology High Availability requer dois servidores Synology para criar um conjunto de high-availability. Um servidor funciona como &quot;servidor ativo&quot; e o outro como &quot;servidor passivo&quot;. Quando o conjunto de high-availability &eacute; criado, os dados s&atilde;o replicados continuamente a partir do servidor ativo at&eacute; o servidor passivo. Todos os arquivos do servidor ativo existir&atilde;o em duplicada no servidor passivo. Caso o servidor ativo apresente defeito, o servidor passivo estar&aacute; pronto para assumir todos os servi&ccedil;os com uma c&oacute;pia espelhada completa dos dados do servidor ativo. Assim, o conjunto de high-availability continuar&aacute; fornecendo servi&ccedil;os normalmente e minimizando o tempo parado do servidor. Para obter mais informa&ccedil;&otilde;es sobre a mudan&ccedil;a, consulte <a href="switchover_fail.html">Mudan&ccedil;a</a></li>
+   <li><b>Servidor ativo:</b> O servidor ativo gerencia o fornecimento de todos os servi&ccedil;os. Caso ocorram erros no servidor ativo, voc&ecirc; ou o sistema pode iniciar uma mudan&ccedil;a para o servidor passivo. Nesse caso, o fornecimento de servi&ccedil;os &eacute; transferido para o servidor passivo, ponto em que o servidor ativo se torna o servidor passivo.</li>
+   <li><b>Servidor passivo:</b> Sob condi&ccedil;&otilde;es normais, o servidor passivo permanece em modo de espera. Os dados do servidor ativo s&atilde;o replicados continuamente no servidor passivo. Caso o servidor ativo n&atilde;o possa fornecer servi&ccedil;os, voc&ecirc; ou o sistema pode iniciar uma mudan&ccedil;a para o servidor passivo.</li>
+   <li><b>Conex&atilde;o de pulsa&ccedil;&atilde;o:</b> Os servidores ativo e passivo de um conjunto de high-availability est&atilde;o vinculados por uma conex&atilde;o de rede privada dedicada e chamada de &quot;Conex&atilde;o de pulsa&ccedil;&atilde;o&quot;. Depois que o conjunto de high-availability &eacute; criado, a conex&atilde;o de pulsa&ccedil;&atilde;o facilita a sincroniza&ccedil;&atilde;o de dados e a replica&ccedil;&atilde;o entre os servidores ativo e passivo. Se o contato entre os servidores se perder por um certo tempo, o sistema determinar&aacute; a necessidade de uma mudan&ccedil;a.</li>
+   <li><b>Volume de armazenamento principal do conjunto de High-availability:</b> O volume de armazenamento do servidor ativo se tornar&aacute; o volume de armazenamento principal do conjunto de high-availability. Os dados s&atilde;o replicados para o volume de armazenamento do servidor passivo atrav&eacute;s da conex&atilde;o de pulsa&ccedil;&atilde;o.</li>
+   <li><b>Volume de armazenamento sobressalente do conjunto de high-availability: </b>O volume de armazenamento do servidor passivo se tornar&aacute; o volume de armazenamento sobressalente do conjunto de high-availability. Os dados s&atilde;o replicados continuamente do volume de armazenamento do servidor ativo para o volume de armazenamento passivo atrav&eacute;s da conex&atilde;o de pulsa&ccedil;&atilde;o. Isso garante a consist&ecirc;ncia do conte&uacute;do do arquivo quando ocorre uma mudan&ccedil;a.</li>
+   <li><b>Nome do servidor do conjunto de high-availability:</b> Os servidores no conjunto de high-availability compartilhar&atilde;o um nome de servidor. Na rede, voc&ecirc; pode conectar usando esse nome de servidor e os servi&ccedil;os ser&atilde;o fornecidos pelo servidor ativo. </li>
+   <li><b>IP do conjunto de high-availability: </b>Como cada um dos servidores ativo e passivo do conjunto de high-availability tem seu pr&oacute;prio endere&ccedil;o IP, para evitar a troca para outro endere&ccedil;o IP quando for realizada uma mudan&ccedil;a, o conjunto de high-availability gerar&aacute; endere&ccedil;os de IP comuns para acesso. Para acessar qualquer servi&ccedil;o DSM, independentemente do Synology estar funcionando como servidor ativo, voc&ecirc; pode se conectar atrav&eacute;s desses endere&ccedil;os IP. </li>
+  </ul>
+
+
+ </body>
+</html>

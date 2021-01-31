@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>限制和系统要求 - Synology DSM 帮助</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>限制和系统要求</h1>
+
+ <p>Synology High Availability 功能需要使用两台相同的 Synology 服务器作为活动服务器和无源服务器。在两台服务器组合进 high-availability 集群前，Synology High Availability 向导将检查以下硬件和软件限制，以确保可以创建 high-availability 集群。</p>
+ 
+  
+ <h3>系统要求</h3>
+ 
+  <p>请注意以下软硬件说明：</p>
+  <ul>
+   <li><b>Synology 服务器：</b>活动服务器和无源服务器必须为相同型号，并支持 Synology High Availability。请注意，high-availability 集群的名称必须与活动服务器和无源服务器的名称不同。</li>
+   <li><b>DSM 版本：</b>活动服务器和无源服务器上必须安装相同版本的 DSM。</li>
+   <li><b>套件版本：</b>两台 Synology 服务器上必须安装相同版本的 Synology High Availability。</li>
+  </ul>
+
+  
+ <h3>卷和硬盘</h3>
+ 
+  <p>请注意以下存储空间（例如卷、硬盘组、RAID Group 等）和硬盘管理的相关说明。</p>
+  <ul>
+   <li><b>硬盘容量：</b>为满足数据复制的需要，无源服务器上的硬盘容量必须等于或大于活动服务器上的硬盘容量。强烈建议使用两台硬盘容量相同的服务器，可避免发生不一致的情形。</li>
+   <li><b>硬盘数量和类型：</b>活动服务器和无源服务器必须有同样数量的硬盘。此外，这两台服务器中的硬盘位置必须一致，且硬盘类型（如 SSD/HDD、SAS/SATA）和规格（如 4K 或 512 字节扇区大小）必须相同。请注意，计算硬盘数时外接设备（如 USB 硬盘）不包含在内。</li>
+   <li><b>Hot Spare 修复：</b>无源服务器上的存储卷降级不会触发 Hot Spare 修复。但如果活动服务器上的卷降级，将触发 Hot Spare 修复，无源服务器上的卷也将降级，因为系统将从无源服务器上的 RAID 卷中删除一个状态良好的硬盘以强制执行 Hot Spare 修复。</li>
+   <li><b>不支持 SHR 格式：</b>不支持 SHR 格式的卷。请确保将作为活动服务器的 Synology 服务器不含 SHR 格式的存储卷。</li>
+  </ul>
+
+    <div class="section">
+    <h4>注：</h4>
+    <ul>
+    <li>无源服务器上的硬盘速度也会影响 high-availability 集群的写入性能，因为数据将通过 Heartbeat 连接同步到无源服务器。建议您在活动和无源服务器上使用相同的硬盘。</li>
+    <li>如果无源服务器停机或 Heartbeat 断开连接，则这些卷暂时无法使用且 iSCSI 传输会暂停约 10 秒钟。</li>
+    </ul>
+    </div>
+
+  
+  <h3>网络环境</h3>
+  <p>若要构建 high-availability 集群，请注意以下有关网络设置的说明。</p>
+  <ul>
+    <li><b>网络设置：</b>两台服务器必须有属于相同子网的静态 IP 地址。</li>
+    <li><b>局域网端口数量：</b>两台服务器必须有相同数量的局域网端口。如果 Synology NAS 配有额外的网卡接口，这些网卡都将被视作额外的局域网端口。</li>
+        <li><b>连接环境限制：</b>两台服务器之间的连接环境必须支持多播，且不可有防火墙规则封锁 high-availability 集群所使用的端口。如果该 Heartbeat 连接需通过任何交换机，您必须确保交换机支持多播和 Jumbo Frame。</li>
+    <li><b>连接限制：</b>服务器无法通过 DHCP、IPv6、PPPoE 和 Wi-Fi 连接到网络。构建 high-availability 集群之前请确认这些功能已关闭。</li>
+    <li><strong>无 DHCP 服务：</strong>已组合进集群的服务器无法使用内置的 DHCP 服务器选项。</li>
+   <li><strong>Link Aggregation 设置：</strong>两台服务器必须拥有相同的 Link Aggregation 设置才能进行数据网络与 Heartbeat 连接。创建 high-availability 集群后，Link Aggregation 设置将无法修改。</li>
+   <li><b>Open vSwitch 设置：</b>在两台服务器上 Open vSwitch 的状态必须相同（启用或禁用）。创建 high-availability 集群后，Open vSwitch 设置将无法修改。</li>
+
+  </ul>
+  <div class="section">
+    <h4>注：</h4>
+    <ul>
+      <li>一旦创建 high-availability 集群，NTP 服务将在活动服务器上自动启用。</li>
+    </ul>
+  </div>
+  <h3>存储管理器限制</h3>
+  <p>存储管理器中更改 RAID 类型的选项在 high-availability 集群构建完成后将无法使用。然而，以下选项仍可使用：<ul>
+<li>扩充存储空间（如卷、块级 iSCSI LUN、硬盘组、RAID Group 等）。</li>
+    <li>创建、删除或修复卷、iSCSI LUN、SSD 只读和读写缓存。</li>
+    <li>更改 iSCSI LUN（文件级）的容量和位置。</li>
+    <li>更改 iSCSI LUN target。</li>
+  </ul>
+
+  <div class="section">
+    <h4>注：</h4>
+    <ul>
+      <li>创建 high-availability 集群后，请勿更改硬盘位置；否则存储空间将丢失。</li>
+      <li>为确保已连接至 Synology iSCSI target的服务器不会在故障移转过程中遭遇超时，建议您调整 iSCSI 客户端的超时设置，并将启动器设置为 120 秒或更长时间。</li>
+    </ul>
+  </div>
+
+ 
+<h3>套件和软件限制</h3> 
+
+<p>以下套件和功能在 high-availability 集群构建完成后将不被支持：</p>
+	<ul>
+
+    <li>Virtual Machine Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>在 CMS 中重启/关闭 high-availability 集群的功能</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>注：</h4>
+    <ul>
+    <li>要在 High Availability 中支持 Docker DSM，必须在创建集群之前启用 Open vSwitch。</li>
+    </ul>
+   </div>
+
+<h3>添加扩充设备</h3>
+  <p>high-availability 集群创建完成后，您可以在现有的 high-availability 集群配置中添加扩充设备来扩展存储容量。如同其他硬件要求，活动服务器和无源服务器需要有相同的扩充设备。请仔细遵循以下说明来添加扩充设备，避免发生不一致。</p>
+  
+  <h4>若要添加扩充设备：</h4>
+   <ol>
+    <li>仅需为活动服务器和无源服务器添加相同的扩充设备和硬盘。如上所述，活动服务器和无源服务器的硬件必须相同，包括硬件型号、类型、硬盘大小和位置。</li>
+    <li>请确认删除扩充设备硬盘中所有现存的数据和卷。</li>
+    <li>在两台服务器已开机且开始运行后，将扩充设备连接至活动服务器和无源服务器。</li>
+    <li>关闭任一台服务器前，请先在扩充设备上创建新的存储空间（例如卷、硬盘组、RAID Group 等）。</li>
+   </ol>
+<div class="section">
+<h4>注：</h4>
+<p>有关扩充设备安装的基本信息，请参见扩充设备用户指南。</p>
+</div>
+
+
+<h3>USB 设备限制</h3>
+   <p>不支持 USB 设备的故障移转/切换。USB 设备提供的服务或应用程序在故障移转/切换后可能无法正常工作。</p>
+
+   
+ </body>
+</html>

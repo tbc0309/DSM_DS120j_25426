@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Přehled</h2>
+	<p>Tato stránka zobrazuje základní informace týkající se clusteru high-availability a členských serverů. Dále tato stránka nabízí nástroje určené k vytváření, odebírání nebo provádění údržby clusteru high-availability a členských serverů.</p>
+
+<h3>Stav clusteru high-availability</h3>
+  <p>Toto pole zobrazuje celkový stav clusteru high-availability a upozorňuje na veškeré chyby. Následující tabulka představuje všechny možné podmínky zobrazené v tomto poli:</p>
+    <table>
+     <tr>
+      <th>Stav</th>
+      <th>Popis</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Samostatný</strong></td>
+      <td>Servery nejsou zapojeny do clusteru high-availability.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>V pořádku</strong></td>
+      <td>Celkový stav clusteru high-availability je dobrý. Replikace dat z aktivního serveru na pasivní server funguje normálně.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Probíhá příprava</strong></td>
+	  <td>Servery byly úspěšně zapojeny do clusteru high-availability, ale počáteční replikace dat ještě nebyla dokončena. Přepnutí nelze nyní provést. Další informace najdete v části <a href="switchover_fail.html">Přepnutí</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Načítání</strong></td>
+	  <td>Systém načítá stav clusteru. <b>Přepnutí</b> lze provést až po dokončení načítání stavu.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Upozornění</strong></td>
+      <td>Cluster HA není v pořádku, služby však fungují standardně.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Výstraha</strong></td>
+	  <td>Aktivní ani pasivní server nefunguje správně. Cluster high-availability nemůže správně fungovat. Zkontrolujte stav veškeré úložné kapacity (např. skupin RAID Group, skupin disků, svazků a jednotek iSCSI LUN).</td>
+     </tr>
+    </table>
+<h3>Výstražné zprávy</h3>
+   <p>Následující tabulka obsahuje zprávy upozornění, které se mohou zobrazit v případě chyby systému. Pokud se zobrazí více než jedna zpráva, můžete se v rámci těchto zpráv pohybovat tlačítky Dopředu/Zpět. </p>
+    <table>
+     <tr>
+      <th>Upozornění/Chyba</th>
+      <th>Popis</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Chyba sledované služby</strong></td>
+      <td>V jedné nebo více ze sledovaných služeb došlo k chybě.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Omezený režim úložiště</strong></td>
+      <td>Došlo k omezenému režimu úložiště (např. skupiny RAID Group, skupiny disků, svazku, jednotky iSCSI LUN a mezipaměti SSD) na aktivním nebo pasivním serveru. Zkontrolujte stránku <b>Stav úložiště</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Porucha úložiště</strong></td>
+      <td>Došlo k poruše úložiště (např. skupiny RAID Group, skupiny disků, svazku, jednotky iSCSI LUN a mezipaměti SSD) na aktivním nebo pasivním serveru. Zkontrolujte stránku <b>Stav úložiště</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Pasivní server se nepodařilo nalézt</strong></td>
+      <td>K této chybě může dojít tehdy, pokud je pasivní server v režimu offline, anebo není možné připojit aktivní server k pasivnímu serveru pomocí připojení Heartbeat. V tomto případě nebude funkce přepnutí k dispozici.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Data nelze replikovat do pasivního serveru</strong></td>
+      <td>K této chybě může dojít v důsledku poruchy svazku úložiště nebo disku. V tomto případě nebude funkce přepnutí k dispozici. Zkontrolujte stránku <b>Stav úložiště</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Pasivní server není vybrán</strong></td>
+	  <td>Tento stav se zobrazí, když je pasivní server odpojen od clusteru high-availability. V tomto případě nebude funkce přepnutí k dispozici. Pokud chcete pasivní server znovu připojit, klikněte na rozevírací nabídku <b>Údržba</b> a vyberte možnost <b>Připojit</b>. Po připojení pasivního serveru bude vyžadována kompletní replikace dat.</td>
+     </tr>
+    </table>
+
+
+<h3>Informace o clusteru high-availability</h3>
+	<p>Toto pole se nachází pod stavem clusteru high-availability a zobrazuje základní informace týkající se clusteru. Pokud cluster high-availability neexistuje, bude toto pole obsahovat pouze vysvětlení funkce clusterů high-availability.</p>
+    <p>Toto pole obsahuje následující informace:</p>
+ <ul>
+    	<li><b>Název clusterového serveru:</b> Název serveru používaný clusterem high-availability. </li>
+   <li><b>IP adresa clusteru:</b> IP adresa používaná clusterem high-availability. Pomocí této IP adresy se mohou uživatelé připojit ke clusteru high-availability bez ohledu na to, na kterém serveru jsou služby spuštěny.</li>
+        <li><b>Čas sestavení:</b> Datum vytvoření clusteru high-availability.</li>
+ </ul>
+
+
+<h3>Ovládací tlačítka clusteru high-availability</h3>
+
+<p>Následující tři tlačítka se nacházejí pod údaji o clusteru high-availability:</p>
+
+<ol>
+	<li><b>Vytvořit cluster HA:</b> Pokud neexistuje žádný cluster high-availability, můžete kliknutím na toto tlačítko propojit dva servery a vytvořit cluster high-availability. Další informace o vytvoření clusteru high-availability naleznete v článku <a href="wizard.html">Průvodce Synology High Availability Wizard</a>.</li>
+	<li><b>Správa:</b> Toto tlačítko je k dispozici pouze v případě, že již cluster high-availability existuje. Obsahuje následující možnosti:<ul>
+	<li><b>Průvodce správou:</b> Spustí průvodce obsahujícího pokyny pro různé postupy správy.</li>
+	<li><b>Přepnutí:</b> Zahájí proces přepnutí z aktivního serveru na pasivní server. Během tohoto procesu pozastaví aktivní server zajišťování služeb a bude plnit funkci nového pasivního serveru. Poté bude původní pasivní server plnit funkci nového aktivního serveru a zahájí provoz všech služeb clusteru high-availability. Tato možnost není k dispozici, když je stav pasivního serveru <b>chyba</b> nebo když není vybraný žádný pasivní server.</li>
+	<li><b>Aktualizovat DSM:</b> Na stránce <strong>Ovládací panel</strong> otevře možnost <strong>Aktualizace DSM</strong>. V této části lze aktualizovat oba servery.</li>
+	<li><b>Vypnout cluster HA</b> Vypne aktivní i pasivní server.</li></ul>
+	<li><b>Deaktivovat zvukový signál:</b> Tato možnost je k dispozici pouze v případě, že na aktivním nebo pasivním serveru došlo k chybě. Pozastaví zvukový signál jednoho ze serverů, pokud dojde k chybě. Servery budou přesto vydávat zvukový signál, pokud dojde později k dalším chybám.</li>
+</ol>
+	
+<h3>Průvodce správou</h3>
+<p>Průvodce správou vás povede následujícími procesy správy.</p>
+<ul>
+	<li><b>Správa clusteru:</b><ul>
+			<li><b>Změna aktivního serveru na pasivní:</b> Zahájí proces přepnutí z aktivního serveru na pasivní server. Během tohoto procesu pozastaví aktivní server zajišťování služeb a bude plnit funkci nového pasivního serveru. Poté bude původní pasivní server plnit funkci nového aktivního serveru a zahájí provoz všech služeb clusteru high-availability. Tato možnost není k dispozici, když je stav pasivního serveru <b>chyba</b> nebo když není vybraný žádný pasivní server.</li>
+			<li><b>Aktualizovat systém DSM na aktivním i pasivním serveru:</b> Otevře stránku <strong>Aktualizovat DSM</strong> v části <strong>Ovládací panel</strong>. V této části lze aktualizovat oba servery.</li>
+			<li><b>Odebrat cluster HA:</b> Odpojí cluster. Po restartování budou oba servery fungovat nezávisle.</li>
+			<li><b>Přidat nový pasivní server:</b> Přidá do clusteru pasivní server. Tato možnost je k dispozici pouze pokud cluster high-availability neobsahuje žádný pasivní server.</li>
+			<li><b>Odpojit pasivní server od clusteru high-availability:</b> Odebere z clusteru pasivní server. Při opětovném přidání tohoto serveru do clusteru high-availability po jeho odpojení bude vyžadována kompletní replikace dat. Proto tuto možnost doporučujeme používat pouze v případě, že chcete nahradit existující pasivní server za nový.</li>
+			<li><b>Přesunout oba servery do jiného umístění:</b> Tuto možnost vyberte, potřebujete-li přesunout cluster. Oba servery se po této operaci vypnou.</li>
+		</ul></li>
+	<li><b>Spravovat aktivní server:</b><ul>
+			<li>Vypnout aktivní server.</li>
+			<li>Restartovat aktivní server.</li>
+			<li>Upgradovat/vyměnit vadné součásti aktivního serveru: Tato možnost aktivní server vypne.</li>
+		</ul></li>
+	<li><b>Spravovat pasivní server:</b><ul>
+			<li>Vypnout pasivní server.</li>
+			<li>Restartujte pasivní server.</li>
+			<li>Upgradovat/vyměnit vadné součásti pasivního serveru: Tato možnost pasivní server vypne.</li>
+		</ul></li>
+</ul>
+	
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Pokud po odebrání clusteru high-availability budete chtít vytvořit nový, bude vyžadována kompletní replikace dat.</li>
+<li>Pokud pasivní server vypnete nebo odpojíte, nelze služby přepnout, pokud dojde k chybě aktivního serveru.</li>
+</ul>
+</div>
+
+<h3>Stav serveru a replikace dat</h3>
+<p>Tato část obsahuje obrázky označující stav aktivního a pasivního serveru a také tok replikace dat mezi těmito servery.</p>
+<p>Obrázek replikace dat označuje následující možné podmínky:</p>
+	<ul>
+    	<li><b>Replikace dat funguje normálně:</b> Označeno daty proudícími z aktivního serveru směrem k pasivnímu serveru.</li>
+    	<li><b>Bez replikace dat:</b> Označeno absencí obrázku s proudícími daty.</li>
+    </ul>
+
+
+<h3> Informace o serveru</h3>
+ <p>Tato část se nachází pod obrázky serverů. V této části se zobrazují informace o aktivním a pasivním serveru. Pokud nebyl vybrán žádný pasivní server, bude v této části uvedeno <b>Žádný</b>.</p>
+  <ul>
+   <li><b>Název serveru:</b> Název serveru Synology.</li>
+   <li><b>Název modelu:</b> Model serveru Synology.</li>
+   <li><b>Sériové číslo:</b> Sériové číslo serveru Synology.</li>
+   <li><b>Stav ventilátoru:</b> Stav chladících ventilátorů serveru. Pokud ventilátor nefunguje, bude zobrazeno upozornění. V tomto případě se obraťte na svého místního distributora.</li>
+   <li><b>Teplota:</b> Teplota serveru Synology. </li>
+   <li><b>Stav napájení:</b> Označuje, zda všechny napájecí zdroje serveru správně fungují. Pokud je model serveru vybaven redundantními napájecími zdroji, zobrazí se v případě nesprávného fungování upozornění.</li>
+  </ul>
+
+ </body>
+</html>

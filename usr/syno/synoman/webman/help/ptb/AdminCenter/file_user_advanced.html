@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Configurações de Usuário Avançadas</h2>
+
+<p>Para modificar as configurações de usuário avançadas, vá para <strong>Painel de Controle</strong> &gt; <strong>Usuário</strong> &gt; <strong>Avançado</strong>. As opções a seguir estão disponíveis. </p>
+
+<h3>Configurações da senha</h3>
+<p>Você pode ajustar as configurações relacionadas à segurança e à força da senha para os usuários do seu Synology NAS.</p>
+
+<h4>Para permitir que os usuários redefinam suas senhas por e-mail:</h4>
+<ol>
+	<li>Marque a caixa de seleção <strong>Permitir que usuários que não sejam o administrador possam redefinir suas senhas por e-mail</strong>.</li>
+	<li>Clique em <strong>Aplicar</strong> para salvar as configurações.</li>
+	<li>O link marcado como "Esqueceu sua senha?" será exibido na página de login do DSM. Quando esquecer a senha, o usuário pode clicar nesse link e digitar o nome de usuário. Nesse caso, o sistema enviará um e-mail para esse usuário com um link para restaurar a senha esquecida.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Antes de ativar essa opção, você já deve ter ativado as notificações por e-mail do SMTP. Para isso, vá até <strong>Painel de controle</strong> &gt; <strong>Notificação</strong>.</li>
+	<li>Para receber mensagens do sistema, os usuários devem fornecer um endereço de e-mail na seção de informações do usuário de suas contas.</li>
+	<li>Os usuários que pertençam ao grupo <strong>administrators</strong> não podem redefinir senhas com esta opção.</li>
+	<li>Os usuários de domínio não podem redefinir senhas com esta opção.</li>
+	<li>Os usuários LDAP podem redefinir senhas com essa opção, desde que o Synology NAS atue como Directory Server de LDAP e atenda às seguintes condições:
+		<ul>
+			<li>A versão do pacote Synology <strong>Directory Server</strong> deve ser 2457 ou superior.</li>
+			<li>O usuário LDAP não pode ser um membro de administrators, Directory Operators, Directory Consumers ou Directory Clients.</li>
+			<li>Se o Synology Directory Server for um <strong>Consumer</strong>, seu <strong>Provider</strong> deve satisfazer as condições mencionadas acima.</li>
+			<li>O Provider final deve ser acessível pelo navegador da Web do usuário e suas notificações por e-mail devem estar habilitadas.</li>
+			<li>Para evitar que o link de redefinição de senha esquecida seja usado por outra pessoa, o link deverá ser selecionado a partir do mesmo endereço IP no qual foi feita a solicitação de senha esquecida.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>Para forçar os usuários a alterar a senha após a redefinição de senha:</h4>
+<ol>
+	<li>Marque a caixa de seleção <strong>Obrigar os usuários a alterarem a senha depois que o administrador redefinir a senha</strong>.</li>
+	<li>Clique em <strong>Aplicar</strong> para salvar as configurações.</li>
+	<li>Quando o administrador alterar a senha para um usuário, o usuário terá que alterar sua senha no próximo login.</li>
+</ol>
+
+<h4>Para ativar regras de força da senha:</h4>
+<ol>
+	<li>Marque a caixa de seleção <strong>Aplicar regras de força da senha</strong>.</li>
+	<li>Marque ou desmarque as opções a seguir de acordo com suas necessidades:
+		<ul>
+			<li><strong>Excluir nome e descrição do usuário da senha</strong>: a senha não deve conter o nome ou a descrição do usuário. Entretanto, os caracteres codificados com UTF-8 são excluídos.</li>
+			<li><strong>Inclui letras maiúsculas e minúsculas</strong>: A senha deve conter letras maiúsculas e minúsculas.</li>
+			<li><strong>Incluir caractere numérico</strong>: a senha deve conter pelo menos um caractere numérico (0~9).</li>
+			<li><strong>Incluir caractere especial</strong>: A senha deve conter pelo menos um caractere especial ASCII (ou seja, <span class="note_content">&#126; &#96; &#33; &#64; &#35; &#36; &#37; &#94; &amp; &#42; &#40; &#41; &#45; &#95; &#61; &#43; &#91; &#123; &#93; &#125; &#92; &#124; &#59; &#58; &#39; &#34; &lt; &gt; &#47; &#63;</span>).</li>
+			<li><strong>Excluir senha comum</strong>: Impede que os usuários definam senhas comuns, como <em>123456</em>, <em>password</em>, <em>qwerty</em>, etc.</li>
+			<li><strong>Comprimento mínimo da senha</strong>: A senha deve ter pelo menos o valor especificado no campo de texto. O comprimento deve ser um número entre 6 e 127.</li>
+			<li><strong>Histórico de senha</strong>: A senha deve ser diferente das definidas anteriormente, cujo número deve ser especificado aqui.</li>
+		</ul>
+	</li>
+	<li>Clique em <strong>Aplicar</strong> para salvar as configurações.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>As regras da força da senha se aplicam apenas às senhas novas. Por exemplo, as regras de senhas novas são aplicadas apenas ao criar uma nova conta de usuário, ou quando um usuário existente altera sua senha. As senhas existentes e aquelas que pertencem às contas de usuário importadas são excluídas das regras de novas senhas.</li>
+</ul>
+</div>
+
+<h3>Expiração da senha</h3>
+<p>Você pode aumentar a segurança das contas de usuário com a função de expiração de senha para forçar os usuários a alterar a senha após o período de tempo especificado.</p>
+
+<h4>Para configurar a programação de expiração de senha:</h4>
+<ol>
+	<li>Marque a caixa de seleção <strong>Habilitar expiração de senha</strong>.</li>
+	<li>As opções a seguir podem ser configuradas:
+		<ul>
+			<li><strong>Duração válida máxima da senha</strong>: Especifique o número de dias após o qual as senhas expiram.</li>
+			<li><strong>Duração válida mínima da senha</strong>: Marque a caixa de seleção para ativar esta função e especificar o número de dias antes do qual os usuários não poderão alterar suas senhas.</li>
+			<li><strong>Solicitar aos usuários para alterar a senha no login antes da expiração</strong>: Marque a caixa de seleção para ativar esta função e especificar o número de dias antes da expiração de senha em que os usuários serão lembrados de alterar suas senhas após o login.</li>
+			<li><strong>Permitir que os usuários alterem a senha após a expiração</strong>: Marque esta caixa de seleção para permitir que os usuários façam login com suas senhas atuais já expiradas e alterem suas senhas.</li>
+			<li><strong>Enviar e-mails de notificação de expiração</strong>: Marque esta caixa de seleção para notificar os usuários da expiração de senha por e-mail.</li>
+		</ul>
+	</li>
+	<li>Clique em <strong>Aplicar</strong> para salvar as configurações.</li>
+</ol>
+
+<h3>Verificação de 2 passos</h3>
+<p>A verificação de 2 passos fornece maior segurança para as contas dos usuários do DSM. Você pode forçar os administradores do DSM ou todos os usuários do DSM a habilitar a verificação em 2 passos para proteger ainda mais suas contas.</p>
+
+<h4>Para obrigar a verificação em 2 passos para os usuários do DSM:</h4>
+<ol>
+	<li>Marque a caixa <strong>Obrigar a verificação em 2 passos para os seguintes usuários</strong> e selecione a quais usuários você deseja aplicar.</li>
+	<li>Clique em <strong>Aplicar</strong> para salvar as configurações.</li>
+	<li>Com essa obrigação aplicada, os usuários que não habilitaram sua verificação em 2 passos serão solicitados a finalizar as configurações antes que eles possam fazer login no DSM.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Se você ainda não tiver configurado a verificação em 2 passos em <strong>Pessoal</strong> &gt; <strong>Conta</strong>, o assistente de configuração de verificação em 2 passos será iniciado para ajudá-lo completar as configurações necessárias para que você possa aplicar essa obrigação.</li>
+	<li>Desativar a obrigação da verificação em 2 passos aqui não irá afetar ou desabilitar as configurações de verificação em 2 passos de cada usuário. Os usuários podem manter suas configurações de verificação em 2 passos ou ir em <strong>Pessoal</strong> &gt; <strong>Conta</strong> para desabilitar essas configurações.</li>
+	<li style="display: none;">A verificação de 2 passos também se aplica a todos os serviços relacionados a SSH, como terminal SSH, SFTP e rsync com criptografia de transferência SSH. No entanto, como o Hyper Backup e a sincronização de pastas compartilhadas através do rsync com criptografia de transferência SSH não suportam a verificação de 2 passos, esses dois serviços não poderão funcionar normalmente depois que a verificação de 2 passos for ativada.</li>
+</ul>
+</div>
+
+
+<h3>Base do usuário</h3>
+
+<p>Ative a base do usuário para criar uma pasta personalizada <strong>home</strong> para cada usuário, exceto <strong>visitante</strong>. Todos os usuários podem acessar sua própria pasta base através de CIFS, AFP, FTP ou File Station.</p>
+
+<p>Usuários pertencentes ao grupo <strong>administrators</strong> podem acessar todas as pastas pessoais localizadas na pasta compartilhada padrão <strong>homes</strong>. O nome da pasta base é o mesmo da conta de usuário.</p>
+
+<h4>Para habilitar o serviço de base do usuário:</h4>
+<ol>
+	<li>Marque <strong>Ativar serviço de base do usuário</strong>.</li>
+	<li>Se houver diversos volumes, selecione onde a pasta <strong>homes</strong> deverá ser armazenada.</li>
+	<li>Clique em <strong>Aplicar</strong>.</li>
+</ol>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Assim que o serviço de base de usuário local for desativado, o serviço de base de usuário do domínio também será desativado ao mesmo tempo.</li>
+</ul>
+</div>
+
+<h4>Para desabilitar o serviço de base do usuário:</h4>
+<ol>
+	<li>Desmarque <strong>Ativar serviço de base do usuário</strong>.</li>
+	<li>Clique em <strong>Aplicar</strong> para salvar as configurações.</li>
+</ol>
+
+<p>Após desabilitar o serviço de base do usuário, a pasta compartilhada <strong>homes</strong> será preservada para acesso do administrador.  Os usuários poderão acessar suas pastas base quando o serviço de base de usuário for habilitado novamente.</p>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>Para excluir a pasta compartilhada <strong>homes</strong>, o serviço de base do usuário deve ser desabilitado primeiro.</li>
+	<li>O serviço de base de usuário do domínio será desativado se o serviço de base de usuário local for desativado.</li> 
+</ul> 
+</div>
+
+</body>	
+</html> 

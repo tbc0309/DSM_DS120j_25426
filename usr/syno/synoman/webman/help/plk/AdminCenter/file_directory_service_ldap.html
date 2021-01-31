@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>LDAP</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>LDAP</h2>
+<p>LDAP umożliwia Synology NAS dołączenie do istniejącej usługi katalogowej jako klient LDAP, a następnie pobranie informacji o użytkowniku lub grupie z serwera LDAP (lub &bdquo;directory server&rdquo;). Użytkownik może zarządzać uprawnieniami dostępu użytkownik&oacute;w lub grup LDAP do aplikacji DSM i folder&oacute;w wsp&oacute;łdzielonych podobnie jak w przypadku lokalnych użytkownik&oacute;w lub grup DSM. Więcej informacji na temat uwierzytelniania LDAP można znaleźć <a href="http://en.wikipedia.org/wiki/LDAP" target="_blank">tutaj</a>.</p>
+
+<p>Obsługiwany standard LDAP to LDAP wersja 3 (RFC 2251).</p>
+<h4>Aby podłączyć urządzenia Synology NAS do usługi katalogowej:</h4>
+<ol>
+	<li>Wybierz polecenie <strong>Panel sterowania</strong> &gt; <strong>Domena/LDAP</strong>.</li><img src="about:blank" class="help_image" /><li>Przejdź do karty <strong>LDAP</strong> i zaznacz <strong>Włącz klienta LDAP</strong>.</li><img src="about:blank" class="help_image" /><li>Wprowadź adres IP lub nazwę domeny serwera LDAP w polu <strong>Adres serwera LDAP</strong>.</li><img src="about:blank" class="help_image" /><li>Wybierz typ szyfrowania z menu rozwijanego <strong>Szyfrowanie</strong>, aby szyfrować połączenia LDAP do serwera LDAP.</li><img src="about:blank" class="help_image" /><li>Wprowadź ustawienia Base DN lub serwera LDAP w polu <strong>Base DN</strong>.</li><img src="about:blank" class="help_image" /><li>Wybierz odpowiedni <strong>Profil</strong> w zależności od używanego serwera LDAP. Wybierz np. <strong>Standardowy</strong>, jeśli korzystasz z serwera LDAP Server firmy Synology lub serwera Mac Open Directory.</li><img src="about:blank" class="help_image" /><li>Aby umożliwić użytkownikom serwera LDAP, kt&oacute;ry nie obsługuje planu Samba, dostęp do plik&oacute;w urządzenia Synology NAS za pośrednictwem CIFS, zaznacz pole wyboru <strong>Włącz autoryzację za pomocą hasła w postaci zwykłego tekstu CIFS</strong>. Zapoznaj się z poniższą sekcją, aby upewnić się, że użytkownicy LDAP mogą za pomocą swoich komputer&oacute;w pomyślnie uzyskać dostęp do plik&oacute;w Synology NAS przez CIFS.</li><img src="about:blank" class="help_image" /><li>Kliknij <strong>Zastosuj</strong>.</li>
+	<li>Wprowadź w polach Bind DN (lub konto administratora LDAP) oraz hasło, a następnie kliknij <strong>OK</strong>.</li><img src="about:blank" class="help_image" /></ol>
+
+<div class="section">
+
+<h4>Informacje o obsłudze protokołu CIFS i ustawieniach komputer&oacute;w klienckich</h4>
+<p>Po włączeniu uwierzytelnienia za pomocą hasła w postaci zwykłego tekstu CIFS od użytkownik&oacute;w LDAP może być wymagana modyfikacja ustawień komputera w celu uzyskania dostępu do plik&oacute;w urządzenia Synology NAS za pośrednictwem CIFS:</p>
+<ul>
+	<li>Jeżeli urządzenie Synology NAS dołącza do usługi katalogowej zapewnianej przez serwer LDAP firmy Synology (lub inne urządzenie Synology NAS z zainstalowanym i uruchomionym pakietem <strong>LDAP Server</strong>) lub serwer LDAP obsługujący plan Samba, a wszyscy użytkownicy LDAP posiadają poprawny atrybut sambaNTPassword, użytkownicy LDAP mogą uzyskiwać dostęp do plik&oacute;w urządzenia Synology NAS za pośrednictwem CIFS bez konieczności zaznaczenia opcji <strong>Włącz autoryzację za pomocą hasła w postaci zwykłego tekstu CIFS</strong> lub modyfikacji ustawień swoich komputer&oacute;w. W przeciwnym razie użytkownicy LDAP będą musieli włączyć w swoich komputerach obsługę <a href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" target="_blank">PAM</a>, aby m&oacute;c uzyskać dostęp do plik&oacute;w urządzenia Synology NAS za pośrednictwem CIFS. Spowoduje to jednak przesłanie haseł użytkownik&oacute;w LDAP do urządzenia Synology NAS w postaci zwykłego tekstu (bez szyfrowania), co obniży poziom bezpieczeństwa.</li>
+</ul>
+
+<h4>Aby zmodyfikować ustawienia systemu Windows:</h4>
+<ol>
+	<li>Wybierz polecenie <strong>Start</strong> &gt; <strong>Uruchom</strong>, wpisz <strong>regedit</strong> i kliknij <strong>OK</strong>, aby otworzyć Edytor rejestru.</li>
+	<li>W zależności od wersji systemu Windows, odszukaj lub utw&oacute;rz następujący wpis rejestru:<ul>
+			<li><strong>Windows 2000, XP, Vista i Windows 7:</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkStation\Parameters]</li>
+			<li><strong>Windows NT:</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Rdr\Parameters]</li>
+			<li><strong>Windows 95 (SP1), 98 oraz Me:</strong><br />[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\VxD\VNETSUP]</li>
+		</ul>
+	</li>
+	<li>Utw&oacute;rz lub zmodyfikuj wartość DWORD <strong>EnablePlainTextPassword</strong> i zmień wartość jej danych z <strong>0</strong> na <strong>1</strong>.</li>
+	<li>Uruchom ponownie system Windows, aby zastosować zmiany.</li>
+</ol>
+
+<h4>Aby zmodyfikować ustawienia systemu Mac OS X:</h4>
+<ol>
+	<li>Wybierz polecenie <strong>Aplikacje</strong> &gt; <strong>Narzędzia</strong>, aby otworzyć okno <strong>Terminal</strong>.</li>
+	<li>Utw&oacute;rz pusty plik <strong>/etc/nsmb.conf</strong>:<pre>sudo touch /etc/nsmb.conf</pre></li>
+	<li>Otw&oacute;rz plik <strong>/etc/nsmb.conf</strong> w programie vi:<pre>sudo vi /etc/nsmb.conf</pre></li>
+	<li>Wpisz &bdquo;<strong>i</strong>&rdquo;, aby wstawić tekst, a następnie wklej poniższy tekst:<pre>[default]<br />&gt;minauth=none</pre></li>
+	<li>Naciśnij klawisz Esc, a następnie wpisz &bdquo;<strong>ZZ</strong>&rdquo;, aby zapisać zmiany i zamknąć program vi.</li>
+</ol>
+
+<h4>Aby zmodyfikować ustawienia systemu Linux:</h4>
+<p>Jeśli korzystasz z <strong>smbclient</strong>, dodaj następujące wpisy w sekcji <strong>[global]</strong> pliku <strong>smb.conf</strong>:<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">encrypt passwords = no <br /> client plaintext auth = yes <br /> client lanman auth = yes <br /> client ntlmv2 auth = no</p>
+	<p>Jeśli korzystasz z <strong>mount.cifs</strong>, wpisz poniższe polecenie:</strong>
+	<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">echo 0x30030 &gt; /proc/fs/cifs/SecurityFlags</p>
+	<p>Szczeg&oacute;łowe informacje znajdziesz pod adresem <a href="https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README" target=_blank>https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README</a>.</p>
+</p>
+</div>
+
+<div class="section"><h4>Informacje o profilach</h4>
+<p>Poszczeg&oacute;lne serwery LDAP mogą korzystać z r&oacute;żnych atrybut&oacute;w dla nazw kont i nazw grup bądź też w celu rozr&oacute;żnienia kont i grup. Opcja <strong>Profil</strong> umożliwia określenie lub skonfigurowanie sposobu, w jaki informacje o użytkowniku i grupie są mapowane do atrybut&oacute;w LDAP. W zależności od używanego serwera LDAP można wybrać jeden z poniższych profili:</p>
+<ul>
+	<li><strong>Standardowy:</strong> dla serwer&oacute;w LDAP Server firmy Synology lub serwer&oacute;w Mac Open Directory.</li>
+	<li><strong>IBM Lotus Domino:</strong> dla serwer&oacute;w IBM Lotus Domino 8.5.</li>
+	<li><strong>Niestandardowe:</strong> Umożliwia konfigurację mapowania. Więcej szczeg&oacute;łowych informacji można znaleźć w sekcji poniżej.</li>
+</ul>
+
+<p>Przed konfiguracją atrybut&oacute;w mapowania LDAP użytkownik powinien posiąść podstawową wiedzę w tym zakresie. System Synology DSM i edytor <strong>Profili</strong> są zgodne ze standardem RFC 2307. Użytkownik może określić <strong>filter</strong> &gt; <strong>passwd</strong> jako <strong>userFilter</strong>, dzięki czemu Synology NAS będzie interpretować zapisy za pomocą <strong>objectClass=userFilter</strong> na serwerze LDAP jako konta LDAP. Jeśli określisz <strong>passwd</strong> &gt; <strong>uid</strong> jako <strong>username</strong>, Synology NAS będzie interpretować <strong>username</strong> na serwerze LDAP jako nazwę konta. Pozostawienie pustych opcji mapowania spowoduje zastosowanie zasad standardu RFC 2307.</p>
+<p>Synology NAS wymaga stałej liczby całkowitej, kt&oacute;ra będzie służyć jako identyfikator konta LDAP (<strong>uidNumber</strong>) lub identyfikator grupy (<strong>gidNumber</strong>). Jednak nie wszystkie serwery LDAP używają liczb całkowitych jako takich atrybut&oacute;w. Dlatego też słowo kluczowe <strong>HASH()</strong> może być użyte do konwertowania atrybut&oacute;w na liczby całkowite. Na przykład serwer LDAP może używać atrybutu <strong>userid</strong> o wartości szesnastkowej jako unikatowego identyfikatora dla konta LDAP. W takim przypadku użytkownik może ustawić <strong>passwd</strong> &gt; <strong>uidNumber</strong> na <strong>HASH(userid)</strong>, po czym Synology NAS przekonwertuje wartość na liczbę całkowitą.</p>
+<p>Poniżej znajduje się podsumowanie atrybut&oacute;w, kt&oacute;re można zmodyfikować:</p>
+<ul>
+	<li><strong>filtr</strong><ul>
+			<li><strong>group</strong>: wymagany element objectClass dla grupy.</li>
+			<li><strong>passwd</strong>: wymagany element objectClass dla użytkownika.</li>
+			<li><strong>shadow</strong>: wymagany element objectClass dla haseł użytkownik&oacute;w.</li>
+		</ul>
+	</li>
+	<li><strong>grupa</strong><ul>
+			<li><strong>cn</strong>: nazwa grupy.</li>
+			<li><strong>gidNumber</strong>: numer GID dla tej grupy.</li>
+			<li><strong>memberUid</strong>: członkowie tej grupy.</li>
+		</ul>
+	</li>
+	<li><strong>passwd</strong><ul>
+			<li><strong>uidNumber</strong>: numer UID dla tego użytkownika.</li>
+			<li><strong>uid</strong>: nazwa użytkownika.</li>
+			<li><strong>gidNumber</strong>: podstawowy numer GID dla tego użytkownika.</li>
+		</ul>
+	</li>
+	<li><strong>shadow</strong><ul>
+			<li><strong>uid</strong>: nazwa użytkownika.</li>
+			<li><strong>userPassword</strong>: hasło użytkownika.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<div class="section"><h4>Informacje o przesunięciu UID/GID</h4>
+<p>Aby uniknąć konflikt&oacute;w UID/GID pomiędzy użytkownikami/grupami LDAP i użytkownikami/grupami lokalnymi, można włączyć przesunięcie UID/GID w celu przesunięcia UID/GID dla użytkownik&oacute;w/grup serwera LDAP o 1&nbsp;000&nbsp;000. Ta opcja dotyczy tylko serwer&oacute;w LDAP, kt&oacute;re nie są serwerami LDAP firmy Synology i mają unikatowy, numeryczny atrybut identyfikatora ID dla każdego użytkownika/grupy.</p>
+</div>
+
+<div class="section"><h4>Informacje związane z rozszerzaniem grup osadzonych</h4>
+<p>W przypadku grupy osadzonej członek grupy LDAP należy do innej grupy LDAP, co odzwierciedla hierarchię organizacji. Gdy użytkownik szuka informacji, do kt&oacute;rej grupy należy dany członek, lub chce poznać listę nazw członk&oacute;w określonej grupy, serwer Synology NAS rozwinie grupę osadzoną zgodnie z atrybutami <strong>member</strong> (członek) grupy LDAP, gdzie nazwa wyr&oacute;żniająca DN (Distinguished Name) grupy podrzędnej posiada odniesienie związane z tym atrybutem. W niekt&oacute;rych okolicznościach rozwinięcie grupy osadzonej może zająć dużo czasu, np. jeśli serwer nie indeksuje atrybutu <strong>member</strong> lub grupa jest głęboko osadzona. Aby tego uniknąć, możesz zrezygnować z rozwijania grupy osadzonej.</p>
+</div>
+
+
+<div class="section" ><h4>O certyfikatach klienta</h4>
+<p>Obsługujemy wykorzystanie certyfikatu klienta. Niekt&oacute;re specyficzne serwery LDAP, np. Google LDAP, używają certyfikat&oacute;w do uwierzytelniania klient&oacute;w. Można przesłać certyfikat klienta po zaznaczeniu opcji <strong>Włącz certyfikat klienta</strong> .</p>
+<h4>Uwaga:</h4>
+<p>Funkcja ta jest obsługiwana przez system DSM w wersji 6.2.2 lub wyżej.</p>
+</div>
+
+
+</body>
+</html>

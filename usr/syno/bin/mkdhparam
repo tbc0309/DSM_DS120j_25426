@@ -1,0 +1,49 @@
+#!/bin/bash
+# Copyright (c) 2000-2015 Synology Inc. All rights reserved.
+
+set +e
+
+if [ "$(basename "$0")" = "mkdhparam" ]; then
+    while start mkdhparam 2>&1 | grep -q "Job is already running"; do
+        sleep 1
+    done
+
+    exit
+fi
+
+numbits=${1:-2048}
+
+OPENSSL="/usr/bin/openssl"
+DIR="/usr/syno/etc/ssl"
+PEM="${DIR}/dh${numbits}.pem"
+PEM_DEFAULT="/usr/syno/etc.defaults/ssl/dh${numbits}.pem"
+
+case $numbits in
+    2048)
+        SIZE=424
+        ;;
+    1024)
+        SIZE=245
+        ;;
+    4096)
+        SIZE=769
+        ;;
+esac
+
+[ -d "$DIR" ] || mkdir -pm755 "$DIR"
+
+$OPENSSL dhparam -inform pem -in "$PEM" -check -noout &>/dev/null
+isValidDH=$?
+
+keysize=$(/usr/bin/stat --printf="%s" "$PEM")
+
+/usr/bin/cmp --silent "$PEM_DEFAULT" "$PEM"
+isDefaultDH=$?
+
+if [ $isValidDH -ne 0 ] || [ "$keysize" -ne "$SIZE" ] || [ $isDefaultDH -eq 0 ]; then
+    $OPENSSL dhparam -outform pem -rand "$RANDFILE" -out "$PEM" "$numbits"
+    /usr/syno/sbin/synoservice --reload nginx
+fi
+
+chown root:root "$PEM"
+chmod 400 "$PEM"

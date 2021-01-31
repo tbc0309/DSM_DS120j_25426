@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>数据备份</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>备份</h2>
+
+<p><strong>备份和还原</strong>可让您在 Synology NAS 上手动或按计划备份各种数据 (系统配置、共享文件夹和应用程序/套件)。您可将备份数据存储在本地共享文件夹、远程服务器和公共云Y (Amazon S3、Microsoft Azure、hicloud S3 和 SFR NAS BACKUP)。通过<strong>备份和还原</strong>，每个备份任务可保留多个备份版本，并以&ldquo;Smart Recycle&rdquo;政策来循环这些文件。</p>
+
+
+<h3>数据备份</h3>
+<p><strong>备份和还原</strong>可提供各种备份目的地的选项以及设置数据备份任务的方式。</p>
+
+<h4>若要创建数据备份任务：</h4>
+
+<ol>
+<li>单击左下角的 <strong>+</strong>，然后选择<strong>数据备份任务</strong>以启动备份向导。</li>
+<li>选择所需的备份目的地类型：
+<ul>
+<li>本地/远程共享文件夹或外接存储设备</li>
+<li>远程 rsync 服务器</li>
+<li>公共云 (如 Amazon S3 和 Microsoft Azure)</li>
+</ul>
+</li>
+<li>设置所需的备份任务类型：
+  <ul>
+<li>若要创建整个新任务，选择<strong>	创建备份任务</strong>。</li>
+<li>若要在任何目的地重新使用已有的备份数据，请选择<strong>重新链接已有任务</strong>。重新链接可帮助您直接从不同的任务利用备份数据。</li>
+</ul>
+</li>
+
+<li>按照向导的指示完成设置。选择<strong>启用客户端加密</strong>可在传输之前对数据进行加密以确保备份目的地的数据安全。</li>
+</ol>
+
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>备份任务名称可为 1 到 32 个 Unicode 字符，但不可含下列字符：<br> <span class="letterSpace5">! &quot; # $ % &amp; ' ( ) * + , / : ; &lt; = &gt; ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>备份文件夹路径的长度上限为 2048 个字符。</li>
+<li>如果通过 AFP 上传到 EXT3 共享文件夹的文件或文件夹超过 32000 个，则所有备份任务（包括该共享文件夹）将会失败。</li>
+<li>加密的共享文件夹在装载后可备份，并可还原到加密/未加密文件夹。但它将始终可还原为未加密文件并在启动时不会自动装载。系统将提示您输入或导入加密共享文件夹密钥以装载它。</li>
+<li>系统不支持将加密文件夹备份至另一个加密文件夹。</li>
+<li>系统不支持使用远程文件夹作为备份源或备份目的地。</li>
+<li>支持某些应用程序的备份。若要查看特定套件是否支持备份功能以及备份内容和限制，请参见各应用程序的帮助。</li>
+<li class="enable-eds14">Synology NAS 在没有可写 EXT3/EXT4 外接设备时，无法备份应用程序。</li>
+<li class="enable-eds14">Synology NAS 仅备份 EXT3/EXT4 外接设备上创建的共享文件夹。</li>
+</ul>
+</div>
+
+
+<div class="section disable-eds14">
+<h4>备份 Windows ACL 权限设置：</h4>
+<p>根据备份目的地的文件系统不同，您也可以备份 Synology NAS 文件的 Windows ACL 权限设置：</p>
+
+<ul>
+<li>不论目的地文件系统怎样，所有的备份目的地都可备份 Windows ACL 设置</li>
+</ul>
+</div>
+
+<h4>若要将备份数据导出到公共云或远程 Synology NAS：</h4>
+<p>当备份大量数据到公共云时，建议您将初始版本导出到外接存储设备  (如 U 盘) 并将设备传送到云服务供应商。可连接此设备并将数据直接上传到云。通过此方法，您可大幅降低首次备份的时间。</p>
+<ol>
+<li>单击左下角的 <strong>+</strong>，然后选择<strong>远程 Synology NAS</strong> 或所需的云服务供应商。</li>
+<li>选择<strong>	导出到本地共享文件夹 (包括外接存储设备)</strong>，并完成设置。出现提示后，为受保护的数据备份选择<strong>启用客户端加密</strong>。</li>
+<li>将存储设备传送到远程 Synology NAS 或云服务供应商。将导出的数据从外接存储设备导入。</li>
+<li>确认后，返回<strong>备份和还原</strong>，并单击<strong>立即重新链接</strong>。</li>
+<li>按重新链接向导的说明，将 Synology NAS 链接到存储库。如果数据被加密导出，则需要密码/加密密钥。</li>
+</ol>
+
+<div class="section">
+	<h4>注：</h4>
+	<ul>
+		<li>任务设置后，客户端加密将无法禁用，也不能更改密码。</li>
+		<li>一个备份存储库只能与一个备份任务链接。</li>
+		<li>如果备份源文件夹是加密的共享文件夹或其子文件夹，则当您在创建备份任务时，可装载或下载源文件夹。</li>
+		<li>加密的共享文件夹无法成为备份目的地。</li>
+		<li>如果您选择<strong>启用客户端加密</strong>，则还原此任务中的数据需要密码/加密密钥。<strong>丟失密码/加密密钥将造成永久性数据丟失</strong>。</li>
+	</ul>
+</div>
+
+<h4>若要管理备份任务：</h4>
+<p>在左侧面板上选择所需的备份任务，然后单击以下按钮可进行相应的管理：</p>
+<ul>
+<li><strong>立即备份</strong>：立即备份所选任务的数据。</li>
+<li><strong>备份资源管理器</strong> (放大镜图标)：查看所有的可用备份版本，并复制/还原/下载的包含的文件。</li>
+<li><strong>版本列表</strong>：查看所有备份版本的创建时间和状态、删除特定备份版本、或锁定特定版本以强制保留。</li>
+<li><strong>编辑</strong>：修改备份源、目的地、计划或其它设置。</li>
+<li><strong>删除</strong>：删除备份任务。</li>
+<li><strong>取消</strong>：停止当前运行的备份任务。</li>
+</ul>
+
+
+<h4>若要循环版本：</h4>
+<p>备份循环是一个版本管理机制。它可通过自动删除较旧的、不需要的版本以及可释放存储空间，来帮助管理备份版本。您可在<strong>任务设置</strong>中启用此功能，或在创建备份任务时对其进行配置。</p>
+<ol>
+<li>在左侧面板中选择所需的备份任务，并单击<strong>编辑</strong>或<strong>设置</strong>&gt; <strong>任务设置</strong>。</li>
+<li>选择<strong>启用备份循环</strong>，并选择所需的循环模式：
+<ul>
+<li><strong>从最早的版本</strong>：当可用版本超出定义数量时，删除最早的备份版本。</li>
+<li><strong>Smart Recycle</strong>：按这些政策保留备份版本：
+  <ul>
+<li><strong>过去 24 小时，每小时的版本</strong>：保留每小时最早创建的备份版本。</li>
+<li><strong>过去 1 天至 1 个月内，每天的版本</strong>：保留每天最早创建的备份版本。</li>
+<li><strong>较早 1 个月，每周的版本</strong>：保留每周最早创建的备份版本。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>指定<strong>版本数量</strong>上限。当版本数量超出此数时，最旧的版本将被循环。</li>
+<li>如果您已在<strong>计划</strong>中配置了重复备份计划，可预览您的备份版本将如何保留以及时间线上最早的还原点。</li>
+<li>单击<strong>确定</strong>来保存设置。</li>
+</ol>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>锁定的日志将永远不会被删除。</li>
+<li>只有多版本备份任务才会提供版本循环。</li>
+<li>在 DSM 5.1 或以下版本中不支持版本循环。</li>
+<li>循环将在设置更改或备份任务完成后被触发。</li>
+<li>在计算版本数量上限时，锁定的版本被排除在外。</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>有关数据备份任务的注意事项</h3>
+<p>对于每个备份任务，请阅读以下注意事项，以获得重要的设置详情和故障查除提示。</p>
+
+<h4>本地备份任务：</h4>
+<ul>
+<li>若备份目的地的数据在任务进行时被删除，则下一次执行备份任务时将会执行完整备份。</li>
+<li>新外接硬盘在作为备份目的地使用前可能需要先进行格式化。</li>
+<li>创建备份任务之前，请先确认您已将外接设备正确连接到 Synology NAS。您可进入<b>控制面板</b> &gt; <b>外接设备</b>来检查 USB/eSATA 设备的状态。如果外接硬盘正在初始化、正在格式化或出现故障，您无法将其选为备份目的地。</li>
+<li>您无法将远程装载的共享文件夹法选作为备份来源或目的地。</li>
+<li>如果加密共享文件夹已卸载，您无法将其选为备份目的地。</li>
+<li>当备份目的地的文件系统为 NTFS/FAT 时，您无法备份图像缩略图。</li>
+</ul>
+
+
+
+
+
+<h4>远程 rsync 备份任务：</h4>
+<ul>
+<li>创建任务来备份数据到 rsync 兼容服务器时，有以下模式可用：当您从<b>备份模块</b>旁的下拉菜单中选择一个备份模块（rsync 兼容服务器上的共享文件夹），系统会使用 <b>rsync daemon 模式</b>。仅当您在<b>备份模块</b>中输入绝对路径（以&ldquo;/&rdquo;开头）时，系统才会启用 <b>remote shell 模式</b>。</li>
+<li>在 Linux 平台上，仅 <strong>admin</strong>、<strong>root</strong> 和 <strong>rsync</strong> 帐户可执行网络备份。</li>
+<li>如果您要通过 Internet 使用主机名称访问目的地服务器，主机名称必须符合 FQDN（完全合格域名），例如 <strong>abc.bcd.com</strong>。</li>
+<li>当从一台 Synology NAS 设备备份到另一台 Synology NAS 设备时，将提示您输入目的地帐户的用户名和密码。备份到另一台 Synology NAS 上的共享文件夹时，您可根据文件夹访问权限设置来备份共享文件夹。仅拥有访问权限的特定用户帐户才能看到该共享文件夹。如果您无法目的地服务器中找到想要的共享文件夹，请检查您的访问权限。</li>
+<li>若要使用传输加密，目标服务器必须支持加密网络备份功能且用户认证的密码不得为空。</li>
+<li>Remote shell 模式仅支持传输加密。</li>
+<li>如果您通过 rsync 客户端将文件备份至 Synology NAS 设备，该件名必须为 UTF-8 编码。</li>
+<li>如果您使用 rsync 兼容客户端备份文件至 Synology NAS，则只有 Synology NAS 的 <strong>admin</strong>、<strong>root</strong> 和 <strong>rsync</strong> 帐户用户可执行该任务。</li>
+<li>如果您使用 Synology NAS 备份至 rsync 兼容服务器时，需要输入正确的 rsync 备份帐户名称和密码。您同时需要选择具有写入权限的备份模块。</li>
+</ul>
+
+
+
+<h4>Amazon S3 备份任务：</h4>
+<ul>
+<li>如果您创建以 Amazon S3 服务器为备份目的地的备份任何时，您有多种选项可使用，如传输加密、备份至 Amazon S3 RRS（低冗余存储）等。请注意，部分选项（如传输加密）可能会降低备份任务的速度。</li>
+<li>已备份的文件会存储在 Amazon S3 服务器上所选的 <strong>Bucket</strong>，而 Set KEY 值的开头为您所选的目录名称，结尾为该文件的完整路径。</li>
+<li>Amazon S3 的数据结构包括一对 Bucket 和 KEY，并不含文件夹结构。目前不支持备份空的文件夹。</li>
+<li>如果备份的文件没有修改，则不会再备份到 Amazon S3 服务器上同一个 Bucket 中。</li>
+<li>Amazon S3 上不可存在相同名称的 Bucket。此外，名称应：</li>
+<ul>
+<li>介于 3 至 63 个字符。</li>
+<li>只能包含小写字母、数字、句点（.）和短划线（-）。</li><li>开头和结尾必须为数字或字母，结尾不能为短划线（-）、不能含有两个相邻的句点或句点旁边有短划线（如：&ldquo;my-.bucket.com&rdquo;和&ldquo;my.-bucket&rdquo;均无效）。</li>
+</ul>
+<li>Amazon S3 KEY 值的长度上限为 1024 个字符。若要确保成功备份到 Amazon S3，路径长度上限应为 1024 减去创建任务时指定的目的地文件夹名称长度。</li>
+<li>如果您启用 Amazon S3 RRS（低冗余存储）支持，仅有启用选项后所修改的数据才会备份至 RRS 存储器，这意味着已备份到 Amazon S3 标准存储器的数据将不会再次备份到 RRS。</li>
+<li>不支持将已备份文件从 Amazon S3 移动至 Amazon Glacier。如果通过 AWS 管理控制台来将 Amazon S3 的文件移动至 Amazon Glacier，则相关备份任务可能会失败。</li>
+<li>不支持通过 SSL 备份文件至虚拟主机型的 bucket。</li>
+<li>传输文件时，该文件将被分割后传输。各部分的大小限制可在任务设置中的<strong>分块上传拆分大小</strong>中设置，默认值为 512MB。如果网络环境不稳定，建议您将该选项设置为较小数字。</li>
+
+<li>每次上传部分的最大数为 10000。一个文件大小的上限为 <strong>Multipart Upload 文件拆分大小（MB）</strong>乘以 10000。</li>
+<li>文件名称不可含有任何非 UTF-8 或控制字符。</li>
+</ul>
+
+
+
+<h4>Microsoft Azure 备份任务：</h4>
+<ul>
+<li>创建以 Microsoft Azur 服务器为网络备份目的地的备份任何时，您有多个选项可用(如传输加密)。请注意，部分选项（如传输加密）可能会降低备份任务的速度。</li>
+<li>已备份的文件会存储在 Microsoft Azure 服务器上所选的 <strong>Container</strong> 中，而设置 Blob 名称的开头为您所选的目录名称，结尾为该文件的完整路径。</li>
+<li>Microsoft Azure 的数据结构包括一对 Container 和 Blob，并不含文件夹结构。目前不支持备份空的文件夹。</li>
+<li>如果备份的文件没有修改，则不会再备份到 Microsoft Azure 服务器上同一个 Container 中。</li>
+<li>Microsoft Azure 上不可存在相同名称的 Container。此外，名称应：</li>
+<ul>
+<li>介于 3 至 63 个字符。</li>
+<li>只能包含小写字母、数字和短划线（-）。</li>
+<li>开头和结尾为数字或字母，不能含有两个相邻的短划线。</li>
+</ul>
+<li>Microsoft Azure Blob 名称的长度上限为 1024 个字符。若要确保成功备份到 Microsoft Azure，路径长度上限应为 1024 减去创建任务时指定的目的地文件夹名称长度。</li>
+
+<li>文件名称不可含有任何非 UTF-8 或控制字符。</li>
+<li>不正确的验证信息、网络连接问题或 Synology NAS 和远程服务器的时间不相符可能导致出现验证失败警告信息。要检查 Synology NAS 上的时间设置，请进入<strong>控制面板</strong> &gt; <strong>区域选项</strong> &gt;<strong> 时间</strong>以同步与 NTP 服务器的时间。</li>
+</ul>
+
+
+
+<h4>hicloud S3 备份任务：</h4>
+<ul>
+<li>创建以 hicloud S3 服务器为网络备份目的地的备份任何时，您有多个选项可用(如传输加密)。请注意，部分选项（如传输加密）可能会降低备份任务的速度。</li>
+<li>已备份的文件会存储在 hicloud S3 服务器上所选的 <strong>Bucket</strong>，而 Set KEY 值的开头为您所选的目录名称，结尾为该文件的完整路径。</li>
+<li>hicloud S3 的数据结构包括一对 Bucket 和 KEY，并不含文件夹结构。目前不支持备份空的文件夹。</li>
+<li>如果备份的文件没有修改，则不会再备份到 hicloud S3 服务器上同一个 Bucket 中。</li>
+<li>hicloud S3 上不可存在相同名称的 Bucket。此外，名称应：</li>
+<ul>
+<li>介于 3 至 63 个字符。</li>
+<li>只能包含小写字母、数字、句点（.）和短划线（-）。</li>
+<li>开头和结尾必须为数字或字母，结尾不能为短划线（-）、不能含有两个相邻的句点或句点旁边有短划线（如：&ldquo;my-.bucket.com&rdquo;和&ldquo;my.-bucket&rdquo;均无效）。</li>
+</ul>
+<li>hicloud S3 KEY 值的长度上限为 255 个字符。若要确保 hicloud S3 备份任务能顺利运行，路径长度上限应为 255 减去创建任务时指定的目的地文件夹名称长度。</li>
+<li>传输文件时，该文件将被分割后传输。各部分的大小限制可在任务设置中的<strong>分块上传拆分大小</strong>中设置，默认值为 512MB。如果网络环境不稳定，建议您将该选项设置为较小数字。</li>
+
+<li>Hicloud 每次传输只支持最多 1000 个分块。这意味着文件总大小不得超过分块大小乘以 1000。例如，如果分块上传拆分大小设置为 8MB，则超过 8000MB 的单个文件就无法上传。</li>
+
+<li>不支持加密共享文件夹备份。</li> 
+
+<li>文件名称不可含有任何非 UTF-8 或控制字符。</li>
+</ul>
+
+
+  
+
+<h4>SFR NAS BACKUP 备份任务：</h4>
+<ul>
+<li>创建以 SFR NAS BACKUP 服务器为网络备份目的地的备份任何时，您有多个选项可用，如传输加密等。请注意，部分选项（如传输加密）可能会降低备份任务的速度。</li>
+<li>备份文件存储于您在 SFR Stockage 服务器上选择的 <strong>Bucket</strong> 中并设置键值，该键值以您选择的目录名称为开头，以文件的完整路径为结尾。</li>
+<li>SFR NAS BACKUP 的数据结构包括一对 Bucket 和 Key，并不含文件夹结构。目前不支持备份空的文件夹。</li>
+<li>如果备份的文件没有修改，则不会再备份到 SFR NAS BACKUP 服务器上同一个 Bucket 中。</li>
+<li>SFR NAS BACKUP 上不可存在相同名称的 Bucket。此外，名称应：</li>
+<ul>
+<li>介于 3 至 63 个字符。</li>
+<li>只能包含小写字母、数字、句点（.）和短划线（-）。</li>
+<li>开头和结尾必须为数字或字母，结尾不能为短划线（-）、不能含有两个相邻的句点或句点旁边有短划线（如：&ldquo;my-.bucket.com&rdquo;和&ldquo;my.-bucket&rdquo;均无效）。</li>
+</ul>
+<li>SFR NAS BACKUP KEY 值的长度上限为 1024 个字符。若要确保 SFR NAS BACKUP 备份任务能顺利运行，路径长度上限应为 1024 减去创建任务时指定的目的地文件夹名称长度。</li>
+<li>传输文件时，该文件将被分割后传输。各部分的大小限制可在任务设置中的<strong>分块上传拆分大小</strong>中设置，默认值为 64MB。如果网络环境不稳定，建议您将该选项设置为较小数字。</li>
+
+<li>文件名称不可含有任何非 UTF-8 或控制字符。</li> 
+
+</ul>
+
+<h4>其它 S3 兼容备份任务：</h4>
+<ul>
+<li>若要使用其它 S3 兼容云，请在有提示时在 <strong>S3 服务器</strong> 中输入所需 S3 兼容云的 IP 地址/域。</li>
+<li>如果有任何使用问题，请参见相关文档或联系 S3 兼容云供应商。</li>
+</ul>
+
+<h3>LUN 备份*</h3>
+
+<p>您可以使用<b>本地 LUN 备份</b>将 Synology NAS 上的 iSCSI LUN 备份至本地共享文件夹。您也可以使用<b>网络 LUN 备份 (Synology 服务器)</b> 将其备份至另一台 Synology NAS。</p>
+
+<h4>若要备份 iSCSI LUN：</h4>
+<ol>
+<li>单击左下角的 <strong>+</strong>，然后选择 <strong>LUN 备份任务</strong>。
+</li>
+<li>
+当提示您选择目的地类型时，请选择以下选项之一：
+</li>
+<ul>
+<li>
+<b>本地 LUN 备份</b>：选择此选项将 LUN 从 Synology NAS 备份至本地共享文件夹，或备份到连接 Synology NAS USB 或 eSATA 端口的外接存储设备中。
+</li>
+<li><b>网络 LUN 备份 (Synology 服务器)</b>：选择此选项将 LUN 从您的 Synology NAS 备份至另一台 Synology NAS 中。
+</li>
+</ul>
+<li>
+出现提示时，请指定备份目的地和 LUN 来源，并设置备份计划。
+</li>
+<li>
+按向导完成设置。
+</li>
+</ol>
+<p>创建备份任务后，Synology NAS 将按照计划执行备份任务并在目的地存储备份 LUN。备份 LUN 仅用于备份目的。若要访问备份 LUN，请参见<a href="restore.html">还原备份 LUN</a> 来了解更多信息。</p>
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>常规文件和块级 LUN 将以文件映像格式备份在目的地。若将 LUN 进行还原，则所有的块级 LUN 将被更改为文件 LUN。</li>
+<li>每个备份任务只能包含一个 LUN 作为备份源。</li>
+<li>LUN 无法以 FAT、FAT32、HFS、HFS Plus 或 NTFS 格式备份到外接硬盘。</li>
+<li>执行网络 LUN 备份前，请先登录目的地 Synology NAS，确认已启用网络备份服务（在<b>控制面板</b> &gt; <b>备份服务</b>中）。</li>
+<li>如果您的 Synology NAS 通过路由器连接到网络，则执行网络 LUN 备份之前，请先确认您已在路由器上为 iSCSI 服务指定端口转发规则（TCP 端口 3260）。</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>关于完整备份和增量备份：</h4>
+<p>
+Synology NAS 第一次将执行所选 LUN 的完整备份，然后再执行增量备份。但是，如果备份目的地的共享文件夹名称或目录名称被更改，则 Synology NAS 将再次执行完整备份。
+</p>
+</div>
+
+<p>____<br /> * 仅适用于特定机型。</p>
+
+</body></html>

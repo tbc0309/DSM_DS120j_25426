@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>DSM Help - SSO Client</title>
+<meta name="author" content="Synology Inc.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>SSO Client</h2>
+
+<h3>Domain/LDAP SSO Client</h3>
+
+<p>If your Synology NAS has joined the same domain or LDAP service as the SSO server, you can set your Synology NAS as an SSO client. Users can access the services provided by your Synology NAS once they log in to the SSO server with their credentials.</p>
+
+<p>Before you start, make sure your Synology NAS has joined the same domain or LDAP service as the SSO server.</p>
+
+<h4>To set your Synology NAS as an SSO client:</h4>
+<ol>
+	<li>Go to <strong>Control Panel</strong> &gt; <strong>Domain/LDAP</strong> &gt; <strong>SSO Client</strong>.</li>
+	<li>Tick the <strong>Enable SSO service</strong> checkbox.</li>
+	<li>Specify the <strong>SSO server URL</strong> and <strong>Application ID</strong> in the fields below the checkbox.
+		<div class="section"><h4>Note:</h4>
+		<p>To get the Application ID, choose either of the following mothods:</p>
+		<ul>
+			<li><strong>Method 1:</strong>
+				<ol>
+					<li>Login to the DSM which runs as the SSO server.</li>
+					<li>Add your Synology NAS which will serve as the client application to the Application List in SSO Server. For detailed steps, please refer to the Help article for <strong>SSO Server</strong> &gt; <strong>Application List</strong>.</li>
+					<li>Copy and paste the Application ID allocated by SSO Server once your Synology NAS has been added to the SSO server.</li>
+				</ol>
+			</li>
+			<li><strong>Method 2:</strong>
+				<ol>
+					<li>After entering the <strong>SSO server URL</strong>*, click <strong>Quick Registration</strong> beside the Application ID field.</li>
+					<li>In the registration box, enter the credentials of an administrator account of the SSO server in <strong>Server administrator</strong> and <strong>Password</strong> fields.</li>
+					<li>Specify the name of your client application in <strong>Application Name</strong> field.</li>
+					<li>Make sure the <strong>Redirect URI</strong> refers exactly to the login page of your Synology NAS.</li>
+					<li>Click <strong>OK</strong>, and your Synology NAS will be added to SSO Server, with the Application ID being filled in automatically.</li>
+				</ol>
+			</li>
+		</ul>
+		<p>______</p><p style="margin-left: 20px; text-indent: -10px;">* You are required to enter the identical SSO server URL (either hostname or IP) when configuring every SSO client.</p>
+		</div>
+	</li>
+	<li>Click <strong>Apply</strong> to save your settings.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>If the SSO server uses HTTPS protocol, the SSO login may be blocked by browsers in default of a trusted certificate.</li>
+	<li>When the SSO server is accessed via HTTP protocol, if your Synology NAS (set as an SSO client) uses HTTPS connection, users need to configure the settings of their browsers to allow the use of an unsecure connection.</li>
+	<li>The IP address of the SSO server in the IPv6 format will not be supported if you have ticked the <strong>Improve security with HTTP Content Security Policy (CSP) header</strong> checkbox in <strong>Control Panel</strong> &gt; <strong>Security</strong> &gt; <strong>Security</strong> on your DSM.</li>
+</ul>
+</div>
+
+<h3>Azure AD SSO Client</h3>
+
+<p>If your Synology NAS has joined the Azure AD domain with <strong>site-to-site VPN</strong>, or the Windows domain which is synchroized to an Azure AD domain, you can set your Synology NAS as an Azure SSO client. Users can access the services provided by your Synology NAS once they log in to the Azure SSO server with their credentials.</p>
+
+<p>Before you start, make sure your Synology NAS has joined the Azure AD domain via VPN or Windows domain which has already synchronized to Azure AD domain.</p>
+
+<h4>To set your Synology NAS as an Azure SSO client:</h4>
+<ol>
+	<li>Go to <strong>Control Panel</strong> &gt; <strong>Domain/LDAP</strong> &gt; <strong>SSO Client</strong>.</li>
+	<li>Tick the <strong>Enable Azure SSO service</strong> checkbox.</li>
+	<li>Specify the <strong>Client ID</strong>, <strong>Client Secret</strong>, <strong>Tenant ID</strong>, and <strong>Redirect URI</strong> in the corresponding fields.</li>
+	<li>Click <strong>Apply</strong> to save your settings.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>For detailed steps to obtain <a href="#clientid">Client ID/Secret</a> and <a href="#tenantid">Tenant ID</a>, please refer to the sections below.</li>
+	<li>For security reasons, users are obliged to sign in to DSM with Azure SSO through <strong>HTTPS</strong>.</li>
+</ul>
+</div>
+
+<h4><a id="clientid"></a>To obtain the Client ID and Client Secret for an application:</h4>
+<ol>
+	<li>Sign in to the Azure classic portal with an admin account.</li>
+	<li>In <strong>ACTIVE DIRECTORY</strong>, select the directory where your user accounts are included.</li>
+	<li>Go to <strong>APPLICATIONS</strong> tab, and click <strong>ADD</strong> at the bottom to add a new application.</li>
+	<li>Click <strong>Add an application my organization is developing</strong>.</li>
+	<li>Fill in your application's <strong>Name</strong>, and select <strong>WEB APPLICATION AND/OR WEB API</strong> checkbox.</li>
+	<li>Fill in <strong>SIGN-ON URL</strong>. For example,  <em>https://yourdomain:port/webman/login.cgi</em></li>
+	<li>Fill in <strong>APP ID URI</strong>. For example, <em>https://yourdomain:port/</em></li>
+	<li>After the setup is complete, select your application, and you will find the <strong>CLIENT ID</strong>.</li>
+	<li>Add a key and click <strong>SAVE</strong>. You will then get the <strong>CLIENT SECRET</strong> in plain text.</li>
+</ol>
+
+<h4><a id="tenantid"></a>To obtain the Tenant ID for an application:</h4>
+<ol>
+	<li>Repeat the steps 1 to 3 as in the section above.</li>
+	<li>In <strong>APPLICATIONS</strong> tab, select an application and click <strong>VIEW ENDPOINTS</strong> at the bottom.</li>
+	<li>A sequence of ID will display in every text field. Copy and paste the ID into the <strong>Tenant ID</strong> field.</li>
+</ol>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>User interface of Microsoft Azure™ is subject to change without notice.</li>
+	<li>For more information on Azure AD mechanism, please refer to the following webpages:
+		<ul>
+			<li><a href="https://docs.microsoft.com/en-us/azure/active-directory/" target="_blank">Azure Directory Documentation</a></li>
+			<li><a href="https://docs.microsoft.com/en-us/azure/active-directory-domain-services/" target="_blank">Active Directory Domain Services Documentation</a></li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+</body>
+</html>

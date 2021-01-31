@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Veri güvenliği sağlamak için Synology NAS üzerindeki verilerinizi yedekleyin</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>Synology NAS sunucunuzu yedekleyin</h1>
+<div class="tutorials_content">
+<img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" />
+<h2>Genel Bakış</h2>
+<p>Sabit disk arızalarından veya dopal afetlerden kaynaklanan beklenmedik veri kayıpları özellikle güvenilir bir yedekleme çözümü mevcut olmadığında kritik verileriniz için olası bir tehdit teşkil eder. <strong>Hyper Backup</strong> zamandaki bir noktadan değerli verilerinizin kopyalarını muhafaza etmenize/geri yüklemenize ve uygulamaları ve sistem yapılandırmalarını geri yüklemenize yardımcı olan sezgisel ve entegre bir yedekleme/geri yükleme çözümü sunar. Aşağıdaki depolama hedefleri desteklenir:</p>
+
+<ul>
+<li><strong>Yerel paylaşımlı klasörler (Synology NAS sunucunuza bağlı harici depolama aygıtları dahil)</strong></li>
+<li><strong>Uzak Synology NAS</strong></li>
+<li><strong>Uzak rsync sunucuları</strong></li>
+<li><strong>Uzak OpenStack Swift sunucuları</strong></li>
+<li><strong>Genel bulutlar (Amazon S3, Microsoft Azure ve OpenStack Swift, vb.)</strong></li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Not:</h4>
+<p>Hyper Backup sadece belirli sistem yapılandırmalarını ve uygulamalarını yedekler. Daha fazla bilgi için lütfen Hyper Backup yardım belgesine başvurun.</p>
+</div>
+
+
+<h3 class="list_head">1. Yerel bir paylaşımlı klasör/harici depolama aygıtına yerel yedekleme görevlerinin oluşturulması</h3>
+<p><strong>Hyper Backup</strong> farklı hedef türlerinde benzer yedekleme ve geri yükleme prosedürleri sunar. Aşağıda diğer görev tiplerine dair referans amacıyla verileri yerel olarak nasıl yedekleyeceğinizi ve geri yükleyeceğinizi göstereceğiz.</p>
+
+<ol>
+<li>DSM'de oturum açın ve <strong>Hyper Backup</strong> paketini bulun.</li>
+<li>Sol alt köşede <strong>+</strong> üzerine tıklayın ve <strong>Veri yedekleme görevi</strong>'ni seçin.</li>
+<li>Bir yerel yedekleme görevi seçmek için, <strong>Yerel Paylaşımlı Klasör</strong> seçimi yapın.</li>
+<img src="../../images/Backup/1x/Backup/1.png" width="600" alt=""/>
+<li><strong>Yedekleme görevi oluştur</strong>'u seçin ve bir yerel paylaşımlı klasör veya Synology NAS sunucunuza bağlı olan bir harici depolama cihazını seçin.</li>
+<img src="../../images/Backup/1x/Backup/2.png" width="600" alt=""/>
+<li>İçerikteki verileri yedeklemek için kaynak klasörleri seçin. Şifrelenen paylaşımlı klasörler, seçilirse, yedekleme süreci boyunca takılı kalmalıdır. Kaynak ve hedef aynı birimde ise, sistem bu tür kaynak klasörleri turuncu ünlem işaretleri ile işaretler.</li>
+<img src="../../images/Backup/1x/Backup/3.png" width="600" alt=""/>
+<li>Yedeklenecek uygulamaları seçin.</li>
+<img src="../../images/Backup/1x/Backup/4.png" width="600" alt=""/>
+<li>İhtiyaçlarınıza uyacak yedekleme ayarlarını belirleyin:
+  <ul>
+  <li><strong>Görev</strong>: Yedekleme görevini adlandırın.</li>
+  <li><strong>Görev bildirimini etkinleştir</strong>: E-posta, SMS veya push hizmeti yoluyla görev durumu konusunda bilgi sahibi olmak için seçin.</li>
+  <li><strong>Yapılandırma yedeklemesini etkinleştir</strong>: Sistem yapılandırmalarını yedekle (ör. kullanıcı bilgileri). Bu ayar varsayılan olarak tüm yedekleme görevlerinde zorunlu tutulur.</li>
+  <li><strong>Yedekleme verilerini sıkıştır</strong>: Hedef depolamanın kullanımını azaltmak için yedekleme verilerini sıkıştır. Eğer bu seçenek seçilirse daha fazla yedekleme zamanı gerekir.</li>
+  <li><strong>Aktarım şifrelemesini etkinleştir</strong> (sadece uzak yedekleme için): Uzak bir hedefe (ör. bir rsync sunucusu veya genel bulut) aktarım sırasında yedekleme verisini şifrelemek için seçin.</li>
+  <li><strong>Multipart Upload kısım boyutu</strong> (sadece S3 uyumlu sunucular için): Yedeklenen verileri belirtilen parça boyutu kadar bölün.</li>
+  <li><strong>Müşteri tarafı şifrelemesini etkinleştir</strong>: Yedeklenen verileri parola ile hedef tarafta istenmedik erişimden korumak için seçin.</li>
+    
+  <li><strong>Yedekleme programını etkinleştir</strong>: Yedekleme görevini ne zaman otomatik olarak yapacağınızı programlamak için seçin.</li>
+  </ul>
+  </li>
+  
+<img src="../../images/Backup/1x/Backup/5.png" width="600" alt=""/>
+<li>Rotasyon düzenini belirlemek için <strong>Yedekleme rotasyonunu etkinleştir</strong> öğesini seçin:
+  
+  <ul>
+  <li><strong>En eski sürümlerden</strong>: Belirlenen <strong>Sürüm sayısı</strong> aşıldığında en eski mevcut yedekleme sürümlerini silin.</li>
+  <li><strong>Smart Recycle</strong>: Sistem belirlenen sayıda sürüme erişildiğinde her yedekleme sürümünü muhafaza edecektir. Rotasyon tetiklendiğinde, sistem öncelikle koşulların hiçbirini karşılamayan sürümleri döndürür; eğer tüm mevcut sürümler aşağıdaki koşulları karşılıyorsa, sistem en eski sürümü döndürür:
+  <ul>
+  <li><strong>Son 24 saatten saatlik sürümler</strong>: Sistem her bir saat içinde oluşturulan en erken sürümü tutar.</li>
+  <li><strong>Geçmiş 1 günden 1 aya kadar günlük sürümler</strong>: Sistem her bir gün içinde oluşturulan en erken sürümü tutar.</li>
+  <li><strong>1 aydan daha eski haftalık sürüm</strong>: Sistem her bir hafta içinde oluşturulan en erken sürümü tutar.</li>
+  </ul>
+  
+  </li>
+  <li><strong>Sürümlerin sayısı</strong>: Olası tutulan yedekleme sürümlerinin üst limitini ayarlayın.</li>
+  <li>Zaman çizelgesi: Yedekleme programınız ve rotasyon düzeninize göre yedekleme tutmanın olası sonucunu görüntüler.</li>
+  </ul>
+</li>
+
+<img src="../../images/Backup/1x/Backup/6.png" width="600" alt=""/>
+<li><strong>Uygula</strong>'ya tıklayarak kurulumu tamamlayın.</li>
+<li>Yedekleme görevini hemen yapmak için, Yedekleme Sihirbazının talimatlarını izleyin ve <strong>Evet</strong>'e tıklayın.</li>
+</ol>
+
+
+<h3 class="list_head">2. Yerel paylaşımlı klasör/harici depolama aygıtından tek dosyaları geri yükleme</h3>
+
+
+<ol>
+<li><strong>Hyper Backup</strong>'a gidin, sol panelde istenilen yedekleme görevini seçin ve <strong>Yedekleme Gezgini</strong>'ne tıklayın (büyüteç simgesi). Görev istemci tarafı şifrelemesi ile korunuyorsa parola girin.</li>
+<img src="../../images/Backup/1x/Backup/Single_1.png" width="600" alt=""/>
+<li>Geri yüklemek için istenen dosyayı bulun ve seçin. Ayrıca zaman çizelgesi ile istenen sürümü de seçebilirsiniz.</li>
+<img src="../../images/Backup/1x/Backup/Single_2.png" width="600" alt=""/>
+<li>Seçilen dosya/klasörü geri yüklemek için <strong>Geri Yükle</strong>'ye tıklayın.</li>
+
+</ol>
+
+
+
+<h3 class="list_head">3. Tüm görevleri istenen zaman noktalarına geri yükleme</h3>
+
+<ol>
+<li>Sol alt köşede <strong>Geri yükle</strong>'ye tıklayın ve <strong>Veri</strong>'ye tıklayın. Görev istemci tarafı şifrelemesi ile korunuyorsa parola girin.</li>
+
+<img src="../../images/Backup/1x/Backup/Restore_1.png" width="600" alt=""/>
+<li>Geri yüklemek için bir görev seçin. Diğer veri havuzlarından verileri geri yüklemek için, <strong>Diğer veri havuzlarından geri yükle</strong> seçimi yapın ve geri yüklenecek görevi bulun.</li>
+<img src="../../images/Backup/1x/Backup/Restore_2.png" width="600" alt=""/>
+<li>Sistem yapılandırmalarını geri yükleyip yüklemeyeceğinizi seçin. <strong>Sistem yapılandırmasını geri yükle</strong> seçimi yaparsanız, geri yüklemek için aşağıdaki listede ilgili yapılandırmaları seçin.</li>
+<img src="../../images/Backup/1x/Backup/Restore_3.png" width="600" alt=""/>
+
+<li>Geri yüklenecek hedef dosyaları/görevi bulun ve seçin. Ayrıca zaman çizelgesi ile istenen sürümü de seçebilirsiniz.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.png" width="600" alt=""/>
+<li>Geri yüklenecek uygulamaları seçin.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.5.png" width="600" alt=""/>
+<li>Temel geri yükleme bilgileri görüntülenecektir.</li>
+<img src="../../images/Backup/1x/Backup/Restore_5.png" width="600" alt=""/>
+<li>Geri yüklemeyi başlatmak için <strong>Uygula</strong>'ya tıklayın.</li>
+</ol>
+
+
+
+
+
+
+<div class="page-info">
+  <ul>
+    <li>Bu konudaki önceki: <a href="backup_from_computer.html">Cloud Station kullanarak PC/Mac'inizdeki verileri yedekleme</a> </li>
+  </ul>
+</div>
+</body>
+
+</html>

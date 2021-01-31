@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Assistant du Manager High Availability - Aide Synology DSM</title>
+ </head>
+ <body>
+<h2>Assistant du Manager High Availability</h2>
+<p>Cet assistant vous guide dans le processus de création et de configuration des clusters high-availability.</p>
+<h4>Pour lancer cet assistant :</h4>
+<ol>
+<li>Ouvrez le <b>gestionnaire High Availability</b>.</li>
+<li>Allez à la page <b>Aperçu</b>.</li>
+<li>Cliquez sur <b>Créer le cluster HA</b>.</li>
+</ol>
+   
+<div class="section">
+<h4>Remarque :</h4>
+<ul>
+<li>Veuillez terminer l'assistant de configuration du cluster high-availability dans le délai donné. Si vous dépassez ce délai, vous devrez recommencer le processus de configuration à nouveau.</li>
+<li>Si vous devez identifier quel serveur est le serveur actif d'un cluster high-availability, nous vous conseillons de télécharger l'application <strong>DS finder</strong> de Synology et d'utiliser sa fonction de bip qui peut faire émettre un bip court au serveur actif.</li>
+</ul>
+</div>
+<h4>Pour configurer le serveur passif :</h4>
+<p>Veuillez désigner un serveur Synology comme serveur passif. Dans des conditions normales, le serveur passif ne fournit pas de services. Cependant, en cas de dysfonctionnement, les services peuvent être transférés du serveur actif au serveur passif.</p>
+<ol>
+<li><b>Adresse IP :</b> Veuillez entrer l'adresse IP du serveur passif.
+</li>
+<li><b>Nom d'utilisateur :</b> Fournissez un compte utilisateur appartenant au groupe <b>administrator</b> sur le serveur de destination. </li>
+<li><b>Mot de passe :</b> Fournissez le mot de passe pour le compte appartenant au groupe <b>administrator</b>.</li>
+</ol>
+<div class="section">
+<h4>Remarque :</h4> 
+<ul>
+<li>Une fois le cluster high-availability connecté, toutes les données sur le serveur passif seront supprimées. Veuillez vous assurer qu'aucune donnée importante n'est stockée sur le serveur passif. </li>   
+</ul>
+</div>
+  
+<h4>Pour configurer la connexion de pulsation :</h4>
+<p>Connectez les deux serveurs l'un à l'autre. Cette connexion fera office de connexion « Hearbeat » entre les deux serveurs, en facilitant la communication et en permettant aux données d'être répliquées depuis le serveur actif vers le serveur passif. Pour assurer la qualité de la connexion de pulsation, le système vérifiera si la connexion répond aux critères suivants lors de la création du cluster high-availability :</p>
+<ul>
+<li>Entre les deux serveurs, il n'existe pas d'autres périphériques avec des adresses IP trouvées sur le même domaine de diffusion. Si cette connexion Heartbeat passe par des commutateurs, vous devez vous assurer qu'ils prennent en charge la multidiffusion et Jumbo Frame.</li>
+<li>La connexion réseau doit être à faible latence. Le délai de réponse de Ping entre les deux serveurs doit être inférieur à 1 ms et la vitesse de transmission sera d'au moins 500 Mbps. Le MTU est automatiquement configuré sur 9 000.</li>
+<li>Utiliser la même interface de réseau sur les deux serveurs. Par exemple, si une extrémité est connectée au LAN 1 sur un serveur, alors l'autre extrémité doit être connectée au LAN 1 sur l'autre serveur.</li>
+<li>Utiliser l'interface de réseau la plus rapide sur les deux serveurs. Si les serveurs sont équipés de cartes d'interface réseau add-on de 10gbE, cette connexion doit les utiliser.</li>
+</ul>
+ <p>Après avoir confirmé les points ci-dessus, allez dans la section <b>Interface de Connexion HA (Heartbeat)</b> et choisissez l'interface réseau sur les serveurs pour faire office de connexion Heartbeat.</p>
+<div class="section">
+<h4>Remarque :</h4>
+<ul>
+<li>Les paramètres de la connexion Heartbeat produiront deux séries d'adresses IP (par ex. 169.254.1.1 et 169.254.1.2) dans le but de dupliquer les données entre le serveur actif et le serveur passif. Veuillez vous assurer que ces deux adresses IP ne sont pas utilisées par un autre équipement dans le réseau.</li>
+<li>L'activation d'un ID VLAN sur les ports de connexion Heartbeat de votre Synology NAS n'est pas prise en charge.</li>
+</ul>
+</div>
+<div class="section">
+<h4>Configuration de Link Aggregation sur les connexions Heartbeat ou connexion de données :</h4>
+<ul>
+<li>Pour configurer Link Aggregation sur la connexion Heartbeat ou la connexion de données, veuillez configurer Link Aggregation sur deux ports LAN ou davantage dans <strong>Panneau de configuration</strong> > <strong>Réseau</strong> > <strong>Interface réseau</strong> avant de lancer l'assistant de création high availability. Assurez-vous que les paramétrages de Link Aggregation sont identiques sur les deux serveurs (par ex. si vous configurez Link Aggregation sur les ports 1 et 2 du serveur actif, Link Aggregation doit être configuré sur les ports 1 et 2 du serveur passif également).</li>
+<li>Heartbeat est équipé de fonctions de secours et d'équilibre de charge mais les connexions de données dépendent du mode de Link Aggregation que vous choisissez.</li>
+</ul>
+</div>
+<h4>Pour configurer les paramètres d'interface réseau du cluster high-availability :</h4>
+<p>Le cluster high-availability utilisera une adresse IP de cluster high-availability comme interface de connexion vers l'extérieur. Vous pouvez vous connecter en utilisant cette adresse IP de cluster high-availability lorsque vous souhaitez utiliser les services DSM, quel que soit le serveur Synology qui est le serveur actif. Cela évite d'avoir à se connecter à des adresses IP différentes après avoir effectué un basculement du serveur actif vers le serveur passif.</p>
+<ol>
+<li><b>Nom du serveur cluster :</b> Le nom du cluster high-availability. Veuillez vous référer aux règles de nommage du serveur (dans <b>Aide DSM</b> > <b>Panneau de configuration</b> > <b>Connectivité</b> > <b>Réseau</b> > <b>Général</b>) pour l'information concernant les restrictions de nom.</li>
+<li><b>Interface réseau :</b> L'interface réseau à utiliser par le cluster high-availability. Vous devez choisir un port de réseau local différent de celui désigné pour la réplication de données à l'étape précédente. </li>
+<li><b>Adresse IP :</b> L'adresse IP à utiliser par le cluster high-availability. Quel que soit le serveur qui fournit les services, le cluster peut être connecté via cette adresse IP.</li>
+<li> <b>Masque de sous réseau :</b> Le masque de sous réseau que le cluster high-availability doit utiliser.</li>
+</ol>
+<div class="section">
+<h4>Attribuer une ID VLAN pour la connexion de données :</h4>
+<ul>
+<li>Pour attribuer une ID VLAN pour la connexion de données veuillez aller dans <strong>Panneau de configuration</strong> > <strong>Réseau</strong> > <strong>Interface de réseau</strong> avant de lancer l'assistant de création high-availability. Assurez-vous que les paramétrages VLAN sont identiques sur les deux serveurs (par ex. si LAN 1 est configuré avec VLAN ID 1 sur le serveur actif, le LAN 1 du serveur passif doit être configuré avec VLAN 1 également).</li>
+</ul>
+</div>
+<h4>Pour confirmer les paramètres :</h4>
+<p>Veuillez revérifier les paramètres à utiliser par le cluster high-availability. Le système commencera à lier le cluster high-availability après avoir cliqué sur <b>Appliquer</b>. </p>
+<div class="section">
+<h4>Remarque :</h4>
+<ul>
+<li>Lors de la création d'un cluster high-availability, toutes les données sur le serveur actif doivent être répliquées vers le serveur passif. Si la connexion vers le serveur passif est perdue pendant plus de 30 minutes avant que le processus de réplication initial ne soit terminé, le serveur passif retourne en mode <strong>Autonome</strong>. Dans ce cas, vous aurez besoin de le lier à nouveau et d'effectuer une réplication des données à nouveau.</li>
+</ul>
+</div>
+ </body>
+</html>

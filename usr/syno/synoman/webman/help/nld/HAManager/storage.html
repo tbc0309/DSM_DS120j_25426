@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Opslagstatus</h2>
+	<p>Deze pagina toont de status van de opslagvolumes en iSCSI LUN's (blokniveau) op de actieve en passieve servers van de high-availability cluster.</p>
+    <p>Omdat de capaciteit en configuratie van de overeenkomstige volumes en iSCSI LUN's (blokniveau) op de actieve en passieve servers identiek moeten zijn, worden de volumes en iSCSI LUN (blokniveau) op de twee servers samen weergegeven als enkele units. Als u de status van de volumes en iSCSI LUN's (blokniveau) van zowel de actieve als de passieve servers wilt bekijken, moet u naar de pagina <b>Opslagstatus</b> gaan [bij toegang tot de high-availability cluster kunnen alleen de volumes en iSCSI LUN's (blokniveau) op de actieve server worden bekeken in <b>Opslagbeheer</b>].</p>
+
+    <p>Dit hoofdstuk bevat de volgende informatie:</p>
+		<ul>
+			<li><b>Naam:</b> toont de namen van volumes en iSCSI LUN's (blokniveau).</li>
+			<li><b>Gebruikt:</b> toont het percentage van de gebruikte capaciteit van volumes en iSCSI LUN's (blokniveau).</li>
+			<li><b>Gebruikte/totale grootte:</b> toont de totale capaciteit en het percentage van de gebruikte capaciteit van volumes en iSCSI LUN's (blokniveau).</li>
+            <li><b>Status:</b> toont de status van volumes, iSCSI LUN's (blokniveau) en SSD-caches.</li>
+            <li><b>Beschrijving:</b> toont een beschrijving van de fouten of andere gegevens met betrekking tot het volume, iSCSI LUN (blokniveau) en SSD-cache.</li>
+		</ul>
+<h4>Om een niet goed werkend opslagvolume/iSCSI LUN (blokniveau) te herstellen:</h4>
+	<ul>
+		<li>Als een harde schijf op een van de servers is gecrasht, kunt u naar de pagina <a href="disk.html">Schijfstatus</a> gaan om te bepalen welke harde schijf is gecrasht en vervangen moet worden. Doe in dat geval het volgende:
+        	<ol>
+            	<li>Vervang de gecrashte harde schijf (informatie over de installatieprocedure vindt u in de <i>Snelinstallatiegids</i> van uw Synologyproduct).</li>
+                <li>Ga naar de pagina <b>Opslagstatus</b> en klik op <b>Herstellen</b>.</li>
+            </ol>
+        </li>
+        <li>Als de passieve server offline is, zal de status van volumes en iSCSI LUN's (blokniveau) aangeven dat er een fout is opgetreden, en zal geen enkele schijf op de passieve server op de pagina Schijfstatus verschijnen. U kunt in dat geval proberen om het probleem op de volgende wijze op te lossen:
+        	<ol>
+            	<li>Controleer of de passieve server is ingeschakeld.</li>
+                <li>Controleer alle voedingsonderdelen.</li>
+                <li>Controleer alle verbindingen.</li>
+            </ol>
+        </li>
+        <li>Doe het volgende als er een bestandssysteemfout op een volume of iSCSI LUN (blokniveau) op een van de servers optreedt:
+        	<ul>
+            	<li>Ga naar de pagina <b>Opslagstatus</b>.</li>
+                <li>Klik op <b>Herstellen</b>.</li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">Opmerking:</span>  de limiet van volumes en iSCSI LUN's (blokniveau) op een high-availability cluster is 64.</p>
+
+
+
+<h3>Quorumserver</h3>
+<p>Quorumservers helpen u om de kans van split-brainfouten te beperken. In de split-braininstellingen kunt u een andere server as quorumserver toewijzen, mits deze server permanent verbonden is met de actieve en passieve servers. Zo is bijvoorbeeld een gateway- of DNS-server een geschikte keuze als quorumserver omdat die een verbinding kan maken met actieve en passieve servers. Denk eraan dat de quorumserver alleen bedoeld is voor ping-services en dat de installatie van toepassingen niet nodig is. Hieronder vindt u situaties die zich kunnen voordoen bij inschakeling van de quorumserver:</p>
+
+<ul>
+<li>Kan de passieve server geen verbinding maken met de actieve en quorumservers. dan zal failover niet worden uitgevoerd om split-brainfouten te voorkomen.</li>
+<li>Kan de actieve server geen verbinding maken met de quorumserver, maar de passieve server wel, dan wordt een switchover geactiveerd om een betere beschikbaarheid te garanderen.</li>
+</ul>
+
+ </body>
+</html>

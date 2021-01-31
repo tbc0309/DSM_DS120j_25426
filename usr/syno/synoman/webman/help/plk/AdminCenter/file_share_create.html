@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Tworzenie folderu współdzielonego — pomoc systemu Synology DSM</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="Shared folders are the basic directories where you can store and manage files and folders on your Synology NAS. This article shows you how to create a shared folder.">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Tworzenie folderu współdzielonego</h2>
+<p>Foldery współdzielone to podstawowe katalogi, w których można przechowywać pliki i zarządzać nimi na serwerze Synology NAS. Przed zapisaniem plików należy utworzyć w systemie DSM co najmniej jeden folder współdzielony. </p>
+
+<h4>Aby utworzyć folder współdzielony:</h4>
+<ol>
+	<li>Wybierz pozycje <strong>Panel sterowania</strong> > <strong>Folder współdzielony</strong>, a następnie kliknij opcję <strong>Utwórz</strong>.<br /><img src="about:blank" class="help_image"/></li>
+	<li>Określ nazwę i opis folderu współdzielonego.<br /><img src="about:blank" class="help_image "/></li>
+	<li>Wybierz pamięć masową, w której ma być utworzony folder współdzielony (pomiń ten krok, jeżeli istnieje tylko jeden wolumen).<br /><img src="about:blank" class="help_image"/></li>
+	<li>W razie potrzeby zmodyfikuj następujące opcje:<br /><img src="about:blank" class="help_image"/><ul>
+			<li><strong>Ukryj ten folder współdzielony w „Moje miejsca sieciowe”:</strong> zapobiega wyświetlaniu folderu współdzielonego w grupie „Sieć” w programie Eksplorator plików Windows. Ta opcja nie wpływa na uprawnienia dostępu do folderu współdzielonego.<div class="section"><h4>Uwaga:</h4>
+				<ul>
+				<li>Opcja Ukrywanie folderu współdzielonego w „Moje miejsca sieciowe” nie wpływa na prawa dostępu. Prawa dostępu do ukrytego folderu współdzielonego nie ulegną zmianie. Użytkownicy, którzy mają odpowiednie uprawnienia dostępu do folderu współdzielonego, mogą nadal uzyskać do niego dostęp za pośrednictwem ścieżki „\nazwa serwera\nazwa folderu współdzielonego”.</li>
+				</ul>
+				</div>
+			</li>
+			<li><strong>Ukryj podfoldery i pliki przed użytkownikami bez uprawnień:</strong> po włączeniu ustawienia <strong>Ukryj podfoldery i pliki przed użytkownikami bez uprawnień</strong>, użytkownicy niemający uprawnień do odczytu, którzy spróbują uzyskać dostęp do folderu współdzielonego przy użyciu protokołu Windows File Sharing, nie będą mogli wyświetlić podfolderów ani plików w tym folderze współdzielonym. Zapobiega to dezorientacji użytkowników łączących się z urządzeniami Synology, którzy widzą wiele plików i podfolderów, ale nie mogą ich otworzyć.<div class="section"><h4>Uwaga:</h4>
+				<ul>
+					<li>Ta funkcja jest obsługiwana wyłącznie za pośrednictwem protokołu Windows File Sharing.</li>
+					<li>Ustawienia uprawnień dotyczące każdego folderu i pliku można zmodyfikować w aplikacji File Station, klikając go prawym przyciskiem myszy. Z menu rozwijanego wybierz polecenie <strong>Właściwości</strong>, a następnie kliknij kartę <strong>Uprawnienie</strong>.</li>
+					<li>Sam folder współdzielony nie zostanie ukryty przed użytkownikami bez uprawnień po włączeniu ustawienia <strong>Ukryj podfoldery i pliki przed użytkownikami bez uprawnień</strong>. Ukryte zostaną tylko podfoldery i pliki w tym folderze współdzielonym.</li>
+				</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li><strong>Włącz kosz:</strong> pliki usunięte z folderu współdzielonego są przenoszone do folderu o nazwie <strong>#recycle</strong>. Dostęp do kosza można ograniczyć do użytkowników należących do grupy <strong>administrators</strong>.</li><a name="sharequota"></a><li class=""><strong>Włącz limit folderu współdzielonego:</strong> aby określić maksymalną pojemność folderów współdzielonych, zaznacz pole wyboru <strong>Włącz limit folderu współdzielonego</strong>, a w polu wprowadź maksymalną pojemność (np. 10 GB).<div class="section"><h4>Uwaga:</h4>
+		<ul>
+			<li>Opcja folderów współdzielonych <strong>Włącz limit folderu współdzielonego</strong> będzie dostępna tylko wtedy, gdy w pamięci masowej używany jest system plików Btrfs.</li>
+			<li>Łączne użycie pamięci masowej katalogów <strong>home</strong> wszystkich użytkowników nie może przekraczać limitu katalogu <strong>homes</strong>.</li>
+		</ul>
+		</div>
+	</li><a name="integrity_protection"></a><li><strong>Włączanie sumy kontrolnej danych w celu uzyskania zaawansowanej integralności danych:</strong> Aby zapewnić ochronę folderu współdzielonego za pomocą strategii <strong>Suma kontrolna CRC32</strong> i <strong>Kopiowanie przy zapisie</strong>, można włączyć sumę kontrolną danych dla zaawansowanej ochrony integralności danych podczas tworzenia folderu współdzielonego. Suma kontrolna CRC32 stosowana jest do sprawdzania zgodności danych ze stanem z momentu ich oryginalnego zapisu. System automatycznie wykorzysta funkcję nadmiarowości RAID do ich naprawy. Kopiowanie przy zapisie pozwala poprawić spójność danych w przypadku nieprawidłowego zamknięcia systemu.<div class="section"><h4>Uwaga:</h4>
+		<ul>
+			<li>Opcja ta jest dostępna tylko w przypadku wolumenów sformatowanych w systemie plików Btrfs.</li>
+			<li>Można włączyć/wyłączyć tę opcję dla folderu współdzielonego podczas jego tworzenia. Nie można jej zmodyfikować po utworzeniu folderu współdzielonego.</li>
+			
+			<li>Włączenie tej opcji pozwala systemowi na przeprowadzenie czyszczenia danych w pełnej skali. <a href="../StorageManager/storage_pool_data_scrubbing.html">Dowiedz się więcej o czyszczeniu danych</a></li>
+			<li>W celu zapewnienia wysokiej jakości usług zalecamy niewłączanie sumy kontrolnej danych, jeżeli folder współdzielony będzie używany dla następujących usług:<ul>
+				<li>Hosting baz danych lub maszyn wirtualnych</li>
+				<li>Przechowywanie nagrań wideo aplikacji Surveillance Station</li>
+				<li>Uruchamianie usług wymagających niewielkiego i losowego wzorca zapisu</li>
+			</ul>
+			</li>
+			
+		</ul>
+		</div>
+	</li><a name="btrfs_compression"></a><li><strong>Włącz kompresję plików</strong>: Dane w utworzonym folderze współdzielonym będą automatycznie kompresowane przez system plików Btrfs w celu oszczędzania miejsca w pamięci. Podczas odzyskiwania danych do użytku będą one automatycznie dekompresowane.<div class="section"><h4>Uwaga:</h4>
+		<ul>
+			<li>Opcja ta jest dostępna tylko wtedy, gdy folder współdzielony został utworzony w wolumenie Btrfs lub gdy włączono opcję <strong>Zaawansowana ochrona integralności danych</strong>.</li>
+			<li>Nie można jej zmodyfikować po utworzeniu folderu współdzielonego.</li>
+			<li>Stopień kompresji zależy od typu danych: Pliki tekstowe mają najwyższy możliwy stopień kompresji, podczas gdy pliki multimedialne (np. obrazy, muzyka lub filmy) nie mogą zostać mocno skompresowane, ponieważ są one już skompresowane do celów wyświetlania.</li>
+            <li>Tej opcji nie można włączyć, jeśli włączone jest szyfrowanie folderu współdzielonego.</li>
+		</ul>
+		</div>
+	</li>
+	<li><strong>Zaszyfruj ten folder współdzielony:</strong> aby zaszyfrować folder współdzielony, wykonaj następujące czynności:<ol>
+			<li>Określ i potwierdź nowy klucz szyfrowania. Klucz szyfrowania nie może zawierać przecinków (,) ani znaków równości (=). </li>
+			<li>W razie potrzeby zaznacz pole wyboru <strong>Dodaj klucz szyfrowania do Menedżera kluczy</strong>, aby szyfrowany folder był montowany automatycznie podczas uruchamiania. Jeżeli opcja jest wyłączona, zaszyfrowany folder współdzielony pozostanie niezamontowany po kolejnym uruchomieniu serwera Synology NAS. Aby zobaczyć niezamontowany folder współdzielony i uzyskać do niego dostęp, trzeba będzie ręcznie go zamontować, importując lub wprowadzając klucz szyfrowania.</li>
+		</ol>
+	</li>
+	<li>Kliknij <strong>OK</strong>, aby zakończyć.</li>
+	
+	
+<div class="section"><h4>Uwaga:</h4>
+	<ul>
+	<li>Niektóre funkcje i opcje folderu współdzielonego są obsługiwane wyłącznie przez VDSM i modele o następujących architekturach pakietów: Apollo Lake, Avoton, Braswell, Broadwell, Bromolow, Cedarview oraz Grantley. Aby sprawdzić, jaką architekturę pakietów obsługuje dany model, zapoznaj się z <a href="https://www.synology.com/en-us/knowledgebase/DSM/tutorial/General/What_kind_of_CPU_does_my_NAS_have" target="_blank">tym artykułem</a>.</li>
+	</ul>
+</div>
+	
+</ol>
+
+<div class="section"><h4>Reguły nazewnictwa folderu współdzielonego:</h4>
+<ul>
+	<li>W nazwach folderów współdzielonych nie jest istotna wielkość liter i mogą one mieć od 1 do 32 znaków. Nazwy nie mogą zawierać następujących znaków: <strong>! " # $ % & ' ( ) * + , / : ; <= > ? @ [ ] \ ^ ` { } | ~</strong></li>
+	<li>Następujące nazwy są zarezerwowane dla systemu: <strong>.</strong>, <strong>..</strong>, <strong>global</strong>, <strong>home</strong>, <strong>homes</strong>, <strong>printers</strong>, <strong>public</strong>, <strong>satashare</strong>, <strong>surveillance</strong>, <strong>usbbackup</strong>, <strong>usbshare</strong>. </li>
+	<li>Pierwszym znakiem nazwy folderu współdzielonego nie może być znak minus ani spacja, a ostatni znak nie może być spacją.</li>
+	<li>W <strong>opisie</strong> folderu współdzielonego istotna jest wielkość liter i powinien on zawierać do 64 wyświetlanych znaków Unicode.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>Szyfrowanie folderów współdzielonych:</h4>
+<p>Szyfrowanie przy użyciu 256-bitowego algorytmu AES chroni dane, blokując wszystkie nieautoryzowane próby dostępu. Po zaszyfrowaniu folderu współdzielonego inni użytkownicy nie będą mogli uzyskać dostępu do zaszyfrowanych danych ani ich zmodyfikować bez klucza szyfrowania nawet po usunięciu dysków twardych z serwera Synology NAS i zamontowaniu ich w innym urządzeniu.</p>
+</div>
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+	<li>Nazwa pliku lub folderu w zaszyfrowanym folderze współdzielonym nie może zawierać więcej niż 143 znaki angielskie lub 47 znaków azjatyckich (CJK). Jeżeli dostęp do folderów współdzielonych odbywa się na urządzeniu z systemem Mac OS, nazwa pliku lub folderu w zaszyfrowanym folderze współdzielonym nie może przekraczać 130 znaków angielskich lub 43 znaków azjatyckich (CJK).</li>
+	<li>Zaszyfrowane foldery współdzielone nie są dostępne za pośrednictwem NFS.</li>
+	<li>Jeżeli na serwerze Synology NAS przy użyciu przycisku Reset zostaną przywrócone domyślne hasła, zaszyfrowane foldery współdzielone zostaną odmontowane, a opcja automatycznego montowania zaszyfrowanych folderów współdzielonych zostanie wyłączona.</li>
+	<li>Szyfrowane foldery współdzielone są obsługiwane wyłącznie w trybie wysokich uprawnień (dotyczy tylko Dockerx64). Aby użyć tej funkcji, przejdź do strony Docker w systemie DSM hosta, wybierz system <strong>Docker DSM</strong>, dla którego chcesz włączyć szyfrowane foldery współdzielone, kliknij <strong>Edytuj</strong>, a następnie zaznacz pole obok <strong>Uruchom kontener przy użyciu wysokich uprawnień</strong>.</li>
+</ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>總覽</h2>
+	<p>此頁面顯示 high-availability 叢集及成員伺服器的基本資訊。此外，本頁亦可讓您建立、移除或維護 high-availability 叢集及其成員伺服器。</p>
+
+<h3>High Availability 叢集狀態</h3>
+  <p>此欄位顯示 high-availability 叢集的整體狀態，並在發生錯誤時提醒您。下列表格列出您可能會看到的情況：</p>
+    <table>
+     <tr>
+      <th>狀態</th>
+      <th>描述</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>獨立運作</strong></td>
+      <td>伺服器未組成 high-availability 叢集。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>良好</strong></td>
+      <td>High-availability 叢集總體狀態正常。主伺服器至副伺服器間的資料複製正常運作。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>準備中</strong></td>
+	  <td>High-availability 叢集已組成，但主伺服器與副伺服器間的資料複製尚未完成。此時無法進行服務轉移。詳細步驟請參閱<a href="switchover_fail.html">轉移</a>。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>載入中</strong></td>
+	  <td>系統正在載入叢集狀態。在狀態讀取結束前系統將無法執行<b>轉移</b>。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>警告</strong></td>
+      <td>系統狀態異常，但服務仍可正常運作。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>危險</strong></td>
+	  <td>主伺服器與副伺服器皆出現異常。High-availability 叢集無法正常運作。請檢查所有儲存空間 (例如 RAID Group、磁碟群組、儲存空間及 iSCSI LUN) 的狀態。</td>
+     </tr>
+    </table>
+<h3>警告訊息</h3>
+   <p>下列表格顯示當系統發生錯誤時可能出現的警告訊息。出現多個警告訊息時，可使用向前 / 向後按鈕來瀏覽所有訊息。 </p>
+    <table>
+     <tr>
+      <th>警告 / 錯誤</th>
+      <th>描述</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>監控的服務異常</strong></td>
+      <td>一或多個監控的服務出現錯誤。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>儲存空間降級</strong></td>
+      <td>主或副伺服器上的儲存空間 (例如 RAID Group、磁碟群組、儲存空間、iSCSI LUN 及 SSD 快取) 已降級。請查看<b>儲存空間狀態</b>頁面。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>儲存空間損毀</strong></td>
+      <td>主或副伺服器上的儲存空間 (例如 RAID Group、磁碟群組、儲存空間、iSCSI LUN 及 SSD 快取) 已損毀。請查看<b>儲存空間狀態</b>頁面。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>無法偵測到副伺服器</strong></td>
+      <td>由於副伺服器離線或主、副伺服器無法透過 Heartbeat 連線接通，而可能會出現此錯誤。此狀態下無法進行轉移。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>資料無法複製至副伺服器</strong></td>
+      <td>由於儲存空間或硬碟發生異常，而可能會出現此錯誤。此狀態下無法進行轉移。請查看<b>儲存空間狀態</b>頁面。</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>未選擇副伺服器</strong></td>
+	  <td>若將副伺服器移出 high-availability 叢集，便會顯示此狀態。此狀態下無法進行轉移。如果您要將副伺服器加回 high-availability 叢集中，在<b>維護</b>下拉選單中按一下<b>連結</b>。重新連結副伺服器時，需要進行一次完整的資料複製。</td>
+     </tr>
+    </table>
+
+
+<h3>High Availability 叢集資訊</h3>
+	<p>本欄位位於 high-availability 叢集狀態下方，顯示叢集的基本資訊。如果 high-availability 叢集不存在，此部分僅會顯示 high-availability 叢集功能說明文字。</p>
+    <p>本欄位包含下列資訊：</p>
+ <ul>
+    	<li><b>叢集伺服器名稱：</b>High-availability 叢集所使用的伺服器名稱。 </li>
+   <li><b>叢集 IP 位址：</b>High-availability 叢集所使用的 IP 位址。不論服務目前跑在哪台伺服器上都可以用此 IP 來連結 high-availability 叢集。</li>
+        <li><b>建立時間：</b>High-availability 叢集建立的日期。</li>
+ </ul>
+
+
+<h3>High Availability 叢集操作按鈕</h3>
+
+<p>在 high-availability 叢集資訊下方有三個操作按鈕：</p>
+
+<ol>
+	<li><b>建立 HA 叢集：</b>當 high-availability 叢集不存在時，您可以按下此按鈕來讓兩台伺服器組成 high-availability 叢集。欲了解更多關於建立 high-availability 叢集的相關資訊，請參閱 <a href="wizard.html">Synology High Availability 精靈</a>。</li>
+	<li><b>管理：</b>此按鈕只有在 high-availability 叢集已存在時才可使用。此功能包含下列選項：
+		<ul>
+			<li><b>管理精靈：</b>開啟精靈，跟隨其指示來進行各種管理程序。</li>
+			<li><b>轉移：</b>執行從主伺服器到副伺服器的轉移。在此過程中，主伺服器會停止提供服務，並成為新的副伺服器。原本的副伺服器會變為新的主伺服器，開始提供 high-availability 叢集的所有服務。副伺服器狀態<b>錯誤</b>或未選擇副伺服器時，無法使用此功能。</li>
+			<li><b>更新 DSM：</b>開啟<strong>控制台</strong>中的<strong>系統更新</strong>頁面。您可在此處更新兩台伺服器。</li>
+			<li><b>關閉 HA 叢集：</b>將主、副伺服器關機。</li></ul>
+	<li><b>停止嗶聲：</b>當主/副伺服器發生錯誤時才會出現此按鈕。中斷所有伺服器上在錯誤發生時發出的嗶聲。稍後如有其他錯誤發生，伺服器將會再度發出嗶聲。</li>
+</ol>
+
+<h3>管理精靈</h3>
+<p>管理精靈可帶領您進行以下管理程序。</p>
+<ul>
+	<li><b>管理叢集：</b>
+		<ul>
+			<li><b>將主伺服器切換為副伺服器：</b>執行從主伺服器到副伺服器的轉移。在此過程中，主伺服器會停止提供服務，並成為新的副伺服器。原本的副伺服器會變為新的主伺服器，開始提供 high-availability 叢集的所有服務。副伺服器狀態錯誤或未選擇副伺服器時，無法使用此功能。</li>
+			<li><b>更新主、副伺服器的 DSM：</b>開啟<b>控制台</b>中的<b>系統更新</b>頁面。您可在此處更新兩台伺服器。</li>
+			<li><b>移除 high-availability 叢集：</b>解除叢集連結。重新開機後，兩台伺服器將回到獨立運作模式。</li>
+			<li><b>新增副伺服器：</b>將副伺服器加進叢集。在 high-availability 叢集中沒有副伺服器的情況下，此選項才可使用。</li>
+			<li><b>解除連結副伺服器的 high availability 叢集連結：</b>將副伺服器由叢集中移除。解除連結後，若要將伺服器重新加回 high-availability 叢集，必須進行一次完整的資料複製。因此，建議您僅在準備替換現有副伺服器時才使用此選項。</li>
+			<li><b>搬移主、副伺服器至其他地點：</b>需要移動叢集時，請選擇此選項。執行後將會關閉兩台伺服器。</li>
+		</ul></li>
+	<li><b>管理主伺服器：</b>
+		<ul>
+			<li>將主伺服器關機。</li>
+			<li>將主伺服器重新開機。</li>
+			<li>升級/更換主伺服器上的元件：執行此選項將關閉主伺服器。</li>
+		</ul></li>
+	<li><b>管理副伺服器：</b>
+		<ul>
+			<li>將副伺服器關機。</li>
+			<li>將副伺服器重新開機。</li>
+			<li>升級/更換副伺服器上的元件：執行此選項將關閉副伺服器。</li>
+		</ul></li>
+</ul>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>移除 high-availability 叢集後，必須進行一次完整的資料複製才能建立新的叢集。</li>
+<li>如果您將副伺服器關機或解除連結，在主伺服器發生錯誤時無法轉移服務。</li>
+</ul>
+</div> 
+<h3>伺服器與資料複製狀態</h3>
+<p>此部分以圖示搭配資料流向圖來顯示主、副伺服器目前狀態。</p>
+<p>資料流向圖示會顯示下列可能情況：</p>
+	<ul>
+    	<li><b>資料複製正常：</b>流向顯示為資料由主伺服器複製至副伺服器。</li>
+    	<li><b>無資料複製：</b>不顯示資料流向圖示。</li>
+    </ul>
+
+
+<h3> 伺服器資訊</h3>
+ <p>此部份位於伺服器圖示下方。分別顯示主伺服器與副伺服器資訊。未選擇副伺服器時，此部分將顯示 <b>N/A</b>。</p>
+  <ul>
+   <li><b>伺服器名稱：</b>Synology 伺服器名稱。</li>
+   <li><b>產品型號：</b>Synology 伺服器產品型號。</li>
+   <li><b>產品序號：</b>Synology 伺服器 S/N 號碼。</li>
+   <li><b>風扇狀態：</b>伺服器風扇狀態。風扇異常時會顯示警告訊息。若出現此類訊息，請連絡當地經銷商尋求協助。</li>
+   <li><b>溫度：</b>Synology 伺服器系統溫度。 </li>
+   <li><b>電源狀態：</b>顯示伺服器電源狀態是否正常。若伺服器產品型號具備備援電源，當其中一個電源供應器異常時會顯示警告訊息。</li>
+  </ul>
+
+ </body>
+</html>

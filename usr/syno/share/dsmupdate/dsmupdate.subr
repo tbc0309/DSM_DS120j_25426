@@ -1,0 +1,164 @@
+# backup configs
+BackupDirList="/etc /usr/syno/etc /var /usr/syno/synoman/webman/3rdparty /usr/local /root/.ssh /usr/syno/selfcheck/packages"
+BackupSubDirList="/etc/nginx/sites-enabled /etc/postgresql/user.conf.d"
+RemoveUPSFiles="/usr/syno/etc/ups.conf /usr/syno/etc/upsd.conf /usr/syno/etc/upsd.users /usr/syno/etc/upsmon.conf /usr/syno/etc/upssched.conf"
+RemovePPPOEFiles="/etc/ppp/ip-up /etc/ppp/ip-down /etc/ppp/ip-function /etc/ppp/ipv6-up /etc/ppp/ipv6-down /etc/ppp/options"
+RemoveCUPSFilters="/usr/local/cups/filter/bannertops /usr/local/cups/filter/commandtops /usr/local/cups/filter/gziptoany /usr/local/cups/filter/imagetops /usr/local/cups/filter/imagetoraster /usr/local/cups/filter/pdftops /usr/local/cups/filter/pstops /usr/local/cups/filter/rastertoepson /usr/local/cups/filter/rastertohp /usr/local/cups/filter/rastertolabel /usr/local/cups/filter/rastertopwg /usr/local/cups/filter/texttops /usr/local/cups/filter/hpgltops"
+RemoveCUPSFiles="/usr/local/cups/mime.types /usr/local/cups/mime.convs /etc/cups/cupsd.conf /usr/local/cups/cupsd.conf /usr/local/cups/testprint ${RemoveCUPSFilters}"
+RemoveHostapdFiles="/etc/hostapd/stainfo.sh /etc/hostapd/mac_filter/mfscript.sh /usr/syno/etc/rfkill.sh"
+RemoveSSLFiles="/usr/syno/etc/ssl/mkcert.sh /usr/syno/etc/ssl/mkcgikey.sh"
+RemoveUSBModemFiles="/usr/syno/etc/usbmodem/wcdma_list.json /usr/syno/etc/usbmodem/usb_modeswitch.d/*"
+RemovePHPFiles="/etc/php/php.ini /etc/php/php-fpm.conf /etc/php/conf.d/opcache.ini"
+RemoveSynoServiceConf="/usr/syno/etc/synoservice.d/global.setting /usr/syno/etc/synoservice.d/system.cfg"
+RemoveFileList="/etc/ftpusers /etc/rc /etc/rc.network /usr/syno/etc/rc.atalk /usr/syno/etc/.htpasswd /usr/syno/etc/lpd/lpd.conf /usr/syno/etc/printcap ${RemoveUPSFiles} /etc/lvm/lvm.conf /usr/local/etc/rc.d/SynoEnablePersonalServices.sh /etc/rc.network_routing /usr/syno/etc/rc.tun /usr/syno/etc/afpd.conf /etc/pam.d/samba ${RemovePPPOEFiles} ${RemoveCUPSFiles} ${RemoveHostapdFiles} /usr/syno/etc/iptables_guest_net.sh /etc/ld.so.preload /etc/tc/default.cmd $RemoveSSLFiles /etc/logrotate.conf $RemoveUSBModemFiles $RemovePHPFiles $RemoveSynoServiceConf /usr/syno/etc/ssdp/dsm_desc.xml /usr/syno/etc/iptables_time_ctrl.sh /etc/profile /etc/inputrc /etc/dhclient/dhclient-script /etc/dhclient/ipv4/dhclient.conf /etc/dhclient/ipv6/dhclient.conf /usr/syno/etc/www/SSLProfile.json /etc/vimrc /usr/syno/etc/cacert.pem /usr/syno/etc/iptables_modules_list /usr/syno/etc/iptables_chain_list /usr/local/bin/python* /etc/sudoers /usr/syno/etc/autoupdate.notify"
+RemoveCUPSDir="/usr/local/cups/backend /usr/local/cups/mime"
+RemoveDirList="/etc/pam.d /usr/syno/etc/vfs /var/run /var/update /var/state/ups /usr/syno/etc/ups /var/spool/postfix ${RemoveCUPSDir} /etc/fw_security/sysconf /etc/init /etc/logrotate.d /etc/syslog-ng /var/lib/dpkg /etc/httpd/conf /etc/postgresql /etc/nginx /etc/wide-dhcpv6 /etc/apparmor.d /usr/syno/etc/synoservice.d /var/dynlib /etc/iproute2/script /etc/ssl/certs /etc/dbus-1 /usr/syno/etc/dbus-1 /etc/avahi /usr/syno/etc/synovpnclient/scripts /var/lib/apparmor /usr/syno/etc/www/app.d /usr/syno/etc/rc.d /usr/syno/etc/bluetooth/ /usr/syno/etc/smallupdate_patch /etc/ImageMagick-6 /usr/syno/etc/logcollector /var/cache/texts"
+# list of folders who will be preserved util bootup finished
+UpdateBackupDirList="/usr/syno/etc/synoservice.d /var/run/ha /var/run/ha_log_message.sqlite /var/run/first_time_synced /usr/syno/etc/timebkp /var/run"
+
+# _fileIsAppendOnly File
+_fileIsAppendOnly() {
+	if [ ! -e "$1" -o ! -f "$1" ]; then
+		/bin/echo "Failed to check file attribute: '$1' is not valid file"
+		return 1
+	fi
+
+	local File="$1"
+
+	# "-----a-------e-- /tmp/main.c" split space
+	# "-----a-------e--"             check if 'a' exist
+	lsattr "$File" | grep -o '^[^\ ]*\ ' | grep -q 'a'
+
+	return $?
+}
+
+# _getAppendOnlyFiles RootMnt
+_getAppendOnlyFiles() {
+	if [ -z "$1" -o ! -d "$1" ]; then
+		/bin/echo "Failed to query append only config: '$1' is not valid directory" >&2
+		return 1
+	fi
+
+	local Root="$1"
+
+	local RmLog="${Root}/var/log/rm.log"
+	local RmLogRotationPattern="${Root}/var/log/rm.log.[0-9]*.xz"
+
+	local RmLogAndRotations=$(ls -d ${RmLog} ${RmLogRotationPattern} 2>/dev/null)
+	for f in ${RmLogAndRotations}; do
+		if _fileIsAppendOnly "$f"; then
+			echo "$f"
+		fi
+	done
+}
+
+# BackupExtraConfig RootMnt
+BackupExtraConfig() {
+	if [ -z "$1" -o ! -d $1 ]; then
+		/bin/echo "Failed to backup extra config: Wrong Parameters"
+		return 1
+	fi
+
+	local UPDATE_BKPDIR="$1/.syno/update_bkp"
+	# backup file which will be override after untar hda1
+	/bin/rm -rf ${UPDATE_BKPDIR}
+	for TargetDir in ${UpdateBackupDirList}; do
+		[ ! -e $1/$TargetDir ] && continue
+		/bin/echo "$1/$TargetDir ==>    ${UPDATE_BKPDIR}/$TargetDir/"
+		local TargetPrefix=`dirname ${TargetDir}`
+		/bin/mkdir -p ${UPDATE_BKPDIR}/${TargetPrefix}
+		/bin/cp -a $1/$TargetDir ${UPDATE_BKPDIR}/${TargetDir}
+	done
+}
+
+# BackupConfig RootMnt DataMnt
+BackupConfig() {
+	if [ -z "$1" -o -z "$2" -o ! -d $1 -o ! -d $2 ]; then
+		/bin/echo "Failed to backup config: Wrong Parameters"
+		return 1
+	fi
+
+	local BKPDIR="$2/.upd@te"
+	local BKPSUBDIR="$2/.upd@te_sub"
+	# backup configs whose parent directory will be removed
+	for ConfigSubDir in ${BackupSubDirList}; do
+		if [ ! -d "$1/${ConfigSubDir}" ]; then
+			continue
+		fi
+		/bin/echo "$1/$ConfigSubDir ->	${BKPSUBDIR}${ConfigSubDir}/"
+		/bin/mkdir -p ${BKPSUBDIR}/${ConfigSubDir}
+		/bin/echo n | /bin/mv -i $1/$ConfigSubDir/* ${BKPSUBDIR}/${ConfigSubDir}/ 2> /dev/null
+		/bin/echo n | /bin/mv -i $1/$ConfigSubDir/.[^.]* ${BKPSUBDIR}/${ConfigSubDir}/ 2> /dev/null
+	done
+	# backup user configs before upgrading
+	for ConfigDir in ${BackupDirList}; do
+		if [ ! -d "$1/${ConfigDir}" ]; then
+			continue
+		fi
+		/bin/echo "$1/$ConfigDir ->	${BKPDIR}${ConfigDir}/"
+		/bin/mkdir -p ${BKPDIR}/${ConfigDir}
+		/bin/echo n | /bin/mv -i $1/$ConfigDir/* ${BKPDIR}/${ConfigDir}/ 2> /dev/null
+		/bin/echo n | /bin/mv -i $1/$ConfigDir/.[^.]* ${BKPDIR}/${ConfigDir}/ 2> /dev/null
+	done
+
+	# remove need-to-upgrade files
+	for RemovalFile in ${RemoveFileList}; do
+		/bin/echo "Removing ${BKPDIR}/${RemovalFile}..."
+		/bin/rm -f ${BKPDIR}/${RemovalFile}
+	done
+
+	# remove need-to-upgrade dir
+	for RemovalDir in ${RemoveDirList}; do
+		/bin/echo "Removing ${BKPDIR}/${RemovalDir}..."
+		/bin/rm -rf ${BKPDIR}/${RemovalDir}
+	done
+}
+
+# RestoreConfig RootMnt DataMnt IsSameDevice
+RestoreConfig() {
+	if [ -z "$1" -o -z "$2" -o -z "$3" ]; then
+		/bin/echo "Failed to restore config: Wrong Parameters"
+		return 1
+	fi
+
+	local BKPDIR="$2/.upd@te"
+	local BKPSUBDIR="$2/.upd@te_sub"
+
+	local AppendOnlyFilesInDataMnt="$(_getAppendOnlyFiles $BKPDIR)"
+
+	/bin/echo "temporarily remove +a flag from files in backup dir:"
+	for f in ${AppendOnlyFilesInDataMnt}; do
+		/bin/echo "  remove +a from $f"
+		chattr -a "$f"
+	done
+
+	# copy backed-up config files
+	if [ "$3" = "yes" ]; then
+		/bin/cp -alf ${BKPDIR}/* $1/
+		/bin/cp -alf ${BKPSUBDIR}/* $1/
+	else
+		if [ -f ${BKPDIR}/etc/passwd -a -h $1/etc/passwd ]; then
+			/bin/rm -f $1/etc/passwd
+		fi
+		if [ -f ${BKPDIR}/etc/group -a -h $1/etc/group ]; then
+			/bin/rm -f $1/etc/group
+		fi
+		/bin/cp -af ${BKPDIR}/* $1/
+		/bin/cp -af ${BKPSUBDIR}/* $1/
+	fi
+
+	# remove backup config files
+	/bin/rm -rf ${BKPDIR}
+	/bin/rm -rf ${BKPSUBDIR}
+
+	/bin/echo "restore +a attribute after config restored:"
+	for f in ${AppendOnlyFilesInDataMnt}; do
+		# remove "/tmpMnt" from "/tmpMnt/.upd@te/var/log.rm.log" to "/var/log.rm.log"
+		RelativePath=${f#$BKPDIR}
+
+		f="$1/$RelativePath"
+
+		/bin/echo "  restore +a for $f"
+		chattr +a ${f}
+	done
+}

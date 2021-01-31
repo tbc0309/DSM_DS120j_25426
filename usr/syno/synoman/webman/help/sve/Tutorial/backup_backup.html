@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Säkerhetskopiera dina data på Synology NAS för att säkerställa datasäkerhet</title>
+</head>
+
+<body class="tutorial-content-box" >
+
+<h1>Säkerhetskopiera din Synology NAS</h1>
+<div class="tutorials_content">
+<img src="../../images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" />
+<h2>Översikt</h2>
+<p>Oväntad dataförlust från hårddiskfel eller naturkatastrofer utgör potentiella hot för dina väsentliga data, speciellt när det inte finns någon pålitlig lösning för säkerhetskopiering tillgänglig. <strong>Hyper Backup</strong> tillhandahåller en intuitiv och integrerad lösning för säkerhetskopiering/återställning för att hjälpa dig att bevara/hämta kopior med dina värdefulla data och att återställa applikationer och systemkonfiguration från en tidpunkt. Följande lagringsmål har stöd:</p>
+
+<ul>
+<li><strong>Lokala delade mappar (inklusive externa lagringsenheter som är anslutna till din Synology NAS)</strong></li>
+<li><strong>Fjärranslutna Synology NAS</strong></li>
+<li><strong>Fjärranslutna rsync-servrar</strong></li>
+<li><strong>Fjärransluten OpenStack Swift-server</strong></li>
+<li><strong>Gemensamma moln (Amazon S3, Microsoft Azure och OpenStack Swift, etc.)</strong></li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Obs:</h4>
+<p>Hyper Backup säkerhetskopierar endast specifika systemkonfigurationer och applikationer. För mer information, vänligen se hjälpdokumentationen för Hyper Backup.</p>
+</div>
+
+
+<h3 class="list_head">1. Skapa lokala säkerhetskopieringsuppgifter till en lokal delad mapp/extern lagringsenhet</h3>
+<p><strong>Hyper Backup</strong> erbjuder liknande rutiner för säkerhetskopiering och återställning mellan olika typer av mål. Här nedanför visar vi hur säkerhetskopiering och återställning av data görs lokalt som referens för andra typer av uppgifter.</p>
+
+<ol>
+<li>Logga in på DSM och hitta filpaketet <strong>Hyper Backup</strong>.</li>
+<li>Klicka på <strong>+</strong> i det nedre vänstra hörnet och välj <strong>Datasäkerhetskopieringsuppgift</strong>.</li>
+<li>För att ställa in en lokal säkerhetskopieringsuppgift, välj <strong>Lokal delad mapp</strong>.</li>
+<img src="../../images/Backup/1x/Backup/1.png" width="600" alt=""/>
+<li>Välj <strong>Skapa säkerhetskopieringsuppgift</strong> och välj en lokal delad mapp eller en extern lagringsenhet som är ansluten till din Synology NAS.</li>
+<img src="../../images/Backup/1x/Backup/2.png" width="600" alt=""/>
+<li>Välj källmapp(ar) vars innehåll ska säkerhetskopieras. Krypterade delade mappar, om valda, måste vara monterade under hela säkerhetskopieringsprocessen. Om källan och målet är på samma volym markerar systemet sådana mappar med orange utropstecken.</li>
+<img src="../../images/Backup/1x/Backup/3.png" width="600" alt=""/>
+<li>Välj applikation(er) att säkerhetskopiera.</li>
+<img src="../../images/Backup/1x/Backup/4.png" width="600" alt=""/>
+<li>Specificera nedanstående inställningar för säkerhetskopiering till att motsvara dina behov:
+  <ul>
+  <li><strong>Uppgift</strong>: Namnge säkerhetskopieringsuppgiften.</li>
+  <li><strong>Aktivera uppgiftsmeddelanden</strong>: Välj om du ska informeras om uppgiftens status via e-post, SMS eller push-tjänst.</li>
+  <li><strong>Aktivera säkerhetskopiering av konfiguration</strong>: Säkerhetskopiera systemkonfigurationer (t.ex. användaruppgifter). Den här inställningen framtvingas som standard för all säkerhetskopieringsuppgifter.</li>
+  <li><strong>Komprimera säkerhetskopierade data</strong>: Komprimera säkerhetskopierade data för att minska användningen på målet för lagring. Det krävs längre tid för säkerhetskopiering när det här alternativet är valt.</li>
+  <li><strong>Aktivera överföringskryptering</strong> (endast för fjärrsäkerhetskopiering): Välj att kryptera säkerhetskopierat data vid överföringen till en fjärrplats (t.ex. en rsync-server eller ett gemensamt moln).</li>
+  <li><strong>Multipart Upload Part Size</strong> (endast för S3-kompatibla servrar): Dela säkerhetskopierat data i de specificerade delstorlekarna.</li>
+  <li><strong>Aktivera kryptering på klientsidan</strong>: Välj att skydda säkerhetskopierat data mot oönskad åtkomst på målsidan, med lösenord.</li>
+    
+  <li><strong>Aktivera säkerhetskopieringsschema</strong>: Väl att schemalägga när säkerhetskopieringsuppgifterna ska utföras automatiskt.</li>
+  </ul>
+  </li>
+  
+<img src="../../images/Backup/1x/Backup/5.png" width="600" alt=""/>
+<li>Välj <strong>Aktivera rotation av säkerhetskopior</strong> för att ställa in schema för rotering:
+  
+  <ul>
+  <li><strong>Från de tidigaste versionerna</strong>: Radera de tidigaste versionerna av säkerhetskopia när specificerat <strong>Antal versioner</strong> överskridits.</li>
+  <li><strong>Smart Recycle</strong>: Systemet bevarar alla versioner av säkerhetskopia tills det specificerade antalet versioner är överskridet. När rotering utlösts roterar systemet först de versioner som inte uppfyller något av villkoren; om alla de befintliga versionerna motsvarar nedanstående villkor roterar systemet endast den tidigaste versionen:
+  <ul>
+  <li><strong>Versioner som gjorts varje timme från de senaste i 24 timmarna</strong>: Systemet sparar den tidigaste versionen som skapas varje timme.</li>
+  <li><strong>Dagliga versioner från senaste 1 dag till 1 månad</strong>: Systemet sparar den tidigaste versionen som skapas varje dag.</li>
+  <li><strong>Versioner som gjorts 1 gång per vecka</strong>: Systemet behåller den tidigaste versionen som skapas varje vecka.</li>
+  </ul>
+  
+  </li>
+  <li><strong>Antal versioner</strong>: Ställ in den övre gränsen för hur många versioner av säkerhetskopia det är möjligt att behålla.</li>
+  <li>Tidslinje: Visar det möjliga resultatet av bevarande av säkerhetskopior i enlighet med ditt schema för säkerhetskopiering och rotation.</li>
+  </ul>
+</li>
+
+<img src="../../images/Backup/1x/Backup/6.png" width="600" alt=""/>
+<li>Klicka på <strong>Tillämpa</strong> för att slutföra installationen.</li>
+<li>För att utföra säkerhetskopieringsuppgiften omedelbart, följ instruktionerna från Guiden Säkerhetskopiering och klicka på <strong>Ja</strong>.</li>
+</ol>
+
+
+<h3 class="list_head">2. Återställ enskilda filer från lokal delad mapp/extern lagringsenhet</h3>
+
+
+<ol>
+<li>Gå till <strong>Hyper Backup</strong>, välj den önskade säkerhetskopieringsuppgiften i den vänstra panelen och klicka på <strong>Säkerhetskopieringsutforskare</strong> (ikonen med ett förstoringsglas). Ange lösenord om uppgiften är skyddad med kryptering på klientsidan.</li>
+<img src="../../images/Backup/1x/Backup/Single_1.png" width="600" alt=""/>
+<li>Hitta och välj den önskade filen att återställa. Du kan även välja den önskade versionen att återställa med tidslinjefältet.</li>
+<img src="../../images/Backup/1x/Backup/Single_2.png" width="600" alt=""/>
+<li>Klicka på <strong>Återställ</strong> för att återställa den valda filen/mappen.</li>
+
+</ol>
+
+
+
+<h3 class="list_head">3. Återställ fullständiga uppgifter till de önskade tidpunkterna</h3>
+
+<ol>
+<li>Klicka på <strong>Återställ</strong> i det nedre vänstra hörnet och klicka på <strong>Data</strong>. Ange lösenordet om uppgiften är skyddad med kryptering på klientsidan.</li>
+
+<img src="../../images/Backup/1x/Backup/Restore_1.png" width="600" alt=""/>
+<li>Välj en uppgift att återställa. För att återställa data från andra dokumentsamlingar, välj <strong>Återställ från andra dokumentsamlingar</strong> och lokalisera uppgiften som ska återställas.</li>
+<img src="../../images/Backup/1x/Backup/Restore_2.png" width="600" alt=""/>
+<li>Välj huruvida systemkonfigurationer ska återställas. Om du väljer <strong>Återställ systemkonfiguration</strong>, välj i nedanstående lista specifika konfigurationer att återställa.</li>
+<img src="../../images/Backup/1x/Backup/Restore_3.png" width="600" alt=""/>
+
+<li>Hitta och välj målfil(er)/uppgift att återställa. Du kan även välja den önskade versionen att återställa med tidslinjefältet.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.png" width="600" alt=""/>
+<li>Välj applikationer att återställa.</li>
+<img src="../../images/Backup/1x/Backup/Restore_4.5.png" width="600" alt=""/>
+<li>Grundläggande information om återställning visas.</li>
+<img src="../../images/Backup/1x/Backup/Restore_5.png" width="600" alt=""/>
+<li>Klicka på <strong>Tillämpa</strong> för att börja återställningen.</li>
+</ol>
+
+
+
+
+
+
+<div class="page-info">
+  <ul>
+    <li>Föregående i detta ämne: <a href="backup_from_computer.html">Säkerhetskopiera data på din PC/Mac med Cloud Station</a> </li>
+  </ul>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Ström</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Viloläge</h2>
+<p>Du kan specificera den tidsperiod för vilken hårddiskarna ska vara inaktiva innan de går in i HDD-viloläge. Vid HDD-viloläge slutar hårddiskarna snurra, minskar energiförbrukning och utökar livslängden för hårddiskarna. Du kan specificera olika tidsperioder för interna hårddiskar och externa eSATA-/USB-hårddiskar.</p>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>HDD-viloläge avslutas vid åtkomst.</li>
+<li>Endast vissa externa USB-lagringsenheter har stöd för HDD-viloläge.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Varför går inte min Synology NAS in i viloläge?</h4>
+
+<p>Vänligen notera att följande tjänster kommer att förhindra Synology NAS från att inta viloläge. Därutöver kommer systemet att gå ut ur viloläge två minuter innan någon schemalagd uppgift.</p>
+
+<p><strong>Filpaket:</strong></p>
+<ul>
+  <li>Download Station: Synology NAS kan inte inta viloläge om Download Station kör eMule, RSS schemalagd nedladdning eller aktiva uppgifter.</li>
+  <li>Mail Station: Synology NAS kan inte inta viloläge om Mail Station hämtar från POP3.</li>
+  <li>Surveillance Station: Synology NAS kan inte inta viloläge om Surveillance Station utför inspelning.</li>
+  <li>Media Server: Synology NAS kan inte inta viloläge om loggfiler för DMA är aktiverad i inställningar för Media Server (Gå till <strong>Huvudmeny</strong> > <strong>Media Server</strong> > <strong>Media Server</strong> > <strong>Diagnos</strong>).</li>
+  <li>Directory Server</li>
+  <li>Webalizer</li>
+  <li>Logitech<sup>®</sup> Media Server</li>
+  <li>Plex Media Server</li>
+  <li>Annan tredjeparts mjukvara eller optware såsom SABnzbd</li>
+</ul>
+<p><strong>Processer:</strong></p>
+<ul>
+  <li>Miniatyrbilder och indexering: Synology NAS kan inte inta vilolägen vid generering av miniatyrbilder eller ombyggnad av index för multimediafiler efter en uppgradering. Under denna tid kommer processen "synoindexd" att listas som "Körs" (Gå till <strong>Huvudmeny</strong> > <strong>Resursskärm</strong> > <strong>Process</strong>).</li>
+  <li>Local Master Browser: Synology NAS kan inte inta viloläge om Local Master Browser är aktiverad (Gå till <strong>Kontrollpanel</strong> > <strong>Win/Mac/NFS</strong> > <strong>Windows-filservice</strong> > <strong>Aktivera Local Master Browser</strong>).</li>
+  <li>Windows Media Player: Synology NAS kan inte inta viloläge om tjänsten för nätverksdelning är aktiverad för LAN i Windows Media Player.</li>
+  <li>Synology NAS kan inte inta viloläge om antalet samtidiga processer kräver swap, när RAM-kapaciteten har överskridits och HDD:s tillfälligt används för läs-/skrivoperationer.</li>
+</ul>
+<p><strong>Övriga</strong></p>
+<ul>
+  <li>USB-enheter: Synology NAS kan inte inta systemvila om någon USB-enhet är ansluten. </li>
+</ul>
+
+</div>
+
+
+<h3>Systemvila</h3>
+<p>Du kan ställa in att Synology NAS går in i systemvila en minut efter att hårddiskarna gått in i viloläge. Systemvila minskar energiförbrukningen för Synology NAS.  </p>
+<p>Under systemviloläge:</p>
+
+<ol>
+  <li>Strömbrytaren går in i andningsläge (växlar långamt mellan av/på). Andra lysdioder slås av.</li>
+  <li>Hårddiskarnas strömförsörjning stängs av.</li>
+  <li>CPU stannar.</li>
+  <li>Den externa fläkten stannar.</li>
+  <li>Lysdioder på LAN-portar stängs av.</li>
+</ol>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Alla SMB/CIFS sändningspaket kan förhindra att servern går in i systemvila, inklusive alla Windows filbläddringsoperationer i nätverket. Vill du ignorera CIFS-sändningspaket vid inträde i systemviloläge, vänligen välj <strong>Ignorera sändningspaket från Utforskaren</strong>. Vänligen var medveten om att när det alternativet väl är valt kan inte SMB-/CIFS-paket användas för att gå ur systemvila. Att ansluta en USB-enhet förhindrar också servern från att inta systemvila.</li>
+</ul>
+</div>
+
+<h2>Sovläge</h2>
+<p>Sovläge för expansionsenheter kan aktiveras genom gränssnittet hos den parade Synology NAS. Du kan konfigurera att expansionsenheten och den parade Synology NAS ska vara inaktiva vid olika tidsperioder. Sålunda kan expansionsenheterna ställas in att gå in i sovläge medan den parade Synology NAS förblir online.</p>
+<p>Under sovläge:</p>
+<ul>
+  <li>Alla lysdioder i utökningsenheten kommer att vara avstängda.
+</li>
+<li>Strömmen till hårddiskarna i expansionsenheten kommer att stängas av.
+</li>
+<li>Fläkten i utökningsenheten kommer att stängas av.</li>
+</ul>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Sovläge avslutas vid åtkomst.</li>
+<li>För att säkerställa funktionalitet när funktionen för sovläge används i utökningsenheten måste du skjuta brytaren <b>Automatiskt/Manuellt</b> på bakpanelen till <b>Automatiskt</b> för normal drift.</li>
+</ul>
+</div>
+
+<h2>Automatisk avstängning</h2>
+<p>Du kan specificera längden på tidsperioden som de interna diskarna förblir i viloläge innan din Synology NAS stänger av automatiskt.</p>
+
+<div class="section">
+<h4>Obs:</h4>
+<ul>
+<li>Du måste först aktivera HDD-viloläge.</li>
+<li>Du måste först aktivera WOL-tjänsten så att du kan fjärrstarta din Synology NAS.</li>
+</ul>
+</div>
+
+</body>
+</html>
+

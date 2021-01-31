@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Wymiana dysk&oacute;w w celu zwiększenia pojemności pamięci masowej</h2>
+
+<p>Podczas korzystania z r&oacute;żnych typ&oacute;w macierzy RAID można zwiększyć pojemność pamięci masowej puli pamięci przez wymianę starych dysk&oacute;w na dyski o większym rozmiarze. Niniejszy artykuł zawiera ważne informacje dotyczące procesu rozszerzenia oraz przykład wymiany istniejących dysk&oacute;w w celu rozszerzenia pojemności pamięci masowej.</p>
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+	<li>Opisana w tym artykule procedura ma zastosowanie tylko do następujących typ&oacute;w macierzy RAID: SHR, RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</li>
+	<li>Typ SHR (Synology Hybrid RAID) jest dostępny tylko w określonych modelach. Więcej informacji można znaleźć na <a href="https://www.synology.com/" target="_blank">stronie internetowej Synology</a>.</li>
+	<li>Macierz RAID F1 jest dostępna tylko w niekt&oacute;rych modelach. Więcej informacji można znaleźć na <a href="https://www.synology.com/" target="_blank">stronie internetowej Synology</a>.</li>
+	<li>Jeśli pula pamięci obsługuje czyszczenie danych, zalecamy wykonać czyszczenie danych, aby przed wymianą dysk&oacute;w sprawdzić, czy wolumen i pula pamięci masowej są normalne.</li>
+	<li>Zalecamy korzystanie z dysk&oacute;w wymienionych na <a href="https://www.synology.com/compatibility" target=blank>liście zgodności produkt&oacute;w firmy Synology</a>, aby uniknąć wszelkich problem&oacute;w. Stosowanie niezgodnych dysk&oacute;w może obniżyć wydajność systemu, a nawet spowodować utratę danych w urządzeniu Synology NAS.</li>
+</ul>
+</div>
+
+<p>Jeśli planowana jest wymiana wielu dysk&oacute;w, należy pamiętać, aby wymieniać je po jednym. Po wymianie jednego dysku należy naprawić pulę pamięci przed przejściem do wymiany następnego. Dla następujących macierzy RAID pojemność puli pamięci zostanie rozszerzona dopiero po wymianie wszystkich dysk&oacute;w: RAID 1, RAID 5, RAID 6, RAID 10, RAID F1.</p>
+
+<h3 class="list_head"><a id="t1"></a>Przed rozpoczęciem</h3>
+<p>Przed wymianą dysku zapoznaj się z następującymi uwagami:</p>
+<ul>
+	<li><strong>Kopia zapasowa danych:</strong> Mimo że w procesie rozszerzania dane nie zostaną usunięte, przed wykonaniem kolejnych czynności zaleca się utworzenie kopii zapasowej danych.</li>
+	<li><strong>Status puli pamięci:</strong> Przed rozpoczęciem procesu rozszerzania należy upewnić się, że stan puli pamięci to <strong>Normalny</strong>. W przeciwnym razie należy w pierwszej kolejności przeprowadzić naprawę.</li>
+	<li><strong>Czy dane są nadal dostępne podczas rozszerzania?</strong> Dane przechowywane na serwerze będą dostępne podczas rozszerzania pul pamięci. Jednakże podczas uruchamiania procesu serwer może tymczasowo zawiesić wszystkie połączenia.</li>
+	<li><strong>Korzystanie z napęd&oacute;w o pojemności 3 TB lub większych:</strong> Aby rozszerzyć pulę pamięci o napędy 3 TB lub większe, upewnij się, że pula pamięci została utworzona przy użyciu systemu DSM 3.0 lub nowszego.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>W związku z tym, że pule pamięci SHR optymalizują pojemność pamięci masowej na podstawie liczby i rozmiaru zainstalowanych dysk&oacute;w, w celu prawidłowego rozszerzenia pojemności należy postępować zgodnie z następującymi wskaz&oacute;wkami:</p>
+<ul>
+	<li>Jeśli pojemność wszystkich istniejących dysk&oacute;w jest r&oacute;wna, w celu rozszerzenia pojemności pamięci masowej należy wymienić co najmniej dwa dyski na większe. Przykładowo, jeśli pula pamięci SHR składa się z trzech dysk&oacute;w o pojemności 2&nbsp;TB, należy wymienić przynajmniej dwa dyski, aby pojemność puli pamięci została rozszerzona.</li>
+	<li>Jeśli pojemność istniejących dysk&oacute;w jest r&oacute;żna, nowe dyski muszą mieć taką samą lub większą pojemność niż dysk o największej pojemności. Wymianę należy zacząć o dysk&oacute;w o najmniejszej pojemności, aby zoptymalizować wykorzystanie pojemności. Na przykład, jeśli pula pamięci SHR składa się z trzech dysk&oacute;w odpowiednio o pojemnościach 4&nbsp;TB, 3&nbsp;TB i 2&nbsp;TB, nowe dyski muszą mieć pojemność przynajmniej 4&nbsp;TB. W pierwszej kolejności należy wymienić dyski o pojemnościach 3&nbsp;TB lub 2&nbsp;TB.</li>
+</ul>
+</div>
+
+
+<div class="section"><h4>RAID 5 / RAID 6 / RAID 10 / RAID F1</h4>
+<p>Podczas wymiany dysk&oacute;w z pul pamięci RAID 5 / RAID 6 / RAID 10 / RAID F1 należy w pierwszej kolejności wymienić dysk o najmniejszej pojemności w celu zmaksymalizowania ich wykorzystania. Dla każdego typu RAID można wybrać następujące pojemności pamięci:<ul>
+		<li>RAID 5: (liczba dysk&oacute;w &ndash; 1) x (pojemność najmniejszego dysku)</li>
+		<li>RAID 6: (liczba dysk&oacute;w &ndash; 2) x (pojemność najmniejszego dysku)</li>
+		<li>RAID 10: (liczba dysk&oacute;w / 2) x (pojemność najmniejszego dysku)</li>
+		<li>RAID F1: (liczba dysk&oacute;w &ndash; 1) x (pojemność najmniejszego dysku)</li>
+	</ul>
+</p>
+
+<p>Na przykład, jeśli pula pamięci RAID 5 składa się z trzech dysk&oacute;w odpowiednio o pojemnościach 4&nbsp;TB, 3&nbsp;TB i 2&nbsp;TB, dostępna pojemność puli pamięci to 4&nbsp;TB. W przypadku wymiany dysk&oacute;w o pojemnościach 4&nbsp;TB lub 3&nbsp;TB pojemność puli pamięci nie ulegnie zmianie. Dlatego też w celu zwiększenia pojemności puli pamięci należy w pierwszej kolejności wymienić dysk o pojemności 2&nbsp;TB.</p>
+</div>
+
+
+<h3>Wymiana dysku w celu zwiększenia pojemności pamięci masowej</h3>
+<p>W poniższych krokach zostanie przedstawiony przykład wymiany dysk&oacute;w w puli pamięci SHR.</p>
+<h4>Aby wymienić dyski:</h4>
+<ol>
+	<li>Uruchom aplikację <strong>Zarządzanie przechowywaniem</strong>.<br /><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image" /></li>
+	<li>Wybierz opcję <strong>Pula pamięci</strong>, aby sprawdzić, kt&oacute;ry istniejący dysk jest najmniejszy.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/check_disk.png" class="help_image" /></li>
+	<li>Wyłącz Synology NAS. (Pomiń ten krok, jeśli posiadane urządzenie Synology NAS obsługuje funkcję wymiany dysk&oacute;w podczas pracy).</li>
+	<li>Wymontuj najmniejszy z dysk&oacute;w, a następnie zainstaluj nowy, większy dysk.<br /><span class="note_head">Uwaga: </span>Aby zapobiec obrażeniom ciała lub uszkodzeniu urządzenia Synology NAS, należy postępować zgodnie z instrukcjami instalacji dysku zawartymi w dokumencie <em>Instrukcja instalacji urządzenia</em> dostarczonym z produktem firmy Synology.</li>
+	<li>Włącz urządzenie Synology NAS.</li>
+	<li>Uruchom ponownie aplikację <strong>Zarządzanie przechowywaniem</strong> ponownie.</li>
+	<li>Wybierz opcję <strong>HDD/SSD</strong>, aby upewnić się, że nowy dysk został rozpoznany.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/confirm_disk.png" class="help_image" /></li>
+	<li>Stan puli pamięci powinien mieć wartość <strong>Zdegradowany</strong>. Wybierz pulę pamięci i kliknij <strong>Napraw</strong> w menu rozwijanym <strong>Akcja</strong>.<br /><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_expand_replace_disk/manage_repair.png" class="help_image" /></li>
+	<li>Wybierz wymieniony dysk, aby dodać go do puli pamięci. Następnie postępuj zgodnie z instrukcjami kreatora, aby zakończyć operację.</li>
+	<li>Powt&oacute;rz powyższy proces, aż wszystkie żądane dyski zostaną wymienione na większe.</li>
+</ol>
+
+</body>
+</html>

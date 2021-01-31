@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Kopia zapasowa danych</title>
+
+<link href="../../../../help/help.css" type="text/css" rel="stylesheet" />
+<link href="../../../../help/scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../help/scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../../../help/scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Kopia zapasowa</h2>
+
+<p>Aplikacja <strong>Kopia zapasowa i przywracanie</strong> pozwala tworzyć na serwerze Synology NAS kopie zapasowe rożnych typów danych (konfiguracje systemu, foldery współdzielone i aplikacje/pakiety) ręcznie lub zgodnie z harmonogramem. Możesz przechowywać dane kopii zapasowych w lokalnych folderach współdzielonych, na zdalnych serwerach i w publicznych chmurach (Amazon S3, Microsoft Azure, hicloud S3 oraz SFR NAS BACKUP). Dzięki aplikacji <strong>Kopia zapasowa i przywracanie</strong>, każde zadanie kopii zapasowych może przechowywać kilka wersji kopii zapasowej oraz dokonywać ich rotacji na zasadach funkcji Smart Recycle.</p>
+
+
+<h3>Kopia zapasowa danych</h3>
+<p><strong>Kopia zapasowa i przywracanie</strong> zapewnia dostęp do różnych opcji miejsc docelowych kopii zapasowych oraz sposobów konfiguracji zadań kopii zapasowych danych.</p>
+
+<h4>Aby utworzyć zadanie kopii zapasowej danych:</h4>
+
+<ol>
+<li>Kliknij symbol <strong>+</strong> w lewym dolnym rogu i wybierz opcję <strong>Zadanie kopii zapasowej danych</strong>, aby uruchomić kreatora kopii zapasowej.</li>
+<li>Wybierz żądany typ miejsca docelowego kopii zapasowych:<ul>
+<li>Lokalne/zdalne foldery współdzielone lub zewnętrzne urządzenia pamięci masowej</li>
+<li>Zdalne serwery rsync</li>
+<li>Publiczne chmury (np. Amazon S3 i Microsoft Azure)</li>
+</ul>
+</li>
+<li>Skonfiguruj żądany typ zadania kopii zapasowej:<ul>
+<li>Aby utworzyć całkiem nowe zadanie, wybierz opcję <strong>Utwórz zadanie kopii zapasowej</strong>.</li>
+<li>Aby ponownie wykorzystać istniejące dane kopii zapasowej w dowolnym miejscu docelowym, wybierz opcję <strong>Połącz ponownie z istniejącym zadaniem</strong>. Ponowne połączenie pozawala bezpośrednio skorzystać z danych kopii zapasowej innego zadania.</li>
+</ul>
+</li>
+
+<li>Postępuj zgodnie z instrukcjami kreatora, aby dokończyć konfigurację. Wybierz opcję <strong>Włącz szyfrowanie po stronie klienta</strong>, aby zaszyfrować dane przed ich przesłaniem oraz zapewnić bezpieczeństwo danych w miejscu docelowym kopii zapasowej.</li>
+</ol>
+
+
+<div class="section">
+<h4>Uwagi:</h4>
+<ul>
+<li>Nazwy zadań kopii zapasowej mogą zawierać od 1 do 32 znaków Unicode z wyłączeniem następujących znaków:<br> <span class="letterSpace5">! " # $ % & ' ( ) * + , / : ; < = > ? @ [ ] \ ^ ` { } | ~</span></li>
+<li>Maksymalna długość pełnej ścieżki pliku kopii zapasowej to 2048 znaków.</li>
+<li>Jeżeli do folderu udostępnionego w systemie plików EXT3 zostanie przesłanych ponad 32 000 plików lub folderów za pośrednictwem usługi AFP, wszystkie zadania kopii zapasowej obejmujące ten folder udostępniony zakończą się niepowodzeniem.</li>
+<li>Kopia zapasowa zaszyfrowanego folderu współdzielonego może zostać utworzona, jeżeli został on zamontowany i może zostać przywrócona do zaszyfrowanego/nieszyfrowanego folderu. Jednak po przywróceniu folder będzie niezaszyfrowany /////////i nie będzie automatycznie montowany podczas rozruchu. Aby go zamontować, trzeba będzie wprowadzić klucz szyfrowania danego szyfrowanego folderu udostępnionego lub go zaimportować.</li>
+<li>Tworzenie kopii zapasowej folderu zaszyfrowanego w innym folderze zaszyfrowanym nie jest obsługiwane.</li>
+<li>Używanie folderów zdalnych jako źródła kopii zapasowej lub miejsca docelowego kopii zapasowej nie jest obsługiwane.</li>
+<li>Obsługiwane jest tworzenie kopii zapasowych dla niektórych aplikacji. Aby sprawdzić, czy dany pakiet obsługuje tworzenie kopii zapasowych, a także poznać ich zawartość i ograniczenia, zapoznaj się z pomocą danego pakietu.</li>
+<li class="enable-eds14">Serwer Synology NAS nie obsługuje kopii zapasowych aplikacji bez urządzenia zewnętrznego z systemem plików EXT3/EXT4 z możliwością zapisu.</li>
+<li class="enable-eds14">Serwer Synology NAS umożliwia tworzenie kopii zapasowych tylko takich folderów udostępnionych, które zostały utworzone na urządzeniach zewnętrznych z systemem plików EXT3/EXT4.</li>
+</ul>
+</div>
+
+
+<div class="section disable-eds14">
+<h4>Tworzenie kopii zapasowej ustawień Windows ACL:</h4>
+<p>W zależności od systemów plików w miejscu docelowym ustawienia Windows ACL na serwerze Synology NAS można również uwzględniać w kopii zapasowej:</p>
+
+<ul>
+<li>Wszystkie miejsca docelowe kopii zapasowych mogą obsługiwać ustawienia Windows ACL, niezależnie od systemu plików miejsca docelowego.</li>
+</ul>
+</div>
+
+<h4>Aby wyeksportować dane do publicznych chmur lub zdalnego serwera Synology NAS:</h4>
+<p>Podczas tworzenia kopii zapasowej dużej ilości danych w publicznej chmurze, zaleca się wyeksportowanie jej pierwotnej wersji do zewnętrznego urządzenia pamięci masowej (np. dysku USB), a następnie dostarczenie urządzenia do dostawcy usługi w chmurze. Tam można będzie podłączyć urządzenie i przesłać dane bezpośrednio do chmury. W ten sposób można znacznie skrócić czas wykonania pierwszej kopii zapasowej.</p>
+<ol>
+<li>Kliknij symbol <strong>+</strong> w lewym dolnym rogu, a następnie wybierz opcję <strong>Zdalny serwer Synology NAS</strong> lub żądanego dostawcę usług w chmurze.</li>
+<li>Wybierz opcję <strong>Eksportuj do lokalnego folderu współdzielonego (włączając zewnętrzne urządzenia pamięci masowej)</strong> i zakończ konfigurację. Po wyświetleniu monitu, wybierz opcję <strong>Włącz szyfrowanie po stronie klienta</strong> w celu ochrony danych kopii zapasowej.</li>
+<li>Dostarcz zewnętrzne urządzenie pamięci masowej do zdalnego serwera Synology NAS lub dostawcy usług w chmurze. Dokonaj importu wyeksportowanych danych z zewnętrznego urządzenia pamięci masowej.</li>
+<li>Po potwierdzeniu wróć do okna <strong>Kopia zapasowa i przywracanie</strong> i kliknij przycisk <strong>Połącz ponownie teraz</strong>.</li>
+<li>Postępuj zgodnie z instrukcjami, aby połączyć serwer Synology NAS z repozytorium. Jeżeli dane zostały wyeksportowane w zaszyfrowanej postaci, konieczne jest podanie hasła/klucza szyfrowania.</li>
+</ol>
+
+<div class="section">
+	<h4>Uwaga:</h4>
+	<ul>
+		<li>Szyfrowanie po stronie klienta nie może zostać wyłączone po skonfigurowaniu zadania. Nie można też zmienić hasła.</li>
+		<li>Repozytorium kopii zapasowych może być połączone tylko z jednym zadaniem kopii zapasowej.</li>
+		<li>Jeżeli folder źródłowy kopii zapasowych jest zaszyfrowanym folderem współdzielonym lub jednym z jego podfolderów, można go zamontować lub odmontować podczas tworzenia zadania kopii zapasowej.</li>
+		<li>Zaszyfrowane foldery współdzielone nie mogą służyć jako miejsca docelowe kopii zapasowych.</li>
+		<li>W przypadku wybrania opcji <strong>Włącz szyfrowanie po stronie klienta</strong> w celu przywrócenia danych w zadaniu konieczne jest podanie hasła/klucza szyfrowania. <strong>Utrata hasła/klucza szyfrowania spowoduje trwała utratę danych</strong>.</li>
+	</ul>
+</div>
+
+<h4>Aby zarządzać zadaniami kopii zapasowej:</h4>
+<p>Wybierz żądane zadanie kopii zapasowej w panelu po lewej stronie, a następnie kliknij przyciski poniżej, aby zarządzać zadaniem:</p>
+<ul>
+<li><strong>Utwórz kopię zapasową teraz</strong>: natychmiast tworzy kopię zapasową danych zaznaczonego zadania.</li>
+<li><strong>Eksplorator kopii zapasowych</strong> (ikona szkła powiększającego): wyświetla wszystkie dostępne wersje kopii zapasowej oraz pozwala na kopiowanie/przywracanie/pobieranie zawartych w nich plików.</li>
+<li><strong>Lista wersji</strong>: wyświetla czas utworzenia i stan wszystkich wersji kopii zapasowej oraz pozwala na usunięcie niektórych wersji lub zablokowanie ich w celu wymuszonego zachowania.</li>
+<li><strong>Edytuj</strong>: pozwala modyfikować źródło kopii zapasowej, miejsce docelowe, harmonogram oraz inne ustawienia.</li>
+<li><strong>Usuń</strong>: usunięcie zadania kopii zapasowej.</li>
+<li><strong>Anuluj</strong>: zatrzymuj obecnie uruchomione zadanie kopii zapasowej.</li>
+</ul>
+
+
+<h4>Aby włączyć rotację wersji:</h4>
+<p>Rotacja kopii zapasowych jest mechanizmem zarządzania wersjami. Pozwala ona zarządzać wersjami kopii zapasowych przez automatyczne usuwanie starszych, niepotrzebnych wersji. Dzięki temu zwalniane jest miejsce na nowe kopie zapasowe. Funkcję można włączyć na karcie <strong>Ustawienia zadania</strong>. Można ją też skonfigurować podczas tworzenia zadania kopii zapasowej.</p>
+<ol>
+<li>Wybierz żądane zadanie kopii zapasowej w panelu po lewej stronie, a następnie kliknij przycisk <strong>Edytuj</strong> lub wybierz opcje <strong>Ustawienia</strong> > <strong>Ustawienia zadania</strong>.</li>
+<li>Kliknij opcję <strong>Włącz rotację kopii zapasowych</strong>, a następnie wybierz żądany tryb rotacji:<ul>
+<li><strong>Od najnowszych wersji</strong>: usuwa najwcześniej utworzone wersje kopii zapasowej, gdy liczba dostępnych wersji przekroczy określoną wartość.</li>
+<li><strong>Smart Recycle</strong>: zachowuje wersje kopii zapasowych zgodnie z poniższymi zasadami:<ul>
+<li><strong>Cogodzinne wersje z ostatnich 24 godzin</strong>: zachowanie najwcześniejszej wersji utworzonej każdej godziny.</li>
+<li><strong>Codzienne wersje od minionego 1 dnia do 1 miesiąca</strong>: zachowanie najwcześniejszej wersji utworzonej każdego dnia.</li>
+<li><strong>Cotygodniowe wersje starsze niż 1 miesiąc</strong>: zachowanie najwcześniejszej wersji utworzonej każdego tygodnia.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Określ maksymalną <strong>liczbę wersji</strong>. Gdy liczba wersji przekroczy tą wartość, najstarsza wersja zostanie poddana rotacji.</li>
+<li>Jeżeli w opcji <strong>Harmonogram</strong> skonfigurowano powtarzany harmonogram kopii zapasowej, można wyświetlić sposób, w jaki kopie zapasowe będą zachowywane oraz najwcześniejszy punkt na osi czasu.</li>
+<li>Kliknij <strong>OK</strong>, aby zapisać ustawienia.</li>
+</ol>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Zablokowane wersje nie są usuwane.</li>
+<li>Funkcja rotacji wersji jest dostępna tylko w przypadku zadań kopii zapasowej z wieloma wersjami.</li>
+<li>Rotacja wersji nie jest obsługiwana przez system DSM w wersjach starszych niż 5.1.</li>
+<li>Rotacja zostanie uruchomiona po zmianie ustawienia lub zakończeniu zadania kopii zapasowej.</li>
+<li>Zablokowane wersje nie są uwzględniane w obliczeniach maksymalnej liczby wersji.</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Uwagi dotyczące zadań kopii zapasowych danych</h3>
+<p>Zalecamy zapoznać się z poniższymi uwagami zawierającymi ważne informacje dotyczące konfiguracji oraz rozwiązywania problemów związanych z poszczególnymi typami zadań kopii zapasowych.</p>
+
+<h4>Zadania lokalnej kopii zapasowej:</h4>
+<ul>
+<li>Jeżeli dane w miejscu docelowym zostaną usunięte w trakcie wykonywania zadania kopii zapasowej, podczas kolejnego zadania zostanie wykonana pełna kopia zapasowa.</li>
+<li>Zanim nowe zewnętrzne dyski twarde będą mogły pełnić funkcję miejsca docelowego kopii zapasowej, konieczne może być ich sformatowanie. </li>
+<li>Przed utworzeniem zadania kopii zapasowej sprawdź, czy do serwera Synology NAS zostały już prawidłowo podłączone dyski zewnętrzne. Aby sprawdzić stan dysków USB lub eSATA, przejdź do strony <b>Panel sterowania</b> > <b>Urządzenie zewnętrzne</b>. Nie można używać inicjowanych, formatowanych ani działających nieprawidłowo dysków zewnętrznych jako miejsc docelowych kopii zapasowych.</li>
+<li>Nie można wybierać zamontowanych zdalnych folderów współdzielonych jako źródeł ani miejsc docelowych kopii zapasowej.</li>
+<li>Jeżeli zaszyfrowany folder udostępniony zostanie odmontowany, nie będzie można go wybrać jako miejsca docelowego kopii zapasowej.</li>
+<li>Jeżeli miejsce docelowe ma system plików NTFS lub FAT, nie można uwzględnić w kopii zapasowej miniatur obrazów.</li>
+</ul>
+
+
+
+
+
+<h4>Zadania zdalnej kopii zapasowej rsync:</h4>
+<ul>
+<li>Podczas tworzenia zadania kopii zapasowej z serwerami zgodnymi z protokołem rsync jako sieciowym miejscem docelowym są dostępne następujące tryby: <b>tryb rsync daemon</b> używany po wybraniu modułu kopii zapasowej (folderu udostępnionego na serwerze zgodnym z protokołem rsync) z listy rozwijanej <b>Moduł kopii zapasowej</b> oraz <b>tryb powłoki zdalnej</b> włączany tylko po wprowadzeniu ścieżki bezwzględnej (zaczynającej się od „/”) w polu <b>Moduł kopii zapasowej</b>.</li>
+<li>W przypadku użytkowników systemu Linux tylko konta <strong>admin</strong>, <strong>root</strong> i <strong>rsync</strong> mają uprawnienia do wykonywania zadań kopii zapasowej.</li>
+<li>Aby uzyskać dostęp do serwera docelowego za pośrednictwem Internetu przy użyciu jego nazwy hosta, wprowadź nazwę hosta w postaci w pełni kwalifikowanej nazwy domeny (FQDN), na przykład <strong>abc.bcd.com</strong>.</li>
+<li>Podczas tworzenia kopii zapasowej danych z jednego serwera Synology NAS na innym pojawia się monit o wprowadzenie nazwy użytkownika i hasła do konta w miejscu docelowym. W przypadku tworzenia kopii zapasowej w folderach udostępnionych na innym serwerze Synology NAS można to zrobić zgodnie z ustawieniami uprawnień dostępu do tych folderów. Widoczne będą tylko te foldery udostępnione, do których dane konto użytkownika ma uprawnienia dostępu. Jeżeli nie można znaleźć żądanego folderu udostępnionego w miejscu docelowym, sprawdź uprawnienia dostępu.</li>
+<li>Szyfrowanie przesyłania jest obsługiwane tylko wtedy, gdy docelowy serwer obsługuje szyfrowanie sieciowej kopii zapasowej, a hasło autoryzacji nie może być puste.</li>
+<li>W trybie powłoki zdalnej obsługiwane jest tylko szyfrowanie przesyłania.</li>
+<li>W przypadku tworzenia kopii zapasowej plików na serwerze Synology NAS za pośrednictwem klienta rsync nazwy plików muszą mieć kodowanie UTF-8.</li>
+<li>W przypadku tworzenia kopii zapasowej plików na serwerze Synology NAS za pośrednictwem klienta zgodnego z protokołem rsync można zrealizować tę operację tylko za pomocą kont <strong>admin</strong>, <strong>root</strong> i <strong>rsync</strong> serwera Synology NAS.</li>
+<li>W przypadku tworzenia kopii zapasowej plików z serwera Synology NAS na serwerze zgodnym z protokołem rsync należy wprowadzić prawidłową nazwę konta kopii zapasowej rsync oraz hasło. Trzeba będzie również wybrać właściwy moduł kopii zapasowej z uprawnieniem zapisu.</li>
+</ul>
+
+
+
+<h4>Zadania kopii zapasowych Amazon S3:</h4>
+<ul>
+  <li>Podczas tworzenia zadań kopii zapasowej z serwerem Amazon S3 jako miejscem docelowym sieciowej kopii zapasowej są dostępne różne opcje, takie jak szyfrowanie transferu, tworzenie kopii zapasowej w usłudze Amazon S3 RRS (Reduced Redundancy Storage) i inne. Pamiętaj, że niektóre opcje, takie jak szyfrowanie transferu, mogą spowolnić wykonywanie zadań kopii zapasowej.</li>
+  <li>Pliki kopii zapasowych są przechowywane w elemencie <strong>Bucket</strong> wybranym na serwerze usługi Amazon S3. Wartość Set Key zaczyna się od nazwy katalogu wybranego przez użytkownika, a kończy się pełną ścieżką do tego pliku.</li>
+  <li>Struktura danych w usłudze Amazon S3 to para elementów Bucket i KEY bez żadnej struktury folderów. W związku z tym kopia zapasowa pustych folderów nie jest obsługiwana.</li>
+  <li>Jeżeli plik z kopii zapasowej nie został zmodyfikowany, nie będzie on ponownie kopiowany do tego samego elementu Bucket na serwerze Amazon S3.</li>
+  <li>Każdy element Bucket na serwerze Amazon S3 musi mieć unikatową nazwę. Ponadto nazwa powinna:</li>
+<ul>
+  <li>mieć długość od 3 do 63 znaków;</li>
+  <li>zawierać jedynie małe litery, cyfry, kropki (.) i łączniki (-);</li><li>mieć jako pierwszy i ostatni znak cyfrę lub literę i nie może kończyć się łącznikiem (-), zawierać dwóch sąsiadujących kropek ani łączników sąsiadujących z kropkami (np. nieprawidłowe są nazwy „my-.bucket.com” i „my.-bucket”).</li>
+</ul>
+<li>Maksymalna długość klucza (KEY) serwera Amazon S3 wynosi 1024 znaki. Aby zapewnić pomyślne wykonanie kopii zapasowej na serwerze Amazon S3, maksymalna długość ścieżki nie może być dłuższa niż 1024 znaki minus długość nazwy folderu docelowego określonego podczas tworzenia zadania.</li>
+<li>Jeżeli zostanie włączona obsługa usługi Amazon S3 RRS (Reduced Redundancy Storage), zostanie w niej utworzona kopia zapasowa tylko tych danych, które zostały zmodyfikowane po włączeniu opcji RRS. Oznacza to, że kopia zapasowa danych w standardowej pamięci masowej serwera Amazon S3 nie zostanie zapisana ponownie w pamięci RRS. </li>
+<li>Przenoszenie plików z kopii zapasowej z usługi Amazon S3 do usługi Amazon Glacier jest nieobsługiwane. Jeżeli pliki zostaną przeniesione z usługi Amazon S3 do usługi Amazon Glacier za pośrednictwem konsoli AWS Management, powiązane zadania kopii zapasowej mogą zakończyć się niepowodzeniem.</li>
+<li>Tworzenie kopii zapasowej plików w wirtualnych elementach Bucket przy użyciu protokołu SSL jest nieobsługiwane.</li>
+<li>Przesyłany plik zostanie podzielony na części. Wielkość części można ustawić przy użyciu opcji <strong>Rozmiar części przesyłania Multipart Upload</strong> w ustawieniach zadania. Domyślna wielkość wynosi 512 MB. Jeżeli otoczenie sieciowe nie jest stabilne, zaleca się ustawienie mniejszej wartości.</li>
+
+<li>Maksymalna liczba przesyłanych części wynosi 10 000. Maksymalna wielkość pliku to <strong>Rozmiar części przesyłania Multipart Upload</strong> pomnożony przez 10 000.</li>
+<li>Nazwy plików nie mogą zawierać żadnych znaków spoza zestawu UTF-8 ani znaków kontrolnych.</li>
+</ul>
+
+
+
+<h4>Zadania kopii zapasowej Microsoft Azure:</h4>
+<ul>
+<li>Podczas tworzenia zadań kopii zapasowej z serwerem Microsoft Azure jako miejscem docelowym sieciowej kopii zapasowej są dostępne różne opcje (np. szyfrowanie transferu). Pamiętaj, że niektóre opcje, takie jak szyfrowanie transferu, mogą spowolnić wykonywanie zadań kopii zapasowej.</li>
+<li>Pliki kopii zapasowych są przechowywane w <strong>Kontenerze</strong> wybranym na serwerze usługi Microsoft Azure. Nazwa obiektu blob zaczyna się od nazwy katalogu wybranego przez użytkownika, a kończy się pełną ścieżką do tego pliku.</li>
+<li>Struktura danych w usłudze Microsoft Azure to para elementów Kontener i Blob bez żadnej struktury folderów. W związku z tym kopia zapasowa pustych folderów nie jest obsługiwana.</li>
+<li>Jeżeli plik z kopii zapasowej nie został zmodyfikowany, nie będzie on ponownie kopiowany do tego samego Kontenera na serwerze Microsoft Azure.</li>
+<li>Każdy kontener na serwerze Microsoft Azure musi mieć unikatową nazwę. Ponadto nazwa powinna:</li>
+<ul>
+<li>mieć długość od 3 do 63 znaków;</li>
+<li>zawierać jedynie małe litery, cyfry i łączniki (-);</li>
+<li>zaczynać się i kończyć cyfrą lub literą i nie może zawierać dwóch sąsiadujących łączników.</li>
+</ul>
+<li>Maksymalna długość obiektu blob w usłudze Microsoft Azure wynosi 1024 znaki. Aby zapewnić pomyślne wykonanie kopii zapasowej na serwerze Microsoft Azure, maksymalna długość ścieżki nie może być dłuższa niż 1024 znaki minus długość nazwy folderu docelowego określonego podczas tworzenia zadania.</li>
+
+<li>Nazwy plików nie mogą zawierać żadnych znaków spoza zestawu UTF-8 ani znaków kontrolnych.</li>
+<li>Ostrzeżenie o niepowodzeniu uwierzytelniania może pojawiać się wskutek wprowadzenia nieprawidłowych danych, problemu z połączeniem sieciowym lub niezgodności ustawień czasu między serwerem Synology NAS a serwerem zdalnym. Aby sprawdzić ustawienia czasu na serwerze Synology NAS, wybierz pozycje <strong>Panel sterowania</strong> > <strong>Opcje regionalne</strong> > <strong>Czas</strong> w celu zsynchronizowania godziny z serwerem NTP.</li>
+</ul>
+
+
+
+<h4>Zadania kopii zapasowych hicloud S3:</h4>
+<ul>
+<li>Podczas tworzenia zadań kopii zapasowej z serwerem hicloud S3 jako miejscem docelowym sieciowej kopii zapasowej są dostępne różne opcje (np. szyfrowanie transferu). Pamiętaj, że niektóre opcje, takie jak szyfrowanie transferu, mogą spowolnić wykonywanie zadań kopii zapasowej.</li>
+<li>Pliki kopii zapasowych są przechowywane w elemencie <strong>Bucket</strong> wybranym na serwerze usługi hicloud S3. Wartość Set KEY zaczyna się od nazwy katalogu wybranego przez użytkownika, a kończy się pełną ścieżką do tego pliku.</li>
+<li>Struktura danych w usłudze hicloud S3 to para elementów Bucket i KEY bez żadnej struktury folderów. W związku z tym kopia zapasowa pustych folderów nie jest obsługiwana.</li>
+<li>Jeżeli plik z kopii zapasowej nie został zmodyfikowany, nie będzie on ponownie kopiowany do tego samego elementu Bucket na serwerze hicloud S3.</li>
+<li>Każdy element Bucket na serwerze hicloud S3 musi mieć unikatową nazwę. Ponadto nazwa powinna:</li>
+<ul>
+<li>mieć długość od 3 do 63 znaków;</li>
+<li>zawierać jedynie małe litery, cyfry, kropki (.) i łączniki (-);</li>
+<li>mieć jako pierwszy i ostatni znak cyfrę lub literę i nie może kończyć się łącznikiem (-), zawierać dwóch sąsiadujących kropek ani łączników sąsiadujących z kropkami (np. nieprawidłowe są nazwy „my-.bucket.com” i „my.-bucket”).</li>
+</ul>
+<li>Maksymalna długość klucza (KEY) serwera hicloud S3 wynosi 255 znaków. Aby zapewnić pomyślne wykonanie kopii zapasowej na serwerze hicloud S3, maksymalna długość ścieżki nie może być dłuższa niż 255 znaków minus długość nazwy folderu docelowego określonego podczas tworzenia zadania.</li>
+<li>Przesyłany plik zostanie podzielony na części. Wielkość części można ustawić przy użyciu opcji <strong>Rozmiar części przesyłania Multipart Upload</strong> w ustawieniach zadania. Domyślna wielkość wynosi 512 MB. Jeżeli otoczenie sieciowe nie jest stabilne, zaleca się ustawienie mniejszej wartości.</li>
+
+<li>Hicloud obsługuje maksymalnie 1000 części na transfer. Oznacza to, że całkowity rozmiar pliku nie może przekroczyć tysiąckrotności rozmiaru części. Na przykład, jeśli Rozmiar części przesyłania Multipart Upload ustawiono na 8 MB, nie będzie można przesłać pliku większego niż 8000 MB. </li>
+
+<li>Tworzenie kopii zapasowych szyfrowanych folderów udostępnionych jest nieobsługiwane.</li> 
+
+<li>Nazwy plików nie mogą zawierać żadnych znaków spoza zestawu UTF-8 ani znaków kontrolnych.</li>
+</ul>
+
+
+  
+
+<h4>Zadania kopii zapasowej SFR NAS BACKUP:</h4>
+<ul>
+<li>Podczas tworzenia zadań kopii zapasowej z serwerem SFR NAS BACKUP jako miejscem docelowym sieciowej kopii zapasowej są dostępne różne opcje (np. szyfrowanie transferu). Pamiętaj, że niektóre opcje, takie jak szyfrowanie transferu, mogą spowolnić wykonywanie zadań kopii zapasowej.</li>
+<li>Pliki kopii zapasowych są przechowywane w elemencie <strong>Bucket</strong> wybranym na serwerze usługi SFR NAS BACKUP. Wartość Set Key zaczyna się od nazwy katalogu wybranego przez użytkownika, a kończy się pełną ścieżką do tego pliku.</li>
+<li>Struktura danych w usłudze SFR NAS BACKUP to para elementów Bucket i Key bez żadnej struktury folderów. W związku z tym kopia zapasowa pustych folderów nie jest obsługiwana.</li>
+<li>Jeżeli plik z kopii zapasowej nie został zmodyfikowany, nie będzie on ponownie kopiowany do tego samego elementu Bucket na serwerze SFR NAS BACKUP.</li>
+<li>Każdy element Bucket na serwerze SFR NAS BACKUP musi mieć unikatową nazwę. Ponadto nazwa powinna:</li>
+<ul>
+<li>mieć długość od 3 do 63 znaków;</li>
+<li>zawierać jedynie małe litery, cyfry, kropki (.) i łączniki (-);</li>
+<li>mieć jako pierwszy i ostatni znak cyfrę lub literę i nie może kończyć się łącznikiem (-), zawierać dwóch sąsiadujących kropek ani łączników sąsiadujących z kropkami (np. nieprawidłowe są nazwy „my-.bucket.com” i „my.-bucket”).</li>
+</ul>
+<li>Maksymalna długość klucza (KEY) serwera SFR NAS BACKUP wynosi 1024 znaki. Aby zapewnić pomyślne wykonanie kopii zapasowej na serwerze SFR NAS BACKUP, maksymalna długość ścieżki nie może być dłuższa niż 1024 znaki minus długość nazwy folderu docelowego określonego podczas tworzenia zadania.</li>
+<li>Przesyłany plik zostanie podzielony na części. Wielkość części można ustawić przy użyciu opcji <strong>Rozmiar części przesyłania Multipart Upload</strong> w ustawieniach zadania. Domyślna wielkość wynosi 64MB. Jeżeli otoczenie sieciowe nie jest stabilne, zaleca się ustawienie mniejszej wartości.</li>
+
+<li>Nazwy plików nie mogą zawierać żadnych znaków spoza zestawu UTF-8 ani znaków kontrolnych.</li> 
+
+</ul>
+
+<h4>Inne zadania kopii zapasowej zgodne z techologią S-3:</h4>
+<ul>
+<li>Aby korzystać z innych chmur zgodnych z technologią S3, po wyświetleniu monitu wprowadź adres IP/domeny żądanej chmury zgodnej z S3 w polu <strong>Serwer S3</strong>.</li>
+<li>W przypadku problemów, zapoznaj się ze stosowną dokumentacją lub skontaktuj się z dostawcą usługi w chmurze zgodnej z S3.</li>
+</ul>
+
+<h3>Kopia zapasowa jednostek LUN*</h3>
+
+<p>Możesz użyć opcji <b>Kopia zapasowa lokalnej jednostki LUN</b> w celu wykonania kopii zapasowej jednostek iSCSI LUN serwera Synology NAS w lokalnych folderach współdzielonych. Można również użyć funkcji <b>Sieciowa kopia zapasowa LUN (Serwer Synology)</b>, aby wykonać kopię zapasową na innym serwerze Synology NAS.</p>
+
+<h4>Aby wykonać kopię zapasową jednostki iSCSI LUN:</h4>
+<ol>
+<li>Kliknij symbol <strong>+</strong> w lewym dolnym rogu, a następnie wybierz opcję <strong>Zadanie kopii zapasowej LUN</strong>.</li>
+<li>Gdy pojawi się monit o wybranie miejsca docelowego, wybierz jedną z następujących opcji:</li>
+<ul>
+<li><b>Kopia zapasowa lokalnej jednostki LUN</b>: Wybierz tę opcję, aby utworzyć kopię zapasową jednostki LUN z serwera Synology NAS w lokalnym folderze udostępnionym lub na dysku zewnętrznym, który jest podłączony do gniazda USB lub eSATA w serwerze Synology NAS.</li>
+<li><b>Sieciowa kopia zapasowa LUN (Serwer Synology)</b>: Wybierz tę opcję, aby utworzyć kopię zapasową jednostki LUN z serwera Synology NAS na innym serwerze Synology NAS.</li>
+</ul>
+<li>Gdy pojawi się monit, określ miejsce docelowe kopii zapasowej i źródło LUN, a następnie skonfiguruj plan kopii zapasowej.</li>
+<li>Postępuj zgodnie z instrukcjami kreatora, aby zakończyć konfigurację.</li>
+</ol>
+<p>Po utworzeniu zadania kopii zapasowej serwer Synology NAS wykona je zgodnie z harmonogramem i zapisze kopię zapasową LUN w miejscu docelowym. Kopia zapasowa LUN służy tylko do celów archiwalnych. Aby uzyskać dostęp do kopii zapasowej LUN, zobacz temat <a href="restore.html">Aby przywrócić LUN z kopii zapasowej</a> w celu uzyskania dodatkowych informacji.</p>
+
+<div class="section">
+<h4>Uwaga:</h4>
+<ul>
+<li>Zwykłe jednostki LUN na poziomie pliku i bloku zostaną zapisane jako pliki obrazów w miejscu docelowym. Po przywróceniu wszystkie jednostki LUN na poziomie bloku zostaną zmienione na jednostki LUN na poziomie pliku.</li>
+<li>Każde zadanie tworzenia kopii zapasowych zawiera tylko jedną jednostkę LUN jako źródło kopii zapasowej.</li>
+<li>Kopii zapasowych jednostek LUN nie można utworzyć na dysku zewnętrznym w formacie FAT, FAT32, HFS, HFS+ lub NTFS.</li>
+<li>Przed wykonanie sieciowej kopii zapasowej LUN należy zalogować się w docelowym serwerze Synology NAS, aby upewnić się, że jego usługa sieciowej kopii zapasowej jest włączona, wybierając opcje <b>Panel sterowania</b> > <b>Usługa kopii zapasowych</b>.</li>
+<li>Jeżeli serwer Synology NAS łączy się z siecią za pośrednictwem routera, przed wykonaniem operacji Sieciowa kopia zapasowa LUN sprawdź, czy została określona na routerze reguła przekierowania portów dla usługi iSCSI (port TCP 3260).</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Informacje o Pełnej kopii zapasowej i Kopii przyrostowej:</h4>
+<p>Serwer Synology NAS wykona za pierwszym razem pełną kopię zapasową wybranej jednostki LUN, a następnie będzie wykonywać kopie przyrostowe. Jeżeli jednak nazwa folderu współdzielonego lub nazwa katalogu miejsca docelowego ulegnie zmianie, serwer Synology NAS wykona ponownie pełną kopię zapasową.</p>
+</div>
+
+<p>____<br /> * Funkcja dostępna tylko w niektórych modelach.</p>
+
+</body></html>

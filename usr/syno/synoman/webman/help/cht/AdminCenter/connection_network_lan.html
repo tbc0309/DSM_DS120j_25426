@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>區域網路 / 無線區域網路</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="lan"></a>區域網路 / 網際網路</h2>
+<p>根據 Synology NAS 機型及網路設定，您可於<strong>控制台</strong> &gt; <strong>網路</strong> &gt; <strong>網路介面</strong>為區域網路及網際網路進行 DHCP 設定。DHCP 是管理設定 IP 組態的網路通訊協定。若要讓 DHCP 指派 IP 給系統使用，請按一下<strong>編輯</strong>並在 <strong>IPv4</strong> 頁籤下選擇<b>自動取得網路設定 (DHCP)</b>。</p>
+<p>若您使用的是網路服務供應商提供的 IP 組態設定，請選擇<b>手動設定網路組態</b>，並手動輸入 IP 位址和子網路遮罩。如果您不知道名稱伺服器 (DNS) 或預設閘道器 (gateway) 的設定，則這兩個欄位可以保持空白。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<ol>
+<li>為了確保系統所發出的電子郵件通知可以順利由 SMTP 伺服器送達系統管理員的電子郵件信箱，請正確填寫 DNS 伺服器的 IP 位址。</li>
+<li>Jumbo Frame 是「最大傳輸單元」(MTU) 大於標準 1500 位元的乙太網路框架，可讓乙太網路傳輸大檔案更有效率。只有在 Gigabit 網路環境下才能啟動此功能。若要確保 Jumbo Frame 正常運作，網路上所有存取 Synology NAS 的電腦及裝置必須支援此功能，並且也使用相同的 MTU 值。</li>
+</ol>
+</div>
+
+<h3><a name="vlan"></a>VLAN</h3>
+<p>當網路環境需要 VLAN 設定時，您可以在編輯視窗中的 <strong>IPv4</strong> 頁籤下啟動 VLAN 功能並輸入 VLAN ID 以配合您的網路環境。</p>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>請確定您的網路交換器已正確設定，否則可能無法存取 Synology NAS 的各項服務。</li>
+<li>如在修改上述設定後無法連上 Synology NAS，請按壓 Synology NAS 上的 RESET 按鈕以回復預設值。</li>
+</ul>
+</div>
+
+
+<h3><a name="ipv6"></a>IPv6 設定</h3>
+<p>Synology NAS 裝置支援 IPv4/IPv6 雙重架構機制。這表示 IPv4 和 IPv6 能同時運作於 Synology NAS 之上。IPv6 的預設值為<b>自動設定</b>。選擇一個現有的網路介面，按一下<b>編輯</b>按鈕，並前往 <b>IPv6</b> 頁籤來更改設定。</p>
+
+<h4>若要進行 IPv6 設定：</h4>
+<ol>
+<li>前往<strong>控制台</strong> &gt; <strong>網路</strong> &gt; <strong>網路介面</strong>。</li>
+<li>選擇一個現有的網路介面，按一下<strong>編輯</strong>。</li>
+<li>在 <strong>IPv6</strong> 頁籤下，從 <strong>IPv6 設定</strong>中選擇一種設定類型：
+  <ul>
+    <li><b>自動設定</b>：Synology NAS 會自動根據區域網路路由器通告 (Router Advertisement，RA) 產生 IPv6 位址。</li>
+	<ul>
+	  <li><strong>無狀態模式</strong>：允許連接到路由器的裝置自動設定 IPv6 位址，無需設定 IPv6 DNS 伺服器。</li>
+      <li><strong>無狀態 DHCPv6 模式</strong>：允許連接到路由器的裝置自動設定 IPv6 位址，並透過 DHCPv6 取得 DNS 資訊。</li>
+      <li><strong>全狀態模式</strong>：允許連接到路由器的裝置取得 IPv6 位址，並透過 DHCPv6 取得 DNS 資訊。在此模式下，您必須啟動 DHCPv6 伺服器，並設定 DHCPv6 伺服器的 <strong>開始 IP 位址</strong>及<strong>結束 IP 位址</strong>。</li>
+	</ul>
+<li><b>手動</b>：在 <b>IPv6 位址</b>、<b>Prefix 長度</b>以及<b>預設閘道</b>中輸入資訊來手動設定 IPv6。</li>
+<li><b>關閉：</b>停用 IPv6 支援。</li>
+  </ul>
+</ol>
+<p>在 IPv6 完全取代 IPv4 前，您需透過 IPv6 轉換機制來讓擁有 IPv4 位址的主機連到 IPv6 之服務。請從下列 IPv6 轉換機制中進行選擇：</p>
+<ul>
+  <li><b>6in4</b>：透過通道代理人連線到 IPv6 網路。您將需要填入 <b>IPv6 位址</b>、<b>Prefix 長度</b>、<b>Prefix</b> 以及<b>通道代理人 IPv4 位址</b>。這將需要一組公用 IPv4 位址。</li>
+<li><b>6to4</b>：透過使用任一傳播的通道代理人連線到 IPv6 網路。這將需要一組公用 IPv4 位址。</li>
+<li><b>DHCP-PD</b>：透過區域網路中的 prefix 委派，從 DHCP 伺服器取得 IPv6 prefix。這將需要 ISP 支援，且僅能於路由器模式下運作。</li>
+<li><b>IPv6 Tunneling (TSP)</b>：前往<strong>控制台</strong> &gt; <strong>網路</strong> &gt; <strong>一般</strong>來設定此選項。</li>
+</ul>
+
+<h3>802.1X</h3>
+<p>802.1X 是 IEEE 所制定關於用戶接上網路的認證標準。 在乙太網路或無線網路中皆能利用 802.1X 來認證用戶端，尚未認證成功時不能存取受到保護的網路。 </p>
+<p>您可以讓 Synology NAS 在受到保護的網路上透過 802.1X 認證以存取網路。</p>
+
+<h4>若要啟動 802.1X 認證：</h4>
+<ol>
+<li>前往<strong>控制台</strong> &gt; <strong>網路</strong> &gt; <strong>網路介面</strong>。 </li>
+<li>選擇網路介面 (例如 LAN) 並按一下<strong>編輯</strong>。 </li>
+<li>前往<strong> 802.1X</strong> 頁籤並勾選<strong>啟用 802.1X 認證</strong>。 </li>
+<li>從<strong>認證</strong>選單中選擇下列其中一項認證通訊協定： 如不確定哪一個最適合，請選擇 <strong>Auto</strong>。<ul>
+<li><strong>Protected EAP (PEAP)</strong>：利用 CA 憑證來建立安全連線。 此安全連線將會讓內部認證使用。</li>
+<li><strong>Tunneled TLS (TTLS)</strong>：利用 CA 憑證 來建立安全連線。 此安全連線將會讓內部認證使用。</li>
+<li><strong>TLS</strong>：利用 TLS (Transport Layer Security) 的身份鑒別功能來進行認證。</li> </ul> </li>
+<li>如果您選擇 <strong>TTLS</strong> 或 <strong>PEAP</strong>，則請從內部認證選單中選擇下列其中一項。<ul>
+<li><strong>MS CHAP v2：</strong>密碼會以 Microsoft CHAP v2 進行加密。</li>
+<li><strong>GTC</strong>：認證資訊會以 GTC (Generic Token Card) 進行加密。</li>
+</ul></li>
+<li>輸入您的使用者帳號及密碼。</li>
+<li>若需要憑證的話，按一下<strong>匯入</strong>憑證，再按一下<strong>瀏覽</strong>按鈕來尋找並匯入從 Radius 伺服器匯出的憑證檔案 (例如 ca.crt)。</li>
+<li>按一下<strong>確定</strong>來儲存設定。</li>
+</ol>
+
+<div class="section">
+<h4>注意：</h4>
+<ul>
+<li>若要為無線網路設定 802.1X 認證，請前往<strong>控制台 </strong>&gt; <strong>無線</strong> &gt; <strong>Wi-Fi</strong>。</li>
+<li>認證設定必須與 Radius 伺服器的設定相同。 如需更多詳細資訊，請聯絡 Radius 伺服器管理者。</li>
+</ul>
+</div>
+
+<h2>無線網路*</h2>
+<p>當 Synology NAS 設定為無線路由器時，您可於<strong>控制台</strong> &gt; <strong>網路</strong> &gt; <strong>網路介面</strong>進行下列無線網路設定。</p>
+<h3>IPv4 設定</h3>
+
+<h4>IP 位址和子網路遮罩</h4> 
+<p>您可以在此為 Synology NAS 設定 IP 位址及子網路遮罩。</p>
+<h4>DHCP Server</h4>
+<p>勾選<strong>啟動 DHCP 伺服器</strong>選項，讓 Synology NAS 分配 IP 位址給連線至 Synology NAS 提供的區域網路之用戶端裝置。</p>
+<h4>PPPoE 轉送</h4>
+<p>啟動 <strong>PPPoE 轉送</strong>，讓連線至 Synology NAS 的裝置能夠透過 PPPoE 連線連至網際網路。</p>
+
+<h4>設定為 UPnP 網際網路閘道</h4>
+<p>啟動 <strong>UPnP</strong> 服務，讓 Synology NAS 成為 UPnP 網際網路閘道裝置，如此一來，連線至 Synology NAS 區域網路的裝置便可使用 UPnP 設定連接埠轉送規則。</p>
+
+<h3>IPv6 設定</h3>
+<p>您可以透過 6in4、6to4 或 DHCP-PD 等方式，從<strong><strong><strong>區域網路</strong> / 網際網路</strong></strong>取得 IPv6 位址及 prefix。有了此資訊後，您可以在此為 Synology NAS 設定 IPv6 路由選項。</p>
+<ul>
+<li><strong>IPv6 位址</strong>：輸入從<strong>區域網路 / 網際網路</strong>取得的 IPv6 位址。</li>
+<li><strong>Prefix 長度</strong>：輸入從<strong>區域網路 / 網際網路</strong>取得的 IPv6 位址 prefix 長度，通常為 64。</li>
+<li><strong>主要網域名稱伺服器 (DNS)</strong>：連接到路由器的裝置所用的主要 DNS 伺服器。不需設定為<strong>無狀態模式</strong>。</li>
+<li><strong>次要網域名稱伺服器 (DNS)</strong>：連接到路由器的裝置所用的次要 DNS 伺服器。不需設定為<strong>無狀態模式</strong>。</li>
+</ul>
+<p>有三種路由器通告 (RA) 模式可供選擇：</p>
+<ul>
+<li><strong>無狀態模式</strong>：允許連接到路由器的裝置自動設定 IPv6 位址，無需設定 IPv6 DNS 伺服器。</li>
+<li><strong>無狀態 DHCPv6 模式</strong>：允許連接到路由器的裝置自動設定 IPv6 位址，並透過 DHCPv6 取得 DNS 資訊。</li>
+<li><strong>全狀態模式</strong>：允許連接到路由器的裝置取得 IPv6 位址，並透過 DHCPv6 取得 DNS 資訊。在此模式下，您必須啟動 DHCPv6 伺服器，並設定 DHCPv6 伺服器的<strong>開始 IP 位址</strong>及<strong>結束 IP 位址</strong>。</li>
+</ul>
+
+<h3>DHCP 用戶端</h3>
+<p>您可在此檢視 DHCP 用戶端清單，以及各用戶端的網路設定 (例如 MAC 位址、IP 位址、主機名稱，以及 DHCP 租約到期的剩餘時間)。</p>
+<p>您可以在 IPv4 / IPv6 用戶端下拉式清單中進行篩選，來顯示哪些用戶端使用 IPv4、哪些使用 IPv6。選擇一個用戶端並按一下<strong>加到保留位址</strong>，來將用戶端加到保留位址清單中。</p>
+
+<h3>DHCP 保留</h3>
+<p>如果您要讓用戶端在每次 DHCP 租約更新時都能接收到相同的 IP 位址，則可以將該用戶端加到保留位址清單中。</p>
+<p>您可以在 IPv4 / IPv6 保留位址下拉式清單中進行篩選。IPv4 位址可透過網路實體位址辨識，而 IPv6 位址則可透過 DUID 辨識。</p>
+<h4>若要將用戶端加到保留位址清單：</h4>
+<ul>
+<li>選擇用戶端並按一下<b>新增</b>。</li>
+<li>指定用戶端的網路實體位址或 DUID、您想指派給用戶端的 IPv4 / IPv6 位址，以及用戶端主機名稱。 </li>
+<li>按一下<b>確定</b>來儲存設定。</li>
+</ul>
+<p>
+____<br> * 僅適用於特定機種或依您環境而定。
+</p>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Delt mappe</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Tilordne NFS-tillatelser</h2>
+<p>Du kan tilordne NFS-tillatelser til alle mapper, som gjør det mulig for Linux-klienter å få tilgang til dem.</p>
+<h4>
+Slik tilordner du NFS-tillatelser til en delt mappe:
+</h4>
+<ol>
+<li>Velg den delte mappen du ønsker å redigere fra listen over delte mapper.</li>
+<li>Klikk på <strong>Rediger</strong> > <strong>NFS-tillatelser</strong>.</li>
+<li>Klikk på <b>Opprett</b> for å legge til en NFS-regel.</li>
+<li>Et vindu åpnes. Definer alternativene nedenfor.</li>
+<li><strong>Vertsnavn eller IP:</strong> Angi IP-adressen til NFS-klienten som skal ha tilgang til den delte mappen. Du kan angi en vert på tre måter:
+<ul>
+<li><strong>Enkelt vert:</strong> Fullt kvalifisert domenenavn, eller en IP-adresse.</li>
+<li><strong>Jokertegn:</strong> *,* .synology.com</li>
+<li><strong>IP-nettverk:</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>Rettighet:</strong> Velg lese-/skrivetillatelser for NFS-klienten.</li>
+<li> <strong> Sikkerhet:</strong> Spesifiser sikkerhetsnivået som skal brukes.
+  <ul>
+  <li><strong>AUTH_SYS:</strong> Bruk NFS-klientens UID (brukeridentifikator) og GID (gruppeidentifikator) til å kontrollere tilgangstillatelser.</li>
+<li><strong>Kerberos-autentisering:</strong> Utfør Kerberos-autentisering når NFS-klienten kobler seg til den delte mappen. Klienten får kun tilgang til den delte mappen etter Kerberos-autentiseringen.</li>
+<li><strong>Kerberos-integritet:</strong> Utfør Kerberos-autentisering og sikre integriteten til pakker under dataoverføring.</li>
+<li><strong>Kerberos-personvern:</strong> Utfør Kerberos-autentisering og krypter NFS-pakkene under dataoverføring, slik at ondsinnede parter ikke får manipulere NFS-trafikk.</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>: Dette feltet lar deg kontrollere brukeres tilgangsrettigheter for NFS-klienten. Velg ett av følgende:
+  <ul>
+    <li><strong>Ingen tilordning:</strong> Lar alle brukere av NFS-klient, inkludert root-brukere, opprettholde originale tilgangsrettigheter.</li>
+    <li><strong>Tilordne root til admin:</strong> Tildeler tilgangsrettigheter som er likestilt med admin-brukeres tilgangsrettigheter for ditt system til root-brukere av NFS-klienten.</li>
+    <li><strong>Tilordne root til guest:</strong> Tildeler tilgangsrettigheter som er likestilt med guest-tilgangsrettigheter for ditt system til root-brukere av NFS-klienten.</li>
+    <li><strong>Tilordne alle brukere til admin:</strong> Tildeler tilgangsrettigheter som er likestilt med admin-brukeres tilgangsrettigheter for ditt system til alle brukere av NFS-klienten.</li>
+  </ul>
+</li>
+
+<li><strong>Aktiver asynkront:</strong> Velg dette alternativet for å la din Synology NAS svare på forespørsler fra NFS-klienter før endringer på filer er fullført, for bedre ytelse.</li>
+<li><strong>Tillat tilkoblinger fra porter uten rettigheter (porter høyere enn 1024):</strong> Ved å merke av for dette alternativet, får NFS-klienter bruke porter uten rettigheter (dvs. porter høyere enn 1024) når de kobler seg til Synology NAS. </li>
+<li><strong>Gi brukere tilgang til monterte undermapper：</strong> Ved å merke av for dette alternativet, får NFS-klienter tilgang til monterte undermapper.</li>
+<li>Klikk på <b>OK</b> for å fullføre.</li>
+  <li>Klikk <b>OK</b> for å ta i bruk NFS-tillatelsene.</li>
+</ol>
+
+<div class="section">
+<h4>Merk:</h4>
+<ul>
+<li>Når formatet på servernavnet er <strong>*.domene</strong>, må NFS-klientens IP-adresse ha en korresponderende DNS PTR-fortegnelse for å la Synology NAS finne navnet *.domene ved å søke etter den korresponderende IP-adressen.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Sikkerhetsnivåer:</h4>
+<p> Ved åpning av en delt mappe via NFS med en spesifikk brukerkonto: </p>
+<ul>
+<li>Hvis <strong>AUTH_SYS</strong>-sikkerhetsnivå er i bruk: Klienten må ha nøyaktig lik numerisk UID (brukeridentifikator) og GID (gruppeidentifikator) på NFS-klienten og på Synology NAS, ellers vil klienten få tilordnet tillatelsene for <strong>others</strong> når den åpner den delte mappen. For å unngå eventuelle tillatelseskonflikter, kan du velge <strong>Tilordne alle brukere til admin</strong> fra <strong>Squash</strong> eller gi "Alle" tillatelser til den delte mappen.</li>
+<li>Hvis <strong>Kerberos (krb5, krb5i, krb5p)</strong>-sikkerhetsnivå er i bruk: Du må gå til <strong>Win/Mac/NFS</strong> > <strong>NFS-tjeneste</strong> > <strong>Kerberos-innstillinger</strong> > <strong>ID-tilordning</strong> for å tilordne NFS-klienten til en spesifikk bruker, eller knytte deg til et Windows-/LDAP-domene med den korresponderende brukerkontoen. Ellers vil klienten få tilordnet tillatelsene for <strong>guest</strong> når den åpner den delte mappen.</li>
+<li>Hvis filsystemet på den eksterne enheten hvor delte mapper opprettes er NTFS eller FAT, vil alternativet <strong>Tilordne alle brukere til admin</strong> bli tatt i bruk.</li>
+</ul>
+<p>For å bruke Kerberos-sikkerhetsnivåer til å koble til Synology NAS, må Kerberos-autentisering konfigureres ved å gå til <strong>Win/Mac/NFS</strong> > <strong>NFS-tjeneste</strong> > <strong>Kerberos-innstillinger</strong>.</p>
+</div>
+
+</body>
+</html>

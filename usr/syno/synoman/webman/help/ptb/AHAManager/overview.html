@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Vis&atilde;o geral</h2>
+	<p>Essa p&aacute;gina exibe informa&ccedil;&otilde;es b&aacute;sicas sobre o cluster de high-availability e os servidores membro. Al&eacute;m disso, essa p&aacute;gina fornece ferramentas para realizar a manuten&ccedil;&atilde;o em clusters de high-availability e servidores membros.</p>
+
+<h3>Status do cluster de High-Availability</h3>
+  <p>Esse campo exibe o status geral do cluster de high-availability, alertando-o para qualquer erro. A seguir, uma tabela das condi&ccedil;&otilde;es poss&iacute;veis exibidas nesse campo:</p>
+    <table>
+     <tr>
+      <th width="12%">Status</th>
+      <th width="88%">Descri&ccedil;&atilde;o</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Boas condi&ccedil;&otilde;es</strong></td>
+      <td>A condi&ccedil;&atilde;o geral do cluster de high-availability &eacute; boa.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Carregando</strong></td>
+	  <td>O sistema est&aacute; carregando o status do cluster. A <strong>Mudan&ccedil;a</strong> n&atilde;o pode ser realizada at&eacute; que o carregamento do status seja conclu&iacute;do. Consulte <a href="switchover_fail.html">Mudan&ccedil;a</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Configurando</strong></td>
+	  <td>O sistema est&aacute; sendo configurado. A <b>Mudan&ccedil;a</b> n&atilde;o pode ser realizada at&eacute; que a configura&ccedil;&atilde;o esteja conclu&iacute;da.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Aviso</strong></td>
+      <td>O status do cluster HA est&aacute; anormal, mas os servi&ccedil;os ainda est&atilde;o funcionando. A <strong>Mudan&ccedil;a</strong> pode n&atilde;o ser realizada nessa situa&ccedil;&atilde;o.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Perigo</strong></td>
+	  <td>Os servidores ativo e passivo est&atilde;o com defeito ou o armazenamento est&aacute; danificado. O cluster de high-availability n&atilde;o pode funcionar normalmente. Verifique o status de todos os espa&ccedil;os de armazenamento (ex.: grupos RAID, grupos de disco, volumes e iSCSI LUNs). A <b>Mudan&ccedil;a</b> n&atilde;o pode ser realizada nessa situa&ccedil;&atilde;o.</td>
+     </tr>
+    </table>
+<h3>Mensagens de advert&ecirc;ncia</h3>
+   <p>A tabela a seguir mostra as mensagens de advert&ecirc;ncia que podem aparecer quando ocorre um erro no sistema. Quando mais de uma mensagem de advert&ecirc;ncia aparecer, voc&ecirc; pode navegar entre elas com os bot&otilde;es de avan&ccedil;o/retrocesso. </p>
+    <table>
+     <tr>
+      <th width="21%">Advert&ecirc;ncia/Erro</th>
+      <th width="79%">Descri&ccedil;&atilde;o</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>N&atilde;o h&aacute; nenhum servidor passivo no grupo de high-availability</strong></td>
+	  <td>As informa&ccedil;&otilde;es do servidor passivo n&atilde;o est&atilde;o dispon&iacute;veis. Certifique-se de que o servidor passivo esteja conectado corretamente. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Falha ao detectar o servidor passivo</strong></td>
+      <td>Esse erro pode ocorrer porque o servidor passivo est&aacute; offline ou os servidores ativo e passivo n&atilde;o podem se comunicar atrav&eacute;s da conex&atilde;o Heartbeat. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Falha ao executar failover</strong></td>
+      <td>Um failover foi disparado no servidor ativo mas falhou. Nesse caso, o servidor ativo n&atilde;o tentar&aacute; outro failover. Para eliminar esse erro, siga as etapas abaixo:
+		<ol>
+		  <li>Tente solucionar os problemas no conjunto de high-availability.</li>
+		  <li>Reinicialize o servidor passivo.</li>
+		  <li>Execute uma mudan&ccedil;a clicando em <strong>Gerenciar</strong> &gt; <strong>Mudan&ccedil;a</strong>.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Erro de alvo monitorado</strong></td>
+      <td>Ocorreu um erro em um ou mais alvos monitorados, incluindo status do sistema, servi&ccedil;o ou interface de rede.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Os erros ocorreram na conex&atilde;o entre as unidades de expans&atilde;o e o servidor ativo/passivo</strong></td>
+      <td>As unidades de expans&atilde;o n&atilde;o est&atilde;o conectadas corretamente ao servidor ativo ou passivo. Certifique-se de que a conex&atilde;o com o servidor ativo esteja correta e configure a mesma conex&atilde;o com o servidor passivo. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Um volume foi degradado</strong></td>
+      <td>Um espa&ccedil;o de armazenamento (ex: RAID Group, Grupo de Disco, volume, iSCSI LUN e cache SSD) est&aacute; degradado. Verifique a p&aacute;gina <b>Status de Armazenamento</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Um volume foi danificado</strong></td>
+      <td>Um espa&ccedil;o de armazenamento (ex: RAID Group, Grupo de Disco, volume, iSCSI LUN e cache SSD) est&aacute; danificado. Verifique a p&aacute;gina <b>Status de Armazenamento</b>. O failover ser&aacute; executado automaticamente se o servidor passivo conseguir reconhecer os drives que o servidor n&atilde;o conseguiu acessar. Caso contr&aacute;rio, a mudan&ccedil;a ficar&aacute; indispon&iacute;vel.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>A conex&atilde;o Heartbeat foi perdida</strong></td>
+      <td>Esse erro pode ocorrer devido a uma falha de conex&atilde;o Heartbeat. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Defeito no hardware</strong></td>
+      <td>Esse erro pode ocorrer devido a falha no hardware (ex.: unidade de alimenta&ccedil;&atilde;o ou ventoinha do sistema) no servidor ativo ou servidor passivo.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Tamanho f&iacute;sico de RAM diferente</strong></td>
+      <td>Esse erro pode ocorrer devido ao tamanho f&iacute;sico da RAM incompat&iacute;vel no servidor ativo e passivo. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Nenhum IP est&aacute;tico foi atribu&iacute;do a esse grupo high-availability</strong></td>
+      <td>Esse erro pode ocorrer devido &agrave; falta do IP est&aacute;tico para o grupo de high-availability. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>N&atilde;o h&aacute; IP est&aacute;tico na interface monitorada</strong></td>
+      <td>Esse erro pode ocorrer devido &agrave; falta do IP est&aacute;tico para a interface monitorada. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Recupera&ccedil;&atilde;o do servidor passivo</strong></td>
+      <td>A recupera&ccedil;&atilde;o do servidor passivo est&aacute; em andamento. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Atualizando o servidor passivo</strong></td>
+      <td>O sistema est&aacute; atualizando o servidor passivo. Nesse caso, a mudan&ccedil;a estar&aacute; indispon&iacute;vel.</td>
+     </tr>
+
+    </table>
+
+<h3>Bot&atilde;o &quot;Gerenciar&quot; do Grupo de High-Availability</h3>
+
+<p>Esse bot&atilde;o localiza-se abaixo das informa&ccedil;&otilde;es do grupo de high-availability. Ele inclui as seguintes opera&ccedil;&otilde;es:</p>
+<ul>
+<li><b>Mudan&ccedil;a:</b> Inicia uma mudan&ccedil;a do servidor ativo para o servidor passivo. Durante esse processo, o servidor ativo deixa de prestar servi&ccedil;os e torna-se o novo servidor passivo. Em seguida, o antigo servidor passivo torna-se o novo servidor ativo e come&ccedil;a a prestar todos os servi&ccedil;os do cluster de high-availability. Esta op&ccedil;&atilde;o n&atilde;o est&aacute; dispon&iacute;vel quando o servidor passivo est&aacute; no status <b>erro</b> ou n&atilde;o est&aacute; selecionado.</li>
+<li><b>Atualiza&ccedil;&atilde;o do DSM:</b> Abre a p&aacute;gina <strong>Atualiza&ccedil;&atilde;o do DSM</strong> do <strong>Painel de controle</strong>. A partir daqui, os dois servidores podem ser atualizados.</li>
+<li><b>Desligamento do grupo de high-availability:</b> Desliga os servidores ativo e passivo.</li>
+<li><b>Desligar servidor ativo:</b> Desliga o servidor ativo. Os servi&ccedil;os ser&atilde;o alternados se o servidor passivo estiver &iacute;ntegro.</li>
+<li><b>Desligar servidor passivo:</b> Desliga o servidor passivo.</li>
+<li><b>Reiniciar servidor ativo:</b> Reinicia o servidor ativo. Os servi&ccedil;os ser&atilde;o alternados se o servidor passivo estiver &iacute;ntegro.</li>
+<li><b>Reinicializar servidor passivo:</b> Reinicia o servidor passivo.</li>
+<li><b>Recupere o servidor desconhecido:</b> Recupera o servidor passivo se o servidor passivo for substitu&iacute;do ou ainda for reconhecido como desconhecido.</li>
+<li><b>Bipe do sistema desligado:</b> Interrompe o som do bipe do servidor ativo e passivo quando ocorrer um erro. O sistema ainda emitir&aacute; um bipe no servidor ativo ou passivo se ocorrer outro erro posteriormente.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Observa&ccedil;&atilde;o:</h4>
+<ul>
+<li>Se voc&ecirc; desligar o servidor passivo ou n&atilde;o houver nenhum servidor passivo, os servi&ccedil;os n&atilde;o podem ser alterados quando ocorrerem erros no servidor ativo.</li>
+</ul>
+</div>
+
+<h3>Informa&ccedil;&otilde;es e diagrama do servidor</h3>
+ <p>O diagrama do servidor mostra o status do servidor. O local corresponde ao lado dos m&oacute;dulos aos quais o servidor est&aacute; conectado. Passe o mouse sobre ele para obter mais detalhes.</p>
+<p>Ele inclui as seguintes situa&ccedil;&otilde;es:</p>
+<ul>
+  <li><b>N&atilde;o h&aacute; nenhum servidor passivo no grupo de high-availability:</b> Exibe um quadro em branco.</li>
+  <li><b>Falha ao detectar o servidor passivo:</b> Exibe uma imagem de servidor desfocada.</li>
+  <li><b>Ponto de exclama&ccedil;&atilde;o:</b> O hardware pode apresentar defeito ou as informa&ccedil;&otilde;es do servidor n&atilde;o est&atilde;o dispon&iacute;veis devido &agrave; falha da conex&atilde;o Heartbeat.</li>
+</ul>
+
+<div class="section">
+<h4>Observa&ccedil;&atilde;o:</h4>
+<ul>
+<li>Se aparecer &quot;desconhecido&quot; no outro servidor, significa que ele n&atilde;o pertence ao grupo de high-availability. Clique em <b>Gerenciar</b> e selecione <b>Recuperar servidor desconhecido</b> para reparar esse problema.</li>
+</ul>
+</div>
+
+<p>As informa&ccedil;&otilde;es do servidor incluem as seguintes entradas. Elas mostram <b>N/D</b> se nenhum servidor passivo for detectado.</p>
+
+  <ul>
+   <li><b>N&uacute;mero de s&eacute;rie:</b> N&uacute;mero de s&eacute;rie do servidor Synology.</li>
+   <li><b>Status da ventoinha:</b> Status das ventoinhas de refrigera&ccedil;&atilde;o do servidor. Se uma das ventoinhas apresentar defeito, aparecer&aacute; um aviso. Nesse caso, entre em contato com o distribuidor local para obter assist&ecirc;ncia.</li>
+   <li><b>Temperatura:</b> Temperatura do servidor Synology. </li>
+   <li><b>Status de energia:</b> Indica se as fontes de alimenta&ccedil;&atilde;o do servidor est&atilde;o todas funcionando normalmente. Se o servidor for equipado com fontes de alimenta&ccedil;&atilde;o redundantes, aparecer&aacute; um aviso se uma delas estiver com defeito.</li>
+    <li><b>Mem&oacute;ria f&iacute;sica:</b> Tamanho f&iacute;sico da RAM do servidor Synology. A mudan&ccedil;a n&atilde;o ser&aacute; realizada se os dois servidores n&atilde;o tiverem o mesmo tamanho f&iacute;sico de mem&oacute;ria RAM.</li>
+  </ul>
+
+<h3>Status de conectividade entre os servidores</h3>
+<p>Esta se&ccedil;&atilde;o cont&eacute;m imagens entre os servidores ativo e passivo. Ele inclui as seguintes situa&ccedil;&otilde;es:</p>
+<ul>
+  <li><b>Nenhuma imagem:</b> Indica que nenhum servidor passivo foi detectado.</li>
+  <li><b>Imagem est&aacute;tica:</b> Indica a conex&atilde;o Heartbeat incorreta.</li>
+  <li><b>Ponto de exclama&ccedil;&atilde;o:</b> Indica comunica&ccedil;&atilde;o anormal entre os dois servidores ou conex&atilde;o Heartbeat incorreta.</li>
+</ul>
+
+<h3>Status da interface da rede</h3>
+<p>Esta se&ccedil;&atilde;o cont&eacute;m imagens entre os servidores e a rede de dados. Ele inclui as seguintes situa&ccedil;&otilde;es:</p>
+<ul>
+  <li><b>Nenhum ponto de exclama&ccedil;&atilde;o:</b> Indica que nenhuma falha de rede foi detectada.</li>
+  <li><b>Ponto de exclama&ccedil;&atilde;o:</b> Indica a ocorr&ecirc;ncia de falha na interface da rede monitorada.</li>
+</ul>
+
+<h3> Informa&ccedil;&otilde;es e diagrama do armazenamento compartilhado</h3>
+ <p>O diagrama do armazenamento compartilhado mostra o status da conectividade entre os servidores e o armazenamento compartilhado. Passe o mouse sobre ele para obter informa&ccedil;&otilde;es b&aacute;sicas.</p>
+<p>Ele inclui as seguintes situa&ccedil;&otilde;es:</p>
+<ul>
+  <li><b>Nenhum ponto de exclama&ccedil;&atilde;o:</b> Indica que nenhum erro foi detectado.</li>
+  <li><b>Ponto de exclama&ccedil;&atilde;o:</b> Indica status de conectividade anormal das unidades de expans&atilde;o.</li>
+</ul>
+
+<p>As informa&ccedil;&otilde;es b&aacute;sicas do armazenamento compartilhado incluem as seguintes entradas. V&aacute; para <b>Gerenciador de armazenamento</b> para obter informa&ccedil;&otilde;es mais detalhadas.</p>
+
+  <ul>
+   <li><b>Status da ventoinha:</b> Exibe o status das ventoinhas das unidades de expans&atilde;o. Se uma ventoinha apresentar defeito, aparecer&aacute; um aviso. Nesse caso, entre em contato com o distribuidor local para obter assist&ecirc;ncia.</li>
+   <li><b>Status de energia:</b> Indica se as fontes de alimenta&ccedil;&atilde;o do servidor est&atilde;o todas funcionando normalmente. Uma advert&ecirc;ncia aparecer&aacute; se um delas apresentar defeito.</li>
+   </ul>
+ </body>
+</html>

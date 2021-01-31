@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>ネットワーク</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2><a name="link_aggr"></a>Link Aggregation</h2>
+<p>Synology NAS はマルチ LAN に対応しており、Link Aggregation テクノロジーを採用することによりこれらの LAN インターフェイスを結合します。Link Aggregation は接続が切断されてもネットワーク接続を維持するために、複数のネットワーク インターフェイスをまとめ、トラフィック フェイルオーバーを提供することで、Synology NAS の帯域を広げます。</p>
+<p>LAN インターフェイスが結合されると、「<b>Bond</b>」という名前の新しいインターフェイスが、<b>[コントロール パネル]</b> > <b>[ネットワーク]</b> > <b>[ネットワーク インターフェイス]</b> に表示されます。これは他のインターフェイス（LAN または PPPoE など）と同じように調整できます。</p>
+
+
+<div class="section">
+<h4>注：</h4>
+<ul>
+<li>Link Aggregation は、2つ以上の LAN ポートがあるモデルでのみ利用できます。</li>
+<li>Link Aggregation を有効にすると、ネットワーク トラフィックが自動的に調整され、それぞれ接続されているデバイスとのバランスが保たれます。</li>
+<li>ネットワーク インターフェイスが複数のスイッチに接続されている場合は、スイッチポートが同一の LAN または VLAN にあるか確認してください。</li>
+</ul>
+</div>
+
+
+<h4>Link Aggregation で複数の LAN を結合する：</h4>
+<ol>
+<li><strong>[コントロールパネル]</strong> > <strong>[ネットワーク]</strong> > <strong>[ネットワーク インターフェイス]</strong> を選択します。<strong>[作成]</strong> > <strong>[Bond を作成]</strong> をクリックします。</li>
+
+<img src="about:blank" class="help_image"/>
+
+
+<li>モードを選択してください。
+
+<div class="section">
+<h4>モードの説明：</h4>
+<ul>
+  <li><strong>Adaptive Load Balancing</strong>：このモードは、スイッチが Link Aggregation をサポートしているかどうかに関わらず、Synology NAS によってやり取りされるネットワーク トラフィックを最適化します。突然のエラーを防ぐために、サポートしている場合であってもスイッチで Link Aggregation を有効にすることはお止めください。</li>
+  <li><strong>IEEE 802.3ad ダイナミック Link Aggregation</strong>：このモードでは、Synology NASによって送受信されるネットワーク トラフィックを最適化するため、スイッチで IEEE 802.3ad (Dynamic) Link Aggregation (LACP、802.1AX) が有効になっている必要があります。複数のスイッチが使用されている場合は、これらのスイッチはスタック可能であり、正しく構成されていなければなりません。</li>
+<li><strong>バランス XOR</strong>：このモードでは、Synology NAS によって送受信されるネットワーク トラフィックのバランスを取るため、スイッチで Static Link Aggregation が有効になっている必要があります。複数のスイッチが使用されている場合は、これらのスイッチはスタック可能であり、正しく構成されていなければなりません。スイッチが Link Aggregation をサポートしていない場合は、Synology NAS によって送信されるトラフィックはバランスが調整されます。このモードでは、失われたリンクは検出できますが、その原因までは分かりません (例：Ethernet ケーブルが外れているのか、スイッチが正しく構成されていないのか)。</li>
+<li><strong>アクティブ/スタンバイ</strong>：Synology NAS に network fault tolerance を提供します。つまり、アクティブ ネットワークがダウンすると、別の LAN ポートの1つが引き継いでネットワーク接続を持続します。このモードは、スイッチを構成しなくても、または IEEE 802.3ad Link Aggregation に対応したスイッチでも選択できます。</li>
+</ul>
+<p>Open vSwitch を有効にしている場合は、次のいずれかのモードを選択できます。</p>
+<ul>
+ <li><b>バランス SLB</b>：このモードは特定のネットワークスイッチを必要とせずにネットワークトラフィックのバランスを取り、２づのスイッチを接続できます。</li>
+ <li><b>バランス TCP</b>：このモードは Dynamic Link Aggregation (IEEE 802.3ad LACP) として設定されたスイッチの接続を可能にします。複数のスイッチが使用されている場合は、これらのスイッチはスタック可能であり、正しく構成されていなければなりません。</li>
+ <li><b>アクティブ/バックアップ モード</b>：このモードでは、2 つのネットワーク インターフェイスを使用して、Synology NAS に network fault tolerance を提供します。アクティブ ネットワーク インターフェイスに不具合が生じると、別のネットワークインターフェイスが引き継いでネットワーク接続を持続します。このモードはスイッチを構成せずに選ぶことができます。</li>
+</ul>
+</div>
+</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>Link Aggregationを作成するためのインターフェイスを選択します。</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>IP 設定を行います。必要であれば、VLAN を有効にすることもできます。<b>[適用]</b> をクリックして、変更内容を保存します。</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>完了すると、新しいインターフェイス <b>Bond 1</b> が<b>ネットワーク インターフェイス</b>リストに表示されます。</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+<h4>Link Aggregation の設定を編集する：</h4>
+<ol>
+<li>Link Aggregation モードを変更したり、物理的デバイスの情報を表示するには、<b>[コントロール パネル]</b> > <b>[ネットワーク]</b> > <b>[ネットワーク インターフェイス]</b> を選択します。</li>
+<li><b>Bond 1</b> というインターフェイスを選択し、[<b>編集</b>] ボタンをクリックします。</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>対応するタブを選択して設定を変更します。</li>
+</ol>
+
+<h4>Link Aggregation を削除する：</h4>
+<ol>
+<li><b>[コントロールパネル]</b> > <b>[ネットワーク]</b> > <b>[ネットワーク インターフェイス]</b> を選択します。</li>
+<li>インターフェイス <b>Bond 1</b> を選択し、<b>[削除]</b> ボタンをクリックします。</li>
+
+<img src="about:blank" class="help_image"/>
+
+<li>完了すると、2 つに区分された LAN インターフェイスがネットワーク インターフェイス リストに表示されます。</li>
+
+<img src="about:blank" class="help_image"/>
+
+</ol>
+
+</body>
+</html>
+

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+<h2>Přehled</h2>
+	<p>Tato stránka zobrazuje základní informace týkající se clusteru high-availability a členských serverů. Dále tato stránka nabízí nástroje určené k provádění údržby clusteru high-availability a členských serverů.</p>
+
+<h3>Stav clusteru high-availability</h3>
+  <p>Toto pole zobrazuje celkový stav clusteru high-availability a upozorňuje na veškeré chyby. Následující tabulka představuje všechny možné podmínky zobrazené v tomto poli:</p>
+    <table>
+     <tr>
+      <th width="12%">Stav</th>
+      <th width="88%">Popis</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>V pořádku</strong></td>
+      <td>Celkový stav clusteru high-availability je dobrý.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Načítání</strong></td>
+	  <td>Systém načítá stav clusteru. <strong>Přepnutí</strong> lze provést až po dokončení načítání stavu. Informace naleznete v části <a href="switchover_fail.html">Přepnutí</a>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Konfigurace</strong></td>
+	  <td>Systém je právě konfigurován. <b>Přepnutí</b> nelze provést až do dokončení konfigurace.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Upozornění</strong></td>
+      <td>Cluster HA není v pořádku, služby však fungují standardně. <strong>Přepnutí</strong> nelze za takových podmínek provést.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Výstraha</strong></td>
+	  <td>Aktivní ani pasivní server nefunguje správně, nebo došlo ke zhroucení úložiště. Cluster high-availability nemůže správně fungovat. Zkontrolujte stav veškeré úložné kapacity (např. skupin RAID Group, skupin disků, svazků a jednotek iSCSI LUN). <b>Přepnutí</b> nelze za takových podmínek provést.</td>
+     </tr>
+    </table>
+<h3>Zprávy upozornění</h3>
+   <p>Následující tabulka obsahuje zprávy upozornění, které se mohou zobrazit v případě chyby systému. Pokud se zobrazí více než jedna zpráva, můžete se v rámci těchto zpráv pohybovat tlačítky Dopředu/Zpět. </p>
+    <table>
+     <tr>
+      <th width="21%">Upozornění/Chyba</th>
+      <th width="79%">Popis</th>
+     </tr>
+     <tr>
+      <td align="center"><strong>Tento cluster high-availability neobsahuje žádný pasivní server</strong></td>
+	  <td>Údaje o pasivním serveru nejsou k dispozici. Přesvědčte se, zda je pasivní server správně připojen. V tomto případě nebude funkce přepnutí k dispozici.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Pasivní server se nepodařilo nalézt</strong></td>
+      <td>K této chybě může dojít tehdy, pokud je pasivní server v režimu offline, anebo není možné připojit aktivní server k pasivnímu serveru pomocí připojení Heartbeat. V tomto případě nebude funkce přepnutí k dispozici.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Převzetí služeb při selhání se nezdařilo</strong></td>
+      <td>Převzetí bylo aktivováno na aktivním serveru, ale selhalo. V takovém případě se aktivní server nepokusí o další převzetí. Tuto chybu můžete odstranit následujícím postupem:<ol>
+		  <li>Pokuste se vyřešit problémy v clusteru high-availability.</li>
+		  <li>Restartujte pasivní server.</li>
+		  <li>Proveďte přepnutí kliknutím na možnost <strong>Správa</strong> > <strong>Přepnutí</strong>.</li>
+	   </ol></td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Chyba sledovaného cíle</strong></td>
+      <td>Na jednom nebo více ze sledovaných cílových míst došlo k chybě týkající se stavu systému, služby nebo síťového rozhraní.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>V připojení mezi rozšiřovacími jednotkami a aktivním/pasivním serverem došlo k chybě</strong></td>
+      <td>Rozšiřovací jednotky nejsou správně připojeny k aktivnímu nebo pasivnímu serveru. Zkontrolujte, zda jsou správně připojeny k aktivnímu serveru, a stejné připojení nastavte také k pasivnímu serveru. V tomto případě nebude funkce přepnutí k dispozici.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>U svazku došlo k omezení</strong></td>
+      <td>Došlo k omezenému režimu úložného místa (např. skupiny RAID Group, skupiny disků, svazku, jednotky iSCSI LUN a mezipaměti SSD). Zkontrolujte stránku <b>Stav úložiště</b>.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>U svazku došlo k poruše</strong></td>
+      <td>Došlo k zhroucení úložného místa (např. skupiny RAID Group, skupiny disků, svazku, jednotky iSCSI LUN a mezipaměti SSD). Zkontrolujte stránku <b>Stav úložiště</b>. Pokud se pasivní server úspěšně připojí k diskům, u nichž se aktivní server neúspěšně pokusil o přístup, spustí se automaticky funkce Převzetí služeb při poruše. V opačném případě nebude přepnutí k dispozici.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Spojení Heartbeat bylo ztraceno</strong></td>
+      <td>K této chybě může dojít z důvodu selhání připojení Heartbeat. V tomto případě nebude funkce přepnutí k dispozici.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Selhání hardwaru</strong></td>
+      <td>K této chybě může dojít v důsledku selhání hardwaru (např. napájecí jednotky nebo ventilátoru systému) na aktivním nebo pasivním serveru.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Rozdílná velikost fyzické RAM</strong></td>
+      <td>K této chybě může dojít při rozdílné velikosti fyzické RAM na aktivním a pasivním serveru. V tomto případě nebude funkce přepnutí k dispozici.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>High-availability clusteru nebyla přiřazena statická IP adresa.</strong></td>
+      <td>K této chybě může dojít, pokud high-availability cluster nemá přidělenou statickou IP adresu. V tomto případě nebude funkce přepnutí k dispozici.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Monitorované rozhraní nemá statickou IP adresu</strong></td>
+      <td>K této chybě může dojít, pokud monitorované rozhraní nemá přidělenou statickou IP adresu. V tomto případě nebude funkce přepnutí k dispozici.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Obnovování pasivního serveru</strong></td>
+      <td>Probíhá obnova pasivního serveru. V tomto případě nebude funkce přepnutí k dispozici.</td>
+     </tr>
+     <tr>
+      <td align="center"><strong>Upgradování pasivního serveru</strong></td>
+      <td>Systém upgraduje pasivní server. V tomto případě nebude funkce přepnutí k dispozici.</td>
+     </tr>
+
+    </table>
+
+<h3>Tlačítko „Správa“ high-availability clusteru</h3>
+
+<p>Toto tlačítko se nachází pod údaji o high-availability clusteru. Obsahuje následující funkce:</p>
+<ul>
+<li><b>Přepnutí:</b> Zahájí proces přepnutí z aktivního serveru na pasivní server. Během tohoto procesu pozastaví aktivní server zajišťování služeb a bude plnit funkci nového pasivního serveru. Poté bude původní pasivní server plnit funkci nového aktivního serveru a zahájí provoz všech služeb clusteru high-availability. Tato funkce není k dispozici, pokud pasivní server vykazuje <b>chybu</b> nebo nebyl vybrán.</li>
+<li><b>Aktualizace DSM:</b> Na stránce <strong>Ovládací panel</strong> otevře možnost <strong>Aktualizace DSM</strong>. V této části lze aktualizovat oba servery.</li>
+<li><b>Vypnout high-availability cluster:</b> Vypne aktivní i pasivní server.</li>
+<li><b>Vypnout aktivní server:</b> Vypne aktivní server. Služby budou přepnuty na pasivní server, pokud je tento v pořádku.</li>
+<li><b>Vypnout pasivní server:</b> Vypne pasivní server.</li>
+<li><b>Restartovat aktivní server:</b> Restartuje aktivní server. Služby budou přepnuty na pasivní server, pokud je tento v pořádku.</li>
+<li><b>Restartovat pasivní server:</b> Restartuje pasivní server.</li>
+<li><b>Obnovit neznámý server:</b> Obnoví pasivní server, pokud byl vyměněn nebo je stále zařazen jako neznámý.</li>
+<li><b>Vypnutí zvukového signálu systému:</b> Pozastaví zvukový signál aktivního a pasivního serveru, pokud dojde k chybě. Pokud později dojde k jiné chybě, zvukový signál aktivního a pasivního serveru se opět rozezní.</li>
+</ul>
+
+
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Pokud vypnete pasivní server nebo se v systému pasivní server nenachází, nelze služby přepnout, pokud dojde k chybě aktivního serveru.</li>
+</ul>
+</div>
+
+<h3>Graf serveru a údaje o něm</h3>
+ <p>Graf serveru zobrazuje stav serveru. Umístění závisí na tom, ke které straně modulů je server připojen. Podrobnosti získáte, pokud po něm přejedete myší.</p>
+<p>Obsahuje následující možnosti:</p>
+<ul>
+  <li><b>Tento cluster high-availability neobsahuje žádný pasivní server:</b> Zobrazí se prázdný rámeček.</li>
+  <li><b>Pasivní server se nepodařilo nalézt:</b> Server se zobrazí rozostřeně.</li>
+  <li><b>Vykřičník:</b> Hardware nepracuje správně, nebo nejsou údaje o serveru dostupné v důsledku selhání připojení Heartbeat.</li>
+</ul>
+
+<div class="section">
+<h4>Poznámka:</h4>
+<ul>
+<li>Pokud se u druhého serveru zobrazí „neznámý“, znamená to, že tento server není součástí high-availability clusteru. Tento problém opravíte kliknutím na možnost <b>Obnovit neznámý server</b> v nabídce <b>Správa</b>.</li>
+</ul>
+</div>
+
+<p>Informace o serveru zahrnují tyto položky. Pokud nebyl pasivní server nalezen, zobrazí se <b>N/A</b>.</p>
+
+  <ul>
+   <li><b>Sériové číslo:</b> Sériové číslo serveru Synology.</li>
+   <li><b>Stav ventilátoru:</b> Stav chladících ventilátorů serveru. Pokud některý ventilátor nefunguje, bude zobrazeno upozornění. V tomto případě se obraťte na svého místního distributora.</li>
+   <li><b>Teplota:</b> Teplota serveru Synology. </li>
+   <li><b>Stav napájení:</b> Označuje, zda všechny napájecí zdroje správně fungují. Pokud je model serveru vybaven redundantními napájecími zdroji, zobrazí se v případě nesprávného fungování upozornění.</li>
+    <li><b>Fyzická paměť:</b> Velikost fyzické RAM serveru Synology. Přepnutí nelze provést, pokud oba servery nemají stejnou velikost fyzické RAM.</li>
+  </ul>
+
+<h3>Stav připojení mezi servery</h3>
+<p>Tato část obsahuje obrázky o situaci mezi aktivním a pasivním serverem. Obsahuje následující možnosti:</p>
+<ul>
+  <li><b>Žádný obrázek:</b> Znamená, že nebyl nalezen žádný pasivní server.</li>
+  <li><b>Nehybný obrázek:</b> Znamená nesprávné Heartbeat připojení.</li>
+  <li><b>Vykřičník:</b> Znamená nestandardní komunikaci mezi dvěma servery nebo nesprávné Heartbeat připojení.</li>
+</ul>
+
+<h3>Stav síťového rozhraní</h3>
+<p>Tato část obsahuje obrázky o situaci mezi servery a datovou sítí. Obsahuje následující možnosti:</p>
+<ul>
+  <li><b>Žádný vykřičník:</b> Znamená, že nedošlo k žádné síťové chybě.</li>
+  <li><b>Vykřičník:</b> Znamená, že v sledovaném síťovém rozhraní došlo k chybě.</li>
+</ul>
+
+<h3> Graf sdíleného úložiště a údaje o něm</h3>
+ <p>Graf sdíleného úložiště zobrazuje stav připojení mezi servery a sdíleným úložištěm. Základní údaje získáte, pokud po něm přejedete myší.</p>
+<p>Obsahuje následující možnosti:</p>
+<ul>
+  <li><b>Žádný vykřičník:</b> Znamená, že nedošlo k žádné chybě.</li>
+  <li><b>Vykřičník:</b> Znamená nestandardní stav připojení rozšiřovacích jednotek.</li>
+</ul>
+
+<p>Základní údaje o sdíleném úložišti zahrnují následující položky. Pro podrobnější údaje přejděte do <b>Správce úložiště</b>.</p>
+
+  <ul>
+   <li><b>Stav ventilátoru:</b> Zobrazuje stav ventilátorů vašich rozšiřovacích jednotek. Pokud ventilátor nefunguje, bude zobrazeno upozornění. V tomto případě se obraťte na svého místního distributora.</li>
+   <li><b>Stav napájení:</b> Označuje, zda všechny napájecí zdroje správně fungují. Pokud některé z nich nefunguje, zobrazí se upozornění.</li>
+   </ul>
+ </body>
+</html>

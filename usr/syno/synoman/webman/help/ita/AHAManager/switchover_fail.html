@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>High Availability</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+  <h2>Passaggio</h2>
+  
+ <p>Per garantire prestazioni continue e ridurre il tempo di interruzione del servizio, i servizi possono essere passati dal server attivo del cluster high-availability al server passivo in standby. Questa funziona prende il nome di "Passaggio", o in molti casi "Failover". In questa sezione sono riportate le informazioni di base di questi due concetti.</p>
+  
+  <h3>Passaggio</h3>
+  	<p>Il passaggio consiste nel trasferire i servizi dal server attivo al server passivo in standby di un cluster high-availability. In condizioni normali, il server attivo gestisce tutti i servizi. Tuttavia, nel caso il server attivo non funzioni correttamente, l'utente può inizializzare il passaggio e il trasferimento di tutti i servizi al server passivo, presumendo che il server passivo funzioni correttamente. In questo caso, il server attivo assume il ruolo di server passivo e viceversa.</p>
+    
+<h4>Per inizializzare manualmente il passaggio:</h4>
+ <ol>
+  <li>Andare alla pagina <b>Panoramica</b>.</li>
+  <li>Fare clic su <b>Gestisci</b> > <b>Passaggio</b>.</li>
+ </ol>
+
+<div class="section">
+<h4>Nota:</h4>
+   <p>Prima del passaggio manuale, si consiglia di configurare un IP statico e accedere a DSM con questo IP statico, al fine di evitare la perdita della pagina DSN causata da un cambio di IP dopo il passaggio.</p>
+</div>
+
+<div class="section">
+<h4>Nota:</h4>
+   <p>quando viene inizializzato un passaggio, prima il server attivo assume il ruolo di server passivo, quindi il server passivo diventa il server attivo. Pertanto, per un breve periodo di tempo entrambi i server saranno passivi e i servizi potrebbero non essere forniti in modo normale. Il tempo necessario per completare il passaggio varia in relazione al numero e alla dimensione dei volumi o iSCSI LUN (Livello blocco), o al numero e al carico totale di servizi e pacchetti sul cluster high-availability.</p>
+</div>
+
+<h3>Failover</h3>
+    
+     <p>Quando si verificano alcuni errori, il sistema può inizializzare automaticamente un passaggio di servizi in modo da ridurre al minimo i tempi di inattività del servizio. Questo evento prende il nome di "failover". Il sistema può inizializzare un failover nelle seguenti situazioni, presumendo che il server passivo funzioni normalmente:</p>
+    
+    <ul>
+      <li><b>Interruzione di corrente:</b> 
+        <ul>
+      	<li>il server attivo è stato arrestato o riavviato.</li>
+        <li>Entrambe le unità di alimentazione nel server attivo hanno avuto esito negativo.</li>
+        <li>Nessuna alimentazione.</li>
+      </ul></li>
+      <li><b>Errore unità:</b> il numero di percorsi unità nel server attivo è inferiore a quello nel server passivo.</li>
+      <li><b>Errore servizio:</b> si è verificato un errore nel servizio monitorato.</li>
+      <li><b>Errore di connessione:</b> si è verificato un errore di connessione nell'interfaccia monitorata.</li>
+    </ul>    
+     
+    
+<h3>Errore nel passaggio</h3>
+    
+		<p>Il passaggio o failover potrebbe non funzionare nelle seguenti situazioni:</p>
+  	<ul>
+  	  <li><b>Connessione heartbeat anomala:</b> lo stato della connessione del server attivo-passivo non è normale.</li>
+  	  <li><b>Dimensioni memoria non corrispondenti:</b> I server attivo e passivo non hanno dimensioni RAM identiche.</li>
+  	  <li><b>Interruzione di corrente:</b><ul>
+      	<li>il server passivo è stato arrestato o riavviato.</li>
+        <li>Entrambe le unità di alimentazione nel server passivo hanno avuto esito negativo.</li>
+        <li>Nessuna alimentazione.</li>
+      </ul></li>
+  	  <li><b>Errore di connessione:</b> si è verificato un errore di connessione nell'interfaccia del server passivo.</li>
+  	  <li><b>Errore servizio:</b> si verificano errori nei servizi monitorati sul server passivo.</li>
+  	  <li><b>Errore di connessione dell'unità di espansione:</b> La connessione delle unità di espansione nei due server non è dello stesso ordine.</li>
+  	  <li><b>Errore unità:</b> il numero di percorsi unità nel server attivo è passivo è inferiore a quello nel server attivo.</li>
+      <li><b>Aggiornamento DSM:</b> quando si installa un aggiornamento DSM, tutti i servizi saranno interrotti e riprenderanno dopo che l'installazione dell'aggiornamento DSM è completata.</li>      
+ </ul>
+
+  <p>Nel caso venga inizializzato manualmente un passaggio ma i servizi non possono essere passati al server passivo, il sistema tenta di ripassare i servizi al server attivo.</p>
+
+ <h3>UPS (gruppo di continuità)</h3>
+  <p>I cluster high-availability possono essere collegati a unità UPS (gruppi di continuità di rete) in modo da ridurre il rischio di interruzioni di corrente. In caso di interruzione, i server riceveranno alimentazione di backup dalle unità UPS a cui sono collegati. Quando l'unità UPS collegata al server attivo inizia a funzione a bassa potenza, il server passivo si arresta e il server attivo passa alla modalità di sicurezza. Dopo la ripresa di potenza, il server attivo viene riavviato e tenta di attivare l'altro server trasmettendo un messaggio Wake on LAN.</p>
+   <ul>
+	   <li>Si consiglia di collegare entrambi i server e le unità di espansione nella stessa UPS come switch di rete a cui sono collegati.</li>
+   </ul>
+
+<div class="section">
+<h4>Nota:</h4>
+<p>Synology NAS supporta soltanto la connessione a dispositivi UPD di rete. Per maggiori informazioni, consultare la guida in <strong>Pannello di controllo</strong> > <strong>Hardware</strong> > <strong>UPS</strong>.</p>
+</div>  
+ </body>
+</html>

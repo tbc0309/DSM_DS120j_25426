@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>SSD-gyorsítótár*</h2>
+<p>Az SSD-gyorsítótár képes javítani a közvetlen elérésű memória teljesítményét, azzal, hogy a gyakran elért adatokat az SSD-gyorsítótárban tárolja. Az SSD-gyorsítótár köteteken vagy iSCSI LUN-okon (blokkszint) hozható létre. Az SSD-gyorsítótáraknak két típusa van:</p>
+<ul>
+<li>A <strong>Csak olvasási gyorsítótár</strong> 1–12 SSD meghajtóból állhat, melyeket Basic vagy RAID 0 konfigurációban csatolhat azon tárhely közvetlen olvasási sebességének javítása érdekében, amelyhez ezek a meghajtók csatlakoznak.<div class="section"><h4>Megjegyzés:</h4>
+	<p>A csak olvasási SSD-gyorsítótár a köteten található adatok másolatait tárolja, így még akkor sem veszít adatokat, amennyiben a csak olvasási gyorsítótár tönkremegy.</p>
+	</div>
+</li>
+<li>Az <strong>Olvasási-írási gyorsítótár</strong> az SSD meghajtók számától (max. 12) függően RAID 1/RAID 5/RAID 6 konfigurációban csatolható azon tárhely közvetlen olvasási és írási sebességének javítása érdekében, amelyhez csatlakozik.</li>
+</ul>
+
+<p>Mindkét típusú SSD-gyorsítótár LRU (Least Recently Used – legrégebben használt) algoritmust használ az adatok gyorsítótárban történő cseréjéhez.</p>
+
+<div class="section">
+<h4>Fontos:</h4>
+<p>Mielőtt SSD-ket telepítene és alkalmazna gyorsítótárként, olvassa el a következő megjegyzéseket:</p>
+<ul>
+<li>Az SSD-gyorsítótár bekapcsolásának célja, hogy növeljük a tárhely egy kisebb, gyakran elért adatcsoportjának közvetlen elérési teljesítményét. A nagy szekvenciális olvasási és írási műveletek (pl. HD videó streamelése) és a teljesen véletlenszerű adatbeolvasási minták esetén nincs szó ismételt beolvasásról, ezért ezek teljesítményét nem javítja jelentősen az SSD-gyorsítótár. Általános alkalmazás esetén javasolt bekapcsolni a <b>Szekvenciális I/O átugrása</b> opciót, hogy a szekvenciális I/O továbbra is át tudjon haladni a tárhely meghajtóin.</li>
+<li>Kérjük, tekintse át a <a href="http://www.synology.com/" target=_blank>Synology honlapján</a> található kompatibilitási listát, és válassza ki, hogy milyen SSD meghajtót szeretne gyorsítótárként használni Synology NAS készülékében.</li>
+<li class="disable-alpine">Az SSD-gyorsítótár megfelelő működéséhez a gyorsítótár mérete szempontjából megfelelő mennyiségű rendszermemóriára van szükség, ezért nagyobb SSD-gyorsítótár telepítése esetleg a(z) Synology NAS memóriájának bővítését igényelheti. A rendszer stabilitásának és sebességének fenntartása érdekében SSD-gyorsítótárhoz csak az előre telepített rendszermemória 1/4-e használható fel. Minden egyes 1 GB-nyi SSD-gyorsítótárhoz körülbelül 416 KB-nyi rendszermemória szükséges (a bővíthető memória beleszámítható)**. Így tehát 2 db 128 GB-os SSD meghajtóból álló csak olvasási gyorsítótár-konfiguráció esetén a teljes gyorsítótárméret 256 GB, amelyhez legalább 104 MB memória szükséges. 2 db 128 GB-os SSD meghajtóból álló olvasási-írási gyorsítótár-konfiguráció esetén a teljes gyorsítótárméret 128 GB, amelyhez legalább 52 MB memória szükséges. Nem elegendő memória esetén a rendszer nem engedélyezi az SSD-gyorsítótár létrehozását, illetve korlátozza az SSD-gyorsítótár méretét.</li>
+<li class="enable-alpine">Minden 1 GB SSD-gyorsítótárhoz hozzávetőlegesen 416 KB rendszermemória szükséges (bővíthető memória beszámítható). A maximális gyorsítótárméret 930 GB. Így tehát 2 db 128 GB-os SSD meghajtóból álló csak olvasási gyorsítótár-konfiguráció esetén a teljes gyorsítótárméret 256 GB, amelyhez legalább 104 MB memória szükséges. 2 db 128 GB-os SSD meghajtóból álló olvasási-írási gyorsítótár-konfiguráció esetén a teljes gyorsítótárméret 128 GB, amelyhez legalább 52 MB memória szükséges. Nem elegendő memória esetén a rendszer nem engedélyezi az SSD-gyorsítótár létrehozását, illetve korlátozza az SSD-gyorsítótár méretét.</li>
+<li>A(z) Synology NAS készülékén megengedett maximális SSD-gyorsítótárméret tekintetében tájékozódjon a modellre vonatkozó termékleírásból, amely a <a href="http://www.synology.com/" target=_blank>Synology honlapján</a> érhető el.</li>
+<li>Amennyiben az olvasási-írási SSD-gyorsítótár leromlott állapotba kerül, a gyorsítótárazási funkció letiltásra kerül, és a rendszer megkezdi a gyorsítótárazott adatok írását (vagyis szinkronizálását) az SSD-egységről a merevlemezekre. Az adatszinkronizálás befejezését követően biztosított az adatvesztés elkerülése, még akkor is, ha az olvasási-írási gyorsítótár összeomlik.</li>
+<li>Mielőtt kivenné a megfelelő SSD-egységeket, győződjön meg róla, hogy eltávolította-e az olvasási-írási SSD-gyorsítótárat. Az SSD-egységek nem megfelelő módon történő eltávolítása (ha például a gyorsítótár még használatban van, illetve, ha a rendszer kikapcsolt állapotban van) a célkötetben vagy az iSCSI LUN-on tárolt adatok sérüléséhez vezethet.</li>
+<li>Az olvasási-írási gyorsítótár és a Time Backup nem használható együtt. Olvasási-írási SSD-gyorsítótár létrehozása esetén például Ön nem lesz képes a Time Backup futtatására. Ez fordítva is igaz: a Time Backup futtatása közben nem hozhat létre olvasási-írási SSD-gyorsítótárat.</li>
+</ul>
+</div>
+
+<h4>SSD-gyorsítótár telepítése:</h4>
+<ol>
+  <li>Szerelje be az SSD-ket Synology NAS eszközébe. Kérjük, előbb olvassa el a fenti jegyzeteket.</li>
+  <li>Lépjen a <strong>Tároláskezelő</strong> > <strong>SSD cache</strong> menüpontra. Kattintson a <b>Létrehozás</b> gombra.</li>
+<li>Válassza ki a gyorsítótárazási üzemmódot (csak az olvasási-írási gyorsítótárat támogató modellek esetén elérhető).</li>
+<li>Keresse meg a legördülő menüt, és válassza ki azt a kötetet vagy iSCSI LUN-t (blokkszint), amelyikre az SSD-gyorsítótárat telepíteni szeretné.</li>
+<li>Válassza ki a listából az SSD-ket. Az SSD-ken lévő adatok törlődnek, győződjön meg róla, hogy fontos adatok nem kerülnek törlésre.</li>
+<li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+</ol>
+
+<h4>Szekvenciális I/O gyorsítótárazás leállítása: </h4>
+<p>Ha a célkötet vagy iSCSI LUN (blokkszint) kitűnő szekvenciális I/O teljesítménnyel rendelkezik, Ön leállíttathatja az SSD-gyorsítótárral a szekvenciális I/O gyorsítótárazást, és a nagyobb sebesség és jobb teljesítmény érdekében közvetlenül a meghajtókról is hozzáférhet az adatokhoz. </p>
+<ol>
+<li>A konfigurációs ablak megnyitásához kattintson a <strong>Konfigurálás</strong> lehetőségre.</li>
+<li>Jelölje be a <strong>Szekvenciális I/O átugrása</strong> lehetőséget. </li>
+</ol>
+
+
+<h4>SSD-gyorsítótár eltávolítása:</h4>
+<ol>
+<li>Az SSD-gyorsítótár Synology NAS eszközről való végleges eltávolításához kattintson az <b>Eltávolítás</b> lehetőségre.</li>
+<li>Az olvasási-írási gyorsítótárakat az itt leírt eljárás segítségével kell eltávolítania (még akkor is, ha a(z) Synology NAS ki van kapcsolva), ellenkező esetben kötetösszeomlás következik be, mivel a részadatok csak a gyorsítótárban léteznek.</li>
+</ol>
+
+<div class="section">
+<h4>Megjegyzés:</h4>
+<ul>
+<li>SSD-gyorsítótár telepítésekor vagy eltávolításakor a rendszer leállít minden kapcsolódó szolgáltatást (pl. megosztott mappákat, telepített csomagokat, pillanatnyi kapcsolatokat stb.)</li>
+<li>Ha a tárhelyen található olvasási-írási gyorsítótár rendszerindításkor nem észlelhető, akkor a rendszer azt a tárolóhelyet nem csatolja. Keresse meg és telepítse újra az SSD-ket a(z) Synology NAS készülékre, majd indítsa újra az eszközt a tárhely csatolása érdekében. Ha nem találja az SSD-ket, lehetséges, hogy kényszercsatolnia kell a tárolóhelyet. Lásd a <a href="space.html">Kötet</a> vagy az <a href="iscsilun.html">iSCSI LUN</a> fejezeteket.</li>
+</ul>
+</div>
+
+<h4>SSD-gyorsítótár javítása:</h4>
+<ul>
+<li><strong>Olvasási-írási gyorsítótár esetén:</strong> Ha az egyik SSD összeomlott, a javításához kövesse az alábbi lépéseket.<ol>
+<li>Cserélje le a hibás SSD-t egy újra. (Az új SSD modellje és mérete egyezzen meg a régiével).</li>
+<li>Kattintson a <b>Javítás</b> gombra.</li>
+<li>Válassza ki az SSD-t a listából.</li>
+<li>Kattintson az <b>Alkalmaz</b> gombra.</li>
+</ol>
+</li>
+<li><strong>Csak olvasási gyorsítótár esetén:</strong> Ha az egyik SSD összeomlott, távolítsa el a gyorsítótárat, majd cserélje ki a hibás SSD-t. Ezt követően kattintson a <strong>Létrehozás</strong> elemre az új gyorsítótár-konfiguráció létrehozásához.</li>
+</ul>
+
+
+<h3>SSD-gyorsítótár tanácsadó</h3>
+<p>Ezen funkció segítségével kiszámolhatja és megtekintheti az egy adott köteten található legutóbb hozzáfért fájlok teljes méretét és számát. Ha még nem hozott létre SSD-gyorsítótárat a kiválasztott köteten, ezen adatok segítenek megállapítani, hogy mekkora SSD-gyorsítótárra van szükség a rendszerben. Ha korábban már létrehozott SSD-gyorsítótárat a kiválasztott köteten, itt a gyorsítótár elemzése és kihasználtsága is megjelenik.</p>
+
+<h4>Az SSD-gyorsítótár tanácsadó használata:</h4>
+
+<ol>
+<li>Kattintson az <b>SSD-gyorsítótár tanácsadó</b> lehetőségre a varázsló megnyitásához.</li>
+<li>Válasszon ki egy kötetet a számításhoz, majd kattintson a <b>Tovább</b> gombra.</li>
+<li>A varázsló automatikusan megkezdi a kijelölt köteten található, legutóbb megnyitott fájlok teljes méretének és számának kiszámítását. A számítási idő az egyéni környezettől függően változik.</li>
+</ol>
+<p>_____<br> *Az SSD-gyorsítótár csak bizonyos modelleken érhető el.<br> <span class="disable-alpine">** Ez nem vonatkozik a DSM 5.1 vagy korábbi verziókon létrehozott olvasási-írási SSD-gyorsítótárakra. Vagyis minden, a DSM 5.2 változatnál korábbi szoftverrel létrehozott 1 GB-os SSD gyorsítótár továbbra is 4 MB rendszermemóriát igényel, abban az esetben is, ha DSM 5.2 környezetben működik.</span></p>
+</body>
+</html>

@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+  <h2>Arrêt et réinitialisation</h2>
+  <p>Les instructions ci-dessous vous guideront dans la procédure d'arrêt, de suppression ou de réinitialisation d'un cluster high-availability.</p>
+
+  <h4> Pour arrêter un cluster high-availability en utilisant Synology High Availability :</h4>
+  <p>Lorsque vous souhaitez arrêter un cluster high-availability pour transporter les serveurs à un nouvel emplacement physique ou effectuer un entretien, mais que vous ne voulez pas supprimer les configurations du cluster high-availability, veuillez suivre ces instructions.</p>
+  <ol>
+   <li>Connectez-vous à DSM.</li>
+   <li>Ouvrez Synology High Availability.</li>
+   <li>Cliquez sur le bouton marqué <b>Gestion</b>.</li>
+   <li>Sélectionnez <b>Arrêter le cluster HA</b>.</li>
+   <li>Un message de confirmation apparaît. Cliquez sur <b>Oui</b> pour confirmer.</li>
+  </ol>
+
+  <h4>Pour arrêter manuellement un cluster high-availability :</h4>
+  <p> Le cluster high-availability peut également être arrêté manuellement en utilisant les boutons d'alimentation situés sur chaque serveur. </p>
+  <ol>
+   <li>Appuyez le bouton d'alimentation sur un serveur (actif ou passif) et maintenez-le enfoncé jusqu'à ce qu'il émette un bip.</li>
+   <li>Une fois qu'un serveur est complètement éteint, attendez au moins 30 secondes (le serveur qui est toujours en ligne nécessite du temps pour enregistrer les paramètres).</li>
+   <li>Appuyez sur le bouton d'alimentation sur l'autre serveur et maintenez-le enfoncé jusqu'à ce qu'il émette un bip.</li>
+   <li>Attendez que le serveur soit complètement éteint.</li>
+  </ol>
+<div class="section">
+<h4>Allumer les serveurs :</h4>   
+<p>Quand vous voulez allumer les serveurs à nouveau, vous devez allumer simultanément le serveur actif et le serveur passif (ou à cinq minutes d'intervalle maximum). Si vous n'allumez que l'un des serveurs, il essaie d'allumer l'autre serveur en diffusant un message Wake-on-LAN.</p>
+<h4>Arrêt anormal :</h4>
+<p>Quand un cluster high-availability est créé, l'option de redémarrage après une coupure de courant du Panneau de configuration est automatiquement activée. Si les serveurs s'arrêtent de manière anormale suite à une panne, ils s'allument automatiquement une fois le courant rétabli.</p>
+</div>
+
+<h4>Pour supprimer un cluster high-availability :</h4>
+ <p>Quand vous souhaitez délier les deux serveurs et supprimer un cluster high-availability afin de lier un serveur différent, veuillez suivre ces instructions.</p>
+  <ol>
+   <li>Allez à la page <b>Aperçuu</b>.</li>
+   <li>Cliquez sur le bouton <b>Gestion</b>.</li> 
+   <li>Sélectionnez <b>Supprimer le cluster HA</b>.</li>
+  </ol>
+  <p>Après confirmation, le système supprime le cluster high-availability. Le champ d'état affiche la progression du processus de suppression. Lorsque le cluster high-availability a été supprimé avec succès, vous serez dirigé vers l'adresse IP d'origine du serveur actif. L'état des deux serveurs deviendra <b>Autonome</b>.</li>
+
+<div class="section">
+<h4>Remarque :</h4>
+<ul>
+	<li>Pendant la procédure de suppression d'un cluster high-availability, il peut y avoir quelques opérations d'écriture de données incomplètes. Pour assurer l'exhaustivité des données, veuillez effectuer la réplication de données basée sur le serveur actif, car le serveur passif manque peut-être quelques mises à jour de données.</li>
+</ul>
+</div>  
+ 
+ <h4>Pour réinitialiser un cluster high-availability défectueux :</h4>
+  <p>Si vous ne parvenez pas à accéder à DSM ou au Synology High Availability Manager, du fait d'une erreur de dédoublement du cerveau ou d'autres défaillances, vous pouvez essayer de forcer le cluster high-availability pour le délier en appuyant sur le bouton <b>Réinitialiser</b> situé sur vos serveurs.</p>
+  <ol>
+   <li>Appuyez sur le bouton <b>Reset</b> (habituellement situé sur la face arrière d'un serveur) et maintenez-le enfoncé jusqu’à ce que le serveur émette un bip.
+   <li>Le système sera supprimé du cluster high-availability et l'état de ce serveur passera à <b>Autonome</b>.</li>
+   <li>Appuyer sur le bouton <b>Réinitialiser</b> restaurera également certains paramètres par défaut, comme l'adresse IP, le DNS et le mot de passe admin, en plus de ce qui suit :</li>
+   <ul>
+    <li>Le mot de passe admin sera réinitialisé à vide.</li>
+    <li>Le compte guest sera désactivé.</li>
+    <li>DHCP sera activé sur IP, DNS, Passerelle et autres interfaces réseau.</li>
+    <li>Les Jumbo Frames seront désactivées, et MTU sera défini à 1500.</li>
+    <li>Le port de gestion sera réinitialisé à 5000/5001.</li>
+    <li>PPPoE sera réinitialisé à la valeur par défaut.</li>
+    <li>Le blocage automatique d'IP sera désactivé (l'adresse IP bloquée ne sera pas effacée).</li>
+    <li>Link Aggregation sera désactivé.</li>
+    <li>Les règles de pare-feu seront désactivées (les règles ne seront pas effacées).</li>
+   </ul>
+  </ol>
+
+<div class="section">
+<h4>Remarque :</h4>
+<ul>
+	<li>Le fait d'appuyer sur le bouton <b>Reset</b> d'un serveur supprime uniquement ce serveur du cluster high-availability. Si vous souhaitez supprimer les deux serveurs du cluster high-availability, appuyez sur le bouton <b>Reset</b> des deux serveurs.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

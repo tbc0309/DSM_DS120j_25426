@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>iSCSI 관리자</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2><a name="leaf_snapshot"></a>스냅샷</h2>
+
+<h4>LUN 스냅샷 만들기:</h4>
+<p>LUN 스냅샷은 LUN의 특정 시점 읽기 전용 복사본입니다.</p>
+<ol>
+	<li>스냅샷을 만들 LUN을 선택합니다.</li>
+	<li><strong>스냅샷</strong>을 클릭하고 <strong>스냅샷 촬영</strong>을 선택합니다.</li>
+	<li>이 스냅샷에 대한 설명을 입력합니다.</li>
+	<li>필요에 따라 다음 스냅샷 유형 중 하나를 선택합니다.<ul>
+			<li><strong>응용 프로그램 일관</strong>: DSM과 통신하는 운영 환경에 따라 Synology Storage Console 또는 Synology Snapshot Manager를 Windows 서버 또는 VMware vCenter Server에 설치한 경우에만 이 유형의 스냅샷을 만들 수 있습니다. 응용 프로그램 일관 스냅샷이 DSM에서 트리거되면 응용 프로그램은 알림을 받고 데이터 일관성을 보장하기 위해 메모리의 모든 데이터를 스냅샷이 생성된 LUN으로 플러시합니다.</li>
+			<li><strong>충돌 일관</strong>: 클라이언트에 Storage Console 또는 Snapshot Manager를 설치하지 않은 경우에는 LUN의 충돌 일관 스냅샷만 캡처할 수 있습니다. 트리거되면 응용 프로그램이 데이터를 메모리에서 LUN으로 플러시하는 알림을 받지 않으므로, 데이터 일관성이 보장되지 않습니다.</li>
+		</ul>
+	</li>
+	<li><strong>확인</strong>을 클릭합니다.</li>
+</ol>
+<div class="section">
+	<h4>참고:</h4>
+	<ul>
+		<li>데이터 불일치 발생을 방지하기 위해 <b>Synology Storage Console</b> 또는 <b>Snapshot Manager</b>를 설치하는 것이 좋습니다.</li>
+	</ul>
+</div>
+<div class="section">
+	<h4>용어:</h4>
+	<ul>
+	<li><b>Synology Storage Console:</b> Synology Storage Console은 여러 Synology 저장소 시스템의 관리 및 모니터링을 간소화하는 VMware vSphere Client 또는 Windows Server의 저장소 관리 플러그인입니다. 이를 통해 DSM에서 응용 프로그램 일관 스냅샷을 직접 만들 수 있습니다.<ul>
+			<li>VMware 환경의 경우 플러그인은 VMware vCenter Server Appliance 6.5 U2 이상 버전과만 호환됩니다.</li>
+			<li><a href="https://www.synology.com/support/download" target="_blank">다운로드 센터</a>에서 플러그인을 다운로드할 수 있습니다. 자세한 내용은 <a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforVMware/storageconsoleforvmware" target="_blank">Synology Storage Console for VMware</a> 및 <a href="https://www.synology.com/knowledgebase/DSM/help/StorageConsoleforWindows/storageconsoleforwindows" target="_blank">Synology Storage Console for Windows</a>를 참조하십시오.</li>
+		</ul></li>
+	<li><b>Synology Snapshot Manager:</b> Synology Snapshot Manager는 사용자가 DSM에서 응용 프로그램 일관 스냅샷을 직접 만들 수 있도록 해주는 소프트웨어 플러그인입니다.<ul>
+			<li>VMware 환경의 경우 이 플러그인은 VMware vCenter Server 6.0 이하 버전과만 호환됩니다.</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<h4>스냅샷 삭제하기:</h4>
+<ol>
+	<li>스냅샷을 만든 LUN을 선택합니다.</li>
+	<li><b>스냅샷</b> &gt; <b>스냅샷 목록</b>을 클릭합니다.</li>
+	<li>삭제할 스냅샷을 선택하고 <b>제거</b>를 클릭합니다.</li>
+</ol>
+<div class="section">
+	<h4>참고:</h4>
+	<ul>
+		<li>스냅샷을 삭제한 후 공간 재사용을 처리하는 데 시간이 걸립니다.</li>
+	</ul>
+</div>
+
+<h4>LUN 복원하기:</h4>
+<p>LUN에서 특정 시점 스냅샷을 선택하여 데이터를 복원합니다.</p>
+<ol>
+	<li>복원할 LUN을 선택합니다.</li>
+	<li><strong>스냅샷</strong>을 클릭하고 <strong>스냅샷 목록</strong>을 선택합니다.</li>
+	<li>복원할 스냅샷을 선택하고 <strong>복원</strong>을 클릭합니다.</li>
+</ol>
+
+<h4>스냅샷에서 LUN 복제하기:</h4>
+<p>LUN 또는 LUN 스냅샷의 쓰기 가능한 복사본을 만듭니다.</p>
+<ul>
+	<li><strong>스냅샷 목록</strong>에서 LUN 스냅샷을 선택하고 <strong>복제</strong>를 클릭합니다.</li>
+</ul>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+	<li>저장소 가속 명령이 있는 LUN에서만 LUN 스냅샷, 복원 및 복제 기능을 사용할 수 있습니다.</li>
+	<li>스냅샷 또는 복제를 만들었고 상태가 <strong>비정상</strong>/<strong>충돌함</strong>으로 변경된 경우, 이 스냅샷/복제를 삭제하고 새로 만드십시오.</li>
+	<li>스냅샷을 만든 후의 LUN에서의 모든 변경 사항은 LUN을 이 스냅샷에 복원할 때 손실됩니다.</li>
+	<li>볼륨 여유 공간이 1GB 미만이면 LUN 복원, LUN 복제 및 LUN 스냅샷 만들기 및 복제를 포함한 기능을 사용할 수 없습니다.</li>
+</ul>
+</div>
+<div class="section"><h4><a id="smart_retention"></a>보존 정책</h4>
+<p>볼륨 공간을 절약하기 위해 이 옵션을 사용하여 이상적인 방법으로 스냅샷 버전 최대 용량을 지정할 수 있지만, 스냅샷을 더 오래 보존해야 하는 경우가 있을 수 있습니다. 보존 정책에 대해 몇 가지 알아야 할 사항이 있습니다.</p>
+<ul>
+<li>Synology는 GFS(Grandfather-Father-Son) 보존 정책을 채택하고 있습니다. 보존할 스냅샷 버전 최대 용량을 <strong>시간별</strong>, <strong>일별</strong>, <strong>주별</strong>, <strong>월별</strong> 및 <strong>연도별</strong> 시간 범위로 각각 구성할 수 있습니다.</li>
+<li>스냅샷 한 개가 동시에 여러 보존 규칙을 충족할 수 있습니다. 예를 들어 스냅샷 한 개가 일별, 주별 및 월별 규칙을 충족할 수 있습니다.</li>
+<li>특정 기간 내에 스냅샷을 다수 만든 경우, 가장 이른 스냅샷이 보존됩니다. 예를 들어 <strong>10주별 스냅샷</strong> 보존 정책을 설정하고 스냅샷 스케줄을 하루에 스냅샷 1개 생성으로 설정하면 Snapshot Replication은 지난 10주 동안 각 주의 가장 이른 스냅샷을 보존합니다.</li>
+<li>특정 기간 동안 스냅샷을 만들지 않으면 시스템은 가장 최근의 스냅샷을 보존합니다. 예를 들어 일별 스냅샷 규칙이 15로 설정되고 지난 30일 동안 생성된 스냅샷이 없으면 시스템은 30~45일 이전에 생성된 스냅샷을 보존합니다.</li>
+<li>최근 스냅샷 버전을 편리하게 찾고 복원할 수 있도록 기본적으로 가장 최근에 스냅샷을 만든 후 1시간 이내의 모든 스냅샷 버전이 보존됩니다. 보존 규칙에 의해 자동으로 제거되지 않도록 스냅샷을 잠글 수도 있습니다.</li>
+</ul>
+
+<p>예 1:<br/> 지난 3개월 간 일별 스냅샷, 지난 4~6개월 간 주별 스냅샷 및 지난 7~9개월 간 월별 스냅샷을 보존하려면 시간별 스냅샷에 0을, 일별 스냅샷에 90을, 주별 스냅샷에 24를, 월별 스냅샷에 9를, 연도별 스냅샷에 0을 입력해야 합니다.</p>
+
+<p>예 2:<br/> 지난 2일 간 시간별 스냅샷, 지난 한 주 간 일별 스냅샷, 지난 1개월 간 주별 스냅샷 및 지난 1년 간 월별 스냅샷을 보존하려면 시간별 스냅샷에 48을, 일별 스냅샷에 7을, 주별 스냅샷에 4를, 월별 스냅샷에 12를, 연도별 스냅샷에 0을 입력해야 합니다.</p><img class="help_image" src="../../images/iSCSIManager/retention_policy.png"></div>
+</body>
+</html>

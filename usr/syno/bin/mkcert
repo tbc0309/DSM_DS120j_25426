@@ -1,0 +1,198 @@
+#!/bin/bash
+# Copyright (c) 2000-2015 Synology Inc. All rights reserved.
+
+set +e
+
+if [ "$(basename "$0")" = "mkcert" ]; then
+    while start mkcert opt1=$1 2>&1 | grep -q "Job is already running"; do
+        sleep 1
+    done
+
+    exit
+fi
+
+OPENSSL="/usr/bin/openssl"
+
+SSLDIR="/usr/syno/etc/ssl"
+KEYDIR="$SSLDIR/ssl.key"
+CRTDIR="$SSLDIR/ssl.crt"
+CSRDIR="$SSLDIR/ssl.csr"
+CRTINTERDIR="$SSLDIR/ssl.intercrt"
+CRTCHAINDIR="$SSLDIR/ssl.chain.crt"
+
+numbits="2048"
+days="366"
+subject="/C=TW/L=Taipei/O=Synology Inc."
+
+ca_key="$KEYDIR/ca.key"
+ca_crt="$CRTDIR/ca.crt"
+
+server_key="$KEYDIR/server.key"
+server_crt="$CRTDIR/server.crt"
+server_csr="$CSRDIR/server.csr"
+server_inter_crt="$CRTINTERDIR/server-ca.crt"
+server_chain_crt="$CRTCHAINDIR/server.crt"
+
+SYSCRTDIR="/usr/syno/etc/certificate/_archive"
+DEFAULT="$SYSCRTDIR/DEFAULT"
+INFO="$SYSCRTDIR/INFO"
+CRTREGISTER="/usr/syno/bin/synocrtregister"
+SYSDEFCRTDIR="/usr/syno/etc/certificate/system/default"
+
+key="privkey.pem"
+crt="cert.pem"
+intercrt="chain.pem"
+chaincrt="fullchain.pem"
+synocakey="syno-ca-privkey.pem"
+synocacrt="syno-ca-cert.pem"
+synocasrl="syno-ca-cert.srl"
+
+getModulus() {
+    $OPENSSL "$1" -in "$2" -noout -modulus | $OPENSSL md5
+}
+
+isMatched() {
+    [ ! -s "$1" -o ! -s "$2" ] && return 1
+
+    [ "$(getModulus "rsa" "$1")" = "$(getModulus "x509" "$2")" ] || return 1
+}
+
+cpFile () {
+	if [ -f $1 ]; then
+		cp -f $1 $2
+	else
+		if [ "$1" != "$server_inter_crt" ]; then
+			logger -p err "mkcert: $1 does not exist..."
+		fi
+	fi
+}
+
+genINFO () {
+	if [ -z $1 ]; then
+		logger -p err "mkcert: $1 does not exist..."
+	fi
+	cat << EOF > $INFO
+{
+	"$1":{
+		"desc": "",
+		"services": [
+		]
+	}
+}
+EOF
+}
+
+deployServiceCrt () {
+	for file in /usr/syno/share/certificate.d/*.cfg
+	do
+		if [ ! -f $file ]; then
+			continue
+		fi
+		name=$(basename $file)
+		subscriber=$(echo $name | awk -F"." '{print $1}')
+		if ! $CRTREGISTER $subscriber ; then
+			logger -p err "mkcert: Failed to $CRTREGISTER $subscriber..."
+		fi
+	done
+}
+
+checkSynoCASigned () {
+	local crt_issuer=$($OPENSSL x509 -in $server_crt -issuer -noout | sed s/'issuer= '//g)
+	local ca_subject=$($OPENSSL x509 -in $ca_crt -subject -noout  | sed s/'subject= '//g)
+
+	if [ "$crt_issuer" = "$ca_subject" ]; then
+		return 0
+	fi
+	return 1
+}
+
+removeOldCrtDir () {
+	rm -rf $KEYDIR
+	rm -rf $CRTDIR
+	rm -rf $CRTINTERDIR
+	rm -rf $CRTCHAINDIR
+}
+
+verifyCrtDir () {
+	if [ -z "$1" ]; then
+		logger -p err "mkcert: No destination folder."
+		return 1
+	fi
+
+	isMatched "$1/$key" "$1/$crt"
+	isValidCRT=$?
+
+	isMatched "$1/$key" "$1/$chaincrt"
+	isValidChainCRT=$?
+
+	if [ $isValidCRT -ne 0 -o $isValidChainCRT -ne 0 ]; then
+		isMatched "$1/$synocakey" "$1/$synocacrt"
+		isValidCA=$?
+
+		if [ $isValidCA -ne 0 ]; then
+			$OPENSSL req -x509 -new -sha256 \
+				-newkey rsa:$numbits -nodes \
+				-subj "$subject/CN=Synology Inc. CA" \
+				-days $days \
+				-keyout "$1/$synocakey" \
+				-out "$1/$synocacrt"
+		fi
+
+		$OPENSSL req -new -sha256 \
+			-newkey rsa:$numbits -nodes \
+			-rand "$RANDFILE" \
+			-subj "$subject/CN=synology" \
+			-keyout "$1/$key" \
+			-out $server_csr
+
+		$OPENSSL x509 -req -sha256 \
+			-in $server_csr \
+			-CA "$1/$synocacrt" \
+			-CAkey "$1/$synocakey" \
+			-CAcreateserial \
+			-extfile "/etc.defaults/ssl/openssl.cnf" \
+			-extensions "default_cert_ext" \
+			-days $days \
+			-out "$1/$crt"
+
+		cp "$1/$crt" "$1/$chaincrt"
+		mv "$1/$synocasrl" "$SYSCRTDIR/.$synocasrl"
+	fi
+}
+
+mkdir -p $CSRDIR $SYSCRTDIR
+
+if [ "$opt1" ]; then
+	cert_id="$opt1"
+elif [ ! -s $DEFAULT ]; then
+	mkdir -p $SYSCRTDIR
+	tmp_dir=$(mktemp -d $SYSCRTDIR/XXXXXX)
+	cert_id=$(basename $tmp_dir)
+	echo $cert_id > $DEFAULT
+	cpFile $server_crt $SYSCRTDIR/$cert_id/$crt
+	cpFile $server_key $SYSCRTDIR/$cert_id/$key
+	cpFile $server_chain_crt $SYSCRTDIR/$cert_id/$chaincrt
+	cpFile $server_inter_crt $SYSCRTDIR/$cert_id/$intercrt
+	if checkSynoCASigned ; then
+		cpFile $ca_crt $SYSCRTDIR/$cert_id/$synocacrt
+		cpFile $ca_key $SYSCRTDIR/$cert_id/$synocakey
+	fi
+	genINFO $cert_id
+	removeOldCrtDir
+fi
+
+if [ -n "$cert_id" ]; then
+	verifyCrtDir "$SYSCRTDIR/$cert_id"
+fi
+
+chmod 700 $CSRDIR
+chmod 600 $server_csr
+chmod 700 $SYSCRTDIR $SYSCRTDIR/*
+chmod 400 $SYSCRTDIR/$cert_id/$synocakey $SYSCRTDIR/$cert_id/$synocacrt
+chmod 400 $SYSCRTDIR/*/$key $SYSCRTDIR/*/$crt $SYSCRTDIR/*/$chaincrt $SYSCRTDIR/*/$intercrt
+chmod 600 $DEFAULT $INFO
+
+deployServiceCrt
+
+mkdir -p $SYSDEFCRTDIR
+verifyCrtDir "$SYSDEFCRTDIR"

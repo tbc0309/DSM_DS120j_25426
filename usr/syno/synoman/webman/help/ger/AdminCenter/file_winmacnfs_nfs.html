@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>NFS-Dienst</h2>
+<p>Der NFS-Dienst ermöglicht einem Linux-Client den Zugriff auf Daten des Synology NAS-Geräts.</p>
+<h4>NFS-Dienst aktivieren:</h4>
+<ol>
+<li>Gehen Sie zu <strong>Systemsteuerung</strong> > <strong>Dateidienste</strong> > <strong>SMB/AFP/NFS</strong> und markieren Sie<b> NFS aktivieren</b>.</li>
+<li>Klicken Sie auf <b>Übernehmen</b>.</li>
+</ol>
+
+
+<div class="section">
+  <h4>Anmerkung:</h4>
+<ul>
+<li> Der Synology NAS unterstützt zurzeit NFSv2, NFSv3 und NFSv4.</li>
+<li>Beim Mounten kann der Parameter <strong>-o vers=2</strong>, <strong>-o vers=3</strong> oder <strong>-o vers=4</strong> zum Mount-Befehl hinzugefügt werden, um festzulegen, welche NFS-Version verwendet werden soll.</li>
+<li>Die folgenden freigegebenen Ordner lassen keinen Zugriff über NFS zu:
+	<ul>
+    <li>Verschlüsselte freigegebene Ordner</li>
+    <li>PetaSpace freigegebene Ordner</li>
+    <li>Freigegebene Ordner, die die Dateisysteme HFS, HFS Plus und exFAT verwenden</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>Zugriffsberechtigungen für Linux-Clients für freigegebene Ordner konfigurieren:</h4>
+<p>Gehen Sie zu <b>Systemsteuerung</b> > <b>Freigegebener Ordner</b>. Wählen Sie einen freigegebenen Ordner, und klicken Sie auf <strong>Bearbeiten</strong>, um die NFS-Regeln zu verwalten und das Zugriffsrecht von Linux-Clients auf diesen freigegebenen Ordner zu regeln.</p>
+
+
+<h3>Einstellungen für NFSv4- und NFSV4.1-Unterstützung</h3>
+<p>Synology NAS unterstützt standardmäßig NFSv2 und NFSv3. Sie können auswählen, ob NFSv4 oder NFSv4.1 aktiviert werden soll.</p>
+
+<h4>NFSv4- oder NFSv4.1-Unterstützung aktivieren:</h4>
+<ol>
+<li>Markieren Sie <b>NFSv4-Unterstützung aktivieren</b> oder <b>NFSv4.1-Unterstützung aktivieren</b>.
+</li>
+<li>
+Geben Sie in das Feld <b>NFSv4-Domain</b> den Namen der zu verwendenden NFSv4-Domain ein. Dieses Feld ist optional und kann leer gelassen werden.</li>
+<li>
+Klicken Sie auf <b>Übernehmen</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<p>Beachten Sie Folgendes, wenn NFSv4 für die Bereitstellung des freigegebenen Ordners verwendet wird. Sonst schlagen die mit dem Benutzernamen verknüpften Dateiaktionen fehl.</p>
+<ul>
+<li>Der NFS-Client muss &quot;idmapd&quot; aktivieren.</li>
+<li>Die NFSv4-Domaineinstellungen in der Datei &quot;idmapd.conf&quot; auf Ihrem NFS-Client müssen mit dem Feld <b>NFSv4-Domain</b> des Synology NAS übereinstimmen.</li>
+</ul>
+
+</div>
+<p>NFSv4 wird automatisch aktiviert, wenn NFSv4.1 aktiviert ist.</li>
+
+<h4>Multi-Pathing</h4>
+<p>NFSv4.1 unterstützt Multi-Pathing. Clients können über mehrere Netzwerkverbindungen gleichzeitig auf einen NFS-Server zugreifen. Multi-Pathing erhöht die Bandbreite und erhält die Netzwerkverbindung durch Datenfluss-Failover aufrecht, wenn die Verbindung unterbrochen ist. Derzeit werden NFSV4.1-Clients nur von VMware ESXi Version 6.0 und höher unterstützt. Weitere Informationen über die NFSv4.1-Unterstützung durch VMware finden Sie im<a target="_blank" href="https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.storage.doc/GUID-8A929FE4-1207-4CC5-A086-7016D73C328F.html">VMware-Dokument</a>.</p>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Multi-Pathing ist nur auf Modellen verfügbar, die NFSv4.1 unterstützen.</li>
+</ul>
+</div>
+
+
+
+<h3>Erweiterte Einstellungen</h3>
+
+<h4>Standard-UNIX-Berechtigungen anwenden</h4>
+<p> Wenn das Kontrollkästchen <strong>Standard-UNIX-Berechtigungen anwenden</strong> aktiviert ist, werden standardmäßig UNIX-Berechtigungen anstelle von Windows ACL-Berechtigungen für den Linux-Client angewendet, wenn Dateien und Ordner hochgeladen oder erstellt werden. Angewandte Berechtigungen sind identisch mit den Berechtigungen, die vom UNIX-Befehl <strong>umask</strong> angewendet werden.  Der Standardwert für &quot;umask&quot; ist 022.</p><div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+  <li>Führen Sie für freigegebene Ordner, für die Windows ACL aktiviert ist (alle außer &quot;photo&quot; und Freigaben auf externen Festplatten), den Befehl <strong>chmod</strong> auf Ihrem Linux- oder FTP-Client aus, um die Ordner- und Dateiberechtigungstypen von Windows ACL auf UNIX zu ändern.</li>
+  <li>Die Aktivierung dieser Option kann zu inkonsistenten Berechtigungen zwischen verschiedenen Protokollen führen. Um Inkonsistenzen zu vermeiden, empfehlen wir, diese Option deaktiviert zu lassen.</li>
+</ul>
+</div>
+
+<h4>Benutzerdefinierter Port</h4>
+<p>Sie können Portnummern für &quot;statd&quot;- und &quot;nlockmgr&quot;-Dienste benutzerspezifisch anpassen.</p>
+
+<ol>
+<li>Wählen Sie <strong>Benutzerdefinierte Ports</strong> aus.</li>
+<li>Geben Sie Portnummern in <strong>statd-Port</strong> und <strong>nlockmgr-Port</strong> ein.</li>
+<li>
+Klicken Sie auf <b>Übernehmen</b>.
+</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Wenn NFSv3-Dienste verwendet werden sollen, gehen Sie zu <strong>Systemsteuerung</strong> &gt; <strong>Sicherheit</strong> &gt; <strong>Firewall</strong> und erstellen Sie eine Firewall-Regel, die &quot;Mac/Linux-Dateiserver&quot; aus der Liste der integrierten Anwendungen aktiviert.</li>
+</ul>
+</div>
+<h4>Lesen/Schreiben-Paketgröße konfigurieren</h4>
+<p>Wenn die Lese-/Schreib-Paketgröße auf Ihrem NFS-Client nicht eingestellt werden kann, können Sie den Standardwert in diesem Feld festlegen.</p>
+
+<ol>
+<li>Wählen Sie die gewünschte Paketgröße in den Feldern <strong>Lese-Paketgröße</strong> und <strong>Schreib-Paketgröße</strong>.</li>
+<li>
+Klicken Sie auf <b>Übernehmen</b>.
+</li>
+<li>
+Stellen Sie die Freigabe wieder bereit.
+</li>
+</ol>
+
+<div class="section">
+<h4>Anmerkung:</h4>
+<ul>
+<li>Nach dem Ändern der Lese-/Schreib-Paketgröße muss der freigegebene Ordner wieder bereitgestellt werden, bevor die neuen Einstellungen wirksam werden können.</li>
+<li>Diese Einstellungen wirken sich nur auf NFS-Clients aus, die eine Verbindung über UDP (User Datagram Protocol) herstellen.</li>
+</ul>
+</div>
+
+<h3>Kerberos-Einstellungen</h3>
+<p>Kerberos ist ein Netzwerk-Authentifizierungsprotokoll. Es ermöglicht Clients und Servern die Kommunikation über ein nicht sicheres Netzwerk, um ihre Identitäten gegenseitig sicher zu authentifizieren und nachzuweisen. Der Synology NAS bietet Optionen für das Importieren eines vorhandenen Kerberos-Schlüssels. Nach dem erfolgreichen Importieren können NFS-Clients das Kerberos-Authentifizierungsprotokoll für die Verbindung zu Synology NAS verwenden.</p>
+
+<h4> So importieren Sie einen Kerberos-Schlüssel: </h4>
+<ol>
+<li>Klicken Sie auf <strong>Kerberos-Einstellungen</strong>.</li>
+<li>Klicken Sie auf die Schaltfläche <b>Importieren</b>.</li>
+<li>Wählen Sie den zu importierenden Kerberos-Schlüssel.</li>
+<li>Klicken Sie auf <b>OK</b>.</li>
+</ol>
+
+<h3><a name="idmap"></a>Kerberos-ID-Zuordnung</h3>
+<p>Sie können einzelnen Kerberos-Principals lokalen DSM-Benutzerkonten zuordnen.</p>
+<h4> Kerberos-Principals lokale Benutzerkonten zuordnen: </h4>
+<ol>
+<li>Klicken Sie auf <strong>Kerberos-Einstellungen</strong>.</li>
+<li>Gehen Sie auf die Registerkarte <strong>ID-Zuordnung</strong>.</li>
+<li> Klicken Sie auf die Schaltfläche <b>Hinzufügen</b>. Wählen Sie eine der folgenden Optionen.</li>
+<ul>
+<li><strong>ID-Zuordnung:</strong> Geben Sie den Kerberos-Principal und das lokale Benutzerkonto ein, dem er zugeordnet werden soll.</li>
+<li><strong>Vorgeschlagene Zuordnungsliste:</strong> Diese Option zeigt eine Liste der vorgeschlagenen Zuordnungsoptionen der Kerberos-Principals bzw. lokalen Benutzer an, die vom System erzeugt werden.</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> Anmerkung: </h4>
+<ul>
+	<li>Kerberos ist nur auf Modellen mit internen Festplatten verfügbar.</li>
+	<li>Vergewissern Sie sich, dass Sie sich beim Verzeichnisdienst angemeldet haben, wenn Sie einen NFS-Client zuordnen möchten, der die Verbindung zu einem bestehenden Domain- /LDAP-Benutzerkonto über Kerberos herstellt. Außerdem muss der Directory Server ein Attribut besitzen, das den entsprechenden Kerberos-Principal einschließt.
+		<ul>
+		<li><strong>Domainbenutzer:</strong> Das Format für das entsprechende Attribut muss <strong>userPrincipalName</strong> sein.</li>
+		<li><strong>LDAP-Benutzer:</strong> Das Format für das entsprechende Attribut muss <strong>GSSAuthName</strong> sein.</li>
+		</ul></li>
+	<li>Benutzer, die keinem lokalen Benutzer oder Domain/LDAP-Benutzer zugeordnet werden können, erhalten die Zuordnung &quot;guest&quot; (Gast).&quot;
+	<li>Die zugeordnete Priorität ist wie folgt: Lokaler Benutzer > Domain-/LDAP-Benutzer > Gast. </li>
+	<li>Verwenden Sie die Windows-Zugriffssteuerungsliste (ACL), wenn Sie die Zugriffsberechtigungen von NFS-Clients ändern möchten. Die Berechtigungsoptionen unter <strong>Systemsteuerung</strong> > <strong>Benutzer</strong> gelten nicht für NFS-Clients.</li>
+</ul>
+</div>
+
+</body>
+</html>

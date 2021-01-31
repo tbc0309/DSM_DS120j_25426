@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Depolama Kapasitesini Genişletmek i&ccedil;in S&uuml;r&uuml;c&uuml;leri Değiştir</h2>
+
+<p>Belirli RAID tiplerini kullanırken, eski s&uuml;r&uuml;c&uuml;leri daha b&uuml;y&uuml;k boyutlu olanlarla değiştirerek bir birimin veya disk grubunun depolama kapasitesini arttırabilirsiniz. Bu yazı genişletme işlemi hakkında &ouml;nemli bilgileri sunmasının yanında, depolama kapasitesini arttırmak i&ccedil;in mevcut s&uuml;r&uuml;c&uuml;lerin nasıl değiştirileceğine ilişkin bir &ouml;rneği i&ccedil;erir.</p>
+
+<div class="section"><h4>Not:</h4>
+<ul>
+	<li>Bu yazıda a&ccedil;ıklanan prosed&uuml;r sadece SHR, RAID 1, RAID 5 <span class="disable-grantley">ve </span>RAID 6<span class="enable-grantley"> ve RAID F1</span> ile &ccedil;alışır. Birden &ccedil;ok s&uuml;r&uuml;c&uuml;y&uuml; değiştirmeyi planlıyorsanız, s&uuml;r&uuml;c&uuml;leri birer birer değiştirmeye dikkat etmeniz gerekir. Bir s&uuml;r&uuml;c&uuml;y&uuml; değiştirdikten sonra, bir sonrakini değiştirmeden &ouml;nce birimi veya disk grubunu onarmanız gerekir. RAID 1, RAID 5 <span class="disable-grantley">ve </span>RAID 6<span class="enable-grantley"> ve RAID F1</span> i&ccedil;in, birim kapasitesi t&uuml;m s&uuml;r&uuml;c&uuml;ler değiştirildikten sonra genişleyecektir.</li>
+</ul>
+</div>
+
+<h3 class="list_head"><a id="t1"></a>Başlamadan &Ouml;nce</h3>
+<p>Bir s&uuml;r&uuml;c&uuml;y&uuml; değiştirmeden &ouml;nce, l&uuml;tfen aşağıdaki notlara bakın:</p>
+<ul>
+	<li><strong>Veriyi Yedekleyin:</strong> Genişletme işlemi mevcut verileri silmeyecek olsa da, devam etmeden &ouml;nce verilerinizi yedeklemenizi şiddetle &ouml;neririz.</li>
+	<li><strong>Birim veya Disk Grubu Durumu:</strong> Başlamadan &ouml;nce, biriminizin veya disk grubunuzun durumunun <strong>Normal</strong> olduğundan emin olun. Değilse, &ouml;nce bunu yapmanız gerekir.</li>
+	<li><strong>Genişletme sırasında verilere yine de erişilebiliyor mu?</strong> Sisteminizdeki veriler birimleri veya disk gruplarını genişletirken kullanılabilecektir; yine de sistem işleme başlarken bağlantıları ge&ccedil;ici olarak askıya alabilir.</li>
+</ul>
+
+<div class="section"><h4>SHR (Synology Hybrid RAID)</h4>
+<p>SHR birimleri depolama kapasitesini kurulu s&uuml;r&uuml;c&uuml;lerin sayısına ve boyutuna g&ouml;re optimize ettiğinden, kapasiteyi uygun şekilde genişletmek i&ccedil;in aşağıdaki y&ouml;nergelere l&uuml;tfen uyun:</p>
+<ul>
+	<li>T&uuml;m s&uuml;r&uuml;c&uuml;lerin kapasitesi eşit ise, depolama kapasitesini genişletmek i&ccedil;in en az iki s&uuml;r&uuml;c&uuml;y&uuml; daha b&uuml;y&uuml;k olanlarla değiştirmeniz gerekir. &Ouml;rneğin, SHR biriminiz &uuml;&ccedil; tane 2 TB s&uuml;r&uuml;c&uuml;den oluşuyorsa, birim kapasitesini genişletmek i&ccedil;in en az iki s&uuml;r&uuml;c&uuml;y&uuml; değiştirmelisiniz.</li>
+	<li>Mevcut s&uuml;r&uuml;c&uuml;lerin kapasitesi farklıysa, yeni s&uuml;r&uuml;c&uuml;ler, var olan en b&uuml;y&uuml;k s&uuml;r&uuml;c&uuml;ye eşit ya da ondan b&uuml;y&uuml;k olmalıdır. Bunun yanı sıra, kapasite kullanımını en uygun hale getirmek i&ccedil;in &ouml;nce daha k&uuml;&ccedil;&uuml;k s&uuml;r&uuml;c&uuml;leri değiştirmelisiniz. &Ouml;rneğin, SHR biriminiz sırasıyla 4 TB, 3 TB ve 2 TB olan &uuml;&ccedil; s&uuml;r&uuml;c&uuml;den oluşuyorsa, yeni s&uuml;r&uuml;c&uuml;leriniz en az 4 TB olmalıdır. Buna ek olarak, &ouml;nce 3 TB ya da 2 TB s&uuml;r&uuml;c&uuml;leri değiştirmelisiniz.</li>
+</ul>
+</div>
+
+<div class="section"><h4>RAID 5<span class="enable-grantley"></span> <span class="disable-grantley">ve </span>RAID 6<span class="enable-grantley"> ve RAID F1</span></h4>
+<p>RAID 5<span class="enable-grantley"></span> <span class="disable-grantley">veya </span>RAID 6<span class="enable-grantley"> ya da RAID F1</span> birimlerinin veya disk gruplarının s&uuml;r&uuml;c&uuml;lerini değiştirilirken, en k&uuml;&ccedil;&uuml;k s&uuml;r&uuml;c&uuml; her zaman ilk &ouml;nce değiştirilmelidir. RAID 5 <span class="enable-grantley"> ve RAID F1 </span>birimlerinin depolama kapasitesi (s&uuml;r&uuml;c&uuml;lerin sayısı &ndash; 1) x (en k&uuml;&ccedil;&uuml;k s&uuml;r&uuml;c&uuml; boyutu) ve RAID 6'nın depolama kapasitesi (s&uuml;r&uuml;c&uuml;lerin sayısı &ndash; 2) x (en k&uuml;&ccedil;&uuml;k s&uuml;r&uuml;c&uuml; boyutu). Bundan dolayı, s&uuml;r&uuml;c&uuml; kullanımını en &uuml;st d&uuml;zeye &ccedil;ıkarmak i&ccedil;in her zaman &ouml;nce en k&uuml;&ccedil;&uuml;k s&uuml;r&uuml;c&uuml; değiştirilmelidir.</p>
+<p>&Ouml;rneğin, RAID 5 biriminiz sırasıyla 4 TB, 3 TB ve 2 TB olan &uuml;&ccedil; s&uuml;r&uuml;c&uuml; i&ccedil;eriyorsa, biriminizin kullanılabilir kapasitesi 4 TB olacaktır. 4 TB ya da 3 TB s&uuml;r&uuml;c&uuml;leri değiştirdiğinizde birimin kapasitesi değişmeyecektir. Biriminizin kapasitesini artırmak i&ccedil;in &ouml;nce 2 TB s&uuml;r&uuml;c&uuml; değiştirilmelidir.</p>
+</div>
+
+<h3>Depolama Kapasitesini Genişletmek i&ccedil;in S&uuml;r&uuml;c&uuml; Değiştir</h3>
+<p>Aşağıdaki adımlarda, bir SHR biriminde s&uuml;r&uuml;c&uuml;leri değiştirmeye dair bir &ouml;rneği sunacağız.</p>
+<h4>S&uuml;r&uuml;c&uuml;leri değiştirmek i&ccedil;in:</h4>
+<ol>
+	<li><strong>Depolama Y&ouml;neticisi</strong>'ni a&ccedil;ın.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Hangi s&uuml;r&uuml;c&uuml;n&uuml;n en k&uuml;&ccedil;&uuml;k olduğunu g&ouml;rmek i&ccedil;in <strong>Birim</strong> &ouml;ğesine gidin.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Synology NAS &uuml;r&uuml;n&uuml;n&uuml;z&uuml; kapatın. (Synology NAS sunucunuz &ccedil;alışırken değiştirmeyi desteklemiyorsa bu adımı atlayın.)</li>
+	<li>&Uuml;ye s&uuml;r&uuml;c&uuml;lerin en k&uuml;&ccedil;&uuml;ğ&uuml;n&uuml; &ccedil;ıkartın ve yeni, daha b&uuml;y&uuml;k bir sabit disk takın.<br /><span class="note_head">Not: </span>Kendinize veya Synology NAS sunucunuza zarar vermemek i&ccedil;in, l&uuml;tfen Synology &uuml;r&uuml;n&uuml;n&uuml;ze ait <em>Donanım Kurulum Kılavuzu</em>'nda bulunan s&uuml;r&uuml;c&uuml; kurulum talimatlarına uyun.</li>
+	<li>Synology NAS &uuml;r&uuml;n&uuml;n&uuml;z&uuml; a&ccedil;ın.</li>
+	<li><strong>Depolama Y&ouml;neticisi</strong>'ni tekrar a&ccedil;ın.</li>
+	<li>Yeni sabit diskin tanındığından emin olmak i&ccedil;in <strong>HDD/SSD</strong> &ouml;ğesine gidin.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Biriminizin durumu <strong>Kapasitesi d&uuml;şm&uuml;ş</strong> olmalıdır. Birimi se&ccedil;in ve <strong>Y&ouml;net</strong>'e tıklayın.<br /><img src="about:blank" class="help_image" /></li>
+	<li><strong>Onar</strong> se&ccedil;imini yapın.<br /><img src="about:blank" class="help_image" /></li>
+	<li>Yedek s&uuml;r&uuml;c&uuml;y&uuml; se&ccedil;erek birime ekleyin. Ardından tamamlamak i&ccedil;in kurulum sihirbazının adımlarını izleyin.<br /><img src="about:blank" class="help_image" /></li>
+	<li>İstenen t&uuml;m s&uuml;r&uuml;c&uuml;ler daha b&uuml;y&uuml;kleriyle değiştirilene kadar yukarıdaki işlemi tekrarlayın.</li>
+</ol>
+
+</body>
+</html>

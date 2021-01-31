@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Limitations and System Requirements - Synology DSM Help</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+
+ </head>
+ <body>
+ 
+ 
+<h1>Limitations and System Requirements</h1>
+
+ <p>Implementation of Synology High Availability requires two identical Synology servers to act as active and passive servers. Before the two servers are combined into a high-availability cluster, the Synology High Availability Wizard will check for the following hardware and software limitations to ensure that a high-availability cluster can be created.</p>
+ 
+  
+ <h3>System Requirements</h3>
+ 
+  <p>Please note the following guidelines regarding software and hardware:</p>
+  <ul>
+   <li><b>Synology Server:</b> Both the active and passives servers must be identical models and support Synology High Availability. Please note that the name of the high-availability cluster must be different from the names of the active and passive servers.</li>
+   <li><b>DSM Version:</b> The same version of DSM  must be installed on both the active and passive servers. </li>
+   <li><b>Package Version:</b> The same version of Synology High Availability must be installed on both Synology servers.</li>
+  </ul>
+
+  
+ <h3>Volume and Drive</h3>
+ 
+  <p>Please note the following guidelines regarding storage spaces (e.g. volumes, Disk Groups, RAID Groups, etc.) and hard drive management.</p>
+  <ul>
+   <li><b>Drive capacity:</b> In order to accommodate data replication, the drive capacity of the passive server must be equal to or larger than the capacity of the active server. It is strongly advised that the drive capacity of both servers is completely identical to reduce the chances of inconsistencies. </li>
+   <li><b>Number and Type of Drives:</b> Both the active and passive servers must have the same quantity of drives. In addition, drive position must correspond in both servers, and drive types (e.g. SSD/HDD, SAS/SATA) and specifications (e.g. 4K or 512-byte sector size) in both servers must be identical. Please note external devices like USB hard drives will not be included when counting the number of drives.</li>
+   <li><b>Hot Spare Repair:</b> Degraded volumes on the passive server will not trigger a hot spare repair. However, if the volumes on the active server are degraded, a hot spare repair will be triggered, and the volumes on the passive server will also be degraded because the system will remove one healthy drive from the RAID volumes on the passive server so as to enforce a hot spare repair.</li>
+   <li><b>SHR Format Unsupported:</b> SHR format volumes are not supported. Please ensure that the Synology server which will act as the active server does not contain SHR volumes. </li>
+  </ul>
+
+    <div class="section">
+    <h4>Note:</h4>
+    <ul>
+    <li>The speed of the drives on the passive server will also affect the write performance of the high-availability cluster because data is synced to the passive serve via the Heartbeat connection. It is recommended that you use identical drives on both the active and passive servers.</li>
+    <li>If the passive server is down or the Heartbeat is disconnected, volumes will be temporarily unavailable and iSCSI transfer will be paused for approximately 10 seconds.</li>
+    </ul>
+    </div>
+
+  
+  <h3>Network Environment</h3>
+  <p>Please note the following guidelines regarding network settings when attempting to form a high-availability cluster.</p>
+  <ul>
+    <li><b>Network Settings:</b> Both servers must have static IP addresses belonging to the same subnet.</li>
+    <li><b>Number of LAN Ports:</b> Both servers must have the same number of LAN ports. If your Synology NAS is equipped with additional network card interfaces, these network cards also count as additional LAN ports. </li>
+        <li><b>Connection Environment Restrictions:</b> The connection environment between the two servers must support multicast, and there must be no firewall rules blocking the ports used by the high-availability cluster. If the Heartbeat connection passes through any switches, you must ensure the switches support multicast and Jumbo Frame.</li>
+    <li><b>Connection Restrictions:</b> The servers cannot connect to the network via DHCP, IPv6, PPPoE, and Wi-Fi. Please ensure that these functions are disabled before attempting to form a high-availability cluster.</li>
+    <li><strong>No DHCP Service:</strong> The servers cannot use the built-in DHCP server options when combined into a cluster.</li>
+   <li><strong>Link Aggregation Settings:</strong> Both servers must have the same link aggregation settings for the data network and heartbeat connection. Once the high-availability cluster is created, link aggregation settings cannot be modified.</li>
+   <li><b>Open vSwitch Settings:</b> The status of Open vSwitch on both servers must be the same (either enabled or disabled). Once the high-availability cluster is created, Open vSwitch settings cannot be modified.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Note:</h4>
+    <ul>
+      <li>NTP service will be automatically enabled on the active server once the high-availability cluster is created.</li>
+    </ul>
+  </div>
+  <h3>Storage Manager Limitations</h3>
+  <p>Once a high-availability cluster has been formed, the option to change RAID type will no longer be available in Storage Manager. However the following options will be available:
+<ul>
+<li>Expand storage spaces (e.g. volumes, Block-Level iSCSI LUNs, Disk Groups, RAID Groups, etc).</li>
+    <li>Create, delete, or repair volumes, iSCSI LUNs, SSD read-only and read-write caches.</li>
+    <li>Change iSCSI LUN (File-Level) size and location.</li>
+    <li>Change iSCSI LUN target.   </li>
+  </ul>
+
+  <div class="section">
+    <h4>Note:</h4>
+    <ul>
+      <li>Please do not change drive position once the high-availability cluster has been created; otherwise, the storage space will be missing.</li>
+      <li>To ensure that your server connected to Synology iSCSI target does not encounter timeout during failover, it is recommended you adjust the timeout settings of the iSCSI client and the initiator to 120 seconds or longer.</li>
+    </ul>
+  </div>
+
+ 
+<h3>Package and Software Limitations</h3> 
+
+<p>Once the high-availability cluster had been formed, the following packages and features will not be supported:</p>
+	<ul>
+
+    <li>Virtual Machine Manager</li>
+    <li>MailPlus Server</li>
+    <li>PetaSpace</li>
+
+    <li>The feature to reboot/shut down the high-availability cluster in CMS</li>
+    </ul>
+
+
+  <div class="section">
+    <h4>Note:</h4>
+    <ul>
+    <li>To allow support for Docker DSM in High Availability, you must enable Open vSwitch before creating the cluster.</li>
+    </ul>
+   </div>
+
+<h3>Adding Expansion Units</h3>
+  <p>Once a high-availability cluster has been created, expansion units can be added to your existing high-availability cluster configuration in order to expand storage capacity. As with other hardware requirements, identical expansion units are required for both the active and passive servers. To avoid inconsistency errors, please be careful to follow the instructions below when adding any expansion units.</p>
+  
+  <h4>To add expansion units:</h4>
+   <ol>
+    <li>Only add identical expansion units and hard disks to the active and passive servers. As stated above, the hardware of both the active and passive servers must be identical, including hardware model, types, and hard disk size and position.</li>
+    <li>Make sure to delete all existing data and volumes on the hard disks in the expansion units.</li>
+    <li>Connect expansion units to the active and passive servers when both servers are powered on and running.</li>
+    <li>Create a new storage space (e.g. volumes, Disk Groups, RAID Groups, etc.) on the expansion unit before powering off either of the servers.</li>
+   </ol>
+<div class="section">
+<h4>Notes:</h4>
+<p>For basic information regarding expansion unit installation, please remember to see the user's guide for your expansion unit.</p>
+</div>
+
+
+<h3>USB Device Limitations</h3>
+   <p>Switchover/Failover of USB devices is not supported. Services or applications provided by USB devices may not work properly after switchover/failover.</p>
+
+   
+ </body>
+</html>

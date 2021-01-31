@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" charset="utf-8">
+<title>LDAP</title>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>LDAP</h2>
+<p>LDAP 可讓您的 Synology NAS 以 LDAP 用戶端的身分加入現有的目錄伺服，並從 LDAP 伺服器 (或稱「目錄伺服器」) 擷取帳號及群組資訊。您可以管理 LDAP 使用者或群組對 DSM 應用程式及共用資料夾的存取權限，就像管理本地 DSM 使用者或群組一樣容易。如需更多 LDAP 的相關資訊，請參閱<a href="http://en.wikipedia.org/wiki/LDAP" target="_blank">此處</a>。</p>
+
+<p>支援的 LDAP 標準為 LDAP 第 3 版 (RFC 2251)。</p>
+<h4>若要讓 Synology NAS 加入目錄服務：</h4>
+<ol>
+	<li>前往<strong>控制台</strong> &gt; <strong>網域/LDAP</strong> 。</li><img src="about:blank" class="help_image" /><li>前往 <strong>LDAP</strong> 頁籤，並勾選<strong>啟動 LDAP 用戶端</strong>。</li><img src="about:blank" class="help_image" /><li>在 <strong>LDAP 伺服器位置</strong>欄位中輸入 LDAP 伺服器的 IP 位址或網域名稱。</li><img src="about:blank" class="help_image" /><li>從<strong>加密</strong>下拉式選單中選擇加密類型，藉此為 DiskStation 與 LDAP 伺服器之間的 LDAP 連線進行加密。</li><img src="about:blank" class="help_image" /><li>在 <strong>Base DN</strong> 欄位中輸入 LDAP 伺服器的 Base DN。</li><img src="about:blank" class="help_image" /><li>依照您的 LDAP 伺服器選擇合適的<strong>設定檔</strong>。例如：假設您現在使用的是 Synology LDAP Server 或 Mac Open Directory，請選擇<strong>標準</strong>。</li><img src="about:blank" class="help_image" /><li>若要允許不支援 Samba schema 的 LDAP 使用者透過 CIFS 存取 Synology NAS 檔案，請勾選<strong>啟動 CIFS 明文密碼驗證</strong>。請參閱下一節的說明來確定 LDAP 使用者可以使用他們的電腦透過 CIFS 成功存取 Synology NAS 檔案。</li><img src="about:blank" class="help_image" /><li>按一下<strong>套用</strong>。</li>
+	<li>在欄位中輸入 Bind DN (或 LDAP 管理者帳號) 及密碼，然後按一下<strong>確定</strong>。</li><img src="about:blank" class="help_image" /></ol>
+
+<div class="section">
+
+<h4>關於 CIFPS 支援及用戶端電腦的設定</h4>
+<p>啟動 CIFS 明文密碼驗證後，LDAP 使用者可能需要修改電腦的設定才能透過 CIFS 存取 Synology NAS 檔案：</p>
+<ul>
+	<li>如果您的 Synology NAS 所加入的目錄伺服是由 Synology LDAP 伺服器 (也就是已安裝並執行 <strong>LDAP Server</strong> 套件的另一台 Synology 產品) 提供的，或是該 LDAP 伺服器支援 Samba schema 且 LDAP 使用者皆有正確的 sambaNTPassword 屬性，LDAP 使用者無須勾選<strong>啟動 CIFS 明文密碼驗證</strong>或是修改電腦設定，即可透過 CIFS 存取 Synology NAS 檔案。否則，LDAP 使用者需要啟動電腦的 <a href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" target="_blank">PAM</a> 支援功能才能透過 CIFS 存取 Synology NAS 檔案。然而，這樣做會將 LDAP 使用者的密碼以未加密的純文字格式傳送至 Synology NAS，因而降低安全層級。</li>
+</ul>
+
+<h4>若要修改 Windows 設定：</h4>
+<ol>
+	<li>前往<strong>開始</strong> &gt; <strong>執行</strong>，在欄位中輸入 <strong>regedit</strong>，然後按一下<strong>確定</strong>來開啟登錄編輯程式。</li>
+	<li>視您使用的 Windows 版本而定，請尋找或建立下列登錄機碼：<ul>
+			<li><strong>Windows 2000、XP、Vista 及 Windows 7：</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkStation\Parameters]</li>
+			<li><strong>Windows NT：</strong><br />[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Rdr\Parameters]</li>
+			<li><strong>Windows 95 (SP1)、98 及 Me：</strong><br />
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\VxD\VNETSUP]</li>
+		</ul>
+	</li>
+	<li>建立或修改 DWORD 值 <strong>EnablePlainTextPassword</strong>，並將其數值資料從 <strong>0</strong> 變更為 <strong>1</strong>。</li>
+	<li>重新啟動 Windows 來讓變更生效。</li>
+</ol>
+
+<h4>若要修改 Mac OS X 設定：</h4>
+<ol>
+	<li>前往<strong>應用程式</strong> &gt; <strong>工具程式</strong>來開啟<strong>終端機</strong>。</li>
+	<li>建立空檔案 <strong>/etc/nsmb.conf</strong>：<pre>sudo touch /etc/nsmb.conf</pre></li>
+	<li>使用 vi 開啟 <strong>/etc/nsmb.conf</strong>：<pre>sudo vi /etc/nsmb.conf</pre></li>
+	<li>輸入「<strong>i</strong>」來插入文字，並貼上下列文字：<pre>[default]<br />&gt;minauth=none</pre></li>
+	<li>按下 Esc 鍵然後按下「<strong>ZZ</strong>」來儲存變更並離開 vi。</li>
+</ol>
+
+<h4>若要修改 Linux 設定：</h4>
+<p>若您使用 <strong>smbclient</strong>，請在 <strong>smb.conf</strong> 的 <strong>[global]</strong> 區塊中新增下列機碼：<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">encrypt passwords = no <br /> client plaintext auth = yes <br /> client lanman auth = yes <br /> client ntlmv2 auth = no</p>
+	<p>若您使用 <strong>mount.cifs</strong>，請執行下列指令：</strong>
+	<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">echo 0x30030 &gt; /proc/fs/cifs/SecurityFlags</p>
+	<p>如需更多詳細資訊，請參閱 <a href="https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README" target=_blank>https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README</a></p>
+</p>
+</div>
+
+<div class="section"><h4>關於設定檔</h4>
+<p>不同 LDAP 伺服器可能使用不同屬性當做帳號名稱、群組名稱，或是區分帳號與群組。<strong>設定檔</strong>選項可讓您指定或自訂使用者及群組資訊如何對應至 LDAP 屬性。您可以依照您的 LDAP 伺服器選擇下列其中一個設定檔：</p>
+<ul>
+	<li><strong>標準：</strong>適用於執行 Synology LDAP Server 或 Mac Open Directory 的伺服器。</li>
+	<li><strong>IBM Lotus Domino：</strong>適用於執行 IBM Lotus Domino 8.5 的伺服器。</li>
+	<li><strong>自訂：</strong>可以自訂各種 LDAP 屬性的對應。請參閱下方區塊來瞭解更多資訊。</li>
+</ul>
+
+<p>若要自訂各種 LDAP 屬性的對應，必須先有些背景知識。Synology DSM 遵循 RFC 2307 的規範，而<strong>設定檔</strong>的編輯器也遵循相同的原則。例如，您可以指定 <strong>filter</strong> 裡的 <strong>passwd</strong> 為 <strong>userFilter</strong>，Synology NAS 便會將您 LDAP 伺服器裡符合 <strong>objectClass=userFilter</strong> 的資料視為 LDAP 帳號。如果指定 <strong>passwd</strong> 裡的 <strong>uid</strong> 為 <strong>username</strong>，Synology NAS 便會將您 LDAP 伺服器上的 <strong>username</strong> 視為帳號名稱。若是留空不填則表示遵循 RFC 2307 規範。</p>
+<p>Synology NAS 需要一個固定不變的整數當作 LDAP 帳號的識別碼 (<strong>uidNumber</strong>) 與 LDAP 群組的識別碼 (<strong>gidNumber</strong>)。但不是所有 LDAP 伺服器都使用整數來表示這樣的屬性。因此，我們提供一個關鍵字 <strong>HASH()</strong> 來將其轉為整數。例如，您的 LDAP 伺服器可能使用一個值為 16 進位的屬性 userid 作為 LDAP 帳號。在此情況下，您可以將 <strong>passwd</strong> 的 <strong>uidNumber</strong> 設為 <strong>HASH(userid)</strong> 來讓 Synology NAS 將其轉為整數。</p>
+<p>以下是可供自訂屬性的摘要：</p>
+<ul>
+	<li><strong>filter</strong><ul>
+			<li><strong>group</strong>：群組應有的 objectClass。</li>
+			<li><strong>passwd</strong>：使用者應有的 objectClass。</li>
+			<li><strong>shadow</strong>：使用者密碼應有的 objectClass。</li>
+		</ul>
+	</li>
+	<li><strong>group</strong><ul>
+			<li><strong>cn</strong>：群組名稱。</li>
+			<li><strong>gidNumber</strong>：此群組的 ID。</li>
+			<li><strong>memberUid</strong>：此群組的成員。</li>
+		</ul>
+	</li>
+	<li><strong>passwd</strong><ul>
+			<li><strong>uidNumber</strong>：此使用者的 ID。</li>
+			<li><strong>uid</strong>：使用者名稱。</li>
+			<li><strong>gidNumber</strong>：此使用者的主要群組 ID。</li>
+		</ul>
+	</li>
+	<li><strong>shadow</strong><ul>
+			<li><strong>uid</strong>：使用者名稱。</li>
+			<li><strong>userPassword</strong>：使用者密碼。</li>
+		</ul>
+	</li>
+</ul>
+</div>
+
+<div class="section"><h4>關於 UID / GID 位移</h4>
+<p>為避免 LDAP 使用者 / 群組及本地使用者 / 群組間發生 UID / GID 衝突，您可以啟動 UID / GID 位移來將 LDAP 使用者 / 群組的 UID / GID 位移 1000000。此選項僅適用於非 Synology 的 LDAP 伺服器，且該伺服器針對每個使用者 / 群組提供以數字組成、獨特的 ID 屬性。</p>
+</div>
+
+<div class="section"><h4>關於巢狀群組的展開</h4>
+<p>在巢狀群組當中，LDAP 群組成員歸屬於另一個 LDAP 群組，並由此可見組織架構的階層關係。當使用者查詢特定成員所歸屬的群組，或是特定群組的成員名單時，Synology NAS 會參照子群組的 DN (Distinguished Name)，依循 LDAP 群組的 <strong>member</strong> 屬性來展開巢狀群組。因不同情形，巢狀群組的展開可能會相當耗時，例如當 LDAP 伺服器未對 <strong>member</strong> 屬性建立索引，或是群組的巢狀結構複雜時。您可以選擇不展開巢狀群組來避免這些問題。</p>
+</div>
+
+
+<div class="section"><h4>關於用戶端憑證</h4>
+<p>我們支援使用用戶端憑證。某些 LDAP 伺服器 (例如: Google LDAP) 需透過用戶端憑證進行身分驗證。您可以勾選<strong>啟用用戶端憑證</strong>選項，並上傳用戶端憑證。</p>
+<h4>注意：</h4>
+<p>此功能僅支援 DSM 6.2.2 或以上版本。</p>
+</div>
+
+
+</body>
+</html>

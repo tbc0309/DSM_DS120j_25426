@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Tárolási állapot</h2>
+	<p>Ez az oldal a high-availability klaszter aktív és passzív szerverén található tárolókötetek és iSCSI LUN-ok (blokkszint) állapotát jeleníti meg.</p>
+    <p>Mivel az aktív és passzív szervereken található megfelelő kötetek és iSCSI LUN-ok (blokkszint) kapacitásának és konfigurációjának meg kell egyeznie, a két szerveren található kötetek és iSCSI LUN-ok (blokkszint) együtt, egyetlen egységként láthatók. Ha tehát mind az aktív, mind pedig a passzív szerver köteteinek és iSCSI LUN-jainak (blokkszint) állapotát meg szeretné tekinteni, lépjen a <b>Tárolási állapot</b> oldalra (a high-availability klaszter megnyitásakor csak az aktív szerveren található kötetek és iSCSI LUN-ok (blokkszint) tekinthetők meg a <b>Tároláskezelő</b> menüpontban).</p>
+
+    <p>Az oldal a következő információkat tartalmazza:</p>
+		<ul>
+			<li><b>Név:</b> A kötetek és iSCSI LUN-ok (blokkszint) neveit jeleníti meg.</li>
+			<li><b>Használt:</b> A kötetek és iSCSI LUN-ok (blokkszint) felhasznált kapacitásának százalékos arányát jeleníti meg.</li>
+			<li><b>Használt/teljes méret:</b>  A kötetek és iSCSI LUN-ok (blokkszint) teljes és felhasznált kapacitását jeleníti meg.</li>
+            <li><b>Állapot:</b> A kötetek, iSCSI LUN-ok (blokkszint) és SSD-gyorsítótárak állapotát jeleníti meg.</li>
+            <li><b>Leírás:</b> Hibaleírást, vagy a kötetre, az iSCSI LUN-ra (blokkszint) vagy az SSD-gyorsítótárra vonatkozó egyéb információkat jelenít meg.</li>
+		</ul>
+<h4>Hibásan működő kötet vagy iSCSI LUN (blokkszint) javítása:</h4>
+	<ul>
+		<li>Ha az egyik szerveren összeomlott egy merevlemez, lépjen a <a href="disk.html">Lemez állapota</a> menüpontra, és határozza meg, hogy melyik lemez omlott össze, és melyiket kell kicserélni. Ebben az esetben tegye a következőket:<ol>
+            	<li>Cserélje ki az összeomlott merevlemezt (a merevlemez telepítésére vonatkozó lépéseket lásd a Synology termékhez kapott <i>Gyorstelepítési útmutató</i> című dokumentumban).</li>
+                <li>Lépjen a <b>Tárolási állapot</b> menüpontra, és kattintson a <b>Javítás</b> lehetőségre.</li>
+            </ol>
+        </li>
+        <li>Ha a passzív szerver offline állapotban van, a kötetek és iSCSI LUN-ok (blokkszint) állapota jelzi, hogy hiba történt, és a passzív szerveren található lemezek nem láthatók a Lemez állapota oldalon. Ebben az esetben a következőket teheti a probléma megoldásáért:<ol>
+            	<li>Győződjön meg róla, hogy a passzív szerver be van-e kapcsolva.</li>
+                <li>Ellenőrizze a tápellátást.</li>
+                <li>Ellenőrizze a csatlakozásokat.</li>
+            </ol>
+        </li>
+        <li>Ha az egyik szerveren található köteten vagy iSCSI LUN-on (blokkon) fájlrendszerhiba fordult elő, tegye a következőt:<ul>
+            	<li>Lépjen a <b>Tárolási állapot</b> menüpontra.</li>
+                <li>Kattintson a <b>Javítás</b> lehetőségre.</li>
+            </ul>
+        </li>
+	</ul>
+
+<p><span class="note_head">Megjegyzés:</span>  Egy high-availability klaszterben legfeljebb 64 kötet és iSCSI LUN (blokkszint) működhet.</p>
+
+
+
+<h3>Kvórumszerver</h3>
+<p>A kvórumszerverek segítségével csökkentheti a split-brain (tudathasadásos) hibák előfordulásának esélyét. A split-brain (tudathasadásos) hibára vonatkozó beállításoknál egy, az aktív és a passzív szerverhez is csatlakozó szervert kvórumszervernek jelölhet. Kvórumszerverként használjon például átjárószervert vagy DNS-szervert, mivel ezek mind az aktív, mind a passzív szerverhez képesek kapcsolódni. Ne feledje, hogy a kvórumszerver kizárólag pingelési szolgáltatásokat nyújt, nem kell rá alkalmazásokat telepítenie. A kvórumszerver alkalmazását követően az alábbiak lesznek érvényesek:</p>
+
+<ul>
+<li>Ha a passzív szerver nem tud csatlakozni az aktív szerverhez és a kvórumszerverhez, a rendszer nem végez feladatátvételt a split-brain (tudathasadásos) hibák megelőzése érdekében.</li>
+<li>Ha az aktív szerver nem tud csatlakozni a kvórumszerverhez, de a passzív szerver igen, a rendszer átkapcsolást végez a jobb rendelkezésre állás érdekében.</li>
+</ul>
+
+ </body>
+</html>

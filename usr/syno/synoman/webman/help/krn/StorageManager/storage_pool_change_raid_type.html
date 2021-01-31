@@ -1,0 +1,128 @@
+ <!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>스토리지 풀의 RAID 유형 변경 - Synology DSM 도움말</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article provides instructions to change the RAID type of existing storage pools on your Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+	
+</head>
+<body>
+<h2>스토리지 풀의 RAID 유형 변경</h2>
+
+<p>기존 데이터 손실 없이 스토리지 풀의 RAID 유형을 다른 유형으로 변경할 수 있습니다. 예를 들어, Synology NAS에서 RAID 1 스토리지 풀을 만들고 나중에 더 많은 드라이브를 설치하면 RAID 5로 변경할 수 있습니다. 이 문서에서는 Synology NAS에 있는 기존 스토리지 풀의 RAID 유형을 변경하는 지침을 설명합니다. 스토리지 풀의 RAID 유형을 변경하기 전에 아래의 <b>드라이브 요구 사항</b>과 <b>RAID 유형 요구 사항 및 제한 사항</b> 섹션을 참조하여 관련 요구 사항 및 제한 사항에 대한 자세한 내용을 확인하십시오.<h3>드라이브 요구 사항</h3>
+
+<p>스토리지 풀의 RAID 유형을 변경하려면 Synology NAS에 사용 가능한 드라이브가 충분한 숫자로 설치되어 있어야 합니다. 각 RAID 유형에 필요한 최소 드라이브 개수는 아래 표를 참조하십시오.</p>
+
+<table>
+  <tr>
+    <th width="50%">RAID 유형</th>
+    <th width="50%">최소 드라이브 필요 개수</th>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td>RAID 6</td>
+    <td>4</td>
+  </tr>
+  
+   <tr>
+    <td>SHR-2</td>
+    <td>4 또는 5(SHR-1의 드라이브 구성에 따라 다름)</td>
+  </tr>
+
+</table>
+
+</p>
+<h3>RAID 유형 요구 사항 및 제한 사항</h3>
+
+<p>특정 RAID 유형만 다른 RAID 유형으로 변경될 수 있습니다. 예를 들어 RAID 1을 RAID 5로 변경할 수 있지만 RAID 5를 RAID 1로 변경할 수 없습니다. 자세한 내용은 아래 표를 참조하십시오.</p>
+
+<table>
+  <tr>
+    <th width="30%">현재 RAID 유형</th>
+    <th width="30%">변환 가능한 대상 유형</th>
+    <th width="40%">드라이브 추가 필요 개수</th>
+  </tr>
+  <tr>
+    <td>Basic</td>
+    <td>RAID 1</td>
+    <td>1</td>
+  </tr>
+ <tr>
+    <td>Basic</td>
+    <td>RAID 5</td>
+	  <td>2</td>
+  </tr>
+  <tr>
+    <td>RAID 1</td>
+    <td>RAID 5</td>
+	  <td>1</td>
+  </tr>
+  <tr>
+    <td>RAID 5</td>
+    <td>RAID 6</td>
+	  <td>1</td>
+  </tr>
+
+  <tr>
+    <td>SHR-1</td>
+    <td>SHR-2</td>
+	  <td>1 또는 2(SHR의 드라이브 구성에 따라 다름)</td>
+  </tr>
+
+</table>
+
+<div class="section"><h4>참고:</h4>
+<ul>
+<li>SHR(Synology Hybrid RAID)에 대한 자세한 내용은 <a href="https://www.synology.com/knowledgebase/DSM/tutorial/Storage/What_is_Synology_Hybrid_RAID_SHR" target="_blank">여기</a>를 참조하십시오.</li>
+<li>스토리지 풀의 RAID 유형 선택에 대한 자세한 내용은 <a href="storage_pool_what_is_raid.html">여기</a>를 참조하십시오.</li>
+<li>공간 사용량 예측에 대해서는 <a href="https://www.synology.com/support/RAID_calculator" target="_blank">Synology RAID 계산기</a>를 참조하십시오.</li>
+<li>다음과 같은 드라이브 구성의 SHR-1 스토리지 풀을 SHR-2 스토리지 풀로 변경하면 드라이브 두 개가 추가로 필요할 수 있습니다.<ul>
+<li>스토리지 풀에는 드라이브 두 개만 포함됩니다.</li>
+<li>드라이브 용량이 모두 다릅니다.</li>
+<li>드라이브 3개 이상으로 구성된 RAID 배열에서 가장 큰 드라이브 두 개의 용량은 다른 드라이브 용량보다 커야 합니다.</li>
+</ul>
+</li>
+<li>특정 모델에서는 RAID 5 스토리지 풀에서 RAID 6 스토리지 풀로 변경할 수 없습니다.</li>
+</ul>
+</div>
+
+<h3>RAID 유형 변경</h3>
+
+<h4>시작하기 전에:</h4>
+<p>RAID 유형을 변경하기 전에 다음 사항에 유의하십시오.</p>
+<ul>
+<li>스토리지 풀 상태가 <b>정상</b>이어야 합니다.</li>
+<li>새 드라이브를 스토리지 풀에 추가하는 경우 새 드라이브는 스토리지 풀의 가장 작은 드라이브보다 커야 하며 모든 드라이브 유형이 동일해야 합니다.</li>
+<li>RAID Group 내 RAID 배열의 RAID 유형은 변경될 수 없습니다. 특정 모델에서만 RAID Group 기능을 사용할 수 있습니다.<br><span class="note_head">참고:</span> <a href="https://www.synology.com/products" target="_blank">이 웹 페이지</a>로 이동하고 Synology NAS의 오른쪽 위 확인란을 선택한 후 다른 모델의 확인란을 선택하십시오. 그런 다음 오른쪽 아래 구석에 있는 <b>비교</b> 버튼을 클릭하십시오. 사용자 모델에서 RAID Group을 지원하는지 여부는 <b>비교 결과</b> 웹 페이지에 표시됩니다.</li>
+</ul>
+
+<div class="section">
+<h4>참고:</h4>
+
+<ul>
+<li>모든 문제를 방지하기 위해 <a href="https://www.synology.com/compatibility" target=blank>Synology 제품 호환 목록</a>에 있는 드라이브를 사용하는 것이 좋습니다. 호환되지 않는 드라이브를 사용하면 시스템 성능이 영향을 받고 데이터가 손실될 수 있습니다.</li>
+</ul>
+</div>
+<h4>스토리지 풀의 RAID 유형 변경하기:</h4>
+
+<ol>
+<li><strong>저장소 관리자</strong>를 시작합니다.</li><img style="display:none;" src="../../../online_img/common/open_storagemanager.png" class="help_image"/><li><b>스토리지 풀</b>로 이동합니다.</li>
+<li>RAID 유형을 변경하려는 스토리지 풀을 선택하고 <b>동작</b> 드롭다운 메뉴에서 <b>RAID 유형 변경</b>을 클릭합니다.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/change_raid_type.png" class="help_image"/><li>변경할 RAID 유형을 선택합니다. <b>다음</b>을 클릭합니다.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_raid.png" class="help_image"/><li>기존 스토리지 풀에 추가할 드라이브를 선택합니다. <b>다음</b>을 클릭합니다.<br><span class="note_head">참고:</span> 새로 추가된 드라이브의 모든 데이터가 지워집니다. 사전에 데이터를 백업했는지 확인하십시오.</li><img style="display:none;" src="../../../online_img/dsm/StorageManager/storage_pool_change_raid_type/choose_disks.png" class="help_image"/><li>마법사를 따라 완료합니다.</li></ol>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script> <script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability</title>
+
+
+ </head>
+ <body>
+<h2>Opdelt hjerne</h2>
+
+<p>Når en high-availability-klynge fungerer normalt, bør kun en af medlemsserverne påtage sig rollen som aktiv server. I det tilfælde registrerer den passive server tilstedeværelsen af den aktive server via både heartbeat-forbindelsen og dataforbindelsen.</p>
+
+<p>Hvis alle heartbeat- og dataforbindelser mistes, vil begge servere måske forsøge at påtage sig rollen som aktiv server. Denne situation kaldes "opdelt hjerne"-fejl. I det tilfælde vil forbindelser til IP-adresserne på high-availability-klyngen bliver omdirigeret til en af de to servere, og inkonsekvente data kan blive opdateret eller skrives til en af de to servere.</p>
+        
+<p>Når en af Heartbeat- eller dataforbindelserne genoprettes, vil systemet registrere fejl i opdelt hjerne og datainkonsekvens mellem de to servere og gå i high-availability sikret tilstand.</p> 
+
+       
+<h4>Hvis der opstår en fejl i opdelt hjerne:</h4>
+	<ol>
+    <li>Tjenesterne på begge servere og IP-adresserne for high-availability-klyngen bliver ikke-tilgængelige, til fejlen i opdelt hjerne er løst.</li>
+	<li>Når begge servere går i high-availability sikret tilstand, vises en ny fane med navnet <strong>Opdelt hjerne</strong> i venstre panel. På denne fane vises følgende oplysninger: Forskellen mellem filerne i de delte mapper på de to servere, tidspunktet de to servere blev den aktive server samt oplysninger om den sidste iSCSI Target-forbindelse. Alle de andre faner forbliver skrivebeskyttede.</li>
+<li>I high-availability sikret tilstand vil File Station være i skrivebeskyttet tilstand, og du kan downloade eller se filerne.</li>
+       <li>På fanen <b>Oversigt</b> må du kun enten løse fejl med opdelt hjerne eller lukke den aktuelle loginserver. Sådan løser du fejl med opdelt hjerne:
+       <ul>
+       <li>Vælg en server som den aktive for high-availability-klyngen og den anden som den passive server. Når begge servere er genstartet, bliver alle forskellige data på den aktive server synkroniseret med den passive. Bemærk, at de opdaterede data på den passive server under fejl i opdelt hjerne mistes.</li>
+       <li>Vælg en server som den aktive for high-availability-klyngen, og ophæv binding af den anden. Når begge servere er genstartet, vil den aktive server forblive i high-availability-klyngen, og den server, der er bundet op, vil reservere dens data og returnere til status <b>Standalone</b>. Bemærk, at en fuld replikering kræves for at binde en ny passiv server i fremtiden.</li>
+       <li>Bind begge servere op, reserver deres individuelle data, og lad dem returnere til status <b>Standalone</b>.</li>
+       </ul>
+       </li>
+	</ol>
+    <div class="section">
+<h4>Noter:</h4>
+    <ul>
+    <li>Jo flere filer, der er i de delte mapper, jo længere vil det tage at vise forskellene.</li>
+    <li>Før du vælger den server, der skal være den aktive/passive server, skal du sørge for, at begge servere er tændt.</li>
+    </ul>
+    </div>
+
+ </body>
+</html>

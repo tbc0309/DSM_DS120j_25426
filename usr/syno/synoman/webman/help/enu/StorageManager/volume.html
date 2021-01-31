@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Volume</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the difference between volumes and disk groups, which are used to manage the storage space and capacity of Synology NAS.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>Volume</h2>
+
+<p>Volumes provide the basic storage space on your Synology NAS. All of your stuffs -- such as shared folders, documents, and package data -- are stored on volumes. Therefore, before you start storing anything on your Synology NAS, you'll need to create at least one volume.</p>
+
+<div class="section">
+<h4>Note:</h4>
+<p>If volumes are used as replicated targets of <strong>Snapshot Replication</strong>, the replication performance can be improved by adjusting the settings of <strong>Record File Access Time Frequency</strong> in the <strong>Edit</strong> window after volumes are created:</p>
+<ul>
+	<li><strong>Daily</strong>: File access time is updated daily or when the file is modified, just like in most operating systems. Some applications' functionalities rely on the precision of file access time. Selecting <strong>Daily</strong> will impact replication performance but is recommended if you use any of the following functions or applications frequently:
+		<ul>
+			<li><strong>Least Recently Access Time</strong> in <strong>Storage Analyzer</strong>.</li>
+			<li><strong>SSD Cache Advisor</strong> in <strong>Storage Manager</strong>.</li>
+			<li>Any third-party applications that rely on <strong>Record File Access Time</strong>.</li>
+		</ul>
+	<li><strong>Monthly</strong>: File access time is updated monthly or when the file is modified. This option results in a small improvement in replication performance while the applications that rely on <strong>Record File Access Time</strong> will be able to function, though with a lower precision.
+	</li>
+	<li><strong>Never</strong>: Recommended if you look for the best replication performance and do not need applications that rely on <strong>Record File Access Time</strong> in your daily usage.</li>
+</ul>
+</div>
+
+
+<h4>Volume Format</h4>
+<p>Depending on the file system in use, there are two volume formats:</p>
+<ul>
+	<li><strong>New volume format</strong>: This format uses the <strong>Btrfs</strong> file system. The minimum size of a volume in this format must be at least 10 GB. It supports following new features with which you can manage your data more easily:
+		<ul>
+			<li><strong><a href="../DisasterRecovery/snapshots.html">Shared folder snapshot</a>:</strong> The snapshot records the whole data status at the time upon being taken. If a user accidentally modifies or deletes data on a volume with snapshots, you are able to quickly restore the data back to the previous time at which the snapshot was taken.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#sharequota">Shared folder quota</a>:</strong> You can set the maximum capacity for each folder.</li>
+			<li><strong><a href="../AdminCenter/file_user_create.html#userquota">User quota</a> based on shared folder:</strong> You can control how much space within a shared folder can be used by every user.</li>
+			<li><strong><a href="../AdminCenter/file_share_create.html#integrity_protection">Advanced data integrity protection</a>:</strong> Shared folder is protected with CRC32 checksum and copy-on-write strategies.</li>
+		</ul>
+	</li>
+	<li><strong>Traditional volume format</strong>: This format uses the <strong>ext4</strong> file system. The minimum size of a volume in this format must be at least 10 GB. Since ext4 file system is supported by most Synology products, you can easily migrate your volume in this format to another Synology product.</li>
+</ul>
+
+<div class="section"><h4>Note:</h4>
+<ul>
+	<li>Btrfs is available on specific models only. To see if your model supports Btrfs, please refer to <a href="https://www.synology.com/knowledgebase/DSM/tutorial/General/Which_Synology_NAS_models_support_the_Btrfs_file_system" target="_blank">this article</a>.</li>
+</ul>
+</div>
+
+
+</body>
+</html>

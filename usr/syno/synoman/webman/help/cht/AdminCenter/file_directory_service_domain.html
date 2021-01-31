@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" charset="utf-8">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>網域</h2>
+
+<p>您的 Synology NAS 可加入 Windows 網域。加入之後，網域使用者便可使用其網域帳號及密碼登入 Synology NAS，無須再記住另外一組帳號密碼來存取檔案及使用 DSM 應用程式。</p>
+
+<h4>若要加入網域：</h4>
+<ol>
+	<li>前往<strong>控制台</strong> &gt; <strong>網域 / LDAP</strong> &gt; <strong>網域</strong>。</li>
+	<li>勾選<strong>加入網域</strong>。</li>
+	<li>在對應的欄位輸入網域名稱並指定 DNS 伺服器。</li>
+	<li>如有需要，請勾選<strong>進階網域選項</strong>。(請參閱下方來瞭解更多資訊。)</li>
+	<li>按一下<strong>套用</strong>。</li>
+	<li>在跳出的視窗中輸入該網域的系統管理者帳號及密碼。</li>
+	<li>按一下<strong>確定</strong>。</li>
+</ol>
+
+<div class="section"><h4>DNS 伺服器</h4>
+<p>建議您指定 DNS 伺服器讓 Synology NAS 更容易搜尋網域。但是如果網域並沒有在 DNS 伺服器上註冊，加入網域的程式可能會失敗。</p>
+
+<h4>網域伺服器類型</h4>
+<p>此欄位會顯示 Synology NAS 加入網域時的網域類型。網域類型是「AD 網域」。</p>
+
+<h4>管理模式</h4>
+<p>此選項用來決定網域使用者和網域群組的管理方式。</p>
+<ul>
+	<li><strong>受信任的網域</strong>：可管理加入的網域或是受信任的網域中的使用者及群組。您可以依照不同受信任的網域來篩選使用者及群組的清單。</li>
+	<li><strong>依組織單位管理的單一網域</strong>：這模式只顯示屬於加入網域中的使用者及群組。可讓您依照不同組織單位 (OU) 來篩選使用者及群組的清單。</li>
+</ul>
+
+<h4>進階網域選項</h4>
+<p>在大多數的情形下，您不需要填寫進階網域選項。只有在特殊網域環境之下才須填寫。</p>
+<ul>
+	<li><strong>DC IP / FQDN</strong>：Synology NAS 會嘗試和您指定的 DC (網域控制站) IP 位址或 FQDN 溝通。如果您想要輸入多個 IP 位址或 FQDN，請使用半形逗號 (,) 隔開。您可以在最後一個 DC IP 位址或 FQDN 的後面加上星號 (*)，Synology NAS 將會在與您指定的 DC 溝通失敗後，嘗試和其它的 DC 溝通。最後一個 IP 位址或 FQDN 與星號之間也必須加上逗號。</li>
+	<li><strong>網域的 NetBIOS 名稱</strong>：指定網域的 NetBIOS 名稱。</li>
+	<li><strong>網域的 FQDN DNS 名稱</strong>：指定網域的 FQDN (DNS 名稱)。</li>
+	<li><strong>註冊 DNS 介面</strong>：加入網域之後，此處指定的 NIC (網路介面卡) 便會註冊至 DNS 伺服器。請注意，由於 DNS 無法使用底線 (_)，因此如果 Synology NAS 的主機名稱包含底線 (_)，則註冊會失敗。</li>
+	<li><strong>更新使用者/群組清單</strong>：指定 Synology NAS 自動更新網域使用者及群組清單的頻率。您可以自訂時間於每天、每週或每月進行更新。此外，您也可以前往<strong>網域使用者</strong>頁籤並按一下<strong>更新網域資料</strong>，來手動更新網域使用者及群組清單。請注意自動更新會影響系統休眠狀態。</li>
+</ul>
+
+<h4>加入唯讀網域控制站</h4>
+<p>若要將 Synology NAS 加入至唯讀網域控制站 (RODC)，您需在 <strong>DC IP/FQDN</strong> 欄位填入讀寫網域控制站 (RWDC) 的「完整電腦名稱」(FQDN)。完整電腦名稱必須為以下格式：<strong>電腦名稱.網域</strong>，例如「ad01.synology.com」。</p>
+</div>
+
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>如果您的網域使用者名稱包含「%」或「$」，則將無法存取您的家目錄。請向網域管理員要求一個新的使用者名稱。</li>
+	<li>網域群組 <strong>Domain Admins</strong> 及 <strong>Enterprise Admins</strong> 將會自動加到本地的 <strong>administrators</strong> 群組。因此，這些群組的網域使用者都會擁有 Synology NAS 的管理權限，包含存取 CIFS/FTP/AFP/WebDAV 等檔案服務及其他 DSM 應用程式。</li>
+	<li>您也可以設定網域使用者對 Synology NAS 共用資料夾的存取權限。請參閱<a href="file_directory_service_user_group.html">此處</a>來獲得更多資訊。</li>
+</ul>
+</div>
+
+<h3>網域選項</h3>
+
+<p>本區塊包含以下額外的網域選項。</p>
+<ul>
+	<li><strong>網域使用者登入時，使 DiskStation 與 NTP 伺服器對時</strong>：啟動此選項會強制 Synology NAS 和 NTP 伺服器進行時間同步。</li>
+	<li><strong>以 NT4 相容模式取得使用者 / 群組清單</strong>：啟動此選項可讓系統使用 NT4 RPC 模式取得使用者及群組清單。您可以在某些網域使用者及群組清單無法透過預設設定取得的狀況下啟動此選項。
+	<li><strong>啟動伺服器簽章</strong>：如果用戶端已啟動用戶端簽章，伺服器簽章也必須在 Synology NAS 啟動，這樣使用者才能正常使用網域服務。</li>
+	<li><strong>列舉巢狀群組的層級數</strong>：指定可以列舉巢狀網域群組成員的數目。</li>
+	<li><strong>網域管理者</strong>：指定至多 10 個群組，指定群組中的使用者將具有管理者權限。具管理者權限的使用者可完全控制您的 Synology NAS 及儲存於其上的檔案。</li>
+	<li><strong>啟用整合式 Windows 驗證</strong>：啟動此選項能夠讓已透過網域帳號登入電腦的使用者，無需輸入使用者名稱及密碼即可透過網頁瀏覽器登入 DSM。</li>
+</ul>
+
+<div class="section"><h4>使用整合式 Windows 驗證</h4>
+<ul>
+	<li>用戶端電腦須運行 Windows 作業系統，且須為 Windows 7 或以上版本。</li>
+	<li>用戶端電腦須加入與 Synology NAS 相同的網域內。</li>
+	<li>請前往 Windows 的<b>控制台</b> &gt; <b>網際網路選項</b> &gt; <b>進階</b>，並確認<b>安全性</b>區塊下的<b>啟用整合式 Windows 驗證</b>核取方塊已勾選。</li>
+	<li>整合式 Windows 驗證適用於所有瀏覽器。針對 FireFox，須進行以下額外設定。
+		<ul>
+			<li>開啟 FireFox 瀏覽器，請在 URL 欄位中輸入 <b>about:config</b>。</li>
+			<li>搜尋 <b>network.automatic-ntlm-auth.trusted-uris</b>。</li>
+			<li>連按兩下<b>值</b>的欄位，並輸入網域的 IP 位址。</li>
+		</ul>
+	</li>
+	<li>將 Synology NAS 加入 Synology Directory Server 所建立的網域後，須先進行額外設定才能啟用整合式 Windows 驗證：
+		<ol>
+			<li>前往 DSM <b>控制台</b> > <b>檔案服務</b> > <b>SMB/AFP/NFS</b>。</li>
+			<li>在 <b>SMB</b> 區塊下，按一下<b>進階設定</b>。</li>
+			<li>從<b>最小 SMB 通訊設定</b>下拉式選單中選取 <b>SMB1</b>，並按一下<b>儲存</b>。</li>
+		</ol>
+	</li>
+</ul>
+</div>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>僅 DSM 6.2.2 或以上版本支援透過整合式 Windows 驗證登入。</li>
+		</ul></li>
+</ul>
+</div>
+
+<h3>網域狀態檢查</h3>
+
+<p>您可以按一下<strong>網域狀態檢查</strong>來檢查 DSM 及其加入的網域之間的連線狀態。請參閱下列的檢查項目來了解如何排除問題：</p>
+<ul>
+	<li><strong>檢查 Synology NAS 與網域控制器的連線是否正常運作</strong>：Synology NAS 無法與網域控制器聯繫。<ul>
+			<li>請確認網域控制器的連接埠 389、139、445 正常運作。</li>
+			<li>請確認網域控制器的 NTDS 服務正常運作。</li>
+		</ul>
+	</li>
+	<li><strong>檢查子網路內是否有相衝突的主機名稱</strong>：Synology NAS 的主機名稱已存在於子網路中。<ul>
+			<li>若 Synology NAS 是以多個網路介面連接到子網路，則 DSM 將正常運作。</li>
+			<li>若 Synology NAS 僅以當一網路介面連接到子網路，請變更 Synology NAS 的主機名稱，然後再重新加入網域。</li>
+		</ul>
+	</li>
+	<li><strong>檢查 Synology NAS 與 Kerberos 伺服器的連線是否正常運作</strong>：Synology NAS 無法與 kerberos 伺服器聯繫。<ul>
+			<li>請確認 DNS 伺服器上已存在正確的 Kerberos DNS SRV record 及相關的 A record。</li>
+			<li>請確認 KDC 伺服器上可使用 88 連接埠。</li>
+		</ul>
+	</li>
+	<li><strong>檢查 Synology NAS 與 LDAP 伺服器的連線是否正常運作</strong>：Synology NAS 無法與 LDAP 伺服器聯繫。<ul>
+			<li>請確認 DNS 伺服器上已存在正確的 LDAP DNS SRV record 及相關的 A record。</li>
+			<li>請確認 LDAP 伺服器的 389 連接埠可正常運作。</li>
+		</ul>
+	</li>
+	<li><strong>檢查 MTU 設定是否正確以確保 Synology NAS 與網域控制器之間的連線正常運作</strong>：因封包的 MTU 大小無效，導致一至多個交換器丟棄 Synology NAS 與網域控制器之間傳輸的封包。<ul>
+			<li>請檢查 Synology NAS 及網域控制器之間的交換器介面設定。</li>
+		</ul>
+	</li>
+	<li><strong>檢查 Synology NAS 與網域的時間是否同步</strong>：Synology NAS 上的時間與網域伺服器不同步。<ul>
+			<li>您可以在 Synology NAS 上設定 NTP 服務以便與網域伺服器同步，或在<strong>網域選項</strong>中啟動<strong>網域使用者登入時，使 Synology NAS 與 NTP 伺服器對時</strong>選項。</li>
+		</ul>
+	</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Generale</h2>
+
+<p>Gestione archiviazione consente agli utenti di gestire tutti gli spazi di archiviazione su prodotti Synology. Per semplificare la gestione dell'archiviazione e creare spazi di archiviazione più flessibili con protezione dei dati, Synology DSM supporta più tipi di storage pool.</p>
+
+<h4><a href="storage_pool.html">Storage Pool</a></h4>
+<p>Con Synology NAS, è possibile unire più unità in un'unica unità di archiviazione denominata storage pool. Synology NAS fornisce i seguenti tipi di storage pool:</p>
+<ul>
+	<li><B>Storage pool per prestazioni migliori</B>:
+		<ul>
+			<li>alloca tutta la capacità disponibile su un solo volume.</li>
+			<li>Offre prestazioni migliori con minore flessibilità nella gestione dell'archiviazione.</li>
+			<li>Consente la creazione di più iSCSI LUN (File normali) sui volumi.</li>
+			<li>Supporta un RAID Array al massimo.</li>
+		</ul>
+	</li>
+	<li><B>Storage pool per maggiore flessibilità</B>:
+		<ul>
+			<li>supporta la creazione di più volumi su uno storage pool.</li>
+			<li>Offre una maggiore flessibilità nella gestione dell'archiviazione.</li>
+			<li>Consente la creazione di più iSCSI LUN (File normali) sui volumi.</li>
+			<li>Supporta la combinazione di più array RAID in uno storage pool (se configurato come RAID 5, RAID 6 o RAID F1).</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>Tipo di RAID</h4>    
+<p>Durante la creazione di uno storage pool è necessario prima scegliere il tipo di RAID. Diversi tipi di RAID offrono diversi livelli di protezione dei dati, funzioni di archiviazione e prestazioni. Synology NAS supporta correntemente i seguenti tipi di RAID:</p>
+<ul>
+	<li><strong>Basic</strong>: utilizza una unità per creare uno storage pool. Gli storage pool di base non offrono la ridondanza dei dati.</li>
+	<li><strong>JBOD*</strong>: combina almeno due unità per creare uno storage pool. Gli storage pool JBOD non offrono la ridondanza dei dati. La capacità disponibile di uno storage pool JBOD equivale alla capacità di tutte le unità presenti nello storage pool. JBOD supporta l'uso di unità di varie dimensioni.</li>
+	<li><strong>RAID 0*</strong>: combina almeno due unità per creare uno storage pool. RAID 0 non offre la ridondanza dei dati. In caso di guasto di una unità membro, i dati nello storage pool andranno persi. La capacità disponibile di uno storage pool RAID 0 equivale alla capacità totale di tutte le unità membri. RAID 0 supporta l'uso di unità di varie dimensioni.</li>
+	<li><strong>RAID 1*</strong>: combina 2-4 unità per creare uno storage pool. Il sistema scriverà dati identici per ogni unità. RAID 1 offre la protezione dei dati fino a quando una unità funziona in modo corretto. La capacità disponibile di uno storage pool RAID 1 equivale alla dimensione dell'unità più piccola.</li>
+	<li><strong>RAID 5*</strong>: combina almeno tre unità per creare uno storage pool ed esegue lo striping dei dati e delle informazioni di parità attraverso le unità. RAID 5 offre la ridondanza dei dati. In caso di guasto di una unità membro, il sistema può essere ricreato utilizzando le informazioni di parità su altre unità membri. Supporta l'unione di più array RAID durante la creazione di uno storage pool per volumi multipli. La capacità disponibile di uno storage pool RAID 5 = <span class="note_content"> capacità totale delle array RAID combinate. Capacità array RAID = (numero di unità - 1) x (capacità dell'unità più piccola)</span></li>
+	<li><strong>RAID 6*</strong>: combina almeno quattro unità per creare uno storage pool ed esegue lo striping dei dati e delle informazioni di parità attraverso le unità. RAID 6 offre la ridondanza dei dati. Anche in caso di guasto di due unità, il sistema può essere ricreato utilizzando le informazioni di parità sulle altre unità membri. Supporta l'unione di più array RAID durante la creazione di uno storage pool per volumi multipli. La capacità disponibile di uno storage pool RAID 6 = <span class="note_content"> capacità totale delle array RAID combinate. Capacità array RAID = (numero di unità - 2) x (capacità dell'unità più piccola)</span></li>
+	<li><strong>RAID 10*</strong>: combina almeno quattro unità per creare uno storage pool. Il numero delle unità deve essere pari. RAID 10 fornisce le prestazioni di RAID 0 oltre allo stesso livello di protezione dati di RAID 1. La capacità disponibile dello storage pool RAID 10 = <span class="note_content">(capacità dell'unità più piccola) X (numero di unità - 2)</span></li>
+	<li><strong>RAID F1*</strong>: questo tipo di RAID è progettato per le unità allo stato solido (SSD). Combina almeno tre SSD per creare uno storage pool ed esegue lo striping dei dati e delle informazioni di parità attraverso tutte le SSD membri, scrivendo nel contempo più bit di parità in una specifica SSD per evitare che più SSD abbiano esito negativo contemporaneamente. RAID F1 offre la ridondanza dei dati. In caso di guasto di una SSD membro, il sistema può essere ricreato utilizzando le informazioni di parità su altre SSD membri. Supporta l'unione di più array RAID durante la creazione di uno storage pool per volumi multipli. La capacità disponibile di uno storage pool RAID F1 = <span class="note_content"> capacità totale di array RAID combinati. Capacità array RAID = (numero di unità - 1) x (capacità dell'unità più piccola)</span></li>
+</ul>
+
+<div class="section"><h4>Nota:</h4>
+<ul>
+	<li>i tipi RAID con <strong>*</strong> sono disponibili solo sui modelli di NAS con abbastanza vani per i vani unità. Per informazioni su quali tipi di RAID sono supportati dal modello in uso, andare su <a href="https://www.synology.com" target="_blank">www.synology.com</a> per verificare le specifiche del modello.</li>
+</ul>
+</div>
+
+</body>
+</html>

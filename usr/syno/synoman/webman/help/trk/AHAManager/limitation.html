@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Sınırlamalar ve Sistem Gereksinimleri - Synology DSM Yardım</title>
+<meta name="author" content="Synology Inc.">
+<meta name="description" content="This article explains the limitations of the Synology High Availability package.">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+
+ </head>
+ <body>
+ 
+ 
+<h2>Sınırlamalar ve Sistem Gereksinimleri</h2>
+
+ <p>Synology High Availability uygulaması, aktif ve pasif sunucular olarak işlev görmek için iki benzer Synology sunucusuna ihtiyaç duyar. İki sunucu bir high-availability kümesi oluşturmak için birleştirilmeden önce, sistem high-availability kümesinin oluşturulabilmesi için aşağıdaki donanım ve yazılım sınırlamalarını kontrol eder.</p>
+ 
+  
+ <h3>Sistem Gereksinimleri</h3>
+ 
+  <p>Yazılım ve donanımla ilgili aşağıdaki yönergelere lütfen uyun:</p>
+  <ul>
+   <li><b>Synology Sunucusu:</b> Hem aktif hem de pasif sunucular benzer modeller olmalıdır.</li>
+   <li><b>Genişletme Birim(ler)i:</b> Hem aktif hem de pasif sunucular aynı genişletme ünitelerine doğru bir şekilde bağlanmalıdır.</li>
+   <li><b>Sürücülerin Sayısı ve Türü:</b> Sürücü tipi sadece SAS olmalıdır. DSM'yi kurmadan önce, genişletme ünitelerine en az 3 sürücü kurmanız gerekir.</li>
+   <li><b>USB Harici Aygıtı:</b> Sadece USB depolama desteklenir. Diğer USB harici aygıtları (ör., UPS, Wi-Fi dongle, Hoparlör, Yazıcı, Bluetooth dongle ve DVB dongle) desteklenmez. USB depolama sadece aktif sunucuda kullanılabilir ve pasif sunucuya değiştirilemez.</li>
+
+  </ul>
+
+  <h3>Ağ Ortamı</h3>
+  <p>Bir high-availability kümesi oluştururken ağ ayarları ile ilgili aşağıdaki yönergelere lütfen uyun.</p>
+  <ul>
+    <li><b>Ağ Ayarları:</b> İki sunucu arasındaki Kalp Atışı bağlantısı doğru kurulmalıdır. Her iki sunucu aynı alt kümeye aittir ve kurulum sonrasında statik IP adreslerinin yapılandırılmasını gerektirir.</li>
+    <li><b>LAN bağlantı noktalarının sayısı:</b> Her iki sunucunun aynı sayıda LAN bağlantı noktasına sahip olması gerekir. Synology NAS modellerinizden bir tanesi ilave ağ kartı arayüzleri ile donatılırsa, diğeri de aynı ağ kartı arayüzleri ile donatılmalıdır. </li>
+    <li><b>Bağlantı Kısıtlamaları:</b> Wi-Fi ağı high-availability kümesi tarafından desteklenmez.</li>
+
+  </ul>
+  <div class="section">
+    <h4>Not:</h4>
+    <ul>
+      <li>NTP sunucusu aktif sunucuda otomatik olarak etkinleştirilecektir.</li>
+    </ul>
+  </div>
+
+<h3>Paket ve Yazılım Sınırlamaları</h3> 
+
+<p>Lütfen aşağıdaki paket ve yazılıma ilişkin sınırlamalara bakınız:</p>
+	<ul>
+	<li>High-availability kümesi aşağıdaki paketleri ve özellikleri desteklemez:
+		<ul><li>DVBLink Sunucusu</li>
+		<li>CMS'de high-availability kümesini yeniden başlatma/kapatma özelliği</li>
+		<li>Time Backup</li>
+		</ul>
+	</li>
+	<li>Paylaşımlı depolamaya sahip high-availability kümesi replikasyon tabanlı bir high-availability kümesi olarak yapılandırılamaz veya replikasyon tabanlı bir high-availability kümesi ile birlikte kullanılamaz.</li>
+    </ul>
+
+<h3>Spesifik Genişletme Üniteleri</h3>
+  <p>Hem aktif hem de pasif sunucular spedifik genişletme ünitelerine bağlanmalıdır. Her genişletme ünitesinde iki modül vardır.</p>
+  <h4>Genişletme ünitelerini kurmak/eklemek için:</h4>
+  <ul>
+    <li>Bir modül iki bağlantı noktası içerir; giriş bağlantı noktası sol tarafta ve çıkış bağlantı noktası sağ taraftadır.  Bir modülün çıkış bağlantı noktasından bir SAS kablosunu bir sonraki genişletme ünitesi modülünün giriş bağlantı noktasına bağlayın.</li>
+	<li>Genişletme üniteleri her sunucu için karşılık gelen taraflardaki modüllerle seri olarak bağlanmalıdır.</li>
+    <li>Hem aktif hem de pasif sunucular paylaşımlı genişletme ünitelerine aynı sırayla bağlanmalıdır.</li>
+  </ul>
+
+
+<div class="section">
+<h4>Notlar:</h4>
+<p>Genişletme ünitesi kurulumu hakkında ayrıntılı bilgiler için, lütfen sunucularınıza ve genişletme ünitelerinize ait Hızlı Kurulum Kılavuzuna bakmayı unutmayın.</p>
+</div>
+
+   
+ </body>
+</html>

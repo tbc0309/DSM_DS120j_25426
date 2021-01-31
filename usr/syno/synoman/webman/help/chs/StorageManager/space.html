@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>存储空间</h2>
+<p>存储空间是用户创建共享文件夹、iSCSI LUN（常规文件）、保存数据或安装套件的基本存储空间单位。创建任何存储空间之前，请先确认您已创建 RAID Group。要了解更多有关 RAID Group 的信息，请参见 <a href="raid.html">RAID Group</a>。</p>
+
+<h4>若要创建存储空间：</h4>
+<ol>
+	<li>确认您的 Synology NAS 有可分配空间的现有 RAID Group。</li>
+	<li>单击<strong>创建</strong>按钮。</li>
+	<li>选择要对其创建存储空间的 RAID Group。</li>
+	<li>修改所需设置。</li>
+	<li>设置存储空间的容量分配。（用于单个存储空间或 iSCSI LUN 的 RAID Group 上创建的存储空间无法设置容量分配。）</li>
+    <li>单击<strong>应用</strong>按钮以确认设置。</li>
+
+
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>可分配最大存储空间大小为 200 TB。</li>
+	<li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">分配给 Btrfs 存储空间的大小下限必须至少为 10 GB。</li>
+    <li class="enable-bromolow enable-grantley enable-avoton enable-braswell enable-broadwell enable-kvmx64 enable-cedarview enable-apollolake enable-denverton">Btrfs 存储空间将为元数据保留 4% 的空间。</li>
+</ul>
+</div>
+
+<h4>若要删除存储空间：</h4>
+<ol>
+	<li>选择要删除的存储空间。</li>
+	<li>单击<strong>删除</strong>按钮并按照向导完成此过程。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>删除存储空间将擦除存储空间上的所有现有数据。</li>
+</ul>
+</div>
+
+<h4>若要强制装载存储空间：</h4>
+<p>如果存储空间上的缓存丢失，则系统在启动时将不会装载该存储空间。如果缓存无法恢复，而您又想要访问该存储空间，您可单击<strong>强制装载</strong>。</p>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>仅特定型号支持此功能。</li>
+</ul>
+</div>
+
+<h4>若要修复存储空间：</h4>
+<p>当存储空间状态为<strong>降级</strong>时，请进入 <strong>RAID Group</strong> 选项卡，然后找到相应的 RAID Group。并按建议的指示进行修复。</p>
+
+<h4>若要扩充存储空间的容量</h4>
+<ul>
+	<li>对于在多个存储空间或 iSCSI LUN（块级）的 RAID Group 上创建的存储空间。<ol>
+			<li>选择要扩充的存储空间。</li>
+			<li>单击<strong>编辑</strong>。</li>
+			<li>输入新的容量并单击<strong>确定</strong>来扩充。</li>
+		</ol>
+	</li>
+	<li>对于在单个存储空间或 iSCSI LUN（块级）的 RAID Group 上创建的存储空间，存储空间容量将在扩充相关 RAID Group 后进行扩充。请参见 <a href="raid.html">RAID Group</a> 的<strong>扩充 RAID Group 的容量</strong>章节查看相关信息。</li>
+</ul>
+
+<div class="section">
+<h4>注：</h4>
+<p>如果存储空间用作 <strong>Snapshot Replication</strong> 的复制目标，在创建存储空间后，即可在<strong>编辑</strong>窗口中调整<strong>记录文件访问时间频率</strong>的设置，以提高复制性能：</p>
+<ul>
+	<li><strong>每天</strong>：如同大多数的操作系统，文件访问时间除了文件被修改时之外，最多每天仅更新一次。部分应用程序的功能对文件访问时间的精确度依赖较高。选择<strong>每天</strong>会影响复制性能，但如果您经常使用下列任意功能或应用程序，仍建议选择该选项：<ul>
+			<li><strong>存储分析器</strong>中的<strong>最久未访问时间</strong></li>
+			<li><strong>存储管理器</strong>中的 <strong>SSD 缓存建议</strong></li>
+			<li>依赖于<strong>记录文件访问时间</strong>的任何第三方应用程序。</li>
+		</ul>
+	<li><strong>每月</strong>：文件访问时间除了文件被修改时之外，最多每月仅更新一次。选择此选项可稍微改进复制性能，且依赖于<strong>记录文件访问时间</strong>的应用程序仍能运作，但精确度会下降。</li>
+	<li><strong>从不</strong>：若平常不需要使用依赖于<strong>记录文件访问时间</strong>的应用程序，建议您选择此选项以获得最佳复制性能。</li>
+</ul>
+</div>
+
+<h3>SSD TRIM</h3>
+<p>如果存储空间全部由 SSD（固态硬盘）构成，建议您启用 SSD TRIM。此功能可提升 SSD 上所创建存储空间的读写性能、提高效率以及延长 SSD 的使用寿命。</p>
+
+<h4>若要启用 SSD TRIM：</h4>
+<ol>
+	<li>打开<strong>存储器管理器</strong>并进入<strong>存储空间</strong>。</li>
+	<li>选择一个完全由 SSD 组成的存储空间，然后单击按钮<strong>配置</strong>。</li>
+	<li>在显示的窗口中，进入 <strong>SSD TRIM</strong> 选项卡，并勾选<strong>启用 TRIM</strong> 复选框。</li>
+	<li>单击<strong>设置计划</strong>按钮来选择系统执行 SSD TRIM 的时间。</li>
+	<li>单击<strong>确定</strong>。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>SSD TRIM 仅适用于特定的 Synology NAS 型号和 RAID 类型。</li>
+	<li>某些 SSD 型号无法在 RAID 5<span class="enable-grantley">、</span><span class="disable-grantley"></span>RAID 6<span class="enable-grantley"> 和 RAID F1</span> 的存储空间上执行 SSD TRIM。请参阅 Synology <a href="https://www.synology.com/" target="_blank">官方网站</a>上的兼容列表。</li>
+	<li>在下列情况无法启用 SSD TRIM：<ul>
+			<li>存储空间装载了 SSD 缓存。</li>
+			<li>已安装 <strong>Time Backup</strong> 套件。</li>
+		</ul>
+	</li>
+	<li>SSD TRIM 无法在块级 iSCSI LUN 中启用。</li>
+	<li>执行 SSD TRIM 功能时，系统性能会受影响。完成执行 TRIM 所需的时间取决于存储空间大小和 SSD 型号。</li>
+	<li>当硬盘组或 RAID Group 的其中一个存储空间启用 TRIM 时，创建在同一硬盘组或 RAID Group 中的其他存储空间也会启用此功能。</li>
+</ul>
+</div>
+
+
+<h3>文件系统清理*</h3>
+<p>文件系统清理是检查存储空间的数据维护功能。如果有任何数据与总和检查码不一致，文件路径将被记录在日志中心中，建议您使用备份来修复此数据。</p>
+
+<p>我们建议定期执行文件系统清理，以确保数据一致。</p>
+
+<h4>若要执行文件系统清理：</h4>
+<ol>
+	<li>打开<strong>存储器管理器</strong>并进入<strong>存储空间</strong>。</li>
+	<li>选择要执行文件系统清理的存储空间。</li>
+	<li>单击<strong>管理</strong>。</li>
+	<li>选择<strong>文件系统清理</strong>。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>只有在 <strong>Btrfs</strong> 文件系统的存储空间上才能执行文件系统清理。</li>
+	<li>只有在存储空间的状态为<strong>正常</strong>时才能执行文件系统清理。</li>
+	<li>请不要在文件系统清理完成之前关闭系统。如果在完成之前系统关机，需手动重启文件系统清理。</li>
+</ul>
+</div>
+
+<h3>文件系统碎片整理*</h3>
+<p>如果数据经常修改，则文件系统中的碎片文件量会增加，从而导致硬盘上文件的访问性能下降。执行文件系统碎片整理可提高性能。</p>
+
+<h4>若要执行文件系统碎片整理：</h4>
+<ol>
+	<li>打开<strong>存储器管理器</strong>并进入<strong>存储空间</strong>。</li>
+	<li>选择要执行文件系统碎片整理的存储空间。</li>
+	<li>单击<strong>管理</strong>。</li>
+	<li>选择<strong>文件系统碎片整理</strong>。</li>
+</ol>
+
+<div class="section"><h4>注：</h4>
+<ul>
+	<li>只有在 <strong>Btrfs</strong> 文件系统的存储空间上才能执行文件系统碎片整理。</li>
+	<li>只有在存储空间的状态为<strong>正常</strong>时才能执行文件系统碎片整理。</li>
+	<li>请不要在文件系统数据清理完成之前关闭系统。如果在完成之前系统关机，需手动重启文件系统碎片整理。</li>
+	<li>如果存储空间内含有共享文件的快照，则存储空间使用率可能增加。</li>
+</ul>
+</div>
+
+<p>____<br />*仅适用于特定型号。</p>
+
+</body>
+</html>

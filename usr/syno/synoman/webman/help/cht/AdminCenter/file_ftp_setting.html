@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>FTP/FTPS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>FTP/FTPS</h2>
+
+<p>您可於<strong>控制台</strong> &gt; <strong>檔案服務</strong> &gt; <strong>FTP</strong> 啟動 FTP 服務來允許用戶端存取系統上的資料夾與檔案。啟動 FTP 之前，請先確認您路由器以下的 TCP 連接埠已轉送至 Synology NAS 裝置：21 (預設的控制連線)、20 (主動模式的資料連線)、55536-55567 (被動模式的資料連線)。</p>
+
+<h4>若要啟動 FTP 服務：</h4>
+<ol>
+<li>執行下列其中一項操作：<ul>
+		<li><b>啟動 FTP 服務 (未加密)：</b>是一種用於傳輸檔案的標準網路通訊協定。FTP 在傳輸過程中，並未提供任何加密功能來保護傳輸資訊，如密碼、使用者名稱或檔案。不過，傳輸速度較快速且系統資源的需求較少。</li>
+		<li><b>啟動 FTP SSL/TLS 加密服務 (FTPS)：</b>是標準 FTP 的延續，另外支援了 TLS (Transport Layer Security，「傳輸層安全性」) 及 SSL (Secure Sockets Layer，「安全通訊端層」) 加密通訊協定，以保護傳輸過程中的資訊，如密碼、使用者名稱或檔案。不過，傳輸速度較緩慢，且加密功能會導致系統消耗較多的資源。</li>
+	</ul>
+</li>
+<li>按一下<b>套用</b>。</li>
+</ol>
+
+
+<h3>逾時時間</h3>
+<p>FTP 伺服器會根據此處指定的時間，中斷閒置使用者的連線。</p>
+
+
+<h3>FTP 服務之連接埠編號設定</h3>
+<p>此區塊可讓您指定 FTP 控制通道使用的連接埠。</p>
+<div class="section">
+<h4>注意：</h4>
+<p>FTP 控制通道的預設連接埠編號為 21。埠編號可為 1 到 65535 的任何數字，但不可為下列編號：20, 22, 23, 25, 80, 110, 137, 138, 139, 143, 199, 443, 445, 515, 543, 548, 587, 873, 993, 995, 3306, 3689, 5000, 5001, 5005, 5006, 5335, 5432, 6881, 8080, 7000, 7001, 8081, 9997, 9998, 9999, 50001, 50002，以及預設的 eMule 埠：4662 (TCP), 4672 (UDP)。</p>
+</div>
+
+
+<h3>被動式 FTP 連接埠範圍</h3>
+<p>此區塊可讓您指定被動式 FTP 連線使用的連接埠範圍。您可以使用預設的連接埠範圍，或是自訂範圍。連接埠範圍為 1025 到 65535，且至多可包含 128 個埠。</li>
+</p>
+
+
+<h3>被動式連線自動回報外部 IP</h3>
+<p>本功能選項啟動後，伺服器將會回報外部 IP 位址給 FTP 用戶端。經回報的 IP 位址會記錄在 FTP 用戶端的連線日誌下。功能一旦啟動，您便可選擇要自動偵測或自行輸入 Synology NAS 的外部 IP 位址。</p>
+<p>此選項只有在 Synology NAS 架設於 NAT 下，且 FTP 用戶端和 Synology NAS 位於不同的子網域內時才會有作用。正常狀況下，您不需要啟動此功能選項，但若 FTP 用戶端無法連線到 Synology NAS ，您可以嘗試啟動此選項並再試一次。</p>
+<h3>啟動 FXP</h3>
+<p>FXP 意指檔案交換協定 (File eXchange Protocol)。本功能選項啟動後，FTP 服務將支援伺服器對傳功能。</p>
+
+<h3>啟動 FIPS 加密模組</h3>
+<p>FTPS 服務使用 OpenSSL FIPS 140-2 加密模組 (憑證 #1747) 來支援 FIPS。啟動此選項後，FTPS 服務會使用安全性較高的的加密演算法來提升連線的安全性。</p>
+
+
+<h3>支援 ASCII 傳輸模式</h3>
+<p>啟動此選項可支援 ASCII 傳輸模式，讓 Synology NAS 能透過 FTP 正確地傳輸 ASCII 格式的純文字檔案。</p>
+
+
+<h3>UTF-8 編碼</h3>
+<p>若要讓 FTP 用戶端軟體可以正確顯示及處理多國語檔名的檔案，需要設定適合的 UTF-8 編碼選項。為了配合不同的 FTP 用戶端軟體的需求，有以下三種選項可供選擇。<ul>
+<li><strong>關閉</strong>：不使用 UTF-8 編碼。當用戶都是使用 Windows 檔案總管做為 FTP 用戶端軟體來上下傳多國語檔名的檔案時，才需要使用此選項。一般情況下不建議使用此選項。</li>
+<li><strong>自動</strong>：自動決定是否使用 UTF-8。在大部分情況下建議使用此選項。</li>
+<li><strong>強制</strong>：強制使用 UTF-8 編碼。當 FTP 用戶端軟體設定了使用 UTF-8 編碼，但還是無法正確顯示及處理多國語檔名的檔案時，才需要開啟此選項。</li>
+</ul>
+
+<h3>連線限制</h3>
+<p>本區塊包含下列選項：</p>
+
+<ul>
+<li><strong>限制每個 IP 來源的最大連線數目：</strong>啟動此功能後，伺服器將限制每個 IP 來源的最大連線數目。若需要管理頻寬流量，請啟動此功能與 <b>FTP 傳輸速度限制</b>。</li>
+<li><strong>啟動 FTP 傳輸速度限制：</strong>啟動此功能來限制單一 FTP 連線的最大頻寬。</li>
+</ul>
+
+<div class="section">
+
+<h4>注意：</h4>
+<ul>
+<li>「guest」帳號無法透過 FTP 登入伺服器。</li>
+<li>使用者電腦上的語言編碼 (codepage) 設定，必須與 Synology NAS 一致，才可以正確地存取資料。</li>
+<li>在某些特定機型上，FTP 服務支援使用 SSL 或 TLS 連線。</li>
+<li>您的 FTP 用戶端及兩個 FTP 伺服器端的防火牆須正確設定，否則可能導致 FXP 功能無法正常運作。</li>
+<li>某些 FTP 用戶登入時須在網址輸入使用者名稱及密碼，像是使用 Internet Explorer 8/9 的使用者。例如：<i>ftp://使用者名稱:密碼@your.ftp.com</i>。</li>
+</ul>
+</div>
+
+
+
+
+</body>
+</html>

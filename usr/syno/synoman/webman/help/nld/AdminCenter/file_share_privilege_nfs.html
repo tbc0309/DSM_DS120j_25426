@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Gedeelde map</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>NFS-machtigingen toewijzen</h2>
+<p>U kunt NFS-machtigingen toekennen aan iedere gedeelde map en Linux-clients er toegang toe geven.</p>
+<h4>
+Om NFS-machtigingen voor een gedeelde map toe te wijzen:
+</h4>
+<ol>
+<li>Selecteer de gedeelde map die u wilt bewerken in de lijst met gedeelde mappen.</li>
+<li>Klik op <strong>Bewerken</strong> > <strong>NFS-machtigingen</strong>.</li>
+<li>Klik op <b>Maken</b> om een NFS-regel toe te voegen.</li>
+<li>Er verschijnt een pop-upvenster. Stel de onderstaande opties in.</li>
+<li><strong>Hostnaam of IP:</strong> voer het IP-adres van de NFS-client in om toegang te verlenen tot de gedeelde map. U kunt op drie manieren een host opgeven:
+<ul>
+<li><strong>Enkele host:</strong> de volledig gekwalificeerde domeinnaam of een IP-adres.</li>
+<li><strong>Jokertekens:</strong> *,* .synology.com</li>
+<li><strong>IP-netwerken:</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>Recht:</strong> selecteer de lees-/schrijfmachtigingen voor de NFS-client.</li>
+<li> <strong> Bescherming:</strong> geef de te implementeren beveiliging op.
+  <ul>
+  <li><strong>AUTH_SYS:</strong> gebruik de NFS-client-UID (gebruikers-id) en GID (groeps-id) om de toegangsrechten te controleren.</li>
+<li><strong>Kerberos-verificatie:</strong> voer de Kerberos-verificatie uit wanneer de NFS-client een verbinding maakt met de gedeelde map. De client heeft maar na de Kerberos-verificatie toegang tot de gedeelde map.</li>
+<li><strong>Kerberos-integriteit:</strong> voer de Kerberos-verificatie uit om de integriteit van pakketten tijdens gegevensoverdracht te waarborgen.</li>
+<li><strong>Kerberos-privacy:</strong> voer de Kerberos-verificatie uit en codeer de NFS-pakketten tijdens gegevensoverdracht zodat kwaadwilligen niet bij het NFS-verkeer kunnen.</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>: met dit veld kunt u de gebruikersrechten voor toegang van de NFS-client regelen. Selecteer een van de volgende opties:
+  <ul>
+    <li><strong>Geen toewijzing:</strong> zorgt dat alle gebruikers van de NFS-client, inclusief rootgebruikers, de oorspronkelijke toegangsrechten behouden.</li>
+    <li><strong>Root toewijzen aan admin:</strong> wijst toegangsrechten toe aan rootgebruikers van de NFS-client die dezelfde toegangsrechten op uw systeem hebben als admins.</li>
+    <li><strong>Root toewijzen aan gast:</strong> wijst toegangsrechten toe aan rootgebruikers van de NFS-client die dezelfde toegangsrechten op uw systeem hebben als guests.</li>
+    <li><strong>Alle gebruikers toewijzen aan admin:</strong> wijst toegangsrechten toe aan alle gebruikers van de NFS-client die dezelfde toegangsrechten op uw systeem hebben als admins.</li>
+	<li><strong>Alle gebruikers toewijzen aan guest:</strong> wijst toegangsrechten toe aan alle gebruikers van de NFS-client die dezelfde toegangsrechten op uw systeem hebben als guests.</li>
+  </ul>
+</li>
+
+<li><strong>Asynchroon inschakelen:</strong> door deze optie in te schakelen kan uw Synology NAS op aanvragen van NFS-clients antwoorden voor wijzigingen aan bestanden zijn voltooid, wat voor betere prestaties zorgt.</li>
+<li><strong>Verbindingen van niet-gemachtigde poorten toestaan (poorten hoger dan 1024):</strong> door deze optie in te schakelen kunnen NFS-clients niet-gemachtigde poorten (bv. poorten hoger dan 1024) gebruiken voor de verbinding met Synology NAS. </li>
+<li><strong>Gebruikers toegang geven tot gekoppelde submappen:</strong> door deze optie in te schakelen hebben NFS-clients toegang tot gekoppelde submappen.</li>
+<li>Klik op <b>OK</b> om te voltooien.</li>
+  <li>Klik op <b>OK</b> om de NFS-machtigingen toe te passen.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>is de bestandsindeling van de servernaam <strong>*.domein</strong>, dan moet het IP-adres van de NFS-client het desbetreffende DNS PTR-record hebben zodat Synology NAS de naam *.domein kan vinden bij het zoeken naar het desbetreffende ip-adres.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Beveiligingsniveaus:</h4>
+<p> bij toegang tot een gedeelde map via NFS met een specifieke gebruikersaccount: </p>
+<ul>
+<li>Als <strong>AUTH_SYS</strong>-beveiligingsniveau is geïmplementeerd: de client moet exact dezelfde numerieke UID (gebruikers-id) en GID (groeps-id) hebben op de NFS-client en Synology NAS. Zo niet krijgt de client bij toegang tot de gedeelde map de rechten <strong>Anderen</strong> toegewezen. Om conflicten van machtigingen te voorkomen, selecteer <strong>Toewijzing alle gebruikers aan admin</strong> in <strong>Squash</strong> of geef "Iedereen&quot; machtigingen tot de gedeelde map.</li>
+<li>Als <strong>Kerberos (krb5, krb5i, krb5p)</strong>-beveiligingsniveau is geïmplementeerd: u moet naar <strong>Win/Mac/NFS</strong> > <strong>NFS-service</strong> > <strong>Kerberos-instellingen</strong> > <strong>ID-toewijzing</strong> gaan om de NFS-client aan een bepaalde gebruiker toe te wijzen of aan een Windows /LDAP-domein toe te voegen. Zo niet krijgt de client bij toegang tot de gedeelde map <strong>guest</strong> rechten toegewezen.</li>
+<li>Heeft het externe apparaat waarop de gedeelde mappen staan een NTFS- of FAT-bestandssysteem, dan wordt de optie <strong>Toewijzing alle gebruikers aan admin</strong> toegepast.</li>
+</ul>
+<p>Om Kerberos-beveiligingsniveaus te gebruiken voor de verbinding met Synology NAS moet de Kerberos-verificatie worden geconfigureerd onder <strong>Win/Mac/NFS</strong> > <strong>NFS-service</strong> > <strong>Kerberos-instellingen</strong>.</p>
+</div>
+
+</body>
+</html>

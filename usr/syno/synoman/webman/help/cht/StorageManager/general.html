@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>一般設定</h2>
+
+<p>儲存空間管理員能讓使用者管理 Synology 產品上的所有儲存空間。為了簡化儲存空間管理並建立具有資料保護功能的彈性儲存空間，Synology DSM 支援兩種儲存集區。</p>
+
+<h4><a href="storage_pool.html">儲存集區</a></h4>
+<p>您可以使用 Synology NAS 來將多個硬碟整合為稱為儲存集區的單一儲存空間。Synology NAS 提供以下種類的儲存集區：</p>
+<ul>
+	<li><strong>提供較佳效能的儲存集區</strong>：<ul>
+			<li>需將所有空間配置到單一儲存空間。</li>
+			<li>提供更佳的效能，但儲存空間管理彈性較小。</li>
+			<li>相關儲存空間上可建立多個 iSCSI LUN (一般檔案)。</li>
+			<li>最多支援一個 RAID 陣列。</li>
+		</ul>
+	</li>
+	<li><strong>提供較高彈性的儲存集區</strong>：<ul>
+			<li>支援在同一個儲存集區上建立多個儲存空間。</li>
+			<li>提供較大的儲存空間管理彈性。</li>
+			<li>相關儲存空間上可建立多個 iSCSI LUN (一般檔案)。</li>
+			<li>支援在同一個儲存集區下整合多個 RAID 陣列 (配置為 RAID 5、RAID 6 或 RAID F1 時)。</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>RAID 類別</h4>    
+<p>在建立儲存集區時，您必須選擇 RAID 類型。不同的 RAID 類型可提供不同層級的資料保護、儲存空間功能及效能。以下是 Synology NAS 所支援的 RAID 類型：</p>
+<ul>
+	<li><strong>Basic</strong>：僅使用一顆硬碟建立一個不具資料保護機制的儲存集區。Basic 儲存集區不具資料保護機制。</li>
+	<li><strong>JBOD*</strong>：將兩顆以上的硬碟空間合併，整合成為單一的儲存集區。JBOD 儲存集區不具資料保護機制。JBOD 儲存集區可使用容量為所有組成硬碟容量總和。JBOD 支援使用不同容量的硬碟。</li>
+	<li><strong>RAID 0*</strong>：將兩顆以上的硬碟空間合併，整合成為單一的儲存集區。RAID 0 不具任何資料保護的機制。當有硬碟損毀時，儲存集區中的資料將無法回復。RAID 0 可使用容量為所有組成硬碟容量總和。RAID 0 支援使用不同容量的硬碟。</li>
+	<li><strong>RAID 1*</strong>：將二至四顆的硬碟空間合併，整合成為單一的儲存集區。系統會同時在每顆硬碟上寫入相同的資料。所以只要一顆以上的硬碟處於正常狀態，資料完整性就會受到保護。RAID 1 儲存集區可用的容量為最小硬碟的容量。</li>
+	<li><strong>RAID 5*</strong>：將三顆以上的硬碟整合為單一的儲存集區，並在每一顆硬碟上存放資料以及同位元資訊。RAID 5 提供資料防護機制。若其中一顆硬碟損毀，就可以利用其他硬碟上存放的同位元資訊來重建系統，資料仍可安全保存。建立在用於多個儲存空間的儲存集區上時，可支援整合多個 RAID 陣列。可使用容量 = <span class="note_content">所有 RAID 陣列的總容量。 RAID 陣列容量 = (硬碟數量 &ndash; 1) x (最小硬碟容量)</span></li>
+	<li><strong>RAID 6*</strong>：將四顆以上的硬碟整合為單一的儲存集區，並在每一顆硬碟上存放資料以及同位元資訊。RAID 6 提供資料防護機制。若其中一或二顆硬碟損毀，就可以利用其他硬碟上存放的同位元資訊來重建系統，資料仍可安全保存。建立在用於多個儲存空間的儲存集區上時，可支援整合多個 RAID 陣列。可使用容量 = <span class="note_content">所有 RAID 陣列的總容量。RAID 陣列容量 = (硬碟數量 &ndash; 2) x (最小硬碟容量)</span></li>
+	<li><strong>RAID 10*</strong>：組合四顆以上的硬碟來建立儲存集區。硬碟數量必須為雙數。RAID 10 兼具 RAID 0 的執行效能和 RAID 1 的資料保護等級。可使用容量 = <span class="note_content">(最小硬碟容量) X (總硬碟數 / 2)</span></li>
+	<li><strong>RAID F1*</strong>：此 RAID 類型專為固態硬碟 (SSD) 所設計。將三顆以上的 SSD 整合為單一的儲存集區，並在每一顆 SSD 上存放資料以及同位元資訊，但會在其中一顆指定的 SSD 上寫入更多同位元資訊來預防所有 SSD 同時故障。RAID F1 提供資料防護機制。若其中一顆 SSD 損毀，就可以利用其他 SSD 上存放的同位元資訊來重建系統，資料仍可安全保存。建立在用於多個儲存空間的儲存集區上時，可支援整合多個 RAID 陣列。可使用容量 = <span class="note_content">所有 RAID 陣列的總容量。 RAID 陣列容量 = (硬碟數量 &ndash; 1) x (最小硬碟容量)</span></li>
+</ul>
+
+<div class="section"><h4>注意：</h4>
+<ul>
+	<li>僅具有足夠硬碟數的 NAS 型號支援標有 <strong>*</strong> 的 RAID 類型。若要瞭解您的機種支援那些 RAID 類型，請前往 <a href="https://www.synology.com" target="_blank">www.synology.com</a> 來查看機種的規格表。</li>
+</ul>
+</div>
+
+</body>
+</html>

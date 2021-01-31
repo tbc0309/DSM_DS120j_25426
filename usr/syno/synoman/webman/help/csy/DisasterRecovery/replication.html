@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Replikace</h2>
+
+<p>Tato stránka správcům systému umožňuje správu replikací. Úlohy replikace je možné vytvářet, upravovat a odstraňovat. Je také možné spustit či zastavit synchronizaci a prohlížet si informace o úlohách replikace.</p>
+
+<h3>Sdílená složka</h3>
+
+<h4>Vytvoření úlohy replikace pro sdílenou složku:</h4>
+<ol>
+	<li>Přejděte na kartu <strong>Sdílená složka</strong>.</li>
+	<li>Klikněte na možnost <strong>Vytvořit</strong>.</li>
+	<li>Zobrazí se průvodce <strong>Vytvoření úlohy replikace</strong>. Podle pokynů průvodce vytvoříte replikaci sdílené složky.</li>
+</ol>
+
+<div class="section"><h4>Poznámka:</h4>
+<ul>
+	<li>Sdílenou složku „homes“ nelze replikovat.</li>
+	<li>Zašifrovanou sdílenou složku nelze replikovat.</li>
+	<li>Sdílená složka se musí nacházet na svazku Btrfs.</li>
+	<li>Pro sdílenou složku je možné vytvořit <a href="#multiple_replication">replikace jeden k mnoha / rozšířené replikace</a> na různé cílové servery. Pro každou sdílenou složku je ale možné vytvořit pouze jednu replikaci na jeden cílový server.</li>
+</ul>
+</div>
+
+<h4>Odstranění replikace sdílené složky:</h4>
+<ol>
+	<li>Vyberte replikaci sdílené složky, kterou chcete odstranit.</li>
+	<li>Klikněte na možnost <strong>Odstranit</strong>.</li>
+	<li>Zobrazí se potvrzující zpráva. Odstranění potvrďte kliknutím na možnost <strong>Odstranit</strong>.</li>
+</ol>
+
+<h4>Úprava replikace sdílené složky:</h4>
+<ol>
+	<li>Vyberte replikaci sdílené složky, kterou chcete upravit.</li>
+	<li>Klikněte na možnost <strong>Upravit</strong>.</li>
+	<li>Zobrazí se okno obsahující následující karty:<ul>
+			<li>Partnerský server</li>
+			<li>Plán</li>
+			<li>Uchování</li>
+		</ul>
+	</li>
+	<li>Na kartě <strong>Partnerský server</strong> je možné upravovat informace o partnerském serveru včetně názvu hostitele, portu, uživatelského jména a hesla.</li>
+	<li>V tabulce <strong>Plán</strong> zaškrtněte políčko <strong>Povolit plán snímků</strong> a nastavte čas a frekvenci pořizování snímků. Zrušením zaškrtnutí políčka zrušíte snímky naplánované pro sdílenou složku.</li>
+	<li>Na kartě <strong>Uchování </strong> vyberte kteroukoliv z těchto možností:<ul>
+			<li><strong>Zachovat posledních 256 snímků:</strong> Po dosažení maximálního počtu snímků (256) se nejstarší snímky přepíšou nově pořízenými.</li>
+			<li><strong>Vždy uchovávat snímky:</strong> Po dosažení maximálního počtu snímků přestane aplikace Snímek a replikace pořizovat nové snímky, aniž by odstranil již dříve pořízené snímky.</li>
+			<li><strong>Uchovávat snímky podle následujících pravidel:</strong> Pro určené časové intervaly můžete nastavit pravidla pro uchovávání.</li>
+		</ul>
+	</li>
+	<li>Nastavení aktivujete kliknutím na tlačítko <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>Poznámka:</h4>
+<ul>
+	<li>Upravovat je možné pouze plán úlohy replikace na zdrojovém serveru.</li>
+	<li>Změna nastavení uchovávání ovlivní příslušná nastavení na stránce <strong>Snímek</strong>.</li>
+</ul>
+</div>
+
+<h4>Zobrazení informací o replikaci sdílené složky:</h4>
+<ol>
+	<li>Vyberte replikaci sdílené složky, kterou chcete zobrazit.</li>
+	<li>Klikněte na možnost <strong>Informace</strong>.</li>
+	<li>Zobrazí se okno obsahující následující informace:<ul>
+			<li><strong>Stav</strong> této replikace.</li>
+			<li><strong>Statistika</strong> této replikace.</li>
+		</ul>
+	</li>
+</ol>
+
+<h4>Spuštění synchronizace replikace sdílené složky:</h4>
+<ol>
+	<li>Vyberte replikaci sdílené složky, kterou chcete synchronizovat.</li>
+	<li>Klikněte na možnost <strong>Spustit</strong>.</li>
+	<li>Zadejte popis pořizovaného snímku.</li>
+	<li>Akci potvrďte kliknutím na možnost <strong>OK</strong>.</li>
+</ol>
+
+<h4>Zastavení synchronizace replikace sdílené složky:</h4>
+<ol>
+	<li>Vyberte synchronizaci replikace sdílené složky, kterou chcete zastavit.</li>
+	<li>Klikněte na možnost <strong>Zastavit</strong>.</li>
+	<li>Zobrazí se potvrzující zpráva. Akci potvrďte kliknutím na možnost <strong>Zastavit</strong>.</li>
+</ol>
+
+<h3>iSCSI LUN</h3>
+
+<h4>Vytvoření úlohy replikace pro jednotku iSCSI LUN:</h4>
+<ol>
+	<li>Přejděte na kartu <strong>iSCSI LUN</strong>.</li>
+	<li>Klikněte na možnost <strong>Vytvořit</strong>.</li>
+	<li>Zobrazí se průvodce <strong>Vytvoření úlohy replikace</strong>. Podle pokynů průvodce vytvoříte replikaci jednotky iSCSI LUN.</li>
+</ol>
+
+<div class="section"><h4>Poznámka:</h4>
+<ul>
+	<li>Jednotka iSCSI LUN musí být vytvořena jako <strong>rozšířená jednotka LUN</strong>.</li>
+	<li>Pro jednotku iSCSI LUN je možné vytvořit <a href="#multiple_replication">replikace jeden k mnoha / rozšířené replikace</a> na různé cílové servery. Pro každou jednotku iSCSI LUN je ale možné vytvořit pouze jednu replikaci na jeden cílový server.</li>
+</ul>
+</div>
+
+<h4>Odstranění replikace jednotky iSCSI LUN:</h4>
+<ol>
+	<li>Vyberte replikaci jednotky iSCSI LUN, kterou chcete odstranit.</li>
+	<li>Klikněte na možnost <strong>Odstranit</strong>.</li>
+	<li>Zobrazí se potvrzující zpráva. Akci potvrďte kliknutím na možnost <strong>Odstranit</strong>.</li>
+</ol>
+
+<h4>Úprava replikace jednotky iSCSI LUN:</h4>
+<ol>
+	<li>Vyberte replikaci jednotky iSCSI LUN, kterou chcete upravit.</li>
+	<li>Klikněte na možnost <strong>Upravit</strong>.</li>
+	<li>Zobrazí se okno obsahující následující karty:<ul>
+			<li>Partnerský server</li>
+			<li>Plán</li>
+			<li>Uchování</li>
+		</ul>
+	</li>
+	<li>Na kartě <strong>Partnerský server</strong> je možné upravovat informace o partnerském serveru včetně názvu hostitele, portu, uživatelského jména a hesla.</li>
+	<li>V tabulce <strong>Plán</strong> zaškrtněte políčko <strong>Povolit plán snímků</strong> a nastavte čas a frekvenci pořizování snímků. Zrušením zaškrtnutí políčka zrušíte snímky naplánované pro jednotku iSCSI LUN.</li>
+	<li>Na kartě <strong>Uchování </strong> vyberte kteroukoliv z těchto možností:<ul>
+			<li><strong>Zachovat posledních 256 snímků:</strong> Po dosažení maximálního počtu snímků (256) se nejstarší snímky přepíšou nově pořízenými.</li>
+			<li><strong>Vždy uchovávat snímky:</strong> Po dosažení maximálního počtu snímků přestane aplikace Snímek a replikace pořizovat nové snímky, aniž by odstranil již dříve pořízené snímky.</li>
+			<li><strong>Uchovávat snímky podle následujících pravidel:</strong> Pro určené časové intervaly můžete nastavit pravidla pro uchovávání.</li>
+		</ul>
+	</li>
+	<li>Na kartě <strong>Aplikace</strong> zaškrtnutím možnosti <strong>Povolit</strong> povolíte snímky konzistentní s aplikací. Snímky konzistentní s aplikací zrušíte zrušením zaškrtnutí tohoto políčka.</li>
+	<li>Nastavení aktivujete kliknutím na tlačítko <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>Poznámka:</h4>
+<ul>
+	<li>Plán je možné upravovat pouze na zdroji replikace.</li>
+	<li>Změna nastavení uchovávání či aplikace ovlivní příslušná nastavení na stránce <strong>Snímek</strong>.</li>
+</ul>
+</div>
+
+<h4>Zobrazení informací o replikaci jednotky iSCSI LUN:</h4>
+<ol>
+	<li>Vyberte replikaci jednotky iSCSI LUN, kterou chcete zobrazit.</li>
+	<li>Klikněte na možnost <strong>Informace</strong>.</li>
+	<li>Zobrazí se okno obsahující následující informace:<ul>
+			<li><strong>Stav</strong> této replikace.</li>
+			<li><strong>Statistika</strong> této replikace.</li>
+		</ul>
+	</li>
+</ol>
+
+<h4>Spuštění synchronizace replikace jednotky iSCSI LUN:</h4>
+<ol>
+  <li>Vyberte replikaci jednotky iSCSI LUN, kterou chcete synchronizovat.</li>
+	<li>Klikněte na možnost <strong>Spustit</strong>.</li>
+	<li>Zadejte popis pořizovaného snímku.</li>
+	<li>Akci potvrďte kliknutím na možnost <strong>OK</strong>.</li>
+</ol>
+
+<h4>Zastavení synchronizace replikace jednotky iSCSI LUN:</h4>
+<ol>
+	<li>Vyberte synchronizaci replikace jednotky iSCSI LUN, kterou chcete zastavit.</li>
+	<li>Klikněte na možnost <strong>Zastavit</strong>.</li>
+	<li>Zobrazí se potvrzující zpráva. Akci potvrďte kliknutím na možnost <strong>Zastavit</strong>.</li>
+</ol>
+
+<h3><a name="multiple_replication"></a>Replikace jeden k mnoha / rozšířená replikace</h3>
+
+<p>Pro sdílenou složku či jednotku iSCSI LUN je možné vytvořit více replikací na více cílových serverů, čímž se vytvoří schéma <strong>jeden k mnoha</strong>. Pro sdílenou složku či jednotku iSCSI LUN je také možné vytvořit rozšířenou replikaci, čímž se vytvoří <strong>rozšířené</strong> schéma.</p>
+
+<div class="section"><h4>Poznámka:</h4>
+<ul>
+	<li>Bez ohledu na to, jestli jde o schéma jeden k mnoha nebo rozšířené schéma, všechny úlohy replikace mohou mít nanejvýš tři cílové servery.</li>
+</ul>
+</div>
+
+<div class="section"><h4><a name="smart_retention"></a>Zásady uchovávání informací</h4>
+<p>Tato volba představuje ideální řešení, jak vám pomoci při určování maximálního počtu verzí snímků a co nejvíce šetřit prostor svazku, ale může se stát, že budete potřebovat uchovávat snímky po delší časové období.</p>
+<p>Zařízení Synology pro uchovávání využívá pravidla GFS (neboli Grandfather-Father-Son). Můžete nastavit maximální množství uchovávaných verzí snímků po tyto časové intervaly: <strong>po hodině</strong>, <strong>denně</strong>, <strong>týdně</strong>, <strong>měsíčně</strong> a <strong>ročně</strong>.</p>
+<p>Program Data Protection Manager uschová pro každý časový rozsah nastavený maximální počet snímků. Pokud se v časovém intervalu nachází více než jeden snímek, bude zachován pouze nejstarší. Pokud například nastavíte pravidlo 10 <strong>týdenních snímků</strong>, aplikace Data Protection Manager uchová nejstarší snímek (pokud byl během týdne pořízen více než jeden snímek) pro každý z posledních 10 týdnů.</p><img class="help_image" src="https://help.synology.com/file/DSM/5.2/online_img/dsm/DisasterRecovery/retention_policy.png"><p>Standardně pak budou uchovávány všechny verze snímků v rozmezí jedné hodiny od pořízení nejnovějšího snímku, což vám usnadní vyhledávání a obnovu z nedávno pořízených verzí snímků. Snímek můžete také zamknout, aby je vaše pravidla pro uchovávání automaticky neodstranila.</p>
+</div>
+
+</body>
+</html>

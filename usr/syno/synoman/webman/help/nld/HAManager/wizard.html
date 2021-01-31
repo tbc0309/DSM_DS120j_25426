@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+ <head>
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>High Availability Manager Wizard - Synology DSM Help</title>
+
+
+ </head>
+ <body>
+<h2>High Availability Manager-wizard</h2>
+<p>Deze wizard leidt u doorheen de procedure voor het maken en instellen van een high-availability cluster.</p>
+<h4>Om deze wizard op te starten:</h4>
+<ol>
+<li>Open <b>High Availability-Beheerder</b>.</li>
+<li>Ga naar de pagina <b>Overzicht</b>.</li>
+<li>Klik op <b>HA cluster creëren</b>.</li>
+</ol>
+   
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>voert de volledige high-availability cluster-installatiewizard uit binnen de opgegeven tijdspanne. Als de tijdlimiet wordt overschreden, moet u de installatieprocedure opnieuw starten.</li>
+<li>Als u moet weten welke server de actieve server van een high-availability cluster is, raden we u aan om de <strong>DS finder</strong>-toepassing van Synology te downloaden en de pieptoonfunctie van deze toepassing te gebruiken. Deze functie zorgt ervoor dat de actieve server een pieptoon laat horen.</li>
+</ul>
+</div>
+
+<h4>Om de passieve server in te stellen:</h4>
+<p>Wijs een Synologyserver toe als passieve server. In normale omstandigheden levert de passieve server geen services. In geval van een storing wordt de verlening van services van de actieve server echter overgedragen aan de passieve server.</p>
+<ol>
+<li><b>IP-adres:</b> voer het IP-adres van de passieve server in.
+
+</li>
+<li><b>Gebruikersnaam:</b> geef een gebruikersaccount op die deel uitmaakt van de <b>administrator</b> groep op de doelserver. </li>
+<li><b>Wachtwoord:</b> voer het wachtwoord in van de account die deel uitmaakt van de <b>administrator</b> groep.</li>
+</ol>
+
+<div class="section">
+<h4>Opmerking:</h4> 
+<ul>
+<li>Na het maken van de high-availability cluster worden alle gegevens op de passieve server verwijderd. Controleer of er geen belangrijke gegevens zijn opgeslagen op de passieve server. </li>   
+</ul>
+</div>
+  
+<h4>Om de Heartbeatverbinding te configureren:</h4>
+<p>Verbind de twee servers met elkaar. Deze verbinding dient als de "Heartbeat"-verbinding tussen de twee servers waardoor de communicatie wordt verbeterd en gegevens van de actieve server naar de passieve server kunnen worden gerepliceerd. Om de kwaliteit van de heartbeatverbinding te garanderen, zal het systeem controleren of de verbinding aan de volgende criteria voldoet bij het maken van een high-availability-cluster:</p>
+<ul>
+<li>Er tussen de twee servers geen andere apparaten met IP-adressen in hetzelfde uitzendingsdomein bestaan. Loopt deze Heartbeat-verbinding via switches, dan moet u zich ervan vergewissen dat deze switches multicast en Jumbo Frame ondersteunen.</li>
+<li>Een lage latentie-netwerkverbinding heeft. De responstijd van ping tussen twee servers moet minder dan 1 ms zijn en de overdrachtssnelheid moet minstens 500 Mbps zijn. MTU wordt automatisch geconfigureerd op 9000.</li>
+<li>Dezelfde netwerkinterface gebruiken op beide servers. Bijvoorbeeld: als een uiteinde is verbonden met LAN 1 op een server, dan moet het andere uiteinde op LAN 1 met de andere server worden verbonden.</li>
+<li>De snelste netwerkinterface gebruiken op beide servers. Zijn de servers uitgerust met 10GbE add-on netwerkinterfacekaarten, dan moet de verbinding die gebruiken.</li>
+</ul>
+ <p>Na bevestiging van het bovenstaande gaat u naar het gedeelte <b>HA-verbindingsinterface (Heartbeat)</b> en kiest u de netwerkinterface die als Heartbeat-verbinding moet dienen.</p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>Heartbeatverbindingsinstellingen produceren twee sets van IP-adressen (bijv. 169.254.1.1 en 169.254.1.2) voor de synchronisatie van gegevens tussen de actieve server en de passieve server. Zorg dat deze twee IP-adressen niet door andere netwerkapparaten worden gebruikt.</li>
+<li>De inschakeling van VLAN ID op de Heartbeat-verbindingspoorten van Synology NAS wordt niet ondersteund.</li>
+</ul>
+</div>
+
+<div class="section">
+<h4>Link Aggregation op Heartbeat- of gegevensverbindingen configureren:</h4>
+
+<ul>
+<li>Om Link Aggregation op de Heartbeat- of gegevensverbinding te configureren moet u voor het starten van de high-availability-installatiewizard Link Aggregation op twee of meer LAN-poorten instellen bij <strong>Configuratiescherm</strong> > <strong>Netwerk</strong> > <strong>Netwerkinterface</strong>. Controleer dat de Link Aggregation-instellingen identiek zijn op beide servers (bijv. als u Link Aggregation instelt op poorten 1 en 2 van de actieve server dan moet Link Aggregation op de passieve server ook op poorten 1 en 2 worden ingesteld).</li>
+
+
+<li>Heartbeat is uitgerust met failover- en load balancing-functies, maar gegevensverbindingen zijn afhankelijk van de Link Aggregation-modus die u kiest.</li>
+</ul>
+
+</div>
+
+
+<h4>Om de netwerkinterface-instellingen van de high-availability cluster te configureren:</h4>
+<p>De high-availability cluster gebruikt een high-availability cluster-IP-adres als externe verbindingsinterface. U kunt een verbinding maken via dit high-availability cluster-IP-adres wanneer u DSM-services wilt gebruiken, ongeacht elke Synologyserver als actieve server fungeert. Dit voorkomt dat u een verbinding moet maken met verschillende IP-adressen nadat u een overschakeling van de actieve naar de passieve server hebt uitgevoerd.</p>
+
+<ol>
+<li><b>Clusterservernaam:</b> de naam van de high-availability cluster. Zie voor servernaamgevingsregels (bij <b>DSM Help</b> > <b>Configuratiescherm</b> > <b>Connectiviteit</b> > <b>Netwerk</b> > <b>Algemeen</b>) voor informatie over naambeperkingen.</li>
+<li><b>Netwerkinterface:</b> de netwerkinterface die door de high-availability cluster wordt gebruikt. U moet een verschillende LAN-poort kiezen dan de poort die in de vorige stap is toegewezen voor gegevensreplicatie. </li>
+<li><b>IP-adres:</b> het IP-adres dat door de high-availability cluster wordt gebruikt. Ongeacht welke server de services uitvoert, kan er via deze IP een verbinding worden gemaakt met de cluster.</li>
+<li> <b>Subnetmasker:</b> het subnetmasker dat door de high-availability cluster wordt gebruikt.</li>
+</ol>
+
+<div class="section">
+<h4>Een VLAN ID toewijzen als gegevensverbinding:</h4>
+<ul>
+<li>Om een VLAN ID toe te wijzen als gegevensverbinding gaat u voor het starten van de high availability-installatiewizard naar <strong>Configuratiescherm</strong> > <strong>Netwerk</strong> > <strong>Netwerkinterface</strong>. Controleer dat de VLAN-instellingen identiek zijn op beide servers (bijv. als u LAN 1 instelt met VLAN ID 1 op de actieve server dan moet LAN 1 op de passieve server ook met VLAN 1 worden ingesteld).</li>
+</ul>
+</div>
+
+
+<h4>Om instellingen te bevestigen:</h4>
+<p>Dubbelklik op de instellingen die door de high-availability cluster moeten worden gebruikt. Het systeem zal starten met het koppelen van de high-availability cluster zodra u op <b>Toepassen</b> klikt. </p>
+
+<div class="section">
+<h4>Opmerking:</h4>
+<ul>
+<li>Bij het maken van een high-availability cluster moeten alle gegevens op de actieve server worden gerepliceerd naar de passieve server. Gaat de verbinding naar de passieve server verloren gedurende meer dan 30 minuten voordat het initiële replicatieproces is voltooid dan gaat de passieve server over in de <strong>Standalone</strong>-modus. In dergelijke gevallen moet deze opnieuw worden gekoppeld en een volledige replicatie opnieuw worden uitgevoerd.</li>
+</ul>
+</div>
+ </body>
+</html>

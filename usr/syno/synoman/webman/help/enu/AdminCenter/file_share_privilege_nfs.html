@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Shared Folder</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Assign NFS Permissions</h2>
+<p>You can assign NFS permissions to any shared folder, allowing Linux clients to access it.</p>
+<h4>
+To assign NFS permissions to a shared folder:
+</h4>
+<ol>
+<li>Select the shared folder you want to edit from the shared folder list.</li>
+<li>Click <strong>Edit</strong> > <strong>NFS Permissions</strong>.</li>
+<li>Click <b>Create</b> to add an NFS rule.</li>
+<li>A popup appears. Define the below options.</li>
+<li><strong>Hostname or IP:</strong> Enter the IP address of the NFS client which will access the shared folder. You may specify a host in three ways:
+<ul>
+<li><strong>Single Host:</strong> The fully qualified domain name, or an IP address.</li>
+<li><strong>Wildcards:</strong> *, *.synology.com</li>
+<li><strong>IP networks:</strong> 203.74.205.32/255.255.252.0, /24</li>
+</ul>
+</li>
+<li><strong>Privilege:</strong> Select read/write permissions for the NFS client.</li>
+<li> <strong> Security:</strong> Specify the security flavor to implement.
+  <ul>
+  <li><strong>AUTH_SYS:</strong> Use the NFS client's UID (user identifier) and GID (group identifier) to check access permissions.</li>
+<li><strong>Kerberos authentication:</strong> Perform Kerberos authentication when the NFS client connects to the shared folder. The client can only access the shared folder after passing Kerberos authentication.</li>
+<li><strong>Kerberos integrity:</strong> Perform Kerberos authentication and ensure the integrity of packets during data transfer.</li>
+<li><strong>Kerberos privacy:</strong> Perform Kerberos authentication and encrypt the NFS packets during data transfer, thus preventing malicious parties from tampering with NFS traffic.</li>
+</ul>
+</li>
+
+<li><strong>Squash</strong>: This field allows you to control  users' access privileges of the NFS client. Please select one of the following:
+  <ul>
+    <li><strong>No mapping:</strong> Allows all users of NFS client, including root users, to maintain original access privileges.</li>
+    <li><strong>Map root to admin:</strong> Assigns access privileges to  root users of NFS client equivalent to the admin user access privileges on your system.</li>
+    <li><strong>Map root to guest:</strong> Assigns access privileges to  root users of NFS client equivalent to the guest access privileges on your system.</li>
+    <li><strong>Map all users to admin:</strong> Assigns access privileges to all users of NFS client equivalent to the admin user access privileges on your system.</li>
+	<li><strong>Map all users to guest:</strong> Assigns access privileges to all users of NFS client equivalent to the guest access privileges on your system.</li>
+  </ul>
+</li>
+
+<li><strong>Enable asynchronous:</strong> Checking this option allows your Synology NAS to reply to requests from NFS clients before any changes to files are completed, yielding better performance.</li>
+<li><strong>Allow connections from non-privileged ports (ports higher than 1024):</strong> Checking this option allows NFS clients to use non-privileged ports (i.e. ports greater than 1024) when connecting to the Synology NAS. </li>
+<li><strong>Allow users to access mounted subfolders：</strong> Checking this option allows NFS clients to access mounted subfolders.</li>
+<li>Click <b>OK</b> to finish.</li>
+  <li>Click <b>OK</b> to apply the NFS permissions.</li>
+</ol>
+
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>When the format of the server name is <strong>*.domain</strong>, the NFS client's IP address must have a corresponding DNS PTR record, in order to allow the Synology NAS to find the name *.domain by searching for the corresponding IP address.</li>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Security Flavors:</h4>
+<p> When accessing a shared folder via NFS with a specific user account: </p>
+<ul>
+<li>If <strong>AUTH_SYS</strong> security flavor is implemented: The client must have exactly the same numerical UID (user identifier) and GID (group identifier) on the NFS client and Synology NAS, or else the client will be assigned the permissions of <strong>others</strong> when accessing the shared folder. To avoid any permissions conflicts, you can select <strong>Map all users to admin</strong> from <strong>Squash</strong> or give "Everyone&quot; permissions to the shared folder.</li>
+<li>If <strong>Kerberos (krb5, krb5i, krb5p)</strong> security flavor is implemented: You must go to <strong>Win/Mac/NFS</strong> > <strong>NFS Service</strong> > <strong>Kerberos Settings</strong> > <strong>ID Mapping</strong> to map the NFS client to a specific user, or join a Windows /LDAP domain with the corresponding user account, otherwise the client will be assigned the permissions of <strong>guest</strong> when accessing the shared folder.</li>
+<li>If the file system of the external device on which shared folders are created is NTFS or FAT, the option <strong>Map all users  to admin</strong> will be forcefully applied.</li>
+</ul>
+<p>To use Kerberos security flavors to connect to the Synology NAS, Kerberos authentication must be configured by going to <strong>Win/Mac/NFS</strong> > <strong>NFS Service</strong> > <strong>Kerberos Settings</strong>.</p>
+</div>
+
+</body>
+</html>

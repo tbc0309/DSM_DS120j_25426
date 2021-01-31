@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>LDAP</title>
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h2>LDAP</h2>
+<p>LDAP lar din Synology NAS bli med i en eksisterende katalogtjeneste som for eksempel en LDAP-klient, og deretter hente bruker- eller gruppeinformasjon fra en LDAP-server (eller &quot;directory server&quot;). Du kan h&aring;ndtere LDAP-brukeres eller gruppers tilgangsrettigheter til DSM-applikasjoner og delte mapper, p&aring; samme m&aring;te som du ville gjort med lokale DSM-brukere eller -grupper. Hvis du vil ha mer informasjon om LDAP, se&nbsp;<a href="http://en.wikipedia.org/wiki/LDAP" target="_blank">her</a>.</p>
+
+<p>Den st&oslash;ttede LDAP-standarden er LDAP versjon 3 (RFC 2251).</p>
+<h4>Slik knytter du Synology NAS til en katalogtjeneste:</h4>
+<ol>
+<li>G&aring; til <b>Kontrollpanel</b> &gt; <b>Katalogtjeneste</b></li>
+<img src="about:blank" class="help_image"/>
+<li>G&aring; til fanen <b>LDAP</b> og merk av for <b>Aktiver LDAP-klient</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Angi IP-adressen eller domenenavnet til LDAP-serveren i feltet <b>LDAP-serveradresse</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Velg en krypteringstype fra rullegardinmenyen <b>Kryptering</b> for &aring; kryptere LDAP-tilkoblingen til LDAP-serveren.</li>
+<img src="about:blank" class="help_image"/>
+<li>Angi LDAP-serverens Base DN i feltet <b>Base DN</b>.</li>
+<img src="about:blank" class="help_image"/>
+<li>Velg egnet <b>Profil</b> avhengig av din LDAP-server. For eksempel, velger du <b>Standard</b> hvis du bruker Synology Directory Server eller Mac Open Directory.</li>
+<img src="about:blank" class="help_image"/>
+<li>Hvis du vil gi brukere p&aring; en LDAP-server som ikke st&oslash;tter Samba-skjema tilgang til Synology NAS-filer via CIFS, merker du av for <b>Aktiver CIFS-passordbeskyttelse med ren tekst</b>. Se avsnittet nedenfor for &aring; sikre at LDAP-brukere kan bruke sine datamaskiner for &aring; f&aring; tilgang til Synology NAS-filer via CIFS.</li>
+<img src="about:blank" class="help_image"/>
+<li>Klikk p&aring; <b>Bruk</b>.</li>
+<li>
+  Angi Bind DN (eller LDAP-administratorkonto) og passord i feltene, og klikk deretter p&aring; <b>OK</b>.
+</li>
+<img src="about:blank" class="help_image"/>
+</ol>
+
+
+<div class="section">
+<h4>Om CIFS-st&oslash;tte og klientdatamaskinens innstillinger</h4>
+<p>
+Etter at CIFS-passordbeskyttelse med ren tekst er aktivert, m&aring; LDAP-brukere kanskje endre sine datamaskiners innstillinger for &aring; f&aring; tilgang til Synology NAS-filer via CIFS:
+</p>
+<ul>
+<li>
+Hvis din Synology NAS tilkobles katalogtjenesten som leveres av en Synology LDAP-server (eller en annen Synology NAS som har installert og startet <b>Directory Server</b>-pakken) eller en LDAP-server som st&oslash;tter Samba-skjema og alle LDAP-brukerne har riktige sambaNTPassword-attributter, kan LDAP-brukere aksessere Synology NAS-filene dine via CIFS uten &aring; merke av for <b>Aktiver CIFS-passordbeskyttelse med ren tekst</b> eller endre datamaskininnstillingene sine. Ellers m&aring; LDAP-brukere aktivere datamaskinens <a href="http://en.wikipedia.org/wiki/Pluggable_Authentication_Modules" target="_blank">PAM</a>-st&oslash;tte for &aring; kunne aksessere Synology NAS-filer via CIFS. Hvis du gj&oslash;r det, vil imidlertid LDAP-brukeres passord overf&oslash;res til Synology NAS som vanlig tekst (uten kryptering), slik at sikkerhetsniv&aring;et senkes.
+</li>
+
+</ul>
+<h4>Slik endrer du Windows-innstillingene:</h4>
+<ol>
+<li>G&aring; til <b>Start</b> &gt; <b>Kj&oslash;r</b>, skriv inn <b>regedit</b> i feltet, og klikk p&aring; <b>OK</b> for &aring; &aring;pne Registerredigering.</li>
+<li>
+Avhengig av Windows-versjonen finner du frem til f&oslash;lgende registern&oslash;kkel:
+</li>
+<ul>
+<li>
+<b>Windows 2000, XP, Vista og Windows 7:</b><br> [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkStation\Parameters]
+</li>
+<li>
+<b>Windows NT:</b><br> [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Rdr\Parameters]
+</li>
+<li>
+<b>Windows 95 (SP1), 98 og Me:</b><br> [HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\VxD\VNETSUP]
+</li>
+</ul>
+<li>
+Opprett eller endre DWORD-verdien <b>EnablePlainTextPassword</b> og endre dens verdidata fra <b>0</b> til <b>1</b>.
+</li>
+<li>
+Start Windows p&aring; nytt for at endringen skal tre i kraft.
+</li>
+</ol>
+<h4>Slik endrer du innstillinger for Mac OS X:</h4>
+<ol>
+<li>G&aring; til <b>Programmer</b> &gt; <b>Verkt&oslash;y</b> for &aring; &aring;pne <b>Terminal</b>.
+</li>
+<li>
+Opprett en tom fil <b>/etc/nsmb.conf</b>:
+<pre>
+sudo touch /etc/nsmb.conf
+</pre>
+</li>
+<li>
+&Aring;pne <b>/etc/nsmb.conf</b> med vi:
+<pre>
+sudo vi /etc/nsmb.conf
+</pre>
+</li>
+<li>
+Skriv inn <b>i</b> for &aring; sette inn tekst, og lim inn f&oslash;lgende:
+<pre>
+[default]<br / >
+minauth=none
+</pre>
+</li>
+<li>
+Trykk p&aring; Esc-tasten og skriv inn <b>ZZ</b> for &aring; lagre endringene og avslutte vi.
+</li>
+</ol>
+<h4>Slik endrer du Linux-innstillingene:</h4>
+<p>Hvis du bruker <b>smbclient</b>, legger du til f&oslash;lgende n&oslash;kler i <b>[global]</b>-seksjonen av <b>smb.conf</b>:
+
+<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;"> encrypt passwords = no <br> client plaintext auth = yes <br> client lanman auth = yes <br> client ntlmv2 auth = no </p>
+<p>Hvis du bruker <b>mount.cifs</b>, utf&oslash;rer du f&oslash;lgende kommando:</b>
+<p style="font-family:sans; margin-top:0px; padding-left:20px;line-height:1.25em;">echo 0x30030 &gt; /proc/fs/cifs/SecurityFlags</p>
+<p>For mer informasjon kan du g&aring; til <a href="https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README" target=_blank>https://www.kernel.org/doc/readme/Documentation-filesystems-cifs-README</a></p>
+
+</p>
+</div>
+<div class="section">
+<h4>Om profiler</h4>
+
+<p>Forskjellige LDAP-servere kan bruke forskjellige attributter for &aring; gj&oslash;re rede for kontonavn, gruppenavn, eller for &aring; skille mellom kontoer og grupper. Alternatviet <b>Profil</b> lar deg spesifisere eller tilpasse hvordan bruker- og gruppeinformasjon tilordnes til LDAP-attributter. En av f&oslash;lgende profiler kan velges, avhengig av din LDAP-server:</p>
+
+<ul>
+<li><b>Standard:</b> For servere som kj&oslash;rer Synology Directory Server eller Mac Open Directory.</li>
+<li><b>IBM Lotus Domino:</b> For servere som kj&oslash;rer IBM Lotus Domino 8.5.</li>
+<li><b>Tilpass:</b> Lar deg tilpasse tilordninger. R&aring;df&oslash;r deg med avsnittet nedenfor for detaljer.</li>
+</ul>
+
+<p>F&oslash;r du tilpasser tilordning av LDAP-attributter, vil du trenge noe bakgrunnsinformasjon. Synology DSM og <strong>Profil</strong>-redigeringsprogrammet overholder RFC 2307. For eksempel kan du spesifisere <b>filter</b> &gt; <b>passwd</b> som <b>userFilter</b>, og da vil Synology NAS tolke oppf&oslash;ringer med <b>objectClass=userFilter</b> p&aring; din LDAP-server som LDAP-kontoer. Hvis du spesifiserer <b>passwd</b> &gt; <b>uid</b> som <b>username</b>, vil Synology NAS tolke <b>username</b> p&aring; din LDAP-server som et kontonavn. Hvis du lar tilordningen st&aring; tom, vil RFC 2307-regler gjelde.</p>
+<p>Synology NAS krever et fastsatt heltall som skal tjene som en LDAP-kontoidentifikator (<strong>uidNumber</strong>) eller en gruppeidentifikator (<strong>gidNumber</strong>). Men ikke alle LDAP-servere bruker heltall til &aring; representere slike attributter. Derfor f&aring;r du oppgitt et n&oslash;kkelord <b>HASH()</b> for &aring; konvertere slike attributter til heltall. For eksempel kan din LDAP-server bruke attributten <b>userid</b> med en heksadesimalverdi som den unike identifikatoren for en LDAP-konto. I slike tilfeller, kan du angi <b>passwd</b> &gt; <b>uidNumber</b> som <b>HASH(userid)</b>, slik at Synology NAS kan konvertere det om til et heltall.</p>
+
+<p>Det f&oslash;lgende er et sammendrag av egendefinerbare attributter:</p>
+
+<ul>
+	<li><b>filter</b></li>
+	<ul>
+		<li><b>group</b>: p&aring;krevd objectClass for gruppe.</li>
+		<li><b>passwd</b>: p&aring;krevd objectClass for bruker.</li>
+		<li><b>shadow</b>: p&aring;krevd objectClass for brukerpassord.</li>
+	</ul>
+	<li><b>group</b></li>
+	<ul>
+		<li><b>cn</b>: gruppenavn.</li>
+		<li><b>gidNumber</b>: GID-nummeret til denne gruppen.</li>
+		<li><b>memberUid</b>: medlemmer i denne gruppen.</li>
+	</ul>
+	<li><b>passwd</b></li>
+	<ul>
+		<li><b>uidNumber</b>: UID-nummer for denne brukeren.</li>
+		<li><b>uid</b>: brukernavn.</li>
+		<li><b>gidNumber</b>: prim&aelig;rt GID-nummer for denne brukeren.</li>
+	</ul>
+	<li><b>shadow</b></li>
+	<ul>
+		<li><b>uid</b>: brukernavn.</li>
+		<li><b>userPassword</b>: brukerpassord.</li>
+	</ul>
+</ul>
+</div>
+
+
+<div class="section">
+<h4>Om UID/GID-forskyvning</h4>
+<p>For &aring; unng&aring; UID/GID-konflikter mellom LDAP-brukere/-grupper og lokale brukere/grupper, kan du aktivere UID/GID-forskyvning for &aring; forskyve UID/GID for LDAP-brukere/-grupper med 1 000 000. Dette alternativet er kun for LDAP-servere som ikke er fra Synology og som har en unik numerisk ID-attributt for hver bruker/gruppe.</p>
+</div>
+<div class="section">
+	<h4>Om nestet gruppeutvidelse</h4>
+	<p>I en nestet gruppe tilh&oslash;rer et LDAP-gruppemedlem en annen LDAP-gruppe der en organisasjons hierarki er representert. N&aring;r brukere sl&aring;r opp hvilken gruppe et spesifikt medlem tilh&oslash;rer, eller navnelisten til en spesifikk gruppe, vil Synology NAS utvide en nestet gruppe i henhold til <strong>member</strong>-attributtene til LDAP-gruppen, med attributtreferanse til en underodnet gruppes unike navn (DN - Distinguished Name). Utvidelse av en nestet gruppe kan ta lang tid under ulike omstendigheter, f.eks. hvis serveren ikke indekserer <strong>member</strong>-attributten, eller hvis gruppen er kraftig nestet. Du kan velge ikke &aring; utvide en nestet gruppe for &aring; unng&aring; slike tidkrevende operasjoner.
+	</p>
+</div>
+</body>
+</html>

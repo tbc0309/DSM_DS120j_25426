@@ -1,0 +1,308 @@
+#!/bin/sh
+
+DEBUG_MODE="no"
+TOOL_PATH="/var/packages/DiagnosisTool/target/tool/"
+TEMP_PROFILE_DIR="/var/packages/DiagnosisTool/etc/"
+
+STATUS_NOT_INSTALLED=101
+STATUS_NOT_LOADED=102
+STATUS_LOADED=103
+STATUS_REMOVED=104
+
+Usage() #{{{
+{
+	cat << EOF
+usage: `basename $0` <command>
+
+The most commonly used commands are:
+   install    Get and run this package, also load all tools
+   remove     Remove it
+   help       Show this usage
+   list       List all tools
+   check      Check if tools are ready to use
+
+Examples:
+   1. `basename $0` install
+      Install debug tools and load them into environment
+   2. `basename $0` remove
+      Remove tools and restore all settings
+   3. `basename $0` list
+      List all loaded tools
+
+EOF
+} #}}}
+
+dmsg()
+{
+	if [ "$DEBUG_MODE" = "yes" ]; then
+		echo $1
+	fi
+}
+
+WelcomeMessage()
+{
+	local action=$1
+	local info=""
+
+	dmsg "action: $action"
+	if [ $action = $STATUS_LOADED ]; then
+		echo "Tools are installed and ready to use."
+		version=`synopkg version DiagnosisTool`
+		echo "DiagnosisTool version: $version"
+	elif [ $action = $STATUS_NOT_INSTALLED ]; then
+		echo "Tools are not installed yet. You can run this command to install it:"
+		info="install_cmd"
+	elif [ $action = $STATUS_NOT_LOADED ]; then
+		echo "Tools are installed but not loaded yet. You can run this command to load it:"
+		info="install_cmd"
+	elif [ $action = $STATUS_REMOVED ]; then
+		echo "DiagnosisTool is removed completely, you can issue exit to close this session."
+	fi
+
+	if [ "$info" = "install_cmd" ]; then
+		echo "   `basename $0` install"
+		echo ""
+	fi
+}
+
+#check package status
+Check_Status()
+{
+	local loaded=0
+	local installed=0
+	
+	synopkg status DiagnosisTool > /dev/null
+	installed=$?
+
+	# check if package are not installed
+	if [ $installed != 0 ]; then
+		return $STATUS_NOT_INSTALLED
+	fi
+
+	# check if tools are loaded
+	echo $PATH | grep $TOOL_PATH > /dev/null
+	loaded=$?
+	if [ $loaded != 0 ]; then
+		return $STATUS_NOT_LOADED
+	fi
+
+	return $STATUS_LOADED
+}
+
+# load tool path to default PATH environment
+Load()
+{
+	Check_Status
+	if [ $? = $STATUS_LOADED ]; then # already loaded, just return
+		return 0
+	fi
+
+	if [ ! -d "$TEMP_PROFILE_DIR" ]; then
+		echo "no temp profile folder found! exit. dir path: $TEMP_PROFILE_DIR"
+		return 1
+	fi
+
+	cat /etc/profile | grep -v '^PATH=' | grep -v '^export PATH' > $TEMP_PROFILE_DIR.profile
+
+	echo "" >> $TEMP_PROFILE_DIR.profile
+	echo "PATH=$TOOL_PATH:$PATH" >> $TEMP_PROFILE_DIR.profile
+	echo "export PATH" >> $TEMP_PROFILE_DIR.profile
+
+	export ENV=$TEMP_PROFILE_DIR.profile
+
+	# use /bin/sh, unless we have to use ash ($SHELL)
+	/bin/sh
+}
+
+Action_Load()
+{
+	local status=0
+
+	Check_Status
+	status=$?
+
+	if [ $status = $STATUS_LOADED ]; then
+		WelcomeMessage $status
+		return 1
+	fi
+
+	Load
+
+	Check_Status
+	status=$?
+	WelcomeMessage $status
+}
+
+DownloadDiagnosisTool()
+{
+	local store_path="${1?"store path must be specified"}"
+	local version_file="/etc.defaults/VERSION"
+	local synoinfo_file="/etc/synoinfo.conf"
+	local lang="enu"
+	local major_version="$(synogetkeyvalue "${version_file}" "majorversion")"
+	local minor_version="$(synogetkeyvalue "${version_file}" "minorversion")"
+	local build_version="$(synogetkeyvalue "${version_file}" "buildnumber")"
+	local time_zone="$(synogetkeyvalue "${synoinfo_file}" "timezone")"
+	local unique="$(synogetkeyvalue "${synoinfo_file}" "unique")"
+	local pkgupdate_url="$(synogetkeyvalue "${synoinfo_file}" "pkgupdate_server")"
+	local reference_json=""
+	local download_url=""
+	local pkg_version=""
+
+	pkgupdate_url="${pkgupdate_url:-"https://pkgupdate.synology.com"}/firmware/v1/get"
+	pkgupdate_url="${pkgupdate_url}?language=${lang}"
+	pkgupdate_url="${pkgupdate_url}&timezone=${time_zone}"
+	pkgupdate_url="${pkgupdate_url}&unique=${unique}"
+	pkgupdate_url="${pkgupdate_url}&major=${major_version}"
+	pkgupdate_url="${pkgupdate_url}&minor=${minor_version}"
+	pkgupdate_url="${pkgupdate_url}&build=${build_version}"
+	pkgupdate_url="${pkgupdate_url}&package_update_channel=stable"
+	pkgupdate_url="${pkgupdate_url}&package=DiagnosisTool"
+
+	if ! reference_json="$(curl -s -L "${pkgupdate_url}")"; then
+		echo "can't get correct package link string!"
+		return 1
+	fi
+
+	if ! download_url="$(echo "${reference_json}" | jq -e -r '.["package"]["link"]')"; then
+		echo "failed to get DiagnosisTool ... can't parse actual package download link from info file"
+		return 255
+	fi
+	pkg_version="$(echo "${reference_json}" | jq -e -r '.["package"]["version"]')"
+
+	if ! curl -s -L "${download_url}" -o "${store_path}"; then
+		echo "failed to get DiagnosisTool ${pkg_version} from synology server!"
+		return 1
+	fi
+
+	echo "download DiagnosisTool ${pkg_version} successfully"
+	return 0
+}
+
+# get and install diagtool
+Install()
+{
+	local tmp_package_path="/tmp/DiagnosisTool.spk"
+	local ret=0
+
+	Check_Status
+	status=$?
+
+	# if package was installed, return
+	if [ $status = $STATUS_LOADED ] || [ $status = $STATUS_NOT_LOADED ]; then
+		return $status
+	fi
+
+	# clear old files
+	rm -f "${tmp_package_path}"
+
+	if ! DownloadDiagnosisTool "${tmp_package_path}"; then
+		return 255
+	fi
+
+	# check if file download correctly
+	synopkg install "${tmp_package_path}" > /dev/null
+	ret=$?
+	rm -f "${tmp_package_path}"
+
+	if [ $ret -ne 0 ]; then
+		echo "Failed to install DiagnosisTool ... synopkg error code: $ret"
+		return 255
+	fi
+
+	synopkg start DiagnosisTool > /dev/null
+	ret=$?
+
+	if [ $ret -ne 0 ]; then
+		echo "Failed to start DiagnosisTool ... synopkg error code: $ret"
+		return 255
+	fi
+
+	return $STATUS_NOT_LOADED
+}
+
+Action_Install()
+{
+	local status=0
+	Check_Status
+	status=$?
+	if [ $status = $STATUS_LOADED ]; then
+		WelcomeMessage $status
+		return 0
+	fi
+
+	Install
+	status=$?
+
+	# if it's installed correctly, load tools
+	if [ $status != $STATUS_NOT_LOADED ]; then
+		return 1
+	fi
+
+	# load tools and run another shell with tools loaded to default path
+	Load
+}
+
+# uninstall diagtool
+Action_Remove()
+{
+	local status=0
+	Check_Status
+	status=$?
+
+	if [ $status = $STATUS_NOT_INSTALLED ]; then
+		WelcomeMessage $status
+		return 1
+	fi
+
+	synopkg uninstall DiagnosisTool > /dev/null
+
+	if [ $? -ne 0 ]; then
+		echo "failed to remove DiagnosisTool package ..."
+		return 1
+	fi
+
+	WelcomeMessage $STATUS_REMOVED
+}
+
+Action_Check()
+{
+	Check_Status
+	#dmsg "status: $?"
+	WelcomeMessage $?
+}
+
+Action_List()
+{
+	local status=0
+	Check_Status
+	status=$?
+
+	if [ $status = $STATUS_LOADED ]; then
+		echo "All tools:"
+		ls $TOOL_PATH
+	else
+		WelcomeMessage $status
+	fi
+}
+
+if [ $# -gt 0 ]; then
+	action=$1
+fi
+
+if [ "$action" = "install" ]; then
+	Action_Install
+elif [ "$action" = "remove" ]; then
+	Action_Remove
+elif [ "$action" = "load" ]; then
+	Action_Load
+elif [ "$action" = "help" ]; then
+	Usage
+elif [ "$action" = "check" ]; then
+	Action_Check
+elif [ "$action" = "list" ]; then
+	Action_List
+else
+	Action_Check
+	Usage
+fi

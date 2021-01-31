@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Resource Monitor</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+<h1><a name="leaf_update"></a>Resource Monitor</h1>
+<p class="disable-dockerx64">Resource Monitor allows you to monitor the CPU usage, memory usage, disk utilization and network flow. You can choose to monitor in real time or view previous data.</p>
+<p class="enable-dockerx64">Resource Monitor allows you to monitor the CPU usage, memory usage and network flow. You can choose to monitor in real time or view previous data.</p>
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>Previous data is only displayed if <strong>Enable usage history</strong> is ticked on the <strong>Settings</strong> tab.</li>
+<li class="enable-dockerx64">For Docker DSM, <strong>CPU and memory</strong> indicates usage information about the <strong>Docker Host</strong>.</li>
+</ul>
+</div>
+<h2>Performance</h2>
+<p>Click on <strong>Performance</strong> tab to view the resource utilization data. Detailed date, time and information of the chart will be shown upon mouseover.</p>
+
+<h3>CPU</h3>
+<p>You can see the overall CPU usage of <strong>User</strong>, <strong>System</strong> and <strong>I/O Wait</strong>. CPU load could be high when Resource Monitor is first launched, because the system needs to collect its resource data and load the UI page at the same time.</p>
+<p><strong>User</strong> shows the percentage of CPU used to run user applications. <strong>System</strong> shows the percentage of CPU used in the core of the system, hardware/software IRQs. <strong>I/O Wait</strong> shows the percentage of CPU spent on I/O wait.</p>
+<p><strong>Utilization</strong> is the sum of <strong>User</strong> and <strong>System</strong> CPU usage.</p>
+<p>The Load Average within 1, 5, and 15 minutes is displayed, showing the run-queue length (i.e. the sum of the number of processes that are currently running plus the number that are waiting to run). </p>
+<div class="section">
+<h4>Term Explanation</h4>
+<ul>
+<li><b>I/O wait</b>: I/O wait indicates that the CPU is idle and not being used by any program. </li>
+<p>I/O wait is a normal behavior. Since the speed of CPU is far faster than that of I/O, it is common for CPU to wait for the transmission of disks or network to complete. However, if the percentage of I/O wait is extremely large, it means that the CPU spends most of the time on I/O wait and might not be well utilized. You can use more efficient disk group configurations (e.g. SHR or RAID 5) or network configurations (e.g. Bonding) to achieve better system performance.</p> 
+</ul>
+</div>
+<h3>Memory</h3>
+<p>The overall memory usage of physical memory and swap space will be shown. Memory usage remains high because the system stores frequently accessed data in cache, so the data can be quickly obtained without accessing the hard disk. Cache memory will be released when overall memory is insufficient.</p>
+<p>High swap space usage indicates insufficient system memory, and will also affect the system performance. You can view the rate of swap in and swap out by choosing <strong>Swap</strong> from the drop-down menu on the top. </p>
+
+<h3>Network</h3>
+<p>The network flow chart displays sent and received data in KB's per second. If PPPoE is connected, its transfer rate will also show up on the chart.</p>
+
+<h3 class="disable-dockerx64">Disk</h3>
+<p class="disable-dockerx64">You can choose to view the overall disk utilization, transfer rate or IOPS by clicking the drop-down menu at the top of the chart. You can click <strong>View All</strong> at the bottom to select more disks by ticking the checkboxes to add their data to the chart.</p>
+
+
+<h3 class="disable-eds14 disable-dockerx64">Volume</h3>
+<p class="disable-eds14 disable-dockerx64">This page displays the overall transfer status of volumes. Click the drop-down menu above the chart to view transfer utilization, transfer rate, or IOPS. Click the <strong>View All</strong> button to select individual volumes and add them to the chart.</p>
+
+<h3 class="disable-eds14 disable-dockerx64">iSCSI</h3>
+<p class="disable-eds14 dixable-dockerx64">This page displays the overall status of currently running iSCSI LUNs. Click the drop-down menu above the chart to select a LUN and view its status. Three charts are displayed by default, which are <strong>Throughput</strong>, <strong>IOPS</strong> and <strong>Latency</strong>. For more detailed information, click the <strong>Choose Charts</strong> button to select other charts that you want to view.</p>
+
+
+<h2>Process</h2>
+<p>Click on <strong>Process</strong> tab to view the CPU and memory usage of each process in the order of decreasing CPU load.</p>
+<p>The process <strong>Status</strong> includes <strong>Running</strong>, <strong>Sleeping</strong> and <strong>Stopped</strong>. Linux equivalents of process status are <strong>running</strong>, <strong>stopped/tracing</strong>, <strong>sleeping</strong>. </p>
+<p><strong>Sleeping</strong> can be followed by a letter for detailed information, e.g. 'D' for disk sleep, 'Z' for zombie, 'X' for dead.</p>
+
+<h2>Connected Users</h2>
+<p> On this tab, you can view and manage the clients who are currently connected to the system and accessing resources. This section displays clients that are connected via HTTP, TELNET, SSH, SMB/CIFS, AFP, FTP, and NFS.</p>
+<h4>To manage current connections, do any of the following:</h4>
+<ul>
+<li>Click <b>Save</b> to export the current list to an HTML file.</li>
+<li>Click <b>Refresh</b> to refresh the list.</li>
+<li>Click <b>Kill connection</b> to stop the user from accessing the resource. The disconnected user has to authorize again to gain access to the resource.</li>
+<li>Click <b>Disable user</b> to disable the user. To enable the user again, go to <b>Main Menu</b> > <b>Control Panel</b> > <b>User</b>.</li>
+</ul>
+<div class="section">
+<h4>Note:</h4>
+<ul>
+<li>The <strong>Kill connection</strong> option does not work with NFS clients.</li>
+<li>If NFS clients do not unmount shared folders properly, they might still appear in the list of connected users.</li>
+<li>If the Synology NAS restarts, NFS clients that were previously connected will not appear in the list of connected users.</li>
+</ul>
+</div>
+
+
+<h2>Speed Limit</h2>
+<p>Under the <strong>Speed Limit</strong> tab, you can view and manage the list of file transfer processes that applied speed limit on Synology NAS.</p>
+<h4>To refresh the list:</h4>
+<p>Click <strong>Refresh</strong> to reload the page and get the most updated records.</p>
+<h4>To stop a file transfer process:</h4>
+<p>Click <b>Kill connection</b> to stop the file transfer. You will have to start the file transfer again to complete the process successfully.</p>
+
+
+<h2>Settings</h2>
+<p>Click <strong>Settings</strong> to set up following options:</p>
+<ul>
+<li>Choose the <strong>Real time duration</strong> in minutes from the drop-down menu.</li>
+<li>Tick <strong>Enable usage history</strong> if you want to view previous data. When it is connected, you can switch between <strong>Real Time</strong>, <strong>1 Day</strong>, <strong>1 Week</strong>, <strong>1 Month</strong> and <strong>1 Year</strong> from the drop-down menu at the top-right corner when viewing performance charts.</li> 
+<li>Tick <strong>Enable performance event</strong> if you want to monitor system performance.</li>
+</ul>
+
+<p>Click <strong>Apply</strong> to save the settings.</p>
+
+<h2>Performance Alarms</h2>
+<h4>To create a performance alarm:</h4>
+<ol>
+<li>Go to <strong>Settings</strong> > <strong>Performance Alarm Rule</strong>.</li>
+<li>Click the <b>Create</b> button.</li>
+<li>The following rule settings are available:</li>
+<ul>
+<li><strong>Resource</strong>: Choose the resource you want to apply the rule to.</li>
+<li><strong>Type</strong>: Choose the type of rule you would like to create.</li>
+<li><strong>Level</strong>: Choose the alarm level.</li>
+<li><strong>Greater than</strong>: Set the maximum percentage of your rule type where the system will notify you if it is exceeded.</li>
+</ul>
+<li>Tick <strong>Enabled</strong> if you want to enable this rule immediately.</li>
+<li>Click <strong>OK</strong> to add the rule.</li>
+</ol>
+
+
+<div class="section">
+<h4>Mechanism for performance alarms:</h4>
+<p>Performance alarms will operate through the following mechanism to minimize false alarms and to prevent excessive consumption of system resources within a short period of time.</p>
+<ol>
+	<li>The performance alarm service will check all rules every five minutes. No action will be triggered if all of the monitored values fall below the thresholds that you have set.</li>
+	<li>When a monitored value exceeds its threshold, an alarm will not be triggered immediately. Instead, the system will check the rule five more times at 30-second intervals.</li>
+	<li>After the change of the interval length, if the monitored value exceeds the threshold five consecutive times, an alarm will then be triggered; if, however, the monitored value falls below the threshold during any of these five checks, the interval length will be changed back to five minutes.</li>
+</ol>
+<p>Therefore, for one single event, an alarm will at latest be triggered 450 seconds after the first detection of the event.</p>
+
+<h4>Alarm levels:</h4>
+<p>Performance alarms will trigger different actions depending on the alarm levels.</p>
+<ul>
+	<li><strong>Warning</strong>: Generates a warning message in the system log but will not trigger any system notification.</li>
+	<li><strong>Critical</strong>: Not only generates a message in the system log but also triggers system notifications.</li>
+</ul>
+<p>Logs of performance alarms can be viewed at the <strong>Performance Alarm</strong> tab or DSM's <strong>Log Center</strong>.</p>
+</div>
+
+
+<h4>To view performance alarms:</h4>
+<ul>
+<li>Click the <strong>Performance Alarm</strong> tab to view all triggered performance alarms.</li> 
+<li>Click <strong>Refresh</strong> to get the most updated alarms.</li>
+</ul>
+
+<h4>To export performance alarms:</h4>
+<ol>
+<li>Click the arrow next to the <strong>Export</strong> button.</li>
+<li>You can choose to export your alarms in either <strong>HTML</strong> or <strong>CSV</strong>.</li>
+</ol>
+<div class="section"><h4>Note:</h4>
+<ul>
+<li>Support for <strong>Performance Alarms</strong> varies between Synology NAS models. For more information, please refer to <a href="http://www.synology.com/" target="_b
++lank">www.synology.com</a>.</li>
+</ul>
+</div>
+</body>
+</html>

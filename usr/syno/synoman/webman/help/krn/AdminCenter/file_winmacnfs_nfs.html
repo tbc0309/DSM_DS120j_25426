@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" charset="utf-8">
+
+<title>Win/Mac/NFS</title>
+
+
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+
+
+
+<h2>NFS 서비스</h2>
+<p>NFS 서비스를 사용하면 Linux 클라이언트가 이 Synology NAS 장치의 데이터에 액세스할 수 있습니다.</p>
+<h4>NFS 서비스 활성화하기:</h4>
+<ol>
+<li><strong>제어판</strong> &gt; <strong>파일 서비스</strong> &gt; <strong>SMB/AFP/NFS</strong>로 이동하고 <b>NFS 활성화</b>를 선택합니다.</li>
+<li><b>적용</b>을 클릭합니다.</li>
+</ol>
+
+
+<div class="section">
+  <h4>참고:</h4>
+<ul>
+<li> Synology NAS은(는) 현재 NFSv2, NFSv3 및 NFSv4를 지원합니다.</li>
+<li>마운트 시 매개변수 <strong>-o vers=2</strong>, <strong>-o vers=3</strong> 또는 <strong>-o vers=4</strong>를 마운트 명령에 추가하여 사용할 NFS 버전을 지정할 수 있습니다.</li>
+<li>NFS를 통해 다음 공유 폴더에 액세스할 수 없습니다.<ul>
+    <li>암호화된 공유 폴더</li>
+    <li>PetaSpace 공유 폴더</li>
+    <li>HFS, HFS Plus 및 exFAT 파일 시스템을 사용하는 공유 폴더</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<h4>Linux 클라이언트의 공유 폴더 액세스 권한 구성하기:</h4>
+<p><b>제어판</b> &gt; <b>공유 폴더</b>로 이동합니다. 공유 폴더를 선택하고 <strong>편집</strong>을 클릭하여 NFS 규칙을 관리하고 Linux 클라이언트를 위한 이 공유 폴더 액세스 권한을 조정합니다.</p>
+
+
+<h3>NFSv4 및 NFSv4.1 지원 설정</h3>
+<p>기본적으로 Synology NAS은(는) NFSv2 및 NFSv3를 지원합니다. NFSv4 또는 NFSv4.1 활성화 여부를 지정할 수 있습니다.</p>
+
+<h4>NFSv4 또는 NFSv4.1 지원 활성화하기:</h4>
+<ol>
+<li><b>NFSv4 지원 활성화</b> 또는 <b>NFSv4.1 지원 활성화</b>를 선택합니다.</li>
+<li><b>NFSv4 도메인</b> 필드에 사용할 NFSv4 도메인 이름을 입력합니다. 이 필드는 선택 사항이며 빈 칸으로 둘 수 있습니다.</li>
+<li><b>적용</b>을 클릭합니다.</li>
+</ol>
+
+<div class="section">
+<h4>참고:</h4>
+<p>NFSv4를 사용하여 공유 폴더를 마운트하는 경우, 다음 사항을 유의하십시오. 그렇지 않으면 사용자 이름과 연관된 파일 작업이 실패합니다.</p>
+<ul>
+<li>NFS 클라이언트가 idmapd를 활성화해야 합니다.</li>
+<li>NFS 클라이언트에 있는 idmapd.conf 파일의 NFSv4 도메인 설정이 Synology NAS의 <b>NFSv4 도메인</b> 필드와 일관되어야 합니다.</li>
+</ul>
+
+</div>
+<p>NFSv4.1이 활성화되면 NFSv4가 자동으로 활성화됩니다.</li>
+
+<h4>다중 경로 지정</h4>
+<p>NFSv4.1은 다중 경로 지정을 지원합니다. 클라이언트는 여러 네트워크 연결을 통해 동시에 NFS 서버에 액세스할 수 있습니다. 다중 경로 지정은 대역폭을 증가시키고 트래픽 대체 작동을 제공하여 연결 중단 시 네트워크 연결을 유지합니다. 당분간 VMware ESXi 버전 6.0 이상에서만 NFSv4.1 클라이언트가 지원됩니다. VMware NFSv4.1 지원에 대한 자세한 내용은 <a target="_blank" href="https://docs.vmware.com/en/VMware-vSphere/6.0/com.vmware.vsphere.storage.doc/GUID-8A929FE4-1207-4CC5-A086-7016D73C328F.html">VMware 문서</a>를 참조하십시오.</p>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>NFSv4.1을 지원하는 모델에서만 다중 경로 지정을 사용할 수 있습니다.</li>
+</ul>
+</div>
+
+
+
+<h3>고급 설정</h3>
+
+<h4>기본 UNIX 권한 적용</h4>
+<p> <strong>기본 UNIX 권한 적용</strong>을 확인 표시한 경우, 파일과 폴더를 업로드하거나 생성하면 Windows ACL 권한 대신에 Linux 클라이언트에서 설정된 기본 UNIX 권한이 적용됩니다. 적용된 권한은 UNIX 명령 <strong>umask</strong>에 의해 적용된 권한과 동일합니다. 기본 umask 값은 022입니다.</p><div class="section">
+<h4>참고:</h4>
+<ul>
+  <li>Windows ACL 활성화 공유 폴더(&quot;photo&quot;를 제외한 모든 공유 폴더 및 외부 드라이브의 공유 폴더)의 경우, Linux 또는 FTP 클라이언트에서 <strong>chmod</strong> 명령을 실행하여 폴더 및 파일 권한 유형을 Windows ACL에서 UNIX로 변경하십시오.</li>
+  <li>이 옵션을 활성화하면 여러 프로토콜 사이에서 권한이 일관되지 않는 문제가 발생할 수 있습니다. 일관성을 유지하려면 이 옵션을 비활성화 상태로 유지하는 것이 좋습니다.</li>
+</ul>
+</div>
+
+<h4>사용자 지정 포트</h4>
+<p>statd 및 nlockmgr 서비스의 포트 번호를 사용자 지정할 수 있습니다.</p>
+
+<ol>
+<li><strong>사용자 지정한 포트</strong>를 선택합니다.</li>
+<li><strong>statd 포트</strong> 및 <strong>nlockmgr 포트</strong>에 포트 번호를 입력합니다.</li>
+<li><b>적용</b>을 클릭합니다.</li>
+</ol>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>NFSv3 서비스를 사용하려면 <strong>제어판</strong> &gt; <strong>보안</strong> &gt; <strong>방화벽</strong>으로 이동하고 내장된 응용 프로그램 목록에서 &quot;Mac/Linux 파일 서버&quot;를 활성화하는 방화벽 규칙을 생성합니다.</li>
+</ul>
+</div>
+<h4>읽기/쓰기 패킷 크기 설정</h4>
+<p>NFS 클라이언트에 읽기/쓰기 패킷 크기를 설정할 수 없는 경우에는 이 필드에 기본 값을 지정할 수 있습니다.</p>
+
+<ol>
+<li><strong>읽기 패킷 크기</strong> 및 <strong>쓰기 패킷 크기</strong> 필드에서 원하는 패킷 크기를 선택합니다.</li>
+<li><b>적용</b>을 클릭합니다.</li>
+<li>공유 폴더를 다시 마운트합니다.</li>
+</ol>
+
+<div class="section">
+<h4>참고:</h4>
+<ul>
+<li>읽기/쓰기 패킷 크기를 변경하면 새 설정이 적용되기 전에 공유 폴더를 다시 마운트해야 합니다.</li>
+<li>이 설정은 UDP(User Datagram Protocol)를 통해 연결한 NFS 클라이언트에만 영향을 미칩니다.</li>
+</ul>
+</div>
+
+<h3>Kerberos 설정</h3>
+<p>Kerberos는 네트워크 인증 프로토콜로, 이 Kerberos를 통해 안전하지 않은 네트워크에서 통신하는 클라이언트와 서버가 안전한 방식으로 서로 간의 ID를 인증하고 증명할 수 있습니다. Synology NAS에는 기존 Kerberos 키를 가져올 수 있는 옵션이 있습니다. 성공적으로 Kerberos 키를 가져오면 NFS 클라이언트는 Kerberos 인증 프로토콜을 사용하여 Synology NAS에 연결될 수 있습니다.</p>
+
+<h4> Kerberos 키 가져오기: </h4>
+<ol>
+<li><strong>Kerberos 설정</strong>을 클릭합니다.</li>
+<li><b>가져오기</b> 버튼을 클릭합니다.</li>
+<li>가져오려는 Kerberos 키를 선택합니다.</li>
+<li><b>확인</b>을 클릭합니다.</li>
+</ol>
+
+<h3><a name="idmap"></a>Kerberos ID 매핑</h3>
+<p>개별 Kerberos 사용자를 로컬 DSM 사용자 계정에 매핑할 수 있습니다.</p>
+<h4> Kerberos 사용자와 로컬 사용자 계정 매핑하기: </h4>
+<ol>
+<li><strong>Kerberos 설정</strong>을 클릭합니다.</li>
+<li><strong>ID 매핑</strong> 탭으로 이동합니다.</li>
+<li> <b>추가</b> 버튼을 클릭합니다. 다음 중 하나를 선택합니다.</li>
+<ul>
+<li><strong>ID 매핑:</strong> Kerberos 사용자와 매핑할 로컬 사용자 계정을 입력합니다.</li>
+<li><strong>제안된 매핑 목록</strong> 이 옵션은 시스템이 생성한 제안된 Kerberos 사용자/로컬 사용자 매핑 옵션 목록을 표시합니다.</li>
+</ul>
+</ol>
+<div class="section disable-eds14">
+  <h4> 참고: </h4>
+<ul>
+	<li>내장 하드 드라이브가 있는 모델에서만 Kerberos를 사용할 수 있습니다.</li>
+	<li>Kerberos를 통해 연결된 NFS 클라이언트를 기존 도메인/LDAP 사용자 계정에 매핑하려면 디렉토리 서비스에 가입해야 합니다. 또한 디렉토리 서버에는 해당 Kerberos 사용자를 포함한 속성이 있어야 합니다.<ul>
+		<li><strong>도메인 사용자:</strong> 해당 속성 형식은 <strong>userPrincipalName</strong>이어야 합니다.</li>
+		<li><strong>LDAP 사용자:</strong> 해당 속성 형식은 <strong>GSSAuthName</strong>이어야 합니다.</li>
+		</ul></li>
+	<li>사용자가 성공적으로 로컬 사용자 또는 도메인/LDAP 사용자에 매핑될 수 없는 경우 사용자는 &quot;guest&quot;로 매핑됩니다.<li>매핑 우선 순위는 다음과 같습니다. 로컬 사용자 &gt; 도메인/LDAP 사용자 &gt; Guest. </li>
+	<li>NFS 클라이언트의 액세스 권한을 수정하려면 Windows 액세스 제어 목록(ACL)을 사용하십시오. <strong>제어판</strong> &gt; <strong>사용자</strong>에 있는 권한 옵션은 NFS 클라이언트에 적용되지 않습니다.</li>
+</ul>
+</div>
+
+</body>
+</html>

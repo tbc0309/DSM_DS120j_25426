@@ -1,0 +1,65 @@
+#!/usr/bin/php
+<?php
+
+function Usage()
+{
+	echo basename(__FILE__)." --from from_encoding --to to_encoding input_file output_file\n";
+}
+
+function forceTranscoding($fromEncoding, $toEncoding, $str) {
+	$result = "";
+
+	for ($i = 0; $i < strlen($str); $i++) {
+		$sbit = ord(substr($str, $i, 1));
+		if ($sbit <= 127) {
+			$result .= substr($str, $i, 1);
+		} else {
+			$new_word = iconv($fromEncoding, $toEncoding, substr($str, $i, 2));
+			$result.= ($new_word=="") ? " " : $new_word;
+			$i++;
+		}
+	}
+
+	return $result;
+}
+
+function main($fromEncoding, $toEncoding, $inputPath, $outputPath)
+{
+	$fileContent = file_get_contents($inputPath);
+
+	if ('UTF-8_withBOM' == $toEncoding) {
+		$toEncoding = 'UTF-8';
+		$fileContent = chr(239) . chr(187) . chr(191) . $fileContent;
+	}
+
+	if ('UTF-8_withBOM' == $fromEncoding) {
+		$fromEncoding = 'UTF-8';
+	}
+	$result = iconv($fromEncoding, "{$toEncoding}//IGNORE", $fileContent);
+
+	if ("" == $result && 0 < strlen($fileContent)) {
+		$result = forceTranscoding($fromEncoding, $toEncoding, $fileContent);
+	}
+
+	file_put_contents($outputPath, $result);
+}
+
+$opts = '';
+$longOpts = array('to:', 'from:');
+$inputOptions = getopt($opts, $longOpts);
+
+if (empty($inputOptions['to']) || empty($inputOptions['from'])) {
+	Usage();
+	exit(1);
+}
+
+$leftArray = array_slice($argv, 5);
+if (count($leftArray) !== 2) {
+	Usage();
+	exit(1);
+}
+
+ini_set('display_errors', 'On');
+main($inputOptions['from'], $inputOptions['to'], $leftArray[0], $leftArray[1]);
+
+?>

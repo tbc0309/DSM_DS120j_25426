@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="img-no-display">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="../../help.css" type="text/css" rel="stylesheet" />
+<link href="../../scrollbar/flexcroll.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../scrollbar/flexcroll.js"></script>
+<script type="text/javascript" src="../../scrollbar/initFlexcroll.js"></script>
+</head>
+<body>
+
+<h2>Domena</h2>
+
+<p>Synology NAS może dołączyć do domeny Windows. Po dołączeniu do domeny jej użytkownicy mogą logować się do urządzenia Synology NAS przy użyciu własnych kont domeny i haseł, co zapewnia im dostęp do plik&oacute;w i korzystanie z aplikacji DSM bez potrzeby pamiętania innych zestaw&oacute;w nazw użytkownika i haseł.</p>
+
+<h4>Aby dołączyć do domeny:</h4>
+<ol>
+	<li>Wybierz polecenie <strong>Panel sterowania</strong> &gt; <strong>Domena/LDAP</strong> &gt; <strong>Domena</strong>.</li>
+	<li>Zaznacz pole <strong>Dołącz do domeny</strong>.</li>
+	<li>Wprowadź nazwę domeny i określ serwer DNS w odpowiednich polach.</li>
+	<li>W razie potrzeby zaznacz pole <strong>Zaawansowane opcje domeny</strong>. (Szczeg&oacute;łowe informacje można znaleźć poniżej).</li>
+	<li>Kliknij <strong>Zastosuj</strong>.</li>
+	<li>W wyskakującym oknie wprowadź nazwę użytkownika i hasło administratora domeny.</li>
+	<li>Kliknij przycisk <strong>OK</strong>.</li>
+</ol>
+
+<div class="section"><h4>DNS Server</h4>
+<p>Zalecamy określenie serwera DNS aby ułatwić wyszukiwanie domeny przez urządzenie Synology NAS. Jeśli jednak domena nie jest zarejestrowana na serwerze DNS, procedura dołączania do domeny może się nie powieść.</p>
+
+<h4>Typ serwera domeny</h4>
+<p>To pole pokazuje typ domeny, gdy urządzenie Synology NAS dołącza do domeny. Typ domeny zostanie określony jako Domena AD.</p>
+
+<h4>Tryb zarządzania</h4>
+<p>Ta opcja określa spos&oacute;b zarządzania uprawnieniami użytkownik&oacute;w i grup domeny.</p>
+<ul>
+	<li><strong>Zaufana domena</strong>: Możesz zarządzać użytkownikami i grupami w dołączonej domenie, a także w zaufanych domenach. Listę użytkownik&oacute;w i grup można filtrować według domen.</li>
+	<li><strong>Pojedyncza domena z jednostką organizacyjną</strong>: W tym trybie będą wyświetlani tylko użytkownicy i grupy w dołączonej domenie. Ten tryb umożliwia filtrowanie listy użytkownik&oacute;w i grup według jednostek organizacyjnych (OU).</li>
+</ul>
+
+<h4>Zaawansowane opcje domeny</h4>
+<p>W większości wypadk&oacute;w nie musisz wypełniać żadnej z zaawansowanych opcji domeny. Zaawansowane opcje domeny są wymagane tylko w specyficznych środowiskach domen.</p>
+<ul>
+	<li><strong>DC IP/FQDN</strong>: Określ adres IP lub nazwę FQDN kontrolera domeny (DC). Urządzenie Synology NAS podejmie pr&oacute;bę nawiązania połączenia z kontrolerem. Jeśli istnieje więcej niż jeden adres IP lub nazwa FQDN, oddziel je przecinkami (,). Dodanie gwiazdki (*) po ostatnim adresie IP lub nazwie FQDN kontrolera DC spowoduje, że urządzenie Synology NAS podejmie pr&oacute;bę nawiązania połączenia z innym kontrolerem DC, jeśli wszystkie określone zawiodą. Między gwiazdką a ostatnim adresem IP lub nazwą FQDN należy wstawić przecinek.</li>
+	<li><strong>Nazwa domeny NetBIOS</strong>: Określ nazwę domeny NetBIOS.</li>
+	<li><strong>Domena FQDN (nazwa DNS)</strong>: Określ FQDN (nazwę DNS) domeny.</li>
+	<li><strong>Zarejestruj interfejs DNS</strong>: W przypadku dołączania do domeny określona tu karta interfejsu sieciowego (NIC) zostanie zarejestrowana w serwerze DNS. Należy pamiętać, że jeśli w nazwie hosta urządzenia Synology NAS znajdują się znaki podkreślenia (_), rejestracja nie powiedzie się, ponieważ znaki podkreślenia (_) nie mogą być używane w DNS.</li>
+	<li><strong>Zaktualizuj listę użytkownik&oacute;w i grup</strong>: Określ jak często urządzenie Synology NAS ma automatycznie aktualizować listę użytkownik&oacute;w/grup domeny. Okres można dostosować, aby aktualizacje były przeprowadzane raz dziennie, raz na tydzień lub raz na miesiąc. Ponadto listy użytkownik&oacute;w/grup domeny można zaktualizować ręcznie przez wybranie karty <strong>Użytkownicy domeny</strong> i kliknięcie opcji <strong>Aktualizuj dane domeny</strong>. Należy pamiętać, że automatyczne aktualizacje mają wpływ na hibernację systemu.</li>
+</ul>
+
+<h4>Dołączenie do kontrolera tylko do odczytu</h4>
+<p>Aby dołączyć urządzenie Synology NAS do kontrolera domeny tylko do odczytu (RODC), należy określić pełną nazwę komputera (FQDN) dla kontrolera domeny do zapisu i odczytu (RWDC) w polu <strong>DC IP/FQDN</strong>. Pełna nazwa komputera powinna być zapisana w następującym formacie: <strong>NazwaKomputera.Domena</strong>, np. &bdquo;ad01.synology.com&rdquo;.</p>
+</div>
+
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+	<li>Jeśli nazwa użytkownika domeny zawiera znaki % i $, uzyskanie dostępu do folderu gł&oacute;wnego może być niemożliwe. W takiej sytuacji należy poprosić administratora domeny o nadanie nowej nazwy użytkownika.</li>
+	<li>Grupy domen <strong>Domain Admins</strong> i <strong>Enterprise Admins</strong> zostaną automatycznie dodane do grupy lokalnej <strong>administrators</strong>. Dlatego też użytkownicy domeny w tych grupach będą mieli uprawnienia administratora urządzenia Synology NAS, w tym dostęp do usług plik&oacute;w takich jak CIFS/FTP/AFP/WebDAV i innych aplikacji DSM.</li>
+	<li>Opr&oacute;cz tego można skonfigurować uprawnienia dostępu użytkownik&oacute;w domeny do folder&oacute;w wsp&oacute;łdzielonych w urządzeniu Synology NAS. Aby uzyskać więcej informacji, zobacz <a href="file_directory_service_user_group.html">tutaj</a>.</li>
+</ul>
+</div>
+
+<h3>Opcje domeny</h3>
+
+<p>W&nbsp;tym obszarze dostępne są poniższe opcje dodatkowej domeny.</p>
+<ul>
+	<li><strong>Stacja DiskStation zsynchronizuje czas z serwerem NTP za każdym razem, gdy użytkownik domenowy zaloguje się</strong>: Włączenie tej opcji spowoduje wymuszenie synchronizacji czasu pomiędzy urządzeniem Synology NAS i serwerem NTP.</li>
+	<li><strong>Pobierz listy użytkownik&oacute;w i grup przy użyciu trybu kompatybilnego z NT4</strong>: Włączenie tej opcji pozwala systemowi pobierać listy użytkownik&oacute;w/grup przy użyciu trybu NT4 RPC. Tę opcję można włączyć, jeśli niekt&oacute;rych list użytkownik&oacute;w/grup nie można pobrać przy użyciu domyślnych ustawień.</li>
+	<li><strong>Włącz podpisywanie serwera</strong>: Jeśli klient włączył podpisywanie klienta, należy także włączyć podpisywanie serwera w urządzeniu Synology NAS, co pozwoli użytkownikom normalnie korzystać z usług domeny.</li>
+	<li><strong>Wylicz poziomy grup zagnieżdżonych</strong>: Określ liczbę zagnieżdżonych członk&oacute;w grupy domeny, jaka może być wyliczana.</li>
+	<li><strong>Administratorzy domeny</strong>: Wybierz maksymalnie 10 grup użytkownik&oacute;w, kt&oacute;rym chcesz przydzielić uprawnienia administratora. Każdy użytkownik z uprawnieniami administratora ma pełną kontrolę nad urządzeniem Synology NAS i znajdującymi się w nim plikami.</li>
+	<li><strong>Włącz zintegrowane uwierzytelnianie systemu Windows</strong>: Włączenie tej opcji umożliwia użytkownikom, kt&oacute;rzy zalogowali się już do swoich komputer&oacute;w za pośrednictwem kont domeny, zalogowanie się do DSM za pośrednictwem przeglądarki internetowej bez wprowadzania nazwy użytkownika i hasła.</li>
+</ul>
+
+<div class="section"><h4>Korzystanie ze zintegrowanego uwierzytelniania systemu Windows</h4>
+<ul>
+	<li>Na komputerze klienckim musi być zainstalowany system operacyjny Windows w wersji Windows 7 lub nowszy.</li>
+	<li>Komputer kliencki musi dołączyć do tej samej domeny co Synology NAS.</li>
+	<li>Przejdź do strony <b>Panel sterowania</b> &gt; <b>Opcje internetowe</b> &gt; <b>Zaawansowane</b> i upewnij się, że zaznaczono pole wyboru <b>Włącz zintegrowane uwierzytelnianie systemu Windows</b> w sekcji <b>Zabezpieczenia</b>.</li>
+	<li>Zintegrowane uwierzytelnianie systemu Windows działa ze wszystkimi przeglądarkami. W przypadku przeglądarki Firefox do konfiguracji wymagane jest wykonanie kilku dodatkowych czynności.<ul>
+			<li>Otw&oacute;rz przeglądarkę Firefox i wprowadź <b>about:config</b> w pasku adresu URL.</li>
+			<li>Wyszukaj <b>network.automatic-ntlm-auth.trusted-uris</b>.</li>
+			<li>Kliknij dwukrotnie pole <b>value</b> i wprowadź adres IP domeny.</li>
+		</ul>
+	</li>
+	<li>Jeśli dołączasz urządzenie Synology NAS do domeny utworzonej przez Synology Directory Server, do korzystania ze zintegrowanego uwierzytelniania systemu Windows wymagana będzie dodatkowa konfiguracja:<ol>
+			<li>Przejdź do DSM i wybierz opcje <b>Panel sterowania</b> &gt; <b>Usługi plik&oacute;w</b> &gt; <b>SMB/AFP/NFS</b>.</li>
+			<li>W sekcji <b>SMB</b> kliknij opcję <b>Ustawienia zaawansowane</b>.</li>
+			<li>Wybierz opcję <b>SMB1</b> z menu rozwijanego <b>Minimalny protok&oacute;ł SMB</b> i kliknij przycisk <b>Zapisz</b>.</li>
+		</ol>
+	</li>
+
+</ul>
+</div>
+
+<div class="section"><h4>Uwaga:</h4>
+<ul>
+	<li>Logowanie za pomocą zintegrowanego uwierzytelniania systemu Windows jest możliwe tylko w systemie DSM 6.2.2 lub nowszym.</li>
+		</ul></li>
+</ul>
+</div>
+
+<h3>Sprawdzanie stanu domeny</h3>
+
+<p>Kliknij opcję <strong>Sprawdzanie stanu domeny</strong>, aby sprawdzić stan połączenia pomiędzy systemem DSM a serwerem domeny. Aby uzyskać więcej informacji na temat rozwiązywania problem&oacute;w, odwołaj się do następujących element&oacute;w kontrolnych:</p>
+<ul>
+	<li><strong>Sprawdź, czy poprawnie działa połączenie między Synology NAS a<font>kontrolerem domeny</font></strong>: Serwer Synology NAS nie nawiązał połączenia z<font>kontroler domeny</font>.<ul>
+			<li>Sprawdź, czy porty 389, 139 i 445 działają poprawnie na<font>kontrolerze domeny</font>.</li>
+			<li>Upewnij się, że usługa NTDS działa prawidłowo na<font>kontrolerze domeny</font>.</li>
+		</ul>
+	</li>
+	<li><strong>Sprawdź, czy w podsieci występuje konflikt nazw host&oacute;w</strong>: Ta nazwa hosta serwera Synology NAS już istnieje w tej podsieci.<ul>
+			<li>Jeśli serwer Synology NAS jest podłączony do podsieci z wieloma interfejsami sieciowymi, system DSM będzie działać poprawnie.</li>
+			<li>Jeśli serwer Synology NAS jest podłączony do sieci z jednym interfejsem sieciowym, zmień nazwę hosta serwera Synology NAS i połącz go ponownie z domeną.</li>
+		</ul>
+	</li>
+	<li><strong>Sprawdź, czy połączenie pomiędzy urządzeniem Synology NAS a serwerem Kerberos działa poprawnie</strong>: Serwer Synology NAS nie nawiązał połączenia z serwerem Kerberos.<ul>
+			<li>Sprawdź, czy na serwerze DNS istnieje poprawny rekord serwera Kerberos DNS SRV i powiązany z nim rekord A.</li>
+			<li>Sprawdź, czy na serwerze KDC jest dostępny port 88.</li>
+		</ul>
+	</li>
+	<li><strong>Sprawdź, czy połączenie pomiędzy urządzeniem Synology NAS a serwerem LDAP działa poprawnie</strong>: Serwer Synology NAS nie nawiązał połączenia z serwerem LDAP.<ul>
+			<li>Sprawdź, czy na serwerze DNS istnieje poprawny rekord serwera LDAP DNS SRV i powiązany z nim rekord A.</li>
+			<li>Sprawdź, czy na serwerze LDAP port 389 działa poprawnie.</li>
+		</ul>
+	</li>
+	<li><strong>Sprawdź, czy poprawnie skonfigurowano MTU, by zapewnić działanie połączenia pomiędzy urządzeniem Synology NAS a kontrolerem domeny</strong>: Jeden lub więcej przełącznik&oacute;w odrzuciło pakiety przesyłane między serwerem Synology NAS a<font>kontrolerem domeny</font>ze względu na nieprawidłowy rozmiar MTU pakiet&oacute;w.<ul>
+			<li>Sprawdź ustawienia interfejsu przełącznik&oacute;w pomiędzy urządzeniem Synology NAS a<font>kontrolererm domeny</font>.</li>
+		</ul>
+	</li>
+	<li><strong>Sprawdź, czy czas między urządzeniem Synology NAS a domeną jest synchronizowany</strong>: Czas na urządzeniu Synology NAS nie jest zsynchronizowany z serwerem domeny.<ul>
+			<li>Synchronizowanie czasu z serwerem domeny możesz skonfigurować w usłudze NTP na urządzeniu Synology NAS. Możesz r&oacute;wnież włączyć opcję <strong>Synology NAS zsynchronizuje czas z serwerem NTP za każdym razem, gdy użytkownik domenowy zaloguje się</strong> w <strong>Opcjach domeny</strong>.</li>
+		</ul>
+	</li>
+</ul>
+
+</body>
+</html>

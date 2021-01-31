@@ -1,0 +1,93 @@
+#!/usr/bin/python2
+
+from subprocess import check_output
+import json
+import sys
+
+COLLECTOR_VERSION_KEY = "collector_version"
+COLLECTOR_VERSION = 1
+
+
+def execWebAPI(api, version, method, **kwargs):
+    cmd = ["/usr/syno/bin/synowebapi", "--exec"]
+    cmd.append("api=" + api)
+    cmd.append("version=" + str(version))
+    cmd.append("method=" + method)
+    for key, val in kwargs.items():
+        cmd.append('{0}={1}'.format(key, json.dumps(val)))
+    try:
+        with open('/dev/null', 'w') as null_fp:
+            raw_resp = check_output(cmd, stderr=null_fp)
+        return json.loads(raw_resp)
+    except Exception as e:
+        return False
+
+
+def fetch_app_list():
+    output = []
+    j_data = execWebAPI('SYNO.Core.AppPriv.App', 2, 'list', offset=0, limit=-1)
+
+    if not j_data:
+        return output
+
+    output = [_['app_id'] for _ in j_data['data']['applications']]
+    return output
+
+
+def fetch_app_priv(app_id):
+    output = {'app_id': app_id,
+              'grant_by_default': False,
+              'allow': 0,
+              'deny': 0,
+              'ip': 0}
+
+    j_data = execWebAPI('SYNO.Core.AppPriv.Rule', 1, 'list', app_id=app_id)
+    if not j_data:
+        return output
+
+    try:
+        rules = j_data['data']['rules']
+        for r in rules:
+            if r['entity_type'] == 'everyone':
+                output['grant_by_default'] = True
+            elif len(r['allow_ip']) == 1 and '0.0.0.0' == r['allow_ip'][0]:
+                output['allow'] += 1
+            elif len(r['deny_ip']) == 1 and '0.0.0.0' == r['deny_ip'][0]:
+                output['deny'] += 1
+            else:
+                output['ip'] += 1
+    except Exception as e:
+        pass
+
+    return output
+
+
+def main():
+    ''' Result output
+    {
+        "apps": [
+            {
+                "app_id": String,
+                "grant_by_default": Boolean,
+                "allow": Int,
+                "deny": Int,
+                "IP": Int
+            }
+        ],
+        COLLECTOR_VERSION_KEY: COLLECTOR_VERSION
+    }
+    '''
+    result = {
+        COLLECTOR_VERSION_KEY: COLLECTOR_VERSION,
+        'apps': []
+    }
+
+    app_list = fetch_app_list()
+    for app_id in app_list:
+        item = fetch_app_priv(app_id)
+        result['apps'].append(item)
+
+    sys.stdout.write(json.dumps(result))
+
+if __name__ == '__main__':
+    main()
